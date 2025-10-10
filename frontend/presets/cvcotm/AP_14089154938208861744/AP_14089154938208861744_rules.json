@@ -10,37 +10,20 @@
   "world_classes": {
     "1": "CVCotMWorld"
   },
-  "plando_options": [
-    "connections",
-    "texts",
-    "bosses"
-  ],
   "regions": {
     "1": {
       "Catacomb": {
         "name": "Catacomb",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Start Game",
             "parent_region": "Menu",
-            "connected_region": "Catacomb",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Catacomb"
           },
           {
             "name": "Start Game",
             "parent_region": "Menu",
-            "connected_region": "Catacomb",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Catacomb"
           }
         ],
         "exits": [
@@ -61,19 +44,13 @@
                   "args": []
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Sealed Room: Main shaft left fake wall",
             "id": 3579576373,
-            "region": "Catacomb",
-            "crystal": null,
             "access_rule": {
               "type": "conditional",
               "test": {
@@ -106,21 +83,16 @@
                 }
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Catacomb: Push crate treasure room",
             "id": 3579576375,
-            "region": "Catacomb",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -128,21 +100,16 @@
                 "value": "Heavy Ring"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Catacomb: Fleamen brain room - Lower",
             "id": 3579576387,
-            "region": "Catacomb",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "has_any",
@@ -156,21 +123,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Catacomb: Fleamen brain room - Upper",
             "id": 3579576374,
-            "region": "Catacomb",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -196,40 +158,30 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Catacomb: Earth Demon dash room",
             "id": 3579576488,
-            "region": "Catacomb",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Catacomb: Tackle block treasure room",
             "id": 3579576376,
-            "region": "Catacomb",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -237,40 +189,30 @@
                 "value": "Tackle"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Catacomb: Earth Demon bone pit - Lower",
             "id": 3579576378,
-            "region": "Catacomb",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Catacomb: Earth Demon bone pit - Upper",
             "id": 3579576379,
-            "region": "Catacomb",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -286,97 +228,72 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Catacomb: Below right column save room",
             "id": 3579576384,
-            "region": "Catacomb",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Catacomb: Right column fake wall",
             "id": 3579576377,
-            "region": "Catacomb",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Catacomb: Right column Spirit room",
             "id": 3579576385,
-            "region": "Catacomb",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Catacomb: Muddy Mudman platforms room - Lower",
             "id": 3579576380,
-            "region": "Catacomb",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Unicorn Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Catacomb: Muddy Mudman platforms room - Upper",
             "id": 3579576381,
-            "region": "Catacomb",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -392,97 +309,72 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Catacomb: Slide space zone",
             "id": 3579576382,
-            "region": "Catacomb",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Double",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Catacomb: Pre-Cerberus lone Skeleton room",
             "id": 3579576386,
-            "region": "Catacomb",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Last Key",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Catacomb: Pre-Cerberus Hopper treasure room",
             "id": 3579576383,
-            "region": "Catacomb",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Catacomb: Behind Cerberus",
             "id": 3579576489,
-            "region": "Catacomb",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Catacomb: Mummies' fake wall",
             "id": 3579576388,
-            "region": "Catacomb",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "has_any",
@@ -496,35 +388,26 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
         ],
+        "type": "Region",
+        "player": 1,
         "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "provides_chest_count": true
       },
       "Abyss Stairway": {
         "name": "Abyss Stairway",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Catacomb to Stairway",
             "parent_region": "Catacomb",
-            "connected_region": "Abyss Stairway",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Abyss Stairway"
           }
         ],
         "exits": [
@@ -543,71 +426,51 @@
                   ]
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Abyss Staircase: Lower fake wall",
             "id": 3579576391,
-            "region": "Abyss Stairway",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Cleansing",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Abyss Staircase: Loopback drop",
             "id": 3579576389,
-            "region": "Abyss Stairway",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
         ],
+        "type": "Region",
+        "player": 1,
         "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "provides_chest_count": true
       },
       "Audience Room": {
         "name": "Audience Room",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Stairway to Audience",
             "parent_region": "Abyss Stairway",
-            "connected_region": "Audience Room",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Audience Room"
           }
         ],
         "exits": [
@@ -620,11 +483,7 @@
                 "type": "constant",
                 "value": "Tackle"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Audience to Machine Top",
@@ -643,11 +502,7 @@
                   "args": []
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Audience to Chapel",
@@ -681,11 +536,7 @@
                   "args": []
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Audience to Gallery",
@@ -704,11 +555,7 @@
                   "args": []
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Audience to Warehouse",
@@ -719,11 +566,7 @@
                 "type": "constant",
                 "value": "Heavy Ring"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Audience to Waterway",
@@ -759,11 +602,7 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Audience to Observation",
@@ -799,11 +638,7 @@
                   "value": "Roc Wing"
                 }
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Ceremonial Door",
@@ -818,19 +653,13 @@
                 "type": "constant",
                 "value": 1
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Abyss Staircase: Roc ledge",
             "id": 3579576390,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "conditional",
               "test": {
@@ -862,97 +691,72 @@
                 }
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Abyss Staircase: Upper fake wall",
             "id": 3579576392,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Audience Room: Skeleton foyer fake wall",
             "id": 3579576403,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Tackle",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Audience Room: Main gallery fake wall",
             "id": 3579576404,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Audience Room: Below coyote jump",
             "id": 3579576401,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Audience Room: Push crate gallery",
             "id": 3579576395,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -960,40 +764,30 @@
                 "value": "Heavy Ring"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Audience Room: Past coyote jump",
             "id": 3579576394,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Audience Room: Tackle block gallery",
             "id": 3579576393,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1001,40 +795,30 @@
                 "value": "Tackle"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Audience Room: Wicked roc chamber - Lower",
             "id": 3579576397,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Audience Room: Wicked roc chamber - Upper",
             "id": 3579576396,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "conditional",
               "test": {
@@ -1066,59 +850,44 @@
                 }
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Black Dog Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Audience Room: Upper Devil Tower hallway",
             "id": 3579576402,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Audience Room: Right exterior - Lower",
             "id": 3579576400,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Audience Room: Right exterior - Upper",
             "id": 3579576399,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -1134,40 +903,30 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Pluto Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Audience Room: Right exterior fake wall",
             "id": 3579576398,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Audience Room: 100 meter skelly dash hallway",
             "id": 3579576426,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -1183,59 +942,44 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Audience Room: Lower Devil Tower hallway fake wall",
             "id": 3579576405,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Audience Room: Behind Necromancer",
             "id": 3579576490,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Audience Room: Below Machine Tower roc ledge",
             "id": 3579576409,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1251,21 +995,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Griffin Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Audience Room: Below Machine Tower push crate room",
             "id": 3579576408,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1281,21 +1020,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Audience Room: Roc horse jaguar armory - Left",
             "id": 3579576473,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -1321,21 +1055,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Audience Room: Roc horse jaguar armory - Right",
             "id": 3579576474,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -1361,21 +1090,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Mercury Card",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Outer Wall: Left roc ledge",
             "id": 3579576471,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "conditional",
               "test": {
@@ -1407,21 +1131,16 @@
                 }
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Outer Wall: Right-brained ledge",
             "id": 3579576472,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -1437,59 +1156,44 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heavy Ring",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Outer Wall: Fake Nightmare floor",
             "id": 3579576478,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Triumph Hallway: Skeleton slopes fake wall",
             "id": 3579576407,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Triumph Hallway: Entrance Flame Armor climb",
             "id": 3579576406,
-            "region": "Audience Room",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -1515,35 +1219,26 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
         ],
+        "type": "Region",
+        "player": 1,
         "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "provides_chest_count": true
       },
       "Machine Tower Bottom": {
         "name": "Machine Tower Bottom",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Audience to Machine Bottom",
             "parent_region": "Audience Room",
-            "connected_region": "Machine Tower Bottom",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Machine Tower Bottom"
           }
         ],
         "exits": [
@@ -1553,57 +1248,41 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Machine Tower: Foxy platforms ledge",
             "id": 3579576417,
-            "region": "Machine Tower Bottom",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Machine Tower: Knight fox meeting room",
             "id": 3579576418,
-            "region": "Machine Tower Bottom",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Machine Tower: Boneheaded argument wall kicks room",
             "id": 3579576411,
-            "region": "Machine Tower Bottom",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -1619,40 +1298,30 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Thunderbird Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Machine Tower: Foxy fake wall",
             "id": 3579576410,
-            "region": "Machine Tower Bottom",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Mars Card",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Machine Tower: Skelly-rang wall kicks room",
             "id": 3579576415,
-            "region": "Machine Tower Bottom",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -1668,102 +1337,73 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Machine Tower: Fake Lilim wall",
             "id": 3579576414,
-            "region": "Machine Tower Bottom",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Machine Tower: Thunderous zone fake wall",
             "id": 3579576419,
-            "region": "Machine Tower Bottom",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Machine Tower: Thunderous zone lone Stone Armor room",
             "id": 3579576413,
-            "region": "Machine Tower Bottom",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roc Wing",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
         ],
+        "type": "Region",
+        "player": 1,
         "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "provides_chest_count": true
       },
       "Machine Tower Top": {
         "name": "Machine Tower Top",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Audience to Machine Top",
             "parent_region": "Audience Room",
-            "connected_region": "Machine Tower Top",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Machine Tower Top"
           },
           {
             "name": "Machine Bottom to Top",
             "parent_region": "Machine Tower Bottom",
-            "connected_region": "Machine Tower Top",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Machine Tower Top"
           }
         ],
         "exits": [],
@@ -1771,27 +1411,20 @@
           {
             "name": "Machine Tower: Top lone Stone Armor room",
             "id": 3579576412,
-            "region": "Machine Tower Top",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Machine Tower: Stone fox hallway",
             "id": 3579576416,
-            "region": "Machine Tower Top",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1799,83 +1432,59 @@
                 "value": "Tackle"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Machine Tower: Pre-Iron Golem fake wall",
             "id": 3579576420,
-            "region": "Machine Tower Top",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Machine Tower: Behind Iron Golem",
             "id": 3579576491,
-            "region": "Machine Tower Top",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
         ],
+        "type": "Region",
+        "player": 1,
         "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "provides_chest_count": true
       },
       "Eternal Corridor Pit": {
         "name": "Eternal Corridor Pit",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Into the Corridor Pit",
             "parent_region": "Chapel Tower Bottom",
-            "connected_region": "Eternal Corridor Pit",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Eternal Corridor Pit"
           },
           {
             "name": "Gallery to Corridor",
             "parent_region": "Underground Gallery Upper",
-            "connected_region": "Eternal Corridor Pit",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Eternal Corridor Pit"
           }
         ],
         "exits": [
@@ -1913,11 +1522,7 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Escape the Gallery Pit",
@@ -1936,62 +1541,42 @@
                   "args": []
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Eternal Corridor: Midway fake wall",
             "id": 3579576422,
-            "region": "Eternal Corridor Pit",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
         ],
+        "type": "Region",
+        "player": 1,
         "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "provides_chest_count": true
       },
       "Chapel Tower Bottom": {
         "name": "Chapel Tower Bottom",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Audience to Chapel",
             "parent_region": "Audience Room",
-            "connected_region": "Chapel Tower Bottom",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Chapel Tower Bottom"
           },
           {
             "name": "Escape the Gallery Pit",
             "parent_region": "Eternal Corridor Pit",
-            "connected_region": "Chapel Tower Bottom",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Chapel Tower Bottom"
           }
         ],
         "exits": [
@@ -2001,11 +1586,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Dip Into Waterway End",
@@ -2052,11 +1633,7 @@
                   "value": "Roc Wing"
                 }
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Climb to Chapel Top",
@@ -2075,57 +1652,41 @@
                   "args": []
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Eternal Corridor: Skelly-rang wall kicks room",
             "id": 3579576421,
-            "region": "Chapel Tower Bottom",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Eternal Corridor: Skelly-rang fake wall",
             "id": 3579576423,
-            "region": "Chapel Tower Bottom",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Chapel Tower: Flame Armor climb room",
             "id": 3579576424,
-            "region": "Chapel Tower Bottom",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -2141,21 +1702,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Chapel Tower: Lower chapel push crate room",
             "id": 3579576425,
-            "region": "Chapel Tower Bottom",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2163,97 +1719,72 @@
                 "value": "Heavy Ring"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Uranus Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Chapel Tower: Lower chapel fake wall",
             "id": 3579576434,
-            "region": "Chapel Tower Bottom",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Chapel Tower: Beastly wall kicks room - Brain side",
             "id": 3579576427,
-            "region": "Chapel Tower Bottom",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Chapel Tower: Beastly wall kicks room - Brawn side",
             "id": 3579576428,
-            "region": "Chapel Tower Bottom",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Chapel Tower: Middle chapel fake wall",
             "id": 3579576429,
-            "region": "Chapel Tower Bottom",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Chapel Tower: Middle chapel push crate room",
             "id": 3579576430,
-            "region": "Chapel Tower Bottom",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2261,21 +1792,16 @@
                 "value": "Heavy Ring"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Chapel Tower: Sharp mind climb room",
             "id": 3579576431,
-            "region": "Chapel Tower Bottom",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -2291,54 +1817,40 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Chapel Tower: Upper chapel fake wall",
             "id": 3579576435,
-            "region": "Chapel Tower Bottom",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
         ],
+        "type": "Region",
+        "player": 1,
         "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "provides_chest_count": true
       },
       "Chapel Tower Top": {
         "name": "Chapel Tower Top",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Climb to Chapel Top",
             "parent_region": "Chapel Tower Bottom",
-            "connected_region": "Chapel Tower Top",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Chapel Tower Top"
           }
         ],
         "exits": [
@@ -2359,76 +1871,55 @@
                   "args": []
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Chapel Tower: Upper chapel Marionette wall kicks",
             "id": 3579576432,
-            "region": "Chapel Tower Top",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Chapel Tower: Upper belfry fake wall",
             "id": 3579576436,
-            "region": "Chapel Tower Top",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Mandragora Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Chapel Tower: Iron maiden switch",
             "id": 3579576560,
-            "region": "Chapel Tower Top",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Maiden Detonator",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Chapel Tower: Behind Adramelech iron maiden",
             "id": 3579576433,
-            "region": "Chapel Tower Top",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -2461,35 +1952,26 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
         ],
+        "type": "Region",
+        "player": 1,
         "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "provides_chest_count": true
       },
       "Battle Arena": {
         "name": "Battle Arena",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Arena Passage",
             "parent_region": "Chapel Tower Top",
-            "connected_region": "Battle Arena",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Battle Arena"
           }
         ],
         "exits": [],
@@ -2497,8 +1979,6 @@
           {
             "name": "Chapel Tower: Outside Battle Arena - Upper",
             "id": 3579576476,
-            "region": "Battle Arena",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -2524,21 +2004,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Jupiter Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Chapel Tower: Outside Battle Arena - Lower",
             "id": 3579576475,
-            "region": "Battle Arena",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -2564,45 +2039,31 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
         ],
+        "type": "Region",
+        "player": 1,
         "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "provides_chest_count": true
       },
       "Underground Gallery Upper": {
         "name": "Underground Gallery Upper",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Corridor to Gallery",
             "parent_region": "Eternal Corridor Pit",
-            "connected_region": "Underground Gallery Upper",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Underground Gallery Upper"
           },
           {
             "name": "Gallery Lower to Upper",
             "parent_region": "Underground Gallery Lower",
-            "connected_region": "Underground Gallery Upper",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Underground Gallery Upper"
           }
         ],
         "exits": [
@@ -2612,11 +2073,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Gallery Upper to Lower",
@@ -2627,38 +2084,27 @@
                 "type": "constant",
                 "value": "Tackle"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Underground Gallery: Conveyor platform ride",
             "id": 3579576450,
-            "region": "Underground Gallery Upper",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Gallery: Conveyor upper push crate room",
             "id": 3579576451,
-            "region": "Underground Gallery Upper",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2666,21 +2112,16 @@
                 "value": "Heavy Ring"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Gallery: Conveyor lower push crate room",
             "id": 3579576449,
-            "region": "Underground Gallery Upper",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2688,21 +2129,16 @@
                 "value": "Heavy Ring"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Gallery: Harpy climb room - Lower",
             "id": 3579576453,
-            "region": "Underground Gallery Upper",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -2718,21 +2154,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Gallery: Harpy climb room - Upper",
             "id": 3579576452,
-            "region": "Underground Gallery Upper",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -2748,45 +2179,31 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
         ],
+        "type": "Region",
+        "player": 1,
         "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "provides_chest_count": true
       },
       "Underground Gallery Lower": {
         "name": "Underground Gallery Lower",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Audience to Gallery",
             "parent_region": "Audience Room",
-            "connected_region": "Underground Gallery Lower",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Underground Gallery Lower"
           },
           {
             "name": "Gallery Upper to Lower",
             "parent_region": "Underground Gallery Upper",
-            "connected_region": "Underground Gallery Lower",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Underground Gallery Lower"
           }
         ],
         "exits": [
@@ -2799,19 +2216,13 @@
                 "type": "constant",
                 "value": "Tackle"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Underground Gallery: Harpy mantis tackle hallway",
             "id": 3579576454,
-            "region": "Underground Gallery Lower",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2819,111 +2230,82 @@
                 "value": "Tackle"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Gallery: Handy bee hallway",
             "id": 3579576455,
-            "region": "Underground Gallery Lower",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Gallery: Myconid fake wall",
             "id": 3579576456,
-            "region": "Underground Gallery Lower",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Gallery: Crumble bridge fake wall",
             "id": 3579576457,
-            "region": "Underground Gallery Lower",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Gallery: Behind Dragon Zombies",
             "id": 3579576492,
-            "region": "Underground Gallery Lower",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
         ],
+        "type": "Region",
+        "player": 1,
         "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "provides_chest_count": true
       },
       "Underground Warehouse Start": {
         "name": "Underground Warehouse Start",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Audience to Warehouse",
             "parent_region": "Audience Room",
-            "connected_region": "Underground Warehouse Start",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Underground Warehouse Start"
           }
         ],
         "exits": [
@@ -2936,52 +2318,37 @@
                 "type": "constant",
                 "value": "Tackle"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Underground Warehouse: Entrance push crate room",
             "id": 3579576437,
-            "region": "Underground Warehouse Start",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
         ],
+        "type": "Region",
+        "player": 1,
         "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "provides_chest_count": true
       },
       "Underground Warehouse Main": {
         "name": "Underground Warehouse Main",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Into Warehouse Main",
             "parent_region": "Underground Warehouse Start",
-            "connected_region": "Underground Warehouse Main",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Underground Warehouse Main"
           }
         ],
         "exits": [],
@@ -2989,65 +2356,48 @@
           {
             "name": "Underground Warehouse: Forever pushing room",
             "id": 3579576438,
-            "region": "Underground Warehouse Main",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Warehouse: Crate-nudge fox room",
             "id": 3579576439,
-            "region": "Underground Warehouse Main",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Warehouse: Crate-nudge fake wall",
             "id": 3579576446,
-            "region": "Underground Warehouse Main",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Warehouse: Succubus shaft roc ledge",
             "id": 3579576440,
-            "region": "Underground Warehouse Main",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -3073,40 +2423,30 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Maiden Detonator",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Warehouse: Fake Lilith wall",
             "id": 3579576441,
-            "region": "Underground Warehouse Main",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Warehouse: Optional puzzle ceiling fake wall",
             "id": 3579576447,
-            "region": "Underground Warehouse Main",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -3122,40 +2462,30 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Warehouse: Holy fox hideout - Left",
             "id": 3579576442,
-            "region": "Underground Warehouse Main",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Salamander Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Warehouse: Holy fox hideout - Right roc ledge",
             "id": 3579576443,
-            "region": "Underground Warehouse Main",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -3181,111 +2511,82 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Cockatrice Card",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Warehouse: Forest Armor's domain fake wall",
             "id": 3579576444,
-            "region": "Underground Warehouse Main",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Serpent Card",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Warehouse: Behind Death",
             "id": 3579576494,
-            "region": "Underground Warehouse Main",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Golem Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Warehouse: Behind Death fake wall",
             "id": 3579576448,
-            "region": "Underground Warehouse Main",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Warehouse: Dryad expulsion chamber",
             "id": 3579576445,
-            "region": "Underground Warehouse Main",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
         ],
+        "type": "Region",
+        "player": 1,
         "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "provides_chest_count": true
       },
       "Underground Waterway Start": {
         "name": "Underground Waterway Start",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Audience to Waterway",
             "parent_region": "Audience Room",
-            "connected_region": "Underground Waterway Start",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Underground Waterway Start"
           }
         ],
         "exits": [
@@ -3311,52 +2612,37 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Underground Waterway: Entrance fake wall",
             "id": 3579576467,
-            "region": "Underground Waterway Start",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
         ],
+        "type": "Region",
+        "player": 1,
         "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "provides_chest_count": true
       },
       "Underground Waterway Main": {
         "name": "Underground Waterway Main",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Into Waterway Main",
             "parent_region": "Underground Waterway Start",
-            "connected_region": "Underground Waterway Main",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Underground Waterway Main"
           }
         ],
         "exits": [
@@ -3366,76 +2652,55 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Underground Waterway: Before illusory wall",
             "id": 3579576459,
-            "region": "Underground Waterway Main",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Waterway: Beyond illusory wall",
             "id": 3579576458,
-            "region": "Underground Waterway Main",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Manticore Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Waterway: Ice Armor's domain fake wall",
             "id": 3579576468,
-            "region": "Underground Waterway Main",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Kick Boots",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Waterway: Brain freeze room",
             "id": 3579576460,
-            "region": "Underground Waterway Main",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -3451,40 +2716,30 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Waterway: Middle lone Ice Armor room",
             "id": 3579576461,
-            "region": "Underground Waterway Main",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Saturn Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Waterway: Roc fake ceiling",
             "id": 3579576469,
-            "region": "Underground Waterway Main",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -3492,102 +2747,73 @@
                 "value": "Roc Wing"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Neptune Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Waterway: Wicked Fishhead moat - Bottom",
             "id": 3579576462,
-            "region": "Underground Waterway Main",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Waterway: Wicked Fishhead moat - Top",
             "id": 3579576463,
-            "region": "Underground Waterway Main",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Waterway: Lizard-man turf - Bottom",
             "id": 3579576464,
-            "region": "Underground Waterway Main",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
         ],
+        "type": "Region",
+        "player": 1,
         "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "provides_chest_count": true
       },
       "Underground Waterway End": {
         "name": "Underground Waterway End",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Dip Into Waterway End",
             "parent_region": "Chapel Tower Bottom",
-            "connected_region": "Underground Waterway End",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Underground Waterway End"
           },
           {
             "name": "Onward to Waterway End",
             "parent_region": "Underground Waterway Main",
-            "connected_region": "Underground Waterway End",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Underground Waterway End"
           }
         ],
         "exits": [],
@@ -3595,8 +2821,6 @@
           {
             "name": "Underground Waterway: Lizard-man turf - Top",
             "id": 3579576465,
-            "region": "Underground Waterway End",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -3617,21 +2841,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Waterway: Roc exit shaft",
             "id": 3579576466,
-            "region": "Underground Waterway End",
-            "crystal": null,
             "access_rule": {
               "type": "conditional",
               "test": {
@@ -3675,21 +2894,16 @@
                 }
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Apollo Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Waterway: Behind Camilla",
             "id": 3579576495,
-            "region": "Underground Waterway End",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -3710,21 +2924,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Waterway: Roc exit shaft fake wall",
             "id": 3579576470,
-            "region": "Underground Waterway End",
-            "crystal": null,
             "access_rule": {
               "type": "conditional",
               "test": {
@@ -3768,35 +2977,26 @@
                 }
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
         ],
+        "type": "Region",
+        "player": 1,
         "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "provides_chest_count": true
       },
       "Observation Tower": {
         "name": "Observation Tower",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Audience to Observation",
             "parent_region": "Audience Room",
-            "connected_region": "Observation Tower",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Observation Tower"
           }
         ],
         "exits": [],
@@ -3804,212 +3004,156 @@
           {
             "name": "Observation Tower: Wind Armor rampart",
             "id": 3579576477,
-            "region": "Observation Tower",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Observation Tower: Legion plaza fake wall",
             "id": 3579576484,
-            "region": "Observation Tower",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Observation Tower: Legion plaza Minotaur hallway",
             "id": 3579576479,
-            "region": "Observation Tower",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Observation Tower: Siren balcony fake wall",
             "id": 3579576485,
-            "region": "Observation Tower",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Diana Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Observation Tower: Evil Pillar pit fake wall",
             "id": 3579576480,
-            "region": "Observation Tower",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Observation Tower: Alraune garden",
             "id": 3579576482,
-            "region": "Observation Tower",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Observation Tower: Dark Armor's domain fake wall",
             "id": 3579576486,
-            "region": "Observation Tower",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Observation Tower: Catoblepeas hallway",
             "id": 3579576483,
-            "region": "Observation Tower",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HP Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Observation Tower: Near warp room fake wall",
             "id": 3579576481,
-            "region": "Observation Tower",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Observation Tower: Behind Hugh",
             "id": 3579576496,
-            "region": "Observation Tower",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Max Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
         ],
+        "type": "Region",
+        "player": 1,
         "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "provides_chest_count": true
       },
       "Ceremonial Room": {
         "name": "Ceremonial Room",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Ceremonial Door",
             "parent_region": "Audience Room",
-            "connected_region": "Ceremonial Room",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Ceremonial Room"
           }
         ],
         "exits": [],
@@ -4017,8 +3161,6 @@
           {
             "name": "Ceremonial Room: Fake floor",
             "id": 3579576487,
-            "region": "Ceremonial Room",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -4034,21 +3176,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Venus Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Dracula",
             "id": null,
-            "region": "Ceremonial Room",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -4056,25 +3193,21 @@
                 "value": "Roc Wing"
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "The Count Downed",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
         ],
+        "type": "Region",
+        "player": 1,
         "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "provides_chest_count": true
       },
       "Menu": {
         "name": "Menu",
-        "type": "Region",
-        "player": 1,
         "entrances": [],
         "exits": [
           {
@@ -4083,17 +3216,14 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [],
+        "type": "Region",
+        "player": 1,
         "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "provides_chest_count": true
       }
     }
   },
@@ -4114,7 +3244,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4128,7 +3257,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4142,7 +3270,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4160,7 +3287,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -4180,7 +3306,6 @@
           "Freeze Attribute"
         ],
         "advancement": true,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -4198,7 +3323,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -4216,7 +3340,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -4236,7 +3359,6 @@
           "Freeze Attribute"
         ],
         "advancement": true,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -4254,7 +3376,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -4272,7 +3393,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -4290,7 +3410,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -4308,7 +3427,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -4326,7 +3444,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -4346,7 +3463,6 @@
           "Freeze Action"
         ],
         "advancement": true,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -4364,7 +3480,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -4382,7 +3497,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -4402,7 +3516,6 @@
           "Freeze Action"
         ],
         "advancement": true,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -4420,7 +3533,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -4438,7 +3550,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -4456,7 +3567,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -4474,7 +3584,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -4492,7 +3601,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -4510,7 +3618,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -4524,7 +3631,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -4538,7 +3644,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4552,7 +3657,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4566,7 +3670,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4580,7 +3683,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4594,7 +3696,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -4608,7 +3709,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4622,7 +3722,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,

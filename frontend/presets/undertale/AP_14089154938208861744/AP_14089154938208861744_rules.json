@@ -10,17 +10,10 @@
   "world_classes": {
     "1": "UndertaleWorld"
   },
-  "plando_options": [
-    "connections",
-    "texts",
-    "bosses"
-  ],
   "regions": {
     "1": {
       "Menu": {
         "name": "Menu",
-        "type": "Region",
-        "player": 1,
         "entrances": [],
         "exits": [
           {
@@ -29,11 +22,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "??? Exit",
@@ -41,54 +30,30 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "???": {
         "name": "???",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "??? Exit",
             "parent_region": "Menu",
-            "connected_region": "???",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "???"
           }
         ],
         "exits": [],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Hub": {
         "name": "Hub",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "New Game",
             "parent_region": "Menu",
-            "connected_region": "Hub",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Hub"
           }
         ],
         "exits": [
@@ -101,11 +66,7 @@
                 "type": "constant",
                 "value": "Ruins Key"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Snowdin Hub",
@@ -116,11 +77,7 @@
                 "type": "constant",
                 "value": "Snowdin Key"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Waterfall Hub",
@@ -131,11 +88,7 @@
                 "type": "constant",
                 "value": "Waterfall Key"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Hotland Hub",
@@ -146,11 +99,7 @@
                 "type": "constant",
                 "value": "Hotland Key"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Core Hub",
@@ -161,32 +110,18 @@
                 "type": "constant",
                 "value": "Core Key"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Ruins": {
         "name": "Ruins",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Ruins Hub",
             "parent_region": "Hub",
-            "connected_region": "Ruins",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Ruins"
           }
         ],
         "exits": [
@@ -196,226 +131,157 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Candy 1",
             "id": 79014,
-            "region": "Ruins",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Spider Cider",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Candy 2",
             "id": 79015,
-            "region": "Ruins",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Old Tutu",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Candy 3",
             "id": 79016,
-            "region": "Ruins",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "temy armor",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Candy 4",
             "id": 79017,
-            "region": "Ruins",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Snowdin Key",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Donut Sale",
             "id": 79018,
-            "region": "Ruins",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Stained Apron",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Cider Sale",
             "id": 79019,
-            "region": "Ruins",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Punch Card",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ribbon Cracks",
             "id": 79020,
-            "region": "Ruins",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Torn Notebook",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Toy Knife Edge",
             "id": 79021,
-            "region": "Ruins",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Burnt Pan",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "B.Scotch Pie Given",
             "id": 79022,
-            "region": "Ruins",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Instant Noodles",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Old Home": {
         "name": "Old Home",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Ruins Exit",
             "parent_region": "Ruins",
-            "connected_region": "Old Home",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Old Home"
           }
         ],
         "exits": [],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Snowdin Forest": {
         "name": "Snowdin Forest",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Snowdin Hub",
             "parent_region": "Hub",
-            "connected_region": "Snowdin Forest",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Snowdin Forest"
           }
         ],
         "exits": [
@@ -425,19 +291,13 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Snowman",
             "id": 79100,
-            "region": "Snowdin Forest",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -452,21 +312,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Nice Cream",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Nicecream Snowdin",
             "id": 79001,
-            "region": "Snowdin Forest",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -481,35 +336,22 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Legendary Hero",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Snowdin Town": {
         "name": "Snowdin Town",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Snowdin Forest Exit",
             "parent_region": "Snowdin Forest",
-            "connected_region": "Snowdin Town",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Snowdin Town"
           }
         ],
         "exits": [
@@ -519,19 +361,13 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Bunny 1",
             "id": 79034,
-            "region": "Snowdin Town",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -546,21 +382,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Cloudy Glasses",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Bunny 2",
             "id": 79035,
-            "region": "Snowdin Town",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -575,21 +406,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Waterfall Key",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Bunny 3",
             "id": 79036,
-            "region": "Snowdin Town",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -604,21 +430,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Toy Knife",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Bunny 4",
             "id": 79037,
-            "region": "Snowdin Town",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -633,35 +454,22 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Punch Card",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Papyrus\" Home": {
         "name": "Papyrus\" Home",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Papyrus\" Home Entrance",
             "parent_region": "Snowdin Town",
-            "connected_region": "Papyrus\" Home",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Papyrus\" Home"
           }
         ],
         "exits": [],
@@ -669,41 +477,26 @@
           {
             "name": "Papyrus Date",
             "id": null,
-            "region": "Papyrus\" Home",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Papyrus Date",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Waterfall": {
         "name": "Waterfall",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Waterfall Hub",
             "parent_region": "Hub",
-            "connected_region": "Waterfall",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Waterfall"
           }
         ],
         "exits": [
@@ -713,19 +506,13 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Nicecream Waterfall",
             "id": 79002,
-            "region": "Waterfall",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -740,21 +527,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Snowman Piece",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Nicecream Punch Card",
             "id": 79003,
-            "region": "Waterfall",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -785,21 +567,16 @@
                 }
               ]
             },
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Starfait",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Quiche Bench",
             "id": 79004,
-            "region": "Waterfall",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -814,21 +591,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Tough Glove",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tutu Hidden",
             "id": 79005,
-            "region": "Waterfall",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -843,21 +615,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Hotland Key",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Card Reward",
             "id": 79006,
-            "region": "Waterfall",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -872,21 +639,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Locket",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Grass Shoes",
             "id": 79007,
-            "region": "Waterfall",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -901,21 +663,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Starfait",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Astro 1",
             "id": 79023,
-            "region": "Waterfall",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -930,21 +687,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Spider Donut",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Astro 2",
             "id": 79024,
-            "region": "Waterfall",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -959,21 +711,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Mettaton Plush",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Gerson 1",
             "id": 79038,
-            "region": "Waterfall",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -988,21 +735,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Butterscotch Pie",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Gerson 2",
             "id": 79039,
-            "region": "Waterfall",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1017,21 +759,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Crab Apple",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Gerson 3",
             "id": 79040,
-            "region": "Waterfall",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1046,21 +783,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Empty Gun",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Gerson 4",
             "id": 79041,
-            "region": "Waterfall",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1075,21 +807,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Ballet Shoes",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "TemmieShop 1",
             "id": 79050,
-            "region": "Waterfall",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1104,21 +831,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Astronaut Food",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "TemmieShop 2",
             "id": 79051,
-            "region": "Waterfall",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1133,21 +855,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "500G",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "TemmieShop 3",
             "id": 79052,
-            "region": "Waterfall",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1162,21 +879,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Astronaut Food",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "TemmieShop 4",
             "id": 79053,
-            "region": "Waterfall",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1207,35 +919,22 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Glamburger",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Undyne\"s Home": {
         "name": "Undyne\"s Home",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Undyne\"s Home Entrance",
             "parent_region": "Waterfall",
-            "connected_region": "Undyne\"s Home",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Undyne\"s Home"
           }
         ],
         "exits": [],
@@ -1243,41 +942,26 @@
           {
             "name": "Undyne Date",
             "id": null,
-            "region": "Undyne\"s Home",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Undyne Date",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Hotland": {
         "name": "Hotland",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Hotland Hub",
             "parent_region": "Hub",
-            "connected_region": "Hotland",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Hotland"
           }
         ],
         "exits": [
@@ -1287,11 +971,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Lab Elevator",
@@ -1299,19 +979,13 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Noodles Fridge",
             "id": 79008,
-            "region": "Hotland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1326,21 +1000,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "500G",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pan Hidden",
             "id": 79009,
-            "region": "Hotland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1355,21 +1024,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Faded Ribbon",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Apron Hidden",
             "id": 79010,
-            "region": "Hotland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1384,21 +1048,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Cinnamon Bun",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Bratty Catty 1",
             "id": 79042,
-            "region": "Hotland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1413,21 +1072,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Abandoned Quiche",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Bratty Catty 2",
             "id": 79043,
-            "region": "Hotland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1442,21 +1096,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Core Key",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Bratty Catty 3",
             "id": 79044,
-            "region": "Hotland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1471,21 +1120,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sea Tea",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Bratty Catty 4",
             "id": 79045,
-            "region": "Hotland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1500,21 +1144,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bisicle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Burgerpants 1",
             "id": 79046,
-            "region": "Hotland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1529,21 +1168,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Worn Dagger",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Burgerpants 2",
             "id": 79047,
-            "region": "Hotland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1558,21 +1192,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Spider Donut",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Burgerpants 3",
             "id": 79048,
-            "region": "Hotland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1587,21 +1216,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Punch Card",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Burgerpants 4",
             "id": 79049,
-            "region": "Hotland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1616,54 +1240,36 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Right Home Key",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Alphys Date",
             "id": null,
-            "region": "Hotland",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Alphys Date",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Cooking Show": {
         "name": "Cooking Show",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Cooking Show Entrance",
             "parent_region": "Hotland",
-            "connected_region": "Cooking Show",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Cooking Show"
           }
         ],
         "exits": [
@@ -1673,76 +1279,42 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "News Show": {
         "name": "News Show",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "News Show Entrance",
             "parent_region": "Cooking Show",
-            "connected_region": "News Show",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "News Show"
           }
         ],
         "exits": [],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "True Lab": {
         "name": "True Lab",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Lab Elevator",
             "parent_region": "Hotland",
-            "connected_region": "True Lab",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "True Lab"
           }
         ],
         "exits": [],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Core": {
         "name": "Core",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Core Hub",
             "parent_region": "Hub",
-            "connected_region": "Core",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Core"
           }
         ],
         "exits": [
@@ -1758,19 +1330,13 @@
                   "value": "Mettaton Plush"
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Trash Burger",
             "id": 79011,
-            "region": "Core",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1785,21 +1351,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "1000G",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Mettaton Plot",
             "id": 79062,
-            "region": "Core",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1814,35 +1375,22 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "1000G",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "New Home": {
         "name": "New Home",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Core Exit",
             "parent_region": "Core",
-            "connected_region": "New Home",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "New Home"
           }
         ],
         "exits": [
@@ -1883,19 +1431,13 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Present Knife",
             "id": 79012,
-            "region": "New Home",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1910,21 +1452,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Cowboy Hat",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Present Locket",
             "id": 79013,
-            "region": "New Home",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1939,21 +1476,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Left Home Key",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Left New Home Key",
             "id": 79064,
-            "region": "New Home",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1968,21 +1500,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Face Steak",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Right New Home Key",
             "id": 79065,
-            "region": "New Home",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach",
@@ -1997,35 +1524,22 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Manly Bandanna",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Last Corridor": {
         "name": "Last Corridor",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "New Home Exit",
             "parent_region": "New Home",
-            "connected_region": "Last Corridor",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Last Corridor"
           }
         ],
         "exits": [
@@ -2035,39 +1549,22 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Barrier": {
         "name": "Barrier",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Last Corridor Exit",
             "parent_region": "Last Corridor",
-            "connected_region": "Barrier",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Barrier"
           }
         ],
         "exits": [],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       }
     }
   },
@@ -2088,7 +1585,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2102,7 +1598,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2116,7 +1611,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2130,7 +1624,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2144,7 +1637,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2158,7 +1650,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2172,7 +1663,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2186,7 +1676,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2200,7 +1689,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2214,7 +1702,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2228,7 +1715,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2242,7 +1728,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2256,7 +1741,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2270,7 +1754,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2284,7 +1767,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2298,7 +1780,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2312,7 +1793,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2326,7 +1806,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2340,7 +1819,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2354,7 +1832,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2368,7 +1845,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2382,7 +1858,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2396,7 +1871,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2410,7 +1884,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2424,7 +1897,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2438,7 +1910,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2452,7 +1923,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2466,7 +1936,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2480,7 +1949,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2494,7 +1962,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2508,7 +1975,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2522,7 +1988,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2536,7 +2001,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2550,7 +2014,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2564,7 +2027,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2578,7 +2040,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2592,7 +2053,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2606,7 +2066,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2620,7 +2079,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2634,7 +2092,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2648,7 +2105,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2662,7 +2118,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2676,7 +2131,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2690,7 +2144,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2704,7 +2157,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2718,7 +2170,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2732,7 +2183,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2746,7 +2196,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2760,7 +2209,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2774,7 +2222,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2788,7 +2235,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2802,7 +2248,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2816,7 +2261,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2830,7 +2274,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2844,7 +2287,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2858,7 +2300,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2872,7 +2313,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2886,7 +2326,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2900,7 +2339,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2914,7 +2352,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2928,7 +2365,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2942,7 +2378,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2956,7 +2391,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2970,7 +2404,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2984,7 +2417,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2998,7 +2430,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3012,7 +2443,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3026,7 +2456,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3040,7 +2469,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3054,7 +2482,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3068,7 +2495,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3082,7 +2508,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3096,7 +2521,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3110,7 +2534,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3124,7 +2547,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3138,7 +2560,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3152,7 +2573,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3166,7 +2586,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3180,7 +2599,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3194,7 +2612,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3208,7 +2625,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3222,7 +2638,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3236,7 +2651,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3250,7 +2664,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3264,7 +2677,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3278,7 +2690,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -3292,7 +2703,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -3306,7 +2716,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,

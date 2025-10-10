@@ -10,17 +10,10 @@
   "world_classes": {
     "1": "AdventureWorld"
   },
-  "plando_options": [
-    "connections",
-    "texts",
-    "bosses"
-  ],
   "regions": {
     "1": {
       "Menu": {
         "name": "Menu",
-        "type": "Region",
-        "player": 1,
         "entrances": [],
         "exits": [
           {
@@ -29,72 +22,38 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Overworld": {
         "name": "Overworld",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "GameStart",
             "parent_region": "Menu",
-            "connected_region": "Overworld",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Overworld"
           },
           {
             "name": "YellowCastleExit",
             "parent_region": "YellowCastle",
-            "connected_region": "Overworld",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Overworld"
           },
           {
             "name": "WhiteCastleExit",
             "parent_region": "WhiteCastle",
-            "connected_region": "Overworld",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Overworld"
           },
           {
             "name": "BlackCastleExit",
             "parent_region": "BlackCastle",
-            "connected_region": "Overworld",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Overworld"
           },
           {
             "name": "CreditsExit",
             "parent_region": "CreditsRoom",
-            "connected_region": "Overworld",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Overworld"
           }
         ],
         "exits": [
@@ -107,11 +66,7 @@
                 "type": "constant",
                 "value": "Yellow Key"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "WhiteCastlePort",
@@ -122,11 +77,7 @@
                 "type": "constant",
                 "value": "White Key"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "BlackCastlePort",
@@ -137,11 +88,7 @@
                 "type": "constant",
                 "value": "Black Key"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "CreditsWall",
@@ -164,11 +111,7 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
@@ -179,13 +122,10 @@
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Left Difficulty Switch",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
@@ -196,13 +136,10 @@
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Slow Yorgle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
@@ -213,13 +150,10 @@
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sword",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
@@ -230,13 +164,10 @@
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Slow Grundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
@@ -247,13 +178,10 @@
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Freeincarnate",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
@@ -264,13 +192,10 @@
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Freeincarnate",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
@@ -281,13 +206,10 @@
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Black Key",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
@@ -298,13 +220,10 @@
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Freeincarnate",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
@@ -315,13 +234,10 @@
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Freeincarnate",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
@@ -332,13 +248,10 @@
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Freeincarnate",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
@@ -364,35 +277,22 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Freeincarnate",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "YellowCastle": {
         "name": "YellowCastle",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "YellowCastlePort",
             "parent_region": "Overworld",
-            "connected_region": "YellowCastle",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "YellowCastle"
           }
         ],
         "exits": [
@@ -402,11 +302,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
@@ -417,13 +313,10 @@
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Magnet",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
@@ -449,55 +342,32 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Victory",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "WhiteCastle": {
         "name": "WhiteCastle",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "WhiteCastlePort",
             "parent_region": "Overworld",
-            "connected_region": "WhiteCastle",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "WhiteCastle"
           },
           {
             "name": "WhiteCastleReturnPassage",
             "parent_region": "WhiteCastleVault",
-            "connected_region": "WhiteCastle",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "WhiteCastle"
           },
           {
             "name": "WhiteCastleFromPeek",
             "parent_region": "WhiteCastlePreVaultPeek",
-            "connected_region": "WhiteCastle",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "WhiteCastle"
           }
         ],
         "exits": [
@@ -507,11 +377,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "WhiteCastleSecretPassage",
@@ -522,11 +388,7 @@
                 "type": "constant",
                 "value": "Bridge"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "WhiteCastlePeekPassage",
@@ -549,11 +411,7 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
@@ -564,13 +422,10 @@
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Freeincarnate",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
@@ -581,35 +436,22 @@
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Freeincarnate",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "WhiteCastlePreVaultPeek": {
         "name": "WhiteCastlePreVaultPeek",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "WhiteCastlePeekPassage",
             "parent_region": "WhiteCastle",
-            "connected_region": "WhiteCastlePreVaultPeek",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "WhiteCastlePreVaultPeek"
           }
         ],
         "exits": [
@@ -619,11 +461,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
@@ -634,35 +472,22 @@
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Freeincarnate",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "WhiteCastleVault": {
         "name": "WhiteCastleVault",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "WhiteCastleSecretPassage",
             "parent_region": "WhiteCastle",
-            "connected_region": "WhiteCastleVault",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "WhiteCastleVault"
           }
         ],
         "exits": [
@@ -672,11 +497,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
@@ -687,13 +508,10 @@
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Freeincarnate",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
@@ -719,45 +537,27 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Yellow Key",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "BlackCastle": {
         "name": "BlackCastle",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "BlackCastlePort",
             "parent_region": "Overworld",
-            "connected_region": "BlackCastle",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "BlackCastle"
           },
           {
             "name": "BlackCastleReturnPassage",
             "parent_region": "BlackCastleVault",
-            "connected_region": "BlackCastle",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "BlackCastle"
           }
         ],
         "exits": [
@@ -767,11 +567,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "BlackCastleVaultEntrance",
@@ -794,11 +590,7 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
@@ -809,13 +601,10 @@
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Freeincarnate",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
@@ -826,13 +615,10 @@
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Right Difficulty Switch",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
@@ -843,13 +629,10 @@
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bridge",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
@@ -875,35 +658,22 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Slow Rhindle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "BlackCastleVault": {
         "name": "BlackCastleVault",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "BlackCastleVaultEntrance",
             "parent_region": "BlackCastle",
-            "connected_region": "BlackCastleVault",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "BlackCastleVault"
           }
         ],
         "exits": [
@@ -913,11 +683,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
@@ -928,45 +694,27 @@
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "White Key",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "CreditsRoom": {
         "name": "CreditsRoom",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "CreditsWall",
             "parent_region": "Overworld",
-            "connected_region": "CreditsRoom",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "CreditsRoom"
           },
           {
             "name": "CreditsFromFarSide",
             "parent_region": "CreditsRoomFarSide",
-            "connected_region": "CreditsRoom",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "CreditsRoom"
           }
         ],
         "exits": [
@@ -976,11 +724,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "CreditsToFarSide",
@@ -991,11 +735,7 @@
                 "type": "constant",
                 "value": "Magnet"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
@@ -1006,35 +746,22 @@
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Freeincarnate",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "CreditsRoomFarSide": {
         "name": "CreditsRoomFarSide",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "CreditsToFarSide",
             "parent_region": "CreditsRoom",
-            "connected_region": "CreditsRoomFarSide",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "CreditsRoomFarSide"
           }
         ],
         "exits": [
@@ -1044,11 +771,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
@@ -1059,20 +782,14 @@
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Chalice",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       }
     }
   },
@@ -1093,7 +810,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1107,7 +823,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1121,7 +836,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1135,7 +849,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1149,7 +862,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1163,7 +875,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1177,7 +888,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1191,7 +901,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1205,7 +914,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1219,7 +927,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1233,7 +940,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1247,7 +953,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1261,7 +966,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1275,7 +979,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": true,
         "event": false,
@@ -1289,7 +992,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1303,7 +1005,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,

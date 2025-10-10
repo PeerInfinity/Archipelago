@@ -10,17 +10,10 @@
   "world_classes": {
     "1": "YachtDiceWorld"
   },
-  "plando_options": [
-    "connections",
-    "texts",
-    "bosses"
-  ],
   "regions": {
     "1": {
       "Menu": {
         "name": "Menu",
-        "type": "Region",
-        "player": 1,
         "entrances": [],
         "exits": [
           {
@@ -29,32 +22,18 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Board": {
         "name": "Board",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "New Board",
             "parent_region": "Menu",
-            "connected_region": "Board",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Board"
           }
         ],
         "exits": [],
@@ -62,8 +41,6 @@
           {
             "name": "1 score",
             "id": 16871244501,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -111,21 +88,16 @@
                 "value": 1
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Category Threes",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "2 score",
             "id": 16871244502,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -173,21 +145,16 @@
                 "value": 2
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Dice",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "3 score",
             "id": 16871244503,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -235,21 +202,16 @@
                 "value": 3
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Category Fours",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "4 score",
             "id": 16871244504,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -297,21 +259,16 @@
                 "value": 4
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Roll",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "5 score",
             "id": 16871244505,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -359,21 +316,16 @@
                 "value": 5
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Category Ones",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "6 score",
             "id": 16871244506,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -421,21 +373,16 @@
                 "value": 6
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roll Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "7 score",
             "id": 16871244507,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -483,21 +430,16 @@
                 "value": 7
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roll Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "8 score",
             "id": 16871244508,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -545,21 +487,16 @@
                 "value": 8
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Dice Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "9 score",
             "id": 16871244509,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -607,21 +544,16 @@
                 "value": 9
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Dice Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "10 score",
             "id": 16871244510,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -669,21 +601,16 @@
                 "value": 10
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Dice Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "11 score",
             "id": 16871244511,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -731,21 +658,16 @@
                 "value": 11
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Dice Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "12 score",
             "id": 16871244512,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -793,21 +715,16 @@
                 "value": 12
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Category Large Straight",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "13 score",
             "id": 16871244513,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -855,21 +772,16 @@
                 "value": 13
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bonus Point",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "14 score",
             "id": 16871244514,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -917,21 +829,16 @@
                 "value": 14
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Dice Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "15 score",
             "id": 16871244515,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -979,21 +886,16 @@
                 "value": 15
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Category Four of a Kind",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "17 score",
             "id": 16871244517,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -1041,21 +943,16 @@
                 "value": 17
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Dice Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "19 score",
             "id": 16871244519,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -1103,21 +1000,16 @@
                 "value": 19
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Dice Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "22 score",
             "id": 16871244522,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -1165,21 +1057,16 @@
                 "value": 22
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Category Tiny Straight",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "25 score",
             "id": 16871244525,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -1227,21 +1114,16 @@
                 "value": 25
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Dice Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "28 score",
             "id": 16871244528,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -1289,21 +1171,16 @@
                 "value": 28
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Category Three of a Kind",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "32 score",
             "id": 16871244532,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -1351,21 +1228,16 @@
                 "value": 32
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bonus Point",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "36 score",
             "id": 16871244536,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -1413,21 +1285,16 @@
                 "value": 36
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Dice Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "40 score",
             "id": 16871244540,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -1475,21 +1342,16 @@
                 "value": 40
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roll Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "44 score",
             "id": 16871244544,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -1537,21 +1399,16 @@
                 "value": 44
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fixed Score Multiplier",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "48 score",
             "id": 16871244548,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -1599,21 +1456,16 @@
                 "value": 48
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fixed Score Multiplier",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "53 score",
             "id": 16871244553,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -1661,21 +1513,16 @@
                 "value": 53
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Dice Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "58 score",
             "id": 16871244558,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -1723,21 +1570,16 @@
                 "value": 58
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Category Tiny Straight",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "63 score",
             "id": 16871244563,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -1785,21 +1627,16 @@
                 "value": 63
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roll Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "69 score",
             "id": 16871244569,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -1847,21 +1684,16 @@
                 "value": 69
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Encouragement",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "74 score",
             "id": 16871244574,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -1909,21 +1741,16 @@
                 "value": 74
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bonus Point",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "80 score",
             "id": 16871244580,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -1971,21 +1798,16 @@
                 "value": 80
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Dice Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "87 score",
             "id": 16871244587,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -2033,21 +1855,16 @@
                 "value": 87
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "10 Points",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "93 score",
             "id": 16871244593,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -2095,21 +1912,16 @@
                 "value": 93
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Category Choice",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "100 score",
             "id": 16871244600,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -2157,21 +1969,16 @@
                 "value": 100
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bonus Point",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "107 score",
             "id": 16871244607,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -2219,21 +2026,16 @@
                 "value": 107
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Dice Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "114 score",
             "id": 16871244614,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -2281,21 +2083,16 @@
                 "value": 114
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bonus Point",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "122 score",
             "id": 16871244622,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -2343,21 +2140,16 @@
                 "value": 122
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Dice Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "130 score",
             "id": 16871244630,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -2405,21 +2197,16 @@
                 "value": 130
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Dice Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "138 score",
             "id": 16871244638,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -2467,21 +2254,16 @@
                 "value": 138
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roll Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "146 score",
             "id": 16871244646,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -2529,21 +2311,16 @@
                 "value": 146
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bonus Point",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "155 score",
             "id": 16871244655,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -2591,21 +2368,16 @@
                 "value": 155
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bonus Point",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "164 score",
             "id": 16871244664,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -2653,21 +2425,16 @@
                 "value": 164
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fixed Score Multiplier",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "173 score",
             "id": 16871244673,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -2715,21 +2482,16 @@
                 "value": 173
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fixed Score Multiplier",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "183 score",
             "id": 16871244683,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -2777,21 +2539,16 @@
                 "value": 183
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Category Twos",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "193 score",
             "id": 16871244693,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -2839,21 +2596,16 @@
                 "value": 193
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Category Sixes",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "203 score",
             "id": 16871244703,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -2901,21 +2653,16 @@
                 "value": 203
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Category Threes",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "214 score",
             "id": 16871244714,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -2963,21 +2710,16 @@
                 "value": 214
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Dice Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "224 score",
             "id": 16871244724,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -3025,21 +2767,16 @@
                 "value": 224
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Category Full House",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "236 score",
             "id": 16871244736,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -3087,21 +2824,16 @@
                 "value": 236
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Dice Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "247 score",
             "id": 16871244747,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -3149,21 +2881,16 @@
                 "value": 247
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bonus Point",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "259 score",
             "id": 16871244759,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -3211,21 +2938,16 @@
                 "value": 259
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Category Yacht",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "271 score",
             "id": 16871244771,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -3273,21 +2995,16 @@
                 "value": 271
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Encouragement",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "283 score",
             "id": 16871244783,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -3335,21 +3052,16 @@
                 "value": 283
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bonus Point",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "296 score",
             "id": 16871244796,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -3397,21 +3109,16 @@
                 "value": 296
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "10 Points",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "309 score",
             "id": 16871244809,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -3459,21 +3166,16 @@
                 "value": 309
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bonus Point",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "322 score",
             "id": 16871244822,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -3521,21 +3223,16 @@
                 "value": 322
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bonus Point",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "336 score",
             "id": 16871244836,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -3583,21 +3280,16 @@
                 "value": 336
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fixed Score Multiplier",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "350 score",
             "id": 16871244850,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -3645,21 +3337,16 @@
                 "value": 350
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fixed Score Multiplier",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "364 score",
             "id": 16871244864,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -3707,21 +3394,16 @@
                 "value": 364
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fixed Score Multiplier",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "378 score",
             "id": 16871244878,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -3769,21 +3451,16 @@
                 "value": 378
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bonus Point",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "393 score",
             "id": 16871244893,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -3831,21 +3508,16 @@
                 "value": 393
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bonus Point",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "408 score",
             "id": 16871244908,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -3893,21 +3565,16 @@
                 "value": 408
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fixed Score Multiplier",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "424 score",
             "id": 16871244924,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -3955,21 +3622,16 @@
                 "value": 424
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roll Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "440 score",
             "id": 16871244940,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -4017,21 +3679,16 @@
                 "value": 440
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bonus Point",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "456 score",
             "id": 16871244956,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -4079,21 +3736,16 @@
                 "value": 456
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Category Threes",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "473 score",
             "id": 16871244973,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -4141,21 +3793,16 @@
                 "value": 473
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Encouragement",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "490 score",
             "id": 16871244990,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -4203,21 +3850,16 @@
                 "value": 490
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "10 Points",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "507 score",
             "id": 16871245007,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -4265,21 +3907,16 @@
                 "value": 507
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roll Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "524 score",
             "id": 16871245024,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -4327,21 +3964,16 @@
                 "value": 524
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Category Pair",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "542 score",
             "id": 16871245042,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -4389,21 +4021,16 @@
                 "value": 542
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roll Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "560 score",
             "id": 16871245060,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -4451,21 +4078,16 @@
                 "value": 560
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bonus Point",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "579 score",
             "id": 16871245079,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -4513,21 +4135,16 @@
                 "value": 579
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Category Tiny Straight",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "598 score",
             "id": 16871245098,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -4575,21 +4192,16 @@
                 "value": 598
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fixed Score Multiplier",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "617 score",
             "id": 16871245117,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -4637,21 +4249,16 @@
                 "value": 617
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bonus Point",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "637 score",
             "id": 16871245137,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -4699,21 +4306,16 @@
                 "value": 637
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "10 Points",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "657 score",
             "id": 16871245157,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -4761,21 +4363,16 @@
                 "value": 657
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fixed Score Multiplier",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "677 score",
             "id": 16871245177,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -4823,21 +4420,16 @@
                 "value": 677
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bonus Point",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "698 score",
             "id": 16871245198,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -4885,21 +4477,16 @@
                 "value": 698
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bonus Point",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "719 score",
             "id": 16871245219,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -4947,21 +4534,16 @@
                 "value": 719
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fixed Score Multiplier",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "740 score",
             "id": 16871245240,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -5009,21 +4591,16 @@
                 "value": 740
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Category Twos",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "762 score",
             "id": 16871245262,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -5071,21 +4648,16 @@
                 "value": 762
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Encouragement",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "777 score",
             "id": 16871245277,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -5133,21 +4705,16 @@
                 "value": 777
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Victory",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "806 score",
             "id": 16871245306,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -5195,21 +4762,16 @@
                 "value": 806
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Category Three of a Kind",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "829 score",
             "id": 16871245329,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -5257,21 +4819,16 @@
                 "value": 829
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bonus Point",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "852 score",
             "id": 16871245352,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -5319,21 +4876,16 @@
                 "value": 852
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "10 Points",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "876 score",
             "id": 16871245376,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -5381,21 +4933,16 @@
                 "value": 876
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Encouragement",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "899 score",
             "id": 16871245399,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -5443,21 +4990,16 @@
                 "value": 899
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Category Small Straight",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "924 score",
             "id": 16871245424,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -5505,21 +5047,16 @@
                 "value": 924
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bonus Point",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "948 score",
             "id": 16871245448,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -5567,21 +5104,16 @@
                 "value": 948
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Category Fives",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "1000 score",
             "id": 16871245500,
-            "region": "Board",
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -5629,20 +5161,14 @@
                 "value": 1000
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roll Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       }
     }
   },
@@ -5663,7 +5189,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -5677,7 +5202,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5691,7 +5215,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5705,7 +5228,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5720,7 +5242,6 @@
           "Score Multiplier"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5735,7 +5256,6 @@
           "Score Multiplier"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5750,7 +5270,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5765,7 +5284,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5780,7 +5298,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5795,7 +5312,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5810,7 +5326,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5825,7 +5340,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5840,7 +5354,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5855,7 +5368,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5870,7 +5382,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5885,7 +5396,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5900,7 +5410,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5915,7 +5424,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5930,7 +5438,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5945,7 +5452,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5960,7 +5466,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5975,7 +5480,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5990,7 +5494,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6005,7 +5508,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6020,7 +5522,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6035,7 +5536,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6050,7 +5550,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6065,7 +5564,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6080,7 +5578,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6095,7 +5592,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6110,7 +5606,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6125,7 +5620,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6140,7 +5634,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6155,7 +5648,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6170,7 +5662,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6185,7 +5676,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6200,7 +5690,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6215,7 +5704,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6229,7 +5717,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6243,7 +5730,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6257,7 +5743,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6271,7 +5756,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6285,7 +5769,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6300,7 +5783,6 @@
           "Points"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -6315,7 +5797,6 @@
           "Points"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6330,7 +5811,6 @@
           "Points"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6345,7 +5825,6 @@
           "Points"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6359,7 +5838,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,

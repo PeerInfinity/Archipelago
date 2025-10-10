@@ -10,17 +10,10 @@
   "world_classes": {
     "1": "MetamathWorld"
   },
-  "plando_options": [
-    "connections",
-    "texts",
-    "bosses"
-  ],
   "regions": {
     "1": {
       "Menu": {
         "name": "Menu",
-        "type": "Region",
-        "player": 1,
         "entrances": [],
         "exits": [
           {
@@ -29,11 +22,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Statement 2",
@@ -41,11 +30,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Statement 4",
@@ -53,11 +38,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Statement 5",
@@ -65,11 +46,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Statement 6",
@@ -77,32 +54,18 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Prove Statement 1": {
         "name": "Prove Statement 1",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Statement 1",
             "parent_region": "Menu",
-            "connected_region": "Prove Statement 1",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Prove Statement 1"
           }
         ],
         "exits": [
@@ -135,34 +98,20 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": [],
         "label1": "2cn",
         "label2": "|- 2 e. CC"
       },
       "Prove Statement 2": {
         "name": "Prove Statement 2",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Statement 2",
             "parent_region": "Menu",
-            "connected_region": "Prove Statement 2",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Prove Statement 2"
           }
         ],
         "exits": [
@@ -195,30 +144,21 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Prove Statement 2",
             "id": 234790002,
-            "region": "Prove Statement 2",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Statement 2",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             },
             "statement_id": 2,
@@ -226,36 +166,21 @@
             "label2": "|- 1 e. CC"
           }
         ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": [],
         "label1": "ax-1cn",
         "label2": "|- 1 e. CC"
       },
       "Prove Statement 3": {
         "name": "Prove Statement 3",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "From Statement 1 to Statement 3",
             "parent_region": "Prove Statement 1",
-            "connected_region": "Prove Statement 3",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Prove Statement 3"
           },
           {
             "name": "From Statement 2 to Statement 3",
             "parent_region": "Prove Statement 2",
-            "connected_region": "Prove Statement 3",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Prove Statement 3"
           }
         ],
         "exits": [
@@ -299,19 +224,13 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Prove Statement 3",
             "id": 234790003,
-            "region": "Prove Statement 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -339,13 +258,10 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Statement 3",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             },
             "statement_id": 3,
@@ -357,26 +273,16 @@
             ]
           }
         ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": [],
         "label1": "addassi",
         "label2": "|- ( ( A + B ) + C ) = ( A + ( B + C ) )"
       },
       "Prove Statement 4": {
         "name": "Prove Statement 4",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Statement 4",
             "parent_region": "Menu",
-            "connected_region": "Prove Statement 4",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Prove Statement 4"
           }
         ],
         "exits": [
@@ -393,30 +299,21 @@
                 "type": "constant",
                 "value": 1
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Prove Statement 4",
             "id": 234790004,
-            "region": "Prove Statement 4",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Statement 4",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             },
             "statement_id": 4,
@@ -424,26 +321,16 @@
             "label2": "|- 2 = ( 1 + 1 )"
           }
         ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": [],
         "label1": "df-2",
         "label2": "|- 2 = ( 1 + 1 )"
       },
       "Prove Statement 5": {
         "name": "Prove Statement 5",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Statement 5",
             "parent_region": "Menu",
-            "connected_region": "Prove Statement 5",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Prove Statement 5"
           }
         ],
         "exits": [
@@ -460,30 +347,21 @@
                 "type": "constant",
                 "value": 1
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Prove Statement 5",
             "id": 234790005,
-            "region": "Prove Statement 5",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Statement 5",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             },
             "statement_id": 5,
@@ -491,26 +369,16 @@
             "label2": "|- 3 = ( 2 + 1 )"
           }
         ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": [],
         "label1": "df-3",
         "label2": "|- 3 = ( 2 + 1 )"
       },
       "Prove Statement 6": {
         "name": "Prove Statement 6",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Statement 6",
             "parent_region": "Menu",
-            "connected_region": "Prove Statement 6",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Prove Statement 6"
           }
         ],
         "exits": [
@@ -554,30 +422,21 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Prove Statement 6",
             "id": 234790006,
-            "region": "Prove Statement 6",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Statement 6",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             },
             "statement_id": 6,
@@ -585,26 +444,16 @@
             "label2": "|- 4 = ( 3 + 1 )"
           }
         ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": [],
         "label1": "df-4",
         "label2": "|- 4 = ( 3 + 1 )"
       },
       "Prove Statement 7": {
         "name": "Prove Statement 7",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "From Statement 5 to Statement 7",
             "parent_region": "Prove Statement 5",
-            "connected_region": "Prove Statement 7",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Prove Statement 7"
           }
         ],
         "exits": [
@@ -648,19 +497,13 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Prove Statement 7",
             "id": 234790007,
-            "region": "Prove Statement 7",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -672,13 +515,10 @@
                 "value": 1
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Statement 7",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             },
             "statement_id": 7,
@@ -689,46 +529,26 @@
             ]
           }
         ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": [],
         "label1": "oveq1i",
         "label2": "|- ( A F C ) = ( B F C )"
       },
       "Prove Statement 8": {
         "name": "Prove Statement 8",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "From Statement 3 to Statement 8",
             "parent_region": "Prove Statement 3",
-            "connected_region": "Prove Statement 8",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Prove Statement 8"
           },
           {
             "name": "From Statement 6 to Statement 8",
             "parent_region": "Prove Statement 6",
-            "connected_region": "Prove Statement 8",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Prove Statement 8"
           },
           {
             "name": "From Statement 7 to Statement 8",
             "parent_region": "Prove Statement 7",
-            "connected_region": "Prove Statement 8",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Prove Statement 8"
           }
         ],
         "exits": [
@@ -761,19 +581,13 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Prove Statement 8",
             "id": 234790008,
-            "region": "Prove Statement 8",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -812,13 +626,10 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Statement 8",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             },
             "statement_id": 8,
@@ -831,26 +642,16 @@
             ]
           }
         ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": [],
         "label1": "3eqtri",
         "label2": "|- A = D"
       },
       "Prove Statement 9": {
         "name": "Prove Statement 9",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "From Statement 4 to Statement 9",
             "parent_region": "Prove Statement 4",
-            "connected_region": "Prove Statement 9",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Prove Statement 9"
           }
         ],
         "exits": [
@@ -883,19 +684,13 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Prove Statement 9",
             "id": 234790009,
-            "region": "Prove Statement 9",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -907,13 +702,10 @@
                 "value": 1
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Statement 9",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             },
             "statement_id": 9,
@@ -924,36 +716,21 @@
             ]
           }
         ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": [],
         "label1": "oveq2i",
         "label2": "|- ( C F A ) = ( C F B )"
       },
       "Prove Statement 10": {
         "name": "Prove Statement 10",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "From Statement 8 to Statement 10",
             "parent_region": "Prove Statement 8",
-            "connected_region": "Prove Statement 10",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Prove Statement 10"
           },
           {
             "name": "From Statement 9 to Statement 10",
             "parent_region": "Prove Statement 9",
-            "connected_region": "Prove Statement 10",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Prove Statement 10"
           }
         ],
         "exits": [],
@@ -961,8 +738,6 @@
           {
             "name": "Prove Statement 10",
             "id": 234790010,
-            "region": "Prove Statement 10",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -990,13 +765,10 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Statement 10",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             },
             "statement_id": 10,
@@ -1008,9 +780,6 @@
             ]
           }
         ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": [],
         "label1": "eqtr4i",
         "label2": "|- A = C"
       }
@@ -1033,7 +802,6 @@
           "Statements"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1050,7 +818,6 @@
           "Statements"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1067,7 +834,6 @@
           "Statements"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1084,7 +850,6 @@
           "Statements"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1101,7 +866,6 @@
           "Statements"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1118,7 +882,6 @@
           "Statements"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1135,7 +898,6 @@
           "Statements"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1152,7 +914,6 @@
           "Statements"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1169,7 +930,6 @@
           "Statements"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1186,7 +946,6 @@
           "Statements"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1204,7 +963,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1219,7 +977,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1234,7 +991,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1249,7 +1005,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1264,7 +1019,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1279,7 +1033,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1294,7 +1047,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1309,7 +1061,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1324,7 +1075,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1339,7 +1089,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1354,7 +1103,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1369,7 +1117,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1384,7 +1131,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1399,7 +1145,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1414,7 +1159,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1429,7 +1173,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1444,7 +1187,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1459,7 +1201,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1474,7 +1215,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1489,7 +1229,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1504,7 +1243,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1519,7 +1257,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1534,7 +1271,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1549,7 +1285,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1564,7 +1299,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1579,7 +1313,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1594,7 +1327,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1609,7 +1341,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1624,7 +1355,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1639,7 +1369,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1654,7 +1383,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1669,7 +1397,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1684,7 +1411,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1699,7 +1425,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1714,7 +1439,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1729,7 +1453,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1744,7 +1467,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1759,7 +1481,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1774,7 +1495,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1789,7 +1509,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1804,7 +1523,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1819,7 +1537,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1834,7 +1551,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1849,7 +1565,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1864,7 +1579,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1879,7 +1593,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1894,7 +1607,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1909,7 +1621,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1924,7 +1635,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1939,7 +1649,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1954,7 +1663,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1969,7 +1677,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1984,7 +1691,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1999,7 +1705,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2014,7 +1719,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2029,7 +1733,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2044,7 +1747,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2059,7 +1761,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2074,7 +1775,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2089,7 +1789,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2104,7 +1803,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2119,7 +1817,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2134,7 +1831,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2149,7 +1845,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2164,7 +1859,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2179,7 +1873,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2194,7 +1887,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2209,7 +1901,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2224,7 +1915,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2239,7 +1929,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2254,7 +1943,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2269,7 +1957,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2284,7 +1971,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2299,7 +1985,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2314,7 +1999,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2329,7 +2013,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2344,7 +2027,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2359,7 +2041,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2374,7 +2055,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2389,7 +2069,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2404,7 +2083,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2419,7 +2097,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2434,7 +2111,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2449,7 +2125,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2464,7 +2139,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2479,7 +2153,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2494,7 +2167,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2509,7 +2181,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2524,7 +2195,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2539,7 +2209,6 @@
           "Statements"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2554,7 +2223,6 @@
           "Hints"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2569,7 +2237,6 @@
           "Hints"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2584,7 +2251,6 @@
           "Hints"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2599,7 +2265,6 @@
           "Hints"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2614,7 +2279,6 @@
           "Hints"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2629,7 +2293,6 @@
           "Hints"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2644,7 +2307,6 @@
           "Hints"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2659,7 +2321,6 @@
           "Hints"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,

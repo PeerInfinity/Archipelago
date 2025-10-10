@@ -10,17 +10,10 @@
   "world_classes": {
     "1": "ArchipIDLEWorld"
   },
-  "plando_options": [
-    "connections",
-    "texts",
-    "bosses"
-  ],
   "regions": {
     "1": {
       "Menu": {
         "name": "Menu",
-        "type": "Region",
-        "player": 1,
         "entrances": [],
         "exits": [
           {
@@ -29,32 +22,18 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "IDLE Zone": {
         "name": "IDLE Zone",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Entrance to IDLE Zone",
             "parent_region": "Menu",
-            "connected_region": "IDLE Zone",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "IDLE Zone"
           }
         ],
         "exits": [],
@@ -62,293 +41,216 @@
           {
             "name": "IDLE item number 1",
             "id": 9000,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roomba with a Knife",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 2",
             "id": 9001,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 3",
             "id": 9002,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 4",
             "id": 9003,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Developer Commentary",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 5",
             "id": 9004,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 6",
             "id": 9005,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 7",
             "id": 9006,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "An Old GeoCities Profile",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 8",
             "id": 9007,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "24 Rolls of Toilet Paper",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 9",
             "id": 9008,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 10",
             "id": 9009,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 11",
             "id": 9010,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Shake-Weight",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 12",
             "id": 9011,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 13",
             "id": 9012,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 14",
             "id": 9013,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Laser Pointer",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 15",
             "id": 9014,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 16",
             "id": 9015,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -359,21 +261,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 17",
             "id": 9016,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -384,21 +281,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Grandma's Homemade Pie",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 18",
             "id": 9017,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -409,21 +301,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Box of Pogs",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 19",
             "id": 9018,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -434,21 +321,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bottle of Shampoo",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 20",
             "id": 9019,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -459,21 +341,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Shirt",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 21",
             "id": 9020,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -484,21 +361,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Dirty Dishes",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 22",
             "id": 9021,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -509,21 +381,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Designer Brand Bag",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 23",
             "id": 9022,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -534,21 +401,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 24",
             "id": 9023,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -559,21 +421,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "1,793 Crossbows",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 25",
             "id": 9024,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -584,21 +441,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Three Great Balls",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 26",
             "id": 9025,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -609,21 +461,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Old Cell Phone",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 27",
             "id": 9026,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -634,21 +481,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Stray Cat",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 28",
             "id": 9027,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -659,21 +501,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bob Ross Afro Wig",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 29",
             "id": 9028,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -684,21 +521,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 30",
             "id": 9029,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -709,21 +541,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 31",
             "id": 9030,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -734,21 +561,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Comfortable Reclining Chair",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 32",
             "id": 9031,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -759,21 +581,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 33",
             "id": 9032,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -784,21 +601,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Towel",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 34",
             "id": 9033,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -809,21 +621,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "DeLorean Time Machine",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 35",
             "id": 9034,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -834,21 +641,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 36",
             "id": 9035,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -859,21 +661,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Pair of 3D Glasses",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 37",
             "id": 9036,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -884,21 +681,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Invisible Lego on the Floor",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 38",
             "id": 9037,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -909,21 +701,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 39",
             "id": 9038,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -934,21 +721,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 40",
             "id": 9039,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -959,21 +741,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Medicine Ball",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 41",
             "id": 9040,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -984,21 +761,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 42",
             "id": 9041,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1009,21 +781,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 43",
             "id": 9042,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1034,21 +801,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Microsoft Windows 95 Resource Kit",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 44",
             "id": 9043,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1059,21 +821,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 45",
             "id": 9044,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1084,21 +841,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 46",
             "id": 9045,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1109,21 +861,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "The Great Pumpkin",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 47",
             "id": 9046,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1134,21 +881,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Yoga Mat",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 48",
             "id": 9047,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1159,21 +901,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Warm Blanket",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 49",
             "id": 9048,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1184,21 +921,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Pack of Colored Sharpies",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 50",
             "id": 9049,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1209,21 +941,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 51",
             "id": 9050,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1234,21 +961,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 52",
             "id": 9051,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1259,21 +981,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 53",
             "id": 9052,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1284,21 +1001,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bag of Chocolate Chips",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 54",
             "id": 9053,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1309,21 +1021,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 55",
             "id": 9054,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1334,21 +1041,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "3D Printer",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 56",
             "id": 9055,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1359,21 +1061,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 57",
             "id": 9056,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1384,21 +1081,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 58",
             "id": 9057,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1409,21 +1101,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Headlight Fluid",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 59",
             "id": 9058,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1434,21 +1121,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Dungeons & Dragons Rulebook",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 60",
             "id": 9059,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1459,21 +1141,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 61",
             "id": 9060,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1484,21 +1161,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 62",
             "id": 9061,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1509,21 +1181,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Overhead Projector",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 63",
             "id": 9062,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1534,21 +1201,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Stories from the Good-Old-Days",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 64",
             "id": 9063,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1559,21 +1221,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Knife of +9 VS Ogres",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 65",
             "id": 9064,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1584,21 +1241,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fire Extinguisher",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 66",
             "id": 9065,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1609,21 +1261,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Expired Driver's License",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 67",
             "id": 9066,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1634,21 +1281,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 68",
             "id": 9067,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1659,21 +1301,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Can of Shaving Cream",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 69",
             "id": 9068,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1684,21 +1321,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Last Sunday's Crossword Puzzle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 70",
             "id": 9069,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1709,21 +1341,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 71",
             "id": 9070,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1734,21 +1361,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 72",
             "id": 9071,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1759,21 +1381,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 73",
             "id": 9072,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1784,21 +1401,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sock Puppets",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 74",
             "id": 9073,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1809,21 +1421,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 75",
             "id": 9074,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1834,21 +1441,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Just a Regular McMuffin",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 76",
             "id": 9075,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1859,21 +1461,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "The Last Cookie in the Cookie Jar",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 77",
             "id": 9076,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1884,21 +1481,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 78",
             "id": 9077,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1909,21 +1501,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Striped Kitten",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 79",
             "id": 9078,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1934,21 +1521,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 80",
             "id": 9079,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1959,21 +1541,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 81",
             "id": 9080,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -1984,21 +1561,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 82",
             "id": 9081,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2009,21 +1581,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Collection of Stuffed Animals",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 83",
             "id": 9082,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2034,21 +1601,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Glass of Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 84",
             "id": 9083,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2059,21 +1621,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 85",
             "id": 9084,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2084,21 +1641,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Stray Dice",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 86",
             "id": 9085,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2109,21 +1661,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 87",
             "id": 9086,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2134,21 +1681,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "The DK Rap",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 88",
             "id": 9087,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2159,21 +1701,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 89",
             "id": 9088,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2184,21 +1721,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 90",
             "id": 9089,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2209,21 +1741,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 91",
             "id": 9090,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2234,21 +1761,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 92",
             "id": 9091,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2259,21 +1781,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 93",
             "id": 9092,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2284,21 +1801,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 94",
             "id": 9093,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2309,21 +1821,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Season 2 of Knight Rider",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 95",
             "id": 9094,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2334,21 +1841,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Old Gym Shorts",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 96",
             "id": 9095,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2359,21 +1861,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Half-Empty Ink Cartridge for a Printer",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 97",
             "id": 9096,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2384,21 +1881,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Rubik's Cube",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 98",
             "id": 9097,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2409,21 +1901,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "The Pink Panther",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 99",
             "id": 9098,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2434,21 +1921,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Moldy Cheese",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 100",
             "id": 9099,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2459,21 +1941,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Transformers Lunch Box",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 101",
             "id": 9100,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2484,21 +1961,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 102",
             "id": 9101,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2509,21 +1981,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 103",
             "id": 9102,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2534,21 +2001,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 104",
             "id": 9103,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2559,21 +2021,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Collectable Action Figure",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 105",
             "id": 9104,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2584,21 +2041,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 106",
             "id": 9105,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2609,21 +2061,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Pocket Protector",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 107",
             "id": 9106,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2634,21 +2081,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 108",
             "id": 9107,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2659,21 +2101,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Pair of Fancy Boots",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 109",
             "id": 9108,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2684,21 +2121,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bottle of Peanut Butter",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 110",
             "id": 9109,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2709,21 +2141,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Salt Shaker",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 111",
             "id": 9110,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2734,21 +2161,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Box of Tabletop Games",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 112",
             "id": 9111,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2759,21 +2181,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Pair of Movie Tickets",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 113",
             "id": 9112,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2784,21 +2201,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Chocolate Orange",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 114",
             "id": 9113,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2809,21 +2221,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Macaroni and Cheese",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 115",
             "id": 9114,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2834,21 +2241,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Stardew Valley Cookbook",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 116",
             "id": 9115,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2859,21 +2261,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Box Set of The Lord of the Rings Books",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 117",
             "id": 9116,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2884,21 +2281,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Can of Compressed Air",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 118",
             "id": 9117,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2909,21 +2301,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "DVD Collection of Billy Mays Infomercials",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 119",
             "id": 9118,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2934,21 +2321,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Hardcover Copy of Scott Pilgrim VS the World",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 120",
             "id": 9119,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2959,21 +2341,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "E.T. for Atari 2600",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 121",
             "id": 9120,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -2984,21 +2361,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Mace Windu's Purple Lightsaber",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 122",
             "id": 9121,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3009,21 +2381,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Empty Glass Bottle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 123",
             "id": 9122,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3034,21 +2401,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 124",
             "id": 9123,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3059,21 +2421,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Area 51 Arcade Cabinet",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 125",
             "id": 9124,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3084,21 +2441,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Surprised Chipmunk",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 126",
             "id": 9125,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3109,21 +2461,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Missing Button",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 127",
             "id": 9126,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3134,21 +2481,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Empty Cardboard Box",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 128",
             "id": 9127,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3159,21 +2501,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "TV Remote",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 129",
             "id": 9128,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3184,21 +2521,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fanny Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 130",
             "id": 9129,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3209,21 +2541,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Linksys BEFSR41 Router",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 131",
             "id": 9130,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3234,21 +2561,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 132",
             "id": 9131,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3259,21 +2581,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Double Rainbow",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 133",
             "id": 9132,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3284,21 +2601,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 134",
             "id": 9133,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3309,21 +2621,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 135",
             "id": 9134,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3334,21 +2641,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 136",
             "id": 9135,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3359,21 +2661,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "MP3 Player",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 137",
             "id": 9136,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3384,21 +2681,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fake Moustache",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 138",
             "id": 9137,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3409,21 +2701,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 139",
             "id": 9138,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3434,21 +2721,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Zippo Lighter",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 140",
             "id": 9139,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3459,21 +2741,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "The Look, You Know the One",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 141",
             "id": 9140,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3484,21 +2761,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 142",
             "id": 9141,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3509,21 +2781,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 143",
             "id": 9142,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3534,21 +2801,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Pitfall Trap",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 144",
             "id": 9143,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3559,21 +2821,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 145",
             "id": 9144,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3584,21 +2841,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 146",
             "id": 9145,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3609,21 +2861,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Mostly Popped Bubble Wrap",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 147",
             "id": 9146,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3634,21 +2881,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "USB Power Adapter",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 148",
             "id": 9147,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3659,21 +2901,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Tube of Toothpaste",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 149",
             "id": 9148,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3684,21 +2921,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 150",
             "id": 9149,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3709,21 +2941,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 151",
             "id": 9150,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3734,21 +2961,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Half-Empty Ice Cube Tray",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 152",
             "id": 9151,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3759,21 +2981,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 153",
             "id": 9152,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3784,21 +3001,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Model Train Set",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 154",
             "id": 9153,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3809,21 +3021,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Your Mission, Should You Choose To Accept It",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 155",
             "id": 9154,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3834,21 +3041,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 156",
             "id": 9155,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3859,21 +3061,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 157",
             "id": 9156,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3884,21 +3081,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Duct Tape",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 158",
             "id": 9157,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3909,21 +3101,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 159",
             "id": 9158,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3934,21 +3121,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Betamax Player",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 160",
             "id": 9159,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3959,21 +3141,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Button-Up Shirt",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 161",
             "id": 9160,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -3984,21 +3161,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "6-Pack of Sponges",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 162",
             "id": 9161,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4009,21 +3181,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Shoddy Pickaxe",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 163",
             "id": 9162,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4034,21 +3201,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Lite-Bright",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 164",
             "id": 9163,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4059,21 +3221,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Poke'mon Booster Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 165",
             "id": 9164,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4084,21 +3241,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "One Million Dollars",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 166",
             "id": 9165,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4109,21 +3261,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Tickets to the Renaissance Faire",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 167",
             "id": 9166,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4134,21 +3281,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 168",
             "id": 9167,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4159,21 +3301,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "The Dog of Wisdom",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 169",
             "id": 9168,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4184,21 +3321,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Box of Matches",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 170",
             "id": 9169,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4209,21 +3341,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 171",
             "id": 9170,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4234,21 +3361,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Old Photo Album",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 172",
             "id": 9171,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4259,21 +3381,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "The Secret Cow Level",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 173",
             "id": 9172,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4284,21 +3401,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 174",
             "id": 9173,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4309,21 +3421,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bag of Golf Balls",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 175",
             "id": 9174,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4334,21 +3441,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 176",
             "id": 9175,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4359,21 +3461,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Nintendo 64 Controller with a Perfect Thumbstick",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 177",
             "id": 9176,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4384,21 +3481,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "300 Sheets of Printer Paper",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 178",
             "id": 9177,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4409,21 +3501,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Nokia N-GAGE",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 179",
             "id": 9178,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4434,21 +3521,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "USB Speakers",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 180",
             "id": 9179,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4459,21 +3541,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Poster Tube",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 181",
             "id": 9180,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4484,21 +3561,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Subscription to Nintendo Power Magazine",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 182",
             "id": 9181,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4509,21 +3581,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "The Missing Left Sock",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 183",
             "id": 9182,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4534,21 +3601,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Box Set of Stargate SG-1 Season 4",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 184",
             "id": 9183,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4559,21 +3621,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Brand New Car",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 185",
             "id": 9184,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4584,21 +3641,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "The Krabby Patty Recipe",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 186",
             "id": 9185,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4609,21 +3661,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 187",
             "id": 9186,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4634,21 +3681,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "The Broodwitch",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 188",
             "id": 9187,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4659,21 +3701,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 189",
             "id": 9188,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4684,21 +3721,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Two Blueberry Muffins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 190",
             "id": 9189,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4709,21 +3741,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 191",
             "id": 9190,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4734,21 +3761,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Dry Sharpie",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 192",
             "id": 9191,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4759,21 +3781,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Pile of Fresh Warm Laundry",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 193",
             "id": 9192,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4784,21 +3801,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Expensive Toaster",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 194",
             "id": 9193,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4809,21 +3821,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 195",
             "id": 9194,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4834,21 +3841,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 196",
             "id": 9195,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4859,21 +3861,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Air Jordans",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 197",
             "id": 9196,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4884,21 +3881,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 198",
             "id": 9197,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4909,21 +3901,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Very Funny Joke",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 199",
             "id": 9198,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4934,21 +3921,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "IDLE item number 200",
             "id": 9199,
-            "region": "IDLE Zone",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "_archipidle_location_is_accessible",
@@ -4959,20 +3941,14 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motivational Video",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       }
     }
   },
@@ -4993,7 +3969,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5004,7 +3979,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5015,7 +3989,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5034,7 +4007,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5069,7 +4041,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5088,7 +4059,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5107,7 +4077,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5134,7 +4103,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5145,7 +4113,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5172,7 +4139,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5191,7 +4157,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5202,7 +4167,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5221,7 +4185,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5248,7 +4211,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5259,7 +4221,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5270,7 +4231,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5321,7 +4281,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5332,7 +4291,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5343,7 +4301,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5362,7 +4319,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5373,7 +4329,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5384,7 +4339,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5435,7 +4389,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5446,7 +4399,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5457,7 +4409,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5516,7 +4467,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5527,7 +4477,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5538,7 +4487,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5573,7 +4521,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5592,7 +4539,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5619,7 +4565,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5630,7 +4575,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5641,7 +4585,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5652,7 +4595,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5663,7 +4605,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5674,7 +4615,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5693,7 +4633,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5712,7 +4651,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5723,7 +4661,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5734,7 +4671,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5745,7 +4681,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5804,7 +4739,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5815,7 +4749,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5874,7 +4807,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5925,7 +4857,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5968,7 +4899,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -5987,7 +4917,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6006,7 +4935,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6017,7 +4945,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6036,7 +4963,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6055,7 +4981,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6066,7 +4991,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6109,7 +5033,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6128,7 +5051,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6139,7 +5061,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6174,7 +5095,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6193,7 +5113,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6212,7 +5131,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6239,7 +5157,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6250,7 +5167,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6301,7 +5217,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6320,7 +5235,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6355,7 +5269,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6398,7 +5311,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6425,7 +5337,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6436,7 +5347,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6519,7 +5429,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6546,7 +5455,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6565,7 +5473,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6576,7 +5483,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6587,7 +5493,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6606,7 +5511,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6625,7 +5529,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6700,7 +5603,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6711,7 +5613,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6730,7 +5631,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6741,7 +5641,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6768,7 +5667,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6787,7 +5685,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6806,7 +5703,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6841,7 +5737,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6860,7 +5755,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6903,7 +5797,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6922,7 +5815,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6941,7 +5833,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6952,7 +5843,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -6995,7 +5885,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7006,7 +5895,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7017,7 +5905,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7028,7 +5915,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7063,7 +5949,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7074,7 +5959,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7085,7 +5969,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7096,7 +5979,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7163,7 +6045,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7222,7 +6103,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7241,7 +6121,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7260,7 +6139,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7287,7 +6165,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7322,7 +6199,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7349,7 +6225,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7392,7 +6267,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7403,7 +6277,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7446,7 +6319,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7457,7 +6329,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7468,7 +6339,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7487,7 +6357,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7530,7 +6399,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7541,7 +6409,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7560,7 +6427,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7571,7 +6437,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7606,7 +6471,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7625,7 +6489,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7636,7 +6499,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7695,7 +6557,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7706,7 +6567,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7717,7 +6577,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7728,7 +6587,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7755,7 +6613,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7782,7 +6639,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7833,7 +6689,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -7844,7 +6699,6 @@
         "groups": [
           "Everything"
         ],
-        "priority": false,
         "useful": false,
         "trap": false
       },

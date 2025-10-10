@@ -20,6 +20,7 @@ import * as celeste64Logic from './celeste64/celeste64Logic.js';
 import { celeste64StateModule } from './celeste64/celeste64Logic.js';
 import * as civ6Logic from './civ_6/civ6Logic.js';
 import { civ6StateModule } from './civ_6/civ6Logic.js';
+import { helperFunctions as cvcotmHelperFunctions } from './cvcotm/cvcotmLogic.js';
 import * as dlcquestLogic from './dlcquest/dlcquestLogic.js';
 import { dlcquestStateModule } from './dlcquest/dlcquestLogic.js';
 import * as hkLogic from './hk/hkLogic.js';
@@ -29,6 +30,8 @@ import { hylics2StateModule } from './hylics_2/hylics2Logic.js';
 import * as inscryptionLogic from './inscryption/inscryptionLogic.js';
 import { inscryptionStateModule } from './inscryption/inscryptionLogic.js';
 import { kh1Logic } from './kh1/kh1Logic.js';
+import * as pokemon_rbLogic from './pokemon_rb/pokemon_rbLogic.js';
+import { pokemon_rbStateModule } from './pokemon_rb/pokemon_rbLogic.js';
 
 /**
  * Registry of all supported games and their logic modules
@@ -82,6 +85,12 @@ const GAME_REGISTRY = {
     worldClasses: ['CivVIWorld'],
     aliases: ['Civilization VI', 'Civ VI', 'Civ6']
   },
+  'Castlevania - Circle of the Moon': {
+    logicModule: genericLogic.genericStateModule,
+    helperFunctions: cvcotmHelperFunctions,
+    worldClasses: ['CVCotMWorld'],
+    aliases: ['Castlevania - Circle of the Moon', 'CvCotM', 'cvcotm']
+  },
   'DLCQuest': {
     logicModule: dlcquestLogic.dlcquestStateModule,
     helperFunctions: dlcquestLogic.helperFunctions,
@@ -111,6 +120,12 @@ const GAME_REGISTRY = {
     helperFunctions: kh1Logic,
     worldClasses: ['KH1World'],
     aliases: ['Kingdom Hearts', 'KH1', 'Kingdom Hearts 1']
+  },
+  'Pokemon Red and Blue': {
+    logicModule: pokemon_rbLogic.pokemon_rbStateModule,
+    helperFunctions: pokemon_rbLogic.helperFunctions,
+    worldClasses: ['PokemonRedBlueWorld'],
+    aliases: ['Pokemon Red and Blue', 'Pokemon RB', 'pokemon_rb']
   },
   // Add more games here as they're implemented
   'Generic': {

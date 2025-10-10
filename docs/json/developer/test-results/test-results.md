@@ -1,10 +1,10 @@
 # Archipelago Template Test Results Chart
 
-**Generated:** 2025-10-09 16:20:02
+**Generated:** 2025-10-09 23:50:14
 
 **Source Data Created:** 2025-08-22T09:54:44.358796
 
-**Source Data Last Updated:** 2025-10-09T16:20:02.883857
+**Source Data Last Updated:** 2025-10-09T23:50:14.807461
 
 **Script Version:** 1.0.0
 
@@ -48,7 +48,7 @@
 | Jak and Daxter: The Precursor Legacy | ❌ Failed seed 1 | 0 | 0 | 0 | 🔴 0.0% | ⚫ | ⚫ |
 | Kingdom Hearts | ❌ Failed seed 1 | 0 | 0 | 11.1 | 🔴 0.0% | ✅ | ✅ |
 | Kingdom Hearts 2 | ❌ Failed seed 1 | 0 | 0.2 | 12.1 | 🟠 1.7% | ✅ | ⚫ |
-| Kirby's Dream Land 3 | ❌ Failed seed 1 | 0 | 0.8 | 11.1 | 🟠 7.2% | ✅ | ⚫ |
+| Kirby's Dream Land 3 | ❌ Failed seed 1 | 0 | 0.6 | 11.1 | 🟠 5.4% | ✅ | ⚫ |
 | Landstalker - The Treasures of King Nole | ❌ Failed seed 1 | 49 | 0.1 | 9.1 | 🟠 1.1% | ⚫ | ⚫ |
 | Lingo | ❌ Failed seed 1 | 0 | 0 | 4.1 | 🔴 0.0% | ✅ | ⚫ |
 | Links Awakening DX | ❌ Failed seed 1 | 0 | 0 | 14.1 | 🔴 0.0% | ⚫ | ⚫ |
@@ -66,7 +66,7 @@
 | Overcooked! 2 | ❌ Failed seed 1 | 0 | 0 | 17.1 | 🔴 0.0% | ⚫ | ⚫ |
 | Paint | ❌ Failed seed 1 | 130 | 0 | 12.1 | 🔴 0.0% | ⚫ | ⚫ |
 | Pokemon Emerald | ❌ Failed seed 1 | 0 | 6.2 | 15.1 | 🟡 41.1% | ⚫ | ⚫ |
-| Pokemon Red and Blue | ❌ Failed seed 1 | 0 | 3.6 | 10.1 | 🟡 35.6% | ✅ | ✅ |
+| Pokemon Red and Blue | ❌ Failed seed 1 | 0 | 3.2 | 10.1 | 🟡 31.7% | ✅ | ✅ |
 | Raft | ❌ Failed seed 1 | 0 | 0 | 10.1 | 🔴 0.0% | ⚫ | ⚫ |
 | Risk of Rain 2 | ✅ Passed seeds 1-10 | 0 | 8.1 | 8.1 | 🟢 Complete | ⚫ | ⚫ |
 | SMZ3 | ❌ Failed seed 1 | 0 | 0 | 14.1 | 🔴 0.0% | ⚫ | ⚫ |
@@ -83,7 +83,7 @@
 | Super Metroid | ❌ Failed seed 1 | 0 | 0 | 8.1 | 🔴 0.0% | ⚫ | ⚫ |
 | TUNIC | ❌ Failed seed 1 | 0 | 0.1 | 4.1 | 🟠 2.4% | ⚫ | ⚫ |
 | Terraria | ❌ Failed seed 1 | 0 | 0 | 9.3 | 🔴 0.0% | ⚫ | ⚫ |
-| The Legend of Zelda | ❌ Failed seed 1 | 0 | 0.1 | 10.1 | 🟠 1.0% | ⚫ | ⚫ |
+| The Legend of Zelda | ❌ Failed seed 1 | 0 | 0.1 | 11.1 | 🟠 0.9% | ⚫ | ⚫ |
 | The Messenger | ❌ Failed seed 1 | 0 | 0.1 | 6.1 | 🟠 1.6% | ⚫ | ⚫ |
 | The Wind Waker | ❌ Failed seed 1 | 0 | 0 | 17.1 | 🔴 0.0% | ⚫ | ⚫ |
 | The Witness | ❌ Failed seed 1 | 0 | 0 | 9.1 | 🔴 0.0% | ⚫ | ⚫ |

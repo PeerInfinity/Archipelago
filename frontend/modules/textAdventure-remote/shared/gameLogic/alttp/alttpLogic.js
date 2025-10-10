@@ -108,9 +108,9 @@ export function can_light_torches(snapshot, staticData, itemName) {
 }
 
 export function can_melt_things(snapshot, staticData, itemName) {
-  return has(snapshot, staticData, 'Fire Rod') || 
-         (has(snapshot, staticData, 'Bombos') && 
-          (has_sword(snapshot, staticData, itemName) || snapshot.settings?.swordless));
+  return has(snapshot, staticData, 'Fire Rod') ||
+         (has(snapshot, staticData, 'Bombos') &&
+          (has_sword(snapshot, staticData, itemName) || staticData.settings?.['1']?.swordless));
 }
 
 export function can_fly(snapshot, staticData, itemName) {
@@ -122,9 +122,9 @@ export function can_dash(snapshot, staticData, itemName) {
 }
 
 export function is_invincible(snapshot, staticData, itemName) {
-  return has(snapshot, staticData, 'Cape') || 
-         has(snapshot, staticData, 'Cane of Byrna') || 
-         snapshot.settings?.goal === 'triforce_hunt';
+  return has(snapshot, staticData, 'Cape') ||
+         has(snapshot, staticData, 'Cane of Byrna') ||
+         staticData.settings?.['1']?.goal === 'triforce_hunt';
 }
 
 export function can_block_lasers(snapshot, staticData, itemName) {
@@ -140,9 +140,9 @@ export function can_extend_magic(snapshot, staticData, itemName) {
 
 export function can_kill_most_things(snapshot, staticData, itemName) {
   const enemies = parseInt(itemName, 10) || 5;
-  
+
   // Check if enemy shuffle is enabled
-  const enemyShuffle = snapshot.settings?.enemy_shuffle;
+  const enemyShuffle = staticData.settings?.['1']?.enemy_shuffle;
   
   if (enemyShuffle) {
     // Enemizer mode - need everything
@@ -163,7 +163,7 @@ export function can_kill_most_things(snapshot, staticData, itemName) {
     if (has(snapshot, staticData, 'Fire Rod')) return true;
     
     // Bombs work on easy/default enemy health
-    const enemyHealth = snapshot.settings?.enemy_health || 'default';
+    const enemyHealth = staticData.settings?.['1']?.enemy_health || 'default';
     if ((enemyHealth === 'easy' || enemyHealth === 'default') &&
         can_use_bombs(snapshot, staticData, (enemies * 4).toString())) {
       return true;
@@ -183,12 +183,12 @@ export function can_defeat_ganon(snapshot, staticData, itemName) {
     return true;
   }
   
-  return can_shoot_silver_arrows(snapshot, staticData, itemName) && 
-         (has(snapshot, staticData, 'Lamp') || 
+  return can_shoot_silver_arrows(snapshot, staticData, itemName) &&
+         (has(snapshot, staticData, 'Lamp') ||
           (has(snapshot, staticData, 'Fire Rod') && can_extend_magic(snapshot, staticData, itemName))) &&
-         (has_beam_sword(snapshot, staticData, itemName) || 
-          (has(snapshot, staticData, 'Hammer') && 
-           (snapshot.settings?.game_mode === 'swordless' || snapshot.settings?.swordless)));
+         (has_beam_sword(snapshot, staticData, itemName) ||
+          (has(snapshot, staticData, 'Hammer') &&
+           (staticData.settings?.['1']?.game_mode === 'swordless' || staticData.settings?.['1']?.swordless)));
 }
 
 export function can_defeat_boss(snapshot, staticData, locationName, bossType) {
@@ -201,7 +201,7 @@ export function can_defeat_boss(snapshot, staticData, locationName, bossType) {
 export function can_take_damage(snapshot, staticData, itemName) {
   // Check if the game settings allow taking damage
   // Default is true unless explicitly set to false in settings
-  const canTakeDamage = snapshot.settings?.can_take_damage;
+  const canTakeDamage = staticData.settings?.['1']?.can_take_damage;
   // If not explicitly set to false, assume true
   return canTakeDamage !== false;
 }
@@ -210,10 +210,10 @@ export function can_take_damage(snapshot, staticData, itemName) {
 
 export function can_use_bombs(snapshot, staticData, itemName) {
   const quantity = parseInt(itemName, 10) || 1;
-  
+
   // Start with base bombs (10 unless bombless start)
   let bombs = 0;
-  const bomblessStart = snapshot.settings?.bombless_start || 
+  const bomblessStart = staticData.settings?.['1']?.bombless_start ||
                        (snapshot.flags && snapshot.flags.includes('bombless_start'));
   if (!bomblessStart) {
     bombs = 10;
@@ -229,7 +229,7 @@ export function can_use_bombs(snapshot, staticData, itemName) {
   bombs += Math.max(0, (upgrade5Count - 6) * 10);
   
   // If capacity upgrades are NOT shuffled and we have Capacity Upgrade Shop, add 40
-  const shuffleUpgrades = snapshot.settings?.shuffle_capacity_upgrades;
+  const shuffleUpgrades = staticData.settings?.['1']?.shuffle_capacity_upgrades;
   if (!shuffleUpgrades && has(snapshot, staticData, 'Capacity Upgrade Shop')) {
     bombs += 40;
   }
@@ -280,9 +280,9 @@ export function can_buy_unlimited(snapshot, staticData, itemName) {
 
 export function can_hold_arrows(snapshot, staticData, itemName) {
   const quantity = parseInt(itemName, 10) || 0;
-  
+
   // Check if capacity upgrades are shuffled
-  const shuffleUpgrades = snapshot.settings?.shuffle_capacity_upgrades;
+  const shuffleUpgrades = staticData.settings?.['1']?.shuffle_capacity_upgrades;
   
   if (shuffleUpgrades) {
     if (quantity === 0) return true;
@@ -317,9 +317,9 @@ export function can_get_good_bee(snapshot, staticData, itemName) {
 }
 
 export function can_retrieve_tablet(snapshot, staticData, itemName) {
-  return has(snapshot, staticData, 'Book of Mudora') && 
+  return has(snapshot, staticData, 'Book of Mudora') &&
          (has_beam_sword(snapshot, staticData, itemName) ||
-          (snapshot.settings?.swordless && has(snapshot, staticData, 'Hammer')));
+          (staticData.settings?.['1']?.swordless && has(snapshot, staticData, 'Hammer')));
 }
 
 export function can_flute(snapshot, staticData, itemName) {
@@ -423,20 +423,20 @@ export function can_bomb_clip(snapshot, staticData, itemName) {
 }
 
 export function can_spin_speed(snapshot, staticData, itemName) {
-  return has(snapshot, staticData, 'Pegasus Boots') && 
-         has_sword(snapshot, staticData, itemName) && 
-         snapshot.settings?.mode === 'minor_glitches';
+  return has(snapshot, staticData, 'Pegasus Boots') &&
+         has_sword(snapshot, staticData, itemName) &&
+         staticData.settings?.['1']?.mode === 'minor_glitches';
 }
 
 export function can_boots_clip_lw(snapshot, staticData, itemName) {
-  return has(snapshot, staticData, 'Pegasus Boots') && 
-         snapshot.settings?.mode === 'minor_glitches';
+  return has(snapshot, staticData, 'Pegasus Boots') &&
+         staticData.settings?.['1']?.mode === 'minor_glitches';
 }
 
 export function can_boots_clip_dw(snapshot, staticData, itemName) {
-  return has(snapshot, staticData, 'Pegasus Boots') && 
-         has(snapshot, staticData, 'Moon Pearl') && 
-         snapshot.settings?.mode === 'minor_glitches';
+  return has(snapshot, staticData, 'Pegasus Boots') &&
+         has(snapshot, staticData, 'Moon Pearl') &&
+         staticData.settings?.['1']?.mode === 'minor_glitches';
 }
 
 // Dungeon-specific helpers
@@ -452,12 +452,12 @@ export function can_complete_gt_climb(snapshot, staticData, itemName) {
 // Medallion helpers
 
 export function has_misery_mire_medallion(snapshot, staticData, itemName) {
-  const medallion = snapshot.settings?.misery_mire_medallion || 'Ether';
+  const medallion = staticData.settings?.['1']?.misery_mire_medallion || 'Ether';
   return has(snapshot, staticData, medallion);
 }
 
 export function has_turtle_rock_medallion(snapshot, staticData, itemName) {
-  const medallion = snapshot.settings?.turtle_rock_medallion || 'Quake';
+  const medallion = staticData.settings?.['1']?.turtle_rock_medallion || 'Quake';
   return has(snapshot, staticData, medallion);
 }
 
@@ -465,14 +465,14 @@ export function has_turtle_rock_medallion(snapshot, staticData, itemName) {
 
 export function can_shoot_arrows(snapshot, staticData, itemName) {
   const count_param = parseInt(itemName, 10) || 0;
-  
+
   // Must have bow first
   if (!has(snapshot, staticData, 'Bow') && !has(snapshot, staticData, 'Silver Bow')) {
     return false;
   }
-  
+
   // Check retro bow mode
-  const retroBow = snapshot.settings?.retro_bow || 
+  const retroBow = staticData.settings?.['1']?.retro_bow ||
                   (snapshot.flags && snapshot.flags.includes('retro_bow'));
   
   if (retroBow) {
@@ -486,7 +486,7 @@ export function can_shoot_arrows(snapshot, staticData, itemName) {
 
 export function has_triforce_pieces(snapshot, staticData, itemName) {
   // Get required count from world settings
-  const requiredCount = snapshot.settings?.treasure_hunt_required || 
+  const requiredCount = staticData.settings?.['1']?.treasure_hunt_required ||
                        snapshot.treasureHuntRequired || 0;
   
   const triforceCount = count(snapshot, staticData, 'Triforce Piece');
@@ -630,14 +630,14 @@ export function item_name_in_location_names(snapshot, staticData, searchItem, lo
 export function has_crystals_for_ganon(snapshot, staticData, itemName) {
   // Check if player has required number of crystals for Ganon
   // The required number comes from settings
-  const requiredCrystals = snapshot.settings?.crystals_needed_for_ganon || 7;
+  const requiredCrystals = staticData.settings?.['1']?.crystals_needed_for_ganon || 7;
   
   // Use the simpler has_crystals function that counts Crystal 1-7 directly
   return has_crystals(snapshot, staticData, requiredCrystals.toString());
 }
 
 export function GanonDefeatRule(snapshot, staticData, itemName) {
-  const isSwordless = snapshot.settings?.swordless ||
+  const isSwordless = staticData.settings?.['1']?.swordless ||
                      (snapshot.flags && snapshot.flags.includes('swordless'));
   
   if (isSwordless) {
@@ -656,7 +656,7 @@ export function GanonDefeatRule(snapshot, staticData, itemName) {
     }
     
     // Check for glitches - 'none' and 'no_glitches' both mean no glitches allowed
-    const glitchesRequired = snapshot.settings?.glitches_required;
+    const glitchesRequired = staticData.settings?.['1']?.glitches_required;
     const isGlitchesAllowed = glitchesRequired && 
                              glitchesRequired !== 'none' && 
                              glitchesRequired !== 'no_glitches';
@@ -680,13 +680,13 @@ export function can_get_glitched_speed_dw(snapshot, staticData, itemName) {
   if (!has(snapshot, staticData, 'Pegasus Boots')) {
     return false;
   }
-  
+
   if (!has(snapshot, staticData, 'Hookshot') && !has_sword(snapshot, staticData, itemName)) {
     return false;
   }
-  
+
   // Check if in inverted mode
-  const gameMode = snapshot.settings?.mode || snapshot.settings?.game_mode || 'standard';
+  const gameMode = staticData.settings?.['1']?.mode || staticData.settings?.['1']?.game_mode || 'standard';
   if (gameMode !== 'inverted') {
     // Need Moon Pearl for dark world in standard mode
     return has(snapshot, staticData, 'Moon Pearl');
@@ -716,20 +716,20 @@ export function cross_peg_bridge(snapshot, staticData, itemName) {
 export function can_extend_magic_complex(snapshot, staticData, itemName) {
   const smallmagic = parseInt(itemName, 10) || 16;
   const fullrefill = itemName?.includes('fullrefill') || false;
-  
+
   let basemagic = 8;
-  
+
   if (has(snapshot, staticData, 'Magic Upgrade (1/4)')) {
     basemagic = 32;
   } else if (has(snapshot, staticData, 'Magic Upgrade (1/2)')) {
     basemagic = 16;
   }
-  
+
   if (can_buy_unlimited(snapshot, staticData, 'Green Potion') ||
       can_buy_unlimited(snapshot, staticData, 'Blue Potion')) {
-    
+
     const bottles = bottle_count(snapshot, staticData, itemName);
-    const functionality = snapshot.settings?.item_functionality || 'normal';
+    const functionality = staticData.settings?.['1']?.item_functionality || 'normal';
     
     if (functionality === 'hard' && !fullrefill) {
       basemagic += Math.floor(basemagic * 0.5 * bottles);
@@ -769,8 +769,8 @@ export function enhanceLocationsWithShopData(snapshot, staticData, itemName) {
 
 export function can_revival_fairy_shop(snapshot, staticData, itemName) {
   const hasBottle = count(snapshot, staticData, 'Bottle') > 0;
-  const minorGlitches = snapshot.settings?.mode === 'minor_glitches' ||
-                       snapshot.settings?.glitches_required === 'minor_glitches';
+  const minorGlitches = staticData.settings?.['1']?.mode === 'minor_glitches' ||
+                       staticData.settings?.['1']?.glitches_required === 'minor_glitches';
   return hasBottle && minorGlitches;
 }
 
@@ -894,7 +894,7 @@ export function can_waterwalk(snapshot, staticData, itemName) {
 
 export function can_reach_light_world(snapshot, staticData, itemName) {
   // Check if light world is accessible
-  const gameMode = snapshot.settings?.mode || snapshot.settings?.game_mode || 'standard';
+  const gameMode = staticData.settings?.['1']?.mode || staticData.settings?.['1']?.game_mode || 'standard';
   if (gameMode === 'inverted') {
     // In inverted mode, need Moon Pearl to access light world safely
     return has(snapshot, staticData, 'Moon Pearl');
@@ -903,8 +903,8 @@ export function can_reach_light_world(snapshot, staticData, itemName) {
 }
 
 export function can_reach_dark_world(snapshot, staticData, itemName) {
-  // Check if dark world is accessible  
-  const gameMode = snapshot.settings?.mode || snapshot.settings?.game_mode || 'standard';
+  // Check if dark world is accessible
+  const gameMode = staticData.settings?.['1']?.mode || staticData.settings?.['1']?.game_mode || 'standard';
   if (gameMode === 'inverted') {
     return true; // Always accessible in inverted mode
   } else {
@@ -917,13 +917,13 @@ export function can_reach_dark_world(snapshot, staticData, itemName) {
 
 export function open_mode(snapshot, staticData, itemName) {
   // Check if this is open mode (affects certain accessibility rules)
-  return snapshot.settings?.mode === 'open' || 
-         snapshot.settings?.open_pyramid === true;
+  return staticData.settings?.['1']?.mode === 'open' ||
+         staticData.settings?.['1']?.open_pyramid === true;
 }
 
 export function swordless_mode(snapshot, staticData, itemName) {
   // Check if this is swordless mode
-  return snapshot.settings?.swordless === true ||
+  return staticData.settings?.['1']?.swordless === true ||
          (snapshot.flags && snapshot.flags.includes('swordless'));
 }
 

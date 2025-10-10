@@ -233,8 +233,7 @@ def prepare_export_data(multiworld) -> Dict[str, Any]:
         "archipelago_version": Utils.__version__,
         "generation_seed": multiworld.seed,
         "player_names": getattr(multiworld, 'player_name', {}), # Player ID -> Name mapping (default to {} if missing)
-        "plando_options": [option.name for option in multiworld.plando_options], # Active plando options
-        "world_classes": {player: multiworld.worlds[player].__class__.__name__ 
+        "world_classes": {player: multiworld.worlds[player].__class__.__name__
                            for player in multiworld.player_ids}, # Player ID -> World Class Name mapping
         'regions': {},  # Full region graph
         'items': {},    # Item data by player
@@ -613,7 +612,6 @@ def process_regions(multiworld, player: int, game_handler=None) -> tuple:
             try:
                 region_data = {
                     'name': getattr(region, 'name', 'Unknown'),
-                    'type': extract_type_value(getattr(region, 'type', 'Region')),
                     'entrances': [],
                     'exits': [],
                     'locations': []
@@ -791,7 +789,6 @@ def process_regions(multiworld, player: int, game_handler=None) -> tuple:
                                     'name': item_name,
                                     'player': getattr(location.item, 'player', None),
                                     'advancement': getattr(location.item, 'advancement', False),
-                                    'priority': getattr(location.item, 'priority', None),
                                     'type': effective_type
                                 }
                             
@@ -838,7 +835,7 @@ def process_items(multiworld, player: int, itempool_counts: Dict[str, int]) -> D
                 'name': item_name,
                 'id': item_id,
                 'groups': [],
-                'advancement': False, 'priority': False, 'useful': False, 'trap': False, 'event': False,
+                'advancement': False, 'useful': False, 'trap': False, 'event': False,
                 'type': None, 'max_count': 1
             }
         else:
@@ -873,8 +870,6 @@ def process_items(multiworld, player: int, itempool_counts: Dict[str, int]) -> D
             # Only update flags if they are still default (False)
             if not item_data.get('advancement'):
                 item_data['advancement'] = getattr(location.item, 'advancement', False)
-            if not item_data.get('priority'):
-                item_data['priority'] = getattr(location.item, 'priority', False)
             if not item_data.get('useful'):
                  item_data['useful'] = getattr(location.item, 'useful', False)
             if not item_data.get('trap'):
@@ -889,8 +884,6 @@ def process_items(multiworld, player: int, itempool_counts: Dict[str, int]) -> D
                 # Only update flags if they are still default (False)
                 if not item_data.get('advancement'):
                     item_data['advancement'] = getattr(item, 'advancement', False)
-                if not item_data.get('priority'):
-                    item_data['priority'] = getattr(item, 'priority', False)
                 if not item_data.get('useful'):
                     item_data['useful'] = getattr(item, 'useful', False)
                 if not item_data.get('trap'):
@@ -1072,7 +1065,6 @@ def export_game_rules(multiworld, output_dir: str, filename_base: str, save_pres
         'generation_seed',
         'player_names',
         'world_classes',
-        'plando_options',
         'regions',
         'dungeons',
         'start_regions',

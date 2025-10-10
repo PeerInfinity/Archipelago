@@ -10,17 +10,10 @@
   "world_classes": {
     "1": "ShortHikeWorld"
   },
-  "plando_options": [
-    "connections",
-    "texts",
-    "bosses"
-  ],
   "regions": {
     "1": {
       "Menu": {
         "name": "Menu",
-        "type": "Region",
-        "player": 1,
         "entrances": [],
         "exits": [
           {
@@ -29,32 +22,18 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Hawk Peak": {
         "name": "Hawk Peak",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Menu -> Hawk Peak",
             "parent_region": "Menu",
-            "connected_region": "Hawk Peak",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Hawk Peak"
           }
         ],
         "exits": [],
@@ -62,464 +41,342 @@
           {
             "name": "Start Beach Seashell",
             "id": 83001,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "13 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Beach Hut Seashell",
             "id": 83002,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Beach Umbrella Seashell",
             "id": 83003,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Sid Beach Mound Seashell",
             "id": 83004,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "13 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Sid Beach Seashell",
             "id": 83005,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shirley's Point Beach Seashell",
             "id": 83006,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "13 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shirley's Point Rock Seashell",
             "id": 83007,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Pickaxe",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Visitor's Center Beach Seashell",
             "id": 83008,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Golden Feather",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "West River Seashell",
             "id": 83009,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "13 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "West Riverbank Seashell",
             "id": 83010,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "13 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Stone Tower Riverbank Seashell",
             "id": 83011,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "13 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "North Beach Seashell",
             "id": 83012,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "13 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "North Coast Seashell",
             "id": 83013,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "The King Map",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Boat Cliff Seashell",
             "id": 83014,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "33 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Boat Isle Mound Seashell",
             "id": 83015,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fishing Journal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "East Coast Seashell",
             "id": 83016,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Silver Feather",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "House North Beach Seashell",
             "id": 83017,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Airstream Island North Seashell",
             "id": 83018,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "27 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Airstream Island South Seashell",
             "id": 83019,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "25 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Secret Island Beach Seashell",
             "id": 83020,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "25 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Meteor Lake Seashell",
             "id": 83126,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Golden Feather",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Good Creek Path Seashell",
             "id": 83127,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "33 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Visitor's Center Shop Golden Feather 1",
             "id": 83021,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "In Her Shadow Map",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Visitor's Center Shop Golden Feather 2",
             "id": 83022,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Provincial Park Hat",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Visitor's Center Shop Hat",
             "id": 83023,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -527,21 +384,16 @@
                 "value": "Progressive Fishing Rod"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tough Bird Salesman Golden Feather 1",
             "id": 83024,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -549,21 +401,16 @@
                 "value": "Progressive Fishing Rod"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tough Bird Salesman Golden Feather 2",
             "id": 83025,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -571,21 +418,16 @@
                 "value": "Progressive Fishing Rod"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Stick",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tough Bird Salesman Golden Feather 3",
             "id": 83026,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -593,21 +435,16 @@
                 "value": "Progressive Fishing Rod"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sunhat",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tough Bird Salesman Golden Feather 4",
             "id": 83027,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -615,21 +452,16 @@
                 "value": "Progressive Fishing Rod"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Golden Feather",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tough Bird Salesman (400 Coins)",
             "id": 83028,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -637,21 +469,16 @@
                 "value": "Progressive Fishing Rod"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Medal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Beachstickball (10 Hits)",
             "id": 83029,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -659,21 +486,16 @@
                 "value": "Stick"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Stick",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Beachstickball (20 Hits)",
             "id": 83030,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -681,21 +503,16 @@
                 "value": "Stick"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Beachstickball (30 Hits)",
             "id": 83031,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -703,21 +520,16 @@
                 "value": "Stick"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shovel Kid Trade",
             "id": 83032,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -725,97 +537,72 @@
                 "value": "Toy Shovel"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Pickaxe",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Compass Guy",
             "id": 83033,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Shovel",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Hawk Peak Bucket Rock",
             "id": 83034,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "33 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Orange Islands Bucket Rock",
             "id": 83035,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "33 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Bill the Walrus Fisherman",
             "id": 83036,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Golden Feather",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Catch 3 Fish Reward",
             "id": 83037,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -823,21 +610,16 @@
                 "value": "Progressive Fishing Rod"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "25 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Catch All Fish Reward",
             "id": 83038,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -865,40 +647,30 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Permit Guy Bribe",
             "id": 83039,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Catch Fish with Permit",
             "id": 83129,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -906,21 +678,16 @@
                 "value": "Progressive Fishing Rod"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Return Camping Permit",
             "id": 83130,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -928,325 +695,240 @@
                 "value": "Camping Permit"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive Fishing Rod",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Blocked Mine Pickaxe 1",
             "id": 83040,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Golden Feather",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Blocked Mine Pickaxe 2",
             "id": 83041,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Blocked Mine Pickaxe 3",
             "id": 83042,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Golden Feather",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Blackwood Trail Lookout Toy Shovel",
             "id": 83043,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Shell Necklace",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shirley's Point Beach Toy Shovel",
             "id": 83044,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Golden Feather",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Visitor's Center Beach Toy Shovel",
             "id": 83045,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Running Shoes",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Blackwood Trail Rock Toy Shovel",
             "id": 83046,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Golden Feather",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Beach Hut Cliff Toy Shovel",
             "id": 83128,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive Fishing Rod",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Secret Island Beach Trail Stick",
             "id": 83047,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Below Lighthouse Walkway Stick",
             "id": 83048,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "13 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Beach Hut Rocky Pool Sand Stick",
             "id": 83049,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Cliff Overlooking West River Waterfall Stick",
             "id": 83050,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Toy Shovel",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Trail to Tough Bird Salesman Stick",
             "id": 83051,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Golden Feather",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "North Beach Stick",
             "id": 83052,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Golden Feather",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Beachstickball Court Stick",
             "id": 83053,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Baseball Cap",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Stick Under Sid Beach Umbrella",
             "id": 83054,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Golden Feather",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Boat Rental",
             "id": 83055,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1254,21 +936,16 @@
                 "value": "Progressive Fishing Rod"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Stick",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Boat Challenge Reward",
             "id": 83056,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1276,40 +953,30 @@
                 "value": "Motorboat Key"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bucket",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Outlook Point Dog Gift",
             "id": 83057,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Toy Shovel",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Collect 15 Seashells",
             "id": 83058,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1321,21 +988,16 @@
                 "value": 15
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "15 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Return to Shell Kid",
             "id": 83132,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1359,40 +1021,30 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Golden Feather",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Taylor the Turtle Headband Gift",
             "id": 83059,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Compass",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Sue the Rabbit Shoes Reward",
             "id": 83060,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1400,21 +1052,16 @@
                 "value": "Headband"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Golden Feather",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Purchase Sunhat",
             "id": 83061,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1422,40 +1069,30 @@
                 "value": "Progressive Fishing Rod"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bucket",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Blackwood Forest Golden Feather",
             "id": 83062,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "25 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ranger May Shell Necklace Golden Feather",
             "id": 83063,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1463,21 +1100,16 @@
                 "value": "Shell Necklace"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "13 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Sand Castle Golden Feather",
             "id": 83064,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1485,97 +1117,72 @@
                 "value": "Toy Shovel"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Camping Permit",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Artist Golden Feather",
             "id": 83065,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Golden Feather",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Visitor Camp Rock Golden Feather",
             "id": 83066,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "13 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Outlook Cliff Golden Feather",
             "id": 83067,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Silver Feather",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Meteor Lake Cliff Golden Feather",
             "id": 83068,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "32 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Secret Island Peak",
             "id": 83069,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1587,21 +1194,16 @@
                 "value": 5
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Pickaxe",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Wristwatch Trade",
             "id": 83070,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1609,21 +1211,16 @@
                 "value": "Wristwatch"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Stick",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Lighthouse Golden Chest",
             "id": 83071,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -1663,59 +1260,44 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "33 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Outlook Golden Chest",
             "id": 83072,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Golden Feather",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Stone Tower Golden Chest",
             "id": 83073,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "50 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "North Cliff Golden Chest",
             "id": 83074,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1727,78 +1309,58 @@
                 "value": 3
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "25 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Blackwood Cliff Chest",
             "id": 83075,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Walkie Talkie",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "White Coast Trail Chest",
             "id": 83076,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Sid Beach Chest",
             "id": 83077,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "13 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Sid Beach Buried Treasure Chest",
             "id": 83078,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1806,40 +1368,30 @@
                 "value": "Shovel"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Medal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Sid Beach Cliff Chest",
             "id": 83079,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "13 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Visitor's Center Buried Chest",
             "id": 83080,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1847,40 +1399,30 @@
                 "value": "Shovel"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Visitor's Center Hidden Chest",
             "id": 83081,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Motorboat Key",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shirley's Point Chest",
             "id": 83082,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1892,59 +1434,44 @@
                 "value": 1
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Caravan Cliff Chest",
             "id": 83083,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "13 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Caravan Arch Chest",
             "id": 83084,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "A Stormy View Map",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "King Buried Treasure Chest",
             "id": 83085,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1952,21 +1479,16 @@
                 "value": "Shovel"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Toy Shovel",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Good Creek Path Buried Chest",
             "id": 83086,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1974,116 +1496,86 @@
                 "value": "Shovel"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "13 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Good Creek Path West Chest",
             "id": 83087,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Golden Feather",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Good Creek Path East Chest",
             "id": 83088,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "West Waterfall Chest",
             "id": 83089,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Golden Feather",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Stone Tower West Cliff Chest",
             "id": 83090,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Stick",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Bucket Path Chest",
             "id": 83091,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "13 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Bucket Cliff Chest",
             "id": 83092,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2095,21 +1587,16 @@
                 "value": 3
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "21 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "In Her Shadow Buried Treasure Chest",
             "id": 83093,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2117,21 +1604,16 @@
                 "value": "Shovel"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Meteor Lake Buried Chest",
             "id": 83094,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2139,211 +1621,156 @@
                 "value": "Shovel"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bait",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Meteor Lake Chest",
             "id": 83095,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "13 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "House North Beach Chest",
             "id": 83096,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Medal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "East Coast Chest",
             "id": 83097,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Stick",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Fisherman's Boat Chest 1",
             "id": 83099,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Headband",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Fisherman's Boat Chest 2",
             "id": 83100,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Airstream Island Chest",
             "id": 83101,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "18 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "West River Waterfall Head Chest",
             "id": 83102,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "13 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Old Building Chest",
             "id": 83103,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "13 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Old Building West Chest",
             "id": 83104,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "The Treasure of Sid Beach Map",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Old Building East Chest",
             "id": 83105,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Toy Shovel",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Hawk Peak West Chest",
             "id": 83106,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2355,21 +1782,16 @@
                 "value": 3
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "13 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Hawk Peak East Buried Chest",
             "id": 83107,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2393,21 +1815,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Stick",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Hawk Peak Northeast Chest",
             "id": 83108,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2419,59 +1836,44 @@
                 "value": 3
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Golden Feather",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Northern East Coast Chest",
             "id": 83109,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Toy Shovel",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "North Coast Chest",
             "id": 83110,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "33 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "North Coast Buried Chest",
             "id": 83111,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2479,21 +1881,16 @@
                 "value": "Shovel"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "25 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Small South Island Buried Chest",
             "id": 83112,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2501,40 +1898,30 @@
                 "value": "Shovel"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "25 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Secret Island Bottom Chest",
             "id": 83113,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "7 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Secret Island Treehouse Chest",
             "id": 83114,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2546,21 +1933,16 @@
                 "value": 1
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Sunhat Island Buried Chest",
             "id": 83115,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2568,21 +1950,16 @@
                 "value": "Shovel"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Golden Feather",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Orange Islands South Buried Chest",
             "id": 83116,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2590,40 +1967,30 @@
                 "value": "Shovel"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "13 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Orange Islands West Chest",
             "id": 83117,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "13 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Orange Islands North Buried Chest",
             "id": 83118,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2675,59 +2042,44 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wristwatch",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Orange Islands East Chest",
             "id": 83119,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Orange Islands South Hidden Chest",
             "id": 83120,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Golden Feather",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "A Stormy View Buried Treasure Chest",
             "id": 83121,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2735,21 +2087,16 @@
                 "value": "Shovel"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "7 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Orange Islands Ruins Buried Chest",
             "id": 83122,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2801,21 +2148,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Seashell",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Lighthouse Race Reward",
             "id": 83123,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -2855,21 +2197,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "7 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Old Building Race Reward",
             "id": 83124,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -2909,21 +2246,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "21 Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Hawk Peak Race Reward",
             "id": 83125,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2935,39 +2267,28 @@
                 "value": 7
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Stick",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Lose Race Gift",
             "id": 83131,
-            "region": "Hawk Peak",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bait",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       }
     }
   },
@@ -2989,7 +2310,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3001,7 +2321,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3013,7 +2332,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3025,7 +2343,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3037,7 +2354,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3049,7 +2365,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3061,7 +2376,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3073,7 +2387,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3085,7 +2398,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3097,7 +2409,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3109,7 +2420,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3121,7 +2431,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3133,7 +2442,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false
       },
@@ -3145,7 +2453,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false
       },
@@ -3157,7 +2464,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false
       },
@@ -3169,7 +2475,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false
       },
@@ -3181,7 +2486,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false
       },
@@ -3193,7 +2497,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false
       },
@@ -3206,7 +2509,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false
       },
@@ -3219,7 +2521,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false
       },
@@ -3232,7 +2533,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false
       },
@@ -3244,7 +2544,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3256,7 +2555,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3269,7 +2567,6 @@
           "Maps"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3282,7 +2579,6 @@
           "Maps"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3295,7 +2591,6 @@
           "Maps"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3308,7 +2603,6 @@
           "Maps"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3320,7 +2614,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3332,7 +2625,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3344,7 +2636,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3357,7 +2648,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3370,7 +2660,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3383,7 +2672,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3396,7 +2684,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3409,7 +2696,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3422,7 +2708,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false
       },
@@ -3435,7 +2720,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false
       }

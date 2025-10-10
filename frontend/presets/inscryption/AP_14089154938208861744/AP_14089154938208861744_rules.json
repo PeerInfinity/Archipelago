@@ -10,17 +10,10 @@
   "world_classes": {
     "1": "InscryptionWorld"
   },
-  "plando_options": [
-    "connections",
-    "texts",
-    "bosses"
-  ],
   "regions": {
     "1": {
       "Menu": {
         "name": "Menu",
-        "type": "Region",
-        "player": 1,
         "entrances": [],
         "exits": [
           {
@@ -29,11 +22,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Menu -> Act 2",
@@ -44,11 +33,7 @@
                 "type": "constant",
                 "value": "Film Roll"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Menu -> Act 3",
@@ -77,11 +62,7 @@
                   "args": []
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Menu -> Epilogue",
@@ -100,32 +81,18 @@
                   "args": []
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Act 1": {
         "name": "Act 1",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Menu -> Act 1",
             "parent_region": "Menu",
-            "connected_region": "Act 1",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Act 1"
           }
         ],
         "exits": [],
@@ -133,103 +100,76 @@
           {
             "name": "Act 1 - Boss Prospector",
             "id": 147000,
-            "region": "Act 1",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 1 - Boss Angler",
             "id": 147001,
-            "region": "Act 1",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 1 - Boss Trapper",
             "id": 147002,
-            "region": "Act 1",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 1 - Boss Leshy",
             "id": 147003,
-            "region": "Act 1",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 1 - Safe",
             "id": 147004,
-            "region": "Act 1",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 1 - Clock Main Compartment",
             "id": 147005,
-            "region": "Act 1",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -237,40 +177,30 @@
                 "value": "Magnificus Eye"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Holo Pelt",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 1 - Clock Upper Compartment",
             "id": 147006,
-            "region": "Act 1",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Film Roll",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 1 - Dagger",
             "id": 147007,
-            "region": "Act 1",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -278,21 +208,16 @@
                 "value": "Caged Wolf Card"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Salmon Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 1 - Wardrobe Drawer 1",
             "id": 147008,
-            "region": "Act 1",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -300,21 +225,16 @@
                 "value": "Wardrobe Key"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 1 - Wardrobe Drawer 2",
             "id": 147009,
-            "region": "Act 1",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -322,21 +242,16 @@
                 "value": "Wardrobe Key"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 1 - Wardrobe Drawer 3",
             "id": 147010,
-            "region": "Act 1",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -344,21 +259,16 @@
                 "value": "Wardrobe Key"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 1 - Wardrobe Drawer 4",
             "id": 147011,
-            "region": "Act 1",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -366,21 +276,16 @@
                 "value": "Wardrobe Key"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Monocle",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 1 - Magnificus Eye",
             "id": 147012,
-            "region": "Act 1",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -388,40 +293,30 @@
                 "value": "Dagger"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 1 - Painting 1",
             "id": 147013,
-            "region": "Act 1",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Epitaph Piece",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 1 - Painting 2",
             "id": 147014,
-            "region": "Act 1",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "has_all",
@@ -435,21 +330,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Caged Wolf Card",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 1 - Painting 3",
             "id": 147015,
-            "region": "Act 1",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "has_all",
@@ -463,54 +353,36 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bone Lord Horn",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 1 - Greater Smoke",
             "id": 147016,
-            "region": "Act 1",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Mrs. Bomb's Remote",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Act 2": {
         "name": "Act 2",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Menu -> Act 2",
             "parent_region": "Menu",
-            "connected_region": "Act 2",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Act 2"
           }
         ],
         "exits": [],
@@ -518,8 +390,6 @@
           {
             "name": "Act 2 - Boss Leshy",
             "id": 147017,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "has_all",
@@ -533,21 +403,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Boss Magnificus",
             "id": 147018,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -563,21 +428,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Boss Grimora",
             "id": 147019,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -589,21 +449,16 @@
                 "value": 9
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bone Lord Holo Key",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Boss P03",
             "id": 147020,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -619,21 +474,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Epitaph Piece",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Battle Prospector",
             "id": 147021,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "has_all",
@@ -647,21 +497,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Battle Angler",
             "id": 147022,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "has_all",
@@ -675,21 +520,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Battle Trapper",
             "id": 147023,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "has_all",
@@ -703,78 +543,58 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Battle Sawyer",
             "id": 147024,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Battle Royal",
             "id": 147025,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Battle Kaycee",
             "id": 147026,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Battle Goobert",
             "id": 147027,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -790,21 +610,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Magnificus Eye",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Battle Pike Mage",
             "id": 147028,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -820,21 +635,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Epitaph Piece",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Battle Lonely Wizard",
             "id": 147029,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -850,21 +660,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Epitaph Piece",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Battle Inspector",
             "id": 147030,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -880,21 +685,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Greater Smoke",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Battle Melter",
             "id": 147031,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -910,21 +710,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Holo Pelt",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Battle Dredger",
             "id": 147032,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -940,59 +735,44 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Stunted Wolf Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Dock Chest",
             "id": 147033,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Pile Of Meat",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Forest Cabin Chest",
             "id": 147034,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Forest Meadow Chest",
             "id": 147035,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "has_all",
@@ -1006,116 +786,86 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Cabin Wardrobe Drawer",
             "id": 147036,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Epitaph Piece",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Cabin Safe",
             "id": 147037,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Lonely Wizbot Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Crypt Casket 1",
             "id": 147038,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Crypt Casket 2",
             "id": 147039,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Holo Pelt",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Crypt Well",
             "id": 147040,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Tower Chest 1",
             "id": 147041,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -1131,21 +881,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Epitaph Piece",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Tower Chest 2",
             "id": 147042,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1161,21 +906,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Tower Chest 3",
             "id": 147043,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1191,21 +931,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Holo Pelt",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Tentacle",
             "id": 147044,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1221,21 +956,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Great Kraken Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Factory Trash Can",
             "id": 147045,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -1251,21 +981,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Factory Drawer 1",
             "id": 147046,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -1281,21 +1006,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Gems Module",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Factory Drawer 2",
             "id": 147047,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -1311,21 +1031,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wardrobe Key",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Factory Chest 1",
             "id": 147048,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -1341,21 +1056,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Factory Chest 2",
             "id": 147049,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -1371,21 +1081,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Factory Chest 3",
             "id": 147050,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -1401,21 +1106,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Factory Chest 4",
             "id": 147051,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -1431,21 +1131,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Ancient Obol",
             "id": 147052,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1461,21 +1156,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Epitaph Piece",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Bone Lord Femur",
             "id": 147053,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1483,21 +1173,16 @@
                 "value": "Ancient Obol"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Camera Replica",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Bone Lord Horn",
             "id": 147054,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1505,21 +1190,16 @@
                 "value": "Ancient Obol"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Bone Lord Holo Key",
             "id": 147055,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1527,21 +1207,16 @@
                 "value": "Ancient Obol"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Extra Candle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Mycologists Holo Key",
             "id": 147056,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1557,59 +1232,44 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Camera Replica",
             "id": 147057,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Ancient Obol",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Clover",
             "id": 147058,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Monocle",
             "id": 147059,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -1625,206 +1285,148 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Epitaph Piece 1",
             "id": 147060,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Epitaph Piece",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Epitaph Piece 2",
             "id": 147061,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Drowned Soul Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Epitaph Piece 3",
             "id": 147062,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Skink Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Epitaph Piece 4",
             "id": 147063,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Epitaph Piece 5",
             "id": 147064,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Epitaph Piece 6",
             "id": 147065,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Oil Painting's Clover Plant",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Epitaph Piece 7",
             "id": 147066,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Ourobot Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Epitaph Piece 8",
             "id": 147067,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Epitaph Piece",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 2 - Epitaph Piece 9",
             "id": 147068,
-            "region": "Act 2",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Act 3": {
         "name": "Act 3",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Menu -> Act 3",
             "parent_region": "Menu",
-            "connected_region": "Act 3",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Act 3"
           }
         ],
         "exits": [],
@@ -1832,8 +1434,6 @@
           {
             "name": "Act 3 - Boss Photographer",
             "id": 147069,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1841,21 +1441,16 @@
                 "value": "Inspectometer Battery"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Holo Pelt",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Boss Archivist",
             "id": 147070,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1873,21 +1468,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bone Lord Femur",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Boss Unfinished",
             "id": 147071,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1905,21 +1495,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Boss G0lly",
             "id": 147072,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1937,21 +1522,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Boss Mycologists",
             "id": 147073,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1969,21 +1549,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Bone Lord Room",
             "id": 147074,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2001,21 +1576,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Shop Holo Pelt",
             "id": 147075,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2033,21 +1603,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Middle Holo Pelt",
             "id": 147076,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2055,21 +1620,16 @@
                 "value": "Inspectometer Battery"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Dock's Clover Plant",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Forest Holo Pelt",
             "id": 147077,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2077,21 +1637,16 @@
                 "value": "Inspectometer Battery"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Stinkbug Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Crypt Holo Pelt",
             "id": 147078,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2099,21 +1654,16 @@
                 "value": "Inspectometer Battery"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Tower Holo Pelt",
             "id": 147079,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2131,21 +1681,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Ant Cards",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Trader 1",
             "id": 147080,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2167,21 +1712,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Trader 2",
             "id": 147081,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2203,21 +1743,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Trader 3",
             "id": 147082,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2239,21 +1774,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fishbot Card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Trader 4",
             "id": 147083,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2275,21 +1805,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Trader 5",
             "id": 147084,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2311,59 +1836,44 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Quill",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Drawer 1",
             "id": 147085,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Inspectometer Battery",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Drawer 2",
             "id": 147086,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Ring",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Clock",
             "id": 147087,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2381,21 +1891,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Extra Battery",
             "id": 147088,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2403,21 +1908,16 @@
                 "value": "Inspectometer Battery"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Nano Armor Generator",
             "id": 147089,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2435,40 +1935,30 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Chest",
             "id": 147090,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Goobert's Painting",
             "id": 147091,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2486,21 +1976,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Currency",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Luke's File Entry 1",
             "id": 147092,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2518,21 +2003,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Dagger",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Luke's File Entry 2",
             "id": 147093,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2550,21 +2030,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Extra Battery",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Luke's File Entry 3",
             "id": 147094,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2582,21 +2057,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Card Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Luke's File Entry 4",
             "id": 147095,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2614,40 +2084,30 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Angler Hook",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Inspectometer Battery",
             "id": 147096,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bee Figurine",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Gems Drone",
             "id": 147097,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2655,21 +2115,16 @@
                 "value": "Inspectometer Battery"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Squirrel Totem Head",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - The Great Transcendence",
             "id": 147098,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2687,21 +2142,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Mycologists Holo Key",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Act 3 - Well",
             "id": 147099,
-            "region": "Act 3",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2709,42 +2159,26 @@
                 "value": "Inspectometer Battery"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Nano Armor Generator",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Epilogue": {
         "name": "Epilogue",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Menu -> Epilogue",
             "parent_region": "Menu",
-            "connected_region": "Epilogue",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Epilogue"
           }
         ],
         "exits": [],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       }
     }
   },
@@ -2765,7 +2199,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2779,7 +2212,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2793,7 +2225,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2807,7 +2238,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2821,7 +2251,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2835,7 +2264,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2849,7 +2277,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2863,7 +2290,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2877,7 +2303,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2891,7 +2316,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2905,7 +2329,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2919,7 +2342,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2933,7 +2355,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2947,7 +2368,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2961,7 +2381,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2975,7 +2394,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -2989,7 +2407,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3003,7 +2420,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3017,7 +2433,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3031,7 +2446,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3045,7 +2459,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3059,7 +2472,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3073,7 +2485,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3087,7 +2498,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3101,7 +2511,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3115,7 +2524,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3129,7 +2537,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3143,7 +2550,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3157,7 +2563,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3171,7 +2576,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3185,7 +2589,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3199,7 +2602,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3213,7 +2615,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3227,7 +2628,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3241,7 +2641,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3255,7 +2654,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3269,7 +2667,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3283,7 +2680,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3297,7 +2693,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3311,7 +2706,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3325,7 +2719,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3339,7 +2732,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,

@@ -144,7 +144,6 @@ class MetamathGameExportHandler(BaseGameExportHandler):
                         'name': item_name,
                         'groups': ['Statements'],
                         'advancement': True,
-                        'priority': False,
                         'useful': False,
                         'trap': False,
                         'event': False,

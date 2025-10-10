@@ -10,17 +10,10 @@
   "world_classes": {
     "1": "WebDevJourneyWorld"
   },
-  "plando_options": [
-    "connections",
-    "texts",
-    "bosses"
-  ],
   "regions": {
     "1": {
       "Menu": {
         "name": "Menu",
-        "type": "Region",
-        "player": 1,
         "entrances": [],
         "exits": [
           {
@@ -29,32 +22,18 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "LearningHub": {
         "name": "LearningHub",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "StartLearning",
             "parent_region": "Menu",
-            "connected_region": "LearningHub",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "LearningHub"
           }
         ],
         "exits": [
@@ -64,11 +43,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToLogicPath",
@@ -76,11 +51,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToServerPath",
@@ -88,11 +59,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToToolsPath",
@@ -100,11 +67,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToStaticWebsite",
@@ -153,32 +116,18 @@
                   ]
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "VisualPath": {
         "name": "VisualPath",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToVisualPath",
             "parent_region": "LearningHub",
-            "connected_region": "VisualPath",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "VisualPath"
           }
         ],
         "exits": [],
@@ -186,25 +135,20 @@
           {
             "name": "Learn HTML",
             "id": 400000001,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Package Managers",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Learn CSS",
             "id": 400000002,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -212,20 +156,16 @@
                 "value": "HTML"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Vue",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Learn Design Systems",
             "id": 400000003,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -233,35 +173,22 @@
                 "value": "CSS"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "State Management",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "LogicPath": {
         "name": "LogicPath",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToLogicPath",
             "parent_region": "LearningHub",
-            "connected_region": "LogicPath",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "LogicPath"
           }
         ],
         "exits": [],
@@ -269,25 +196,20 @@
           {
             "name": "Learn JavaScript",
             "id": 400000004,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "CSS",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Learn DOM Manipulation",
             "id": 400000005,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -295,20 +217,16 @@
                 "value": "JavaScript Basics"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Django",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Learn Algorithms",
             "id": 400000006,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -316,35 +234,22 @@
                 "value": "JavaScript Basics"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "JWT",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "ServerPath": {
         "name": "ServerPath",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToServerPath",
             "parent_region": "LearningHub",
-            "connected_region": "ServerPath",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "ServerPath"
           }
         ],
         "exits": [],
@@ -352,25 +257,20 @@
           {
             "name": "Choose Server Language",
             "id": 400000007,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Git",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Learn File I/O",
             "id": 400000008,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -378,20 +278,16 @@
                 "value": "Server Basics"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "State Management",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Learn HTTP Basics",
             "id": 400000009,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -399,35 +295,22 @@
                 "value": "Server Basics"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Express",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "ToolsPath": {
         "name": "ToolsPath",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToToolsPath",
             "parent_region": "LearningHub",
-            "connected_region": "ToolsPath",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "ToolsPath"
           }
         ],
         "exits": [],
@@ -435,43 +318,34 @@
           {
             "name": "Learn Git",
             "id": 400000010,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Interactive App Complete",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Learn Command Line",
             "id": 400000011,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HTML",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Learn Package Managers",
             "id": 400000012,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -479,35 +353,22 @@
                 "value": "Command Line"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Cloud Provider",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "StaticWebsiteHub": {
         "name": "StaticWebsiteHub",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToStaticWebsite",
             "parent_region": "LearningHub",
-            "connected_region": "StaticWebsiteHub",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "StaticWebsiteHub"
           }
         ],
         "exits": [
@@ -517,11 +378,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToBackendTrack",
@@ -529,11 +386,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToDesignTrack",
@@ -541,11 +394,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToDataTrack",
@@ -553,11 +402,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToInteractiveApp",
@@ -604,51 +449,33 @@
                   ]
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Static Website Milestone",
             "id": 400000013,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Performance",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "FrontendTrack": {
         "name": "FrontendTrack",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToFrontendTrack",
             "parent_region": "StaticWebsiteHub",
-            "connected_region": "FrontendTrack",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "FrontendTrack"
           }
         ],
         "exits": [
@@ -661,11 +488,7 @@
                 "type": "constant",
                 "value": "DOM Manipulation"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToVueRoute",
@@ -673,11 +496,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToVanillaRoute",
@@ -688,32 +507,18 @@
                 "type": "constant",
                 "value": "Algorithms"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "ReactRoute": {
         "name": "ReactRoute",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToReactRoute",
             "parent_region": "FrontendTrack",
-            "connected_region": "ReactRoute",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "ReactRoute"
           }
         ],
         "exits": [],
@@ -721,25 +526,20 @@
           {
             "name": "Learn React",
             "id": 400000014,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HTTP Basics",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "React Components",
             "id": 400000015,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -747,20 +547,16 @@
                 "value": "React"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Testing",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Redux",
             "id": 400000016,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -768,35 +564,22 @@
                 "value": "Frontend Framework"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Database Basics",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "VueRoute": {
         "name": "VueRoute",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToVueRoute",
             "parent_region": "FrontendTrack",
-            "connected_region": "VueRoute",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "VueRoute"
           }
         ],
         "exits": [],
@@ -804,25 +587,20 @@
           {
             "name": "Learn Vue",
             "id": 400000017,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Database Basics",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Vue Components",
             "id": 400000018,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -830,20 +608,16 @@
                 "value": "Vue"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "DevOps",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Vuex",
             "id": 400000019,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -851,35 +625,22 @@
                 "value": "Frontend Framework"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Authentication",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "VanillaRoute": {
         "name": "VanillaRoute",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToVanillaRoute",
             "parent_region": "FrontendTrack",
-            "connected_region": "VanillaRoute",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "VanillaRoute"
           }
         ],
         "exits": [],
@@ -887,25 +648,20 @@
           {
             "name": "Advanced Vanilla JS",
             "id": 400000020,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "NoSQL",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Custom State System",
             "id": 400000021,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -913,35 +669,22 @@
                 "value": "Frontend Framework"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "DOM Manipulation",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "BackendTrack": {
         "name": "BackendTrack",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToBackendTrack",
             "parent_region": "StaticWebsiteHub",
-            "connected_region": "BackendTrack",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "BackendTrack"
           }
         ],
         "exits": [
@@ -954,11 +697,7 @@
                 "type": "constant",
                 "value": "JavaScript Basics"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToDjangoRoute",
@@ -969,11 +708,7 @@
                 "type": "constant",
                 "value": "Server Basics"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToFlaskRoute",
@@ -984,32 +719,18 @@
                 "type": "constant",
                 "value": "Server Basics"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "ExpressRoute": {
         "name": "ExpressRoute",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToExpressRoute",
             "parent_region": "BackendTrack",
-            "connected_region": "ExpressRoute",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "ExpressRoute"
           }
         ],
         "exits": [],
@@ -1017,25 +738,20 @@
           {
             "name": "Learn Express",
             "id": 400000022,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Query Optimization",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Build REST APIs",
             "id": 400000023,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1043,20 +759,16 @@
                 "value": "Express"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Frontend Framework",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "MongoDB Integration",
             "id": 400000024,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1064,35 +776,22 @@
                 "value": "REST APIs"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Frontend Framework",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "DjangoRoute": {
         "name": "DjangoRoute",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToDjangoRoute",
             "parent_region": "BackendTrack",
-            "connected_region": "DjangoRoute",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "DjangoRoute"
           }
         ],
         "exits": [],
@@ -1100,25 +799,20 @@
           {
             "name": "Learn Django",
             "id": 400000025,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Design Systems",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Django REST Framework",
             "id": 400000026,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1126,20 +820,16 @@
                 "value": "Django"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Flask",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Django ORM",
             "id": 400000027,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1147,35 +837,22 @@
                 "value": "REST APIs"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "UI/UX",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "FlaskRoute": {
         "name": "FlaskRoute",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToFlaskRoute",
             "parent_region": "BackendTrack",
-            "connected_region": "FlaskRoute",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "FlaskRoute"
           }
         ],
         "exits": [],
@@ -1183,25 +860,20 @@
           {
             "name": "Learn Flask",
             "id": 400000028,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "JavaScript Basics",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Flask-RESTful",
             "id": 400000029,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1209,20 +881,16 @@
                 "value": "Flask"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "SQL",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "SQLAlchemy",
             "id": 400000030,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1230,35 +898,22 @@
                 "value": "REST APIs"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Integration Tests",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "DesignTrack": {
         "name": "DesignTrack",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToDesignTrack",
             "parent_region": "StaticWebsiteHub",
-            "connected_region": "DesignTrack",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "DesignTrack"
           }
         ],
         "exits": [],
@@ -1266,7 +921,6 @@
           {
             "name": "UI/UX Principles",
             "id": 400000031,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1274,20 +928,16 @@
                 "value": "Design Systems"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "CDN",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Responsive Design",
             "id": 400000032,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1295,20 +945,16 @@
                 "value": "UI/UX"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Caching",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Accessibility",
             "id": 400000033,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1316,35 +962,22 @@
                 "value": "Responsive Design"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sessions",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "DataTrack": {
         "name": "DataTrack",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToDataTrack",
             "parent_region": "StaticWebsiteHub",
-            "connected_region": "DataTrack",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "DataTrack"
           }
         ],
         "exits": [
@@ -1354,11 +987,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToNoSQLRoute",
@@ -1366,32 +995,18 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "SQLRoute": {
         "name": "SQLRoute",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToSQLRoute",
             "parent_region": "DataTrack",
-            "connected_region": "SQLRoute",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "SQLRoute"
           }
         ],
         "exits": [],
@@ -1399,25 +1014,20 @@
           {
             "name": "Learn SQL",
             "id": 400000034,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Domain",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "PostgreSQL",
             "id": 400000035,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1425,20 +1035,16 @@
                 "value": "SQL"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "React",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Query Optimization",
             "id": 400000036,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1446,35 +1052,22 @@
                 "value": "Database Basics"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "File I/O",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "NoSQLRoute": {
         "name": "NoSQLRoute",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToNoSQLRoute",
             "parent_region": "DataTrack",
-            "connected_region": "NoSQLRoute",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "NoSQLRoute"
           }
         ],
         "exits": [],
@@ -1482,25 +1075,20 @@
           {
             "name": "Learn NoSQL",
             "id": 400000037,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Database Integration",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "MongoDB",
             "id": 400000038,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1508,20 +1096,16 @@
                 "value": "NoSQL"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Scaling Complete",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Indexing Strategies",
             "id": 400000039,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1529,35 +1113,22 @@
                 "value": "Database Basics"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Security Complete",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "InteractiveAppHub": {
         "name": "InteractiveAppHub",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToInteractiveApp",
             "parent_region": "StaticWebsiteHub",
-            "connected_region": "InteractiveAppHub",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "InteractiveAppHub"
           }
         ],
         "exits": [
@@ -1567,11 +1138,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToPerfPath",
@@ -1579,11 +1146,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToTestPath",
@@ -1591,11 +1154,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToDevOpsPath",
@@ -1603,11 +1162,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToFullStackHub",
@@ -1685,51 +1240,33 @@
                   ]
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Interactive App Milestone",
             "id": 400000040,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Query Optimization",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "AuthPath": {
         "name": "AuthPath",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToAuthPath",
             "parent_region": "InteractiveAppHub",
-            "connected_region": "AuthPath",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "AuthPath"
           }
         ],
         "exits": [],
@@ -1737,7 +1274,6 @@
           {
             "name": "Sessions",
             "id": 400000041,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1745,20 +1281,16 @@
                 "value": "HTTP Basics"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Deployment Complete",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "JWT",
             "id": 400000042,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1766,20 +1298,16 @@
                 "value": "Sessions"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "CI/CD",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "OAuth",
             "id": 400000043,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1787,35 +1315,22 @@
                 "value": "JWT"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Accessibility",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "PerfPath": {
         "name": "PerfPath",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToPerfPath",
             "parent_region": "InteractiveAppHub",
-            "connected_region": "PerfPath",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "PerfPath"
           }
         ],
         "exits": [],
@@ -1823,7 +1338,6 @@
           {
             "name": "Caching",
             "id": 400000044,
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -1843,20 +1357,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "REST APIs",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "CDN",
             "id": 400000045,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1864,20 +1374,16 @@
                 "value": "Caching"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Horizontal Scaling",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Load Balancing",
             "id": 400000046,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1885,35 +1391,22 @@
                 "value": "CDN"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Algorithms",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "TestPath": {
         "name": "TestPath",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToTestPath",
             "parent_region": "InteractiveAppHub",
-            "connected_region": "TestPath",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "TestPath"
           }
         ],
         "exits": [],
@@ -1921,25 +1414,20 @@
           {
             "name": "Unit Tests",
             "id": 400000047,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Frontend Framework",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Integration Tests",
             "id": 400000048,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1947,20 +1435,16 @@
                 "value": "Unit Tests"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Server Basics",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "E2E Tests",
             "id": 400000049,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1968,35 +1452,22 @@
                 "value": "Integration Tests"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "State Management",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "DevOpsPath": {
         "name": "DevOpsPath",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToDevOpsPath",
             "parent_region": "InteractiveAppHub",
-            "connected_region": "DevOpsPath",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "DevOpsPath"
           }
         ],
         "exits": [],
@@ -2004,7 +1475,6 @@
           {
             "name": "Docker",
             "id": 400000050,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2012,20 +1482,16 @@
                 "value": "Command Line"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Docker",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "CI/CD",
             "id": 400000051,
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2045,20 +1511,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "HTTPS",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Monitoring",
             "id": 400000052,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2066,35 +1528,22 @@
                 "value": "CI/CD"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Database Integration",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "FullStackHub": {
         "name": "FullStackHub",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToFullStackHub",
             "parent_region": "InteractiveAppHub",
-            "connected_region": "FullStackHub",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "FullStackHub"
           }
         ],
         "exits": [
@@ -2104,11 +1553,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToScalingBranch",
@@ -2116,11 +1561,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToDeploymentBranch",
@@ -2128,11 +1569,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToProduction",
@@ -2162,51 +1599,33 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Full-Stack Integration Milestone",
             "id": 400000053,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "REST APIs",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "SecurityBranch": {
         "name": "SecurityBranch",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToSecurityBranch",
             "parent_region": "FullStackHub",
-            "connected_region": "SecurityBranch",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "SecurityBranch"
           }
         ],
         "exits": [],
@@ -2214,25 +1633,20 @@
           {
             "name": "HTTPS",
             "id": 400000054,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Command Line",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "CORS",
             "id": 400000055,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2240,20 +1654,16 @@
                 "value": "HTTPS"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Full-Stack Complete",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Input Validation",
             "id": 400000056,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2261,35 +1671,22 @@
                 "value": "CORS"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Responsive Design",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "ScalingBranch": {
         "name": "ScalingBranch",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToScalingBranch",
             "parent_region": "FullStackHub",
-            "connected_region": "ScalingBranch",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "ScalingBranch"
           }
         ],
         "exits": [],
@@ -2297,7 +1694,6 @@
           {
             "name": "Horizontal Scaling",
             "id": 400000057,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2305,20 +1701,16 @@
                 "value": "Performance"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Unit Tests",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Microservices",
             "id": 400000058,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2326,35 +1718,22 @@
                 "value": "Horizontal Scaling"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Database Integration",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "DeploymentBranch": {
         "name": "DeploymentBranch",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToDeploymentBranch",
             "parent_region": "FullStackHub",
-            "connected_region": "DeploymentBranch",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "DeploymentBranch"
           }
         ],
         "exits": [],
@@ -2362,7 +1741,6 @@
           {
             "name": "Cloud Provider",
             "id": 400000059,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2370,20 +1748,16 @@
                 "value": "DevOps"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Static Website Complete",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Domain Setup",
             "id": 400000060,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2391,20 +1765,16 @@
                 "value": "Cloud Provider"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "CORS",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "SSL Certificate",
             "id": 400000061,
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2424,35 +1794,22 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "REST APIs",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "ProductionHub": {
         "name": "ProductionHub",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToProduction",
             "parent_region": "FullStackHub",
-            "connected_region": "ProductionHub",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "ProductionHub"
           }
         ],
         "exits": [],
@@ -2460,25 +1817,18 @@
           {
             "name": "Production Deployment",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Victory",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       }
     }
   },
@@ -2499,7 +1849,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2513,7 +1862,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2527,7 +1875,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2541,7 +1888,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2555,7 +1901,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2569,7 +1914,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2583,7 +1927,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2597,7 +1940,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2611,7 +1953,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2625,7 +1966,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2639,7 +1979,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2653,7 +1992,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2667,7 +2005,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2681,7 +2018,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2695,7 +2031,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2709,7 +2044,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2723,7 +2057,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2737,7 +2070,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2751,7 +2083,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2765,7 +2096,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2779,7 +2109,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2793,7 +2122,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2807,7 +2135,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2821,7 +2148,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2835,7 +2161,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2849,7 +2174,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2863,7 +2187,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2877,7 +2200,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2891,7 +2213,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2905,7 +2226,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2919,7 +2239,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2933,7 +2252,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2947,7 +2265,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2961,7 +2278,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2975,7 +2291,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2989,7 +2304,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3003,7 +2317,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3017,7 +2330,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3031,7 +2343,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3045,7 +2356,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3059,7 +2369,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3073,7 +2382,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3087,7 +2395,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3101,7 +2408,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3115,7 +2421,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3129,7 +2434,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3143,7 +2447,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3157,7 +2460,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3171,7 +2473,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3185,7 +2486,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3199,7 +2499,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3213,7 +2512,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,

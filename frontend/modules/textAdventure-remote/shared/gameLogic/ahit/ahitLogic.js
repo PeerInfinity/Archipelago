@@ -75,13 +75,18 @@ export function count(snapshot, staticData, itemName) {
  * @returns {boolean}
  */
 export function has_paintings(snapshot, staticData, countRequired, allowSkip = true) {
+  const paintingLogicEnabled = painting_logic(snapshot, staticData, null);
+
   // If painting logic is disabled, always return true
-  if (!painting_logic(snapshot, staticData, null)) {
+  if (!paintingLogicEnabled) {
     return true;
   }
 
   // Check for painting skip options based on difficulty
-  if (allowSkip) {
+  const settings = staticData?.settings?.[1];
+  const noPaintingSkips = settings?.NoPaintingSkips ?? false;
+
+  if (!noPaintingSkips && allowSkip) {
     const difficulty = get_difficulty(snapshot, staticData, null);
     // In Moderate or higher, there are tricks to skip painting walls
     if (difficulty >= 0) { // 0 = Moderate, 1 = Hard, 2 = Expert
@@ -90,7 +95,8 @@ export function has_paintings(snapshot, staticData, countRequired, allowSkip = t
   }
 
   // Check if player has enough Progressive Painting Unlock items
-  return count(snapshot, staticData, 'Progressive Painting Unlock') >= countRequired;
+  const playerCount = count(snapshot, staticData, 'Progressive Painting Unlock');
+  return playerCount >= countRequired;
 }
 
 /**
@@ -102,9 +108,9 @@ export function has_paintings(snapshot, staticData, countRequired, allowSkip = t
  * @returns {boolean}
  */
 export function painting_logic(snapshot, staticData, itemName) {
-  // Default to false for now - this should come from game settings
-  // In a full implementation, this would check world.options.ShuffleSubconPaintings
-  return false;
+  // Check world.options.ShuffleSubconPaintings from staticData
+  const settings = staticData?.settings?.[1];
+  return settings?.ShuffleSubconPaintings ?? false;
 }
 
 /**
@@ -116,9 +122,9 @@ export function painting_logic(snapshot, staticData, itemName) {
  * @returns {number} -1=Normal, 0=Moderate, 1=Hard, 2=Expert
  */
 export function get_difficulty(snapshot, staticData, itemName) {
-  // Default to Normal difficulty
-  // In a full implementation, this would check world.options.LogicDifficulty
-  return -1;
+  // Check world.options.LogicDifficulty from staticData
+  const settings = staticData?.settings?.[1];
+  return settings?.LogicDifficulty ?? -1;
 }
 
 /**
@@ -248,7 +254,13 @@ export function can_clear_required_act(snapshot, staticData, actEntrance) {
  * @param {number} hatType - HatType enum value
  * @returns {number} Total yarn cost needed
  */
-function get_hat_cost(staticData, hatType) {
+/**
+ * Get the yarn cost for a specific hat based on craft order
+ * @param {Object} staticData - Static game data
+ * @param {number} hatType - The hat type to check cost for
+ * @returns {number} Total yarn cost
+ */
+export function get_hat_cost(staticData, hatType) {
   if (!staticData || !staticData.game_info || !staticData.game_info['1'] || !staticData.game_info['1'].hat_info) {
     return 0;
   }
@@ -384,6 +396,72 @@ export function can_hit(snapshot, staticData, umbrellaOnly) {
   }
 
   return false;
+}
+
+/**
+ * Check if player can clear Alpine Skyline
+ * @param {Object} snapshot - Canonical state snapshot
+ * @param {Object} staticData - Static game data
+ * @param {any} itemName - Not used for this helper
+ * @returns {boolean}
+ */
+export function can_clear_alpine(snapshot, staticData, itemName) {
+  return has(snapshot, staticData, 'Birdhouse Cleared') &&
+         has(snapshot, staticData, 'Lava Cake Cleared') &&
+         has(snapshot, staticData, 'Windmill Cleared') &&
+         has(snapshot, staticData, 'Twilight Bell Cleared');
+}
+
+/**
+ * Check if player can clear Nyakuza Metro
+ * @param {Object} snapshot - Canonical state snapshot
+ * @param {Object} staticData - Static game data
+ * @param {any} itemName - Not used for this helper
+ * @returns {boolean}
+ */
+export function can_clear_metro(snapshot, staticData, itemName) {
+  return has(snapshot, staticData, 'Nyakuza Intro Cleared') &&
+         has(snapshot, staticData, 'Yellow Overpass Station Cleared') &&
+         has(snapshot, staticData, 'Yellow Overpass Manhole Cleared') &&
+         has(snapshot, staticData, 'Green Clean Station Cleared') &&
+         has(snapshot, staticData, 'Green Clean Manhole Cleared') &&
+         has(snapshot, staticData, 'Bluefin Tunnel Cleared') &&
+         has(snapshot, staticData, 'Pink Paw Station Cleared') &&
+         has(snapshot, staticData, 'Pink Paw Manhole Cleared');
+}
+
+/**
+ * Check if zipline logic is enabled (Alpine Skyline ziplines are shuffled)
+ * @param {Object} snapshot - Canonical state snapshot
+ * @param {Object} staticData - Static game data
+ * @param {any} itemName - Not used for this helper
+ * @returns {boolean}
+ */
+export function zipline_logic(snapshot, staticData, itemName) {
+  const settings = staticData?.settings?.[1];
+  return settings?.ShuffleAlpineZiplines ?? false;
+}
+
+/**
+ * Get the count of relics in a specific relic group
+ * @param {Object} snapshot - Canonical state snapshot
+ * @param {Object} staticData - Static game data
+ * @param {string} relicGroup - The relic group name
+ * @returns {number} Count of relics in the group
+ */
+export function get_relic_count(snapshot, staticData, relicGroup) {
+  if (!staticData?.groupData?.[relicGroup]) {
+    return 0;
+  }
+
+  const groupItems = staticData.groupData[relicGroup];
+  let totalCount = 0;
+
+  for (const itemName of groupItems) {
+    totalCount += count(snapshot, staticData, itemName);
+  }
+
+  return totalCount;
 }
 
 /**
@@ -555,8 +633,13 @@ export const helperFunctions = {
   has_paintings,
   painting_logic,
   get_difficulty,
+  zipline_logic,
   can_clear_required_act,
+  can_clear_alpine,
+  can_clear_metro,
   has_relic_combo,
+  get_relic_count,
+  get_hat_cost,
 
   // Movement and abilities
   can_use_hat,

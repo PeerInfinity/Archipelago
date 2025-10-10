@@ -10,27 +10,15 @@
   "world_classes": {
     "1": "TLoZWorld"
   },
-  "plando_options": [
-    "connections",
-    "texts",
-    "bosses"
-  ],
   "regions": {
     "1": {
       "Level 1": {
         "name": "Level 1",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Level 1",
             "parent_region": "Overworld",
-            "connected_region": "Level 1",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Level 1"
           }
         ],
         "exits": [],
@@ -38,8 +26,6 @@
           {
             "name": "Level 1 Item (Bow)",
             "id": 7009,
-            "region": "Level 1",
-            "crystal": null,
             "access_rule": {
               "type": "group_check",
               "group": {
@@ -47,21 +33,16 @@
                 "value": "weapons"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 1 Item (Boomerang)",
             "id": 7010,
-            "region": "Level 1",
-            "crystal": null,
             "access_rule": {
               "type": "group_check",
               "group": {
@@ -69,21 +50,16 @@
                 "value": "weapons"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Stepladder",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 1 Map",
             "id": 7011,
-            "region": "Level 1",
-            "crystal": null,
             "access_rule": {
               "type": "group_check",
               "group": {
@@ -91,21 +67,16 @@
                 "value": "weapons"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Candle",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 1 Compass",
             "id": 7012,
-            "region": "Level 1",
-            "crystal": null,
             "access_rule": {
               "type": "group_check",
               "group": {
@@ -113,21 +84,16 @@
                 "value": "weapons"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Magical Rod",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 1 Boss",
             "id": 7013,
-            "region": "Level 1",
-            "crystal": null,
             "access_rule": {
               "type": "group_check",
               "group": {
@@ -135,21 +101,16 @@
                 "value": "weapons"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 1 Triforce",
             "id": 7014,
-            "region": "Level 1",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -187,21 +148,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Triforce Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 1 Key Drop (Keese Entrance)",
             "id": 7015,
-            "region": "Level 1",
-            "crystal": null,
             "access_rule": {
               "type": "group_check",
               "group": {
@@ -209,21 +165,16 @@
                 "value": "weapons"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 1 Key Drop (Stalfos Middle)",
             "id": 7016,
-            "region": "Level 1",
-            "crystal": null,
             "access_rule": {
               "type": "group_check",
               "group": {
@@ -231,21 +182,16 @@
                 "value": "weapons"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Magical Boomerang",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 1 Key Drop (Moblins)",
             "id": 7017,
-            "region": "Level 1",
-            "crystal": null,
             "access_rule": {
               "type": "group_check",
               "group": {
@@ -253,21 +199,16 @@
                 "value": "weapons"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 1 Key Drop (Stalfos Water)",
             "id": 7018,
-            "region": "Level 1",
-            "crystal": null,
             "access_rule": {
               "type": "group_check",
               "group": {
@@ -275,21 +216,16 @@
                 "value": "weapons"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 1 Key Drop (Stalfos Entrance)",
             "id": 7019,
-            "region": "Level 1",
-            "crystal": null,
             "access_rule": {
               "type": "group_check",
               "group": {
@@ -297,21 +233,16 @@
                 "value": "weapons"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 1 Key Drop (Wallmasters)",
             "id": 7020,
-            "region": "Level 1",
-            "crystal": null,
             "access_rule": {
               "type": "group_check",
               "group": {
@@ -319,21 +250,16 @@
                 "value": "weapons"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 1 Boss Status",
             "id": null,
-            "region": "Level 1",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -360,35 +286,22 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Boss 1 Defeated",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Level 2": {
         "name": "Level 2",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Level 2",
             "parent_region": "Overworld",
-            "connected_region": "Level 2",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Level 2"
           }
         ],
         "exits": [],
@@ -396,8 +309,6 @@
           {
             "name": "Level 2 Item (Magical Boomerang)",
             "id": 7021,
-            "region": "Level 2",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -500,21 +411,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 2 Map",
             "id": 7022,
-            "region": "Level 2",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -617,21 +523,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 2 Compass",
             "id": 7023,
-            "region": "Level 2",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -734,21 +635,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sword",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 2 Boss",
             "id": 7024,
-            "region": "Level 2",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -851,21 +747,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Container",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 2 Triforce",
             "id": 7025,
-            "region": "Level 2",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -998,21 +889,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Triforce Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 2 Key Drop (Ropes West)",
             "id": 7026,
-            "region": "Level 2",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1115,21 +1001,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Container",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 2 Key Drop (Moldorms)",
             "id": 7027,
-            "region": "Level 2",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1232,21 +1113,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 2 Key Drop (Ropes Middle)",
             "id": 7028,
-            "region": "Level 2",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1349,21 +1225,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Five Rupees",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 2 Key Drop (Ropes Entrance)",
             "id": 7029,
-            "region": "Level 2",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1466,21 +1337,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 2 Bomb Drop (Keese)",
             "id": 7030,
-            "region": "Level 2",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1583,21 +1449,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Container",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 2 Bomb Drop (Moblins)",
             "id": 7031,
-            "region": "Level 2",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1700,21 +1561,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 2 Rupee Drop (Gels)",
             "id": 7032,
-            "region": "Level 2",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1817,21 +1673,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fairy",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 2 Boss Status",
             "id": null,
-            "region": "Level 2",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1953,35 +1804,22 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Boss 2 Defeated",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Level 3": {
         "name": "Level 3",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Level 3",
             "parent_region": "Overworld",
-            "connected_region": "Level 3",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Level 3"
           }
         ],
         "exits": [],
@@ -1989,8 +1827,6 @@
           {
             "name": "Level 3 Item (Raft)",
             "id": 7033,
-            "region": "Level 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2093,21 +1929,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Five Rupees",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 3 Map",
             "id": 7034,
-            "region": "Level 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2210,21 +2041,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 3 Compass",
             "id": 7035,
-            "region": "Level 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2327,21 +2153,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 3 Boss",
             "id": 7036,
-            "region": "Level 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2444,21 +2265,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 3 Triforce",
             "id": 7037,
-            "region": "Level 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2591,21 +2407,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Triforce Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 3 Key Drop (Zols and Keese West)",
             "id": 7038,
-            "region": "Level 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2708,21 +2519,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 3 Key Drop (Keese North)",
             "id": 7039,
-            "region": "Level 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2825,21 +2631,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Container",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 3 Key Drop (Zols Central)",
             "id": 7040,
-            "region": "Level 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2942,21 +2743,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 3 Key Drop (Zols South)",
             "id": 7041,
-            "region": "Level 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -3059,21 +2855,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 3 Key Drop (Zols Entrance)",
             "id": 7042,
-            "region": "Level 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -3176,21 +2967,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 3 Bomb Drop (Darknuts West)",
             "id": 7043,
-            "region": "Level 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -3293,21 +3079,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Five Rupees",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 3 Bomb Drop (Keese Corridor)",
             "id": 7044,
-            "region": "Level 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -3410,21 +3191,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Five Rupees",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 3 Bomb Drop (Darknuts Central)",
             "id": 7045,
-            "region": "Level 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -3527,21 +3303,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 3 Rupee Drop (Zols and Keese East)",
             "id": 7046,
-            "region": "Level 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -3644,21 +3415,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 3 Boss Status",
             "id": null,
-            "region": "Level 3",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -3780,35 +3546,22 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Boss 3 Defeated",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Level 4": {
         "name": "Level 4",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Level 4",
             "parent_region": "Overworld",
-            "connected_region": "Level 4",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Level 4"
           }
         ],
         "exits": [],
@@ -3816,8 +3569,6 @@
           {
             "name": "Level 4 Item (Stepladder)",
             "id": 7047,
-            "region": "Level 4",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -3974,21 +3725,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 4 Map",
             "id": 7048,
-            "region": "Level 4",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -4157,21 +3903,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 4 Compass",
             "id": 7049,
-            "region": "Level 4",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -4328,21 +4069,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Boomerang",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 4 Boss",
             "id": 7050,
-            "region": "Level 4",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -4535,21 +4271,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 4 Triforce",
             "id": 7051,
-            "region": "Level 4",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -4772,21 +4503,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Triforce Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 4 Key Drop (Keese Entrance)",
             "id": 7052,
-            "region": "Level 4",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -4943,21 +4669,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Five Rupees",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 4 Key Drop (Keese Central)",
             "id": 7053,
-            "region": "Level 4",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -5114,21 +4835,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 4 Key Drop (Zols)",
             "id": 7054,
-            "region": "Level 4",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -5285,21 +5001,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Five Rupees",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 4 Key Drop (Keese North)",
             "id": 7055,
-            "region": "Level 4",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -5468,21 +5179,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 4 Boss Status",
             "id": null,
-            "region": "Level 4",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -5658,35 +5364,22 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Boss 4 Defeated",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Level 5": {
         "name": "Level 5",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Level 5",
             "parent_region": "Overworld",
-            "connected_region": "Level 5",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Level 5"
           }
         ],
         "exits": [],
@@ -5694,8 +5387,6 @@
           {
             "name": "Level 5 Item (Recorder)",
             "id": 7056,
-            "region": "Level 5",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -5846,21 +5537,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 5 Map",
             "id": 7057,
-            "region": "Level 5",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -6011,21 +5697,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Magical Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 5 Compass",
             "id": 7058,
-            "region": "Level 5",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -6176,21 +5857,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 5 Boss",
             "id": 7059,
-            "region": "Level 5",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -6353,21 +6029,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Water of Life (Blue)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 5 Triforce",
             "id": 7060,
-            "region": "Level 5",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -6560,21 +6231,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Triforce Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 5 Key Drop (Keese North)",
             "id": 7061,
-            "region": "Level 5",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -6725,21 +6391,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sword",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 5 Key Drop (Gibdos North)",
             "id": 7062,
-            "region": "Level 5",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -6890,21 +6551,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Book of Magic",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 5 Key Drop (Gibdos Central)",
             "id": 7063,
-            "region": "Level 5",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -7055,21 +6711,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Five Rupees",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 5 Key Drop (Pols Voice Entrance)",
             "id": 7064,
-            "region": "Level 5",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -7256,21 +6907,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Container",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 5 Key Drop (Gibdos Entrance)",
             "id": 7065,
-            "region": "Level 5",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -7421,21 +7067,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fairy",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 5 Key Drop (Gibdos, Keese, and Pols Voice)",
             "id": 7066,
-            "region": "Level 5",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -7622,21 +7263,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 5 Key Drop (Zols)",
             "id": 7067,
-            "region": "Level 5",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -7787,21 +7423,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Five Rupees",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 5 Bomb Drop (Gibdos)",
             "id": 7068,
-            "region": "Level 5",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -7952,21 +7583,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 5 Bomb Drop (Dodongos)",
             "id": 7069,
-            "region": "Level 5",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -8117,21 +7743,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Five Rupees",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 5 Rupee Drop (Zols)",
             "id": 7070,
-            "region": "Level 5",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -8282,21 +7903,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 5 Boss Status",
             "id": null,
-            "region": "Level 5",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -8466,35 +8082,22 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Boss 5 Defeated",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Level 6": {
         "name": "Level 6",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Level 6",
             "parent_region": "Overworld",
-            "connected_region": "Level 6",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Level 6"
           }
         ],
         "exits": [],
@@ -8502,8 +8105,6 @@
           {
             "name": "Level 6 Item (Magical Rod)",
             "id": 7071,
-            "region": "Level 6",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -8654,21 +8255,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 6 Map",
             "id": 7072,
-            "region": "Level 6",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -8819,21 +8415,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Magical Shield",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 6 Compass",
             "id": 7073,
-            "region": "Level 6",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -8984,21 +8575,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fairy",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 6 Boss",
             "id": 7074,
-            "region": "Level 6",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -9173,21 +8759,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Five Rupees",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 6 Triforce",
             "id": 7075,
-            "region": "Level 6",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -9392,21 +8973,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Triforce Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 6 Key Drop (Wizzrobes Entrance)",
             "id": 7076,
-            "region": "Level 6",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -9557,21 +9133,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 6 Key Drop (Keese)",
             "id": 7077,
-            "region": "Level 6",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -9722,21 +9293,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fairy",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 6 Key Drop (Wizzrobes North Island)",
             "id": 7078,
-            "region": "Level 6",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -9887,21 +9453,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 6 Key Drop (Wizzrobes North Stream)",
             "id": 7079,
-            "region": "Level 6",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -10052,21 +9613,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Ring",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 6 Key Drop (Vires)",
             "id": 7080,
-            "region": "Level 6",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -10217,21 +9773,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 6 Bomb Drop (Wizzrobes)",
             "id": 7081,
-            "region": "Level 6",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -10382,21 +9933,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Five Rupees",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 6 Rupee Drop (Wizzrobes)",
             "id": 7082,
-            "region": "Level 6",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -10547,21 +10093,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Letter",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 6 Boss Status",
             "id": null,
-            "region": "Level 6",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -10731,35 +10272,22 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Boss 6 Defeated",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Level 7": {
         "name": "Level 7",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Level 7",
             "parent_region": "Overworld",
-            "connected_region": "Level 7",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Level 7"
           }
         ],
         "exits": [],
@@ -10767,8 +10295,6 @@
           {
             "name": "Level 7 Item (Red Candle)",
             "id": 7083,
-            "region": "Level 7",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -10943,21 +10469,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Magical Sword",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 7 Map",
             "id": 7084,
-            "region": "Level 7",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -11132,21 +10653,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 7 Compass",
             "id": 7085,
-            "region": "Level 7",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -11309,21 +10825,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 7 Boss",
             "id": 7086,
-            "region": "Level 7",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -11498,21 +11009,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 7 Triforce",
             "id": 7087,
-            "region": "Level 7",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -11717,21 +11223,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Triforce Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 7 Key Drop (Ropes)",
             "id": 7088,
-            "region": "Level 7",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -11894,21 +11395,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 7 Key Drop (Goriyas)",
             "id": 7089,
-            "region": "Level 7",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -12083,21 +11579,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 7 Key Drop (Stalfos)",
             "id": 7090,
-            "region": "Level 7",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -12260,21 +11751,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Magical Shield",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 7 Key Drop (Moldorms)",
             "id": 7091,
-            "region": "Level 7",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -12437,21 +11923,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Recovery Heart",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 7 Bomb Drop (Goriyas South)",
             "id": 7092,
-            "region": "Level 7",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -12614,21 +12095,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Magical Shield",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 7 Bomb Drop (Keese and Spikes)",
             "id": 7093,
-            "region": "Level 7",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -12791,21 +12267,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Container",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 7 Bomb Drop (Moldorms South)",
             "id": 7094,
-            "region": "Level 7",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -12968,21 +12439,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Candle",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 7 Bomb Drop (Moldorms North)",
             "id": 7095,
-            "region": "Level 7",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -13157,21 +12623,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 7 Bomb Drop (Goriyas North)",
             "id": 7096,
-            "region": "Level 7",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -13346,21 +12807,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Container",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 7 Bomb Drop (Dodongos)",
             "id": 7097,
-            "region": "Level 7",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -13535,21 +12991,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Raft",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 7 Bomb Drop (Digdogger)",
             "id": 7098,
-            "region": "Level 7",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -13712,21 +13163,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 7 Rupee Drop (Goriyas Central)",
             "id": 7099,
-            "region": "Level 7",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -13889,21 +13335,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 7 Rupee Drop (Dodongos)",
             "id": 7100,
-            "region": "Level 7",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -14066,21 +13507,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Water of Life (Blue)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 7 Rupee Drop (Goriyas North)",
             "id": 7101,
-            "region": "Level 7",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -14255,21 +13691,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 7 Boss Status",
             "id": null,
-            "region": "Level 7",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -14451,35 +13882,22 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Boss 7 Defeated",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Level 8": {
         "name": "Level 8",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Level 8",
             "parent_region": "Overworld",
-            "connected_region": "Level 8",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Level 8"
           }
         ],
         "exits": [],
@@ -14487,8 +13905,6 @@
           {
             "name": "Level 8 Item (Magical Key)",
             "id": 7102,
-            "region": "Level 8",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -14699,21 +14115,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 8 Map",
             "id": 7103,
-            "region": "Level 8",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -14876,21 +14287,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Recorder",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 8 Compass",
             "id": 7104,
-            "region": "Level 8",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -15053,21 +14459,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 8 Item (Book of Magic)",
             "id": 7105,
-            "region": "Level 8",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -15230,21 +14631,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Blue Ring",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 8 Boss",
             "id": 7106,
-            "region": "Level 8",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -15431,21 +14827,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 8 Triforce",
             "id": 7107,
-            "region": "Level 8",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -15662,21 +15053,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Triforce Fragment",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 8 Key Drop (Darknuts West)",
             "id": 7108,
-            "region": "Level 8",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -15839,21 +15225,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 8 Key Drop (Darknuts Far West)",
             "id": 7109,
-            "region": "Level 8",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -16016,21 +15397,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fairy",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 8 Key Drop (Pols Voice South)",
             "id": 7110,
-            "region": "Level 8",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -16229,21 +15605,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 8 Key Drop (Pols Voice and Keese)",
             "id": 7111,
-            "region": "Level 8",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -16442,21 +15813,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Water of Life (Red)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 8 Key Drop (Darknuts Central)",
             "id": 7112,
-            "region": "Level 8",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -16619,21 +15985,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 8 Key Drop (Keese and Zols Entrance)",
             "id": 7113,
-            "region": "Level 8",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -16796,21 +16157,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Container",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 8 Bomb Drop (Darknuts North)",
             "id": 7114,
-            "region": "Level 8",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -17021,21 +16377,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 8 Bomb Drop (Darknuts East)",
             "id": 7115,
-            "region": "Level 8",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -17198,21 +16549,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Five Rupees",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 8 Bomb Drop (Pols Voice North)",
             "id": 7116,
-            "region": "Level 8",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -17411,21 +16757,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Food",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 8 Rupee Drop (Manhandla Entrance West)",
             "id": 7117,
-            "region": "Level 8",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -17588,21 +16929,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Water of Life (Blue)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 8 Rupee Drop (Manhandla Entrance North)",
             "id": 7118,
-            "region": "Level 8",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -17765,21 +17101,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 8 Rupee Drop (Darknuts and Gibdos)",
             "id": 7119,
-            "region": "Level 8",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -17942,21 +17273,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 8 Boss Status",
             "id": null,
-            "region": "Level 8",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -18138,35 +17464,22 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Boss 8 Defeated",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Level 9": {
         "name": "Level 9",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Level 9",
             "parent_region": "Overworld",
-            "connected_region": "Level 9",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Level 9"
           }
         ],
         "exits": [],
@@ -18174,8 +17487,6 @@
           {
             "name": "Level 9 Item (Silver Arrow)",
             "id": 7120,
-            "region": "Level 9",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -18354,21 +17665,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 9 Item (Red Ring)",
             "id": 7121,
-            "region": "Level 9",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -18547,21 +17853,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fairy",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 9 Map",
             "id": 7122,
-            "region": "Level 9",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -18740,21 +18041,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 9 Compass",
             "id": 7123,
-            "region": "Level 9",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -18933,21 +18229,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 9 Key Drop (Patra Southwest)",
             "id": 7124,
-            "region": "Level 9",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -19126,21 +18417,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 9 Key Drop (Like Likes and Zols East)",
             "id": 7125,
-            "region": "Level 9",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -19319,21 +18605,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Container",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 9 Key Drop (Wizzrobes and Bubbles East)",
             "id": 7126,
-            "region": "Level 9",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -19512,21 +18793,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Container",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 9 Key Drop (Wizzrobes East Island)",
             "id": 7127,
-            "region": "Level 9",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -19705,21 +18981,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Five Rupees",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 9 Bomb Drop (Blue Lanmolas)",
             "id": 7128,
-            "region": "Level 9",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -19898,21 +19169,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 9 Bomb Drop (Gels Lake)",
             "id": 7129,
-            "region": "Level 9",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -20091,21 +19357,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Silver Arrow",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 9 Bomb Drop (Like Likes and Zols Corridor)",
             "id": 7130,
-            "region": "Level 9",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -20284,21 +19545,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 9 Bomb Drop (Patra Northeast)",
             "id": 7131,
-            "region": "Level 9",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -20477,21 +19733,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Container",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 9 Bomb Drop (Vires)",
             "id": 7132,
-            "region": "Level 9",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -20670,21 +19921,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 9 Rupee Drop (Wizzrobes West Island)",
             "id": 7133,
-            "region": "Level 9",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -20863,21 +20109,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 9 Rupee Drop (Red Lanmolas)",
             "id": 7134,
-            "region": "Level 9",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -21056,21 +20297,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 9 Rupee Drop (Keese Southwest)",
             "id": 7135,
-            "region": "Level 9",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -21249,21 +20485,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 9 Rupee Drop (Keese Central Island)",
             "id": 7136,
-            "region": "Level 9",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -21442,21 +20673,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 9 Rupee Drop (Wizzrobes Central)",
             "id": 7137,
-            "region": "Level 9",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -21635,21 +20861,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 9 Rupee Drop (Wizzrobes North Island)",
             "id": 7138,
-            "region": "Level 9",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -21828,21 +21049,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Power Bracelet",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 9 Rupee Drop (Gels East)",
             "id": 7139,
-            "region": "Level 9",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -22021,21 +21237,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Five Rupees",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ganon",
             "id": null,
-            "region": "Level 9",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -22238,21 +21449,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Triforce of Power",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Zelda",
             "id": null,
-            "region": "Level 9",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -22443,25 +21649,17 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Rescued Zelda!",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Menu": {
         "name": "Menu",
-        "type": "Region",
-        "player": 1,
         "entrances": [],
         "exits": [
           {
@@ -22470,32 +21668,18 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Overworld": {
         "name": "Overworld",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Begin Game",
             "parent_region": "Menu",
-            "connected_region": "Overworld",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Overworld"
           }
         ],
         "exits": [
@@ -22505,11 +21689,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Level 2",
@@ -22517,11 +21697,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Level 3",
@@ -22529,11 +21705,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Level 4",
@@ -22541,11 +21713,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Level 5",
@@ -22553,11 +21721,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Level 6",
@@ -22565,11 +21729,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Level 7",
@@ -22577,11 +21737,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Level 8",
@@ -22589,11 +21745,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Level 9",
@@ -22601,38 +21753,27 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Starting Sword Cave",
             "id": 7000,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "White Sword",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "White Sword Pond",
             "id": 7001,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -22644,21 +21785,16 @@
                 "value": 2
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Container",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Magical Sword Grave",
             "id": 7002,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -22670,21 +21806,16 @@
                 "value": 9
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Take Any Item Left",
             "id": 7003,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -22704,21 +21835,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heart Container",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Take Any Item Middle",
             "id": 7004,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -22738,21 +21864,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Take Any Item Right",
             "id": 7005,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -22772,40 +21893,30 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Five Rupees",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Armos Knights",
             "id": 7006,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ocean Heart Container",
             "id": 7007,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -22813,40 +21924,30 @@
                 "value": "Stepladder"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Food",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Letter Cave",
             "id": 7008,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Clock",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Arrow Shop Item Left",
             "id": 7140,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "group_check",
               "group": {
@@ -22854,21 +21955,16 @@
                 "value": "weapons"
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Arrow Shop Item Middle",
             "id": 7141,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "group_check",
               "group": {
@@ -22876,21 +21972,16 @@
                 "value": "weapons"
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Bomb",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Arrow Shop Item Right",
             "id": 7142,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "group_check",
               "group": {
@@ -22898,21 +21989,16 @@
                 "value": "weapons"
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Arrow",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Candle Shop Item Left",
             "id": 7143,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "group_check",
               "group": {
@@ -22920,21 +22006,16 @@
                 "value": "weapons"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Five Rupees",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Candle Shop Item Middle",
             "id": 7144,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "group_check",
               "group": {
@@ -22942,21 +22023,16 @@
                 "value": "weapons"
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Water of Life (Red)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Candle Shop Item Right",
             "id": 7145,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "group_check",
               "group": {
@@ -22964,21 +22040,16 @@
                 "value": "weapons"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bow",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Blue Ring Shop Item Left",
             "id": 7146,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "group_check",
               "group": {
@@ -22986,21 +22057,16 @@
                 "value": "weapons"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Blue Ring Shop Item Middle",
             "id": 7147,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "group_check",
               "group": {
@@ -23008,21 +22074,16 @@
                 "value": "weapons"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Clock",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Blue Ring Shop Item Right",
             "id": 7148,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "group_check",
               "group": {
@@ -23030,21 +22091,16 @@
                 "value": "weapons"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Clock",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shield Shop Item Left",
             "id": 7149,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -23076,21 +22132,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shield Shop Item Middle",
             "id": 7150,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -23122,21 +22173,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Five Rupees",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shield Shop Item Right",
             "id": 7151,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -23168,21 +22214,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Potion Shop Item Left",
             "id": 7152,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -23202,21 +22243,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Potion Shop Item Middle",
             "id": 7153,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -23236,21 +22272,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Five Rupees",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Potion Shop Item Right",
             "id": 7154,
-            "region": "Overworld",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -23270,20 +22301,14 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Key",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       }
     }
   },
@@ -23304,7 +22329,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -23318,7 +22342,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23332,7 +22355,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -23346,7 +22368,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23360,7 +22381,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23374,7 +22394,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23389,7 +22408,6 @@
           "weapons"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23405,7 +22423,6 @@
           "weapons"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23419,7 +22436,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23433,7 +22449,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -23447,7 +22462,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23462,7 +22476,6 @@
           "arrows"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23478,7 +22491,6 @@
           "weapons"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23494,7 +22506,6 @@
           "weapons"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23510,7 +22521,6 @@
           "weapons"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23524,7 +22534,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23538,7 +22547,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23552,7 +22560,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -23567,7 +22574,6 @@
           "candles"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23582,7 +22588,6 @@
           "arrows"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23596,7 +22601,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23610,7 +22614,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -23624,7 +22627,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -23638,7 +22640,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23652,7 +22653,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23666,7 +22666,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -23680,7 +22679,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23694,7 +22692,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23708,7 +22705,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23722,7 +22718,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23736,7 +22731,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23750,7 +22744,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23764,7 +22757,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -23778,7 +22770,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -23792,7 +22783,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -23806,7 +22796,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -23820,7 +22809,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -23834,7 +22822,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -23848,7 +22835,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -23862,7 +22848,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -23876,7 +22861,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -23890,7 +22874,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -23904,7 +22887,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,

@@ -10,27 +10,15 @@
   "world_classes": {
     "1": "RaftWorld"
   },
-  "plando_options": [
-    "connections",
-    "texts",
-    "bosses"
-  ],
   "regions": {
     "1": {
       "Raft": {
         "name": "Raft",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "MenuToRaft",
             "parent_region": "Menu",
-            "connected_region": "Raft",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Raft"
           }
         ],
         "exits": [
@@ -40,11 +28,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "RaftToRadioTower",
@@ -52,11 +36,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "RaftToVasagatan",
@@ -64,11 +44,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "RaftToBalboaIsland",
@@ -76,11 +52,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "RaftToCaravanIsland",
@@ -88,11 +60,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "RaftToTangaroa",
@@ -100,11 +68,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "RaftToVaruna Point",
@@ -112,11 +76,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "RaftToTemperance",
@@ -124,11 +84,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "RaftToUtopia",
@@ -136,32 +92,18 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "ResearchTable": {
         "name": "ResearchTable",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "RaftToResearchTable",
             "parent_region": "Raft",
-            "connected_region": "ResearchTable",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "ResearchTable"
           }
         ],
         "exits": [],
@@ -169,8 +111,6 @@
           {
             "name": "Honey",
             "id": 48001,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -193,21 +133,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Recycler",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Flippers",
             "id": 48002,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -230,21 +165,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fuel tank",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Birds nest",
             "id": 48003,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -267,21 +197,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-grill",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Battery",
             "id": 48004,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -304,21 +229,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-anchor",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Circuit board",
             "id": 48005,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -341,21 +261,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 2 CopperOre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Bolt",
             "id": 48006,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -378,21 +293,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-biofuel",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Hinge",
             "id": 48007,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -415,21 +325,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-crop-plot",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shear",
             "id": 48008,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -452,21 +357,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 2 Raw_Beet",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Net launcher",
             "id": 48009,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -489,21 +389,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-battery",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Drinking glass",
             "id": 48010,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -526,21 +421,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Hinge",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Clay bowl",
             "id": 48011,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -563,21 +453,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-spear",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Net canister",
             "id": 48012,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -600,21 +485,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 2 Plastic",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Binoculars",
             "id": 48013,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -637,21 +517,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 1 TitaniumOre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Metal fishing rod",
             "id": 48014,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -674,21 +549,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 5 Sand",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Oxygen bottle",
             "id": 48015,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -711,21 +581,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Water pipe",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Sprinkler",
             "id": 48016,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -748,21 +613,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-engine",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Empty bottle",
             "id": 48017,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -785,21 +645,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-spear",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Cookingpot",
             "id": 48018,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -822,21 +677,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 5 Stone",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Juicer",
             "id": 48019,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -859,21 +709,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-biofuel",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Stationary anchor",
             "id": 48020,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -896,21 +741,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 3 TitaniumOre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Advanced grill",
             "id": 48021,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -933,21 +773,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Antenna",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Metal Spear",
             "id": 48022,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -970,21 +805,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-headlight",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage",
             "id": 48023,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1007,21 +837,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 1 SeaVine",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Smelter",
             "id": 48024,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1044,21 +869,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 3 Scrap",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Paint mill",
             "id": 48025,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1081,21 +901,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Circuit board",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Hammock",
             "id": 48026,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1118,21 +933,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bucket",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Metal axe",
             "id": 48027,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1155,21 +965,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 1 CopperOre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Scrap hook",
             "id": 48028,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1192,21 +997,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 4 CopperOre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Large crop plot",
             "id": 48029,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1229,21 +1029,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 2 TitaniumOre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Sweep net",
             "id": 48030,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1266,21 +1061,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 2 Scrap",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Basic bow",
             "id": 48031,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1303,21 +1093,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Receiver",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Scarecrow",
             "id": 48032,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1340,21 +1125,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 3 Plank",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Metal arrow",
             "id": 48033,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1377,21 +1157,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-bottle",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shovel",
             "id": 48034,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1414,21 +1189,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 1 TitaniumOre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Advanced collection net",
             "id": 48035,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1451,21 +1221,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-battery",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Bucket",
             "id": 48036,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1488,21 +1253,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-crop-plot",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Collection net",
             "id": 48037,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1525,21 +1285,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Trashcan",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Paint brush",
             "id": 48038,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1562,21 +1317,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-metals",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Advanced purifier",
             "id": 48039,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1599,21 +1349,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Beehive",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Grass plot",
             "id": 48040,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1636,21 +1381,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Net canister",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Stone arrow",
             "id": 48041,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1673,21 +1413,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Firework",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Medium crop plot",
             "id": 48042,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1710,21 +1445,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-metals",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Lantern",
             "id": 48043,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1747,21 +1477,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-bow",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Small trophy board",
             "id": 48044,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1784,21 +1509,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-engine",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Medium trophy board",
             "id": 48045,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1821,21 +1541,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bolt",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Large trophy board",
             "id": 48046,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1858,21 +1573,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 5 CopperOre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Backpack",
             "id": 48047,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1895,21 +1605,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-battery",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Leather helmet",
             "id": 48048,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1932,21 +1637,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 1 Scrap",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Leather body armor",
             "id": 48049,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -1969,21 +1669,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 3 Raw_Beet",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Leather greaves",
             "id": 48050,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -2006,21 +1701,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 4 Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Beehive",
             "id": 48051,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -2043,21 +1733,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Honey",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Good healing salve",
             "id": 48052,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -2080,21 +1765,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 3 CopperOre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Healing salve",
             "id": 48053,
-            "region": "ResearchTable",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -2117,35 +1797,22 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 1 Plank",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "RadioTower": {
         "name": "RadioTower",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "RaftToRadioTower",
             "parent_region": "Raft",
-            "connected_region": "RadioTower",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "RadioTower"
           }
         ],
         "exits": [],
@@ -2153,182 +1820,132 @@
           {
             "name": "Tala (Radio Tower)",
             "id": 48054,
-            "region": "RadioTower",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_radio_tower",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-anchor",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Head light blueprint",
             "id": 48055,
-            "region": "RadioTower",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_radio_tower",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-metals",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Recycler blueprint",
             "id": 48056,
-            "region": "RadioTower",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_radio_tower",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Metal fishing rod",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Radio Tower Briefcase",
             "id": 48057,
-            "region": "RadioTower",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_radio_tower",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sprinkler",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Radio Tower Frequency to Vasagatan",
             "id": 48058,
-            "region": "RadioTower",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_radio_tower",
               "args": []
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Vasagatan Frequency",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Radio Tower Notepad 1",
             "id": 48059,
-            "region": "RadioTower",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_radio_tower",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 2 Sand",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Radio Tower Notepad 2",
             "id": 48060,
-            "region": "RadioTower",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_radio_tower",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 2 Plank",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Radio Tower Signalboard Trace",
             "id": 48061,
-            "region": "RadioTower",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_radio_tower",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Hammock",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Vasagatan": {
         "name": "Vasagatan",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "RaftToVasagatan",
             "parent_region": "Raft",
-            "connected_region": "Vasagatan",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Vasagatan"
           }
         ],
         "exits": [],
@@ -2336,282 +1953,207 @@
           {
             "name": "Hannes Letter 1",
             "id": 48062,
-            "region": "Vasagatan",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_vasagatan",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Net launcher",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Hannes Letter 2",
             "id": 48063,
-            "region": "Vasagatan",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_vasagatan",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 1 MetalOre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Hannes Letter 3",
             "id": 48064,
-            "region": "Vasagatan",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_vasagatan",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 2 Thatch",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Olof Log 1",
             "id": 48065,
-            "region": "Vasagatan",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_vasagatan",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-bow",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Olof Log 2",
             "id": 48066,
-            "region": "Vasagatan",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_vasagatan",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-storage",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Olof Log 3",
             "id": 48067,
-            "region": "Vasagatan",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_vasagatan",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-hook",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Vasagatan Recording 1",
             "id": 48068,
-            "region": "Vasagatan",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_vasagatan",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 2 MetalOre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Vasagatan Recording 2",
             "id": 48069,
-            "region": "Vasagatan",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_vasagatan",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-crop-plot",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Vasagatan Recording 3",
             "id": 48070,
-            "region": "Vasagatan",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_vasagatan",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Juicer",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Vasagatan Magazine Clipping",
             "id": 48071,
-            "region": "Vasagatan",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_vasagatan",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-salve",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Vasagatan Frequency to Balboa",
             "id": 48072,
-            "region": "Vasagatan",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_vasagatan",
               "args": []
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Balboa Island Frequency",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Engine blueprint",
             "id": 48073,
-            "region": "Vasagatan",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_vasagatan",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 2 SeaVine",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Steering Wheel blueprint",
             "id": 48074,
-            "region": "Vasagatan",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_vasagatan",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-crop-plot",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "BalboaIsland": {
         "name": "BalboaIsland",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "RaftToBalboaIsland",
             "parent_region": "Raft",
-            "connected_region": "BalboaIsland",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "BalboaIsland"
           }
         ],
         "exits": [],
@@ -2619,88 +2161,66 @@
           {
             "name": "Machete blueprint",
             "id": 48075,
-            "region": "BalboaIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_balboa_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 5 MetalOre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Balboa Island Correa twins picture",
             "id": 48076,
-            "region": "BalboaIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_balboa_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 5 Scrap",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Balboa Island Schedule of engineers",
             "id": 48077,
-            "region": "BalboaIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_balboa_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Water tank",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Biofuel refiner blueprint",
             "id": 48078,
-            "region": "BalboaIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_balboa_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 1 Plank",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Balboa Island Note from Henry",
             "id": 48079,
-            "region": "BalboaIsland",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -2723,21 +2243,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-salve",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Balboa Island Correas diary 3",
             "id": 48080,
-            "region": "BalboaIsland",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -2760,21 +2275,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-storage",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Fuel tank blueprint",
             "id": 48081,
-            "region": "BalboaIsland",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -2797,101 +2307,76 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 4 Raw_Potato",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Balboa Island Correas diary 1",
             "id": 48082,
-            "region": "BalboaIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_balboa_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 2 Stone",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Balboa Island Correas diary 2",
             "id": 48083,
-            "region": "BalboaIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_balboa_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Flippers",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Fuel pipe blueprint",
             "id": 48084,
-            "region": "BalboaIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_balboa_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 4 Thatch",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Balboa Island Bear map",
             "id": 48085,
-            "region": "BalboaIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_balboa_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Shovel",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Johnny (Balboa Island)",
             "id": 48086,
-            "region": "BalboaIsland",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -2914,155 +2399,112 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-bottle",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Balboa Island Doll murderer 4",
             "id": 48087,
-            "region": "BalboaIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_balboa_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Leather greaves",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Balboa Island Doll murderer 1",
             "id": 48088,
-            "region": "BalboaIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_balboa_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 3 Scrap",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Balboa Island Doll murderer 3",
             "id": 48089,
-            "region": "BalboaIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_balboa_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 2 MetalOre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Balboa Island Doll murderer 5",
             "id": 48090,
-            "region": "BalboaIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_balboa_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-battery",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Balboa Island Doll murderer 2",
             "id": 48091,
-            "region": "BalboaIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_balboa_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Cookingpot",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Relay Station quest",
             "id": 48155,
-            "region": "BalboaIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_balboa_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Tangaroa Frequency",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "CaravanIsland": {
         "name": "CaravanIsland",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "RaftToCaravanIsland",
             "parent_region": "Raft",
-            "connected_region": "CaravanIsland",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "CaravanIsland"
           }
         ],
         "exits": [],
@@ -3070,228 +2512,171 @@
           {
             "name": "Caravan Island Detto journal 1",
             "id": 48092,
-            "region": "CaravanIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_caravan_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 5 ExplosiveGoo",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Caravan Island Detto journal 2",
             "id": 48093,
-            "region": "CaravanIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_caravan_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-hook",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Caravan Island Detto journal 3",
             "id": 48094,
-            "region": "CaravanIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_caravan_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 5 Stone",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Caravan Island Detto journal 4",
             "id": 48095,
-            "region": "CaravanIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_caravan_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-zipline",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Caravan Island Detto journal 5",
             "id": 48096,
-            "region": "CaravanIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_caravan_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 2 CopperOre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Caravan Island Detto journal 6",
             "id": 48097,
-            "region": "CaravanIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_caravan_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Leather body armor",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Caravan Island Olaf speech",
             "id": 48098,
-            "region": "CaravanIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_caravan_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fuel pipe",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Caravan Island Raft town article",
             "id": 48099,
-            "region": "CaravanIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_caravan_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 5 SeaVine",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Caravan Island Doctor's note",
             "id": 48100,
-            "region": "CaravanIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_caravan_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 3 Scrap",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Firework blueprint",
             "id": 48101,
-            "region": "CaravanIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_caravan_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 2 TitaniumOre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Battery Charger quest",
             "id": 48102,
-            "region": "CaravanIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_caravan_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-bow",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Zipline quest",
             "id": 48103,
-            "region": "CaravanIsland",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -3314,21 +2699,16 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-zipline",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Caravan Island Frequency to Tangaroa",
             "id": 48104,
-            "region": "CaravanIsland",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -3351,75 +2731,52 @@
               },
               "args": []
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Varuna Point Frequency",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Engine controls blueprint",
             "id": 48105,
-            "region": "CaravanIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_caravan_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-scarecrow",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Metal detector blueprint",
             "id": 48106,
-            "region": "CaravanIsland",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_caravan_island",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-backpack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Tangaroa": {
         "name": "Tangaroa",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "RaftToTangaroa",
             "parent_region": "Raft",
-            "connected_region": "Tangaroa",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Tangaroa"
           }
         ],
         "exits": [],
@@ -3427,322 +2784,237 @@
           {
             "name": "Tangaroa Ruben 1",
             "id": 48107,
-            "region": "Tangaroa",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_tangaroa",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Birds nest",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tangaroa Ruben 2",
             "id": 48108,
-            "region": "Tangaroa",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_tangaroa",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 3 MetalOre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tangaroa Ruben 3",
             "id": 48109,
-            "region": "Tangaroa",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_tangaroa",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-bow",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tangaroa Ruben 4",
             "id": 48110,
-            "region": "Tangaroa",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_tangaroa",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 4 Raw_Beet",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tangaroa Ruben 5",
             "id": 48111,
-            "region": "Tangaroa",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_tangaroa",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Oxygen bottle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tangaroa Gardener Diary",
             "id": 48112,
-            "region": "Tangaroa",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_tangaroa",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 1 Stone",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tangaroa Riot Log",
             "id": 48113,
-            "region": "Tangaroa",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_tangaroa",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 2 Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tangaroa Tulley Note",
             "id": 48114,
-            "region": "Tangaroa",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_tangaroa",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-purifier",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tangaroa Cipher",
             "id": 48115,
-            "region": "Tangaroa",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_tangaroa",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-grill",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tangaroa Frequency to Varuna Point",
             "id": 48116,
-            "region": "Tangaroa",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_tangaroa",
               "args": []
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Caravan Island Frequency",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Water pipe blueprint",
             "id": 48117,
-            "region": "Tangaroa",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_tangaroa",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-net",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Electric purifier blueprint",
             "id": 48118,
-            "region": "Tangaroa",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_tangaroa",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 1 Plank",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Water tank blueprint",
             "id": 48119,
-            "region": "Tangaroa",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_tangaroa",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 2 Plastic",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Large Storage blueprint",
             "id": 48120,
-            "region": "Tangaroa",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_tangaroa",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 2 Thatch",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Elaine (Tangaroa)",
             "id": 48121,
-            "region": "Tangaroa",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_tangaroa",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 4 Stone",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Varuna Point": {
         "name": "Varuna Point",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "RaftToVaruna Point",
             "parent_region": "Raft",
-            "connected_region": "Varuna Point",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Varuna Point"
           }
         ],
         "exits": [],
@@ -3750,242 +3022,177 @@
           {
             "name": "Varuna Point Grabber diary 1",
             "id": 48122,
-            "region": "Varuna Point",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_varuna_point",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 1 Plastic",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Varuna Point Grabber diary 2",
             "id": 48123,
-            "region": "Varuna Point",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_varuna_point",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 4 Thatch",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Varuna Point Grabber diary 3",
             "id": 48124,
-            "region": "Varuna Point",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_varuna_point",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 1 TitaniumOre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Varuna Point Grabber diary 4",
             "id": 48125,
-            "region": "Varuna Point",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_varuna_point",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-containers",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Varuna Point Grabber diary 5",
             "id": 48126,
-            "region": "Varuna Point",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_varuna_point",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-zipline",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Varuna Point Grabber diary 6",
             "id": 48127,
-            "region": "Varuna Point",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_varuna_point",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-headlight",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Varuna Point Frequency to Temperance",
             "id": 48128,
-            "region": "Varuna Point",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_varuna_point",
               "args": []
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Temperance Frequency",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Wind Turbine blueprint",
             "id": 48129,
-            "region": "Varuna Point",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_varuna_point",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 1 Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Advanced Battery blueprint",
             "id": 48130,
-            "region": "Varuna Point",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_varuna_point",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-axe",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Advanced Headlight blueprint",
             "id": 48131,
-            "region": "Varuna Point",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_varuna_point",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Leather helmet",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Electric Grill blueprint",
             "id": 48132,
-            "region": "Varuna Point",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_varuna_point",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 3 Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Temperance": {
         "name": "Temperance",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "RaftToTemperance",
             "parent_region": "Raft",
-            "connected_region": "Temperance",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Temperance"
           }
         ],
         "exits": [],
@@ -3993,342 +3200,252 @@
           {
             "name": "Temperance Bruno diary 1",
             "id": 48133,
-            "region": "Temperance",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_temperance",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 1 SeaVine",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Temperance Bruno diary 2",
             "id": 48134,
-            "region": "Temperance",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_temperance",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-axe",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Temperance Bruno diary 3",
             "id": 48135,
-            "region": "Temperance",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_temperance",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 4 Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Temperance Bruno diary 4",
             "id": 48136,
-            "region": "Temperance",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_temperance",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 2 CopperOre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Temperance Bruno diary 5",
             "id": 48137,
-            "region": "Temperance",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_temperance",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-spear",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Temperance Sparrow note 1",
             "id": 48138,
-            "region": "Temperance",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_temperance",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-crop-plot",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Temperance Sparrow note 2",
             "id": 48139,
-            "region": "Temperance",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_temperance",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-purifier",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Temperance Frequency to Utopia",
             "id": 48140,
-            "region": "Temperance",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_temperance",
               "args": []
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Utopia Frequency",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Temperance Star sign 1",
             "id": 48141,
-            "region": "Temperance",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_temperance",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-containers",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Temperance Star sign 2",
             "id": 48142,
-            "region": "Temperance",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_temperance",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Shear",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Temperance Star sign 3",
             "id": 48143,
-            "region": "Temperance",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_temperance",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 5 TitaniumOre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Temperance Star sign 4",
             "id": 48144,
-            "region": "Temperance",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_temperance",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 2 Plank",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Electric Smelter blueprint",
             "id": 48145,
-            "region": "Temperance",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_temperance",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-net",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Advanced Biofuel Extractor blueprint",
             "id": 48146,
-            "region": "Temperance",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_temperance",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 2 Scrap",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Advanced Stationary Anchor blueprint",
             "id": 48147,
-            "region": "Temperance",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_temperance",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Resource Pack: 3 Plastic",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shogo (Temperance)",
             "id": 48148,
-            "region": "Temperance",
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "raft_can_access_temperance",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-scarecrow",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Utopia": {
         "name": "Utopia",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "RaftToUtopia",
             "parent_region": "Raft",
-            "connected_region": "Utopia",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Utopia"
           }
         ],
         "exits": [],
@@ -4336,8 +3453,6 @@
           {
             "name": "Electric Zipline blueprint",
             "id": 48149,
-            "region": "Utopia",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -4353,21 +3468,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Binoculars",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Advanced Backpack blueprint",
             "id": 48150,
-            "region": "Utopia",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -4383,21 +3493,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sweep net",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Titanium Tools blueprint",
             "id": 48151,
-            "region": "Utopia",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -4413,21 +3518,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-backpack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Utopia Captives note",
             "id": 48152,
-            "region": "Utopia",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -4443,21 +3543,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Grass plot",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Utopia Detto map",
             "id": 48153,
-            "region": "Utopia",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -4473,21 +3568,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "progressive-engine",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Utopia Complete",
             "id": null,
-            "region": "Utopia",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -4503,25 +3593,17 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Victory",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Menu": {
         "name": "Menu",
-        "type": "Region",
-        "player": 1,
         "entrances": [],
         "exits": [
           {
@@ -4530,17 +3612,10 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       }
     }
   },
@@ -4561,7 +3636,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4575,7 +3649,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4589,7 +3662,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4603,7 +3675,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4617,7 +3688,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4631,7 +3701,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4645,7 +3714,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4659,7 +3727,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4673,7 +3740,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4687,7 +3753,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4701,7 +3766,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4715,7 +3779,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4729,7 +3792,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4743,7 +3805,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4757,7 +3818,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4771,7 +3831,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4785,7 +3844,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4799,7 +3857,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4813,7 +3870,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4827,7 +3883,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4841,7 +3896,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4855,7 +3909,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4869,7 +3922,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4883,7 +3935,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4897,7 +3948,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4911,7 +3961,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4925,7 +3974,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4939,7 +3987,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4953,7 +4000,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4967,7 +4013,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4981,7 +4026,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4995,7 +4039,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5009,7 +4052,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5023,7 +4065,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5037,7 +4078,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5051,7 +4091,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5065,7 +4104,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5079,7 +4117,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5093,7 +4130,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5107,7 +4143,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5121,7 +4156,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5135,7 +4169,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5149,7 +4182,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5163,7 +4195,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5177,7 +4208,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5191,7 +4221,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5205,7 +4234,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5219,7 +4247,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5233,7 +4260,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5247,7 +4273,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5261,7 +4286,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5275,7 +4299,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5289,7 +4312,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5303,7 +4325,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5317,7 +4338,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5331,7 +4351,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5345,7 +4364,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5359,7 +4377,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5373,7 +4390,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5387,7 +4403,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5401,7 +4416,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5415,7 +4429,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5429,7 +4442,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5443,7 +4455,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5457,7 +4468,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5471,7 +4481,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5485,7 +4494,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5499,7 +4507,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5513,7 +4520,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5527,7 +4533,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5541,7 +4546,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5555,7 +4559,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5569,7 +4572,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5583,7 +4585,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5597,7 +4598,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5611,7 +4611,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5625,7 +4624,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5639,7 +4637,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5653,7 +4650,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5667,7 +4663,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5681,7 +4676,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5695,7 +4689,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5709,7 +4702,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5723,7 +4715,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5737,7 +4728,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5751,7 +4741,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5765,7 +4754,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5779,7 +4767,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5793,7 +4780,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5807,7 +4793,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5821,7 +4806,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5835,7 +4819,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5849,7 +4832,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5863,7 +4845,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5877,7 +4858,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5891,7 +4871,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5905,7 +4884,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5919,7 +4897,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5933,7 +4910,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5947,7 +4923,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5961,7 +4936,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5975,7 +4949,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5989,7 +4962,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6003,7 +4975,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6017,7 +4988,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6031,7 +5001,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6045,7 +5014,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6059,7 +5027,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6073,7 +5040,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6087,7 +5053,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6101,7 +5066,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6115,7 +5079,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6129,7 +5092,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6143,7 +5105,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6157,7 +5118,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6171,7 +5131,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6185,7 +5144,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6199,7 +5157,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6213,7 +5170,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6227,7 +5183,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6241,7 +5196,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6255,7 +5209,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6269,7 +5222,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6283,7 +5235,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6297,7 +5248,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6311,7 +5261,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6325,7 +5274,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6339,7 +5287,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6353,7 +5300,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6367,7 +5313,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6381,7 +5326,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6395,7 +5339,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6409,7 +5352,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6423,7 +5365,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6437,7 +5378,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6451,7 +5391,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6465,7 +5404,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6479,7 +5417,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6493,7 +5430,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6507,7 +5443,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6521,7 +5456,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6535,7 +5469,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6549,7 +5482,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6563,7 +5495,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6577,7 +5508,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6591,7 +5521,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6605,7 +5534,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6619,7 +5547,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6633,7 +5560,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6647,7 +5573,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6661,7 +5586,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6675,7 +5599,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6689,7 +5612,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6703,7 +5625,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6717,7 +5638,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6731,7 +5651,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6745,7 +5664,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6759,7 +5677,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6773,7 +5690,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6787,7 +5703,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6801,7 +5716,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6815,7 +5729,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6829,7 +5742,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6843,7 +5755,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6857,7 +5768,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6871,7 +5781,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6885,7 +5794,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6899,7 +5807,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6913,7 +5820,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6927,7 +5833,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6941,7 +5846,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6955,7 +5859,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6969,7 +5872,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6983,7 +5885,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6997,7 +5898,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7011,7 +5911,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7025,7 +5924,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7039,7 +5937,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7053,7 +5950,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7067,7 +5963,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7081,7 +5976,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7095,7 +5989,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7109,7 +6002,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7123,7 +6015,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7137,7 +6028,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7151,7 +6041,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7165,7 +6054,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7179,7 +6067,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7193,7 +6080,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7207,7 +6093,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7221,7 +6106,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7235,7 +6119,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7249,7 +6132,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7263,7 +6145,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7277,7 +6158,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7291,7 +6171,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7305,7 +6184,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7319,7 +6197,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7333,7 +6210,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7347,7 +6223,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7361,7 +6236,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7375,7 +6249,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7389,7 +6262,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7403,7 +6275,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7417,7 +6288,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7431,7 +6301,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7445,7 +6314,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7459,7 +6327,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7473,7 +6340,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7487,7 +6353,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7501,7 +6366,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7515,7 +6379,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7529,7 +6392,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7543,7 +6405,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7557,7 +6418,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7571,7 +6431,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7585,7 +6444,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7599,7 +6457,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7613,7 +6470,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7627,7 +6483,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7641,7 +6496,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7655,7 +6509,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7669,7 +6522,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7683,7 +6535,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7697,7 +6548,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7711,7 +6561,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7725,7 +6574,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7739,7 +6587,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7753,7 +6600,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7767,7 +6613,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7781,7 +6626,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7795,7 +6639,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7809,7 +6652,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7823,7 +6665,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7837,7 +6678,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7851,7 +6691,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7865,7 +6704,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7879,7 +6717,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7893,7 +6730,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7907,7 +6743,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7921,7 +6756,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7935,7 +6769,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7949,7 +6782,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7963,7 +6795,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7977,7 +6808,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7991,7 +6821,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8005,7 +6834,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8019,7 +6847,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8033,7 +6860,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8047,7 +6873,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8061,7 +6886,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8075,7 +6899,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8089,7 +6912,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8103,7 +6925,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8117,7 +6938,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8131,7 +6951,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8145,7 +6964,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8159,7 +6977,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8173,7 +6990,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8187,7 +7003,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8201,7 +7016,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8215,7 +7029,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8229,7 +7042,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8243,7 +7055,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8257,7 +7068,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8271,7 +7081,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8285,7 +7094,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8299,7 +7107,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8313,7 +7120,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8327,7 +7133,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8341,7 +7146,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8355,7 +7159,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8369,7 +7172,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8383,7 +7185,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8397,7 +7198,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8411,7 +7211,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8425,7 +7224,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8439,7 +7237,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8453,7 +7250,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8467,7 +7263,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8481,7 +7276,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8495,7 +7289,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8509,7 +7302,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8523,7 +7315,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8537,7 +7328,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8551,7 +7341,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8565,7 +7354,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8579,7 +7367,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8593,7 +7380,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8607,7 +7393,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8621,7 +7406,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8635,7 +7419,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8649,7 +7432,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8663,7 +7445,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8677,7 +7458,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8691,7 +7471,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8705,7 +7484,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8719,7 +7497,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8733,7 +7510,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8747,7 +7523,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8761,7 +7536,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8775,7 +7549,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8789,7 +7562,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8803,7 +7575,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8817,7 +7588,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8831,7 +7601,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8845,7 +7614,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8859,7 +7627,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8873,7 +7640,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8887,7 +7653,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8901,7 +7666,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8915,7 +7679,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8929,7 +7692,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8943,7 +7705,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8957,7 +7718,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8971,7 +7731,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8985,7 +7744,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8999,7 +7757,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -9013,7 +7770,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -9027,7 +7783,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -9041,7 +7796,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -9055,7 +7809,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -9069,7 +7822,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -9083,7 +7835,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -9097,7 +7848,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -9111,7 +7861,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,

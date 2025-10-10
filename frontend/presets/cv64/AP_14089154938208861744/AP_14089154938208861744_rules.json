@@ -10,17 +10,10 @@
   "world_classes": {
     "1": "CV64World"
   },
-  "plando_options": [
-    "connections",
-    "texts",
-    "bosses"
-  ],
   "regions": {
     "1": {
       "Menu": {
         "name": "Menu",
-        "type": "Region",
-        "player": 1,
         "entrances": [],
         "exits": [
           {
@@ -29,11 +22,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Warp 1",
@@ -48,11 +37,7 @@
                 "type": "constant",
                 "value": 1
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Warp 2",
@@ -67,11 +52,7 @@
                 "type": "constant",
                 "value": 2
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Warp 3",
@@ -86,11 +67,7 @@
                 "type": "constant",
                 "value": 3
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Warp 4",
@@ -105,11 +82,7 @@
                 "type": "constant",
                 "value": 4
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Warp 5",
@@ -124,11 +97,7 @@
                 "type": "constant",
                 "value": 5
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Warp 6",
@@ -143,11 +112,7 @@
                 "type": "constant",
                 "value": 6
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Warp 7",
@@ -162,32 +127,18 @@
                 "type": "constant",
                 "value": 7
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Forest of Silence: first half": {
         "name": "Forest of Silence: first half",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Start stage",
             "parent_region": "Menu",
-            "connected_region": "Forest of Silence: first half",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Forest of Silence: first half"
           }
         ],
         "exits": [
@@ -197,299 +148,215 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Forest of Silence: Grab practice pillars - Right",
             "id": 12992540,
-            "region": "Forest of Silence: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "300 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forest of Silence: Grab practice pillars - Top",
             "id": 12992531,
-            "region": "Forest of Silence: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Healing kit",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forest of Silence: King Skeleton's bridge",
             "id": 12992524,
-            "region": "Forest of Silence: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Moon card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forest of Silence: Moon gazebo inside",
             "id": 12992538,
-            "region": "Forest of Silence: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forest of Silence: Moon gazebo roof",
             "id": 12992537,
-            "region": "Forest of Silence: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "300 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forest of Silence: Sun gazebo inside",
             "id": 12992523,
-            "region": "Forest of Silence: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forest of Silence: Sun gazebo roof",
             "id": 12992515,
-            "region": "Forest of Silence: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Healing kit",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forest of Silence: Were-tiger switch",
             "id": 12992522,
-            "region": "Forest of Silence: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forest of Silence: Dirge maiden gate",
             "id": 12992519,
-            "region": "Forest of Silence: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forest of Silence: Dirge maiden crypt - Upper",
             "id": 12992520,
-            "region": "Forest of Silence: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Left Tower Key",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forest of Silence: Dirge maiden pedestal plaque",
             "id": 12992518,
-            "region": "Forest of Silence: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forest of Silence: Tri-corpse save junction",
             "id": 12992527,
-            "region": "Forest of Silence: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forest of Silence: Descending bridge wall side",
             "id": 12992536,
-            "region": "Forest of Silence: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast chicken",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forest of Silence: Descending bridge switch side",
             "id": 12992521,
-            "region": "Forest of Silence: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Purifying",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Forest of Silence: second half": {
         "name": "Forest of Silence: second half",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Descending bridge gate",
             "parent_region": "Forest of Silence: first half",
-            "connected_region": "Forest of Silence: second half",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Forest of Silence: second half"
           }
         ],
         "exits": [
@@ -499,204 +366,145 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Forest of Silence: Tri-corpse gate - Right",
             "id": 12992526,
-            "region": "Forest of Silence: second half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Purifying",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forest of Silence: Three-crypt plaza main path crypt - Upper-front",
             "id": 12992539,
-            "region": "Forest of Silence: second half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "500 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forest of Silence: Three-crypt plaza back-facing crypt - Lower-front",
             "id": 12992528,
-            "region": "Forest of Silence: second half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forest of Silence: Three-crypt plaza back-facing crypt - Upper",
             "id": 12992542,
-            "region": "Forest of Silence: second half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "PowerUp",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forest of Silence: Invisible bridge platform",
             "id": 12992514,
-            "region": "Forest of Silence: second half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Purifying",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forest of Silence: Werewolf crypt - Right",
             "id": 12992516,
-            "region": "Forest of Silence: second half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forest of Silence: Werewolf statue plaque",
             "id": 12992513,
-            "region": "Forest of Silence: second half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forest of Silence: Werewolf path near tree",
             "id": 12992525,
-            "region": "Forest of Silence: second half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forest of Silence: Three-crypt plaza switch",
             "id": 12992530,
-            "region": "Forest of Silence: second half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Forest of Silence: end area": {
         "name": "Forest of Silence: end area",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Werewolf gate",
             "parent_region": "Forest of Silence: second half",
-            "connected_region": "Forest of Silence: end area",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Forest of Silence: end area"
           }
         ],
         "exits": [
@@ -706,42 +514,23 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Castle Wall: main area": {
         "name": "Castle Wall: main area",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Warp 1",
             "parent_region": "Menu",
-            "connected_region": "Castle Wall: main area",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Castle Wall: main area"
           },
           {
             "name": "Dracula's drawbridge",
             "parent_region": "Forest of Silence: end area",
-            "connected_region": "Castle Wall: main area",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Castle Wall: main area"
           }
         ],
         "exits": [
@@ -751,11 +540,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Left Tower door",
@@ -766,147 +551,103 @@
                 "type": "constant",
                 "value": "Left Tower Key"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Castle Wall: Above bottom right tower door",
             "id": 12992989,
-            "region": "Castle Wall: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Wall: White Dragons switch door",
             "id": 12992851,
-            "region": "Castle Wall: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Moon card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Wall: Central rampart near right tower",
             "id": 12992854,
-            "region": "Castle Wall: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Wall: Central rampart near left tower",
             "id": 12992853,
-            "region": "Castle Wall: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Wall: Sandbag shelf - Visible",
             "id": 12992856,
-            "region": "Castle Wall: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Wall: Sandbag shelf - Invisible",
             "id": 12992846,
-            "region": "Castle Wall: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Purifying",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Castle Wall: exit room": {
         "name": "Castle Wall: exit room",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Central portcullis",
             "parent_region": "Castle Wall: main area",
-            "connected_region": "Castle Wall: exit room",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Castle Wall: exit room"
           }
         ],
         "exits": [],
@@ -914,41 +655,26 @@
           {
             "name": "Castle Wall: Ground gatehouse - Middle",
             "id": 12992857,
-            "region": "Castle Wall: exit room",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Castle Wall: left tower": {
         "name": "Castle Wall: left tower",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Left Tower door",
             "parent_region": "Castle Wall: main area",
-            "connected_region": "Castle Wall: left tower",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Castle Wall: left tower"
           }
         ],
         "exits": [
@@ -958,90 +684,61 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Castle Wall: Above bottom left tower door",
             "id": 12992990,
-            "region": "Castle Wall: left tower",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Wall: Left tower child ledge",
             "id": 12992988,
-            "region": "Castle Wall: left tower",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Mandragora",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Wall: Dracula cutscene switch door",
             "id": 12992852,
-            "region": "Castle Wall: left tower",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Villa: dog gates": {
         "name": "Villa: dog gates",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "End portcullis",
             "parent_region": "Castle Wall: left tower",
-            "connected_region": "Villa: dog gates",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Villa: dog gates"
           }
         ],
         "exits": [
@@ -1051,129 +748,85 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Villa: Outer front gate - Left",
             "id": 12992819,
-            "region": "Villa: dog gates",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast chicken",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Outer front gate - Right",
             "id": 12992818,
-            "region": "Villa: dog gates",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Purifying",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Outer front gate platform",
             "id": 12992820,
-            "region": "Villa: dog gates",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sun card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Inner front gate dog food",
             "id": 12992824,
-            "region": "Villa: dog gates",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Villa: main interior": {
         "name": "Villa: main interior",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Front dog gates",
             "parent_region": "Villa: dog gates",
-            "connected_region": "Villa: main interior",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Villa: main interior"
           },
           {
             "name": "From Storeroom door",
             "parent_region": "Villa: storeroom",
-            "connected_region": "Villa: main interior",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Villa: main interior"
           },
           {
             "name": "Servants' door",
             "parent_region": "Villa: servants entrance",
-            "connected_region": "Villa: main interior",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Villa: main interior"
           }
         ],
         "exits": [
@@ -1282,11 +935,7 @@
                   ]
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Archives door",
@@ -1361,11 +1010,7 @@
                   ]
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To maze gate",
@@ -1376,584 +1021,425 @@
                 "type": "constant",
                 "value": "Garden Key"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Villa: Front yard cross grave near gates",
             "id": 12992817,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Special1",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Front yard cross grave near porch",
             "id": 12992830,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Science Key1",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Front yard visitor's tombstone",
             "id": 12992815,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Healing kit",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Midnight fountain - Front-left",
             "id": 12992825,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Midnight fountain - Front-right",
             "id": 12992816,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Special1",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Midnight fountain - Middle-left",
             "id": 12992826,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast chicken",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Midnight fountain - Middle-right",
             "id": 12992829,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Midnight fountain - Rear-left",
             "id": 12992827,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Midnight fountain - Rear-right",
             "id": 12992828,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "PowerUp",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Foyer lower level - Front-right",
             "id": 12992573,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "300 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Foyer lower level - Front-left",
             "id": 12992571,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Foyer lower level - Middle-left",
             "id": 12992572,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "100 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Foyer lower level - Rear-right",
             "id": 12992568,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Foyer lower level - Rear-left",
             "id": 12992569,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Foyer upper-right pot",
             "id": 12992558,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "100 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Foyer upper-left pot",
             "id": 12992559,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Foyer sofa",
             "id": 12992557,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Special1",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Rose garden staircase bottom",
             "id": 12992564,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Magical Nitro",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Bedroom near chairs",
             "id": 12992563,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Bedroom near bed",
             "id": 12992562,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Moon card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Vincent",
             "id": 12992547,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Mary's room table",
             "id": 12992555,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Moon card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Dining room rose vase",
             "id": 12992554,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Special1",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Living room - Right pot",
             "id": 12992550,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Cure ampoule",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Living room - Left pot",
             "id": 12992549,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Purifying",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Living room clawed painting",
             "id": 12992556,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Living room ceiling light",
             "id": 12992552,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Living room lion head",
             "id": 12992560,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "PowerUp",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Maze garden exit knight",
             "id": 12992551,
-            "region": "Villa: main interior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Villa: storeroom": {
         "name": "Villa: storeroom",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Storeroom door",
             "parent_region": "Villa: main interior",
-            "connected_region": "Villa: storeroom",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Villa: storeroom"
           }
         ],
         "exits": [
@@ -1966,90 +1452,61 @@
                 "type": "constant",
                 "value": "Storeroom Key"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Villa: Storeroom - Left",
             "id": 12992566,
-            "region": "Villa: storeroom",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "500 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Storeroom - Right",
             "id": 12992567,
-            "region": "Villa: storeroom",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "500 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Storeroom statue",
             "id": 12992561,
-            "region": "Villa: storeroom",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Purifying",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Villa: archives": {
         "name": "Villa: archives",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Archives door",
             "parent_region": "Villa: main interior",
-            "connected_region": "Villa: archives",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Villa: archives"
           }
         ],
         "exits": [],
@@ -2057,70 +1514,45 @@
           {
             "name": "Villa: Archives table",
             "id": 12992553,
-            "region": "Villa: archives",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sun card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Archives rear corner",
             "id": 12992548,
-            "region": "Villa: archives",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Villa: maze": {
         "name": "Villa: maze",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To maze gate",
             "parent_region": "Villa: main interior",
-            "connected_region": "Villa: maze",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Villa: maze"
           },
           {
             "name": "From bridge door",
             "parent_region": "Villa: crypt",
-            "connected_region": "Villa: maze",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Villa: maze"
           }
         ],
         "exits": [
@@ -2133,11 +1565,7 @@
                 "type": "constant",
                 "value": "Garden Key"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Copper door",
@@ -2148,242 +1576,173 @@
                 "type": "constant",
                 "value": "Copper Key"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Villa: Front maze garden - Malus start torch",
             "id": 12992883,
-            "region": "Villa: maze",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "500 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Front maze garden - Malus's hiding bush",
             "id": 12992876,
-            "region": "Villa: maze",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Science Key3",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Front maze garden - Frankie's left dead-end",
             "id": 12992887,
-            "region": "Villa: maze",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Front maze garden - Frankie's right dead-end urn",
             "id": 12992878,
-            "region": "Villa: maze",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "500 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Rear maze garden - Iron Thorn Fenced area - Front",
             "id": 12992882,
-            "region": "Villa: maze",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sun card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Rear maze garden - Iron Thorn Fenced area - Mid-front",
             "id": 12992881,
-            "region": "Villa: maze",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Moon card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Rear maze garden - Iron Thorn Fenced area - Mid-rear",
             "id": 12992884,
-            "region": "Villa: maze",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Moon card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Rear maze garden - Iron Thorn Fenced area - Rear",
             "id": 12992880,
-            "region": "Villa: maze",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast chicken",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Rear maze garden - Viewing platform dead-end",
             "id": 12992886,
-            "region": "Villa: maze",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "500 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Rear maze garden - Past-exit dead-end",
             "id": 12992885,
-            "region": "Villa: maze",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Servants' path small alcove",
             "id": 12992890,
-            "region": "Villa: maze",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Villa: servants entrance": {
         "name": "Villa: servants entrance",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "From maze gate",
             "parent_region": "Villa: maze",
-            "connected_region": "Villa: servants entrance",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Villa: servants entrance"
           }
         ],
         "exits": [
@@ -2393,52 +1752,33 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Villa: Servants' entrance",
             "id": 12992574,
-            "region": "Villa: servants entrance",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast chicken",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Villa: crypt": {
         "name": "Villa: crypt",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Copper door",
             "parent_region": "Villa: maze",
-            "connected_region": "Villa: crypt",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Villa: crypt"
           }
         ],
         "exits": [
@@ -2448,11 +1788,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Villa Reinhardt (daytime) exit",
@@ -2460,11 +1796,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Villa Carrie (nighttime) exit",
@@ -2472,166 +1804,117 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Villa: Crypt entrance",
             "id": 12992888,
-            "region": "Villa: crypt",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast chicken",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Crypt bridge upstream",
             "id": 12992889,
-            "region": "Villa: crypt",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Clocktower Key2",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Crypt - Left from entrance",
             "id": 12992713,
-            "region": "Villa: crypt",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast chicken",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Crypt - Right from entrance",
             "id": 12992704,
-            "region": "Villa: crypt",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "500 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Crypt - Left wall",
             "id": 12992706,
-            "region": "Villa: crypt",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Moon card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Crypt - Right wall",
             "id": 12992705,
-            "region": "Villa: crypt",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Clocktower Key1",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Villa: Crypt - Right of coffin",
             "id": 12992712,
-            "region": "Villa: crypt",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "300 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Tunnel: first half": {
         "name": "Tunnel: first half",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Villa Reinhardt (daytime) exit",
             "parent_region": "Villa: crypt",
-            "connected_region": "Tunnel: first half",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Tunnel: first half"
           }
         ],
         "exits": [
@@ -2641,309 +1924,220 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Tunnel: Landing point",
             "id": 12992919,
-            "region": "Tunnel: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Landing point rock crusher",
             "id": 12992918,
-            "region": "Tunnel: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sun card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Stepping stone alcove - Left",
             "id": 12992903,
-            "region": "Tunnel: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Twin arrow signs",
             "id": 12992917,
-            "region": "Tunnel: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "500 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Near lonesome bucket",
             "id": 12992905,
-            "region": "Tunnel: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Cure ampoule",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Lonesome bucket poison pit",
             "id": 12992913,
-            "region": "Tunnel: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Lonesome bucket-Albert junction",
             "id": 12992912,
-            "region": "Tunnel: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Albert's campsite",
             "id": 12992914,
-            "region": "Tunnel: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast chicken",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Albert's poison pit",
             "id": 12992915,
-            "region": "Tunnel: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "100 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Gondola rock crusher sun door - Middle",
             "id": 12992926,
-            "region": "Tunnel: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Archives Key",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Gondola rock crusher sun door - Right",
             "id": 12992904,
-            "region": "Tunnel: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Gondola rock crusher",
             "id": 12992924,
-            "region": "Tunnel: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "500 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Red gondola station",
             "id": 12992916,
-            "region": "Tunnel: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Gondola transfer point",
             "id": 12992902,
-            "region": "Tunnel: first half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Storeroom Key",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Tunnel: second half": {
         "name": "Tunnel: second half",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Warp 2",
             "parent_region": "Menu",
-            "connected_region": "Tunnel: second half",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Tunnel: second half"
           },
           {
             "name": "Gondola ride",
             "parent_region": "Tunnel: first half",
-            "connected_region": "Tunnel: second half",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Tunnel: second half"
           }
         ],
         "exits": [
@@ -2953,252 +2147,178 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Tunnel: Corpse bucket poison pit",
             "id": 12992910,
-            "region": "Tunnel: second half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Corpse bucket moon door - Right",
             "id": 12992901,
-            "region": "Tunnel: second half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Shovel poison pit start",
             "id": 12992909,
-            "region": "Tunnel: second half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast chicken",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Exit door poison pit start",
             "id": 12992908,
-            "region": "Tunnel: second half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Shovel poison pit end",
             "id": 12992907,
-            "region": "Tunnel: second half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "500 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Exit door poison pit end",
             "id": 12992900,
-            "region": "Tunnel: second half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Shovel",
             "id": 12992911,
-            "region": "Tunnel: second half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Shovel zone save junction",
             "id": 12992906,
-            "region": "Tunnel: second half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Healing kit",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Shovel zone moon door - Left",
             "id": 12992899,
-            "region": "Tunnel: second half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Shovel zone sun door - Left",
             "id": 12992898,
-            "region": "Tunnel: second half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tunnel: Shovel zone sun door - Middle",
             "id": 12992925,
-            "region": "Tunnel: second half",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast chicken",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Underground Waterway: main area": {
         "name": "Underground Waterway: main area",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Warp 3",
             "parent_region": "Menu",
-            "connected_region": "Underground Waterway: main area",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Underground Waterway: main area"
           },
           {
             "name": "Villa Carrie (nighttime) exit",
             "parent_region": "Villa: crypt",
-            "connected_region": "Underground Waterway: main area",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Underground Waterway: main area"
           }
         ],
         "exits": [
@@ -3208,147 +2328,103 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Underground Waterway: Near entrance corridor",
             "id": 12992588,
-            "region": "Underground Waterway: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Clocktower Key3",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Waterway: Across from entrance",
             "id": 12992590,
-            "region": "Underground Waterway: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "300 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Waterway: Across poison parkour ledges",
             "id": 12992589,
-            "region": "Underground Waterway: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "300 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Waterway: Waterfall alcove ledge",
             "id": 12992599,
-            "region": "Underground Waterway: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "PowerUp",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Waterway: Brick platforms save corridor",
             "id": 12992602,
-            "region": "Underground Waterway: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Underground Waterway: Above skeleton crusher ledge",
             "id": 12992598,
-            "region": "Underground Waterway: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Underground Waterway: end": {
         "name": "Underground Waterway: end",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Final waterfall",
             "parent_region": "Underground Waterway: main area",
-            "connected_region": "Underground Waterway: end",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Underground Waterway: end"
           }
         ],
         "exits": [
@@ -3358,42 +2434,23 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Castle Center: main area": {
         "name": "Castle Center: main area",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "End Tunnel door",
             "parent_region": "Tunnel: second half",
-            "connected_region": "Castle Center: main area",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Castle Center: main area"
           },
           {
             "name": "End Waterway door",
             "parent_region": "Underground Waterway: end",
-            "connected_region": "Castle Center: main area",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Castle Center: main area"
           }
         ],
         "exits": [
@@ -3534,11 +2591,7 @@
                   ]
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Lower sealed cracked wall",
@@ -3569,11 +2622,7 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Upper cracked wall",
@@ -3590,926 +2639,677 @@
                   ]
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Castle Center: Entrance hallway",
             "id": 12992943,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Basement hallway junction",
             "id": 12992936,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Cure ampoule",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Torture chamber hallway",
             "id": 12992942,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Cure ampoule",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Behemoth arena - Left far-front torch",
             "id": 12992941,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Behemoth arena - Left mid-front torch",
             "id": 12992947,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Cure ampoule",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Behemoth arena - Left mid-rear torch",
             "id": 12992940,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast chicken",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Behemoth arena - Left far-rear torch",
             "id": 12992946,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Behemoth arena - Right far-front torch",
             "id": 12992945,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Behemoth arena - Right mid-front torch",
             "id": 12992939,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Behemoth arena - Right mid-rear torch",
             "id": 12992944,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast chicken",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Behemoth arena - Right far-rear torch",
             "id": 12992938,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "100 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Near elevator room machine",
             "id": 12992794,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "100 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Atop elevator room machine",
             "id": 12992792,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "PowerUp",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Elevator pipe device",
             "id": 12992795,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Moon card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Elevator room staircase",
             "id": 12992793,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "500 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Red carpet hall knight",
             "id": 12992778,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "PowerUp",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Gear room side",
             "id": 12992783,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast chicken",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Gear room center",
             "id": 12992782,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Gear room corner",
             "id": 12992781,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Purifying",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Lizard locker knight",
             "id": 12992777,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast chicken",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Lizard locker room near pit",
             "id": 12992780,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Lizard locker room corner",
             "id": 12992779,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "500 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Broken staircase floor",
             "id": 12992635,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Broken staircase knight",
             "id": 12992628,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Mandragora",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Above broken staircase savepoint",
             "id": 12992636,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sun card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Stained Glass Knight room - Left",
             "id": 12992634,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Stained Glass Knight room - Right",
             "id": 12992638,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Butler bros. room near door",
             "id": 12992637,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Special1",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Butler bros. room inner",
             "id": 12992633,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast chicken",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Past butler room flamethrowers",
             "id": 12992632,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Inside cracked wall hallway flamethrower",
             "id": 12992627,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "500 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Past upper cracked wall flamethrowers",
             "id": 12992631,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Heinrich Meyer",
             "id": 12992617,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Nitro room crates",
             "id": 12992614,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Garden Key",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Magical Nitro shelf - Heinrich side",
             "id": 12992597,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Execution Key",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Hell Knight landing corner knight",
             "id": 12992609,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Maid sisters room vase",
             "id": 12992611,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Maid sisters room outer table",
             "id": 12992619,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Science Key2",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Maid sisters room inner table",
             "id": 12992618,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Chamber Key",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Invention room maid sisters door",
             "id": 12992620,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Invention room spike crusher door",
             "id": 12992622,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "500 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Invention room giant Famicart",
             "id": 12992612,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "500 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Invention room zeppelin",
             "id": 12992621,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast chicken",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Invention room round machine",
             "id": 12992613,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast chicken",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Inside nitro hallway flamethrower",
             "id": 12992610,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast chicken",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Past nitro room flamethrowers",
             "id": 12992623,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Magical Nitro shelf - Invention side",
             "id": 12992608,
-            "region": "Castle Center: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Special1",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Castle Center: torture chamber": {
         "name": "Castle Center: torture chamber",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Torture Chamber door",
             "parent_region": "Castle Center: main area",
-            "connected_region": "Castle Center: torture chamber",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Castle Center: torture chamber"
           }
         ],
         "exits": [],
@@ -4517,98 +3317,68 @@
           {
             "name": "Castle Center: Mandragora shelf - Left",
             "id": 12992928,
-            "region": "Castle Center: torture chamber",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Copper Key",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Mandragora shelf - Right",
             "id": 12992929,
-            "region": "Castle Center: torture chamber",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "500 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Torture chamber instrument rack",
             "id": 12992937,
-            "region": "Castle Center: torture chamber",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "500 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Torture chamber rafters",
             "id": 12992930,
-            "region": "Castle Center: torture chamber",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Castle Center: library": {
         "name": "Castle Center: library",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Upper cracked wall",
             "parent_region": "Castle Center: main area",
-            "connected_region": "Castle Center: library",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Castle Center: library"
           }
         ],
         "exits": [],
@@ -4616,60 +3386,40 @@
           {
             "name": "Castle Center: Inside upper cracked wall",
             "id": 12992630,
-            "region": "Castle Center: library",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sun card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Center: Library bookshelf",
             "id": 12992870,
-            "region": "Castle Center: library",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "500 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Castle Center: big crystal": {
         "name": "Castle Center: big crystal",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Lower sealed cracked wall",
             "parent_region": "Castle Center: main area",
-            "connected_region": "Castle Center: big crystal",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Castle Center: big crystal"
           }
         ],
         "exits": [
@@ -4679,72 +3429,43 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Castle Center: Behind the seal",
             "id": null,
-            "region": "Castle Center: big crystal",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Crystal",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Castle Center: elevator top": {
         "name": "Castle Center: elevator top",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Activate crystal and ride elevator",
             "parent_region": "Castle Center: big crystal",
-            "connected_region": "Castle Center: elevator top",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Castle Center: elevator top"
           },
           {
             "name": "Duel Tower start passage",
             "parent_region": "Duel Tower",
-            "connected_region": "Castle Center: elevator top",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Castle Center: elevator top"
           },
           {
             "name": "Tower of Science start passage",
             "parent_region": "Tower of Science: turret lab",
-            "connected_region": "Castle Center: elevator top",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Castle Center: elevator top"
           }
         ],
         "exits": [
@@ -4754,11 +3475,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Castle Center Carrie (Ghost) exit",
@@ -4766,52 +3483,28 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Duel Tower": {
         "name": "Duel Tower",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Warp 4",
             "parent_region": "Menu",
-            "connected_region": "Duel Tower",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Duel Tower"
           },
           {
             "name": "Castle Center Reinhardt (Medusa Head) exit",
             "parent_region": "Castle Center: elevator top",
-            "connected_region": "Duel Tower",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Duel Tower"
           },
           {
             "name": "Tower of Execution start passage",
             "parent_region": "Tower of Execution: main area",
-            "connected_region": "Duel Tower",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Duel Tower"
           }
         ],
         "exits": [
@@ -4821,11 +3514,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Duel Tower end passage",
@@ -4833,109 +3522,75 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Duel Tower: Invisible bridge balcony - Left",
             "id": 12992641,
-            "region": "Duel Tower",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Duel Tower: Invisible bridge balcony - Right",
             "id": 12992640,
-            "region": "Duel Tower",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "PowerUp",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Duel Tower: Stepping stone path start",
             "id": 12992643,
-            "region": "Duel Tower",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Purifying",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Duel Tower: Above Were-bull arena",
             "id": 12992642,
-            "region": "Duel Tower",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Tower of Execution: main area": {
         "name": "Tower of Execution: main area",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Duel Tower end passage",
             "parent_region": "Duel Tower",
-            "connected_region": "Tower of Execution: main area",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Tower of Execution: main area"
           }
         ],
         "exits": [
@@ -4945,11 +3600,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Execution gate",
@@ -4960,11 +3611,7 @@
                 "type": "constant",
                 "value": "Execution Key"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Tower of Execution end staircase",
@@ -4972,128 +3619,89 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Tower of Execution: Past mid-savepoint spikes - Right",
             "id": 12992668,
-            "region": "Tower of Execution: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast chicken",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Execution: Past mid-savepoint spikes - Left",
             "id": 12992667,
-            "region": "Tower of Execution: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Execution: Electric grate ledge",
             "id": 12992665,
-            "region": "Tower of Execution: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Execution: Invisible bridge ledge",
             "id": 12992664,
-            "region": "Tower of Execution: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Purifying",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Execution: Guillotine tower top level",
             "id": 12992669,
-            "region": "Tower of Execution: main area",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Purifying",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Tower of Execution: gated ledge": {
         "name": "Tower of Execution: gated ledge",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Execution gate",
             "parent_region": "Tower of Execution: main area",
-            "connected_region": "Tower of Execution: gated ledge",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Tower of Execution: gated ledge"
           }
         ],
         "exits": [],
@@ -5101,51 +3709,31 @@
           {
             "name": "Tower of Execution: Key gate alcove - Left",
             "id": 12992666,
-            "region": "Tower of Execution: gated ledge",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Purifying",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Tower of Science: turret lab": {
         "name": "Tower of Science: turret lab",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Castle Center Carrie (Ghost) exit",
             "parent_region": "Castle Center: elevator top",
-            "connected_region": "Tower of Science: turret lab",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Tower of Science: turret lab"
           },
           {
             "name": "From Science Door 2",
             "parent_region": "Tower of Science: spiky conveyors",
-            "connected_region": "Tower of Science: turret lab",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Tower of Science: turret lab"
           }
         ],
         "exits": [
@@ -5155,11 +3743,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Science Door 1",
@@ -5202,11 +3786,7 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Science Door 2",
@@ -5217,90 +3797,61 @@
                 "type": "constant",
                 "value": "Science Key2"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Tower of Science: Elevator hallway",
             "id": 12993020,
-            "region": "Tower of Science: turret lab",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sun card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Science: Plain sight side room",
             "id": 12993023,
-            "region": "Tower of Science: turret lab",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Science: Staircase side room",
             "id": 12993019,
-            "region": "Tower of Science: turret lab",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Tower of Science: locked key1 room": {
         "name": "Tower of Science: locked key1 room",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Science Door 1",
             "parent_region": "Tower of Science: turret lab",
-            "connected_region": "Tower of Science: locked key1 room",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Tower of Science: locked key1 room"
           }
         ],
         "exits": [],
@@ -5308,51 +3859,31 @@
           {
             "name": "Tower of Science: Pick-a-door hallway locked middle room",
             "id": 12993022,
-            "region": "Tower of Science: locked key1 room",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Tower of Science: spiky conveyors": {
         "name": "Tower of Science: spiky conveyors",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Science Door 2",
             "parent_region": "Tower of Science: turret lab",
-            "connected_region": "Tower of Science: spiky conveyors",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Tower of Science: spiky conveyors"
           },
           {
             "name": "Tower of Sorcery start passage",
             "parent_region": "Tower of Sorcery",
-            "connected_region": "Tower of Science: spiky conveyors",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Tower of Science: spiky conveyors"
           }
         ],
         "exits": [
@@ -5365,11 +3896,7 @@
                 "type": "constant",
                 "value": "Science Key2"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Science Door 3",
@@ -5444,11 +3971,7 @@
                   ]
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Tower of Science end passage",
@@ -5456,90 +3979,61 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Tower of Science: Invisible bridge platform torch",
             "id": 12993011,
-            "region": "Tower of Science: spiky conveyors",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Purifying",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Science: Spiky conveyor side room",
             "id": 12993015,
-            "region": "Tower of Science: spiky conveyors",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Science: Exit hallway",
             "id": 12993021,
-            "region": "Tower of Science: spiky conveyors",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "300 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Tower of Science: locked key3 room": {
         "name": "Tower of Science: locked key3 room",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Science Door 3",
             "parent_region": "Tower of Science: spiky conveyors",
-            "connected_region": "Tower of Science: locked key3 room",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Tower of Science: locked key3 room"
           }
         ],
         "exits": [],
@@ -5547,60 +4041,40 @@
           {
             "name": "Tower of Science: Locked Key3 room - Right",
             "id": 12993018,
-            "region": "Tower of Science: locked key3 room",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "300 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Science: Locked Key3 room - Left",
             "id": 12993017,
-            "region": "Tower of Science: locked key3 room",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "300 GOLD",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Tower of Sorcery": {
         "name": "Tower of Sorcery",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Tower of Science end passage",
             "parent_region": "Tower of Science: spiky conveyors",
-            "connected_region": "Tower of Sorcery",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Tower of Sorcery"
           }
         ],
         "exits": [
@@ -5610,11 +4084,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Tower of Sorcery end passage",
@@ -5622,186 +4092,127 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Tower of Sorcery: Stained glass tower",
             "id": 12992662,
-            "region": "Tower of Sorcery",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Purifying",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Sorcery: Mid-savepoint platform",
             "id": 12992661,
-            "region": "Tower of Sorcery",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast chicken",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Sorcery: Trick shot from mid-savepoint platform",
             "id": 12992658,
-            "region": "Tower of Sorcery",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "PowerUp",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Sorcery: Above yellow bubble",
             "id": 12992657,
-            "region": "Tower of Sorcery",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Sorcery: Above tiny blue platforms start",
             "id": 12992660,
-            "region": "Tower of Sorcery",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "PowerUp",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Sorcery: Lone red platform side island",
             "id": 12992659,
-            "region": "Tower of Sorcery",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Sorcery: Invisible bridge platform",
             "id": 12992656,
-            "region": "Tower of Sorcery",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sun card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Room of Clocks": {
         "name": "Room of Clocks",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Warp 5",
             "parent_region": "Menu",
-            "connected_region": "Room of Clocks",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Room of Clocks"
           },
           {
             "name": "Tower of Execution end staircase",
             "parent_region": "Tower of Execution: main area",
-            "connected_region": "Room of Clocks",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Room of Clocks"
           },
           {
             "name": "Tower of Sorcery end passage",
             "parent_region": "Tower of Sorcery",
-            "connected_region": "Room of Clocks",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Room of Clocks"
           }
         ],
         "exits": [
@@ -5811,100 +4222,66 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Room of Clocks: Left from entrance hallway",
             "id": 12992710,
-            "region": "Room of Clocks",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(L)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Room of Clocks: Right from entrance hallway",
             "id": 12992707,
-            "region": "Room of Clocks",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Magical Nitro",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Room of Clocks: Right of Contract",
             "id": 12992709,
-            "region": "Room of Clocks",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Clock Tower: start": {
         "name": "Clock Tower: start",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Defeat boss gate",
             "parent_region": "Room of Clocks",
-            "connected_region": "Clock Tower: start",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Clock Tower: start"
           },
           {
             "name": "From Clocktower Door 1",
             "parent_region": "Clock Tower: middle",
-            "connected_region": "Clock Tower: start",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Clock Tower: start"
           }
         ],
         "exits": [
@@ -5917,91 +4294,57 @@
                 "type": "constant",
                 "value": "Clocktower Key1"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Clock Tower: Gear climb room side",
             "id": 12992685,
-            "region": "Clock Tower: start",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast chicken",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Clock Tower: Gear climb room corner",
             "id": 12992679,
-            "region": "Clock Tower: start",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Clock Tower: middle": {
         "name": "Clock Tower: middle",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Warp 6",
             "parent_region": "Menu",
-            "connected_region": "Clock Tower: middle",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Clock Tower: middle"
           },
           {
             "name": "To Clocktower Door 1",
             "parent_region": "Clock Tower: start",
-            "connected_region": "Clock Tower: middle",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Clock Tower: middle"
           },
           {
             "name": "From Clocktower Door 2",
             "parent_region": "Clock Tower: end",
-            "connected_region": "Clock Tower: middle",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Clock Tower: middle"
           }
         ],
         "exits": [
@@ -6014,11 +4357,7 @@
                 "type": "constant",
                 "value": "Clocktower Key1"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Clocktower Door 2",
@@ -6029,90 +4368,61 @@
                 "type": "constant",
                 "value": "Clocktower Key2"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Clock Tower: Bone Pillar chasm room - Front-left",
             "id": 12992677,
-            "region": "Clock Tower: middle",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Special1",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Clock Tower: Bone Pillar chasm room - Front-right",
             "id": 12992678,
-            "region": "Clock Tower: middle",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Clock Tower: Bone Pillar chasm room key alcove",
             "id": 12992684,
-            "region": "Clock Tower: middle",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roast beef",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Clock Tower: end": {
         "name": "Clock Tower: end",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Clocktower Door 2",
             "parent_region": "Clock Tower: middle",
-            "connected_region": "Clock Tower: end",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Clock Tower: end"
           }
         ],
         "exits": [
@@ -6125,11 +4435,7 @@
                 "type": "constant",
                 "value": "Clocktower Key2"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Clocktower Door 3",
@@ -6140,62 +4446,38 @@
                 "type": "constant",
                 "value": "Clocktower Key3"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Clock Tower: Final room key ledge",
             "id": 12992683,
-            "region": "Clock Tower: end",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Castle Keep: exterior": {
         "name": "Castle Keep: exterior",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Warp 7",
             "parent_region": "Menu",
-            "connected_region": "Castle Keep: exterior",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Castle Keep: exterior"
           },
           {
             "name": "Clocktower Door 3",
             "parent_region": "Clock Tower: end",
-            "connected_region": "Castle Keep: exterior",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Castle Keep: exterior"
           }
         ],
         "exits": [
@@ -6205,109 +4487,75 @@
             "access_rule": {
               "type": "item_check",
               "item": "Crystal"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Castle Keep: Left Dracula door flame",
             "id": 12992687,
-            "region": "Castle Keep: exterior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Keep: Right Dracula door flame",
             "id": 12992686,
-            "region": "Castle Keep: exterior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "PowerUp",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Keep: Behind Dracula's chamber",
             "id": 12992703,
-            "region": "Castle Keep: exterior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sun card",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Castle Keep: Dracula's floating cube",
             "id": 12992693,
-            "region": "Castle Keep: exterior",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red jewel(S)",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Castle Keep: Dracula's chamber": {
         "name": "Castle Keep: Dracula's chamber",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Dracula's door",
             "parent_region": "Castle Keep: exterior",
-            "connected_region": "Castle Keep: Dracula's chamber",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Castle Keep: Dracula's chamber"
           }
         ],
         "exits": [],
@@ -6315,26 +4563,18 @@
           {
             "name": "Dracula",
             "id": null,
-            "region": "Castle Keep: Dracula's chamber",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "The Count Downed",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       }
     }
   },
@@ -6355,7 +4595,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6369,7 +4608,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6383,7 +4621,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6397,7 +4634,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6411,7 +4647,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6425,7 +4660,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6439,7 +4673,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -6453,7 +4686,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6467,7 +4699,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6481,7 +4712,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6495,7 +4725,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6509,7 +4738,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6523,7 +4751,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6537,7 +4764,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6551,7 +4777,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6565,7 +4790,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6581,7 +4805,6 @@
           "Ingredient"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6597,7 +4820,6 @@
           "Ingredient"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6611,7 +4833,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6625,7 +4846,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6639,7 +4859,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6653,7 +4872,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6667,7 +4885,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6681,7 +4898,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6695,7 +4911,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6709,7 +4924,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6723,7 +4937,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6737,7 +4950,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6751,7 +4963,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6765,7 +4976,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6779,7 +4989,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6793,7 +5002,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6807,7 +5015,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6821,7 +5028,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6835,7 +5041,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6849,7 +5054,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,

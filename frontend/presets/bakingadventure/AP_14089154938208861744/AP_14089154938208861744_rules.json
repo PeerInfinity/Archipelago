@@ -10,27 +10,15 @@
   "world_classes": {
     "1": "ChocolateChipCookiesWorld"
   },
-  "plando_options": [
-    "connections",
-    "texts",
-    "bosses"
-  ],
   "regions": {
     "1": {
       "Menu": {
         "name": "Menu",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "BackToMenu",
             "parent_region": "Kitchen",
-            "connected_region": "Menu",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Menu"
           }
         ],
         "exits": [
@@ -40,62 +28,33 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Kitchen": {
         "name": "Kitchen",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "StartBaking",
             "parent_region": "Menu",
-            "connected_region": "Kitchen",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Kitchen"
           },
           {
             "name": "BackToKitchenFromPrep",
             "parent_region": "Preparation",
-            "connected_region": "Kitchen",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Kitchen"
           },
           {
             "name": "BackToKitchenFromWet",
             "parent_region": "WetIngredients",
-            "connected_region": "Kitchen",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Kitchen"
           },
           {
             "name": "BackToKitchenFromDry",
             "parent_region": "DryIngredients",
-            "connected_region": "Kitchen",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Kitchen"
           }
         ],
         "exits": [
@@ -105,11 +64,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToPreparation",
@@ -117,11 +72,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToWetIngredients",
@@ -129,11 +80,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToDryIngredients",
@@ -141,90 +88,61 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Gather Mixing Bowls",
             "id": 300000001,
-            "region": "Kitchen",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Mixing Bowls",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Get Electric Mixer",
             "id": 300000002,
-            "region": "Kitchen",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Electric Mixer",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Find Measuring Tools",
             "id": 300000003,
-            "region": "Kitchen",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Measuring Tools",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Preparation": {
         "name": "Preparation",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToPreparation",
             "parent_region": "Kitchen",
-            "connected_region": "Preparation",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Preparation"
           }
         ],
         "exits": [
@@ -234,100 +152,66 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Preheat Oven to 375F",
             "id": 300000004,
-            "region": "Preparation",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Preheated Oven",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Line Baking Sheets",
             "id": 300000005,
-            "region": "Preparation",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Prepared Sheets",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Soften Butter",
             "id": 300000006,
-            "region": "Preparation",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Softened Butter",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "WetIngredients": {
         "name": "WetIngredients",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToWetIngredients",
             "parent_region": "Kitchen",
-            "connected_region": "WetIngredients",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "WetIngredients"
           },
           {
             "name": "BackToWetIngredients",
             "parent_region": "Combining",
-            "connected_region": "WetIngredients",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "WetIngredients"
           }
         ],
         "exits": [
@@ -337,11 +221,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToCombining",
@@ -364,19 +244,13 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Cream Butter and Sugars",
             "id": 300000007,
-            "region": "WetIngredients",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -403,21 +277,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Butter Sugar Base",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Add Eggs",
             "id": 300000008,
-            "region": "WetIngredients",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -425,21 +294,16 @@
                 "value": "Butter Sugar Base"
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Egg Mixture",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Add Vanilla",
             "id": 300000009,
-            "region": "WetIngredients",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -447,35 +311,22 @@
                 "value": "Egg Mixture"
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Creamed Mixture",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "DryIngredients": {
         "name": "DryIngredients",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToDryIngredients",
             "parent_region": "Kitchen",
-            "connected_region": "DryIngredients",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "DryIngredients"
           }
         ],
         "exits": [
@@ -485,19 +336,13 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Measure Flour",
             "id": 300000010,
-            "region": "DryIngredients",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -505,21 +350,16 @@
                 "value": "Measuring Tools"
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Measured Flour",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Add Baking Soda and Salt",
             "id": 300000011,
-            "region": "DryIngredients",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -527,45 +367,27 @@
                 "value": "Measured Flour"
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Flour Mixture",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Combining": {
         "name": "Combining",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToCombining",
             "parent_region": "WetIngredients",
-            "connected_region": "Combining",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Combining"
           },
           {
             "name": "BackToCombining",
             "parent_region": "Finishing",
-            "connected_region": "Combining",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Combining"
           }
         ],
         "exits": [
@@ -575,11 +397,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToFinishing",
@@ -590,38 +408,27 @@
                 "type": "constant",
                 "value": "Cookie Dough"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Gradually Mix Dry into Wet",
             "id": 300000012,
-            "region": "Combining",
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Basic Dough",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Fold in Chocolate Chips",
             "id": 300000013,
-            "region": "Combining",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -629,45 +436,27 @@
                 "value": "Basic Dough"
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Cookie Dough",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Finishing": {
         "name": "Finishing",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToFinishing",
             "parent_region": "Combining",
-            "connected_region": "Finishing",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Finishing"
           },
           {
             "name": "BackToFinishing",
             "parent_region": "Baking",
-            "connected_region": "Finishing",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Finishing"
           }
         ],
         "exits": [
@@ -677,11 +466,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "ToBaking",
@@ -692,19 +477,13 @@
                 "type": "constant",
                 "value": "Shaped Cookies"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Scoop Dough onto Sheets",
             "id": 300000014,
-            "region": "Finishing",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -724,35 +503,22 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Shaped Cookies",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Baking": {
         "name": "Baking",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "ToBaking",
             "parent_region": "Finishing",
-            "connected_region": "Baking",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Baking"
           }
         ],
         "exits": [
@@ -762,19 +528,13 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Bake for 9-11 Minutes",
             "id": 300000015,
-            "region": "Baking",
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -794,21 +554,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Baked Cookies",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Cool on Wire Rack",
             "id": null,
-            "region": "Baking",
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -816,20 +571,14 @@
                 "value": "Baked Cookies"
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Victory",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       }
     }
   },
@@ -850,7 +599,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -864,7 +612,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -878,7 +625,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -892,7 +638,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -906,7 +651,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -920,7 +664,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -934,7 +677,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -948,7 +690,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -962,7 +703,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -976,7 +716,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -990,7 +729,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1004,7 +742,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1018,7 +755,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1032,7 +768,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1046,7 +781,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1060,7 +794,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,

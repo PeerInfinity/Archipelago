@@ -10,17 +10,10 @@
   "world_classes": {
     "1": "SoEWorld"
   },
-  "plando_options": [
-    "connections",
-    "texts",
-    "bosses"
-  ],
   "regions": {
     "1": {
       "Menu": {
         "name": "Menu",
-        "type": "Region",
-        "player": 1,
         "entrances": [],
         "exits": [
           {
@@ -29,32 +22,18 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Ingame": {
         "name": "Ingame",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "New Game",
             "parent_region": "Menu",
-            "connected_region": "Ingame",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Ingame"
           }
         ],
         "exits": [],
@@ -62,5432 +41,3735 @@
           {
             "name": "S. Jungle #0",
             "id": 64100,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Petal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "S. Jungle #1",
             "id": 64101,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "3 Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "S. Jungle #4",
             "id": 64104,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Atlas Medallion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village #9",
             "id": 64109,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Biscuit",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village Hut #13",
             "id": 64113,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village Hut #14",
             "id": 64114,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "20 Moniez",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village Hut #15",
             "id": 64115,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Honey",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village Hut #16",
             "id": 64116,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Revive",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village Hut #17",
             "id": 64117,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village Hut #18",
             "id": 64118,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "5 Ash",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village Hut #19",
             "id": 64119,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Ash",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village Hut #20",
             "id": 64120,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Flash",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village Hut #21",
             "id": 64121,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "2 Limestone",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village Hut #22",
             "id": 64122,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "2 Call beads",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village Hut #23",
             "id": 64123,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "3 Mushroom",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village Hut #24",
             "id": 64124,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village Hut #25",
             "id": 64125,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Ash",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village Hut #26",
             "id": 64126,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "3 Feathers",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village Hut #27",
             "id": 64127,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "4 Vinegar",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village Hut #28",
             "id": 64128,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Knight Basher",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village Hut #29",
             "id": 64129,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Nectar",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village Hut #30",
             "id": 64130,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Biscuit",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village Hut #31",
             "id": 64131,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "30 Moniez",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village Hut #32",
             "id": 64132,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Herbal Essence",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village Hut #33",
             "id": 64133,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Petal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "FE Village Hut #34",
             "id": 64134,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bazooka",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Defend Area #35",
             "id": 64135,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "2 Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Defend Area #36",
             "id": 64136,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "2 Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Defend Area #37",
             "id": 64137,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "5 Ash",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Quick Sand Field #38",
             "id": 64138,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Ethanol",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Quick Sand Field #39",
             "id": 64139,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Quick Sand Field #40",
             "id": 64140,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Quick Sand Field #41",
             "id": 64141,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "2 Acorns",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Quick Sand Field #42",
             "id": 64142,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "2 Limestone",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Quick Sand Field #43",
             "id": 64143,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Nectar",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Quick Sand Field #44",
             "id": 64144,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Bugmuck #45",
             "id": 64145,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Bugmuck #46",
             "id": 64146,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Nectar",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Bugmuck #47",
             "id": 64147,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "2 Dry Ice",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Bugmuck #48",
             "id": 64148,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Mushroom",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Bugmuck #49",
             "id": 64149,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "5 Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Bugmuck #50",
             "id": 64150,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive vest",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Bugmuck #51",
             "id": 64151,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "5 Ash",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Bugmuck #52",
             "id": 64152,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Acid Rain Guy #53",
             "id": 64153,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "3 Acorns",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Acid Rain Guy #54",
             "id": 64154,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "2 Roots",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Jaguar Ring Cave #184",
             "id": 64284,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Speed",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Jaguar Ring Cave #185",
             "id": 64285,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "4 Ash",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Jaguar Ring Cave #186",
             "id": 64286,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Roots",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "HB Cave #187",
             "id": 64287,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Roots",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "HB Cave #188",
             "id": 64288,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Biscuit",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "HB Cave #189",
             "id": 64289,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Hard Ball",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Thraxx",
             "id": 64050,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Amulet of Annihilation",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Acid Rain",
             "id": 64000,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "4 Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Defend",
             "id": 64007,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Oil",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Flash",
             "id": 64015,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fire Power",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Hard Ball",
             "id": 64017,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Nothing",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "S. Jungle w/ weapon #2",
             "id": 64102,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Nectar",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "S. Jungle w/ weapon #3",
             "id": 64103,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "3 Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "S. Jungle w/ weapon #5",
             "id": 64105,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Call bead",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Strongheart's Hut #6",
             "id": 64106,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "2 Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Strongheart's Hut #7",
             "id": 64107,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "5 Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Strongheart's Hut #8",
             "id": 64108,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Petal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Blimp's Hut #10",
             "id": 64110,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Slow Burn",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Blimp's Hut #11",
             "id": 64111,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Honey",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Blimp's Hut #12",
             "id": 64112,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "4 Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "N. Jungle #55",
             "id": 64155,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Petal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "N. Jungle #56",
             "id": 64156,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Grease",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Path #59",
             "id": 64159,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Honey",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Path #60",
             "id": 64160,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "2 Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Path #61",
             "id": 64161,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "West of Swamp #62",
             "id": 64162,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "3 Brimstone",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "West of Swamp #63",
             "id": 64163,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Swamp #64",
             "id": 64164,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive helmet",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Swamp #65",
             "id": 64165,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "3 Limestone",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Swamp #66",
             "id": 64166,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Lightning Storm",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Swamp #67",
             "id": 64167,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "8 Ash",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Swamp #68",
             "id": 64168,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Regenerate",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Swamp #69",
             "id": 64169,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Mud Pepper",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Swamp #70",
             "id": 64170,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Acorns",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Shop #71",
             "id": 64171,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Honey",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Shop #72",
             "id": 64172,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "2 Ash",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Arena Holding #95",
             "id": 64195,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "2 Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Arena Holding #96",
             "id": 64196,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "2 Gunpowder",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Arena Holding #97",
             "id": 64197,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Amulet of Annihilation",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Arena Holding #98",
             "id": 64198,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "100 Moniez",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Arena Holding #99",
             "id": 64199,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Amulet of Annihilation",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Arena Holding #100",
             "id": 64200,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Acorns",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Arena Holding #101",
             "id": 64201,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Acorns",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Arena Holding #102",
             "id": 64202,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Blimp's Cave #109",
             "id": 64209,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Blimp's Cave #110",
             "id": 64210,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "2 Bone",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Crustacia Interior #111",
             "id": 64211,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "2 Brimstone",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Crustacia Interior #112",
             "id": 64212,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "4 Brimstone",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Crustacia Interior #113",
             "id": 64213,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "30 Cryo Blast",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Crustacia Interior #114",
             "id": 64214,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Crustacia Interior #115",
             "id": 64215,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Cure",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Crustacia Interior #116",
             "id": 64216,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "3 Ash",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Path Cave #182",
             "id": 64282,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "3 Nectar",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Path Cave #183",
             "id": 64283,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Roots",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Sewers #190",
             "id": 64290,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "2 Bone",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Sewers #191",
             "id": 64291,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Aura",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Sewers #192",
             "id": 64292,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "6 Vinegar",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Sewers #193",
             "id": 64293,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "3 Ethanol",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Sewers #194",
             "id": 64294,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Outside Ivor #199",
             "id": 64299,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "2 Ethanol",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Outside Ivor #200",
             "id": 64300,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "4 Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Outside Ivor #201",
             "id": 64301,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Outside Ivor #202",
             "id": 64302,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Roots",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #203",
             "id": 64303,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "6 Ash",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #204",
             "id": 64304,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Nectar",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #205",
             "id": 64305,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "2 Acorns",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #206",
             "id": 64306,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Oil",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Houses #207",
             "id": 64307,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "4 Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #208",
             "id": 64308,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Amulet of Annihilation",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Houses #209",
             "id": 64309,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #210",
             "id": 64310,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Houses #211",
             "id": 64311,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "18 Moniez",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #212",
             "id": 64312,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Biscuit",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Houses #213",
             "id": 64313,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "3 Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #214",
             "id": 64314,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Call bead",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Houses #215",
             "id": 64315,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #216",
             "id": 64316,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "3 Ash",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Houses #217",
             "id": 64317,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #218",
             "id": 64318,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Nectar",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Houses #219",
             "id": 64319,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "4 Feathers",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #220",
             "id": 64320,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "3 Meteorite",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Houses #221",
             "id": 64321,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Mushroom",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #222",
             "id": 64322,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Houses #223",
             "id": 64323,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Roots",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #224",
             "id": 64324,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Mud Pepper",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Houses #225",
             "id": 64325,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #226",
             "id": 64326,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Biscuit",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Houses #227",
             "id": 64327,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Double Drain",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #228",
             "id": 64328,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Nectar",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Houses #229",
             "id": 64329,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "3 Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #230",
             "id": 64330,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "200 Moniez",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Houses #231",
             "id": 64331,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Pixie Dust",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #232",
             "id": 64332,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "4 Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Houses #233",
             "id": 64333,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "2 Limestone",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #234",
             "id": 64334,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Roots",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Houses #235",
             "id": 64335,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "500 Moniez",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #236",
             "id": 64336,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Brimstone",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Houses #237",
             "id": 64337,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Call bead",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #238",
             "id": 64338,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "4 Iron",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Houses #239",
             "id": 64339,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Super Heal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #240",
             "id": 64340,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Call bead",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Houses #241",
             "id": 64341,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Oil",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #242",
             "id": 64342,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Brimstone",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Houses #243",
             "id": 64343,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "3 Dry Ice",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #244",
             "id": 64344,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "4 Ash",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Houses #245",
             "id": 64345,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "4 Ethanol",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Houses #246",
             "id": 64346,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "3 Ethanol",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Houses #247",
             "id": 64347,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Houses #248",
             "id": 64348,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "3 Ethanol",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Naris #249",
             "id": 64349,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Gladiator Sword",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Naris #250",
             "id": 64350,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "100 Moniez",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tinker #251",
             "id": 64351,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "4 Ash",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Dining #252",
             "id": 64352,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Feather",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Dining #253",
             "id": 64353,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Petal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Dining #254",
             "id": 64354,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Petal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Upper Floor #261",
             "id": 64361,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Mud Pepper",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Upper Floor #262",
             "id": 64362,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Sewers #263",
             "id": 64363,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Sewers #264",
             "id": 64364,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "6 Ash",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Sewers #265",
             "id": 64365,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Sewers #266",
             "id": 64366,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "6 Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Sewers #267",
             "id": 64367,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Call bead",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Sewers #268",
             "id": 64368,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Acid Rain",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Sewers #269",
             "id": 64369,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Diamond Eye",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor Sewers #270",
             "id": 64370,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Nectar",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Storage #271",
             "id": 64371,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Force Field",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Storage #272",
             "id": 64372,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "Escape",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ebon Storage #273",
             "id": 64373,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 3,
-            "locked": false,
             "item": {
               "name": "3 Bone",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Coleoptera",
             "id": 64051,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wings",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Mammoth Viper",
             "id": 64052,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "6 Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Cave Raptors",
             "id": 64053,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Diamond Eye",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Salabog",
             "id": 64054,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Revealer",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Vigor",
             "id": 64055,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bronze Spear",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Bad Boys",
             "id": 64059,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "6 Ash",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Timberdrake",
             "id": 64060,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "2 Roots",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Verminator",
             "id": 64061,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Drain",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Footknight",
             "id": 64068,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "3 Honey",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Atlas",
             "id": 64001,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Corrosion",
             "id": 64004,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Crush",
             "id": 64005,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "2 Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Cure",
             "id": 64006,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Honey",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Explosion",
             "id": 64012,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive gloves",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Heal",
             "id": 64018,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Lance",
             "id": 64019,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Miracle Cure",
             "id": 64022,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "One Up",
             "id": 64024,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "4 Dry Ice",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Regrowth",
             "id": 64026,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Oil",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Revealer",
             "id": 64027,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "2 Acorns",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Revive",
             "id": 64028,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "2 Call beads",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Slow Burn",
             "id": 64029,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Sting",
             "id": 64031,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Herbal Essence",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Super Heal",
             "id": 64033,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Call Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Vanilla Gauge #57",
             "id": 64157,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "3 Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Path #58",
             "id": 64158,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wings",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Room1 #73",
             "id": 64173,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Room1 #74",
             "id": 64174,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Explosion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Room1 #75",
             "id": 64175,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Herbal Essence",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Room1 #76",
             "id": 64176,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "3 Ethanol",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Room1 #77",
             "id": 64177,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "3 Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Room1 #78",
             "id": 64178,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Petal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Room1 #79",
             "id": 64179,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Crusader Sword",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Room1 #80",
             "id": 64180,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Biscuit",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Room2 #81",
             "id": 64181,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Bronze Axe",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Room2 #82",
             "id": 64182,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Atlas",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Room2 #83",
             "id": 64183,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Biscuit",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Room2 #84",
             "id": 64184,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Biscuit",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Room2 #85",
             "id": 64185,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "30 Thunderballs",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Room2 #86",
             "id": 64186,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Room2 #87",
             "id": 64187,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Room2 #88",
             "id": 64188,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "3 Ethanol",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pipe Maze #89",
             "id": 64189,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Defend",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pipe Maze #90",
             "id": 64190,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pipe Maze #91",
             "id": 64191,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Atom Smasher",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pipe Maze #92",
             "id": 64192,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "6 Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pipe Maze #93",
             "id": 64193,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Biscuit",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pipe Maze #94",
             "id": 64194,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Petal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "W. Crustacia #103",
             "id": 64203,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive vest",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "W. Crustacia #104",
             "id": 64204,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive helmet",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "W. Crustacia #105",
             "id": 64205,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Petal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "W. Crustacia #106",
             "id": 64206,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fireball",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "E. Crustacia #107",
             "id": 64207,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Call bead",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "E. Crustacia #108",
             "id": 64208,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Laser Lance",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid bottom #117",
             "id": 64217,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "4 Ethanol",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid bottom #118",
             "id": 64218,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "4 Brimstone",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid bottom #119",
             "id": 64219,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "3 Limestone",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid bottom #120",
             "id": 64220,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid bottom #121",
             "id": 64221,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "2 Acorns",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid bottom #122",
             "id": 64222,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Atlas Medallion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid bottom #123",
             "id": 64223,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive helmet",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid bottom #124",
             "id": 64224,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid bottom #125",
             "id": 64225,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wheel",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid bottom #126",
             "id": 64226,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Stop",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid bottom #127",
             "id": 64227,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "5 Oil",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid bottom #128",
             "id": 64228,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Petal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid bottom #129",
             "id": 64229,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Honey",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid bottom #130",
             "id": 64230,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid bottom #131",
             "id": 64231,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Horn Spear",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid bottom #132",
             "id": 64232,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Nothing",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid bottom #133",
             "id": 64233,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Lance",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid bottom #134",
             "id": 64234,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Reflect",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #135",
             "id": 64235,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sting",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #136",
             "id": 64236,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Pixie Dust",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #137",
             "id": 64237,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Gauge",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #138",
             "id": 64238,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "4 Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #139",
             "id": 64239,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "3 Ethanol",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #140",
             "id": 64240,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "5 Iron",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #141",
             "id": 64241,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Energize",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #142",
             "id": 64242,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Barrier",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #143",
             "id": 64243,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "4 Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #144",
             "id": 64244,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Call bead",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #145",
             "id": 64245,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "3 Mushroom",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #146",
             "id": 64246,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #147",
             "id": 64247,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "4 Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #148",
             "id": 64248,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "3 Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #149",
             "id": 64249,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "2 Vinegar",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #150",
             "id": 64250,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Nectar",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #151",
             "id": 64251,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "3 Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #152",
             "id": 64252,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "2 Crystal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #153",
             "id": 64253,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "2 Meteorite",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #154",
             "id": 64254,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Call bead",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #155",
             "id": 64255,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "7 Roots",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #156",
             "id": 64256,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "10,000 Gold Coins",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pyramid top #157",
             "id": 64257,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Limestone",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tiny's hideout #158",
             "id": 64258,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "3 Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tiny's hideout #159",
             "id": 64259,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tiny's hideout #160",
             "id": 64260,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "4 Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tiny's hideout #161",
             "id": 64261,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Spider Claw",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tiny's hideout #162",
             "id": 64262,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Levitate",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tiny's hideout #163",
             "id": 64263,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Petal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tiny's hideout #164",
             "id": 64264,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roots",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Halls Main Room #165",
             "id": 64265,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Petal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Halls Main Room #166",
             "id": 64266,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Crystal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Halls SW #167",
             "id": 64267,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Honey",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Halls SW #168",
             "id": 64268,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Call bead",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Halls SW #169",
             "id": 64269,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "30 Particle Bombs",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Halls NW #170",
             "id": 64270,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wings",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Halls NW #171",
             "id": 64271,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Halls NW #172",
             "id": 64272,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Halls NW #173",
             "id": 64273,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Nectar",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Halls NE #174",
             "id": 64274,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "15 Moniez",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Halls NE #175",
             "id": 64275,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Wings",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Halls NE #176",
             "id": 64276,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Halls NE #177",
             "id": 64277,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Nectar",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Halls Bridge #178",
             "id": 64278,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Crush",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Oglin Cave #179",
             "id": 64279,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Drain Cave #180",
             "id": 64280,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "2 Roots",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Drain Cave #181",
             "id": 64281,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Roots",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Gomi's Tower #195",
             "id": 64295,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wax",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Gomi's Tower #196",
             "id": 64296,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "3 Brimstone",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Gomi's Tower #197",
             "id": 64297,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "2 Iron",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Gomi's Tower #198",
             "id": 64298,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Pixie Dust",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor East #255",
             "id": 64355,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive gloves",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor East #256",
             "id": 64356,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "3 Vinegar",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor East #257",
             "id": 64357,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "3 Vinegar",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor East #258",
             "id": 64358,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "3 Call beads",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor East #259",
             "id": 64359,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Ivor East #260",
             "id": 64360,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "2 Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Prof. Lab #274",
             "id": 64374,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Oil",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Greenhouse #275",
             "id": 64375,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "6 Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Alarm room #276",
             "id": 64376,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "10 Crystal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Reactor room #277",
             "id": 64377,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Regrowth",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage room #278",
             "id": 64378,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive vest",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage room #279",
             "id": 64379,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive gloves",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage room #280",
             "id": 64380,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Herbal Essence",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage room #281",
             "id": 64381,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Diamond Eye",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage room #282",
             "id": 64382,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "3 Acorns",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage room #283",
             "id": 64383,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "4 Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage room #284",
             "id": 64384,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Ethanol",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Energy Core #285",
             "id": 64385,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "One Up",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Megataur",
             "id": 64056,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 2,
-            "locked": true,
             "item": {
               "name": "Lance (Weapon)",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Rimsala",
             "id": 64057,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "2 Honey",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Aquagoth",
             "id": 64058,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tiny",
             "id": 64062,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Energy Core",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Mungola",
             "id": 64063,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Call bead",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Sons of Sth.",
             "id": 64064,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wings",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Volcano Viper",
             "id": 64065,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Miracle Cure",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Magmar",
             "id": 64066,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Biscuit",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Mad Monk",
             "id": 64067,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Call bead",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Barrier",
             "id": 64002,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Pixie Dust",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Call Up",
             "id": 64003,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "2 Crystal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Double Drain",
             "id": 64008,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Mud Pepper",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Drain",
             "id": 64009,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Honey",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Energize",
             "id": 64010,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "4 Nectar",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Escape",
             "id": 64011,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Corrosion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Fireball",
             "id": 64013,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "4 Water",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Fire Power",
             "id": 64014,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "3 Oil",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Force Field",
             "id": 64016,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "2 Iron",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Levitate",
             "id": 64020,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Nitro",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Lightning Storm",
             "id": 64021,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Call bead",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Nitro",
             "id": 64023,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "2 Petal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Reflect",
             "id": 64025,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "4 Crystal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Speed",
             "id": 64030,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive vest",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Stop",
             "id": 64032,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": null,
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Clay",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Done",
             "id": null,
-            "region": "Ingame",
-            "crystal": null,
             "access_rule": {
               "type": "function_call",
               "function": {
@@ -5513,20 +3795,14 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Victory",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       }
     }
   },
@@ -5548,7 +3824,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5563,7 +3838,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5578,7 +3852,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5594,7 +3867,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5608,7 +3880,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -5624,7 +3895,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5640,7 +3910,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5656,7 +3925,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5672,7 +3940,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5688,7 +3955,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5703,7 +3969,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -5719,7 +3984,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5735,7 +3999,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5751,7 +4014,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5767,7 +4029,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5782,7 +4043,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5798,7 +4058,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5813,7 +4072,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5829,7 +4087,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5845,7 +4102,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5861,7 +4117,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5877,7 +4132,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5892,7 +4146,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5908,7 +4161,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5924,7 +4176,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5938,7 +4189,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -5954,7 +4204,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5968,7 +4217,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5984,7 +4232,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6000,7 +4247,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6016,7 +4262,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6032,7 +4277,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6048,7 +4292,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6063,7 +4306,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6077,7 +4319,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -6093,7 +4334,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6108,7 +4348,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6124,7 +4363,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6140,7 +4378,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6154,7 +4391,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6168,7 +4404,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6183,7 +4418,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6199,7 +4433,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6215,7 +4448,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6230,7 +4462,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6244,7 +4475,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -6260,7 +4490,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6276,7 +4505,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6291,7 +4519,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -6307,7 +4534,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6323,7 +4549,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6339,7 +4564,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6355,7 +4579,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6371,7 +4594,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6387,7 +4609,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6403,7 +4624,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6419,7 +4639,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6435,7 +4654,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6451,7 +4669,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6466,7 +4683,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6482,7 +4698,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6498,7 +4713,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6514,7 +4728,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6530,7 +4743,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6545,7 +4757,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6560,7 +4771,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -6576,7 +4786,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6592,7 +4801,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6608,7 +4816,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6624,7 +4831,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6638,7 +4844,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6652,7 +4857,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6668,7 +4872,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6684,7 +4887,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6700,7 +4902,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6715,7 +4916,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6730,7 +4930,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6746,7 +4945,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6762,7 +4960,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6778,7 +4975,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6794,7 +4990,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6810,7 +5005,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6826,7 +5020,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6842,7 +5035,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6857,7 +5049,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6873,7 +5064,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6889,7 +5079,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6905,7 +5094,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6920,7 +5108,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6936,7 +5123,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6951,7 +5137,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6966,7 +5151,6 @@
           "Weapons"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6982,7 +5166,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6998,7 +5181,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7014,7 +5196,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7030,7 +5211,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7045,7 +5225,6 @@
           "Weapons"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7059,7 +5238,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -7075,7 +5253,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7089,7 +5266,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -7103,7 +5279,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -7118,7 +5293,6 @@
           "Weapons"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7134,7 +5308,6 @@
           "Ingredients"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7148,7 +5321,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7163,7 +5335,6 @@
           "Weapons"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7177,7 +5348,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7192,7 +5362,6 @@
           "Weapons"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7207,7 +5376,6 @@
           "Weapons"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7221,7 +5389,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7236,7 +5403,6 @@
           "Weapons"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7251,7 +5417,6 @@
           "Weapons"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7265,7 +5430,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -7279,7 +5443,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7294,7 +5457,6 @@
           "Weapons"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7308,7 +5470,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7323,7 +5484,6 @@
           "Weapons"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7338,7 +5498,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7353,7 +5512,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -7368,7 +5526,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -7383,7 +5540,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -7398,7 +5554,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7413,7 +5568,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -7428,7 +5582,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7443,7 +5596,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7458,7 +5610,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -7473,7 +5624,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7488,7 +5638,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -7503,7 +5652,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7518,7 +5666,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -7533,7 +5680,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -7548,7 +5694,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -7563,7 +5708,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7578,7 +5722,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7593,7 +5736,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7608,7 +5750,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7623,7 +5764,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -7638,7 +5778,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7653,7 +5792,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -7668,7 +5806,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7683,7 +5820,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -7698,7 +5834,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7713,7 +5848,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7728,7 +5862,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7743,7 +5876,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7758,7 +5890,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7773,7 +5904,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7788,7 +5918,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7803,7 +5932,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -7818,7 +5946,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7833,7 +5960,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7847,7 +5973,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7861,7 +5986,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7875,7 +5999,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7889,7 +6012,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7903,7 +6025,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7917,7 +6038,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7931,7 +6051,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7945,7 +6064,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7959,7 +6077,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7973,7 +6090,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7988,7 +6104,6 @@
           "Traps"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8003,7 +6118,6 @@
           "Traps"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8018,7 +6132,6 @@
           "Traps"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8033,7 +6146,6 @@
           "Traps"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8048,7 +6160,6 @@
           "Traps"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8062,7 +6173,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,

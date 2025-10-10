@@ -262,7 +262,6 @@ class ALttPGameExportHandler(BaseGameExportHandler): # Ensure correct inheritanc
                 'id': item_id,
                 'groups': sorted(groups),
                 'advancement': item_classification == ItemClassification.progression if item_classification else False,
-                'priority': False, # Default priority to False here
                 'useful': item_classification == ItemClassification.useful if item_classification else False,
                 'trap': item_classification == ItemClassification.trap if item_classification else False,
                 'event': is_event_item,
@@ -287,7 +286,6 @@ class ALttPGameExportHandler(BaseGameExportHandler): # Ensure correct inheritanc
                             'id': None,
                             'groups': ['Event'],
                             'advancement': location.item.classification == ItemClassification.progression,
-                            'priority': False,
                             'useful': location.item.classification == ItemClassification.useful,
                             'trap': location.item.classification == ItemClassification.trap,
                             'event': True,

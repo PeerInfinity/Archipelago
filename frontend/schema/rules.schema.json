@@ -36,11 +36,6 @@
       },
       "additionalProperties": false
     },
-    "plando_options": {
-      "type": "array",
-      "description": "List of plando options active for this generation.",
-      "items": { "type": "string" }
-    },
     "regions": {
       "type": "object",
       "description": "Region data, keyed by player slot ID (string).",
@@ -305,10 +300,6 @@
       "type": "object",
       "properties": {
         "name": { "type": "string" },
-        "type": {
-          "oneOf": [{ "type": "integer" }, { "type": "string" }],
-          "description": "Region type identifier."
-        },
         "entrances": {
           "type": "array",
           "items": { "$ref": "#/$defs/entrance" }
@@ -325,7 +316,6 @@
       },
       "required": [
         "name",
-        "type",
         "entrances",
         "exits",
         "locations"
@@ -388,7 +378,6 @@
         "name": { "type": "string" },
         "player": { "type": "integer" },
         "advancement": { "type": "boolean" },
-        "priority": { "type": ["boolean", "null"] },
         "type": {
           "type": ["string", "null"],
           "description": "Generic classification of the item."
@@ -483,7 +472,6 @@
         },
         "groups": { "type": "array", "items": { "type": "string" } },
         "advancement": { "type": "boolean" },
-        "priority": { "type": "boolean" },
         "useful": { "type": "boolean" },
         "trap": { "type": "boolean" },
         "event": { "type": "boolean" },
@@ -501,7 +489,6 @@
         "id",
         "groups",
         "advancement",
-        "priority",
         "useful",
         "trap",
         "event",

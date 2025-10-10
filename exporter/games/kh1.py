@@ -190,7 +190,6 @@ class KH1GameExportHandler(BaseGameExportHandler):
                     'id': item_id,
                     'groups': sorted(groups),
                     'advancement': is_advancement,
-                    'priority': False,
                     'useful': is_useful,
                     'trap': is_trap,
                     'event': False,  # Regular items are not events
@@ -213,7 +212,6 @@ class KH1GameExportHandler(BaseGameExportHandler):
                             'id': None,
                             'groups': ['Event'],
                             'advancement': location.item.classification == ItemClassification.progression,
-                            'priority': False,
                             'useful': location.item.classification == ItemClassification.useful,
                             'trap': location.item.classification == ItemClassification.trap,
                             'event': True,

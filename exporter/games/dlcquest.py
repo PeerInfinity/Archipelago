@@ -33,7 +33,6 @@ class DLCQuestGameExportHandler(BaseGameExportHandler):
                 'id': None,  # These don't have IDs
                 'groups': ['coins'],
                 'advancement': True,  # Important for prog_items
-                'priority': False,
                 'useful': False,
                 'trap': False,
                 'event': False,
@@ -48,7 +47,6 @@ class DLCQuestGameExportHandler(BaseGameExportHandler):
                 'id': None,  # These don't have IDs
                 'groups': ['coins'],
                 'advancement': True,  # Important for prog_items
-                'priority': False,
                 'useful': False,
                 'trap': False,
                 'event': False,
@@ -77,7 +75,6 @@ class DLCQuestGameExportHandler(BaseGameExportHandler):
                             'id': None,
                             'groups': ['coins'],
                             'advancement': True,  # Important for prog_items
-                            'priority': False,
                             'useful': False,
                             'trap': False,
                             'event': False,

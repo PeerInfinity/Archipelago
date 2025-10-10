@@ -68,7 +68,6 @@ class AdventureGameExportHandler(BaseGameExportHandler):
                 'id': getattr(item_data, 'id', None),
                 'groups': sorted(groups),
                 'advancement': is_advancement,
-                'priority': False,
                 'useful': is_useful,
                 'trap': is_trap,
                 'event': False,  # Regular items are not events
@@ -95,7 +94,6 @@ class AdventureGameExportHandler(BaseGameExportHandler):
                 'id': None,  # Event items have no ID
                 'groups': groups,
                 'advancement': is_advancement,
-                'priority': False,
                 'useful': is_useful,
                 'trap': is_trap,
                 'event': True,  # This is an event item
@@ -123,7 +121,6 @@ class AdventureGameExportHandler(BaseGameExportHandler):
                             'id': None,
                             'groups': ['Event'],
                             'advancement': location.item.classification == ItemClassification.progression,
-                            'priority': False,
                             'useful': location.item.classification == ItemClassification.useful,
                             'trap': location.item.classification == ItemClassification.trap,
                             'event': True,

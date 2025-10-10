@@ -175,7 +175,6 @@ class FFMQGameExportHandler(BaseGameExportHandler):
                     'id': item_data.id,
                     'groups': sorted(groups),
                     'advancement': is_advancement,
-                    'priority': False,
                     'useful': is_useful,
                     'trap': is_trap,
                     'event': False,
@@ -191,7 +190,6 @@ class FFMQGameExportHandler(BaseGameExportHandler):
                     'id': None,
                     'groups': ['Event'],
                     'advancement': True,  # Events are usually progression
-                    'priority': False,
                     'useful': False,
                     'trap': False,
                     'event': True,
@@ -217,7 +215,6 @@ class FFMQGameExportHandler(BaseGameExportHandler):
                             'id': None,
                             'groups': ['Event'],
                             'advancement': location.item.classification == ItemClassification.progression,
-                            'priority': False,
                             'useful': location.item.classification == ItemClassification.useful,
                             'trap': location.item.classification == ItemClassification.trap,
                             'event': True,
