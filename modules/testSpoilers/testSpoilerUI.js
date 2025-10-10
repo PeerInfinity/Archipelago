@@ -1173,6 +1173,50 @@ export class TestSpoilerUI {
     }
   }
 
+  /**
+   * Helper method to check a location via dispatcher event instead of direct call
+   * This simulates the event-based flow used by timer and UI modules
+   * @param {string} locationName - Name of the location to check
+   * @param {string} regionName - Name of the parent region (optional)
+   */
+  async checkLocationViaEvent(locationName, regionName = null) {
+    // Publish user:locationCheck event through the dispatcher
+    // This will be handled by stateManager's handleUserLocationCheckForStateManager
+    // Use window.eventDispatcher instance created in init.js
+    if (!window.eventDispatcher) {
+      this.log('error', 'eventDispatcher not available on window');
+      return;
+    }
+
+    window.eventDispatcher.publish(
+      'testSpoilers', // originModuleId
+      'user:locationCheck', // eventName
+      {
+        locationName: locationName,
+        regionName: regionName,
+        originator: 'TestSpoilersModule',
+        originalDOMEvent: false,
+      },
+      { initialTarget: 'bottom' }
+    );
+
+    // Wait for the state to update by listening for the snapshot update event
+    // This ensures we don't proceed until the location check is processed
+    await new Promise((resolve) => {
+      const handler = () => {
+        this.eventBus.unsubscribe('stateManager:snapshotUpdated', handler);
+        resolve();
+      };
+      this.eventBus.subscribe('stateManager:snapshotUpdated', handler, 'testSpoilers');
+
+      // Add a safety timeout in case the snapshot update never comes
+      setTimeout(() => {
+        this.eventBus.unsubscribe('stateManager:snapshotUpdated', handler);
+        resolve();
+      }, 5000); // 5 second timeout
+    });
+  }
+
   async processSingleEvent(event) {
     this.log(
       'debug',
@@ -1208,7 +1252,7 @@ export class TestSpoilerUI {
         }
 
         // Use accumulated data from sphereState
-        const inventory_from_log = sphereData.inventoryDetails?.prog_items || {};
+        const inventory_from_log = sphereData.inventoryDetails?.base_items || {};
 
         // Find newly added items by comparing with previous inventory
         newlyAddedItems = this.findNewlyAddedItems(this.previousInventory, inventory_from_log);
@@ -1239,58 +1283,92 @@ export class TestSpoilerUI {
 
         this.log(
           'info',
-          `Preparing StateManager for sphere ${context.sphere_number} by applying log inventory.`
+          `Preparing StateManager for sphere ${context.sphere_number}.`
         );
 
         try {
-          // 1. Reset StateManager's inventory and checked locations for a clean slate for this sphere.
-          await stateManager.clearStateAndReset();
-          this.log('debug', 'StateManager state cleared for sphere.');
-
-          // 2. Apply the inventory from the log to the StateManager worker.
-          await stateManager.beginBatchUpdate(true);
-          this.log(
-            'debug',
-            'Beginning batch update for inventory application.'
-          );
-          if (Object.keys(inventory_from_log).length > 0) {
-            for (const [itemName, count] of Object.entries(
-              inventory_from_log
-            )) {
-              if (count > 0) {
-                // Ensure we only add items with a positive count
-                this.log(
-                  'debug',
-                  `Adding item via StateManager: ${itemName}, count: ${count}`
-                );
-                await stateManager.addItemToInventory(itemName, count);
-              }
-            }
+          // Only clear event items for sphere 0
+          if (context.sphere_number === 0) {
+            await stateManager.clearEventItems();
+            this.log('debug', 'Event items cleared for sphere 0.');
           } else {
-            this.log(
-              'debug',
-              'Inventory from log is empty. No items to add to StateManager.'
-            );
+            this.log('debug', `Keeping accumulated state for sphere ${context.sphere_number}.`);
           }
-          await stateManager.commitBatchUpdate();
-          this.log('debug', 'Committed batch update for inventory.');
 
-          // 4. Ping worker to ensure all commands are processed and state is stable.
+          // Check locations from current sphere one-by-one, allowing natural item acquisition
+          // NOTE: We now use addItems=true (default) to let checkLocation naturally add items.
+          // Progressive items are automatically resolved by the has() function in game logic.
+          const locationsToCheck = sphereData.locations || [];
+          if (locationsToCheck.length > 0) {
+            this.log('info', `Checking ${locationsToCheck.length} locations from sphere ${context.sphere_number}`);
+
+            // Get initial snapshot once for location definitions (for logging)
+            const initialSnapshot = await stateManager.getFullSnapshot();
+
+            for (const locationName of locationsToCheck) {
+              // Get location definition to see what item we're about to receive (for logging)
+              const locationDef = initialSnapshot.locations?.[locationName];
+              const itemName = locationDef?.item?.name;
+
+              if (itemName) {
+                this.log('debug', `  Checking "${locationName}" (contains: ${itemName})`);
+              } else {
+                this.log('debug', `  Checking "${locationName}" (no item or event)`);
+              }
+
+              // NEW: Check if location is accessible BEFORE attempting to check it
+              const currentSnapshot = await stateManager.getFullSnapshot();
+              const snapshotInterface = createStateSnapshotInterface(currentSnapshot, stateManager.getStaticData());
+              const isAccessible = snapshotInterface.isLocationAccessible(locationName);
+
+              if (!isAccessible) {
+                this.log('error', `  ⚠️ PRE-CHECK FAILED: "${locationName}" is NOT accessible per snapshot before check attempt!`);
+                this.log('error', `    Current inventory: ${JSON.stringify(currentSnapshot.inventory)}`);
+                this.log('error', `    Sphere log says this location should be accessible in sphere ${context.sphere_number}`);
+                this.log('error', `    But snapshot reports it as inaccessible - this is a bug!`);
+
+                // Mark this as a failure and stop the test
+                allChecksPassed = false;
+                comparisonResult = false;
+                throw new Error(`Pre-check accessibility mismatch for "${locationName}" in sphere ${context.sphere_number}`);
+              }
+
+              // Check location WITH items via event dispatcher instead of direct call
+              // This naturally adds the item (e.g., "Progressive Sword") to inventory
+              // Use event-based flow to match how timer and UI modules interact with stateManager
+              const locationRegion = locationDef?.parent_region || locationDef?.region || null;
+              await this.checkLocationViaEvent(locationName, locationRegion);
+            }
+
+            this.log('info', `Completed checking ${locationsToCheck.length} locations for sphere ${context.sphere_number}`);
+          }
+
+          // TODO: Add inventory comparison in the future
+          // Currently we only compare location accessibility, not inventory contents.
+          // To add inventory comparison, we need to resolve progressive items:
+          //   - StateManager inventory uses base names: {"Progressive Sword": 2}
+          //   - Sphere log uses resolved names: {"Fighter Sword": 1, "Master Sword": 1}
+          // Options:
+          //   1. Implement resolution function to compare these correctly
+          //   2. Enhance sphere log format to include both resolved and unresolved items
+          //   3. Use progression_mapping to convert StateManager inventory to resolved form
+
+          // Ping worker to ensure all commands are processed and state is stable.
           await stateManager.pingWorker(
-            `spoiler_sphere_${context.sphere_number}_inventory_applied`,
-            10000  // Increased timeout to 10 seconds to handle intermittent delays
+            `spoiler_sphere_${context.sphere_number}_locations_checked`,
+            60000  // Increased timeout to 60 seconds to handle complex rule evaluation
           );
           this.log(
             'debug',
             'Ping successful. StateManager ready for comparison.'
           );
 
-          // 5. Get the fresh snapshot from the worker.
+          // Get the fresh snapshot from the worker.
           const freshSnapshot = await stateManager.getFullSnapshot();
           if (!freshSnapshot) {
             this.log(
               'error',
-              'Failed to retrieve a fresh snapshot from StateManager after inventory update.'
+              'Failed to retrieve a fresh snapshot from StateManager after checking locations.'
             );
             allChecksPassed = false;
             break;
@@ -1305,15 +1383,15 @@ export class TestSpoilerUI {
             freshSnapshot
           );
 
-          // 6. Compare using the fresh snapshot.
+          // Compare using the fresh snapshot.
           const locationComparisonResult = await this.compareAccessibleLocations(
             accessible_from_log, // This is an array of location names
             freshSnapshot, // The authoritative snapshot from the worker
             this.playerId, // Pass player ID for context in comparison
             context // Original context for logging
           );
-          
-          // 7. Compare accessible regions using the fresh snapshot.
+
+          // Compare accessible regions using the fresh snapshot.
           const regionComparisonResult = await this.compareAccessibleRegions(
             accessible_regions_from_log, // This is an array of region names
             freshSnapshot, // The authoritative snapshot from the worker
@@ -1428,31 +1506,23 @@ export class TestSpoilerUI {
               );
             }
 
-            // Check if location contains an item and add it
-            // The item an item is at a location is part of static data, not dynamic state.
-            const itemAtLocation = locDef.item; // Assuming item name is directly on locDef.item or locDef.item.name
+            // Log what item is at this location (for debugging)
+            const itemAtLocation = locDef.item;
             const itemName =
               typeof itemAtLocation === 'object'
                 ? itemAtLocation.name
                 : itemAtLocation;
 
-            if (itemName && !isChecked) {
-              this.log(
-                'info',
-                `Found item "${itemName}" at "${locName}". Adding to inventory.`
-              );
-              // addItemToInventory is an async command now
-              await stateManager.addItemToInventory(itemName);
-              // No direct boolean return to check; assume success or rely on stateManager:stateChanged event if needed for confirmation
-              this.log(
-                'info',
-                `Item "${itemName}" sent to be added to inventory.`
-              );
+            if (itemName) {
+              this.log('info', `Location "${locName}" contains item: "${itemName}"`);
             }
 
-            // Mark location as checked (async command)
-            await stateManager.checkLocation(locName);
-            this.log('info', `Location "${locName}" marked as checked.`);
+            // Mark location as checked via event dispatcher instead of direct call
+            // This will automatically add the item to inventory (addItems=true by default)
+            // Use event-based flow to match how timer and UI modules interact with stateManager
+            const locationRegion = locDef?.parent_region || locDef?.region || null;
+            await this.checkLocationViaEvent(locName, locationRegion);
+            this.log('info', `Location "${locName}" marked as checked via event.`);
           }
         } else {
           this.log(
@@ -1482,7 +1552,7 @@ export class TestSpoilerUI {
     if (eventType === 'state_update') {
       const sphereData = this._getSphereDataFromSphereState(this.currentLogIndex);
       if (sphereData) {
-        this.previousInventory = JSON.parse(JSON.stringify(sphereData.inventoryDetails?.prog_items || {}));
+        this.previousInventory = JSON.parse(JSON.stringify(sphereData.inventoryDetails?.base_items || {}));
       }
     }
     
@@ -1502,183 +1572,6 @@ export class TestSpoilerUI {
   }
 
   // Renaming old version to avoid conflict, or it could be removed if only state_update is used.
-  async compareAccessibleLocations_OLD(logData, playerId, context) {
-    const originalSnapshot = await stateManager.getFullSnapshot();
-    const staticData = stateManager.getStaticData();
-
-    this.log('info', `[compareAccessibleLocations_OLD] Context:`, {
-      context,
-      originalSnapshot,
-      staticData,
-      logDataInventory: logData ? logData.inventory : 'N/A',
-    });
-
-    if (!originalSnapshot) {
-      this.log(
-        'error',
-        `[compareAccessibleLocations_OLD] Original Snapshot is null/undefined for context: ${
-          typeof context === 'string' ? context : JSON.stringify(context)
-        }`
-      );
-      throw new Error(
-        `Original Snapshot invalid (null) during spoiler test at: ${
-          typeof context === 'string' ? context : JSON.stringify(context)
-        }`
-      );
-    }
-    if (!staticData || !staticData.locations) {
-      this.log(
-        'error',
-        `[compareAccessibleLocations_OLD] Static data or staticData.locations is null/undefined for context: ${
-          typeof context === 'string' ? context : JSON.stringify(context)
-        }`,
-        { staticData }
-      );
-      throw new Error(
-        `Static data invalid during spoiler test at: ${
-          typeof context === 'string' ? context : JSON.stringify(context)
-        }`
-      );
-    }
-
-    let modifiedSnapshot = JSON.parse(JSON.stringify(originalSnapshot));
-    if (logData && logData.inventory && playerId) {
-      if (!modifiedSnapshot.prog_items) {
-        modifiedSnapshot.prog_items = {};
-      }
-      if (
-        typeof modifiedSnapshot.prog_items[playerId] !== 'object' ||
-        modifiedSnapshot.prog_items[playerId] === null
-      ) {
-        modifiedSnapshot.prog_items[playerId] = {};
-      }
-      modifiedSnapshot.prog_items[playerId] = { ...logData.inventory };
-
-      this.log(
-        'debug',
-        `[compareAccessibleLocations_OLD] Overrode snapshot inventory for player ${playerId} with log inventory:`,
-        logData.inventory
-      );
-    } else {
-      this.log(
-        'debug',
-        '[compareAccessibleLocations_OLD] No inventory override from logData or missing playerId.'
-      );
-    }
-
-    const stateAccessibleUnchecked = [];
-    const snapshotInterface = createStateSnapshotInterface(
-      modifiedSnapshot,
-      staticData
-    );
-
-    if (!snapshotInterface) {
-      this.log(
-        'error',
-        `[compareAccessibleLocations_OLD] Failed to create snapshotInterface for context: ${
-          typeof context === 'string' ? context : JSON.stringify(context)
-        }`
-      );
-      throw new Error(
-        `SnapshotInterface creation failed at: ${
-          typeof context === 'string' ? context : JSON.stringify(context)
-        }`
-      );
-    }
-
-    for (const locName in staticData.locations) {
-      const locDef = staticData.locations[locName];
-      const isChecked = modifiedSnapshot.flags?.includes(locName);
-      if (isChecked) continue;
-      
-      const parentRegionName = locDef.parent_region || locDef.region;
-      const parentRegionReachabilityStatus =
-        modifiedSnapshot.regionReachability?.[parentRegionName];
-      const isParentRegionEffectivelyReachable =
-        parentRegionReachabilityStatus === 'reachable' ||
-        parentRegionReachabilityStatus === 'checked';
-      
-      const locationAccessRule = locDef.access_rule;
-      let locationRuleEvalResult = true;
-      if (locationAccessRule) {
-        // Create a location-specific snapshotInterface with the location as context
-        const locationSnapshotInterface = createStateSnapshotInterface(
-          modifiedSnapshot,
-          staticData,
-          { location: locDef } // Pass the location definition as context
-        );
-        
-        locationRuleEvalResult = evaluateRule(
-          locationAccessRule,
-          locationSnapshotInterface
-        );
-      }
-      const doesLocationRuleEffectivelyPass = locationRuleEvalResult === true;
-      if (
-        isParentRegionEffectivelyReachable &&
-        doesLocationRuleEffectivelyPass
-      ) {
-        stateAccessibleUnchecked.push(locName);
-      }
-    }
-
-    const stateAccessibleSet = new Set(stateAccessibleUnchecked);
-    const accessibleFromLog =
-      logData && Array.isArray(logData.accessible) ? logData.accessible : [];
-    const logAccessibleSet = new Set(accessibleFromLog);
-
-    const missingFromState = [...logAccessibleSet].filter(
-      (name) => !stateAccessibleSet.has(name)
-    );
-    const extraInState = [...stateAccessibleSet].filter(
-      (name) => !logAccessibleSet.has(name)
-    );
-
-    if (missingFromState.length === 0 && extraInState.length === 0) {
-      this.log(
-        'success',
-        `[compareAccessibleLocations_OLD] State match OK for: ${
-          typeof context === 'string' ? context : JSON.stringify(context)
-        }. (${stateAccessibleSet.size} accessible & unchecked)`
-      );
-      return true;
-    } else {
-      this.log(
-        'error',
-        `[compareAccessibleLocations_OLD] STATE MISMATCH found for: ${
-          typeof context === 'string' ? context : JSON.stringify(context)
-        }`
-      );
-      if (missingFromState.length > 0) {
-        this.log(
-          'mismatch',
-          ` > [OLD] Locations accessible in LOG but NOT in STATE (or checked): ${missingFromState.join(
-            ', '
-          )}`
-        );
-      }
-      if (extraInState.length > 0) {
-        this.log(
-          'mismatch',
-          ` > [OLD] Locations accessible in STATE (and unchecked) but NOT in LOG: ${extraInState.join(
-            ', '
-          )}`
-        );
-      }
-      this.log('debug', '[compareAccessibleLocations_OLD] Mismatch Details:', {
-        context:
-          typeof context === 'string' ? context : JSON.stringify(context),
-        logAccessibleSet: Array.from(logAccessibleSet),
-        stateAccessibleSet: Array.from(stateAccessibleSet),
-        logInventoryUsed: logData ? logData.inventory : 'N/A',
-        originalSnapshotInventory: originalSnapshot.prog_items
-          ? originalSnapshot.prog_items[playerId] // Use playerId here
-          : 'N/A',
-      });
-      return false;
-    }
-  }
-
   async compareAccessibleLocations(
     logAccessibleLocationNames,
     currentWorkerSnapshot,
@@ -1835,11 +1728,11 @@ export class TestSpoilerUI {
           typeof context === 'string' ? context : JSON.stringify(context),
         logAccessibleSet: Array.from(logAccessibleSet),
         stateAccessibleSet: Array.from(stateAccessibleSet),
-        workerSnapshotInventoryUsed: currentWorkerSnapshot.prog_items
-          ? currentWorkerSnapshot.prog_items[playerId]
+        workerSnapshotInventoryUsed: currentWorkerSnapshot.inventory
+          ? currentWorkerSnapshot.inventory
           : 'N/A',
       });
-      
+
       // ADDED: Store detailed mismatch information for result aggregation
       this.currentMismatchDetails = {
         context: typeof context === 'string' ? context : JSON.stringify(context),
@@ -1847,8 +1740,8 @@ export class TestSpoilerUI {
         extraInState: extraInState,
         logAccessibleCount: logAccessibleSet.size,
         stateAccessibleCount: stateAccessibleSet.size,
-        inventoryUsed: currentWorkerSnapshot.prog_items
-          ? currentWorkerSnapshot.prog_items[playerId]
+        inventoryUsed: currentWorkerSnapshot.inventory
+          ? currentWorkerSnapshot.inventory
           : null,
       };
       
@@ -1999,8 +1892,8 @@ export class TestSpoilerUI {
           typeof context === 'string' ? context : JSON.stringify(context),
         logAccessibleSet: Array.from(logAccessibleSet),
         stateAccessibleSet: Array.from(stateAccessibleSet),
-        workerSnapshotInventoryUsed: currentWorkerSnapshot.prog_items
-          ? currentWorkerSnapshot.prog_items[playerId]
+        workerSnapshotInventoryUsed: currentWorkerSnapshot.inventory
+          ? currentWorkerSnapshot.inventory
           : 'N/A',
       });
       
@@ -2429,8 +2322,8 @@ export class TestSpoilerUI {
     
     // First, log some general context about the state
     this.log('info', `[CONTEXT] Current snapshot overview:`);
-    if (currentWorkerSnapshot.prog_items && currentWorkerSnapshot.prog_items[this.playerId]) {
-      const inventory = currentWorkerSnapshot.prog_items[this.playerId];
+    if (currentWorkerSnapshot.inventory) {
+      const inventory = currentWorkerSnapshot.inventory;
       const itemCount = Object.keys(inventory).length;
       const totalItems = Object.values(inventory).reduce((sum, count) => sum + count, 0);
       this.log('info', `  Player ${this.playerId} inventory: ${itemCount} unique items, ${totalItems} total items`);
@@ -2538,8 +2431,8 @@ export class TestSpoilerUI {
     this.log('info', `[CONTEXT] Currently accessible regions (${accessibleRegions.length}): ${accessibleRegions.slice(0, 10).join(', ')}${accessibleRegions.length > 10 ? '...' : ''}`);
     
     // Log player inventory for context
-    if (currentWorkerSnapshot.prog_items && currentWorkerSnapshot.prog_items[playerId]) {
-      const inventory = currentWorkerSnapshot.prog_items[playerId];
+    if (currentWorkerSnapshot.inventory) {
+      const inventory = currentWorkerSnapshot.inventory;
       const itemCount = Object.keys(inventory).length;
       const totalItems = Object.values(inventory).reduce((sum, count) => sum + count, 0);
       this.log('info', `[CONTEXT] Player ${playerId} inventory: ${itemCount} unique items, ${totalItems} total items`);

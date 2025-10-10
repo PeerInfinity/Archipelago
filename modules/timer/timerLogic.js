@@ -128,10 +128,30 @@ export class TimerLogic {
       if (currentTime >= this.endTime) {
         const checkDispatched =
           await this._determineAndDispatchNextLocationCheck();
-        // TODO: Add gameComplete check if that state is managed elsewhere
-        if (!checkDispatched /* || this.gameComplete */) {
+
+        // Check if all locations have been checked
+        const snapshotInterface = await this._getSnapshotInterface();
+        let allChecked = false;
+        if (snapshotInterface) {
+          const { snapshot, staticData } = snapshotInterface;
+          if (staticData && staticData.locations) {
+            const locationsArray = Array.isArray(staticData.locations)
+              ? staticData.locations
+              : Object.values(staticData.locations);
+            const totalCheckable = locationsArray.filter(
+              loc => loc.id !== null && loc.id !== undefined && loc.id !== 0
+            ).length;
+            const checkedCount = snapshot.checkedLocations?.length || 0;
+            allChecked = (checkedCount >= totalCheckable);
+          }
+        }
+
+        if (allChecked) {
+          log('info', '[TimerLogic] All locations checked. Stopping timer.');
           this.stop();
         } else {
+          // Continue the timer whether or not we found a location to check
+          // This allows waiting for items from the server to unlock new locations
           const nextDelay = Math.floor(Math.random() * rangeMs + baseMs);
           this.startTime = Date.now();
           this.endTime = this.startTime + nextDelay;
@@ -225,6 +245,12 @@ export class TimerLogic {
     for (const loc of locationsArray) {
       const isChecked = snapshot.checkedLocations?.includes(loc.name);
       if (isChecked) continue;
+
+      // Skip locations with invalid IDs (ID 0 or null means not recognized by server)
+      if (loc.id === 0 || loc.id === null || loc.id === undefined) {
+        log('debug', `[TimerLogic] Skipping location ${loc.name} with invalid ID: ${loc.id}`);
+        continue;
+      }
 
       // Use snapshotInterface for all evaluations
       const isAccessible = snapshotInterface.isLocationAccessible(loc.name);

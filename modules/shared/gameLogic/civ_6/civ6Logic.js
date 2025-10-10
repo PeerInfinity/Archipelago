@@ -1,110 +1,156 @@
 /**
- * Civilization VI-specific game logic functions
+ * Civilization VI state management module
  */
+export const civ6StateModule = {
+  /**
+   * Initializes a new Civilization VI game state.
+   */
+  initializeState() {
+    return {
+      flags: [],
+      events: [],
+    };
+  },
 
-/**
- * Check if player has all non-progressive items required for an era
- * @param {Object} snapshot - The state snapshot
- * @param {string} playerId - The player ID (usually 'world')
- * @param {string} era - The era name (e.g., "ERA_ANCIENT")
- * @param {Object} staticData - Static game data
- * @returns {boolean} True if player has all required non-progressive items
- */
-function has_non_progressive_items(snapshot, playerId, era, staticData) {
-    const gameInfo = staticData?.game_info?.["1"];
-    if (!gameInfo || !gameInfo.era_required_non_progressive_items) {
-        return false;
-    }
-    
-    const requiredItems = gameInfo.era_required_non_progressive_items[era];
-    if (!requiredItems || requiredItems.length === 0) {
-        // No requirements means era is accessible
-        return true;
-    }
-    
-    // Check if player has all required items
-    const inventory = snapshot?.inventory || {};
-    for (const item of requiredItems) {
-        if (!inventory[item] || inventory[item] <= 0) {
-            return false;
-        }
-    }
-    
-    return true;
-}
+  /**
+   * Loads settings into the game state.
+   */
+  loadSettings(gameState, settings) {
+    return { ...gameState };
+  },
 
-/**
- * Check if player has all progressive items with required counts for an era
- * @param {Object} snapshot - The state snapshot
- * @param {string} playerId - The player ID (usually 'world')
- * @param {string} era - The era name (e.g., "ERA_ANCIENT")
- * @param {Object} staticData - Static game data
- * @returns {boolean} True if player has all required progressive items with correct counts
- */
-function has_progressive_items(snapshot, playerId, era, staticData) {
-    const gameInfo = staticData?.game_info?.["1"];
-    if (!gameInfo || !gameInfo.era_required_progressive_items_counts) {
-        return false;
-    }
-    
-    const requiredCounts = gameInfo.era_required_progressive_items_counts[era];
-    if (!requiredCounts || Object.keys(requiredCounts).length === 0) {
-        // No requirements means era is accessible
-        return true;
-    }
-    
-    // Check if player has all required items with correct counts
-    const inventory = snapshot?.inventory || {};
-    for (const [item, count] of Object.entries(requiredCounts)) {
-        if (!inventory[item] || inventory[item] < count) {
-            return false;
-        }
-    }
-    
-    return true;
-}
+  /**
+   * Process event items for Civilization VI.
+   */
+  processEventItem(gameState, itemName) {
+    return null;
+  },
 
-// Export helper functions
-export const helperFunctions = {
-    has_non_progressive_items,
-    has_progressive_items
+  /**
+   * Returns the state properties for a snapshot.
+   */
+  getStateForSnapshot(gameState) {
+    return {
+      flags: gameState.flags || [],
+      events: gameState.events || [],
+    };
+  },
 };
 
-// Create state module with required functions
-export const civ6StateModule = {
-    /**
-     * Initializes a new, empty Civilization VI game state.
-     */
-    initializeState() {
-        return {
-            flags: [], // Checked locations and game-specific flags
-            events: [], // Event items
-        };
-    },
+/**
+ * Civilization VI helper functions
+ */
+export const helperFunctions = {
+  /**
+   * Check if the player has an item
+   */
+  has(snapshot, staticData, itemName) {
+    return !!(snapshot?.inventory && snapshot.inventory[itemName] > 0);
+  },
 
-    /**
-     * Loads settings into the game state.
-     */
-    loadSettings(gameState, settings) {
-        return { ...gameState };
-    },
+  /**
+   * Count how many of an item the player has
+   */
+  count(snapshot, staticData, itemName) {
+    return snapshot?.inventory?.[itemName] || 0;
+  },
 
-    /**
-     * Process event items for Civilization VI
-     */
-    processEventItem(gameState, itemName) {
-        return null; // Return null to indicate no state change
-    },
+  /**
+   * Get the item placed at a specific location
+   */
+  location_item_name(snapshot, staticData, locationName) {
+    const locations = staticData?.locations || [];
 
-    /**
-     * Returns the state properties for a snapshot.
-     */
-    getStateForSnapshot(gameState) {
-        return {
-            flags: gameState.flags || [],
-            events: gameState.events || [],
-        };
-    },
+    let location;
+    if (Array.isArray(locations)) {
+      location = locations.find(loc => loc?.name === locationName);
+    } else if (typeof locations === 'object') {
+      location = locations[locationName];
+    }
 
-    helperFunctions
+    if (!location || !location.item) {
+      return null;
+    }
+
+    return [location.item.name, location.item.player];
+  },
+
+  /**
+   * Check if the player has all required non-progressive items for an era.
+   *
+   * This function checks if the player has collected all the non-progressive items
+   * required to advance from the given era to the next era.
+   *
+   * Python equivalent:
+   * def has_non_progressive_items(state: CollectionState, era: EraType, world: "CivVIWorld") -> bool:
+   *     return state.has_all(world.era_required_non_progressive_items[era], world.player)
+   *
+   * @param {Object} snapshot - Game state snapshot with inventory
+   * @param {Object} staticData - Static game data containing era_required_non_progressive_items
+   * @param {string} eraName - Name of the era (e.g., "ERA_ANCIENT")
+   * @returns {boolean} True if all required non-progressive items are collected
+   */
+  has_non_progressive_items(snapshot, staticData, eraName) {
+    // Get the era requirements from game_info
+    const gameInfo = staticData?.game_info?.['1'];
+    if (!gameInfo || !gameInfo.era_required_non_progressive_items) {
+      console.warn(`[civ6Logic] No era requirements found in game_info`);
+      return false;
+    }
+
+    const requiredItems = gameInfo.era_required_non_progressive_items[eraName];
+    if (!requiredItems || requiredItems.length === 0) {
+      // If no items are required, the condition is satisfied
+      return true;
+    }
+
+    // Check if all required items are in inventory
+    for (const itemName of requiredItems) {
+      if (!snapshot?.inventory || (snapshot.inventory[itemName] || 0) <= 0) {
+        return false;
+      }
+    }
+
+    return true;
+  },
+
+  /**
+   * Check if the player has all required progressive items (with counts) for an era.
+   *
+   * This function checks if the player has collected enough of each progressive item
+   * required to advance from the given era to the next era.
+   *
+   * Python equivalent:
+   * def has_progressive_items(state: CollectionState, era: EraType, world: "CivVIWorld") -> bool:
+   *     return state.has_all_counts(world.era_required_progressive_items_counts[era], world.player)
+   *
+   * @param {Object} snapshot - Game state snapshot with inventory
+   * @param {Object} staticData - Static game data containing era_required_progressive_items_counts
+   * @param {string} eraName - Name of the era (e.g., "ERA_ANCIENT")
+   * @returns {boolean} True if all required progressive items with counts are collected
+   */
+  has_progressive_items(snapshot, staticData, eraName) {
+    // Get the era requirements from game_info
+    const gameInfo = staticData?.game_info?.['1'];
+    if (!gameInfo || !gameInfo.era_required_progressive_items_counts) {
+      console.warn(`[civ6Logic] No progressive era requirements found in game_info`);
+      return false;
+    }
+
+    const requiredItemCounts = gameInfo.era_required_progressive_items_counts[eraName];
+    if (!requiredItemCounts || Object.keys(requiredItemCounts).length === 0) {
+      // If no items are required, the condition is satisfied
+      return true;
+    }
+
+    // Check if all required items are in inventory with sufficient counts
+    for (const [itemName, requiredCount] of Object.entries(requiredItemCounts)) {
+      const currentCount = snapshot?.inventory?.[itemName] || 0;
+      if (currentCount < requiredCount) {
+        return false;
+      }
+    }
+
+    return true;
+  },
 };

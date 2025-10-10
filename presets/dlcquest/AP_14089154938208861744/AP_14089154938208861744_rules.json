@@ -10,17 +10,10 @@
   "world_classes": {
     "1": "DLCqworld"
   },
-  "plando_options": [
-    "connections",
-    "texts",
-    "bosses"
-  ],
   "regions": {
     "1": {
       "Menu": {
         "name": "Menu",
-        "type": "Region",
-        "player": 1,
         "entrances": [],
         "exits": [
           {
@@ -29,32 +22,18 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Move Right": {
         "name": "Move Right",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "DLC Quest Basic",
             "parent_region": "Menu",
-            "connected_region": "Move Right",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Move Right"
           }
         ],
         "exits": [
@@ -67,18 +46,13 @@
                 "type": "constant",
                 "value": "Movement Pack"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Movement Pack",
             "id": 120000,
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -109,20 +83,16 @@
                 "value": 4
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Movement Pack",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Animation Pack",
             "id": 120001,
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -153,20 +123,16 @@
                 "value": 5
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Psychological Warfare Pack",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Audio Pack",
             "id": 120002,
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -197,20 +163,16 @@
                 "value": 5
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Name Change Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Pause Menu Pack",
             "id": 120003,
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -241,53 +203,36 @@
                 "value": 5
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Time is Money Pack",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Move Right coins",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "4 coins",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Movement Pack": {
         "name": "Movement Pack",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Moving",
             "parent_region": "Move Right",
-            "connected_region": "Movement Pack",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Movement Pack"
           }
         ],
         "exits": [
@@ -300,11 +245,7 @@
                 "type": "constant",
                 "value": "Time is Money Pack"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Cloud",
@@ -315,18 +256,13 @@
                 "type": "constant",
                 "value": "Psychological Warfare Pack"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Time is Money Pack",
             "id": 120004,
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -357,20 +293,16 @@
                 "value": 20
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Zombie Sheep",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Psychological Warfare Pack",
             "id": 120013,
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -401,20 +333,16 @@
                 "value": 50
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Animation Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Armor for your Horse Pack",
             "id": 120014,
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -445,20 +373,16 @@
                 "value": 250
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Loading Screen",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shepherd Sheep",
             "id": 120049,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -466,53 +390,36 @@
                 "value": "Time is Money Pack"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Loading Screen",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Movement Pack coins",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "46 coins",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Behind Tree": {
         "name": "Behind Tree",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Tree",
             "parent_region": "Movement Pack",
-            "connected_region": "Behind Tree",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Behind Tree"
           }
         ],
         "exits": [
@@ -525,11 +432,7 @@
                 "type": "constant",
                 "value": "Double Jump Pack"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Forest Entrance",
@@ -540,18 +443,13 @@
                 "type": "constant",
                 "value": "Map Pack"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Double Jump Pack",
             "id": 120005,
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -582,20 +480,16 @@
                 "value": 100
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Loading Screen",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Map Pack",
             "id": 120009,
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -626,89 +520,64 @@
                 "value": 140
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Armor for your Horse Pack",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Between Trees Sheep",
             "id": 120047,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Name Change Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Hole in the Wall Sheep",
             "id": 120048,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Name Change Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Behind Tree coins",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "60 coins",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Psychological Warfare": {
         "name": "Psychological Warfare",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Cloud",
             "parent_region": "Movement Pack",
-            "connected_region": "Psychological Warfare",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Psychological Warfare"
           }
         ],
         "exits": [
@@ -721,18 +590,13 @@
                 "type": "constant",
                 "value": "Double Jump Pack"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "West Cave Sheep",
             "id": 120053,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -740,53 +604,36 @@
                 "value": "Time is Money Pack"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Double Jump Pack",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Psychological Warfare coins",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "100 coins",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Double Jump Total Left": {
         "name": "Double Jump Total Left",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Cloud Double Jump",
             "parent_region": "Psychological Warfare",
-            "connected_region": "Double Jump Total Left",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Double Jump Total Left"
           }
         ],
         "exits": [
@@ -799,11 +646,7 @@
                 "type": "constant",
                 "value": "Time is Money Pack"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Cave Roof",
@@ -814,18 +657,13 @@
                 "type": "constant",
                 "value": "Double Jump Pack"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Pet Pack",
             "id": 120006,
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -856,20 +694,16 @@
                 "value": 5
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Map Pack",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Top Hat Pack",
             "id": 120008,
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -900,20 +734,16 @@
                 "value": 5
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Loading Screen",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "North West Alcove Sheep",
             "id": 120052,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -921,53 +751,36 @@
                 "value": "Time is Money Pack"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Audio Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Double Jump Total Left coins",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "50 coins",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Double Jump Total Left Cave": {
         "name": "Double Jump Total Left Cave",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Cave Tree",
             "parent_region": "Double Jump Total Left",
-            "connected_region": "Double Jump Total Left Cave",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Double Jump Total Left Cave"
           }
         ],
         "exits": [],
@@ -975,58 +788,40 @@
           {
             "name": "Top Hat Sheep",
             "id": 120050,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Pause Menu Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Double Jump Total Left Cave coins",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "9 coins",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Double Jump Total Left Roof": {
         "name": "Double Jump Total Left Roof",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Cave Roof",
             "parent_region": "Double Jump Total Left",
-            "connected_region": "Double Jump Total Left Roof",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Double Jump Total Left Roof"
           }
         ],
         "exits": [],
@@ -1034,7 +829,6 @@
           {
             "name": "North West Ceiling Sheep",
             "id": 120051,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1042,53 +836,36 @@
                 "value": "Time is Money Pack"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Pet Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Double Jump Total Left Roof coins",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "10 coins",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Double Jump Behind Tree": {
         "name": "Double Jump Behind Tree",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Behind Tree Double Jump",
             "parent_region": "Behind Tree",
-            "connected_region": "Double Jump Behind Tree",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Double Jump Behind Tree"
           }
         ],
         "exits": [
@@ -1098,18 +875,13 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Sexy Outfits Pack",
             "id": 120007,
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -1140,89 +912,64 @@
                 "value": 5
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Name Change Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Double Jump Alcove Sheep",
             "id": 120042,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Night Map Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Sexy Outfits Sheep",
             "id": 120044,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Loading Screen",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Double Jump Behind Tree coins",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "89 coins",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "True Double Jump Behind Tree": {
         "name": "True Double Jump Behind Tree",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "True Double Jump",
             "parent_region": "Double Jump Behind Tree",
-            "connected_region": "True Double Jump Behind Tree",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "True Double Jump Behind Tree"
           }
         ],
         "exits": [],
@@ -1230,76 +977,54 @@
           {
             "name": "Double Jump Floating Sheep",
             "id": 120043,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sexy Outfits Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Cutscene Sheep",
             "id": 120054,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Loading Screen",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "True Double Jump Behind Tree coins",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "7 coins",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "The Forest": {
         "name": "The Forest",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Forest Entrance",
             "parent_region": "Behind Tree",
-            "connected_region": "The Forest",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "The Forest"
           }
         ],
         "exits": [
@@ -1312,11 +1037,7 @@
                 "type": "constant",
                 "value": "Gun Pack"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Forest Double Jump",
@@ -1327,18 +1048,13 @@
                 "type": "constant",
                 "value": "Double Jump Pack"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Gun Pack",
             "id": 120010,
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -1369,20 +1085,16 @@
                 "value": 75
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Temporary Spike",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Night Map Pack",
             "id": 120012,
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -1413,53 +1125,36 @@
                 "value": 75
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Loading Screen",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "The Forest coins",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "171 coins",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "The Forest with double Jump": {
         "name": "The Forest with double Jump",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Forest Double Jump",
             "parent_region": "The Forest",
-            "connected_region": "The Forest with double Jump",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "The Forest with double Jump"
           }
         ],
         "exits": [
@@ -1472,18 +1167,13 @@
                 "type": "constant",
                 "value": "Double Jump Pack"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "The Zombie Pack",
             "id": 120011,
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -1514,71 +1204,50 @@
                 "value": 5
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Top Hat Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forest Low Sheep",
             "id": 120046,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "The Zombie Pack",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "The Forest with double Jump coins",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "76 coins",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "The Forest with double Jump Part 2": {
         "name": "The Forest with double Jump Part 2",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Forest True Double Jump",
             "parent_region": "The Forest with double Jump",
-            "connected_region": "The Forest with double Jump Part 2",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "The Forest with double Jump Part 2"
           }
         ],
         "exits": [],
@@ -1586,58 +1255,40 @@
           {
             "name": "Forest High Sheep",
             "id": 120045,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Gun Pack",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "The Forest with double Jump Part 2 coins",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "203 coins",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "The Final Boss Room": {
         "name": "The Final Boss Room",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Behind Ogre",
             "parent_region": "The Forest",
-            "connected_region": "The Final Boss Room",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "The Final Boss Room"
           }
         ],
         "exits": [],
@@ -1645,7 +1296,6 @@
           {
             "name": "Finish the Fight Pack",
             "id": 120015,
-            "crystal": null,
             "access_rule": {
               "type": "compare",
               "left": {
@@ -1676,20 +1326,16 @@
                 "value": 5
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Finish the Fight Pack",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Winning Basic",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1709,20 +1355,14 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Victory Basic",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       }
     }
   },
@@ -1743,7 +1383,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1757,7 +1396,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1771,7 +1409,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1785,7 +1422,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -1799,7 +1435,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1813,7 +1448,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1827,7 +1461,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1841,7 +1474,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1855,7 +1487,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1869,7 +1500,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1883,7 +1513,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1897,7 +1526,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1911,7 +1539,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -1925,7 +1552,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1939,7 +1565,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1953,7 +1578,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1967,7 +1591,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1981,7 +1604,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -1995,7 +1617,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2009,7 +1630,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2023,7 +1643,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2037,7 +1656,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2051,7 +1669,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2065,7 +1682,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2079,7 +1695,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2093,7 +1708,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2107,7 +1721,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2121,7 +1734,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2135,7 +1747,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": true,
         "event": false,
@@ -2149,7 +1760,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2163,7 +1773,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2177,7 +1786,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2191,7 +1799,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2205,7 +1812,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2219,7 +1825,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2233,7 +1838,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2247,7 +1851,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2261,7 +1864,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2275,7 +1877,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2289,7 +1890,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2303,7 +1903,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2317,7 +1916,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2331,7 +1929,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2345,7 +1942,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2359,7 +1955,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": true,
         "event": false,
@@ -2373,7 +1968,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": true,
         "event": false,
@@ -2387,7 +1981,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": true,
         "event": false,
@@ -2401,7 +1994,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2415,7 +2007,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2429,7 +2020,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2443,7 +2033,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2457,7 +2046,6 @@
           "coins"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2471,7 +2059,6 @@
           "coins"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2485,7 +2072,6 @@
           "coins"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2499,7 +2085,6 @@
           "coins"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2513,7 +2098,6 @@
           "coins"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2527,7 +2111,6 @@
           "coins"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2541,7 +2124,6 @@
           "coins"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2555,7 +2137,6 @@
           "coins"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2569,7 +2150,6 @@
           "coins"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2583,7 +2163,6 @@
           "coins"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2597,7 +2176,6 @@
           "coins"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2611,7 +2189,6 @@
           "coins"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2625,7 +2202,6 @@
           "coins"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2639,7 +2215,6 @@
           "coins"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,

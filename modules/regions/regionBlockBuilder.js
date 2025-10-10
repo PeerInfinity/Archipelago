@@ -278,9 +278,6 @@ export class RegionBlockBuilder {
     // Add dungeon info
     this.addDungeonInfo(contentEl, regionName);
 
-    // Add region rules
-    this.addRegionRules(contentEl, regionStaticData, useColorblind, snapshotInterface);
-
     // Parse the section order and add sections in the specified order
     const sections = sectionOrder.split('-');
     
@@ -357,29 +354,6 @@ export class RegionBlockBuilder {
       const dungeonLink = this.createDungeonLink(dungeonData.name);
       dungeonDiv.appendChild(dungeonLink);
       contentEl.appendChild(dungeonDiv);
-    }
-  }
-
-  /**
-   * Adds region rules to the content element
-   */
-  addRegionRules(contentEl, regionStaticData, useColorblind, snapshotInterface) {
-    if (
-      regionStaticData.region_rules &&
-      regionStaticData.region_rules.length > 0
-    ) {
-      const rrContainer = document.createElement('div');
-      rrContainer.innerHTML = '<h4>Region Rules</h4>';
-      regionStaticData.region_rules.forEach((rule, idx) => {
-        const logicDiv = document.createElement('div');
-        logicDiv.classList.add('logic-tree');
-        logicDiv.innerHTML = `<strong>Rule #${idx + 1}:</strong>`;
-        logicDiv.appendChild(
-          renderLogicTree(rule, useColorblind, snapshotInterface)
-        );
-        rrContainer.appendChild(logicDiv);
-      });
-      contentEl.appendChild(rrContainer);
     }
   }
 

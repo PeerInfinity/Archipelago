@@ -35,8 +35,9 @@ const mappingCache = {
 /**
  * Initialize mapping caches from a data package
  * @param {Object} dataPackage - The data package received from the server
+ * @param {string} clientGameName - The game name for this client's slot (optional, if not provided loads all games)
  */
-export function initializeMappingsFromDataPackage(dataPackage) {
+export function initializeMappingsFromDataPackage(dataPackage, clientGameName = null) {
   if (!dataPackage || !dataPackage.games) {
     log('warn', 'Cannot initialize mappings: Invalid data package');
     return false;
@@ -52,8 +53,21 @@ export function initializeMappingsFromDataPackage(dataPackage) {
     // Store version
     mappingCache.dataPackageVersion = dataPackage.version;
 
-    // Process each game's mappings
-    for (const [gameName, gameData] of Object.entries(dataPackage.games)) {
+    // If clientGameName is provided, only load mappings for that game
+    // Otherwise, load all games (legacy behavior, but can cause ID collisions in multiworld)
+    const gamesToProcess = clientGameName
+      ? { [clientGameName]: dataPackage.games[clientGameName] }
+      : dataPackage.games;
+
+    if (clientGameName && !dataPackage.games[clientGameName]) {
+      log('warn', `Cannot find game '${clientGameName}' in data package. Available games: ${Object.keys(dataPackage.games).join(', ')}`);
+      return false;
+    }
+
+    // Process game mappings
+    for (const [gameName, gameData] of Object.entries(gamesToProcess)) {
+      if (!gameData) continue;
+
       // Process item mappings
       if (gameData.item_name_to_id) {
         for (const [itemName, itemId] of Object.entries(
@@ -79,7 +93,7 @@ export function initializeMappingsFromDataPackage(dataPackage) {
 
     log(
       'info',
-      `Mapping cache initialized with ${mappingCache.itemMappings.size} items and ${mappingCache.locationMappings.size} locations`
+      `Mapping cache initialized${clientGameName ? ` for game '${clientGameName}'` : ''} with ${mappingCache.itemMappings.size} items and ${mappingCache.locationMappings.size} locations`
     );
     return true;
   } catch (error) {

@@ -168,12 +168,50 @@ export function register(registrationApi) {
 
   // Register EventBus publisher intentions
   registrationApi.registerEventBusPublisher('error:client');
+  registrationApi.registerEventBusPublisher('connection:open');
+  registrationApi.registerEventBusPublisher('connection:message');
+  registrationApi.registerEventBusPublisher('connection:close');
+  registrationApi.registerEventBusPublisher('connection:error');
+  registrationApi.registerEventBusPublisher('connection:reconnecting');
+  registrationApi.registerEventBusPublisher('game:roomInfo');
+  registrationApi.registerEventBusPublisher('game:connected');
+  registrationApi.registerEventBusPublisher('game:bounced');
+  registrationApi.registerEventBusPublisher('game:roomUpdate');
+  registrationApi.registerEventBusPublisher('game:itemsReceived');
+  registrationApi.registerEventBusPublisher('game:dataPackageReceived');
+  registrationApi.registerEventBusPublisher('ui:printToConsole');
+  registrationApi.registerEventBusPublisher('ui:printFormattedToConsole');
+  registrationApi.registerEventBusPublisher('network:connectionRefused');
+  registrationApi.registerEventBusPublisher('client:checksSentUpdated');
+  registrationApi.registerEventBusPublisher('inventory:clear');
+  registrationApi.registerEventBusPublisher('locations:updated');
   // MainContentUI might still publish these, so keep registration for now
   registrationApi.registerEventBusPublisher('network:disconnectRequest'); // This is if MainContentUI publishes disconnect on EventBus
   registrationApi.registerEventBusPublisher('network:connectRequest'); // This is if MainContentUI publishes connect on EventBus (though it now calls directly)
   // Removed event bus registrations for control:start and control:quickCheck as they are now internal to Timer module
   // registrationApi.registerEventBusPublisher('control:start');
   // registrationApi.registerEventBusPublisher('control:quickCheck');
+
+  // Register public function for programmatic connection
+  registrationApi.registerPublicFunction('connect', (serverAddress, playerName) => {
+    log('info', `[Client Module] Public connect function called with server: ${serverAddress}, player: ${playerName}`);
+    if (!coreConnection) {
+      log('error', '[Client Module] Cannot connect: Core connection not initialized.');
+      return false;
+    }
+    // Store player name if provided
+    if (playerName && coreStorage) {
+      try {
+        const settings = JSON.parse(coreStorage.getItem('clientSettings') || '{}');
+        if (!settings.connection) settings.connection = {};
+        settings.playerName = playerName;
+        coreStorage.setItem('clientSettings', JSON.stringify(settings));
+      } catch (e) {
+        log('error', '[Client Module] Error storing player name:', e);
+      }
+    }
+    return coreConnection.requestConnect(serverAddress);
+  });
 }
 
 // --- Initialization --- //
@@ -226,6 +264,59 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
     // clientModuleLoadPriority = -1; // REMOVED
     mainContentUIInstance = null; // Reset instance on cleanup
   };
+}
+
+// --- Post-Initialization --- //
+export async function postInitialize(api, config) {
+  log('info', '[Client Module] Post-initializing...');
+
+  // Check for URL parameters for autoconnect
+  const urlParams = new URLSearchParams(window.location.search);
+  const autoConnect = urlParams.get('autoConnect');
+  const serverParam = urlParams.get('server');
+  const playerNameParam = urlParams.get('playerName');
+
+  log('info', `[Client Module] URL params: autoConnect=${autoConnect}, server=${serverParam}, playerName=${playerNameParam}`);
+
+  if (autoConnect === 'true') {
+    log('info', '[Client Module] autoConnect=true detected in URL parameters');
+
+    // Use URL param server address or fall back to settings
+    let serverAddress = serverParam;
+    if (!serverAddress) {
+      const moduleSettings = await api.getModuleSettings(moduleInfo.name);
+      serverAddress = moduleSettings?.defaultServer || 'ws://localhost:38281';
+      log('info', `[Client Module] No server param, using default: ${serverAddress}`);
+    }
+
+    // Store player name if provided
+    if (playerNameParam) {
+      log('info', `[Client Module] Setting player name from URL: ${playerNameParam}`);
+      try {
+        const settings = JSON.parse(coreStorage.getItem('clientSettings') || '{}');
+        settings.playerName = playerNameParam;
+        coreStorage.setItem('clientSettings', JSON.stringify(settings));
+        log('info', '[Client Module] Player name stored successfully');
+      } catch (e) {
+        log('error', '[Client Module] Error storing player name from URL:', e);
+      }
+    }
+
+    // Attempt to connect
+    log('info', `[Client Module] Auto-connecting to ${serverAddress}...`);
+    setTimeout(() => {
+      if (coreConnection) {
+        log('info', '[Client Module] Calling requestConnect...');
+        coreConnection.requestConnect(serverAddress);
+      } else {
+        log('error', '[Client Module] Cannot auto-connect: coreConnection not available');
+      }
+    }, 500); // Small delay to ensure everything is fully initialized
+  } else {
+    log('info', '[Client Module] autoConnect not enabled (autoConnect=' + autoConnect + ')');
+  }
+
+  log('info', '[Client Module] Post-initialization complete.');
 }
 
 // Export dispatcher for use by other files in this module (e.g., messageHandler.js)

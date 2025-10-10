@@ -48,6 +48,9 @@ export function register(registrationApi) {
     'ui:fileViewChanged'
   );
 
+  // ADDED: Declare that this module sends 'user:locationCheck' via the dispatcher
+  registrationApi.registerDispatcherSender('user:locationCheck', 'bottom', 'first');
+
   log('info', '[TestSpoilers Module] Registration complete.');
 }
 

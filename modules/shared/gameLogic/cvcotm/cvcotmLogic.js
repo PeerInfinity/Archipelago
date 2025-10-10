@@ -1,102 +1,117 @@
 // Castlevania - Circle of the Moon game-specific logic
 
+// Helper function mappings for CvCotM-specific rules
+export const helperFunctions = {
+        // Movement abilities
+        'has_jump_level_1': (snapshot, staticData) => {
+            // Double or Roc Wing, regardless of Roc being nerfed or not
+            return !!(snapshot?.inventory?.['Double'] || snapshot?.inventory?.['Roc Wing']);
+        },
+        'has_jump_level_2': (snapshot, staticData) => {
+            // Specifically Roc Wing, regardless of Roc being nerfed or not
+            return !!(snapshot?.inventory?.['Roc Wing']);
+        },
+        'has_jump_level_3': (snapshot, staticData) => {
+            // Roc Wing and Double OR Kick Boots if Roc is nerfed. Otherwise, just Roc.
+            const hasRocWing = !!(snapshot?.inventory?.['Roc Wing']);
+            if (!hasRocWing) return false;
+
+            const playerId = snapshot?.player?.slot || '1';
+            const nerfRocWing = staticData?.settings?.[playerId]?.nerf_roc_wing || 0;
+
+            if (nerfRocWing) {
+                return !!(snapshot?.inventory?.['Double'] || snapshot?.inventory?.['Kick Boots']);
+            } else {
+                return true; // Just Roc Wing is enough
+            }
+        },
+        'has_jump_level_4': (snapshot, staticData) => {
+            // Roc Wing and Kick Boots specifically if Roc is nerfed. Otherwise, just Roc.
+            const hasRocWing = !!(snapshot?.inventory?.['Roc Wing']);
+            if (!hasRocWing) return false;
+
+            const playerId = snapshot?.player?.slot || '1';
+            const nerfRocWing = staticData?.settings?.[playerId]?.nerf_roc_wing || 0;
+
+            if (nerfRocWing) {
+                return !!(snapshot?.inventory?.['Kick Boots']);
+            } else {
+                return true; // Just Roc Wing is enough
+            }
+        },
+        'has_jump_level_5': (snapshot, staticData) => {
+            // Roc Wing, Double, AND Kick Boots if Roc is nerfed. Otherwise, just Roc.
+            const hasRocWing = !!(snapshot?.inventory?.['Roc Wing']);
+            if (!hasRocWing) return false;
+
+            const playerId = snapshot?.player?.slot || '1';
+            const nerfRocWing = staticData?.settings?.[playerId]?.nerf_roc_wing || 0;
+
+            if (nerfRocWing) {
+                return !!(snapshot?.inventory?.['Double'] && snapshot?.inventory?.['Kick Boots']);
+            } else {
+                return true; // Just Roc Wing is enough
+            }
+        },
+        'has_kick': (snapshot, staticData) => {
+            // Kick boots
+            return !!(snapshot?.inventory?.['Kick Boots']);
+        },
+        'has_tackle': (snapshot, staticData) => {
+            // Tackle ability
+            return !!(snapshot?.inventory?.['Tackle']);
+        },
+        'has_push': (snapshot, staticData) => {
+            // Heavy Ring for pushing
+            return !!(snapshot?.inventory?.['Heavy Ring']);
+        },
+        'has_ice_or_stone': (snapshot, staticData) => {
+            // Need either Cockatrice or Serpent card
+            return !!(snapshot?.inventory?.['Cockatrice Card'] ||
+                     snapshot?.inventory?.['Serpent Card']);
+        },
+        'broke_iron_maidens': (snapshot, staticData) => {
+            // Check if iron maidens are broken (via detonator or start broken option)
+            return !!(snapshot?.inventory?.['Maiden Detonator']);
+        },
+
+        // DSS Cards - checking for specific card combinations
+        'has_freeze': (snapshot, staticData) => {
+            // Freeze enemies - requires specific DSS cards
+            return !!(snapshot?.inventory?.['Mercury Card'] &&
+                     snapshot?.inventory?.['Serpent Card']);
+        },
+        'has_cleansing': (snapshot, staticData) => {
+            // Cleansing ability - requires specific cards
+            return !!(snapshot?.inventory?.['Venus Card'] &&
+                     snapshot?.inventory?.['Unicorn Card']);
+        },
+
+        // Key items
+        'has_last_key': (snapshot, staticData) => {
+            return !!(snapshot?.inventory?.['Last Key']);
+        },
+
+        // Combat abilities
+        'can_push_crates': (snapshot, staticData) => {
+            // Push Heavy Crate ability
+            return !!(snapshot?.inventory?.['Heavy Ring'] ||
+                     snapshot?.inventory?.['Tackle']);
+        },
+        'can_break_blocks': (snapshot, staticData) => {
+            // Break blocks - various methods
+            return !!(snapshot?.inventory?.['Kick Boots'] ||
+                     snapshot?.inventory?.['Tackle']);
+        }
+};
+
+// CvCotM-specific logic module
 export const cvcotmLogic = {
     // Special handling for CvCotM-specific regions
     shouldExcludeRegionFromComparison: (regionName) => {
         // Menu is a structural region, not a gameplay region
         // It's added by the exporter but doesn't appear in sphere logs
         return regionName === 'Menu';
-    },
-
-    // Helper function mappings for CvCotM-specific rules
-    helperFunctions: {
-        // Movement abilities
-        'has_jump_level_1': (state, player) => {
-            // Basic jump - usually available from start
-            return true;
-        },
-        'has_jump_level_2': (state, player) => {
-            // Double jump
-            return snapshot.has('Double', player);
-        },
-        'has_kick': (state, player) => {
-            // Kick boots
-            return snapshot.has('Kick Boots', player);
-        },
-        'has_tackle': (state, player) => {
-            // Tackle ability
-            return snapshot.has('Tackle', player);
-        },
-        'has_roc_wing': (state, player) => {
-            // Roc Wing for high jumps
-            return snapshot.has('Roc Wing', player);
-        },
-        
-        // DSS Cards - checking for specific card combinations
-        'has_freeze': (state, player) => {
-            // Freeze enemies - requires specific DSS cards
-            return snapshot.has('Mercury Card', player) && snapshot.has('Serpent Card', player);
-        },
-        'has_cleansing': (state, player) => {
-            // Cleansing ability - requires specific cards
-            return snapshot.has('Venus Card', player) && snapshot.has('Unicorn Card', player);
-        },
-        
-        // Key items
-        'has_last_key': (state, player) => {
-            return snapshot.has('Last Key', player);
-        },
-        
-        // Combat abilities
-        'can_push_crates': (state, player) => {
-            // Push Heavy Crate ability
-            return snapshot.has('Heavy Ring', player) || snapshot.has('Tackle', player);
-        },
-        'can_break_blocks': (state, player) => {
-            // Break blocks - various methods
-            return snapshot.has('Kick Boots', player) || snapshot.has('Tackle', player);
-        }
-    },
-
-    // Process helper function calls in rules
-    processHelperCall: function(helperName, args, state, player) {
-        const helperFunc = this.helperFunctions[helperName];
-        if (helperFunc) {
-            return helperFunc(state, player, ...args);
-        }
-        
-        // Log unknown helper for debugging
-        console.warn(`[cvcotmLogic] Unknown helper function: ${helperName}`);
-        return false;
-    },
-
-    // Check if a rule's function_call is a CvCotM helper
-    isGameHelper: function(functionCall) {
-        if (!functionCall || !functionCall.function) return false;
-        
-        // Check for attribute access pattern (self.helper_name)
-        if (functionCall.function.type === 'attribute' && 
-            functionCall.function.object?.type === 'name' &&
-            functionCall.function.object?.name === 'self') {
-            const helperName = functionCall.function.attr;
-            return helperName in this.helperFunctions;
-        }
-        
-        return false;
-    },
-
-    // Evaluate a CvCotM-specific rule
-    evaluateRule: function(rule, state, player) {
-        if (!rule) return false;
-        
-        // Handle function_call type rules that are CvCotM helpers
-        if (rule.type === 'function_call' && this.isGameHelper(rule)) {
-            const helperName = rule.function.attr;
-            return this.processHelperCall(helperName, rule.args || [], state, player);
-        }
-        
-        // Let the main rule engine handle other rule types
-        return null; // Signal to use default evaluation
     }
 };
 

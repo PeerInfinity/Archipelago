@@ -15,9 +15,6 @@ initializeIframeLogger({
 // Create logger for this module
 const logger = createSharedLogger('standalone');
 
-// Debug: Log that this file is loading
-console.log('=== standalone.js module loaded ===');
-
 /**
  * Update connection status in UI
  * @param {string} status - Status message
@@ -79,7 +76,6 @@ function showApp() {
  */
 async function initializeStandalone() {
     try {
-        console.log('[standalone] initializeStandalone called');
         logger.info('Initializing standalone text adventure...');
 
         // Check if we're running inside an iframe panel (parent has iframe status)
@@ -90,48 +86,37 @@ async function initializeStandalone() {
         }
 
         updateConnectionStatus('Connecting to main application...');
-        console.log('[standalone] Connecting...');
 
         // Create iframe client
         const iframeClient = new IframeClient();
-        console.log('[standalone] IframeClient created');
 
         // Attempt to connect
         const connected = await iframeClient.connect();
-        console.log('[standalone] Connected:', connected);
 
         if (!connected) {
             throw new Error('Failed to establish connection');
         }
 
         updateConnectionStatus('Connected successfully', 'connected');
-        console.log('[standalone] Connection successful');
         logger.info('Connection established');
 
         // Make client available globally for debugging
         window.iframeClient = iframeClient;
 
         // Wait a brief moment for initial data to arrive
-        console.log('[standalone] Waiting for initial data...');
         await new Promise(resolve => setTimeout(resolve, 200));
-        console.log('[standalone] Wait complete');
 
         // Create and initialize the text adventure
         // TextAdventureStandalone now creates its own dependency wrappers from the client
         const appContainer = document.getElementById('appContainer');
-        console.log('[standalone] appContainer:', appContainer);
 
         try {
-            console.log('[standalone] Creating TextAdventureStandalone...');
             const textAdventure = new TextAdventureStandalone(appContainer, iframeClient);
-            console.log('[standalone] TextAdventureStandalone created:', textAdventure);
             logger.info('TextAdventureStandalone created successfully');
 
             // Notify adapter that we're fully initialized and ready to receive events
             iframeClient.notifyAppReady();
-            console.log('[standalone] Notified adapter that app is ready');
         } catch (err) {
-            console.error('[standalone] Error creating TextAdventureStandalone:', err);
             logger.error('Error creating TextAdventureStandalone:', err);
             // Show error in UI
             const errorMsg = `Failed to initialize: ${err.message}\n${err.stack}`;

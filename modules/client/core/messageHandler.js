@@ -32,6 +32,7 @@ export class MessageHandler {
     this.clientSlotName = null;
     this.clientSlot = null;
     this.clientTeam = null;
+    this.clientGameName = null; // Store the game name for this client's slot
     this.players = [];
 
     // Use the imported stateManagerProxySingleton directly
@@ -124,12 +125,12 @@ export class MessageHandler {
 
       case 'Bounced':
         // Use injected eventBus
-        this.eventBus?.publish('game:bounced', command);
+        this.eventBus?.publish('game:bounced', command, 'client');
         break;
 
       default:
         // Use injected eventBus
-        this.eventBus?.publish(`game:raw:${command.cmd}`, command);
+        this.eventBus?.publish(`game:raw:${command.cmd}`, command, 'client');
         break;
     }
   }
@@ -149,6 +150,8 @@ export class MessageHandler {
 
   // Private message handlers
   _handleRoomInfo(data) {
+    log('info', '[MessageHandler] Received RoomInfo:', data);
+
     // Check if we need to request a new data package
     const needNewDataPackage = this._checkIfDataPackageNeeded(data);
 
@@ -159,15 +162,63 @@ export class MessageHandler {
     }
 
     // Use injected eventBus
-    this.eventBus?.publish('game:roomInfo', data);
+    this.eventBus?.publish('game:roomInfo', data, 'client');
 
-    // Prompt for slot name
-    this.clientSlotName = prompt('Enter your slot name:', 'Player1');
+    // Get slot name from settings or prompt
+    let slotName;
+    try {
+      const storedSettings = storage.getItem('clientSettings');
+      if (storedSettings) {
+        const settings = JSON.parse(storedSettings);
+        slotName = settings.playerName;
+      }
+    } catch (e) {
+      log('error', 'Error reading playerName from storage:', e);
+    }
+
+    // Fall back to prompt if no stored playerName
+    if (!slotName) {
+      slotName = prompt('Enter your slot name:', 'Player1');
+    }
+
+    this.clientSlotName = slotName;
+
+    // Determine the game name from RoomInfo
+    // The game name should come from the slot info for the player we're connecting as
+    let gameName = 'A Link to the Past'; // Default fallback
+
+    // Log RoomInfo structure to understand what data is available
+    log('info', `[MessageHandler] RoomInfo keys:`, Object.keys(data));
+    if (data.games) {
+      log('info', `[MessageHandler] RoomInfo.games:`, data.games);
+    }
+    if (data.slot_info) {
+      log('info', `[MessageHandler] RoomInfo.slot_info:`, data.slot_info);
+    }
+    if (data.players) {
+      log('info', `[MessageHandler] RoomInfo.players:`, data.players);
+    }
+
+    // RoomInfo might only have a 'games' array listing all available games
+    // We may need to just pick the first non-Archipelago game
+    if (data.games && Array.isArray(data.games) && data.games.length > 0) {
+      // Filter out 'Archipelago' which is the meta-game
+      const actualGames = data.games.filter(g => g !== 'Archipelago');
+      if (actualGames.length > 0) {
+        gameName = actualGames[0];
+        log('info', `[MessageHandler] Using first available game: ${gameName}`);
+      }
+    }
+
+    // Store the game name for this client
+    this.clientGameName = gameName;
+
+    log('info', `[MessageHandler] Connecting as game: ${gameName}, player: ${slotName}`);
 
     // Authenticate with the server
     const connectionData = {
       cmd: 'Connect',
-      game: 'A Link to the Past',
+      game: gameName,
       name: this.clientSlotName,
       uuid: this._getClientId(),
       tags: ['JSON Web Client'],
@@ -285,7 +336,7 @@ export class MessageHandler {
       missingLocations: data.missing_locations || [],
       slotData: data.slot_data || {},
       slotInfo: data.slot_info || [],
-    });
+    }, 'client');
 
     const serverCheckedLocationNames = [];
     if (data.checked_locations && data.checked_locations.length > 0) {
@@ -323,14 +374,14 @@ export class MessageHandler {
 
   _handleConnectionRefused(data) {
     // Use injected eventBus
-    this.eventBus?.publish('network:connectionRefused', data);
+    this.eventBus?.publish('network:connectionRefused', data, 'client');
     const message = `Connection refused: ${data.errors.join(', ')}`;
     log('error', '[MessageHandler]', message);
     // Publish event instead of directly printing
     this.eventBus?.publish('ui:printToConsole', {
       message: message,
       type: 'error',
-    });
+    }, 'client');
   }
 
   /**
@@ -466,7 +517,7 @@ export class MessageHandler {
       index: data.index, // Original index from server packet
       count: data.items.length, // Original count from server packet
       processedCount: processedItemDetails.length, // Actual count of items prepared for StateManager
-    });
+    }, 'client');
   }
 
   _logDebug(message, ...args) {
@@ -494,7 +545,7 @@ export class MessageHandler {
     }
 
     // Publish the event for UI updates
-    this.eventBus?.publish('game:roomUpdate', data);
+    this.eventBus?.publish('game:roomUpdate', data, 'client');
   }
 
   _handlePrint(data) {
@@ -502,13 +553,13 @@ export class MessageHandler {
     this.eventBus?.publish('ui:printToConsole', {
       message: data.text,
       type: 'server-message',
-    });
+    }, 'client');
   }
 
   async _handlePrintJSON(data) {
     // PrintJSON is purely for displaying messages to the player
     // Location updates are handled by RoomUpdate, items by ReceivedItems
-    
+
     // Handle PrintJSON messages that contain console text (Join, Tutorial, ItemSend, etc.)
     if (this.eventBus && data.data && Array.isArray(data.data)) {
       // PrintJSON data is an array of structured text objects with type information
@@ -516,7 +567,7 @@ export class MessageHandler {
       this.eventBus.publish('ui:printFormattedToConsole', {
         messageParts: data.data,
         type: 'server-message',
-      }, 'core');
+      }, 'client');
     }
   }
 
@@ -528,8 +579,8 @@ export class MessageHandler {
       storage.setItem('dataPackageVersion', data.data.version);
       storage.setItem('dataPackage', JSON.stringify(data.data));
 
-      // Initialize mappings
-      const initSuccess = initializeMappingsFromDataPackage(data.data);
+      // Initialize mappings, passing the client's game name to avoid ID collisions in multiworld
+      const initSuccess = initializeMappingsFromDataPackage(data.data, this.clientGameName);
       if (initSuccess) {
         log('info', 'Successfully initialized mappings from new data package');
       } else {
@@ -540,7 +591,7 @@ export class MessageHandler {
     }
 
     // Use injected eventBus if needed
-    this.eventBus?.publish('game:dataPackageReceived', data.data);
+    this.eventBus?.publish('game:dataPackageReceived', data.data, 'client');
   }
 
   /**
@@ -713,7 +764,7 @@ export class MessageHandler {
     }
 
     // Clear inventory UI before sync
-    this.eventBus?.publish('inventory:clear', {});
+    this.eventBus?.publish('inventory:clear', {}, 'client');
 
     return connection.send([{ cmd: 'Sync' }]);
   }
@@ -832,20 +883,34 @@ export class MessageHandler {
   _internalSendLocationChecks(locationIds) {
     log('info', '[MessageHandler] _internalSendLocationChecks called with IDs:', locationIds);
     log('info', '[MessageHandler] Current clientSlot:', this.clientSlot);
-    
+
     if (!connection.isConnected()) {
-      log('warn', 
+      log('warn',
         '[MessageHandler] Not connected, cannot send location checks.'
       );
       // Use injected eventBus
       this.eventBus?.publish('error:client', {
         type: 'ConnectionError',
         message: 'Not connected to server.',
-      });
+      }, 'client');
       return;
     }
 
     if (locationIds.length === 0) return;
+
+    // Filter out invalid location IDs (ID 0 means not recognized by server)
+    const validLocationIds = locationIds.filter(id => {
+      if (id === 0 || id === null || id === undefined) {
+        log('warn', `[MessageHandler] Skipping invalid location ID: ${id} (not recognized by server)`);
+        return false;
+      }
+      return true;
+    });
+
+    if (validLocationIds.length === 0) {
+      log('warn', '[MessageHandler] No valid location IDs to send after filtering');
+      return;
+    }
 
     // Use clientSlot from this instance
     const slot = this.clientSlot;
@@ -858,37 +923,29 @@ export class MessageHandler {
     }
 
     // Check if the location IDs are in the missing locations list
-    locationIds.forEach(locationId => {
+    validLocationIds.forEach(locationId => {
       const isMissing = this.missingLocationIds?.includes(locationId);
       const isChecked = this.checkedLocationIds?.includes(locationId);
       log('info', `[MessageHandler] Location ${locationId} - Missing: ${isMissing}, Already Checked: ${isChecked}`);
-      
-      // DEBUG: Add detailed logging to understand the mismatch
-      log('info', `[MessageHandler DEBUG] Checking location ID ${locationId} (type: ${typeof locationId})`);
-      log('info', `[MessageHandler DEBUG] Missing IDs array length: ${this.missingLocationIds?.length || 0}`);
-      log('info', `[MessageHandler DEBUG] First few missing IDs: ${this.missingLocationIds?.slice(0, 5) || 'none'}`);
-      log('info', `[MessageHandler DEBUG] Missing IDs include ${locationId}? ${this.missingLocationIds?.includes(locationId)}`);
-      log('info', `[MessageHandler DEBUG] Missing IDs include Number(${locationId})? ${this.missingLocationIds?.includes(Number(locationId))}`);
-      log('info', `[MessageHandler DEBUG] Missing IDs include String(${locationId})? ${this.missingLocationIds?.includes(String(locationId))}`);
     });
 
     log('info', '[MessageHandler] Sending LocationChecks command with slot:', slot);
     connection.send([
       {
         cmd: 'LocationChecks',
-        locations: locationIds,
+        locations: validLocationIds,
       },
     ]);
-    log('info', 
-      `[MessageHandler] Sent location check for IDs: ${locationIds.join(', ')}`
+    log('info',
+      `[MessageHandler] Sent location check for IDs: ${validLocationIds.join(', ')}`
     );
 
     // Update shared state for UI feedback (optional)
-    sharedClientState.checksSent += locationIds.length;
+    sharedClientState.checksSent += validLocationIds.length;
     // Use injected eventBus
     this.eventBus?.publish('client:checksSentUpdated', {
       count: sharedClientState.checksSent,
-    });
+    }, 'client');
   }
 }
 

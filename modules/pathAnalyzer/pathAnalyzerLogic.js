@@ -562,20 +562,7 @@ export class PathAnalyzerLogic {
       regionRules: [],
     };
 
-    // 1. Analyze region's own rules
-    if (regionData?.region_rules?.length > 0) {
-      regionData.region_rules.forEach((rule) => {
-        if (!rule) return;
-        analysisData.regionRules.push(rule);
-        // Analyze nodes (pass interface)
-        const nodeResults = this.analyzeRuleForNodes(rule, snapshotInterface);
-        Object.keys(allNodes).forEach((key) =>
-          allNodes[key].push(...nodeResults[key])
-        );
-      });
-    }
-
-    // 2. Analyze entrances to this region
+    // 1. Analyze entrances to this region
     Object.entries(regionsData).forEach(
       ([otherRegionName, otherRegionData]) => {
         if (otherRegionName === regionName) return;

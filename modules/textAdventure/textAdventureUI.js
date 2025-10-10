@@ -201,7 +201,8 @@ Load a rules file to begin your adventure.`;
                 log('debug', `Processing move command: ${command.target}`);
                 response = this.logic.handleRegionMove(command.target);
                 log('debug', `Move command response: ${response}`);
-                // Region display is handled by handleRegionChange event, no need for additional display
+                // Region display is handled by handleRegionChange event, so don't display the move message
+                response = null;
                 break;
                 
             case 'check':

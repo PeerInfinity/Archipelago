@@ -8,304 +8,495 @@
  */
 
 // Basic helper function to count items
-function getItemCount(state, itemName) {
+function getItemCount(snapshot, itemName) {
     return snapshot?.inventory?.[itemName] || 0;
 }
 
 // Basic helper function to check if player has any of an item
-function hasItem(state, itemName, count = 1) {
-    return getItemCount(state, itemName) >= count;
+function hasItem(snapshot, itemName, count = 1) {
+    return getItemCount(snapshot, itemName) >= count;
 }
 
 // Basic helper function to check if an event has occurred
-function hasEvent(state, eventName) {
+function hasEvent(snapshot, eventName) {
     return snapshot?.events?.includes(eventName) || snapshot?.flags?.includes(eventName);
 }
 
-function graffitiM(state, playerId, limit, spots, staticData) {
-    // Simplified implementation - may need adjustment based on actual data structure
+// Helper function to check if player has any item from a group
+function hasGroup(snapshot, groupName, staticData) {
+    const debug = groupName === 'skates';
+
+    if (!snapshot?.inventory || !staticData?.items) {
+        if (debug) {
+            console.log('[hasGroup] Missing data:', {
+                hasInventory: !!snapshot?.inventory,
+                hasStaticData: !!staticData,
+                hasItems: !!staticData?.items,
+                staticDataKeys: staticData ? Object.keys(staticData) : null,
+                itemsType: staticData?.items ? typeof staticData.items : null
+            });
+        }
+        return false;
+    }
+
+    // Check if any item in inventory belongs to the specified group
+    let checkedCount = 0;
+    for (const itemName in snapshot.inventory) {
+        const count = snapshot.inventory[itemName];
+        if (count > 0) {
+            checkedCount++;
+            const itemDef = staticData.items[itemName];
+            const matches = itemDef?.groups?.includes(groupName);
+            if (debug) {
+                if (itemName.includes('Inline')) {
+                    console.log(`[hasGroup] Checking ${itemName}, count=${count}`);
+                    console.log(`[hasGroup]   itemDef exists: ${!!itemDef}, matches: ${matches}`);
+                    if (itemDef) {
+                        console.log(`[hasGroup]   groups:`, itemDef.groups);
+                    } else {
+                        // Item not found - check what items are in staticData
+                        console.log(`[hasGroup]   staticData.items has ${Object.keys(staticData.items).length} items`);
+                        const sampleKeys = Object.keys(staticData.items).slice(0, 5);
+                        console.log(`[hasGroup]   Sample item keys:`, sampleKeys);
+                    }
+                }
+            }
+            if (matches) {
+                if (debug) {
+                    console.log(`[hasGroup] RETURNING TRUE for ${itemName}`);
+                }
+                return true;
+            }
+        }
+    }
+    if (debug) {
+        console.log(`[hasGroup] No items found in skates group, RETURNING FALSE (checked ${checkedCount} items with count > 0)`);
+    }
+    return false;
+}
+
+// Helper function to count unique items from a group
+function countGroupUnique(snapshot, groupName, staticData) {
+    if (!snapshot?.inventory || !staticData?.items) {
+        return 0;
+    }
+
+    let count = 0;
+    for (const itemName in snapshot.inventory) {
+        const itemCount = snapshot.inventory[itemName];
+        if (itemCount > 0) {
+            const itemDef = staticData.items[itemName];
+            if (itemDef?.groups?.includes(groupName)) {
+                count++;  // Count unique items, not total quantity
+            }
+        }
+    }
+    return count;
+}
+
+function graffitiM(snapshot, staticData, limit, spots) {
     if (limit) {
-        // Assuming we count unique graffiti M items somehow
-        const count = getItemCount(state, 'graffitim');
+        const count = countGroupUnique(snapshot, 'graffitim', staticData);
         return count * 7 >= spots;
     } else {
-        return hasItem(state, 'graffitim');
+        return hasGroup(snapshot, 'graffitim', staticData);
     }
 }
 
-function graffitiL(state, playerId, limit, spots, staticData) {
+function graffitiL(snapshot, staticData, limit, spots) {
     if (limit) {
-        const count = getItemCount(state, 'graffitil');
+        const count = countGroupUnique(snapshot, 'graffitil', staticData);
         return count * 6 >= spots;
     } else {
-        return hasItem(state, 'graffitil');
+        return hasGroup(snapshot, 'graffitil', staticData);
     }
 }
 
-function graffitiXL(state, playerId, limit, spots, staticData) {
+function graffitiXL(snapshot, staticData, limit, spots) {
     if (limit) {
-        const count = getItemCount(state, 'graffitixl');
+        const count = countGroupUnique(snapshot, 'graffitixl', staticData);
         return count * 4 >= spots;
     } else {
-        return hasItem(state, 'graffitixl');
+        return hasGroup(snapshot, 'graffitixl', staticData);
     }
 }
 
-function skateboard(state, playerId, movestyle, staticData) {
-    return movestyle === 2 || hasItem(state, 'skateboard');
+function skateboard(snapshot, staticData, movestyle) {
+    return movestyle === 2 || hasGroup(snapshot, 'skateboard', staticData);
 }
 
-function inline_skates(state, playerId, movestyle, staticData) {
-    return movestyle === 3 || hasItem(state, 'skates');
+function inline_skates(snapshot, staticData, movestyle) {
+    const hasSkatesGroup = hasGroup(snapshot, 'skates', staticData);
+    const result = movestyle === 3 || hasSkatesGroup;
+    const rep = snapshot?.inventory?.rep || 0;
+    if (rep >= 16 && rep <= 40) {
+        console.log(`[inline_skates] movestyle=${movestyle}, hasGroup('skates')=${hasSkatesGroup}, result=${result}, inventory keys:`, Object.keys(snapshot?.inventory || {}).filter(k => k.toLowerCase().includes('skate') || k.toLowerCase().includes('inline')));
+    }
+    return result;
 }
 
-function bmx(state, playerId, movestyle, staticData) {
-    return movestyle === 1 || hasItem(state, 'bmx');
+function bmx(snapshot, staticData, movestyle) {
+    return movestyle === 1 || hasGroup(snapshot, 'bmx', staticData);
 }
 
-function camera(snapshot, staticData, playerId) {
-    return hasItem(state, 'Camera App');
+function camera(snapshot, staticData) {
+    return hasItem(snapshot, 'Camera App');
 }
 
-function is_girl(snapshot, staticData, playerId) {
-    // Simplified - may need to check character groups
-    return hasItem(state, 'girl');
+function is_girl(snapshot, staticData) {
+    return hasGroup(snapshot, 'girl', staticData);
 }
 
-function current_chapter(state, playerId, chapter, staticData) {
-    return hasItem(state, 'Chapter Completed', chapter - 1);
+function current_chapter(snapshot, staticData, chapter) {
+    return hasItem(snapshot, 'Chapter Completed', chapter - 1);
 }
 
-function rep(state, playerId, required, staticData) {
-    return hasItem(state, 'rep', required);
+function rep(snapshot, staticData, required) {
+    return hasItem(snapshot, 'rep', required);
 }
 
 // Progression functions
-function versum_hill_entrance(snapshot, staticData, playerId) {
-    return rep(state, playerId, 20, staticData);
+function versum_hill_entrance(snapshot, staticData) {
+    const result = rep(snapshot, staticData, 20);
+    const currentRep = snapshot?.inventory?.rep || 0;
+    if (currentRep >= 16 && currentRep <= 32) {
+        console.log(`[versum_hill_entrance] REP=${currentRep}, required=20, result=${result}`);
+    }
+    return result;
 }
 
-function versum_hill_ch1_roadblock(state, playerId, limit, staticData) {
-    return graffitiL(state, playerId, limit, 10, staticData);
+function versum_hill_ch1_roadblock(snapshot, staticData, limit) {
+    return graffitiL(snapshot, staticData, limit, 10);
 }
 
-function versum_hill_challenge1(snapshot, staticData, playerId) {
-    return rep(state, playerId, 50, staticData);
+function versum_hill_challenge1(snapshot, staticData) {
+    return rep(snapshot, staticData, 50);
 }
 
-function versum_hill_challenge2(snapshot, staticData, playerId) {
-    return rep(state, playerId, 58, staticData);
+function versum_hill_challenge2(snapshot, staticData) {
+    return rep(snapshot, staticData, 58);
 }
 
-function versum_hill_challenge3(snapshot, staticData, playerId) {
-    return rep(state, playerId, 65, staticData);
+function versum_hill_challenge3(snapshot, staticData) {
+    return rep(snapshot, staticData, 65);
 }
 
-function versum_hill_all_challenges(snapshot, staticData, playerId) {
-    return versum_hill_challenge3(snapshot, staticData, playerId);
+function versum_hill_all_challenges(snapshot, staticData) {
+    return versum_hill_challenge3(snapshot, staticData);
 }
 
-function versum_hill_basketball_court(snapshot, staticData, playerId) {
-    return rep(state, playerId, 90, staticData);
+function versum_hill_basketball_court(snapshot, staticData) {
+    return rep(snapshot, staticData, 90);
 }
 
-function versum_hill_oldhead(snapshot, staticData, playerId) {
-    return rep(state, playerId, 120, staticData);
+function versum_hill_oldhead(snapshot, staticData) {
+    return rep(snapshot, staticData, 120);
 }
 
-function versum_hill_crew_battle(state, playerId, limit, glitched, staticData) {
+function versum_hill_crew_battle(snapshot, staticData, limit, glitched) {
     if (glitched) {
-        return rep(state, playerId, 90, staticData) && 
-               graffitiM(state, playerId, limit, 98, staticData);
+        return rep(snapshot, staticData, 90) &&
+               graffitiM(snapshot, staticData, limit, 98);
     } else {
-        return rep(state, playerId, 90, staticData) && 
-               graffitiM(state, playerId, limit, 27, staticData);
+        return rep(snapshot, staticData, 90) &&
+               graffitiM(snapshot, staticData, limit, 27);
     }
 }
 
-function brink_terminal_entrance(snapshot, staticData, playerId) {
-    return is_girl(snapshot, staticData, playerId) && 
-           rep(state, playerId, 180, staticData) && 
-           current_chapter(state, playerId, 2, staticData);
-}
-
-function brink_terminal_challenge1(snapshot, staticData, playerId) {
-    return rep(state, playerId, 188, staticData);
-}
-
-function brink_terminal_challenge2(snapshot, staticData, playerId) {
-    return rep(state, playerId, 200, staticData);
-}
-
-function brink_terminal_challenge3(snapshot, staticData, playerId) {
-    return rep(state, playerId, 220, staticData);
-}
-
-function brink_terminal_all_challenges(snapshot, staticData, playerId) {
-    return brink_terminal_challenge3(snapshot, staticData, playerId);
-}
-
-function brink_terminal_plaza(snapshot, staticData, playerId) {
-    return brink_terminal_all_challenges(snapshot, staticData, playerId);
-}
-
-function brink_terminal_tower(snapshot, staticData, playerId) {
-    return rep(state, playerId, 280, staticData);
-}
-
-function brink_terminal_oldhead_underground(snapshot, staticData, playerId) {
-    return rep(state, playerId, 250, staticData);
-}
-
-function brink_terminal_oldhead_dock(snapshot, staticData, playerId) {
-    return rep(state, playerId, 320, staticData);
-}
-
-function millennium_square_entrance(snapshot, staticData, playerId) {
-    return current_chapter(state, playerId, 2, staticData);
-}
-
-function millennium_mall_entrance(snapshot, staticData, playerId) {
-    return rep(state, playerId, 380, staticData) && 
-           current_chapter(state, playerId, 3, staticData);
-}
-
-function millennium_mall_theater(state, playerId, limit, staticData) {
-    return rep(state, playerId, 491, staticData) && 
-           graffitiM(state, playerId, limit, 78, staticData);
-}
-
-function millennium_mall_oldhead_ceiling(state, playerId, limit, staticData) {
-    return rep(state, playerId, 580, staticData) || 
-           millennium_mall_theater(state, playerId, limit, staticData);
-}
-
-function millennium_mall_switch(state, playerId, limit, glitched, staticData) {
+function versum_hill_rave(snapshot, staticData, limit, glitched) {
     if (glitched) {
-        return graffitiM(state, playerId, limit, 114, staticData) && 
-               current_chapter(state, playerId, 3, staticData);
+        if (current_chapter(snapshot, staticData, 4)) {
+            return graffitiL(snapshot, staticData, limit, 90) &&
+                   graffitiXL(snapshot, staticData, limit, 51);
+        } else if (current_chapter(snapshot, staticData, 3)) {
+            return graffitiL(snapshot, staticData, limit, 89) &&
+                   graffitiXL(snapshot, staticData, limit, 51);
+        } else {
+            return graffitiL(snapshot, staticData, limit, 85) &&
+                   graffitiXL(snapshot, staticData, limit, 48);
+        }
     } else {
-        return graffitiM(state, playerId, limit, 72, staticData) && 
-               current_chapter(state, playerId, 3, staticData);
+        return graffitiL(snapshot, staticData, limit, 26) &&
+               graffitiXL(snapshot, staticData, limit, 10);
     }
 }
 
-function millennium_mall_big(state, playerId, limit, glitched, staticData) {
-    return millennium_mall_switch(state, playerId, limit, glitched, staticData);
-}
-
-function pyramid_island_entrance(snapshot, staticData, playerId) {
-    return current_chapter(state, playerId, 4, staticData);
-}
-
-function pyramid_island_gate(snapshot, staticData, playerId) {
-    return rep(state, playerId, 620, staticData);
-}
-
-function pyramid_island_oldhead(snapshot, staticData, playerId) {
-    return rep(state, playerId, 780, staticData);
-}
-
-function pyramid_island_challenge1(snapshot, staticData, playerId) {
-    return rep(state, playerId, 630, staticData) && 
-           current_chapter(state, playerId, 4, staticData);
-}
-
-function pyramid_island_all_challenges(state, playerId, limit, glitched, staticData) {
+function versum_hill_rietveld(snapshot, staticData, limit, glitched) {
     if (glitched) {
-        return graffitiM(state, playerId, limit, 114, staticData) && 
-               rep(state, playerId, 660, staticData);
+        return current_chapter(snapshot, staticData, 2) &&
+               graffitiM(snapshot, staticData, limit, 114);
     } else {
-        return graffitiM(state, playerId, limit, 88, staticData) && 
-               rep(state, playerId, 660, staticData);
+        return current_chapter(snapshot, staticData, 2) &&
+               graffitiM(snapshot, staticData, limit, 67);
     }
 }
 
-function pyramid_island_upper_half(state, playerId, limit, glitched, staticData) {
-    return pyramid_island_all_challenges(state, playerId, limit, glitched, staticData);
+function brink_terminal_entrance(snapshot, staticData) {
+    return is_girl(snapshot, staticData) &&
+           rep(snapshot, staticData, 180) &&
+           current_chapter(snapshot, staticData, 2);
 }
 
-function pyramid_island_crew_battle(state, playerId, limit, glitched, staticData) {
+function brink_terminal_challenge1(snapshot, staticData) {
+    return rep(snapshot, staticData, 188);
+}
+
+function brink_terminal_challenge2(snapshot, staticData) {
+    return rep(snapshot, staticData, 200);
+}
+
+function brink_terminal_challenge3(snapshot, staticData) {
+    return rep(snapshot, staticData, 220);
+}
+
+function brink_terminal_all_challenges(snapshot, staticData) {
+    return brink_terminal_challenge3(snapshot, staticData);
+}
+
+function brink_terminal_plaza(snapshot, staticData) {
+    return brink_terminal_all_challenges(snapshot, staticData);
+}
+
+function brink_terminal_tower(snapshot, staticData) {
+    return rep(snapshot, staticData, 280);
+}
+
+function brink_terminal_oldhead_underground(snapshot, staticData) {
+    return rep(snapshot, staticData, 250);
+}
+
+function brink_terminal_oldhead_dock(snapshot, staticData) {
+    return rep(snapshot, staticData, 320);
+}
+
+function brink_terminal_crew_battle(snapshot, staticData, limit, glitched) {
     if (glitched) {
-        return rep(state, playerId, 730, staticData) && 
-               graffitiL(state, playerId, limit, 108, staticData);
+        return rep(snapshot, staticData, 280) &&
+               graffitiL(snapshot, staticData, limit, 103);
     } else {
-        return rep(state, playerId, 730, staticData) && 
-               graffitiL(state, playerId, limit, 97, staticData);
+        return rep(snapshot, staticData, 280) &&
+               graffitiL(snapshot, staticData, limit, 62);
     }
 }
 
-function mataan_entrance(snapshot, staticData, playerId) {
-    return current_chapter(state, playerId, 2, staticData);
-}
-
-function mataan_smoke_wall(snapshot, staticData, playerId) {
-    return current_chapter(state, playerId, 5, staticData) && 
-           rep(state, playerId, 850, staticData);
-}
-
-function mataan_challenge1(state, playerId, limit, glitched, staticData) {
+function brink_terminal_mesh(snapshot, staticData, limit, glitched) {
     if (glitched) {
-        return current_chapter(state, playerId, 5, staticData) && 
-               rep(state, playerId, 864, staticData) && 
-               graffitiL(state, playerId, limit, 108, staticData);
+        return graffitiM(snapshot, staticData, limit, 114) &&
+               graffitiXL(snapshot, staticData, limit, 45);
     } else {
-        return current_chapter(state, playerId, 5, staticData) && 
-               rep(state, playerId, 864, staticData) && 
-               graffitiL(state, playerId, limit, 98, staticData);
+        return graffitiM(snapshot, staticData, limit, 67) &&
+               graffitiXL(snapshot, staticData, limit, 45);
     }
 }
 
-function mataan_deep_city(state, playerId, limit, glitched, staticData) {
-    return mataan_challenge1(state, playerId, limit, glitched, staticData);
+function millennium_square_entrance(snapshot, staticData) {
+    return current_chapter(snapshot, staticData, 2);
 }
 
-function mataan_oldhead(snapshot, staticData, playerId) {
-    return rep(state, playerId, 935, staticData);
+function millennium_mall_entrance(snapshot, staticData) {
+    return rep(snapshot, staticData, 380) &&
+           current_chapter(snapshot, staticData, 3);
 }
 
-function mataan_challenge2(state, playerId, limit, glitched, staticData) {
+function millennium_mall_theater(snapshot, staticData, limit) {
+    return rep(snapshot, staticData, 491) &&
+           graffitiM(snapshot, staticData, limit, 78);
+}
+
+function millennium_mall_oldhead_ceiling(snapshot, staticData, limit) {
+    return rep(snapshot, staticData, 580) ||
+           millennium_mall_theater(snapshot, staticData, limit);
+}
+
+function millennium_mall_switch(snapshot, staticData, limit, glitched) {
     if (glitched) {
-        return rep(state, playerId, 880, staticData) && 
-               graffitiXL(state, playerId, limit, 59, staticData);
+        return graffitiM(snapshot, staticData, limit, 114) &&
+               current_chapter(snapshot, staticData, 3);
     } else {
-        return rep(state, playerId, 880, staticData) && 
-               graffitiXL(state, playerId, limit, 57, staticData);
+        return graffitiM(snapshot, staticData, limit, 72) &&
+               current_chapter(snapshot, staticData, 3);
     }
 }
 
-function mataan_challenge3(snapshot, staticData, playerId) {
-    return rep(state, playerId, 920, staticData);
+function millennium_mall_big(snapshot, staticData, limit, glitched) {
+    return millennium_mall_switch(snapshot, staticData, limit, glitched);
 }
 
-function mataan_all_challenges(state, playerId, limit, glitched, staticData) {
-    return mataan_challenge2(state, playerId, limit, glitched, staticData) && 
-           mataan_challenge3(snapshot, staticData, playerId);
+function millennium_mall_oldhead_race(snapshot, staticData) {
+    return rep(snapshot, staticData, 530);
 }
 
-function mataan_smoke_wall2(state, playerId, limit, glitched, staticData) {
-    return mataan_all_challenges(state, playerId, limit, glitched, staticData) && 
-           rep(state, playerId, 960, staticData);
+function millennium_mall_challenge1(snapshot, staticData) {
+    return rep(snapshot, staticData, 434);
 }
 
-function mataan_deepest(state, playerId, limit, glitched, staticData) {
-    return mataan_crew_battle(state, playerId, limit, glitched, staticData);
+function millennium_mall_challenge2(snapshot, staticData) {
+    return rep(snapshot, staticData, 442);
 }
 
-function mataan_crew_battle(state, playerId, limit, glitched, staticData) {
+function millennium_mall_challenge3(snapshot, staticData) {
+    return rep(snapshot, staticData, 450);
+}
+
+function millennium_mall_challenge4(snapshot, staticData) {
+    return rep(snapshot, staticData, 458);
+}
+
+function millennium_mall_all_challenges(snapshot, staticData) {
+    return millennium_mall_challenge4(snapshot, staticData);
+}
+
+function millennium_mall_crew_battle(snapshot, staticData, limit, glitched) {
     if (glitched) {
-        return mataan_smoke_wall2(state, playerId, limit, glitched, staticData) && 
-               graffitiM(state, playerId, limit, 122, staticData) && 
-               graffitiXL(state, playerId, limit, 59, staticData);
+        return rep(snapshot, staticData, 491) &&
+               graffitiM(snapshot, staticData, limit, 114) &&
+               graffitiL(snapshot, staticData, limit, 107);
     } else {
-        return mataan_smoke_wall2(state, playerId, limit, glitched, staticData) && 
-               graffitiM(state, playerId, limit, 117, staticData) && 
-               graffitiXL(state, playerId, limit, 57, staticData);
+        return rep(snapshot, staticData, 491) &&
+               graffitiM(snapshot, staticData, limit, 78) &&
+               graffitiL(snapshot, staticData, limit, 80);
     }
+}
+
+function pyramid_island_entrance(snapshot, staticData) {
+    return current_chapter(snapshot, staticData, 4);
+}
+
+function pyramid_island_gate(snapshot, staticData) {
+    return rep(snapshot, staticData, 620);
+}
+
+function pyramid_island_oldhead(snapshot, staticData) {
+    return rep(snapshot, staticData, 780);
+}
+
+function pyramid_island_challenge1(snapshot, staticData) {
+    return rep(snapshot, staticData, 630) &&
+           current_chapter(snapshot, staticData, 4);
+}
+
+function pyramid_island_all_challenges(snapshot, staticData, limit, glitched) {
+    if (glitched) {
+        return graffitiM(snapshot, staticData, limit, 114) &&
+               rep(snapshot, staticData, 660);
+    } else {
+        return graffitiM(snapshot, staticData, limit, 88) &&
+               rep(snapshot, staticData, 660);
+    }
+}
+
+function pyramid_island_upper_half(snapshot, staticData, limit, glitched) {
+    return pyramid_island_all_challenges(snapshot, staticData, limit, glitched);
+}
+
+function pyramid_island_crew_battle(snapshot, staticData, limit, glitched) {
+    if (glitched) {
+        return rep(snapshot, staticData, 730) &&
+               graffitiL(snapshot, staticData, limit, 108);
+    } else {
+        return rep(snapshot, staticData, 730) &&
+               graffitiL(snapshot, staticData, limit, 97);
+    }
+}
+
+function pyramid_island_race(snapshot, staticData, limit, glitched) {
+    if (glitched) {
+        return pyramid_island_challenge1(snapshot, staticData) &&
+               graffitiL(snapshot, staticData, limit, 108);
+    } else {
+        return pyramid_island_challenge1(snapshot, staticData) &&
+               graffitiL(snapshot, staticData, limit, 93);
+    }
+}
+
+function pyramid_island_challenge2(snapshot, staticData) {
+    return rep(snapshot, staticData, 650);
+}
+
+function pyramid_island_challenge3(snapshot, staticData) {
+    return rep(snapshot, staticData, 660);
+}
+
+function pyramid_island_top(snapshot, staticData) {
+    return current_chapter(snapshot, staticData, 5);
+}
+
+function mataan_entrance(snapshot, staticData) {
+    return current_chapter(snapshot, staticData, 2);
+}
+
+function mataan_smoke_wall(snapshot, staticData) {
+    return current_chapter(snapshot, staticData, 5) &&
+           rep(snapshot, staticData, 850);
+}
+
+function mataan_challenge1(snapshot, staticData, limit, glitched) {
+    if (glitched) {
+        return current_chapter(snapshot, staticData, 5) &&
+               rep(snapshot, staticData, 864) &&
+               graffitiL(snapshot, staticData, limit, 108);
+    } else {
+        return current_chapter(snapshot, staticData, 5) &&
+               rep(snapshot, staticData, 864) &&
+               graffitiL(snapshot, staticData, limit, 98);
+    }
+}
+
+function mataan_deep_city(snapshot, staticData, limit, glitched) {
+    return mataan_challenge1(snapshot, staticData, limit, glitched);
+}
+
+function mataan_oldhead(snapshot, staticData) {
+    return rep(snapshot, staticData, 935);
+}
+
+function mataan_challenge2(snapshot, staticData, limit, glitched) {
+    if (glitched) {
+        return rep(snapshot, staticData, 880) &&
+               graffitiXL(snapshot, staticData, limit, 59);
+    } else {
+        return rep(snapshot, staticData, 880) &&
+               graffitiXL(snapshot, staticData, limit, 57);
+    }
+}
+
+function mataan_challenge3(snapshot, staticData) {
+    return rep(snapshot, staticData, 920);
+}
+
+function mataan_all_challenges(snapshot, staticData, limit, glitched) {
+    return mataan_challenge2(snapshot, staticData, limit, glitched) &&
+           mataan_challenge3(snapshot, staticData);
+}
+
+function mataan_smoke_wall2(snapshot, staticData, limit, glitched) {
+    return mataan_all_challenges(snapshot, staticData, limit, glitched) &&
+           rep(snapshot, staticData, 960);
+}
+
+function mataan_deepest(snapshot, staticData, limit, glitched) {
+    return mataan_crew_battle(snapshot, staticData, limit, glitched);
+}
+
+function mataan_crew_battle(snapshot, staticData, limit, glitched) {
+    if (glitched) {
+        return mataan_smoke_wall2(snapshot, staticData, limit, glitched) &&
+               graffitiM(snapshot, staticData, limit, 122) &&
+               graffitiXL(snapshot, staticData, limit, 59);
+    } else {
+        return mataan_smoke_wall2(snapshot, staticData, limit, glitched) &&
+               graffitiM(snapshot, staticData, limit, 117) &&
+               graffitiXL(snapshot, staticData, limit, 57);
+    }
+}
+
+function mataan_faux(snapshot, staticData, limit, glitched) {
+    return mataan_deepest(snapshot, staticData, limit, glitched) &&
+           graffitiM(snapshot, staticData, limit, 122);
 }
 
 // Spot counting functions based on Python implementation
-function spots_s_glitchless(state, playerId, limit, accessCache, staticData) {
+function spots_s_glitchless(snapshot, staticData, limit, accessCache) {
     // Small spots can be tagged without any graffiti items
     // Starting with 10 spots accessible in the Hideout
     let total = 10;
@@ -348,8 +539,8 @@ function spots_s_glitchless(state, playerId, limit, accessCache, staticData) {
         let characterCount = 0;
         if (snapshot?.inventory) {
             // Count unique character items
-            for (const itemName in snapshot.inventory) {
-                if (itemName.match(/^(Red|Tryce|Bel|Vinyl|Solace|Rave|Mesh|Shine|Rise|Coil|DOT EXE|Dev|Frank|Rietveld|DJ Cyber|Eclipse|Vela|Max|Nunchaku Girl|Bumpy|Flesh Prince|Irene|Felix|Oldhead|Base|Jay|Futurism|Jazz|Veronica|Magnum)$/) && snapshot.inventory[itemName] > 0) {
+            for (const itemName in snapshot?.inventory) {
+                if (itemName.match(/^(Red|Tryce|Bel|Vinyl|Solace|Rave|Mesh|Shine|Rise|Coil|DOT EXE|Dev|Frank|Rietveld|DJ Cyber|Eclipse|Vela|Max|Nunchaku Girl|Bumpy|Flesh Prince|Irene|Felix|Oldhead|Base|Jay|Futurism|Jazz|Veronica|Magnum)$/) && snapshot?.inventory[itemName] > 0) {
                     characterCount++;
                 }
             }
@@ -362,7 +553,7 @@ function spots_s_glitchless(state, playerId, limit, accessCache, staticData) {
     }
 }
 
-function spots_s_glitched(state, playerId, limit, accessCache, staticData) {
+function spots_s_glitched(snapshot, staticData, limit, accessCache) {
     let total = 75;
     
     const conditions = [
@@ -382,8 +573,8 @@ function spots_s_glitched(state, playerId, limit, accessCache, staticData) {
         let characterCount = 0;
         if (snapshot?.inventory) {
             // Count unique character items
-            for (const itemName in snapshot.inventory) {
-                if (itemName.match(/^(Red|Tryce|Bel|Vinyl|Solace|Rave|Mesh|Shine|Rise|Coil|DOT EXE|Dev|Frank|Rietveld|DJ Cyber|Eclipse|Vela|Max|Nunchaku Girl|Bumpy|Flesh Prince|Irene|Felix|Oldhead|Base|Jay|Futurism|Jazz|Veronica|Magnum)$/) && snapshot.inventory[itemName] > 0) {
+            for (const itemName in snapshot?.inventory) {
+                if (itemName.match(/^(Red|Tryce|Bel|Vinyl|Solace|Rave|Mesh|Shine|Rise|Coil|DOT EXE|Dev|Frank|Rietveld|DJ Cyber|Eclipse|Vela|Max|Nunchaku Girl|Bumpy|Flesh Prince|Irene|Felix|Oldhead|Base|Jay|Futurism|Jazz|Veronica|Magnum)$/) && snapshot?.inventory[itemName] > 0) {
                     characterCount++;
                 }
             }
@@ -394,7 +585,7 @@ function spots_s_glitched(state, playerId, limit, accessCache, staticData) {
     return total;
 }
 
-function spots_m_glitchless(state, playerId, limit, accessCache, staticData) {
+function spots_m_glitchless(snapshot, staticData, limit, accessCache) {
     // Medium spots require graffiti M items
     let total = 4;  // Base spots accessible in Hideout
     
@@ -437,8 +628,8 @@ function spots_m_glitchless(state, playerId, limit, accessCache, staticData) {
         // Count unique graffiti M items
         let graffitiMCount = 0;
         if (snapshot?.inventory) {
-            for (const itemName in snapshot.inventory) {
-                if (itemName.includes('Graffiti (M') && snapshot.inventory[itemName] > 0) {
+            for (const itemName in snapshot?.inventory) {
+                if (itemName.includes('Graffiti (M') && snapshot?.inventory[itemName] > 0) {
                     graffitiMCount++;
                 }
             }
@@ -449,8 +640,8 @@ function spots_m_glitchless(state, playerId, limit, accessCache, staticData) {
         // Without limit, need at least one graffiti M to access any M spots
         let hasGraffitiM = false;
         if (snapshot?.inventory) {
-            for (const itemName in snapshot.inventory) {
-                if (itemName.includes('Graffiti (M') && snapshot.inventory[itemName] > 0) {
+            for (const itemName in snapshot?.inventory) {
+                if (itemName.includes('Graffiti (M') && snapshot?.inventory[itemName] > 0) {
                     hasGraffitiM = true;
                     break;
                 }
@@ -460,7 +651,7 @@ function spots_m_glitchless(state, playerId, limit, accessCache, staticData) {
     }
 }
 
-function spots_m_glitched(state, playerId, limit, accessCache, staticData) {
+function spots_m_glitched(snapshot, staticData, limit, accessCache) {
     let total = 99;
     
     const conditions = [
@@ -479,8 +670,8 @@ function spots_m_glitched(state, playerId, limit, accessCache, staticData) {
     if (limit) {
         let graffitiMCount = 0;
         if (snapshot?.inventory) {
-            for (const itemName in snapshot.inventory) {
-                if (itemName.includes('Graffiti (M') && snapshot.inventory[itemName] > 0) {
+            for (const itemName in snapshot?.inventory) {
+                if (itemName.includes('Graffiti (M') && snapshot?.inventory[itemName] > 0) {
                     graffitiMCount++;
                 }
             }
@@ -490,8 +681,8 @@ function spots_m_glitched(state, playerId, limit, accessCache, staticData) {
     } else {
         let hasGraffitiM = false;
         if (snapshot?.inventory) {
-            for (const itemName in snapshot.inventory) {
-                if (itemName.includes('Graffiti (M') && snapshot.inventory[itemName] > 0) {
+            for (const itemName in snapshot?.inventory) {
+                if (itemName.includes('Graffiti (M') && snapshot?.inventory[itemName] > 0) {
                     hasGraffitiM = true;
                     break;
                 }
@@ -501,7 +692,7 @@ function spots_m_glitched(state, playerId, limit, accessCache, staticData) {
     }
 }
 
-function spots_l_glitchless(state, playerId, limit, accessCache, staticData) {
+function spots_l_glitchless(snapshot, staticData, limit, accessCache) {
     // Large spots require graffiti L items
     let total = 7;  // Base spots
     
@@ -546,8 +737,8 @@ function spots_l_glitchless(state, playerId, limit, accessCache, staticData) {
     if (limit) {
         let graffitiLCount = 0;
         if (snapshot?.inventory) {
-            for (const itemName in snapshot.inventory) {
-                if (itemName.includes('Graffiti (L') && snapshot.inventory[itemName] > 0) {
+            for (const itemName in snapshot?.inventory) {
+                if (itemName.includes('Graffiti (L') && snapshot?.inventory[itemName] > 0) {
                     graffitiLCount++;
                 }
             }
@@ -557,8 +748,8 @@ function spots_l_glitchless(state, playerId, limit, accessCache, staticData) {
     } else {
         let hasGraffitiL = false;
         if (snapshot?.inventory) {
-            for (const itemName in snapshot.inventory) {
-                if (itemName.includes('Graffiti (L') && snapshot.inventory[itemName] > 0) {
+            for (const itemName in snapshot?.inventory) {
+                if (itemName.includes('Graffiti (L') && snapshot?.inventory[itemName] > 0) {
                     hasGraffitiL = true;
                     break;
                 }
@@ -568,7 +759,7 @@ function spots_l_glitchless(state, playerId, limit, accessCache, staticData) {
     }
 }
 
-function spots_l_glitched(state, playerId, limit, accessCache, staticData) {
+function spots_l_glitched(snapshot, staticData, limit, accessCache) {
     let total = 88;
     
     const conditions = [
@@ -588,8 +779,8 @@ function spots_l_glitched(state, playerId, limit, accessCache, staticData) {
     if (limit) {
         let graffitiLCount = 0;
         if (snapshot?.inventory) {
-            for (const itemName in snapshot.inventory) {
-                if (itemName.includes('Graffiti (L') && snapshot.inventory[itemName] > 0) {
+            for (const itemName in snapshot?.inventory) {
+                if (itemName.includes('Graffiti (L') && snapshot?.inventory[itemName] > 0) {
                     graffitiLCount++;
                 }
             }
@@ -599,8 +790,8 @@ function spots_l_glitched(state, playerId, limit, accessCache, staticData) {
     } else {
         let hasGraffitiL = false;
         if (snapshot?.inventory) {
-            for (const itemName in snapshot.inventory) {
-                if (itemName.includes('Graffiti (L') && snapshot.inventory[itemName] > 0) {
+            for (const itemName in snapshot?.inventory) {
+                if (itemName.includes('Graffiti (L') && snapshot?.inventory[itemName] > 0) {
                     hasGraffitiL = true;
                     break;
                 }
@@ -610,7 +801,7 @@ function spots_l_glitched(state, playerId, limit, accessCache, staticData) {
     }
 }
 
-function spots_xl_glitchless(state, playerId, limit, accessCache, staticData) {
+function spots_xl_glitchless(snapshot, staticData, limit, accessCache) {
     // XL spots require graffiti XL items
     let total = 3;  // Base spots
     
@@ -648,8 +839,8 @@ function spots_xl_glitchless(state, playerId, limit, accessCache, staticData) {
     if (limit) {
         let graffitiXLCount = 0;
         if (snapshot?.inventory) {
-            for (const itemName in snapshot.inventory) {
-                if (itemName.includes('Graffiti (XL') && snapshot.inventory[itemName] > 0) {
+            for (const itemName in snapshot?.inventory) {
+                if (itemName.includes('Graffiti (XL') && snapshot?.inventory[itemName] > 0) {
                     graffitiXLCount++;
                 }
             }
@@ -659,8 +850,8 @@ function spots_xl_glitchless(state, playerId, limit, accessCache, staticData) {
     } else {
         let hasGraffitiXL = false;
         if (snapshot?.inventory) {
-            for (const itemName in snapshot.inventory) {
-                if (itemName.includes('Graffiti (XL') && snapshot.inventory[itemName] > 0) {
+            for (const itemName in snapshot?.inventory) {
+                if (itemName.includes('Graffiti (XL') && snapshot?.inventory[itemName] > 0) {
                     hasGraffitiXL = true;
                     break;
                 }
@@ -670,7 +861,7 @@ function spots_xl_glitchless(state, playerId, limit, accessCache, staticData) {
     }
 }
 
-function spots_xl_glitched(state, playerId, limit, accessCache, staticData) {
+function spots_xl_glitched(snapshot, staticData, limit, accessCache) {
     let total = 51;
     
     const conditions = [
@@ -690,8 +881,8 @@ function spots_xl_glitched(state, playerId, limit, accessCache, staticData) {
     if (limit) {
         let graffitiXLCount = 0;
         if (snapshot?.inventory) {
-            for (const itemName in snapshot.inventory) {
-                if (itemName.includes('Graffiti (XL') && snapshot.inventory[itemName] > 0) {
+            for (const itemName in snapshot?.inventory) {
+                if (itemName.includes('Graffiti (XL') && snapshot?.inventory[itemName] > 0) {
                     graffitiXLCount++;
                 }
             }
@@ -701,8 +892,8 @@ function spots_xl_glitched(state, playerId, limit, accessCache, staticData) {
     } else {
         let hasGraffitiXL = false;
         if (snapshot?.inventory) {
-            for (const itemName in snapshot.inventory) {
-                if (itemName.includes('Graffiti (XL') && snapshot.inventory[itemName] > 0) {
+            for (const itemName in snapshot?.inventory) {
+                if (itemName.includes('Graffiti (XL') && snapshot?.inventory[itemName] > 0) {
                     hasGraffitiXL = true;
                     break;
                 }
@@ -712,44 +903,45 @@ function spots_xl_glitched(state, playerId, limit, accessCache, staticData) {
     }
 }
 
-function build_access_cache(state, playerId, movestyle, limit, glitched, staticData) {
+function build_access_cache(snapshot, staticData, movestyle, limit, glitched) {
     // Build the initial cache with basic access checks
     const accessCache = {
-        "skateboard": skateboard(state, playerId, movestyle, staticData),
-        "inline_skates": inline_skates(state, playerId, movestyle, staticData),
-        "chapter2": current_chapter(state, playerId, 2, staticData),
-        "chapter3": current_chapter(state, playerId, 3, staticData),
-        "chapter4": current_chapter(state, playerId, 4, staticData),
-        "chapter5": current_chapter(state, playerId, 5, staticData)
+        "skateboard": skateboard(snapshot, staticData, movestyle),
+        "inline_skates": inline_skates(snapshot, staticData, movestyle),
+        "chapter2": current_chapter(snapshot, staticData, 2),
+        "chapter3": current_chapter(snapshot, staticData, 3),
+        "chapter4": current_chapter(snapshot, staticData, 4),
+        "chapter5": current_chapter(snapshot, staticData, 5)
     };
-    
+
     // Define functions to check for each region in order
     // Each entry is [functionName, args]
+    // Functions expect: (snapshot, staticData, ...)
     const funcs = [
-        ["versum_hill_entrance", [state, playerId, staticData]],
-        ["versum_hill_ch1_roadblock", [state, playerId, limit, staticData]],
-        ["versum_hill_oldhead", [state, playerId, staticData]],
-        ["versum_hill_all_challenges", [state, playerId, staticData]],
-        ["versum_hill_basketball_court", [state, playerId, staticData]],
-        ["brink_terminal_entrance", [state, playerId, staticData]],
-        ["brink_terminal_oldhead_underground", [state, playerId, staticData]],
-        ["brink_terminal_oldhead_dock", [state, playerId, staticData]],
-        ["brink_terminal_plaza", [state, playerId, staticData]],
-        ["brink_terminal_tower", [state, playerId, staticData]],
-        ["millennium_mall_entrance", [state, playerId, staticData]],
-        ["millennium_mall_switch", [state, playerId, limit, glitched, staticData]],
-        ["millennium_mall_oldhead_ceiling", [state, playerId, limit, staticData]],
-        ["millennium_mall_big", [state, playerId, limit, glitched, staticData]],
-        ["millennium_mall_theater", [state, playerId, limit, staticData]],
-        ["pyramid_island_gate", [state, playerId, staticData]],
-        ["pyramid_island_oldhead", [state, playerId, staticData]],
-        ["pyramid_island_upper_half", [state, playerId, limit, glitched, staticData]],
-        ["pyramid_island_crew_battle", [state, playerId, limit, glitched, staticData]],
-        ["mataan_smoke_wall", [state, playerId, staticData]],
-        ["mataan_deep_city", [state, playerId, limit, glitched, staticData]],
-        ["mataan_oldhead", [state, playerId, staticData]],
-        ["mataan_smoke_wall2", [state, playerId, limit, glitched, staticData]],
-        ["mataan_deepest", [state, playerId, limit, glitched, staticData]]
+        ["versum_hill_entrance", [snapshot, staticData]],
+        ["versum_hill_ch1_roadblock", [snapshot, staticData, limit]],
+        ["versum_hill_oldhead", [snapshot, staticData]],
+        ["versum_hill_all_challenges", [snapshot, staticData]],
+        ["versum_hill_basketball_court", [snapshot, staticData]],
+        ["brink_terminal_entrance", [snapshot, staticData]],
+        ["brink_terminal_oldhead_underground", [snapshot, staticData]],
+        ["brink_terminal_oldhead_dock", [snapshot, staticData]],
+        ["brink_terminal_plaza", [snapshot, staticData]],
+        ["brink_terminal_tower", [snapshot, staticData]],
+        ["millennium_mall_entrance", [snapshot, staticData]],
+        ["millennium_mall_switch", [snapshot, staticData, limit, glitched]],
+        ["millennium_mall_oldhead_ceiling", [snapshot, staticData, limit]],
+        ["millennium_mall_big", [snapshot, staticData, limit, glitched]],
+        ["millennium_mall_theater", [snapshot, staticData, limit]],
+        ["pyramid_island_gate", [snapshot, staticData]],
+        ["pyramid_island_oldhead", [snapshot, staticData]],
+        ["pyramid_island_upper_half", [snapshot, staticData, limit, glitched]],
+        ["pyramid_island_crew_battle", [snapshot, staticData, limit, glitched]],
+        ["mataan_smoke_wall", [snapshot, staticData]],
+        ["mataan_deep_city", [snapshot, staticData, limit, glitched]],
+        ["mataan_oldhead", [snapshot, staticData]],
+        ["mataan_smoke_wall2", [snapshot, staticData, limit, glitched]],
+        ["mataan_deepest", [snapshot, staticData, limit, glitched]]
     ];
     
     // Map function names to actual functions
@@ -788,22 +980,22 @@ function build_access_cache(state, playerId, movestyle, limit, glitched, staticD
             accessCache[funcName] = false;
             continue;
         }
-        
+
         const func = functionMap[funcName];
         const access = func ? func(...args) : false;
         accessCache[funcName] = access;
-        
+
         // Stop at first inaccessible region (unless it's an oldhead)
         if (!access && !funcName.includes("oldhead")) {
             stop = true;
         }
     }
-    
+
     return accessCache;
 }
 
 // Main graffiti_spots function - matches Python implementation
-function graffiti_spots(state, playerId, movestyle, limit, glitched, spots, staticData) {
+function graffiti_spots(snapshot, staticData, movestyle, limit, glitched, spots) {
     // Extract actual values if arguments come as rule tree objects
     if (typeof movestyle === 'object' && movestyle?.type === 'constant') {
         movestyle = movestyle.value;
@@ -817,45 +1009,129 @@ function graffiti_spots(state, playerId, movestyle, limit, glitched, spots, stat
     if (typeof spots === 'object' && spots?.type === 'constant') {
         spots = spots.value;
     }
-    
+
     // Build access cache for checking region accessibility
-    const accessCache = build_access_cache(state, playerId, movestyle, limit, glitched, staticData);
-    
+    const accessCache = build_access_cache(snapshot, staticData, movestyle, limit, glitched);
+
     let total = 0;
-    
+    let s_spots, m_spots, l_spots, xl_spots;
+
     if (glitched) {
-        total = spots_s_glitched(state, playerId, limit, accessCache, staticData) +
-               spots_m_glitched(state, playerId, limit, accessCache, staticData) +
-               spots_l_glitched(state, playerId, limit, accessCache, staticData) +
-               spots_xl_glitched(state, playerId, limit, accessCache, staticData);
+        s_spots = spots_s_glitched(snapshot, staticData, limit, accessCache);
+        m_spots = spots_m_glitched(snapshot, staticData, limit, accessCache);
+        l_spots = spots_l_glitched(snapshot, staticData, limit, accessCache);
+        xl_spots = spots_xl_glitched(snapshot, staticData, limit, accessCache);
+        total = s_spots + m_spots + l_spots + xl_spots;
     } else {
-        total = spots_s_glitchless(state, playerId, limit, accessCache, staticData) +
-               spots_m_glitchless(state, playerId, limit, accessCache, staticData) +
-               spots_l_glitchless(state, playerId, limit, accessCache, staticData) +
-               spots_xl_glitchless(state, playerId, limit, accessCache, staticData);
+        s_spots = spots_s_glitchless(snapshot, staticData, limit, accessCache);
+        m_spots = spots_m_glitchless(snapshot, staticData, limit, accessCache);
+        l_spots = spots_l_glitchless(snapshot, staticData, limit, accessCache);
+        xl_spots = spots_xl_glitchless(snapshot, staticData, limit, accessCache);
+        total = s_spots + m_spots + l_spots + xl_spots;
     }
-    
-    return total >= spots;
+
+    // Debug logging for checking graffiti spots
+    if (spots === 25 || spots === 30) {
+        console.log(`[graffiti_spots] Checking for ${spots} spots: S=${s_spots}, M=${m_spots}, L=${l_spots}, XL=${xl_spots}, total=${total}, result=${total >= spots}`);
+        console.log(`[graffiti_spots] REP=${snapshot?.inventory?.rep || 0}, inline_skates=${accessCache.inline_skates}, versum_hill_entrance=${accessCache.versum_hill_entrance}`);
+        console.log(`[graffiti_spots] movestyle=${movestyle}, limit=${limit}, glitched=${glitched}`);
+    }
+
+    const result = total >= spots;
+
+    // Extra debug for problematic spot counts
+    if (spots === 30 && result) {
+        console.log(`[graffiti_spots] !!! Spot ${spots} is ACCESSIBLE: total=${total}, REP=${snapshot?.inventory?.rep || 0}`);
+        // Log all REP items in inventory
+        const repItems = Object.keys(snapshot?.inventory || {}).filter(k => k.includes('REP'));
+        console.log(`[graffiti_spots] REP items in inventory:`, repItems.map(k => `${k}=${snapshot.inventory[k]}`));
+        // Log all items with count > 0
+        const collectedItems = Object.keys(snapshot?.inventory || {}).filter(k => snapshot.inventory[k] > 0);
+        console.log(`[graffiti_spots] All collected items (${collectedItems.length}):`, collectedItems);
+        console.log(`[graffiti_spots] Specifically: rep=${snapshot.inventory.rep}, 16 REP=${snapshot.inventory['16 REP']}`);
+    }
+
+    return result;
 }
 
 // Export the helper functions in the expected format
 export const helperFunctions = {
     // Main graffiti spots calculation function
     graffiti_spots,
-    
+
     // Graffiti type helpers
     graffitiM,
     graffitiL,
     graffitiXL,
-    
+
     // Movement style helpers
     skateboard,
     inline_skates,
     bmx,
-    
+
     // Utility helpers
     camera,
     is_girl,
     current_chapter,
-    rep
+    rep,
+
+    // Region access helpers
+    versum_hill_entrance,
+    versum_hill_ch1_roadblock,
+    versum_hill_challenge1,
+    versum_hill_challenge2,
+    versum_hill_challenge3,
+    versum_hill_all_challenges,
+    versum_hill_basketball_court,
+    versum_hill_oldhead,
+    versum_hill_crew_battle,
+    versum_hill_rave,
+    versum_hill_rietveld,
+    brink_terminal_entrance,
+    brink_terminal_challenge1,
+    brink_terminal_challenge2,
+    brink_terminal_challenge3,
+    brink_terminal_all_challenges,
+    brink_terminal_plaza,
+    brink_terminal_tower,
+    brink_terminal_oldhead_underground,
+    brink_terminal_oldhead_dock,
+    brink_terminal_crew_battle,
+    brink_terminal_mesh,
+    millennium_square_entrance,
+    millennium_mall_entrance,
+    millennium_mall_theater,
+    millennium_mall_oldhead_ceiling,
+    millennium_mall_switch,
+    millennium_mall_big,
+    millennium_mall_oldhead_race,
+    millennium_mall_challenge1,
+    millennium_mall_challenge2,
+    millennium_mall_challenge3,
+    millennium_mall_challenge4,
+    millennium_mall_all_challenges,
+    millennium_mall_crew_battle,
+    pyramid_island_entrance,
+    pyramid_island_gate,
+    pyramid_island_oldhead,
+    pyramid_island_challenge1,
+    pyramid_island_challenge2,
+    pyramid_island_challenge3,
+    pyramid_island_all_challenges,
+    pyramid_island_upper_half,
+    pyramid_island_crew_battle,
+    pyramid_island_race,
+    pyramid_island_top,
+    mataan_entrance,
+    mataan_smoke_wall,
+    mataan_challenge1,
+    mataan_deep_city,
+    mataan_oldhead,
+    mataan_challenge2,
+    mataan_challenge3,
+    mataan_all_challenges,
+    mataan_smoke_wall2,
+    mataan_deepest,
+    mataan_crew_battle,
+    mataan_faux
 };

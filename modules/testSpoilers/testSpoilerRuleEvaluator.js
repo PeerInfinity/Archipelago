@@ -83,8 +83,8 @@ export class TestSpoilerRuleEvaluator {
             this.log('info', `${indent}HAS_ITEM "${itemName}": ${hasItem} (${resultSymbol})`);
             
             // Show inventory state for debugging
-            if (snapshotInterface.prog_items) {
-              const currentCount = snapshotInterface.countItem ? snapshotInterface.countItem(itemName) : 0;
+            if (snapshotInterface.countItem) {
+              const currentCount = snapshotInterface.countItem(itemName);
               this.log('info', `${indent}  Current inventory count for "${itemName}": ${currentCount}`);
             }
           } catch (itemError) {

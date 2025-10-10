@@ -75,9 +75,9 @@ async function loadAdventureRulesAndSetupIframe(testController, targetRegion = '
   // Step 4: Load iframe content
   testController.log('Loading text adventure iframe...');
   const iframeLoadedPromise = testController.waitForEvent('iframePanel:loaded', 10000);
-  
+
   testController.eventBus.publish('iframe:loadUrl', {
-    url: './modules/textAdventure-remote/index.html'
+    url: './modules/textAdventure-remote/index-iframe.html'
   }, 'tests');
   
   const iframeLoaded = await iframeLoadedPromise;
@@ -522,9 +522,9 @@ export async function textAdventureIframeConnectionTest(testController) {
     // Test loading iframe
     testController.log('Testing iframe loading...');
     const iframeLoadedPromise = testController.waitForEvent('iframePanel:loaded', 8000);
-    
+
     testController.eventBus.publish('iframe:loadUrl', {
-      url: './modules/textAdventure-remote/index.html'
+      url: './modules/textAdventure-remote/index-iframe.html'
     }, 'tests');
     
     const iframeLoaded = await iframeLoadedPromise;

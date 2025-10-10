@@ -10,17 +10,10 @@
   "world_classes": {
     "1": "FaxanaduWorld"
   },
-  "plando_options": [
-    "connections",
-    "texts",
-    "bosses"
-  ],
   "regions": {
     "1": {
       "Menu": {
         "name": "Menu",
-        "type": "Region",
-        "player": 1,
         "entrances": [],
         "exits": [
           {
@@ -29,32 +22,18 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Eolis": {
         "name": "Eolis",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Menu -> Eolis",
             "parent_region": "Menu",
-            "connected_region": "Eolis",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Eolis"
           }
         ],
         "exits": [
@@ -62,47 +41,38 @@
             "name": "Eolis -> Path to Apolune",
             "connected_region": "Path to Apolune",
             "access_rule": {
-              "type": "and",
-              "conditions": [
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
                 {
-                  "type": "item_check",
-                  "item": "Key Jack"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Progressive Sword"
+                  "type": "constant",
+                  "value": [
+                    "Key Jack",
+                    "Progressive Sword"
+                  ]
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Eolis Guru",
             "id": 400100,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive Sword",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Eolis Key Jack",
             "id": 400101,
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -120,20 +90,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Elixir",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Eolis Hand Dagger",
             "id": 400102,
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -151,20 +117,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Key King",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Eolis Red Potion",
             "id": 400103,
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -182,20 +144,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Key Jack",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Eolis Elixir",
             "id": 400104,
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -213,20 +171,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Black Onyx",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Eolis Deluge",
             "id": 400105,
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -244,35 +198,22 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Wingboots",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Path to Apolune": {
         "name": "Path to Apolune",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Eolis -> Path to Apolune",
             "parent_region": "Eolis",
-            "connected_region": "Path to Apolune",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Path to Apolune"
           }
         ],
         "exits": [
@@ -282,18 +223,13 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Path to Apolune Magic Shield",
             "id": 400106,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -301,20 +237,16 @@
                 "value": "Key King"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Unlock Wingboots",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Path to Apolune Death",
             "id": 400107,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -322,35 +254,22 @@
                 "value": "Key Ace"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Hourglass",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Apolune": {
         "name": "Apolune",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Path to Apolune -> Apolune",
             "parent_region": "Path to Apolune",
-            "connected_region": "Apolune",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Apolune"
           }
         ],
         "exits": [
@@ -363,11 +282,7 @@
                 "type": "constant",
                 "value": "Key Jack"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Apolune -> Path to Forepaw",
@@ -378,90 +293,69 @@
                 "type": "constant",
                 "value": "Mattock"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Apolune Small Shield",
             "id": 400108,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Hourglass",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Apolune Hand Dagger",
             "id": 400109,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Apolune Deluge",
             "id": 400110,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Apolune Red Potion",
             "id": 400111,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Ointment",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Apolune Key Jack",
             "id": 400112,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -469,35 +363,22 @@
                 "value": "Unlock Wingboots"
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Wingboots",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Tower of Trunk": {
         "name": "Tower of Trunk",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Apolune -> Tower of Trunk",
             "parent_region": "Apolune",
-            "connected_region": "Tower of Trunk",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Tower of Trunk"
           }
         ],
         "exits": [],
@@ -505,7 +386,6 @@
           {
             "name": "Tower of Trunk Hidden Mattock",
             "id": 400113,
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -533,71 +413,50 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive Shield",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Trunk Hidden Hourglass",
             "id": 400114,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Poison",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Trunk Boss Mattock",
             "id": 400115,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Mattock",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Path to Forepaw": {
         "name": "Path to Forepaw",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Apolune -> Path to Forepaw",
             "parent_region": "Apolune",
-            "connected_region": "Path to Forepaw",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Path to Forepaw"
           }
         ],
         "exits": [
@@ -607,78 +466,56 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Path to Forepaw Hidden Red Potion",
             "id": 400116,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Poison",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Path to Forepaw Glove",
             "id": 400117,
-            "crystal": null,
             "access_rule": {
-              "type": "and",
-              "conditions": [
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
                 {
-                  "type": "item_check",
-                  "item": "Deluge"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Unlock Wingboots"
+                  "type": "constant",
+                  "value": [
+                    "Deluge",
+                    "Unlock Wingboots"
+                  ]
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Poison",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Forepaw": {
         "name": "Forepaw",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Path to Forepaw -> Forepaw",
             "parent_region": "Path to Forepaw",
-            "connected_region": "Forepaw",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Forepaw"
           }
         ],
         "exits": [
@@ -688,159 +525,117 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Forepaw Long Sword",
             "id": 400118,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Ring of Ruby",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forepaw Studded Mail",
             "id": 400119,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forepaw Small Shield",
             "id": 400120,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Key Queen",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forepaw Red Potion",
             "id": 400121,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forepaw Wingboots",
             "id": 400122,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forepaw Key Jack",
             "id": 400123,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Forepaw Key Queen",
             "id": 400124,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Trunk": {
         "name": "Trunk",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Forepaw -> Trunk",
             "parent_region": "Forepaw",
-            "connected_region": "Trunk",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Trunk"
           }
         ],
         "exits": [
@@ -853,11 +648,7 @@
                 "type": "constant",
                 "value": "Key Joker"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Trunk -> Tower of Fortress",
@@ -868,11 +659,7 @@
                 "type": "constant",
                 "value": "Key Jack"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Trunk -> Path to Mascon",
@@ -881,27 +668,18 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "and",
-                  "conditions": [
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
                     {
-                      "type": "item_check",
-                      "item": "Key Queen"
-                    },
-                    {
-                      "type": "item_check",
-                      "item": "Ring of Ruby"
-                    },
-                    {
-                      "type": "item_check",
-                      "item": "Sky Spring Flow"
-                    },
-                    {
-                      "type": "item_check",
-                      "item": "Tower of Fortress Spring Flow"
-                    },
-                    {
-                      "type": "item_check",
-                      "item": "Joker Spring Flow"
+                      "type": "constant",
+                      "value": [
+                        "Joker Spring Flow",
+                        "Key Queen",
+                        "Ring of Ruby",
+                        "Sky Spring Flow",
+                        "Tower of Fortress Spring Flow"
+                      ]
                     }
                   ]
                 },
@@ -917,54 +695,41 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Trunk Hidden Ointment",
             "id": 400125,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Trunk Hidden Red Potion",
             "id": 400126,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Trunk Red Potion",
             "id": 400127,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -972,20 +737,16 @@
                 "value": "Unlock Wingboots"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Sky Spring",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -993,35 +754,22 @@
                 "value": "Unlock Wingboots"
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Sky Spring Flow",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Joker Spring": {
         "name": "Joker Spring",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Trunk -> Joker Spring",
             "parent_region": "Trunk",
-            "connected_region": "Joker Spring",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Joker Spring"
           }
         ],
         "exits": [],
@@ -1029,58 +777,40 @@
           {
             "name": "Joker Spring Ruby Ring",
             "id": 400128,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Elixir",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Joker Spring",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Joker Spring Flow",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Tower of Fortress": {
         "name": "Tower of Fortress",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Trunk -> Tower of Fortress",
             "parent_region": "Trunk",
-            "connected_region": "Tower of Fortress",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Tower of Fortress"
           }
         ],
         "exits": [],
@@ -1088,115 +818,90 @@
           {
             "name": "Tower of Fortress Poison 1",
             "id": 400129,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Key Joker",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Fortress Poison 2",
             "id": 400130,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Spring Elixir",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Fortress Hidden Wingboots",
             "id": 400131,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Hourglass",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Fortress Ointment",
             "id": 400132,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Ointment",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Fortress Boss Wingboots",
             "id": 400133,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Glove",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Fortress Elixir",
             "id": 400134,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Fortress Guru",
             "id": 400135,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1204,20 +909,16 @@
                 "value": "Sky Spring Flow"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive Sword",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Fortress Spring",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1225,35 +926,22 @@
                 "value": "Spring Elixir"
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Tower of Fortress Spring Flow",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Path to Mascon": {
         "name": "Path to Mascon",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Trunk -> Path to Mascon",
             "parent_region": "Trunk",
-            "connected_region": "Path to Mascon",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Path to Mascon"
           }
         ],
         "exits": [
@@ -1282,11 +970,7 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Path to Mascon -> Mascon",
@@ -1294,51 +978,33 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Path to Mascon Hidden Wingboots",
             "id": 400136,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Poison",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Tower of Red Potion": {
         "name": "Tower of Red Potion",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Path to Mascon -> Tower of Red Potion",
             "parent_region": "Path to Mascon",
-            "connected_region": "Tower of Red Potion",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Tower of Red Potion"
           }
         ],
         "exits": [],
@@ -1346,40 +1012,26 @@
           {
             "name": "Tower of Red Potion",
             "id": 400137,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Ring of Dworf",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Mascon": {
         "name": "Mascon",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Path to Mascon -> Mascon",
             "parent_region": "Path to Mascon",
-            "connected_region": "Mascon",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Mascon"
           }
         ],
         "exits": [
@@ -1389,141 +1041,103 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Mascon Large Shield",
             "id": 400138,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Mascon Thunder",
             "id": 400139,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Hourglass",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Mascon Mattock",
             "id": 400140,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Mascon Red Potion",
             "id": 400141,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Hourglass",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Mascon Key Jack",
             "id": 400142,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Key Ace",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Mascon Key Queen",
             "id": 400143,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Hourglass",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Path to Victim": {
         "name": "Path to Victim",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Mascon -> Path to Victim",
             "parent_region": "Mascon",
-            "connected_region": "Path to Victim",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Path to Victim"
           }
         ],
         "exits": [
@@ -1536,11 +1150,7 @@
                 "type": "constant",
                 "value": "Key Queen"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Path to Victim -> Victim",
@@ -1551,18 +1161,13 @@
                 "type": "constant",
                 "value": "Unlock Wingboots"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Misty Shop Death",
             "id": 400144,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1570,74 +1175,58 @@
                 "value": "Unlock Wingboots"
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Wingboots",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Misty Shop Hourglass",
             "id": 400145,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Death",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Misty Shop Elixir",
             "id": 400146,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive Shield",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Misty Shop Red Potion",
             "id": 400147,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Hourglass",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Misty Doctor Office",
             "id": 400148,
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -1663,35 +1252,22 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Tower of Suffer": {
         "name": "Tower of Suffer",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Path to Victim -> Tower of Suffer",
             "parent_region": "Path to Victim",
-            "connected_region": "Tower of Suffer",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Tower of Suffer"
           }
         ],
         "exits": [],
@@ -1699,7 +1275,6 @@
           {
             "name": "Tower of Suffer Hidden Wingboots",
             "id": 400149,
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -1723,71 +1298,50 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive Armor",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Suffer Hidden Hourglass",
             "id": 400150,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Poison",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Suffer Pendant",
             "id": 400151,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Victim": {
         "name": "Victim",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Path to Victim -> Victim",
             "parent_region": "Path to Victim",
-            "connected_region": "Victim",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Victim"
           }
         ],
         "exits": [
@@ -1797,36 +1351,27 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Victim Full Plate",
             "id": 400152,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Victim Mattock",
             "id": 400153,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1834,89 +1379,64 @@
                 "value": "Unlock Wingboots"
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Wingboots",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Victim Red Potion",
             "id": 400154,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Victim Key King",
             "id": 400155,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Hourglass",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Victim Key Queen",
             "id": 400156,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive Armor",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Mist": {
         "name": "Mist",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Victim -> Mist",
             "parent_region": "Victim",
-            "connected_region": "Mist",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Mist"
           }
         ],
         "exits": [
@@ -1924,22 +1444,18 @@
             "name": "Mist -> Useless Tower",
             "connected_region": "Useless Tower",
             "access_rule": {
-              "type": "and",
-              "conditions": [
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
                 {
-                  "type": "item_check",
-                  "item": "Key King"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Unlock Wingboots"
+                  "type": "constant",
+                  "value": [
+                    "Key King",
+                    "Unlock Wingboots"
+                  ]
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Mist -> Tower of Mist",
@@ -1950,11 +1466,7 @@
                 "type": "constant",
                 "value": "Key King"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Mist -> Path to Conflate",
@@ -1965,108 +1477,83 @@
                 "type": "constant",
                 "value": "Key Ace"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Victim Tavern",
             "id": 400157,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Mist Hidden Poison 1",
             "id": 400158,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Mist Hidden Poison 2",
             "id": 400159,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Mist Hidden Wingboots",
             "id": 400160,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Poison",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Misty Magic Hall",
             "id": 400161,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Ointment",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Misty House",
             "id": 400162,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2074,35 +1561,22 @@
                 "value": "Black Onyx"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Ointment",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Useless Tower": {
         "name": "Useless Tower",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Mist -> Useless Tower",
             "parent_region": "Mist",
-            "connected_region": "Useless Tower",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Useless Tower"
           }
         ],
         "exits": [],
@@ -2110,40 +1584,26 @@
           {
             "name": "Useless Tower",
             "id": 400163,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Tower of Mist": {
         "name": "Tower of Mist",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Mist -> Tower of Mist",
             "parent_region": "Mist",
-            "connected_region": "Tower of Mist",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Tower of Mist"
           }
         ],
         "exits": [],
@@ -2151,76 +1611,54 @@
           {
             "name": "Tower of Mist Hidden Ointment",
             "id": 400164,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Mist Elixir",
             "id": 400165,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Tower of Mist Black Onyx",
             "id": 400166,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Path to Conflate": {
         "name": "Path to Conflate",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Mist -> Path to Conflate",
             "parent_region": "Mist",
-            "connected_region": "Path to Conflate",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Path to Conflate"
           }
         ],
         "exits": [
@@ -2233,11 +1671,7 @@
                 "type": "constant",
                 "value": "Key King"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Path to Conflate -> Conflate",
@@ -2245,11 +1679,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Path to Conflate -> Branches",
@@ -2260,69 +1690,47 @@
                 "type": "constant",
                 "value": "Key King"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Path to Conflate Hidden Ointment",
             "id": 400167,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Hourglass",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Path to Conflate Poison",
             "id": 400168,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Poison",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Helm Branch": {
         "name": "Helm Branch",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Path to Conflate -> Helm Branch",
             "parent_region": "Path to Conflate",
-            "connected_region": "Helm Branch",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Helm Branch"
           }
         ],
         "exits": [],
@@ -2330,58 +1738,40 @@
           {
             "name": "Helm Branch Hidden Glove",
             "id": 400169,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Poison",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Helm Branch Battle Helmet",
             "id": 400170,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Glove",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Conflate": {
         "name": "Conflate",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Path to Conflate -> Conflate",
             "parent_region": "Path to Conflate",
-            "connected_region": "Conflate",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Conflate"
           }
         ],
         "exits": [],
@@ -2389,79 +1779,62 @@
           {
             "name": "Conflate Giant Blade",
             "id": 400171,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Conflate Magic Shield",
             "id": 400172,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive Sword",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Conflate Wingboots",
             "id": 400173,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Hourglass",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Conflate Red Potion",
             "id": 400174,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Conflate Guru",
             "id": 400175,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2473,35 +1846,22 @@
                 "value": 3
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive Sword",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Branches": {
         "name": "Branches",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Path to Conflate -> Branches",
             "parent_region": "Path to Conflate",
-            "connected_region": "Branches",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Branches"
           }
         ],
         "exits": [
@@ -2511,54 +1871,41 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Branches Hidden Ointment",
             "id": 400176,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Branches Poison",
             "id": 400177,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Branches Hidden Mattock",
             "id": 400178,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2566,53 +1913,36 @@
                 "value": "Unlock Wingboots"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive Shield",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Branches Hidden Hourglass",
             "id": 400179,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Deluge",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Path to Daybreak": {
         "name": "Path to Daybreak",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Branches -> Path to Daybreak",
             "parent_region": "Branches",
-            "connected_region": "Path to Daybreak",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Path to Daybreak"
           }
         ],
         "exits": [
@@ -2622,90 +1952,69 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Path to Daybreak Hidden Wingboots 1",
             "id": 400180,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Path to Daybreak Magical Rod",
             "id": 400181,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Poison",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Path to Daybreak Hidden Wingboots 2",
             "id": 400182,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Poison",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Path to Daybreak Poison",
             "id": 400183,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Ointment",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Path to Daybreak Glove",
             "id": 400184,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2713,53 +2022,36 @@
                 "value": "Unlock Wingboots"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Tilte",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Path to Daybreak Battle Suit",
             "id": 400185,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Elixir",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Daybreak": {
         "name": "Daybreak",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Path to Daybreak -> Daybreak",
             "parent_region": "Path to Daybreak",
-            "connected_region": "Daybreak",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Daybreak"
           }
         ],
         "exits": [
@@ -2772,123 +2064,89 @@
                 "type": "constant",
                 "value": "Ring of Dworf"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Daybreak Tilte",
             "id": 400186,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive Shield",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Daybreak Giant Blade",
             "id": 400187,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Daybreak Red Potion",
             "id": 400188,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Daybreak Key King",
             "id": 400189,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Ointment",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Daybreak Key Queen",
             "id": 400190,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Demons Ring",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Dartmoor Castle": {
         "name": "Dartmoor Castle",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Daybreak -> Dartmoor Castle",
             "parent_region": "Daybreak",
-            "connected_region": "Dartmoor Castle",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Dartmoor Castle"
           }
         ],
         "exits": [
@@ -2898,11 +2156,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Dartmoor Castle -> Fraternal Castle",
@@ -2910,11 +2164,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Dartmoor Castle -> Evil Fortress",
@@ -2925,18 +2175,13 @@
                 "type": "constant",
                 "value": "Demons Ring"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Dartmoor Castle Hidden Hourglass",
             "id": 400191,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2944,20 +2189,16 @@
                 "value": "Unlock Wingboots"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Poison",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Dartmoor Castle Hidden Red Potion",
             "id": 400192,
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -2983,35 +2224,22 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Ring of Elf",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Dartmoor": {
         "name": "Dartmoor",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Dartmoor Castle -> Dartmoor",
             "parent_region": "Dartmoor Castle",
-            "connected_region": "Dartmoor",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Dartmoor"
           }
         ],
         "exits": [],
@@ -3019,76 +2247,54 @@
           {
             "name": "Dartmoor Giant Blade",
             "id": 400193,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Ointment",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Dartmoor Red Potion",
             "id": 400194,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Fire",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Dartmoor Key King",
             "id": 400195,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Magical Rod",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Fraternal Castle": {
         "name": "Fraternal Castle",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Dartmoor Castle -> Fraternal Castle",
             "parent_region": "Dartmoor Castle",
-            "connected_region": "Fraternal Castle",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Fraternal Castle"
           }
         ],
         "exits": [],
@@ -3096,25 +2302,20 @@
           {
             "name": "Fraternal Castle Hidden Ointment",
             "id": 400196,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Elixir",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Fraternal Castle Shop Hidden Ointment",
             "id": 400197,
-            "crystal": null,
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -3140,110 +2341,86 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Fraternal Castle Poison 1",
             "id": 400198,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Fraternal Castle Poison 2",
             "id": 400199,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Poison",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Fraternal Castle Poison 3",
             "id": 400200,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Poison",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Fraternal Castle Hidden Hourglass",
             "id": 400202,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Thunder",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Fraternal Castle Dragon Slayer",
             "id": 400203,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Poison",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Fraternal Castle Guru",
             "id": 400204,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -3255,35 +2432,22 @@
                 "value": 4
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Evil Fortress": {
         "name": "Evil Fortress",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Dartmoor Castle -> Evil Fortress",
             "parent_region": "Dartmoor Castle",
-            "connected_region": "Evil Fortress",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Evil Fortress"
           }
         ],
         "exits": [],
@@ -3291,133 +2455,102 @@
           {
             "name": "Evil Fortress Ointment",
             "id": 400205,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Ointment",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Evil Fortress Poison 1",
             "id": 400206,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Poison",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Evil Fortress Glove",
             "id": 400207,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Poison",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Evil Fortress Poison 2",
             "id": 400208,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Red Potion",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Evil Fortress Poison 3",
             "id": 400209,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Progressive Armor",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Evil Fortress Hidden Glove",
             "id": 400210,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Poison",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Evil One",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Killed Evil One",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       }
     }
   },
@@ -3438,7 +2571,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3452,7 +2584,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3466,7 +2597,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3480,7 +2610,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3494,7 +2623,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3508,7 +2636,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3522,7 +2649,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3536,7 +2662,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3550,7 +2675,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3564,7 +2688,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3578,7 +2701,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3592,7 +2714,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3606,7 +2727,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3620,7 +2740,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3634,7 +2753,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3648,7 +2766,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3662,7 +2779,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3676,7 +2792,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3690,7 +2805,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3704,7 +2818,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3718,7 +2831,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3732,7 +2844,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -3746,7 +2857,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3760,7 +2870,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3774,7 +2883,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3788,7 +2896,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3802,7 +2909,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3816,7 +2922,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -3830,7 +2935,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": true,
         "event": false,
@@ -3844,7 +2948,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,

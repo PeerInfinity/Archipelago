@@ -374,14 +374,14 @@ export const evaluateRule = (rule, context, depth = 0) => {
       case 'attribute': {
         const baseObject = evaluateRule(rule.object, context, depth + 1);
 
-        // Special case: if baseObject is undefined and the object was "options", 
-        // try to resolve from game settings
-        if (baseObject === undefined && rule.object && rule.object.type === 'name' && rule.object.name === 'options') {
+        // Special case: if baseObject is undefined and the object was "self",
+        // try to resolve from game settings (self in Python rules = world/rules class instance with options)
+        if (baseObject === undefined && rule.object && rule.object.type === 'name' && rule.object.name === 'self') {
           // Try to get the setting value from context
           if (context.getStaticData) {
             const staticData = context.getStaticData();
             const playerId = context.playerId || context.getPlayerSlot?.() || '1';
-            
+
             // Check if the setting exists
             if (staticData.settings && staticData.settings[playerId]) {
               const settingValue = staticData.settings[playerId][rule.attr];
@@ -390,12 +390,32 @@ export const evaluateRule = (rule, context, depth = 0) => {
               }
             }
           }
-          
+
+          return undefined;
+        }
+
+        // Special case: if baseObject is undefined and the object was "options",
+        // try to resolve from game settings
+        if (baseObject === undefined && rule.object && rule.object.type === 'name' && rule.object.name === 'options') {
+          // Try to get the setting value from context
+          if (context.getStaticData) {
+            const staticData = context.getStaticData();
+            const playerId = context.playerId || context.getPlayerSlot?.() || '1';
+
+            // Check if the setting exists
+            if (staticData.settings && staticData.settings[playerId]) {
+              const settingValue = staticData.settings[playerId][rule.attr];
+              if (settingValue !== undefined) {
+                return settingValue;
+              }
+            }
+          }
+
           // Default values for common KH1 options
           if (rule.attr === 'keyblades_unlock_chests') {
             return false; // Default value
           }
-          
+
           return undefined;
         }
 
@@ -986,6 +1006,21 @@ export const evaluateRule = (rule, context, depth = 0) => {
             'warn',
             '[evaluateRule SnapshotIF] context.countGroup is not a function for group_check.'
           );
+          result = undefined;
+        }
+        break;
+      }
+
+      case 'setting_value': {
+        // Retrieve a setting value (e.g. for self.world.options.difficulty)
+        let settingName = rule.setting;
+        if (typeof settingName === 'string') {
+          result = context.getSetting(settingName);
+        } else {
+          log('warn', '[evaluateRule] Invalid setting name for setting_value', {
+            rule,
+            settingName,
+          });
           result = undefined;
         }
         break;

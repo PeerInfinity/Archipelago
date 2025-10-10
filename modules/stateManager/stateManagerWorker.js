@@ -951,6 +951,13 @@ async function handleMessage(message) {
         }
         break;
 
+      case 'clearEventItems':
+        log('debug', '[Worker] Received clearEventItems command');
+        if (stateManagerInstance) {
+          stateManagerInstance.clearEventItems({ recomputeAndSendUpdate: true });
+        }
+        break;
+
       case 'setAutoCollectEventsConfig':
         log(
           'debug',

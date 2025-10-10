@@ -1375,52 +1375,7 @@ export class PathAnalyzerUI {
     // Use the staticData parameter to get regionData, not the global stateManager
     const regionData = staticData.regions[regionName];
 
-    // 1. Analyze region's own rules
-    if (regionData?.region_rules?.length > 0) {
-      const rulesContainer = document.createElement('div');
-      rulesContainer.innerHTML = '<h5>Region Rules:</h5>';
-      container.appendChild(rulesContainer);
-
-      regionData.region_rules.forEach((rule, idx) => {
-        if (!rule) return;
-
-        const ruleDiv = document.createElement('div');
-        ruleDiv.style.marginLeft = '20px';
-        ruleDiv.style.marginBottom = '10px';
-
-        const useColorblind = this.colorblindMode; // Get the current colorblind state
-        const ruleElement = commonUI.renderLogicTree(
-          rule,
-          useColorblind,
-          snapshotInterface
-        );
-        ruleDiv.appendChild(ruleElement);
-        rulesContainer.appendChild(ruleDiv);
-
-        const nodeResults = this.logic.analyzeRuleForNodes(
-          rule,
-          snapshotInterface
-        );
-
-        // Aggregate nodes (ensure nodeResults is valid)
-        if (nodeResults) {
-          Object.keys(allNodes).forEach((key) => {
-            // Check if nodeResults[key] exists and is an array before spreading
-            if (nodeResults[key] && Array.isArray(nodeResults[key])) {
-              allNodes[key].push(...nodeResults[key]);
-            } else if (nodeResults[key] !== undefined) {
-              log(
-                'warn',
-                `[PathUI] nodeResults[${key}] was not an array:`,
-                nodeResults[key]
-              );
-            }
-          });
-        }
-      });
-    }
-
-    // 2. Analyze entrances to this region
+    // 1. Analyze entrances to this region
     const entrancesContainer = document.createElement('div');
     entrancesContainer.innerHTML = '<h5>Entrances to this region:</h5>';
     let entranceCount = 0;

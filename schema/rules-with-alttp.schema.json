@@ -36,11 +36,6 @@
       },
       "additionalProperties": false
     },
-    "plando_options": {
-      "type": "array",
-      "description": "List of plando options active for this generation.",
-      "items": { "type": "string" }
-    },
     "regions": {
       "type": "object",
       "description": "Region data, keyed by player slot ID (string).",
@@ -304,11 +299,6 @@
       "type": "object",
       "properties": {
         "name": { "type": "string" },
-        "type": {
-          "oneOf": [{ "type": "integer" }, { "type": "string" }],
-          "description": "Region type, typically an integer but can be a string."
-        },
-        "player": { "type": "integer" },
         "entrances": {
           "type": "array",
           "items": { "$ref": "#/$defs/entrance" }
@@ -317,12 +307,6 @@
         "locations": {
           "type": "array",
           "items": { "$ref": "#/$defs/location" }
-        },
-        "time_passes": { "type": "boolean" },
-        "provides_chest_count": { "type": "boolean" },
-        "region_rules": {
-          "type": "array",
-          "items": { "$ref": "#/$defs/rule" }
         },
         "is_light_world": {
           "type": "boolean",
@@ -343,14 +327,11 @@
       },
       "required": [
         "name",
-        "type",
-        "player",
         "entrances",
         "exits",
-        "locations",
-        "time_passes",
-        "provides_chest_count"
-      ]
+        "locations"
+      ],
+      "additionalProperties": true
     },
     "entrance": {
       "type": "object",
@@ -360,17 +341,12 @@
         "access_rule": {
           "oneOf": [{ "$ref": "#/$defs/rule" }, { "type": "null" }]
         },
-        "connected_region": { "type": "string" },
-        "reverse": { "type": ["string", "null"] },
-        "assumed": { "type": "boolean" },
-        "type": { "type": "string" }
+        "connected_region": { "type": "string" }
       },
       "required": [
         "name",
         "parent_region",
-        "connected_region",
-        "assumed",
-        "type"
+        "connected_region"
       ]
     },
     "exit": {
@@ -380,10 +356,9 @@
         "connected_region": { "type": "string" },
         "access_rule": {
           "oneOf": [{ "$ref": "#/$defs/rule" }, { "type": "null" }]
-        },
-        "type": { "type": "string" }
+        }
       },
-      "required": ["name", "connected_region", "type"]
+      "required": ["name", "connected_region"]
     },
     "location": {
       "type": "object",
@@ -395,7 +370,7 @@
         },
         "crystal": {
           "type": ["boolean", "null"],
-          "description": "(Adventure specific) Indicates if location holds a crystal."
+          "description": "(ALTTP specific) Indicates if location holds a crystal prize vs pendant."
         },
         "access_rule": {
           "oneOf": [{ "$ref": "#/$defs/rule" }, { "type": "null" }]
@@ -404,20 +379,13 @@
           "oneOf": [{ "$ref": "#/$defs/rule" }, { "type": "null" }],
           "description": "Rule for the item at this location (often excluded from export)."
         },
-        "progress_type": {
-          "type": "integer",
-          "description": "Location progress type indicator."
-        },
-        "locked": {
-          "type": "boolean",
-          "description": "Indicates if the location is initially locked (e.g., requires a key even if rule passes)."
-        },
         "item": {
           "$ref": "#/$defs/itemPlacement",
           "description": "The item placed at this location."
         }
       },
-      "required": ["name", "id", "access_rule", "progress_type", "locked"]
+      "required": ["name", "id", "access_rule"],
+      "additionalProperties": true
     },
     "itemPlacement": {
       "type": "object",
@@ -425,7 +393,6 @@
         "name": { "type": "string" },
         "player": { "type": "integer" },
         "advancement": { "type": "boolean" },
-        "priority": { "type": ["boolean", "null"] },
         "type": {
           "type": ["string", "null"],
           "description": "Classification of the item (e.g., None, Sword, Event)."
@@ -520,7 +487,6 @@
         },
         "groups": { "type": "array", "items": { "type": "string" } },
         "advancement": { "type": "boolean" },
-        "priority": { "type": "boolean" },
         "useful": { "type": "boolean" },
         "trap": { "type": "boolean" },
         "event": { "type": "boolean" },
@@ -538,7 +504,6 @@
         "id",
         "groups",
         "advancement",
-        "priority",
         "useful",
         "trap",
         "event",

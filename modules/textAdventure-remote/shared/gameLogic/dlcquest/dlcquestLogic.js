@@ -26,7 +26,7 @@ export const dlcquestStateModule = {
    */
   processEventItem(gameState, itemName) {
     // DLCQuest doesn't have special event processing
-    // Coin items are handled as normal prog_items
+    // Coin items are handled as normal inventory items
     return null; // Return null to indicate no state change
   },
 
@@ -49,35 +49,35 @@ export const dlcquestStateModule = {
 export const helperFunctions = {
   /**
    * Check if the player has an item (generic implementation)
-   * @param {Object} snapshot - Game state snapshot
+   * @param {Object} state - Game state snapshot
    * @param {number} player - Player ID
    * @param {string} item - Item name
    * @param {number} [count=1] - Required count
    * @returns {boolean} True if player has at least count of the item
    */
   can_access(state, player, item, count = 1) {
-    const progItems = snapshot.prog_items?.[player] || {};
-    return (progItems[item] || 0) >= count;
+    const inventory = state.inventory || {};
+    return (inventory[item] || 0) >= count;
   },
-  
+
   /**
    * Generic has method for item checking
    */
   has(state, player, item, count = 1) {
     return this.can_access(state, player, item, count);
   },
-  
+
   /**
    * Check if player has visited/checked a location
    */
   has_flag(state, player, flag) {
-    return snapshot.flags?.includes(flag) || false;
+    return state.flags?.includes(flag) || false;
   },
-  
+
   /**
    * Check if player has an event
    */
   has_event(state, player, event) {
-    return snapshot.events?.includes(event) || false;
+    return state.events?.includes(event) || false;
   }
 };

@@ -10,17 +10,10 @@
   "world_classes": {
     "1": "ShiversWorld"
   },
-  "plando_options": [
-    "connections",
-    "texts",
-    "bosses"
-  ],
   "regions": {
     "1": {
       "Menu": {
         "name": "Menu",
-        "type": "Region",
-        "player": 1,
         "entrances": [],
         "exits": [
           {
@@ -29,32 +22,18 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Registry": {
         "name": "Registry",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Registry",
             "parent_region": "Menu",
-            "connected_region": "Registry",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Registry"
           }
         ],
         "exits": [
@@ -64,52 +43,28 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Outside": {
         "name": "Outside",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Outside From Registry",
             "parent_region": "Registry",
-            "connected_region": "Outside",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Outside"
           },
           {
             "name": "To Outside From Underground",
             "parent_region": "Underground Tunnels",
-            "connected_region": "Outside",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Outside"
           },
           {
             "name": "To Outside From Lobby",
             "parent_region": "Lobby",
-            "connected_region": "Outside",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Outside"
           }
         ],
         "exits": [
@@ -119,11 +74,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Lobby From Outside",
@@ -134,72 +85,55 @@
                 "type": "constant",
                 "value": "Key for Front Door"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Puzzle Solved Combination Lock",
             "id": 27114,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Key for Office Elevator",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Solved Gears",
             "id": 27000,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wood Always Available in Pegasus Room",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Solved Stone Henge",
             "id": 27001,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Key for Bedroom",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Solved Office Elevator",
             "id": 27110,
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -237,20 +171,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Cloth Always Available in Burial Room",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Solved Three Floor Elevator",
             "id": 27112,
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -288,171 +218,125 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sand Always Available in Greenhouse",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Hint Found: Mailbox",
             "id": 27054,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Easier Lyre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Hint Found: Orange Symbol",
             "id": 27055,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Key for Underground Lake",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Hint Found: Silver Symbol",
             "id": 27056,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Key for Shaman Room",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Hint Found: Green Symbol",
             "id": 27057,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Key for Office",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Hint Found: White Symbol",
             "id": 27058,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Crystal Always Available in Ocean",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Hint Found: Brown Symbol",
             "id": 27059,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sand Always Available in Ocean",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Hint Found: Tan Symbol",
             "id": 27060,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Cloth Pot Bottom",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Underground Tunnels": {
         "name": "Underground Tunnels",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Underground Tunnels From Outside",
             "parent_region": "Outside",
-            "connected_region": "Underground Tunnels",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Underground Tunnels"
           },
           {
             "name": "To Underground Tunnels From Underground Lake",
             "parent_region": "Underground Lake",
-            "connected_region": "Underground Tunnels",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Underground Tunnels"
           }
         ],
         "exits": [
@@ -465,11 +349,7 @@
                 "type": "constant",
                 "value": "Key for Underground Lake"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Outside From Underground",
@@ -477,52 +357,28 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Underground Lake": {
         "name": "Underground Lake",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Underground Lake From Underground Tunnels",
             "parent_region": "Underground Tunnels",
-            "connected_region": "Underground Lake",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Underground Lake"
           },
           {
             "name": "To Underground Lake From Windlenot's Body",
             "parent_region": "Windlenot's Body",
-            "connected_region": "Underground Lake",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Underground Lake"
           },
           {
             "name": "To Underground Lake From Underground Blue Tunnels",
             "parent_region": "Underground Blue Tunnels",
-            "connected_region": "Underground Lake",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Underground Lake"
           }
         ],
         "exits": [
@@ -535,11 +391,7 @@
                 "type": "constant",
                 "value": "Key for Underground Lake"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Windlenot's Body From Underground Lake",
@@ -547,11 +399,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Underground Blue Tunnels From Underground Lake",
@@ -559,51 +407,33 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Flashback Memory Obtained Windlenot's Ghost",
             "id": 27026,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Windlenot's Body": {
         "name": "Windlenot's Body",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Windlenot's Body From Underground Lake",
             "parent_region": "Underground Lake",
-            "connected_region": "Windlenot's Body",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Windlenot's Body"
           }
         ],
         "exits": [
@@ -613,79 +443,52 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Flashback Memory Obtained Egyptian Hieroglyphics Explained",
             "id": 27031,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Cloth Always Available in Egypt",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Windlenot's Body",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Viewed Egyptian Hieroglyphics Explained",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Underground Blue Tunnels": {
         "name": "Underground Blue Tunnels",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Underground Blue Tunnels From Underground Lake",
             "parent_region": "Underground Lake",
-            "connected_region": "Underground Blue Tunnels",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Underground Blue Tunnels"
           },
           {
             "name": "To Underground Blue Tunnels From Office Elevator",
             "parent_region": "Office Elevator",
-            "connected_region": "Underground Blue Tunnels",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Underground Blue Tunnels"
           }
         ],
         "exits": [
@@ -695,11 +498,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Office Elevator From Underground Blue Tunnels",
@@ -710,42 +509,23 @@
                 "type": "constant",
                 "value": "Key for Office Elevator"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Office Elevator": {
         "name": "Office Elevator",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Office Elevator From Underground Blue Tunnels",
             "parent_region": "Underground Blue Tunnels",
-            "connected_region": "Office Elevator",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Office Elevator"
           },
           {
             "name": "To Office Elevator From Office",
             "parent_region": "Office",
-            "connected_region": "Office Elevator",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Office Elevator"
           }
         ],
         "exits": [
@@ -755,11 +535,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Office From Office Elevator",
@@ -767,62 +543,33 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Office": {
         "name": "Office",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Office From Office Elevator",
             "parent_region": "Office Elevator",
-            "connected_region": "Office",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Office"
           },
           {
             "name": "To Office From Workshop",
             "parent_region": "Workshop",
-            "connected_region": "Office",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Office"
           },
           {
             "name": "To Office From Bedroom Elevator",
             "parent_region": "Bedroom Elevator",
-            "connected_region": "Office",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Office"
           },
           {
             "name": "To Office From Lobby",
             "parent_region": "Lobby",
-            "connected_region": "Office",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Office"
           }
         ],
         "exits": [
@@ -835,11 +582,7 @@
                 "type": "constant",
                 "value": "Key for Office Elevator"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Workshop",
@@ -850,11 +593,7 @@
                 "type": "constant",
                 "value": "Key for Workshop"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Lobby From Office",
@@ -865,11 +604,7 @@
                 "type": "constant",
                 "value": "Key for Office"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Bedroom Elevator From Office",
@@ -879,24 +614,14 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "list",
+                  "type": "constant",
                   "value": [
-                    {
-                      "type": "constant",
-                      "value": "Crawling"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Key for Bedroom Elevator"
-                    }
+                    "Crawling",
+                    "Key for Bedroom Elevator"
                   ]
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Ash Capture From Office",
@@ -904,138 +629,98 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Flashback Memory Obtained Scrapbook",
             "id": 27028,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage: Desk Drawer",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Crystal Pot Bottom DUPE",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Hint Found: Atlantis Map",
             "id": 27062,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Crawling",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Hint Found: Tape Recorder Heard",
             "id": 27069,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Key for Janitor Closet",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Solved Bedroom Elevator",
             "id": 27111,
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "has_all",
               "args": [
                 {
-                  "type": "list",
+                  "type": "constant",
                   "value": [
-                    {
-                      "type": "constant",
-                      "value": "Crawling"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Key for Bedroom Elevator"
-                    }
+                    "Crawling",
+                    "Key for Bedroom Elevator"
                   ]
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Water Pot Bottom",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Workshop": {
         "name": "Workshop",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Workshop",
             "parent_region": "Office",
-            "connected_region": "Workshop",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Workshop"
           }
         ],
         "exits": [
@@ -1045,11 +730,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Wood Capture From Workshop",
@@ -1057,97 +738,66 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Puzzle Solved Workshop Drawers",
             "id": 27002,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Metal Always Available in Bedroom",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage: Workshop Drawers",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Metal Pot Bottom DUPE",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Hint Found: Basilisk Bone Fragments",
             "id": 27061,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Cloth Pot Top",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Bedroom Elevator": {
         "name": "Bedroom Elevator",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Bedroom Elevator From Office",
             "parent_region": "Office",
-            "connected_region": "Bedroom Elevator",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Bedroom Elevator"
           },
           {
             "name": "To Bedroom Elevator From Bedroom",
             "parent_region": "Bedroom",
-            "connected_region": "Bedroom Elevator",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Bedroom Elevator"
           }
         ],
         "exits": [
@@ -1159,24 +809,14 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "list",
+                  "type": "constant",
                   "value": [
-                    {
-                      "type": "constant",
-                      "value": "Crawling"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Key for Bedroom Elevator"
-                    }
+                    "Crawling",
+                    "Key for Bedroom Elevator"
                   ]
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Bedroom",
@@ -1187,32 +827,18 @@
                 "type": "constant",
                 "value": "Key for Bedroom"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Bedroom": {
         "name": "Bedroom",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Bedroom",
             "parent_region": "Bedroom Elevator",
-            "connected_region": "Bedroom",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Bedroom"
           }
         ],
         "exits": [
@@ -1222,11 +848,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Metal Capture From Bedroom",
@@ -1234,121 +856,68 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Flashback Memory Obtained Professor Windlenot's Diary",
             "id": 27039,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Easier Lyre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Lobby": {
         "name": "Lobby",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Lobby From Office",
             "parent_region": "Office",
-            "connected_region": "Lobby",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Lobby"
           },
           {
             "name": "To Lobby From Library",
             "parent_region": "Library",
-            "connected_region": "Lobby",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Lobby"
           },
           {
             "name": "To Lobby From Tar River",
             "parent_region": "Tar River",
-            "connected_region": "Lobby",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Lobby"
           },
           {
             "name": "To Lobby From Slide Room",
             "parent_region": "Slide Room",
-            "connected_region": "Lobby",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Lobby"
           },
           {
             "name": "To Lobby From Egypt",
             "parent_region": "Egypt",
-            "connected_region": "Lobby",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Lobby"
           },
           {
             "name": "To Lobby From Theater",
             "parent_region": "Theater",
-            "connected_region": "Lobby",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Lobby"
           },
           {
             "name": "To Lobby From Prehistoric",
             "parent_region": "Prehistoric",
-            "connected_region": "Lobby",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Lobby"
           },
           {
             "name": "To Lobby From Outside",
             "parent_region": "Outside",
-            "connected_region": "Lobby",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Lobby"
           }
         ],
         "exits": [
@@ -1361,11 +930,7 @@
                 "type": "constant",
                 "value": "Key for Office"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Library From Lobby",
@@ -1376,11 +941,7 @@
                 "type": "constant",
                 "value": "Key for Library"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Theater From Lobby",
@@ -1391,11 +952,7 @@
                 "type": "constant",
                 "value": "Viewed Egyptian Hieroglyphics Explained"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Prehistoric From Lobby",
@@ -1406,11 +963,7 @@
                 "type": "constant",
                 "value": "Key for Prehistoric Room"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Egypt From Lobby",
@@ -1421,11 +974,7 @@
                 "type": "constant",
                 "value": "Key for Egypt Room"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Tar River From Lobby",
@@ -1456,11 +1005,7 @@
                   ]
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Outside From Lobby",
@@ -1471,11 +1016,7 @@
                 "type": "constant",
                 "value": "Key for Front Door"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Water Capture From Lobby",
@@ -1483,11 +1024,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Crystal Capture From Lobby",
@@ -1495,11 +1032,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Victory",
@@ -1609,18 +1142,13 @@
                 },
                 "attr": "value"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Puzzle Solved Theater Door",
             "id": 27004,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -1628,38 +1156,30 @@
                 "value": "Viewed Egyptian Hieroglyphics Explained"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Key for Torture Room",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Flashback Memory Obtained Museum Brochure",
             "id": 27029,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Easier Lyre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage: Slide",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -1682,63 +1202,41 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Ash Pot Bottom DUPE",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage: Transforming Mask",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Water Pot Top DUPE",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Library": {
         "name": "Library",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Library From Lobby",
             "parent_region": "Lobby",
-            "connected_region": "Library",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Library"
           },
           {
             "name": "To Library From Maintenance Tunnels",
             "parent_region": "Maintenance Tunnels",
-            "connected_region": "Library",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Library"
           }
         ],
         "exits": [
@@ -1751,11 +1249,7 @@
                 "type": "constant",
                 "value": "Key for Library"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Maintenance Tunnels From Library",
@@ -1763,11 +1257,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Wax Capture From Library",
@@ -1775,189 +1265,132 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Puzzle Solved Library Statue",
             "id": 27003,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Key for Three Floor Elevator",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Flashback Memory Obtained In Search of the Unexplained",
             "id": 27030,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Key for Egypt Room",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Flashback Memory Obtained South American Pictographs",
             "id": 27032,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wax Always Available in Anansi Room",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Flashback Memory Obtained Mythology of the Stars",
             "id": 27033,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Flashback Memory Obtained Black Book",
             "id": 27034,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Key for Ocean Room",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage: Library Cabinet",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Oil Pot Top DUPE",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage: Library Statue",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Sand Pot Bottom DUPE",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Maintenance Tunnels": {
         "name": "Maintenance Tunnels",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Maintenance Tunnels From Generator",
             "parent_region": "Generator",
-            "connected_region": "Maintenance Tunnels",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Maintenance Tunnels"
           },
           {
             "name": "To Maintenance Tunnels From Three Floor Elevator",
             "parent_region": "Three Floor Elevator",
-            "connected_region": "Maintenance Tunnels",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Maintenance Tunnels"
           },
           {
             "name": "To Maintenance Tunnels From Library",
             "parent_region": "Library",
-            "connected_region": "Maintenance Tunnels",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Maintenance Tunnels"
           },
           {
             "name": "To Maintenance Tunnels From Theater Back Hallway",
             "parent_region": "Theater Back Hallway",
-            "connected_region": "Maintenance Tunnels",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Maintenance Tunnels"
           }
         ],
         "exits": [
@@ -1967,11 +1400,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Three Floor Elevator From Maintenance Tunnels",
@@ -1982,11 +1411,7 @@
                 "type": "constant",
                 "value": "Key for Three Floor Elevator"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Generator From Maintenance Tunnels",
@@ -1997,61 +1422,38 @@
                 "type": "constant",
                 "value": "Key for Generator Room"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Flashback Memory Obtained Beth's Address Book",
             "id": 27037,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Easier Lyre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Generator": {
         "name": "Generator",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Generator From Maintenance Tunnels",
             "parent_region": "Maintenance Tunnels",
-            "connected_region": "Generator",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Generator"
           },
           {
             "name": "To Generator From Beth's Body",
             "parent_region": "Beth's Body",
-            "connected_region": "Generator",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Generator"
           }
         ],
         "exits": [
@@ -2061,11 +1463,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Beth's Body From Generator",
@@ -2124,32 +1522,18 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Beth's Body": {
         "name": "Beth's Body",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Beth's Body From Generator",
             "parent_region": "Generator",
-            "connected_region": "Beth's Body",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Beth's Body"
           }
         ],
         "exits": [
@@ -2159,79 +1543,52 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Final Riddle: Beth's Body Page 17",
             "id": 27052,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Key for Projector Room",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Beth's Body",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Viewed Page 17",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Theater": {
         "name": "Theater",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Theater From Lobby",
             "parent_region": "Lobby",
-            "connected_region": "Theater",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Theater"
           },
           {
             "name": "To Theater From Theater Back Hallway",
             "parent_region": "Theater Back Hallway",
-            "connected_region": "Theater",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Theater"
           }
         ],
         "exits": [
@@ -2241,11 +1598,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Theater Back Hallway From Theater",
@@ -2253,18 +1606,13 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Storage: Theater",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2272,73 +1620,46 @@
                 "value": "Viewed Theater Movie"
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Empty",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Hint Found: Beth's Note",
             "id": 27115,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Easier Lyre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Theater Back Hallway": {
         "name": "Theater Back Hallway",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Theater Back Hallway From Theater",
             "parent_region": "Theater",
-            "connected_region": "Theater Back Hallway",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Theater Back Hallway"
           },
           {
             "name": "To Theater Back Hallway From Clock Tower Staircase",
             "parent_region": "Clock Tower Staircase",
-            "connected_region": "Theater Back Hallway",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Theater Back Hallway"
           },
           {
             "name": "To Theater Back Hallway From Projector Room",
             "parent_region": "Projector Room",
-            "connected_region": "Theater Back Hallway",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Theater Back Hallway"
           }
         ],
         "exits": [
@@ -2348,11 +1669,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Clock Tower Staircase From Theater Back Hallway",
@@ -2366,11 +1683,7 @@
                   "value": "Three Floor Elevator"
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Maintenance Tunnels From Theater Back Hallway",
@@ -2381,11 +1694,7 @@
                 "type": "constant",
                 "value": "Crawling"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Projector Room",
@@ -2396,18 +1705,13 @@
                 "type": "constant",
                 "value": "Key for Projector Room"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Puzzle Solved Clock Tower Door",
             "id": 27005,
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach_region",
@@ -2418,55 +1722,32 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Ash Always Available in Office",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Clock Tower Staircase": {
         "name": "Clock Tower Staircase",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Clock Tower Staircase From Theater Back Hallway",
             "parent_region": "Theater Back Hallway",
-            "connected_region": "Clock Tower Staircase",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Clock Tower Staircase"
           },
           {
             "name": "To Clock Tower Staircase From Clock Chains",
             "parent_region": "Clock Chains",
-            "connected_region": "Clock Tower Staircase",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Clock Tower Staircase"
           },
           {
             "name": "To Clock Tower Staircase From Clock Tower",
             "parent_region": "Clock Tower",
-            "connected_region": "Clock Tower Staircase",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Clock Tower Staircase"
           }
         ],
         "exits": [
@@ -2476,11 +1757,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Clock Tower",
@@ -2488,11 +1765,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Clock Chains From Clock Tower Staircase",
@@ -2529,32 +1802,18 @@
                 "type": "constant",
                 "value": true
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Clock Chains": {
         "name": "Clock Chains",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Clock Chains From Clock Tower Staircase",
             "parent_region": "Clock Tower Staircase",
-            "connected_region": "Clock Chains",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Clock Chains"
           }
         ],
         "exits": [
@@ -2564,69 +1823,47 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Puzzle Solved Clock Chains",
             "id": 27006,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Easier Lyre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Clock Chains",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Set Time",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Clock Tower": {
         "name": "Clock Tower",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Clock Tower",
             "parent_region": "Clock Tower Staircase",
-            "connected_region": "Clock Tower",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Clock Tower"
           }
         ],
         "exits": [
@@ -2636,36 +1873,27 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Flashback Memory Obtained Beth's Ghost",
             "id": 27024,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Ash Pot Bottom",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage: Clock Tower",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -2673,38 +1901,30 @@
                 "value": "Set Time"
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Water Pot Bottom DUPE",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Hint Found: Shaman Security Camera",
             "id": 27068,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Crystal Always Available in Lobby",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Jukebox",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "and",
               "conditions": [
@@ -2753,35 +1973,22 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Set Song",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Projector Room": {
         "name": "Projector Room",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Projector Room",
             "parent_region": "Theater Back Hallway",
-            "connected_region": "Projector Room",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Projector Room"
           }
         ],
         "exits": [
@@ -2791,11 +1998,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Metal Capture From Projector Room",
@@ -2803,89 +2006,57 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Flashback Memory Obtained Theater Movie",
             "id": 27035,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wax Always Available in Library",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Viewed Theater Movie",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Viewed Theater Movie",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Prehistoric": {
         "name": "Prehistoric",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Prehistoric From Lobby",
             "parent_region": "Lobby",
-            "connected_region": "Prehistoric",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Prehistoric"
           },
           {
             "name": "To Prehistoric From Greenhouse",
             "parent_region": "Greenhouse",
-            "connected_region": "Prehistoric",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Prehistoric"
           },
           {
             "name": "To Prehistoric From Ocean",
             "parent_region": "Ocean",
-            "connected_region": "Prehistoric",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Prehistoric"
           }
         ],
         "exits": [
@@ -2898,11 +2069,7 @@
                 "type": "constant",
                 "value": "Key for Prehistoric Room"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Greenhouse",
@@ -2913,11 +2080,7 @@
                 "type": "constant",
                 "value": "Key for Greenhouse"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Ocean From Prehistoric",
@@ -2928,11 +2091,7 @@
                 "type": "constant",
                 "value": "Key for Ocean Room"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Oil Capture From Prehistoric",
@@ -2940,11 +2099,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Metal Capture From Prehistoric",
@@ -2952,69 +2107,47 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Storage: Eagles Nest",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Wax Pot Top DUPE",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Set Skull Dial: Prehistoric",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Set Skull Dial: Prehistoric",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Greenhouse": {
         "name": "Greenhouse",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Greenhouse",
             "parent_region": "Prehistoric",
-            "connected_region": "Greenhouse",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Greenhouse"
           }
         ],
         "exits": [
@@ -3024,11 +2157,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Sand Capture From Greenhouse",
@@ -3036,61 +2165,38 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Storage: Greenhouse",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Cloth Pot Top DUPE",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Ocean": {
         "name": "Ocean",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Ocean From Prehistoric",
             "parent_region": "Prehistoric",
-            "connected_region": "Ocean",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Ocean"
           },
           {
             "name": "To Ocean From Maze Staircase",
             "parent_region": "Maze Staircase",
-            "connected_region": "Ocean",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Ocean"
           }
         ],
         "exits": [
@@ -3103,11 +2209,7 @@
                 "type": "constant",
                 "value": "Key for Ocean Room"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Maze Staircase From Ocean",
@@ -3115,11 +2217,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Crystal Capture From Ocean",
@@ -3127,11 +2225,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Sand Capture From Ocean",
@@ -3139,18 +2233,13 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Puzzle Solved Atlantis",
             "id": 27007,
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach_region",
@@ -3161,117 +2250,83 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Key for Generator Room",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Solved Organ",
             "id": 27008,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Oil Pot Top",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Flashback Memory Obtained Museum Blueprints",
             "id": 27036,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wood Always Available in Gods Room",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage: Ocean",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Lightning Pot Top DUPE",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Hint Found: Sirens Song Heard",
             "id": 27063,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Water Always Available in Lobby",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Maze Staircase": {
         "name": "Maze Staircase",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Maze Staircase From Ocean",
             "parent_region": "Ocean",
-            "connected_region": "Maze Staircase",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Maze Staircase"
           },
           {
             "name": "To Maze Staircase From Maze",
             "parent_region": "Maze",
-            "connected_region": "Maze Staircase",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Maze Staircase"
           }
         ],
         "exits": [
@@ -3281,11 +2336,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Maze From Maze Staircase",
@@ -3299,18 +2350,13 @@
                   "value": "Projector Room"
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Puzzle Solved Maze Door",
             "id": 27009,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -3318,45 +2364,27 @@
                 "value": "Viewed Theater Movie"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Key for Puzzle Room",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Maze": {
         "name": "Maze",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Maze From Maze Staircase",
             "parent_region": "Maze Staircase",
-            "connected_region": "Maze",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Maze"
           },
           {
             "name": "To Maze From Tar River",
             "parent_region": "Tar River",
-            "connected_region": "Maze",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Maze"
           }
         ],
         "exits": [
@@ -3366,11 +2394,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Tar River",
@@ -3378,42 +2402,23 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Tar River": {
         "name": "Tar River",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Tar River",
             "parent_region": "Maze",
-            "connected_region": "Tar River",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Tar River"
           },
           {
             "name": "To Tar River From Lobby",
             "parent_region": "Lobby",
-            "connected_region": "Tar River",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Tar River"
           }
         ],
         "exits": [
@@ -3423,11 +2428,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Lobby From Tar River",
@@ -3448,11 +2449,7 @@
                   "args": []
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Oil Capture From Tar River",
@@ -3460,90 +2457,58 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Storage: Tar River",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "helper",
               "name": "oil_capturable",
               "args": []
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Wax Pot Bottom DUPE",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Set Skull Dial: Tar River",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Set Skull Dial: Tar River",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Egypt": {
         "name": "Egypt",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Egypt From Lobby",
             "parent_region": "Lobby",
-            "connected_region": "Egypt",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Egypt"
           },
           {
             "name": "To Egypt From Burial",
             "parent_region": "Burial",
-            "connected_region": "Egypt",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Egypt"
           },
           {
             "name": "To Egypt From Blue Maze",
             "parent_region": "Blue Maze",
-            "connected_region": "Egypt",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Egypt"
           }
         ],
         "exits": [
@@ -3556,11 +2521,7 @@
                 "type": "constant",
                 "value": "Key for Egypt Room"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Burial From Egypt",
@@ -3574,11 +2535,7 @@
                   "value": "Egypt"
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Blue Maze From Egypt",
@@ -3589,11 +2546,7 @@
                 "type": "constant",
                 "value": "Crawling"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Cloth Capture From Egypt",
@@ -3601,18 +2554,13 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Puzzle Solved Columns of RA",
             "id": 27010,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -3620,117 +2568,83 @@
                 "value": "Viewed Egyptian Hieroglyphics Explained"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Key for Workshop",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Solved Burial Door",
             "id": 27011,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Metal Pot Bottom",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage: Egypt",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Cloth Pot Bottom DUPE",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Hint Found: Egyptian Sphinx Heard",
             "id": 27064,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Set Skull Dial: Egypt",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Set Skull Dial: Egypt",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Burial": {
         "name": "Burial",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Burial From Egypt",
             "parent_region": "Egypt",
-            "connected_region": "Burial",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Burial"
           },
           {
             "name": "To Burial From Shaman",
             "parent_region": "Shaman",
-            "connected_region": "Burial",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Burial"
           }
         ],
         "exits": [
@@ -3740,11 +2654,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Shaman From Burial",
@@ -3755,11 +2665,7 @@
                 "type": "constant",
                 "value": "Key for Shaman Room"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Ash Capture From Burial",
@@ -3767,11 +2673,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Cloth Capture From Burial",
@@ -3779,115 +2681,80 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Puzzle Solved Chinese Solitaire",
             "id": 27012,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Easier Lyre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Flashback Memory Obtained Merrick's Notebook",
             "id": 27038,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Ash Always Available in Burial Room",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage: Chinese Solitaire",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Sand Pot Top DUPE",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Set Skull Dial: Burial",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Set Skull Dial: Burial",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Shaman": {
         "name": "Shaman",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Shaman From Burial",
             "parent_region": "Burial",
-            "connected_region": "Shaman",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shaman"
           },
           {
             "name": "To Shaman From Gods Room",
             "parent_region": "Gods Room",
-            "connected_region": "Shaman",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shaman"
           }
         ],
         "exits": [
@@ -3900,11 +2767,7 @@
                 "type": "constant",
                 "value": "Key for Shaman Room"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Gods Room From Shaman",
@@ -3918,11 +2781,7 @@
                   "value": "Clock Tower"
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Wax Capture From Shaman",
@@ -3930,18 +2789,13 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Puzzle Solved Shaman Drums",
             "id": 27013,
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach_region",
@@ -3952,73 +2806,46 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Metal Always Available in Prehistoric",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage: Shaman Hut",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Empty",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Gods Room": {
         "name": "Gods Room",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Gods Room From Shaman",
             "parent_region": "Shaman",
-            "connected_region": "Gods Room",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Gods Room"
           },
           {
             "name": "To Gods Room From Norse Stone",
             "parent_region": "Norse Stone",
-            "connected_region": "Gods Room",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Gods Room"
           },
           {
             "name": "To Gods Room From Anansi",
             "parent_region": "Anansi",
-            "connected_region": "Gods Room",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Gods Room"
           }
         ],
         "exits": [
@@ -4028,11 +2855,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Anansi From Gods Room",
@@ -4046,11 +2869,7 @@
                   "value": "Maintenance Tunnels"
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Wood Capture From Gods Room",
@@ -4058,11 +2877,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Norse Stone From Gods Room",
@@ -4073,36 +2888,27 @@
                 "type": "constant",
                 "value": "Aligned Planets"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Puzzle Solved Lyre",
             "id": 27014,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Key for Bedroom Elevator",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Solved Red Door",
             "id": 27015,
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach_region",
@@ -4113,71 +2919,50 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Easier Lyre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage: Lyre",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Metal Pot Top DUPE",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Set Skull Dial: Gods Room",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Set Skull Dial: Gods Room",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Norse Stone": {
         "name": "Norse Stone",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Norse Stone From Gods Room",
             "parent_region": "Gods Room",
-            "connected_region": "Norse Stone",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Norse Stone"
           }
         ],
         "exits": [
@@ -4187,79 +2972,52 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Final Riddle: Norse God Stone Message",
             "id": 27051,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Metal Always Available in Projector Room",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Norse Stone",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Viewed Norse Stone",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Anansi": {
         "name": "Anansi",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Anansi From Gods Room",
             "parent_region": "Gods Room",
-            "connected_region": "Anansi",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Anansi"
           },
           {
             "name": "To Anansi From Pegasus",
             "parent_region": "Pegasus",
-            "connected_region": "Anansi",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Anansi"
           }
         ],
         "exits": [
@@ -4275,11 +3033,7 @@
                   "value": "Gods Room"
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Pegasus From Anansi",
@@ -4287,11 +3041,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Wax Capture From Anansi",
@@ -4299,18 +3049,13 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Puzzle Solved Anansi Music Box",
             "id": 27019,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -4318,56 +3063,44 @@
                 "value": "Set Song"
               }
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wax Pot Top",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Flashback Memory Obtained Ancient Astrology",
             "id": 27027,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wood Always Available in Blue Maze",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage: Skeleton",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Wood Pot Top DUPE",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage: Anansi Music Box",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "item_check",
               "item": {
@@ -4375,45 +3108,27 @@
                 "value": "Set Song"
               }
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Empty",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Pegasus": {
         "name": "Pegasus",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Pegasus From Anansi",
             "parent_region": "Anansi",
-            "connected_region": "Pegasus",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Pegasus"
           },
           {
             "name": "To Pegasus From Werewolf",
             "parent_region": "Werewolf",
-            "connected_region": "Pegasus",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Pegasus"
           }
         ],
         "exits": [
@@ -4423,11 +3138,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Werewolf From Pegasus",
@@ -4435,11 +3146,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Wood Capture From Pegasus",
@@ -4447,42 +3154,23 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Werewolf": {
         "name": "Werewolf",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Werewolf From Pegasus",
             "parent_region": "Pegasus",
-            "connected_region": "Werewolf",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Werewolf"
           },
           {
             "name": "To Werewolf From Night Staircase",
             "parent_region": "Night Staircase",
-            "connected_region": "Werewolf",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Werewolf"
           }
         ],
         "exits": [
@@ -4492,11 +3180,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Night Staircase From Werewolf",
@@ -4504,71 +3188,43 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Set Skull Dial: Werewolf",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Set Skull Dial: Werewolf",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Night Staircase": {
         "name": "Night Staircase",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Night Staircase From Werewolf",
             "parent_region": "Werewolf",
-            "connected_region": "Night Staircase",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Night Staircase"
           },
           {
             "name": "To Night Staircase From Janitor Closet",
             "parent_region": "Janitor Closet",
-            "connected_region": "Night Staircase",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Night Staircase"
           },
           {
             "name": "To Night Staircase From UFO",
             "parent_region": "UFO",
-            "connected_region": "Night Staircase",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Night Staircase"
           }
         ],
         "exits": [
@@ -4578,11 +3234,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Janitor Closet",
@@ -4593,11 +3245,7 @@
                 "type": "constant",
                 "value": "Key for Janitor Closet"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To UFO From Night Staircase",
@@ -4605,32 +3253,18 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Janitor Closet": {
         "name": "Janitor Closet",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Janitor Closet",
             "parent_region": "Night Staircase",
-            "connected_region": "Janitor Closet",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Janitor Closet"
           }
         ],
         "exits": [
@@ -4640,11 +3274,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Water Capture From Janitor Closet",
@@ -4653,11 +3283,7 @@
               "type": "helper",
               "name": "cloth_capturable",
               "args": []
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Cloth Capture From Janitor Closet",
@@ -4665,72 +3291,44 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Storage: Janitor Closet",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "helper",
               "name": "cloth_capturable",
               "args": []
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Lightning Pot Bottom DUPE",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "UFO": {
         "name": "UFO",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To UFO From Night Staircase",
             "parent_region": "Night Staircase",
-            "connected_region": "UFO",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "UFO"
           },
           {
             "name": "To UFO From Orrery",
             "parent_region": "Orrery",
-            "connected_region": "UFO",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "UFO"
           },
           {
             "name": "To UFO From Inventions",
             "parent_region": "Inventions",
-            "connected_region": "UFO",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "UFO"
           }
         ],
         "exits": [
@@ -4740,11 +3338,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Orrery From UFO",
@@ -4755,11 +3349,7 @@
                 "type": "constant",
                 "value": "Viewed Fortune"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Inventions From UFO",
@@ -4770,18 +3360,13 @@
                 "type": "constant",
                 "value": "Key for UFO Room"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Puzzle Solved UFO Symbols",
             "id": 27018,
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach_region",
@@ -4792,20 +3377,16 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sand Pot Bottom",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage: UFO",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "state_method",
               "method": "can_reach_region",
@@ -4816,35 +3397,22 @@
                 }
               ]
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Wood Pot Bottom DUPE",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Orrery": {
         "name": "Orrery",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Orrery From UFO",
             "parent_region": "UFO",
-            "connected_region": "Orrery",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Orrery"
           }
         ],
         "exits": [
@@ -4854,99 +3422,62 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Final Riddle: Planets Aligned",
             "id": 27050,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Ash Pot Top",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Orrery",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Aligned Planets",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Blue Maze": {
         "name": "Blue Maze",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Blue Maze From Three Floor Elevator",
             "parent_region": "Three Floor Elevator",
-            "connected_region": "Blue Maze",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Blue Maze"
           },
           {
             "name": "To Blue Maze From Fortune Teller",
             "parent_region": "Fortune Teller",
-            "connected_region": "Blue Maze",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Blue Maze"
           },
           {
             "name": "To Blue Maze From Inventions",
             "parent_region": "Inventions",
-            "connected_region": "Blue Maze",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Blue Maze"
           },
           {
             "name": "To Blue Maze From Egypt",
             "parent_region": "Egypt",
-            "connected_region": "Blue Maze",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Blue Maze"
           }
         ],
         "exits": [
@@ -4959,11 +3490,7 @@
                 "type": "constant",
                 "value": "Crawling"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Three Floor Elevator From Blue Maze Bottom",
@@ -4974,11 +3501,7 @@
                 "type": "constant",
                 "value": "Key for Three Floor Elevator"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Three Floor Elevator From Blue Maze Top",
@@ -4989,11 +3512,7 @@
                 "type": "constant",
                 "value": "Key for Three Floor Elevator"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Fortune Teller",
@@ -5001,11 +3520,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Inventions From Blue Maze",
@@ -5013,11 +3528,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Wood Capture From Blue Maze",
@@ -5025,71 +3536,43 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Puzzle Solved Fortune Teller Door",
             "id": 27016,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wood Always Available in Workshop",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Three Floor Elevator": {
         "name": "Three Floor Elevator",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Three Floor Elevator From Maintenance Tunnels",
             "parent_region": "Maintenance Tunnels",
-            "connected_region": "Three Floor Elevator",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Three Floor Elevator"
           },
           {
             "name": "To Three Floor Elevator From Blue Maze Bottom",
             "parent_region": "Blue Maze",
-            "connected_region": "Three Floor Elevator",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Three Floor Elevator"
           },
           {
             "name": "To Three Floor Elevator From Blue Maze Top",
             "parent_region": "Blue Maze",
-            "connected_region": "Three Floor Elevator",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Three Floor Elevator"
           }
         ],
         "exits": [
@@ -5099,11 +3582,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Blue Maze From Three Floor Elevator",
@@ -5111,51 +3590,33 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Puzzle Hint Found: Elevator Writing",
             "id": 27067,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Key for UFO Room",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Fortune Teller": {
         "name": "Fortune Teller",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Fortune Teller",
             "parent_region": "Blue Maze",
-            "connected_region": "Fortune Teller",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Fortune Teller"
           }
         ],
         "exits": [
@@ -5165,107 +3626,71 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Flashback Memory Obtained Merrick's Ghost",
             "id": 27025,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Sand Pot Top",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Final Riddle: Fortune Teller",
             "id": 27049,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Viewed Fortune",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Viewed Fortune",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Inventions": {
         "name": "Inventions",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Inventions From UFO",
             "parent_region": "UFO",
-            "connected_region": "Inventions",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Inventions"
           },
           {
             "name": "To Inventions From Blue Maze",
             "parent_region": "Blue Maze",
-            "connected_region": "Inventions",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Inventions"
           },
           {
             "name": "To Inventions From Torture",
             "parent_region": "Torture",
-            "connected_region": "Inventions",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Inventions"
           }
         ],
         "exits": [
@@ -5275,11 +3700,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To UFO From Inventions",
@@ -5290,11 +3711,7 @@
                 "type": "constant",
                 "value": "Key for UFO Room"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Torture From Inventions",
@@ -5305,89 +3722,57 @@
                 "type": "constant",
                 "value": "Key for Torture Room"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Puzzle Solved Alchemy",
             "id": 27017,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Key for Prehistoric Room",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage: Alchemy",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Oil Pot Bottom DUPE",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Torture": {
         "name": "Torture",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Torture",
             "parent_region": "Puzzle Room Mastermind",
-            "connected_region": "Torture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Torture"
           },
           {
             "name": "To Torture From Guillotine",
             "parent_region": "Guillotine",
-            "connected_region": "Torture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Torture"
           },
           {
             "name": "To Torture From Inventions",
             "parent_region": "Inventions",
-            "connected_region": "Torture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Torture"
           }
         ],
         "exits": [
@@ -5400,11 +3785,7 @@
                 "type": "constant",
                 "value": "Key for Torture Room"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Puzzle Room Mastermind From Torture",
@@ -5415,11 +3796,7 @@
                 "type": "constant",
                 "value": "Key for Puzzle Room"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Guillotine From Torture",
@@ -5465,87 +3842,61 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Puzzle Solved Gallows",
             "id": 27020,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Easier Lyre",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Storage: Gallows",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Crystal Pot Top DUPE",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Hint Found: Gallows Information Plaque",
             "id": 27065,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Oil Always Available in Prehistoric Room",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Guillotine": {
         "name": "Guillotine",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Guillotine From Torture",
             "parent_region": "Torture",
-            "connected_region": "Guillotine",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Guillotine"
           }
         ],
         "exits": [
@@ -5555,79 +3906,52 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Final Riddle: Guillotine Dropped",
             "id": 27053,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wax Always Available in Shaman Room",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Guillotine",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Lost Your Head",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Puzzle Room Mastermind": {
         "name": "Puzzle Room Mastermind",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Puzzle Room Mastermind From Torture",
             "parent_region": "Torture",
-            "connected_region": "Puzzle Room Mastermind",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Puzzle Room Mastermind"
           },
           {
             "name": "To Puzzle Room Mastermind From Puzzle Room Marbles",
             "parent_region": "Puzzle Room Marbles",
-            "connected_region": "Puzzle Room Mastermind",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Puzzle Room Mastermind"
           }
         ],
         "exits": [
@@ -5640,11 +3964,7 @@
                 "type": "constant",
                 "value": "Key for Puzzle Room"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Puzzle Room Marbles From Puzzle Room Mastermind",
@@ -5652,79 +3972,52 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Puzzle Solved Mastermind",
             "id": 27021,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wood Pot Top",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Hint Found: Mastermind Information Plaque",
             "id": 27066,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Crystal Pot Top",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Puzzle Room Marbles": {
         "name": "Puzzle Room Marbles",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Puzzle Room Marbles From Puzzle Room Mastermind",
             "parent_region": "Puzzle Room Mastermind",
-            "connected_region": "Puzzle Room Marbles",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Puzzle Room Marbles"
           },
           {
             "name": "To Puzzle Room Marbles From Skull Bridge",
             "parent_region": "Skull Bridge",
-            "connected_region": "Puzzle Room Marbles",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Puzzle Room Marbles"
           }
         ],
         "exits": [
@@ -5734,11 +4027,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Skull Bridge From Puzzle Room Marbles",
@@ -5746,61 +4035,38 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Puzzle Solved Marble Flipper",
             "id": 27022,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Heal",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Skull Bridge": {
         "name": "Skull Bridge",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Skull Bridge From Puzzle Room Marbles",
             "parent_region": "Puzzle Room Marbles",
-            "connected_region": "Skull Bridge",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Skull Bridge"
           },
           {
             "name": "To Skull Bridge From Slide Room",
             "parent_region": "Slide Room",
-            "connected_region": "Skull Bridge",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Skull Bridge"
           }
         ],
         "exits": [
@@ -5810,11 +4076,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Slide Room",
@@ -5823,70 +4085,48 @@
               "type": "helper",
               "name": "all_skull_dials_set",
               "args": []
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Storage: Skull Bridge",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Ash Pot Top DUPE",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Puzzle Solved Skull Dial Door",
             "id": 27023,
-            "crystal": null,
             "access_rule": {
               "type": "helper",
               "name": "all_skull_dials_set",
               "args": []
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wax Pot Bottom",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Slide Room": {
         "name": "Slide Room",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Slide Room",
             "parent_region": "Skull Bridge",
-            "connected_region": "Slide Room",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Slide Room"
           }
         ],
         "exits": [
@@ -5896,11 +4136,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "To Lobby From Slide Room",
@@ -5911,42 +4147,23 @@
                 "type": "constant",
                 "value": "Lost Your Head"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Water Capture": {
         "name": "Water Capture",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Water Capture From Lobby",
             "parent_region": "Lobby",
-            "connected_region": "Water Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Water Capture"
           },
           {
             "name": "To Water Capture From Janitor Closet",
             "parent_region": "Janitor Closet",
-            "connected_region": "Water Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Water Capture"
           }
         ],
         "exits": [],
@@ -5954,61 +4171,37 @@
           {
             "name": "Ixupi Captured Water",
             "id": 27040,
-            "crystal": null,
             "access_rule": {
               "type": "helper",
               "name": "water_capturable",
               "args": []
             },
-            "progress_type": 2,
-            "locked": true,
             "item": {
               "name": "Metal Pot Top",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Wax Capture": {
         "name": "Wax Capture",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Wax Capture From Library",
             "parent_region": "Library",
-            "connected_region": "Wax Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Wax Capture"
           },
           {
             "name": "To Wax Capture From Shaman",
             "parent_region": "Shaman",
-            "connected_region": "Wax Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Wax Capture"
           },
           {
             "name": "To Wax Capture From Anansi",
             "parent_region": "Anansi",
-            "connected_region": "Wax Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Wax Capture"
           }
         ],
         "exits": [],
@@ -6016,51 +4209,32 @@
           {
             "name": "Ixupi Captured Wax",
             "id": 27041,
-            "crystal": null,
             "access_rule": {
               "type": "helper",
               "name": "wax_capturable",
               "args": []
             },
-            "progress_type": 2,
-            "locked": true,
             "item": {
               "name": "Key for Library",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Ash Capture": {
         "name": "Ash Capture",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Ash Capture From Office",
             "parent_region": "Office",
-            "connected_region": "Ash Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Ash Capture"
           },
           {
             "name": "To Ash Capture From Burial",
             "parent_region": "Burial",
-            "connected_region": "Ash Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Ash Capture"
           }
         ],
         "exits": [],
@@ -6068,51 +4242,32 @@
           {
             "name": "Ixupi Captured Ash",
             "id": 27042,
-            "crystal": null,
             "access_rule": {
               "type": "helper",
               "name": "ash_capturable",
               "args": []
             },
-            "progress_type": 2,
-            "locked": true,
             "item": {
               "name": "Crystal Pot Bottom",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Oil Capture": {
         "name": "Oil Capture",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Oil Capture From Prehistoric",
             "parent_region": "Prehistoric",
-            "connected_region": "Oil Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Oil Capture"
           },
           {
             "name": "To Oil Capture From Tar River",
             "parent_region": "Tar River",
-            "connected_region": "Oil Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Oil Capture"
           }
         ],
         "exits": [],
@@ -6120,61 +4275,37 @@
           {
             "name": "Ixupi Captured Oil",
             "id": 27043,
-            "crystal": null,
             "access_rule": {
               "type": "helper",
               "name": "oil_capturable",
               "args": []
             },
-            "progress_type": 2,
-            "locked": true,
             "item": {
               "name": "Lightning Pot Top",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Cloth Capture": {
         "name": "Cloth Capture",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Cloth Capture From Egypt",
             "parent_region": "Egypt",
-            "connected_region": "Cloth Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Cloth Capture"
           },
           {
             "name": "To Cloth Capture From Burial",
             "parent_region": "Burial",
-            "connected_region": "Cloth Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Cloth Capture"
           },
           {
             "name": "To Cloth Capture From Janitor Closet",
             "parent_region": "Janitor Closet",
-            "connected_region": "Cloth Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Cloth Capture"
           }
         ],
         "exits": [],
@@ -6182,71 +4313,42 @@
           {
             "name": "Ixupi Captured Cloth",
             "id": 27044,
-            "crystal": null,
             "access_rule": {
               "type": "helper",
               "name": "cloth_capturable",
               "args": []
             },
-            "progress_type": 2,
-            "locked": true,
             "item": {
               "name": "Water Pot Top",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Wood Capture": {
         "name": "Wood Capture",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Wood Capture From Workshop",
             "parent_region": "Workshop",
-            "connected_region": "Wood Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Wood Capture"
           },
           {
             "name": "To Wood Capture From Gods Room",
             "parent_region": "Gods Room",
-            "connected_region": "Wood Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Wood Capture"
           },
           {
             "name": "To Wood Capture From Pegasus",
             "parent_region": "Pegasus",
-            "connected_region": "Wood Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Wood Capture"
           },
           {
             "name": "To Wood Capture From Blue Maze",
             "parent_region": "Blue Maze",
-            "connected_region": "Wood Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Wood Capture"
           }
         ],
         "exits": [],
@@ -6254,51 +4356,32 @@
           {
             "name": "Ixupi Captured Wood",
             "id": 27045,
-            "crystal": null,
             "access_rule": {
               "type": "helper",
               "name": "wood_capturable",
               "args": []
             },
-            "progress_type": 2,
-            "locked": true,
             "item": {
               "name": "Key for Greenhouse",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Crystal Capture": {
         "name": "Crystal Capture",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Crystal Capture From Lobby",
             "parent_region": "Lobby",
-            "connected_region": "Crystal Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Crystal Capture"
           },
           {
             "name": "To Crystal Capture From Ocean",
             "parent_region": "Ocean",
-            "connected_region": "Crystal Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Crystal Capture"
           }
         ],
         "exits": [],
@@ -6306,51 +4389,32 @@
           {
             "name": "Ixupi Captured Crystal",
             "id": 27046,
-            "crystal": null,
             "access_rule": {
               "type": "helper",
               "name": "crystal_capturable",
               "args": []
             },
-            "progress_type": 2,
-            "locked": true,
             "item": {
               "name": "Wood Pot Bottom",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Sand Capture": {
         "name": "Sand Capture",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Sand Capture From Greenhouse",
             "parent_region": "Greenhouse",
-            "connected_region": "Sand Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Sand Capture"
           },
           {
             "name": "To Sand Capture From Ocean",
             "parent_region": "Ocean",
-            "connected_region": "Sand Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Sand Capture"
           }
         ],
         "exits": [],
@@ -6358,61 +4422,37 @@
           {
             "name": "Ixupi Captured Sand",
             "id": 27047,
-            "crystal": null,
             "access_rule": {
               "type": "helper",
               "name": "sand_capturable",
               "args": []
             },
-            "progress_type": 2,
-            "locked": true,
             "item": {
               "name": "Oil Pot Bottom",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Metal Capture": {
         "name": "Metal Capture",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Metal Capture From Bedroom",
             "parent_region": "Bedroom",
-            "connected_region": "Metal Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Metal Capture"
           },
           {
             "name": "To Metal Capture From Projector Room",
             "parent_region": "Projector Room",
-            "connected_region": "Metal Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Metal Capture"
           },
           {
             "name": "To Metal Capture From Prehistoric",
             "parent_region": "Prehistoric",
-            "connected_region": "Metal Capture",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Metal Capture"
           }
         ],
         "exits": [],
@@ -6420,41 +4460,27 @@
           {
             "name": "Ixupi Captured Metal",
             "id": 27048,
-            "crystal": null,
             "access_rule": {
               "type": "helper",
               "name": "metal_capturable",
               "args": []
             },
-            "progress_type": 2,
-            "locked": true,
             "item": {
               "name": "Lightning Pot Bottom",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Victory": {
         "name": "Victory",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "To Victory",
             "parent_region": "Lobby",
-            "connected_region": "Victory",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Victory"
           }
         ],
         "exits": [],
@@ -6462,25 +4488,18 @@
           {
             "name": "Mystery Solved",
             "id": 27116,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Mt. Pleasant Tribune: 45 year Old Mystery Solved!",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       }
     }
   },
@@ -6501,7 +4520,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6515,7 +4533,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6529,7 +4546,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6543,7 +4559,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6557,7 +4572,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6571,7 +4585,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6585,7 +4598,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6599,7 +4611,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6613,7 +4624,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6627,7 +4637,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6641,7 +4650,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6655,7 +4663,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6669,7 +4676,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6683,7 +4689,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6697,7 +4702,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6711,7 +4715,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6725,7 +4728,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6739,7 +4741,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6753,7 +4754,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6767,7 +4767,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6781,7 +4780,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6795,7 +4793,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6809,7 +4806,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6823,7 +4819,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6837,7 +4832,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6851,7 +4845,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6865,7 +4858,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6879,7 +4871,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6893,7 +4884,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6907,7 +4897,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6921,7 +4910,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6935,7 +4923,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6949,7 +4936,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6963,7 +4949,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6977,7 +4962,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6991,7 +4975,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7005,7 +4988,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7019,7 +5001,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7033,7 +5014,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7047,7 +5027,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7061,7 +5040,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7075,7 +5053,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7089,7 +5066,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7103,7 +5079,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7117,7 +5092,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7131,7 +5105,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7145,7 +5118,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7159,7 +5131,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7173,7 +5144,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7187,7 +5157,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7201,7 +5170,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7215,7 +5183,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -7229,7 +5196,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7243,7 +5209,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7257,7 +5222,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7271,7 +5235,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7285,7 +5248,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7299,7 +5261,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7313,7 +5274,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7327,7 +5287,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7341,7 +5300,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7355,7 +5313,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7369,7 +5326,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7383,7 +5339,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7397,7 +5352,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7411,7 +5365,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7425,7 +5378,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7439,7 +5391,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7453,7 +5404,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7467,7 +5417,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7481,7 +5430,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7495,7 +5443,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7509,7 +5456,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7523,7 +5469,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7537,7 +5482,6 @@
           "Everything"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7551,7 +5495,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7565,7 +5508,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7579,7 +5521,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7593,7 +5534,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7607,7 +5547,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7621,7 +5560,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7635,7 +5573,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7649,7 +5586,6 @@
           "Event"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7663,7 +5599,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7677,7 +5612,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7691,7 +5625,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7705,7 +5638,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7719,7 +5651,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7733,7 +5664,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7747,7 +5677,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7761,7 +5690,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7775,7 +5703,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7789,7 +5716,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7803,7 +5729,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7817,7 +5742,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7831,7 +5755,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7845,7 +5768,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7859,7 +5781,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7873,7 +5794,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7887,7 +5807,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7901,7 +5820,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7915,7 +5833,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7929,7 +5846,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7943,7 +5859,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7957,7 +5872,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7971,7 +5885,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7985,7 +5898,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -7999,7 +5911,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -8013,7 +5924,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -8027,7 +5937,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -8041,7 +5950,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,
@@ -8055,7 +5963,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,

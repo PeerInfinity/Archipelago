@@ -10,17 +10,10 @@
   "world_classes": {
     "1": "ShapezWorld"
   },
-  "plando_options": [
-    "connections",
-    "texts",
-    "bosses"
-  ],
   "regions": {
     "1": {
       "Menu": {
         "name": "Menu",
-        "type": "Region",
-        "player": 1,
         "entrances": [],
         "exits": [
           {
@@ -32,11 +25,7 @@
                 "type": "constant",
                 "value": "Belt"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Extracting shapes from patches",
@@ -46,32 +35,14 @@
               "method": "has_any",
               "args": [
                 {
-                  "type": "list",
+                  "type": "constant",
                   "value": [
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "extractor"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "extractor_chain"
-                    }
+                    "Chaining Extractor",
+                    "Extractor"
                   ]
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Using the wires layer",
@@ -82,11 +53,7 @@
                 "type": "constant",
                 "value": "Wires"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Placing any building",
@@ -96,292 +63,91 @@
               "method": "has_any",
               "args": [
                 {
-                  "type": "list",
+                  "type": "constant",
                   "value": [
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "belt"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "balancer"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "comp_merger"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "comp_splitter"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "tunnel"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "tunnel_tier_ii"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "extractor"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "extractor_chain"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "cutter"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "cutter_quad"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "rotator"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "rotator_ccw"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "rotator_180"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "stacker"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "painter"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "painter_double"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "painter_quad"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "color_mixer"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "trash"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "belt_reader"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "storage"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "switch"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "item_filter"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "display"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "wires"
-                    }
+                    "Balancer",
+                    "Belt",
+                    "Belt Reader",
+                    "Chaining Extractor",
+                    "Color Mixer",
+                    "Compact Merger",
+                    "Compact Splitter",
+                    "Cutter",
+                    "Display",
+                    "Double Painter",
+                    "Extractor",
+                    "Item Filter",
+                    "Painter",
+                    "Quad Cutter",
+                    "Quad Painter",
+                    "Rotator",
+                    "Rotator (180\u00b0)",
+                    "Rotator (CCW)",
+                    "Stacker",
+                    "Storage",
+                    "Switch",
+                    "Trash",
+                    "Tunnel",
+                    "Tunnel Tier II",
+                    "Wires"
                   ]
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "My eyes no longer hurt",
             "id": 20013205,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Switch",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Getting into it",
             "id": 20013229,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Quad Painter",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "GPS",
             "id": 20013249,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Processors Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Shape transportation": {
         "name": "Shape transportation",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Placing belts",
             "parent_region": "Menu",
-            "connected_region": "Shape transportation",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shape transportation"
           }
         ],
         "exits": [],
@@ -389,40 +155,26 @@
           {
             "name": "I need trains",
             "id": 20013247,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Processors Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Shape extraction": {
         "name": "Shape extraction",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Extracting shapes from patches",
             "parent_region": "Menu",
-            "connected_region": "Shape extraction",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shape extraction"
           }
         ],
         "exits": [
@@ -434,40 +186,15 @@
               "method": "has_any",
               "args": [
                 {
-                  "type": "list",
+                  "type": "constant",
                   "value": [
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "belt"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "comp_merger"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "comp_splitter"
-                    }
+                    "Belt",
+                    "Compact Merger",
+                    "Compact Splitter"
                   ]
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Cutting with half cutter",
@@ -477,11 +204,7 @@
               "capability": "cut_half",
               "inferred": true,
               "description": "Requires ability to cut half"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Rotating clockwise",
@@ -492,11 +215,7 @@
                 "type": "constant",
                 "value": "Rotator"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Stacking shapes",
@@ -506,11 +225,7 @@
               "capability": "stack",
               "inferred": true,
               "description": "Requires ability to stack"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Storing shapes",
@@ -521,11 +236,7 @@
                 "type": "constant",
                 "value": "Storage"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Trashing shapes",
@@ -536,32 +247,18 @@
                 "type": "constant",
                 "value": "Trash"
               }
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Main": {
         "name": "Main",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Transporting shapes over the canvas",
             "parent_region": "Shape extraction",
-            "connected_region": "Main",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Main"
           }
         ],
         "exits": [
@@ -573,32 +270,14 @@
               "method": "has_any",
               "args": [
                 {
-                  "type": "list",
+                  "type": "constant",
                   "value": [
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "painter"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "ITEMS"
-                      },
-                      "attr": "painter_double"
-                    }
+                    "Double Painter",
+                    "Painter"
                   ]
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Copying and placing blueprints",
@@ -632,11 +311,7 @@
                   "description": "Requires ability to mix colors"
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Building a MAM",
@@ -646,11 +321,7 @@
               "capability": "build_mam",
               "inferred": true,
               "description": "Requires ability to build mam"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Using all main buildings",
@@ -677,11 +348,7 @@
                   "description": "Requires ability to mix colors"
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Using first level building",
@@ -691,11 +358,7 @@
               "item": "Logic_List_Building",
               "inferred": true,
               "description": "Requires having Logic List Building"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Using first upgrade building",
@@ -705,11 +368,7 @@
               "item": "Logic_List_Building",
               "inferred": true,
               "description": "Requires having Logic List Building"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Delivering unprocessed",
@@ -717,11 +376,7 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Cutting in single half",
@@ -731,11 +386,7 @@
               "capability": "make_half_shape",
               "inferred": true,
               "description": "Requires ability to make half shape"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Cutting in single piece",
@@ -768,11 +419,7 @@
                   }
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Cutting and stacking into two halves",
@@ -782,11 +429,7 @@
               "capability": "make_half_half_shape",
               "inferred": true,
               "description": "Requires ability to make half half shape"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Stitching complex shapes",
@@ -796,11 +439,7 @@
               "capability": "make_stitched_shape",
               "inferred": true,
               "description": "Requires ability to make stitched shape"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Rotating and stitching a single windmill half",
@@ -810,11 +449,7 @@
               "capability": "make_east_windmill",
               "inferred": true,
               "description": "Requires ability to make east windmill"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Painting with a quad painter or stitching",
@@ -835,11 +470,7 @@
                   "description": "Requires ability to use quad painter"
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Why windmill, why?",
@@ -871,11 +502,7 @@
                   ]
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Quad painting a half-half shape",
@@ -907,11 +534,7 @@
                   ]
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           },
           {
             "name": "Quad painting a half shape",
@@ -943,213 +566,159 @@
                   ]
                 }
               ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Level 1",
             "id": 20010710,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 2,
-            "locked": true,
             "item": {
               "name": "Balancer",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 1 Additional",
             "id": 20010707,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 2,
-            "locked": true,
             "item": {
               "name": "Storage",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 2",
             "id": 20010711,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Painting Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 3",
             "id": 20010712,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Belt Upgrade",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Belt Upgrade Tier II",
             "id": 20011209,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Miner Upgrade Tier II",
             "id": 20011708,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Blueprint Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Processors Upgrade Tier II",
             "id": 20012207,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Wires",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Painting Upgrade Tier II",
             "id": 20012706,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Level Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "It's a mess",
             "id": 20013221,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Virtual Processing",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Oops",
             "id": 20013243,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Item Filter",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Levels with 1 building": {
         "name": "Levels with 1 building",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Using first level building",
             "parent_region": "Main",
-            "connected_region": "Levels with 1 building",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Levels with 1 building"
           }
         ],
         "exits": [
@@ -1161,105 +730,75 @@
               "item": "Logic_List_Building",
               "inferred": true,
               "description": "Requires having Logic List Building"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Level 4",
             "id": 20010713,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 5",
             "id": 20010714,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Processors Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 6",
             "id": 20010715,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Belt Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 7",
             "id": 20010716,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Processors Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Levels with 2 buildings": {
         "name": "Levels with 2 buildings",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Using second level building",
             "parent_region": "Levels with 1 building",
-            "connected_region": "Levels with 2 buildings",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Levels with 2 buildings"
           }
         ],
         "exits": [
@@ -1271,105 +810,75 @@
               "item": "Logic_List_Building",
               "inferred": true,
               "description": "Requires having Logic List Building"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Level 8",
             "id": 20010717,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Upgrade Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 9",
             "id": 20010718,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 10",
             "id": 20010719,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Stacker",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 11",
             "id": 20010720,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Painting Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Levels with 3 buildings": {
         "name": "Levels with 3 buildings",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Using third level building",
             "parent_region": "Levels with 2 buildings",
-            "connected_region": "Levels with 3 buildings",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Levels with 3 buildings"
           }
         ],
         "exits": [
@@ -1381,105 +890,75 @@
               "item": "Logic_List_Building",
               "inferred": true,
               "description": "Requires having Logic List Building"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Level 12",
             "id": 20010721,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Level Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 13",
             "id": 20010722,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Belt Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 14",
             "id": 20010723,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Level Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 15",
             "id": 20010724,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Painting Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Levels with 4 buildings": {
         "name": "Levels with 4 buildings",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Using fourth level building",
             "parent_region": "Levels with 3 buildings",
-            "connected_region": "Levels with 4 buildings",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Levels with 4 buildings"
           }
         ],
         "exits": [
@@ -1491,105 +970,75 @@
               "item": "Logic_List_Building",
               "inferred": true,
               "description": "Requires having Logic List Building"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Level 16",
             "id": 20010725,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Processors Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 17",
             "id": 20010726,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Painting Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 18",
             "id": 20010727,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Belt Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 19",
             "id": 20010728,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Levels with 5 buildings": {
         "name": "Levels with 5 buildings",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Using fifth level building",
             "parent_region": "Levels with 4 buildings",
-            "connected_region": "Levels with 5 buildings",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Levels with 5 buildings"
           }
         ],
         "exits": [],
@@ -1597,202 +1046,152 @@
           {
             "name": "Level 20 Additional",
             "id": 20010708,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Belt Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 20 Additional 2",
             "id": 20010709,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Tunnel Tier II",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 20",
             "id": 20010729,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Processors Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 21",
             "id": 20010730,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Processors Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 22",
             "id": 20010731,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Belt Upgrade",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 23",
             "id": 20010732,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Painting Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 24",
             "id": 20010733,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Level 25",
             "id": 20010734,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Belt Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Wires",
             "id": 20013210,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Belt Upgrade",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Goal",
             "id": null,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": true,
             "item": {
               "name": "Goal",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Upgrades with 1 building": {
         "name": "Upgrades with 1 building",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Using first upgrade building",
             "parent_region": "Main",
-            "connected_region": "Upgrades with 1 building",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Upgrades with 1 building"
           }
         ],
         "exits": [
@@ -1804,105 +1203,75 @@
               "item": "Logic_List_Building",
               "inferred": true,
               "description": "Requires having Logic List Building"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Belt Upgrade Tier III",
             "id": 20011210,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Belt Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Miner Upgrade Tier III",
             "id": 20011709,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Processors Upgrade Tier III",
             "id": 20012208,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Processors Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Painting Upgrade Tier III",
             "id": 20012707,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Blueprint Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Upgrades with 2 buildings": {
         "name": "Upgrades with 2 buildings",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Using second upgrade building",
             "parent_region": "Upgrades with 1 building",
-            "connected_region": "Upgrades with 2 buildings",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Upgrades with 2 buildings"
           }
         ],
         "exits": [
@@ -1914,105 +1283,75 @@
               "item": "Logic_List_Building",
               "inferred": true,
               "description": "Requires having Logic List Building"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Belt Upgrade Tier IV",
             "id": 20011211,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Blueprint Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Miner Upgrade Tier IV",
             "id": 20011710,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Upgrade Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Processors Upgrade Tier IV",
             "id": 20012209,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Level Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Painting Upgrade Tier IV",
             "id": 20012708,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Processors Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Upgrades with 3 buildings": {
         "name": "Upgrades with 3 buildings",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Using third upgrade building",
             "parent_region": "Upgrades with 2 buildings",
-            "connected_region": "Upgrades with 3 buildings",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Upgrades with 3 buildings"
           }
         ],
         "exits": [
@@ -2024,123 +1363,89 @@
               "item": "Logic_List_Building",
               "inferred": true,
               "description": "Requires having Logic List Building"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Belt Upgrade Tier V",
             "id": 20011212,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Processors Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Miner Upgrade Tier V",
             "id": 20011711,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Blueprint Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Processors Upgrade Tier V",
             "id": 20012210,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Compact Merger",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Painting Upgrade Tier V",
             "id": 20012709,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Processors Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Faster",
             "id": 20013222,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Upgrades with 4 buildings": {
         "name": "Upgrades with 4 buildings",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Using fourth upgrade building",
             "parent_region": "Upgrades with 3 buildings",
-            "connected_region": "Upgrades with 4 buildings",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Upgrades with 4 buildings"
           }
         ],
         "exits": [
@@ -2152,105 +1457,75 @@
               "item": "Logic_List_Building",
               "inferred": true,
               "description": "Requires having Logic List Building"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Belt Upgrade Tier VI",
             "id": 20011213,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Miner Upgrade Tier VI",
             "id": 20011712,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Belt Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Processors Upgrade Tier VI",
             "id": 20012211,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Upgrade Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Painting Upgrade Tier VI",
             "id": 20012710,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Painter",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Upgrades with 5 buildings": {
         "name": "Upgrades with 5 buildings",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Using fifth upgrade building",
             "parent_region": "Upgrades with 4 buildings",
-            "connected_region": "Upgrades with 5 buildings",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Upgrades with 5 buildings"
           }
         ],
         "exits": [],
@@ -2258,184 +1533,138 @@
           {
             "name": "Belt Upgrade Tier VII",
             "id": 20011214,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Processors Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Miner Upgrade Tier VII",
             "id": 20011713,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Level Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Processors Upgrade Tier VII",
             "id": 20012212,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Chaining Extractor",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Painting Upgrade Tier VII",
             "id": 20012711,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Blueprint Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Belt Upgrade Tier VIII",
             "id": 20011215,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Painting Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Miner Upgrade Tier VIII",
             "id": 20011714,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Rotator (180\u00b0)",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Processors Upgrade Tier VIII",
             "id": 20012213,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Blueprints",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Painting Upgrade Tier VIII",
             "id": 20012712,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Processors Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Even faster",
             "id": 20013223,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Processors Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Achievements with (double) painter": {
         "name": "Achievements with (double) painter",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Painting with (double) painter",
             "parent_region": "Main",
-            "connected_region": "Achievements with (double) painter",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Achievements with (double) painter"
           }
         ],
         "exits": [],
@@ -2443,40 +1672,26 @@
           {
             "name": "Painter",
             "id": 20013206,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Blueprint Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Achievements with half cutter": {
         "name": "Achievements with half cutter",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Cutting with half cutter",
             "parent_region": "Shape extraction",
-            "connected_region": "Achievements with half cutter",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Achievements with half cutter"
           }
         ],
         "exits": [],
@@ -2484,40 +1699,26 @@
           {
             "name": "Cutter",
             "id": 20013207,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Belt Upgrade",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Achievements with clockwise rotator": {
         "name": "Achievements with clockwise rotator",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Rotating clockwise",
             "parent_region": "Shape extraction",
-            "connected_region": "Achievements with clockwise rotator",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Achievements with clockwise rotator"
           }
         ],
         "exits": [],
@@ -2525,40 +1726,26 @@
           {
             "name": "Rotater",
             "id": 20013208,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Painting Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Achievements with stacker": {
         "name": "Achievements with stacker",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Stacking shapes",
             "parent_region": "Shape extraction",
-            "connected_region": "Achievements with stacker",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Achievements with stacker"
           }
         ],
         "exits": [],
@@ -2566,58 +1753,40 @@
           {
             "name": "Wait, they stack?",
             "id": 20013209,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Stack overflow",
             "id": 20013220,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Level Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Achievements with storage": {
         "name": "Achievements with storage",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Storing shapes",
             "parent_region": "Shape extraction",
-            "connected_region": "Achievements with storage",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Achievements with storage"
           }
         ],
         "exits": [],
@@ -2625,40 +1794,26 @@
           {
             "name": "Storage",
             "id": 20013211,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Belt Upgrade",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Achievements with trash": {
         "name": "Achievements with trash",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Trashing shapes",
             "parent_region": "Shape extraction",
-            "connected_region": "Achievements with trash",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Achievements with trash"
           }
         ],
         "exits": [],
@@ -2666,40 +1821,26 @@
           {
             "name": "Get rid of them",
             "id": 20013224,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Painting Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Achievements with blueprints": {
         "name": "Achievements with blueprints",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Copying and placing blueprints",
             "parent_region": "Main",
-            "connected_region": "Achievements with blueprints",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Achievements with blueprints"
           }
         ],
         "exits": [],
@@ -2707,58 +1848,40 @@
           {
             "name": "Now it's easy",
             "id": 20013230,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Copy-Pasta",
             "id": 20013244,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Painting Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Achievements with wires": {
         "name": "Achievements with wires",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Using the wires layer",
             "parent_region": "Menu",
-            "connected_region": "Achievements with wires",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Achievements with wires"
           }
         ],
         "exits": [],
@@ -2766,58 +1889,40 @@
           {
             "name": "Computer Guy",
             "id": 20013231,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Color Mixer",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "The next dimension",
             "id": 20013242,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Achievements with any placeable building": {
         "name": "Achievements with any placeable building",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Placing any building",
             "parent_region": "Menu",
-            "connected_region": "Achievements with any placeable building",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Achievements with any placeable building"
           }
         ],
         "exits": [],
@@ -2825,40 +1930,26 @@
           {
             "name": "Perfectionist",
             "id": 20013241,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Achievements with all main buildings": {
         "name": "Achievements with all main buildings",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Using all main buildings",
             "parent_region": "Main",
-            "connected_region": "Achievements with all main buildings",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Achievements with all main buildings"
           }
         ],
         "exits": [
@@ -2870,213 +1961,159 @@
               "item": "X_Belt_Multiplier",
               "inferred": true,
               "description": "Requires having X Belt Multiplier"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "The logo!",
             "id": 20013213,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "To the moon",
             "id": 20013214,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Processors Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "It's piling up",
             "id": 20013215,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "I'll use it later",
             "id": 20013216,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Constant Signal",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "I've seen that before ...",
             "id": 20013245,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Double Painter",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Memories from the past",
             "id": 20013246,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Tunnel",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Preparing to launch",
             "id": 20013218,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Belt Upgrade",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "SpaceY",
             "id": 20013219,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Processors Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Efficiency 1",
             "id": 20013217,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Painting Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Branding specialist 1",
             "id": 20013236,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Blueprint Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Achievements with x1.6 belt speed": {
         "name": "Achievements with x1.6 belt speed",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Delivering per second with 1.6x belt speed",
             "parent_region": "Achievements with all main buildings",
-            "connected_region": "Achievements with x1.6 belt speed",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Achievements with x1.6 belt speed"
           }
         ],
         "exits": [],
@@ -3084,58 +2121,40 @@
           {
             "name": "Efficiency 2",
             "id": 20013235,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Upgrade Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Branding specialist 2",
             "id": 20013237,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Compact Splitter",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Shapesanity Full Uncolored": {
         "name": "Shapesanity Full Uncolored",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Delivering unprocessed",
             "parent_region": "Main",
-            "connected_region": "Shapesanity Full Uncolored",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Full Uncolored"
           }
         ],
         "exits": [
@@ -3147,87 +2166,61 @@
               "capability": "paint",
               "inferred": true,
               "description": "Requires ability to paint"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Shapesanity 1",
             "id": 20013250,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 2",
             "id": 20013251,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Belt Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 3",
             "id": 20013252,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Blueprint Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Shapesanity Full Painted": {
         "name": "Shapesanity Full Painted",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Painting a full shape",
             "parent_region": "Shapesanity Full Uncolored",
-            "connected_region": "Shapesanity Full Painted",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Full Painted"
           }
         ],
         "exits": [
@@ -3239,51 +2232,33 @@
               "capability": "mix_colors",
               "inferred": true,
               "description": "Requires ability to mix colors"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Shapesanity 22",
             "id": 20013271,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Cutter",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Shapesanity Full Mixed": {
         "name": "Shapesanity Full Mixed",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Mixing colors for a full shape",
             "parent_region": "Shapesanity Full Painted",
-            "connected_region": "Shapesanity Full Mixed",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Full Mixed"
           }
         ],
         "exits": [],
@@ -3291,40 +2266,26 @@
           {
             "name": "Shapesanity 25",
             "id": 20013274,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Belt Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Shapesanity Half Uncolored": {
         "name": "Shapesanity Half Uncolored",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Cutting in single half",
             "parent_region": "Main",
-            "connected_region": "Shapesanity Half Uncolored",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Half Uncolored"
           }
         ],
         "exits": [
@@ -3336,32 +2297,18 @@
               "capability": "paint",
               "inferred": true,
               "description": "Requires ability to paint"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Shapesanity Half Painted": {
         "name": "Shapesanity Half Painted",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Painting a half shape",
             "parent_region": "Shapesanity Half Uncolored",
-            "connected_region": "Shapesanity Half Painted",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Half Painted"
           }
         ],
         "exits": [
@@ -3373,69 +2320,47 @@
               "capability": "mix_colors",
               "inferred": true,
               "description": "Requires ability to mix colors"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Shapesanity 10",
             "id": 20013259,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Belt Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 17",
             "id": 20013266,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Painting Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Shapesanity Half Mixed": {
         "name": "Shapesanity Half Mixed",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Mixing colors for a half shape",
             "parent_region": "Shapesanity Half Painted",
-            "connected_region": "Shapesanity Half Mixed",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Half Mixed"
           }
         ],
         "exits": [],
@@ -3443,58 +2368,40 @@
           {
             "name": "Shapesanity 7",
             "id": 20013256,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Painting Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 20",
             "id": 20013269,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Logic Gates",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Shapesanity Piece Uncolored": {
         "name": "Shapesanity Piece Uncolored",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Cutting in single piece",
             "parent_region": "Main",
-            "connected_region": "Shapesanity Piece Uncolored",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Piece Uncolored"
           }
         ],
         "exits": [
@@ -3506,32 +2413,18 @@
               "capability": "paint",
               "inferred": true,
               "description": "Requires ability to paint"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Shapesanity Piece Painted": {
         "name": "Shapesanity Piece Painted",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Painting a piece shape",
             "parent_region": "Shapesanity Piece Uncolored",
-            "connected_region": "Shapesanity Piece Painted",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Piece Painted"
           }
         ],
         "exits": [
@@ -3543,87 +2436,61 @@
               "capability": "mix_colors",
               "inferred": true,
               "description": "Requires ability to mix colors"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Shapesanity 13",
             "id": 20013262,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Quad Cutter",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 14",
             "id": 20013263,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Upgrade Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 24",
             "id": 20013273,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Upgrade Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Shapesanity Piece Mixed": {
         "name": "Shapesanity Piece Mixed",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Mixing colors for a piece shape",
             "parent_region": "Shapesanity Piece Painted",
-            "connected_region": "Shapesanity Piece Mixed",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Piece Mixed"
           }
         ],
         "exits": [],
@@ -3631,76 +2498,54 @@
           {
             "name": "Shapesanity 8",
             "id": 20013257,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 9",
             "id": 20013258,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Belt Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 18",
             "id": 20013267,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Painting Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Shapesanity Stitched Uncolored": {
         "name": "Shapesanity Stitched Uncolored",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Stitching complex shapes",
             "parent_region": "Main",
-            "connected_region": "Shapesanity Stitched Uncolored",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Stitched Uncolored"
           }
         ],
         "exits": [
@@ -3712,51 +2557,33 @@
               "capability": "paint",
               "inferred": true,
               "description": "Requires ability to paint"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Shapesanity 36",
             "id": 20013285,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Blueprint Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Shapesanity Stitched Painted": {
         "name": "Shapesanity Stitched Painted",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Painting a stitched shape",
             "parent_region": "Shapesanity Stitched Uncolored",
-            "connected_region": "Shapesanity Stitched Painted",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Stitched Painted"
           }
         ],
         "exits": [
@@ -3768,177 +2595,131 @@
               "capability": "mix_colors",
               "inferred": true,
               "description": "Requires ability to mix colors"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Shapesanity 11",
             "id": 20013260,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 12",
             "id": 20013261,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Display",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 19",
             "id": 20013268,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 21",
             "id": 20013270,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 23",
             "id": 20013272,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Belt Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 29",
             "id": 20013278,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 31",
             "id": 20013280,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Processors Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 32",
             "id": 20013281,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Processors Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Shapesanity Stitched Mixed": {
         "name": "Shapesanity Stitched Mixed",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Mixing colors for a stitched shape",
             "parent_region": "Shapesanity Stitched Painted",
-            "connected_region": "Shapesanity Stitched Mixed",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Stitched Mixed"
           }
         ],
         "exits": [],
@@ -3946,328 +2727,250 @@
           {
             "name": "Shapesanity 6",
             "id": 20013255,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Upgrade Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 15",
             "id": 20013264,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 27",
             "id": 20013276,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Processors Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 30",
             "id": 20013279,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 33",
             "id": 20013282,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Painting Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 34",
             "id": 20013283,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Belt Reader",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 35",
             "id": 20013284,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Rotator",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 38",
             "id": 20013287,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Level Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 40",
             "id": 20013289,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Belt Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 41",
             "id": 20013290,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 42",
             "id": 20013291,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Belt Upgrade",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 43",
             "id": 20013292,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Processors Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 44",
             "id": 20013293,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Trash",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 45",
             "id": 20013294,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Level Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 46",
             "id": 20013295,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 47",
             "id": 20013296,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Painting Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 48",
             "id": 20013297,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Painting Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Shapesanity East Windmill Uncolored": {
         "name": "Shapesanity East Windmill Uncolored",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Rotating and stitching a single windmill half",
             "parent_region": "Main",
-            "connected_region": "Shapesanity East Windmill Uncolored",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity East Windmill Uncolored"
           }
         ],
         "exits": [
@@ -4279,51 +2982,33 @@
               "capability": "paint",
               "inferred": true,
               "description": "Requires ability to paint"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Shapesanity 4",
             "id": 20013253,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Belt Upgrade",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Shapesanity East Windmill Painted": {
         "name": "Shapesanity East Windmill Painted",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Painting a east windmill shape",
             "parent_region": "Shapesanity East Windmill Uncolored",
-            "connected_region": "Shapesanity East Windmill Painted",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity East Windmill Painted"
           }
         ],
         "exits": [
@@ -4335,51 +3020,33 @@
               "capability": "mix_colors",
               "inferred": true,
               "description": "Requires ability to mix colors"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
         "locations": [
           {
             "name": "Shapesanity 16",
             "id": 20013265,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Processors Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Shapesanity East Windmill Mixed": {
         "name": "Shapesanity East Windmill Mixed",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Mixing colors for a east windmill shape",
             "parent_region": "Shapesanity East Windmill Painted",
-            "connected_region": "Shapesanity East Windmill Mixed",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity East Windmill Mixed"
           }
         ],
         "exits": [],
@@ -4387,40 +3054,26 @@
           {
             "name": "Shapesanity 5",
             "id": 20013254,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Processors Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Shapesanity Half-Half Uncolored": {
         "name": "Shapesanity Half-Half Uncolored",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Cutting and stacking into two halves",
             "parent_region": "Main",
-            "connected_region": "Shapesanity Half-Half Uncolored",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Half-Half Uncolored"
           }
         ],
         "exits": [
@@ -4432,32 +3085,18 @@
               "capability": "paint",
               "inferred": true,
               "description": "Requires ability to paint"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Shapesanity Half-Half Painted": {
         "name": "Shapesanity Half-Half Painted",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Painting a half-half shape",
             "parent_region": "Shapesanity Half-Half Uncolored",
-            "connected_region": "Shapesanity Half-Half Painted",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Half-Half Painted"
           }
         ],
         "exits": [
@@ -4469,32 +3108,18 @@
               "capability": "mix_colors",
               "inferred": true,
               "description": "Requires ability to mix colors"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Shapesanity Half-Half Mixed": {
         "name": "Shapesanity Half-Half Mixed",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Mixing colors for a half-half shape",
             "parent_region": "Shapesanity Half-Half Painted",
-            "connected_region": "Shapesanity Half-Half Mixed",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Half-Half Mixed"
           }
         ],
         "exits": [],
@@ -4502,40 +3127,26 @@
           {
             "name": "Shapesanity 37",
             "id": 20013286,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Upgrade Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Shapesanity Colorful East Windmill Uncolored": {
         "name": "Shapesanity Colorful East Windmill Uncolored",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Why windmill, why?",
             "parent_region": "Main",
-            "connected_region": "Shapesanity Colorful East Windmill Uncolored",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Colorful East Windmill Uncolored"
           }
         ],
         "exits": [
@@ -4547,32 +3158,18 @@
               "capability": "paint",
               "inferred": true,
               "description": "Requires ability to paint"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Shapesanity Colorful East Windmill Painted": {
         "name": "Shapesanity Colorful East Windmill Painted",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Painting a colorful east windmill shape",
             "parent_region": "Shapesanity Colorful East Windmill Uncolored",
-            "connected_region": "Shapesanity Colorful East Windmill Painted",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Colorful East Windmill Painted"
           }
         ],
         "exits": [
@@ -4584,32 +3181,18 @@
               "capability": "mix_colors",
               "inferred": true,
               "description": "Requires ability to mix colors"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Shapesanity Colorful Half-Half Uncolored": {
         "name": "Shapesanity Colorful Half-Half Uncolored",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Quad painting a half-half shape",
             "parent_region": "Main",
-            "connected_region": "Shapesanity Colorful Half-Half Uncolored",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Colorful Half-Half Uncolored"
           }
         ],
         "exits": [
@@ -4621,32 +3204,18 @@
               "capability": "paint",
               "inferred": true,
               "description": "Requires ability to paint"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Shapesanity Colorful Half-Half Painted": {
         "name": "Shapesanity Colorful Half-Half Painted",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Painting a colorful half-half shape",
             "parent_region": "Shapesanity Colorful Half-Half Uncolored",
-            "connected_region": "Shapesanity Colorful Half-Half Painted",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Colorful Half-Half Painted"
           }
         ],
         "exits": [
@@ -4658,32 +3227,18 @@
               "capability": "mix_colors",
               "inferred": true,
               "description": "Requires ability to mix colors"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Shapesanity Colorful Half-Half Mixed": {
         "name": "Shapesanity Colorful Half-Half Mixed",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Mixing colors for a colorful half-half shape",
             "parent_region": "Shapesanity Colorful Half-Half Painted",
-            "connected_region": "Shapesanity Colorful Half-Half Mixed",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Colorful Half-Half Mixed"
           }
         ],
         "exits": [],
@@ -4691,58 +3246,40 @@
           {
             "name": "Shapesanity 49",
             "id": 20013298,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Miner Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 50",
             "id": 20013299,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Small Painting Upgrade",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Shapesanity Colorful Full Uncolored": {
         "name": "Shapesanity Colorful Full Uncolored",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Painting with a quad painter or stitching",
             "parent_region": "Main",
-            "connected_region": "Shapesanity Colorful Full Uncolored",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Colorful Full Uncolored"
           }
         ],
         "exits": [
@@ -4754,32 +3291,18 @@
               "capability": "paint",
               "inferred": true,
               "description": "Requires ability to paint"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Shapesanity Colorful Full Painted": {
         "name": "Shapesanity Colorful Full Painted",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Painting a colorful full shape",
             "parent_region": "Shapesanity Colorful Full Uncolored",
-            "connected_region": "Shapesanity Colorful Full Painted",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Colorful Full Painted"
           }
         ],
         "exits": [
@@ -4791,32 +3314,18 @@
               "capability": "mix_colors",
               "inferred": true,
               "description": "Requires ability to mix colors"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Shapesanity Colorful Full Mixed": {
         "name": "Shapesanity Colorful Full Mixed",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Mixing colors for a colorful full shape",
             "parent_region": "Shapesanity Colorful Full Painted",
-            "connected_region": "Shapesanity Colorful Full Mixed",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Colorful Full Mixed"
           }
         ],
         "exits": [],
@@ -4824,76 +3333,54 @@
           {
             "name": "Shapesanity 26",
             "id": 20013275,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Blueprint Shapes Bundle",
               "player": 1,
               "advancement": false,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 28",
             "id": 20013277,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Big Belt Upgrade",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           },
           {
             "name": "Shapesanity 39",
             "id": 20013288,
-            "crystal": null,
             "access_rule": {
               "type": "constant",
               "value": true
             },
-            "progress_type": 1,
-            "locked": false,
             "item": {
               "name": "Rotator (CCW)",
               "player": 1,
               "advancement": true,
-              "priority": null,
               "type": "None"
             }
           }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        ]
       },
       "Shapesanity Colorful Half Uncolored": {
         "name": "Shapesanity Colorful Half Uncolored",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Quad painting a half shape",
             "parent_region": "Main",
-            "connected_region": "Shapesanity Colorful Half Uncolored",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Colorful Half Uncolored"
           }
         ],
         "exits": [
@@ -4905,32 +3392,18 @@
               "capability": "paint",
               "inferred": true,
               "description": "Requires ability to paint"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       },
       "Shapesanity Colorful Half Painted": {
         "name": "Shapesanity Colorful Half Painted",
-        "type": "Region",
-        "player": 1,
         "entrances": [
           {
             "name": "Painting a colorful half shape",
             "parent_region": "Shapesanity Colorful Half Uncolored",
-            "connected_region": "Shapesanity Colorful Half Painted",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
+            "connected_region": "Shapesanity Colorful Half Painted"
           }
         ],
         "exits": [
@@ -4942,17 +3415,10 @@
               "capability": "mix_colors",
               "inferred": true,
               "description": "Requires ability to mix colors"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
+            }
           }
         ],
-        "locations": [],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
+        "locations": []
       }
     }
   },
@@ -4976,7 +3442,6 @@
           "Processing Buildings"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -4992,7 +3457,6 @@
           "Processing Buildings"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5009,7 +3473,6 @@
           "Processing Buildings"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5025,7 +3488,6 @@
           "Processing Buildings"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5040,7 +3502,6 @@
           "Processing Buildings"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5057,7 +3518,6 @@
           "Processing Buildings"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5074,7 +3534,6 @@
           "Processing Buildings"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5090,7 +3549,6 @@
           "Processing Buildings"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5106,7 +3564,6 @@
           "Processing Buildings"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5123,7 +3580,6 @@
           "Processing Buildings"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5138,7 +3594,6 @@
           "Most Useful Buildings"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5153,7 +3608,6 @@
           "Most Useful Buildings"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5168,7 +3622,6 @@
           "Most Useful Buildings"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5183,7 +3636,6 @@
           "Most Useful Buildings"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5198,7 +3650,6 @@
           "Most Useful Buildings"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -5213,7 +3664,6 @@
           "Most Useful Buildings"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5228,7 +3678,6 @@
           "Most Useful Buildings"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -5243,7 +3692,6 @@
           "Top Row Buildings"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -5258,7 +3706,6 @@
           "Top Row Buildings"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5274,7 +3721,6 @@
           "Top Row Buildings"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5289,7 +3735,6 @@
           "Top Row Buildings"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -5304,7 +3749,6 @@
           "Top Row Buildings"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -5321,7 +3765,6 @@
           "Wires Layer Buildings"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5337,7 +3780,6 @@
           "Wires Layer Buildings"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5352,7 +3794,6 @@
           "Wires Layer Buildings"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -5367,7 +3808,6 @@
           "Wires Layer Buildings"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -5382,7 +3822,6 @@
           "Gameplay Mechanics"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5398,7 +3837,6 @@
           "Upgrades"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5414,7 +3852,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -5430,7 +3867,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -5446,7 +3882,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": true,
         "trap": false,
         "event": false,
@@ -5462,7 +3897,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5478,7 +3912,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5494,7 +3927,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5510,7 +3942,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5526,7 +3957,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5542,7 +3972,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5558,7 +3987,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5574,7 +4002,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5590,7 +4017,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5606,7 +4032,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5622,7 +4047,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5638,7 +4062,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5653,7 +4076,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5668,7 +4090,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5685,7 +4106,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5702,7 +4122,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5719,7 +4138,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5736,7 +4154,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5753,7 +4170,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5770,7 +4186,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5787,7 +4202,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5804,7 +4218,6 @@
           "Upgrades"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5819,7 +4232,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5834,7 +4246,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5849,7 +4260,6 @@
           "Everything"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5864,7 +4274,6 @@
           "Traps"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5879,7 +4288,6 @@
           "Traps"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5894,7 +4302,6 @@
           "Traps"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5909,7 +4316,6 @@
           "Traps"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5924,7 +4330,6 @@
           "Traps"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5939,7 +4344,6 @@
           "Traps"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5954,7 +4358,6 @@
           "Traps"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5969,7 +4372,6 @@
           "Traps"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5984,7 +4386,6 @@
           "Traps"
         ],
         "advancement": false,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -5998,8 +4399,7 @@
           "Everything",
           "Most Important Buildings"
         ],
-        "advancement": false,
-        "priority": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6013,8 +4413,7 @@
           "Everything",
           "Most Important Buildings"
         ],
-        "advancement": false,
-        "priority": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -6028,7 +4427,6 @@
           "Event"
         ],
         "advancement": true,
-        "priority": false,
         "useful": false,
         "trap": false,
         "event": true,

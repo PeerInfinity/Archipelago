@@ -265,6 +265,15 @@ export class StateManager {
           this.inventory[itemName] = 0;
         }
       }
+      // Also clear virtual progression items (items that exist in inventory but not in itemData)
+      // These are items created by progression_mapping (e.g., "rep" in Bomb Rush Cyberfunk)
+      if (this.progressionMapping) {
+        for (const virtualItemName in this.progressionMapping) {
+          if (virtualItemName in this.inventory) {
+            this.inventory[virtualItemName] = 0;
+          }
+        }
+      }
     }
     this._logDebug('[StateManager Class] Inventory cleared.');
 
@@ -283,10 +292,27 @@ export class StateManager {
 
   clearState(options = { recomputeAndSendUpdate: true }) {
     // Re-initialize inventory - canonical format: reset all items to 0
-    if (this.inventory && this.itemData) {
-      for (const itemName in this.itemData) {
-        if (Object.hasOwn(this.itemData, itemName)) {
+    if (this.inventory) {
+      // First, clear all items currently in inventory (including unknown/event items)
+      for (const itemName in this.inventory) {
+        if (Object.hasOwn(this.inventory, itemName)) {
           this.inventory[itemName] = 0;
+        }
+      }
+
+      // Also ensure all items in itemData are set to 0 (in case they weren't in inventory yet)
+      if (this.itemData) {
+        for (const itemName in this.itemData) {
+          if (Object.hasOwn(this.itemData, itemName)) {
+            this.inventory[itemName] = 0;
+          }
+        }
+      }
+
+      // Also ensure virtual progression items are cleared
+      if (this.progressionMapping) {
+        for (const virtualItemName in this.progressionMapping) {
+          this.inventory[virtualItemName] = 0;
         }
       }
     } else if (!this.inventory) {
@@ -336,6 +362,46 @@ export class StateManager {
       this._logDebug(
         '[StateManager Class] clearState recomputing and sending snapshot.'
       );
+      this.computeReachableRegions();
+      this._sendSnapshotUpdate();
+    }
+  }
+
+  /**
+   * Removes all event items from inventory while preserving other state.
+   * Useful for testing scenarios where you want to reset auto-collected events
+   * without clearing manually collected items or checked locations.
+   * Also unchecks event locations so they can be checked again during testing.
+   */
+  clearEventItems(options = { recomputeAndSendUpdate: true }) {
+    if (!this.inventory || !this.itemData) {
+      this._logDebug('[StateManager] Cannot clear event items: inventory or itemData not available');
+      return;
+    }
+
+    // Remove all event items from inventory and uncheck their locations
+    for (const itemName in this.itemData) {
+      if (this.itemData[itemName]?.event || this.itemData[itemName]?.type === 'Event') {
+        if (this.inventory[itemName] > 0) {
+          this._logDebug(`[StateManager] Clearing event item: ${itemName}`);
+          this.inventory[itemName] = 0;
+        }
+      }
+    }
+
+    // Uncheck all event locations so they can be checked again during testing
+    if (this.eventLocations) {
+      for (const eventLocation of this.eventLocations.values()) {
+        if (this.checkedLocations.has(eventLocation.name)) {
+          this._logDebug(`[StateManager] Unchecking event location: ${eventLocation.name}`);
+          this.checkedLocations.delete(eventLocation.name);
+        }
+      }
+    }
+
+    this.invalidateCache();
+
+    if (options.recomputeAndSendUpdate) {
       this.computeReachableRegions();
       this._sendSnapshotUpdate();
     }
@@ -1407,18 +1473,10 @@ export class StateManager {
         continueSearching = false;
         passCount++;
 
-        // Debug logging for A Hat in Time
-        if (this.rules?.game_name === 'A Hat in Time' || this.rules?.game_directory === 'ahit') {
-          console.log(`[BFS] Starting pass ${passCount}`);
-        }
-
         // Process reachability with BFS
         const newlyReachable = this.runBFSPass();
         if (newlyReachable) {
           continueSearching = true;
-          if (this.rules?.game_name === 'A Hat in Time' || this.rules?.game_directory === 'ahit') {
-            console.log(`[BFS] Pass ${passCount} found new regions, will continue`);
-          }
         }
 
         // Auto-collect events - MODIFIED: Make conditional
@@ -1501,6 +1559,7 @@ export class StateManager {
         snapshotInterfaceContext.parent_region = this.regions[fromRegion];
         // Set currentExit so get_entrance can detect self-references
         snapshotInterfaceContext.currentExit = exit.name;
+
         const ruleEvaluationResult = exit.access_rule
           ? this.evaluateRuleFromEngine(
             exit.access_rule,
@@ -1509,12 +1568,6 @@ export class StateManager {
           : true; // No rule means true
 
         const canTraverse = !exit.access_rule || ruleEvaluationResult;
-
-        // Debug Time Rift connections
-        if ((this.rules?.game_name === 'A Hat in Time' || this.rules?.game_directory === 'ahit') &&
-          targetRegion && targetRegion.includes('Time Rift')) {
-          console.log(`[BFS] Evaluating ${fromRegion} -> ${targetRegion} (${exit.name}): canTraverse=${canTraverse}`);
-        }
 
         // +++ DETAILED LOGGING FOR RULE EVALUATION +++
         //if (exit.name === 'GameStart' || fromRegion === 'Menu') {
@@ -1534,12 +1587,6 @@ export class StateManager {
           this.knownReachableRegions.add(targetRegion);
           newRegionsFound = true;
           newConnection = true; // Signal that we found a new connection
-
-          // Debug logging for A Hat in Time Time Rifts
-          if ((this.rules?.game_name === 'A Hat in Time' || this.rules?.game_directory === 'ahit') &&
-            (targetRegion.includes('Time Rift') || targetRegion === 'The Golden Vault' || targetRegion === 'Picture Perfect')) {
-            console.log(`[BFS] NEW REGION: ${targetRegion} (from ${fromRegion} via ${exit.name})`);
-          }
 
           // Remove from blocked connections
           this.blockedConnections.delete(connection);
@@ -2325,6 +2372,16 @@ export class StateManager {
   }
 
   /**
+   * Check if a region can be reached (Python CollectionState.can_reach_region equivalent)
+   * @param {string} region - Region name to check
+   * @param {number} player - Player number (defaults to this.playerSlot)
+   * @returns {boolean} True if region is reachable
+   */
+  can_reach_region(region, player = this.playerSlot) {
+    return this.can_reach(region, 'Region', player);
+  }
+
+  /**
    * Set debug mode for detailed logging
    * @param {boolean|string} mode - true for basic debug, 'ultra' for verbose, false to disable
    */
@@ -2422,19 +2479,6 @@ export class StateManager {
 
       if (!hasIncomingPaths) {
         log('info', '  No incoming paths found.');
-      }
-
-      // Check region's own rules if any
-      if (region.region_rules && region.region_rules.length > 0) {
-        log(
-          'info',
-          `\n${regionName} has ${region.region_rules.length} region rules:`
-        );
-        region.region_rules.forEach((rule, i) => {
-          const ruleResult = this.evaluateRuleFromEngine(rule);
-          log('info', `- Rule #${i + 1}: ${ruleResult ? 'PASSES' : 'FAILS'}`);
-          this.debugRuleEvaluation(rule);
-        });
       }
 
       // Check path from stateManager
@@ -2792,7 +2836,44 @@ export class StateManager {
         if (name === 'player') return self.playerSlot;
 
         // World object (commonly used in helper functions)
-        if (name === 'world') return 'world'; // Return a placeholder string for now
+        if (name === 'world') {
+          return {
+            player: self.playerSlot,
+            options: self.settings?.[self.playerSlot] || self.settings || {}
+          };
+        }
+
+        // Logic object (game-specific helper functions)
+        if (name === 'logic') {
+          // Get game-specific helpers from the game logic module
+          const gameName = self.rules?.game_name;
+          if (gameName) {
+            const gameLogic = getGameLogic(gameName);
+            if (gameLogic && gameLogic.helperFunctions) {
+              // Create a logic object with all helper functions bound to receive (snapshot, staticData, ...args)
+              // Note: We create the snapshot/staticData lazily inside each function to avoid recursion
+              const logicObject = {};
+
+              for (const [helperName, helperFunction] of Object.entries(gameLogic.helperFunctions)) {
+                logicObject[helperName] = (...args) => {
+                  // Create a lightweight snapshot for the helper
+                  // We can't call getSnapshot() here because it might trigger recursion
+                  // Instead, create a minimal snapshot object
+                  const snapshot = {
+                    inventory: { ...self.inventory },
+                    flags: self.gameStateModule?.flags || [],
+                    events: self.gameStateModule?.events || [],
+                    checkedLocations: Array.from(self.checkedLocations || [])
+                  };
+                  const staticData = self.getStaticGameData();
+                  return helperFunction(snapshot, staticData, ...args);
+                };
+              }
+              return logicObject;
+            }
+          }
+          return undefined;
+        }
 
         // Current location being evaluated (for location access rules)
         if (name === 'location') return anInterface.currentLocation;
@@ -3051,6 +3132,20 @@ export class StateManager {
    * Helper function to add items to canonical inventory
    */
   _addItemToInventory(itemName, count = 1) {
+    // Skip virtual progression counter items with type="additive" (e.g., "rep" in Bomb Rush Cyberfunk)
+    // These are managed automatically by progression_mapping when their component items are added
+    // DO NOT skip level-based progressive items (e.g., "Progressive Sword") - those should be added normally
+    if (this.progressionMapping && itemName in this.progressionMapping) {
+      const mapping = this.progressionMapping[itemName];
+      if (mapping && mapping.type === 'additive') {
+        this._logDebug(
+          `[StateManager] Skipping additive progression counter "${itemName}" - it's managed by progression_mapping`
+        );
+        return;
+      }
+      // If it's not additive (e.g., level-based like Progressive Sword), continue to add it normally
+    }
+
     // Canonical format: plain object
     if (!(itemName in this.inventory)) {
       log('warn', `[StateManager] Adding unknown item: ${itemName}`);
@@ -3062,6 +3157,22 @@ export class StateManager {
     const maxCount = itemDef?.max_count ?? Infinity;
 
     this.inventory[itemName] = Math.min(currentCount + count, maxCount);
+
+    // Handle progression mapping (e.g., REP items in Bomb Rush Cyberfunk)
+    if (this.progressionMapping) {
+      for (const [virtualItemName, mapping] of Object.entries(this.progressionMapping)) {
+        if (mapping.type === 'additive' && mapping.items && itemName in mapping.items) {
+          const valueToAdd = mapping.items[itemName] * count;
+          if (!(virtualItemName in this.inventory)) {
+            this.inventory[virtualItemName] = 0;
+          }
+          this.inventory[virtualItemName] += valueToAdd;
+          this._logDebug(
+            `[StateManager] Progression mapping: Added ${valueToAdd} to "${virtualItemName}" from "${itemName}"`
+          );
+        }
+      }
+    }
   }
 
   /**
@@ -3082,6 +3193,21 @@ export class StateManager {
     this._logDebug(
       `[StateManager] _removeItemFromInventory: "${itemName}" count changed from ${currentCount} to ${newCount}`
     );
+
+    // Handle progression mapping removal (e.g., REP items in Bomb Rush Cyberfunk)
+    if (this.progressionMapping) {
+      for (const [virtualItemName, mapping] of Object.entries(this.progressionMapping)) {
+        if (mapping.type === 'additive' && mapping.items && itemName in mapping.items) {
+          const valueToRemove = mapping.items[itemName] * count;
+          if (virtualItemName in this.inventory) {
+            this.inventory[virtualItemName] = Math.max(0, this.inventory[virtualItemName] - valueToRemove);
+            this._logDebug(
+              `[StateManager] Progression mapping: Removed ${valueToRemove} from "${virtualItemName}" due to "${itemName}"`
+            );
+          }
+        }
+      }
+    }
   }
 
   /**
@@ -3120,6 +3246,81 @@ export class StateManager {
    */
   _hasGroup(groupName) {
     return this._countGroup(groupName) > 0;
+  }
+
+  /**
+   * Check if the inventory has any of the specified items
+   * @param {Array<string>} items - Array of item names to check
+   * @returns {boolean} - True if at least one of the items is in inventory
+   */
+  has_any(items) {
+    if (!Array.isArray(items)) {
+      this._logDebug('[has_any] Argument is not an array:', items);
+      return false;
+    }
+    const result = items.some(itemName => {
+      const hasIt = this._hasItem(itemName);
+      this._logDebug(`[has_any] Checking ${itemName}: ${hasIt} (inventory count: ${this.inventory[itemName] || 0})`);
+      return hasIt;
+    });
+    this._logDebug(`[has_any] Final result for ${JSON.stringify(items)}: ${result}`);
+    return result;
+  }
+
+  /**
+   * Check if the inventory has all of the specified items
+   * @param {Array<string>} items - Array of item names to check
+   * @returns {boolean} - True if all of the items are in inventory
+   */
+  has_all(items) {
+    if (!Array.isArray(items)) {
+      return false;
+    }
+    return items.every(itemName => this._hasItem(itemName));
+  }
+
+  /**
+   * Check if the inventory has all of the specified items with counts
+   * @param {Object} itemCounts - Object mapping item names to required counts
+   * @returns {boolean} - True if all items meet or exceed their required counts
+   */
+  has_all_counts(itemCounts) {
+    if (typeof itemCounts !== 'object' || itemCounts === null) {
+      return false;
+    }
+    for (const [itemName, requiredCount] of Object.entries(itemCounts)) {
+      if (this._countItem(itemName) < requiredCount) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Check if the inventory has at least n items from a list
+   * Used by ChecksFinder - returns true if at least n items from the list are in inventory
+   * @param {Array<string>} items - Array of item names to check
+   * @param {number} count - Minimum number of items required
+   * @returns {boolean} - True if at least count items from the list are in inventory
+   * @updated 2025-10-06T05:16:00Z
+   */
+  has_from_list(items, count) {
+    if (!Array.isArray(items)) {
+      console.warn('[has_from_list] First argument is not an array:', items);
+      return false;
+    }
+    if (typeof count !== 'number' || count < 0) {
+      console.warn('[has_from_list] Count is not a valid number:', count);
+      return false;
+    }
+
+    // Count how many items from the list we have
+    let itemsFound = 0;
+    for (const itemName of items) {
+      itemsFound += (this._countItem(itemName) || 0);
+    }
+
+    return itemsFound >= count;
   }
 
   applyRuntimeState(payload) {
@@ -3637,6 +3838,7 @@ export class StateManager {
     return {
       game_name: this.rules?.game_name,
       game_directory: this.rules?.game_directory,
+      playerId: String(this.playerSlot),
       locations: this.locations,
       regions: this.regions,
       exits: this.exits,

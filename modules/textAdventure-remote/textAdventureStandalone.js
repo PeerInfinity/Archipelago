@@ -31,6 +31,8 @@ export class TextAdventureStandalone {
         this.messageHistory = [];
         this.messageHistoryLimit = 10;
         this.discoveryMode = false;
+        this.lastDisplayedRegion = null; // Track last displayed region to prevent duplicates
+        this.pendingLocationChecks = new Map(); // Track locations waiting for state update: locationName -> timeoutId
         
         
         this.initialize();
@@ -185,81 +187,76 @@ Load a rules file in the main application to begin your adventure.`;
         logger.info('Rules loaded in iframe');
         this.clearDisplay();
         this.displayMessage('Rules loaded! Your adventure begins');
-        
-        // Wait a moment then display current region
-        setTimeout(() => {
-            this.displayCurrentRegion();
-        }, 100);
+
+        // Region display is handled by playerState:regionChanged events, no need to display here
     }
 
     handleRegionChange(data) {
         logger.info('Region changed:', data);
-        this.displayCurrentRegion();
+
+        // Only display if the region is different from the last one we displayed
+        // This prevents duplicate messages when sync events fire
+        if (data && data.newRegion && data.newRegion !== this.lastDisplayedRegion) {
+            this.lastDisplayedRegion = data.newRegion;
+            this.displayCurrentRegion();
+        } else {
+            logger.debug('Skipping region display - already displayed this region');
+        }
     }
 
     handleStateChange(data) {
-        // Normal state change, redisplay current region to show updated location status
-        logger.debug('State changed, redisplaying current region to show updated status');
-        // Don't automatically redisplay here to avoid multiple region messages
-        // Let the one-time event listener in waitForStateUpdateThenDisplayRegion handle it
+        // Normal state change, check if any pending location checks are satisfied
+        logger.debug('State changed, checking pending location checks');
+
+        const snapshot = data.snapshot || data;
+        if (!snapshot || !snapshot.checkedLocations) {
+            logger.debug('No checked locations in snapshot');
+            return;
+        }
+
+        // Check if any pending locations are now in the state
+        for (const [locationName, timeoutId] of this.pendingLocationChecks.entries()) {
+            if (snapshot.checkedLocations.includes(locationName)) {
+                logger.debug(`Pending location ${locationName} found in state update, displaying region`);
+
+                // Clear the timeout
+                clearTimeout(timeoutId);
+
+                // Remove from pending
+                this.pendingLocationChecks.delete(locationName);
+
+                // Display the region
+                this.displayCurrentRegion();
+
+                // Only handle the first one
+                break;
+            }
+        }
     }
 
     waitForStateUpdateThenDisplayRegion(locationName) {
         logger.debug(`Waiting for state update after checking location ${locationName}`);
-        
-        // Flag to ensure we only display region once
-        let hasDisplayed = false;
-        
-        // Use one-time event listener approach like original textAdventure module
-        const onStateUpdate = (eventData) => {
-            // Skip if we've already displayed the region
-            if (hasDisplayed) {
-                logger.debug(`Already displayed region for ${locationName}, skipping duplicate event`);
-                return;
-            }
-            
-            logger.debug(`Received state update event, checking for ${locationName}`, eventData);
-            const snapshot = eventData.snapshot || eventData;
-            
-            if (snapshot && snapshot.checkedLocations && snapshot.checkedLocations.includes(locationName)) {
-                logger.debug(`Location ${locationName} found in state update, displaying region`);
-                hasDisplayed = true; // Set flag before displaying
-                this.displayCurrentRegion();
-                // Clean up the listener after use (note: unsubscribe not fully implemented in iframe context)
-                try {
-                    this.eventBus.unsubscribe('stateManager:snapshotUpdated', onStateUpdate);
-                } catch (error) {
-                    logger.debug('Unsubscribe not implemented in iframe eventBus, ignoring error');
-                }
-            } else {
-                logger.debug(`Location ${locationName} not yet in state update, keeping listener active`, {
-                    hasSnapshot: !!snapshot,
-                    hasCheckedLocations: !!(snapshot && snapshot.checkedLocations),
-                    checkedLocations: snapshot?.checkedLocations || 'none'
-                });
-            }
-        };
-        
-        // Subscribe to the next state update
-        this.eventBus.subscribe('stateManager:snapshotUpdated', onStateUpdate, 'textAdventureStandalone-oneTime');
-        
-        // Request fresh state snapshot to trigger the update
-        this.client.requestStateSnapshot();
-        
-        // Fallback timeout in case the state update doesn't include our location
-        setTimeout(() => {
-            if (!hasDisplayed) {
+
+        // If already waiting for this location, don't add it again
+        if (this.pendingLocationChecks.has(locationName)) {
+            logger.debug(`Already waiting for location ${locationName}`);
+            return;
+        }
+
+        // Set up a timeout as fallback in case the state update doesn't include our location
+        const timeoutId = setTimeout(() => {
+            if (this.pendingLocationChecks.has(locationName)) {
                 logger.warn(`Timeout waiting for ${locationName} to appear in state, displaying region anyway`);
-                hasDisplayed = true;
+                this.pendingLocationChecks.delete(locationName);
                 this.displayCurrentRegion();
-            }
-            // Clean up the listener
-            try {
-                this.eventBus.unsubscribe('stateManager:snapshotUpdated', onStateUpdate);
-            } catch (error) {
-                logger.debug('Unsubscribe not implemented in iframe eventBus, ignoring error');
             }
         }, 2000);
+
+        // Add to pending checks (will be handled by handleStateChange)
+        this.pendingLocationChecks.set(locationName, timeoutId);
+
+        // Request fresh state snapshot to trigger the update
+        this.client.requestStateSnapshot();
     }
 
     handleCommand() {
@@ -342,14 +339,8 @@ Load a rules file in the main application to begin your adventure.`;
         switch (command.type) {
             case 'move':
                 response = this.handleRegionMove(command.target);
-                // For successful moves, display region immediately after
-                if (response && !response.includes('blocked') && !response.includes('Cannot determine')) {
-                    logger.debug(`Successful move completed, displaying current region. Response: "${response}"`);
-                    // Display region immediately after response message
-                    setTimeout(() => {
-                        this.displayCurrentRegion();
-                    }, 10); // Very short delay to ensure response message is displayed first
-                }
+                // Region display is handled by handleRegionChange event, so don't display the move message
+                response = null;
                 break;
                 
             case 'check':
