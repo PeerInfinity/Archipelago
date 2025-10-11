@@ -56,8 +56,11 @@ class ALttPGameExportHandler(BaseGameExportHandler): # Ensure correct inheritanc
             'item_name_in_location_names',
             'tr_big_key_chest_keys_needed',
             'location_item_name',
-            # If we encounter orig_rule, that means something is probably wrong.
-            # Currently, it appears in the item_rule entries, which aren't included in the json file
+            # Added in postprocess_rule
+            'can_defeat_boss',
+            'can_reach_region',
+            'can_take_damage',
+            # This function doesn't appear in the final export, but we get warning messages if we remove it from this list
             'orig_rule', 
         }
 
@@ -441,6 +444,9 @@ class ALttPGameExportHandler(BaseGameExportHandler): # Ensure correct inheritanc
 
         # Treasure Hunt Required
         settings_dict['treasure_hunt_required'] = getattr(world, 'treasure_hunt_required', 0) # Default 0
+
+        # Can Take Damage (world attribute, default True)
+        settings_dict['can_take_damage'] = getattr(world, 'can_take_damage', True)
 
         # Difficulty requirements
         if hasattr(world, 'difficulty_requirements'):
