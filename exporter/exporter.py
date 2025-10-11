@@ -95,12 +95,11 @@ def get_world_directory_name(game_name: str) -> str:
         logger.error(f"Error finding world directory for game '{game_name}': {e}")
         return game_name.lower().replace(' ', '_').replace(':', '_')
 
-# --- Configuration for Excluded Fields --- 
+# --- Configuration for Excluded Fields ---
 # Add keys here to exclude them from the final JSON output (e.g., to reduce size)
 # This applies recursively to nested structures.
 EXCLUDED_FIELDS = {
     'item_rule',
-    'boss',
     #'entrances',
 }
 
@@ -560,26 +559,12 @@ def process_regions(multiworld, player: int, game_handler=None) -> tuple:
                     dungeon_data = {
                         'name': dungeon_name,
                         'regions': [],
-                        'boss': None,
                         'medallion_check': None
                     }
-                    
+
                     if hasattr(region.dungeon, 'regions'):
                         dungeon_data['regions'] = [r.name for r in region.dungeon.regions]
-                    
-                    # Handle single boss
-                    if hasattr(region.dungeon, 'boss') and region.dungeon.boss:
-                        dungeon_data['boss'] = {
-                            'name': getattr(region.dungeon.boss, 'name', None),
-                            'defeat_rule': safe_expand_rule(
-                                game_handler,
-                                getattr(region.dungeon.boss, 'defeat_rule', None),
-                                getattr(region.dungeon.boss, 'name', None),
-                                target_type='Boss',
-                                world=world
-                            )
-                        }
-                    
+
                     # Handle multiple bosses (e.g., Ganon's Tower has bosses['bottom'], bosses['middle'], bosses['top'])
                     if hasattr(region.dungeon, 'bosses') and region.dungeon.bosses:
                         dungeon_data['bosses'] = {}
@@ -595,7 +580,7 @@ def process_regions(multiworld, player: int, game_handler=None) -> tuple:
                                         world=world
                                     )
                                 }
-                    
+
                     if hasattr(region.dungeon, 'medallion_check'):
                         dungeon_data['medallion_check'] = safe_expand_rule(
                             game_handler,
@@ -604,7 +589,7 @@ def process_regions(multiworld, player: int, game_handler=None) -> tuple:
                             target_type='DungeonMedallion',
                             world=world
                         )
-                    
+
                     dungeons_data[dungeon_name] = dungeon_data
 
         # Second pass - process all regions

@@ -12,6 +12,10 @@
       "type": "string",
       "description": "The name of the game."
     },
+    "game_directory": {
+      "type": "string",
+      "description": "The world directory name for the game."
+    },
     "archipelago_version": {
       "type": "string",
       "description": "Version of Archipelago used to generate the game."
@@ -42,11 +46,10 @@
       "patternProperties": {
         "^[0-9]+$": {
           "type": "object",
-          "description": "Region definitions for a player, keyed by region name. Must include a 'Menu' region.",
+          "description": "Region definitions for a player, keyed by region name. Typically includes a 'Menu' region.",
           "patternProperties": {
             "^.*$": { "$ref": "#/$defs/region" }
           },
-          "required": ["Menu"],
           "additionalProperties": false
         }
       },
@@ -268,11 +271,11 @@
           "description": "Test condition for 'conditional'."
         },
         "if_true": {
-          "$ref": "#/$defs/rule",
+          "oneOf": [{ "$ref": "#/$defs/rule" }, { "type": "null" }],
           "description": "Result if test is true for 'conditional'."
         },
         "if_false": {
-          "$ref": "#/$defs/rule",
+          "oneOf": [{ "$ref": "#/$defs/rule" }, { "type": "null" }],
           "description": "Result if test is false for 'conditional'."
         },
         "condition": {
@@ -440,9 +443,13 @@
           "items": { "type": "string" },
           "description": "List of region names belonging to this dungeon."
         },
-        "boss": {
-          "$ref": "#/$defs/boss",
-          "description": "Boss definition for this dungeon."
+        "bosses": {
+          "type": "object",
+          "description": "Boss definitions for this dungeon, keyed by boss position (e.g., 'bottom', 'middle', 'top'). For single-boss dungeons, a single key like 'boss' or 'main' may be used.",
+          "patternProperties": {
+            "^.*$": { "$ref": "#/$defs/boss" }
+          },
+          "additionalProperties": false
         },
         "medallion_check": {
           "oneOf": [{ "$ref": "#/$defs/rule" }, { "type": "null" }],
@@ -467,8 +474,16 @@
       "properties": {
         "name": { "type": "string" },
         "id": {
-          "type": ["integer", "null"],
-          "description": "Archipelago Item ID."
+          "oneOf": [
+            { "type": "integer" },
+            { "type": "null" },
+            {
+              "type": "array",
+              "items": { "type": "integer" },
+              "description": "Array of Archipelago Item IDs for composite items."
+            }
+          ],
+          "description": "Archipelago Item ID. Can be a single integer, null, or an array of integers for composite items like pendants and crystals."
         },
         "groups": { "type": "array", "items": { "type": "string" } },
         "advancement": { "type": "boolean" },
