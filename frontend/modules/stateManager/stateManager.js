@@ -10,8 +10,9 @@ import { createStateSnapshotInterface } from '../shared/stateInterface.js';
 // Import universal logger for consistent logging across contexts
 import { createUniversalLogger } from '../../app/core/universalLogger.js';
 
-// Import initialization module
+// Import core modules
 import * as InitializationModule from './core/initialization.js';
+import * as InventoryModule from './core/inventoryManager.js';
 
 // Create module-level logger
 const moduleLogger = createUniversalLogger('stateManager');
@@ -217,25 +218,6 @@ export class StateManager {
     }
   }
 
-  /**
-   * DEPRECATED: Legacy inventory initialization method.
-   * Use _createInventoryInstance() for canonical format instead.
-   */
-  initializeInventory(
-    gameName,
-    items,
-    progressionMapping,
-    itemData,
-    groupData
-  ) {
-    // Use canonical format for all games
-    this.inventory = this._createInventoryInstance(gameName);
-    this.itemData = itemData; // Store for convenience
-    this.groupData = groupData; // Store groupData
-
-    log('info', `[StateManager] Initialized canonical inventory for game: ${gameName}`);
-  }
-
   registerUICallback(name, callback) {
     this._uiCallbacks[name] = callback;
   }
@@ -256,36 +238,7 @@ export class StateManager {
   }
 
   clearInventory() {
-    // Canonical format: reset all items to 0
-    if (this.inventory && this.itemData) {
-      for (const itemName in this.itemData) {
-        if (Object.hasOwn(this.itemData, itemName)) {
-          this.inventory[itemName] = 0;
-        }
-      }
-      // Also clear virtual progression items (items that exist in inventory but not in itemData)
-      // These are items created by progression_mapping (e.g., "rep" in Bomb Rush Cyberfunk)
-      if (this.progressionMapping) {
-        for (const virtualItemName in this.progressionMapping) {
-          if (virtualItemName in this.inventory) {
-            this.inventory[virtualItemName] = 0;
-          }
-        }
-      }
-    }
-    this._logDebug('[StateManager Class] Inventory cleared.');
-
-    // Only invalidate cache and recompute if NOT in batch mode
-    if (!this._batchMode) {
-      this.invalidateCache();
-      this.computeReachableRegions(); // Recompute first
-      // this._publishEvent('inventoryChanged'); // Snapshot update implies this
-    } else {
-      this._logDebug(
-        '[StateManager Class] clearInventory: In batch mode, deferring cache invalidation and recomputation.'
-      );
-      this.invalidateCache(); // Still need to invalidate cache for batch commit to know to recompute
-    }
+    InventoryModule.clearInventory(this);
   }
 
   clearState(options = { recomputeAndSendUpdate: true }) {
@@ -409,112 +362,25 @@ export class StateManager {
    * Adds an item and notifies all registered callbacks
    */
   addItemToInventory(itemName, count = 1) {
-    if (!this._batchMode) {
-      // Non-batch mode: Apply immediately and update
-      if (this.inventory) {
-        // REFACTOR: Use format-agnostic helper
-        this._addItemToInventory(itemName, count);
-        this._logDebug(
-          `[StateManager] addItemToInventory: Added "${itemName}" x${count} (canonical format)`
-        );
-        this.invalidateCache(); // Adding an item can change reachability
-        this._sendSnapshotUpdate(); // Send a new snapshot
-      } else {
-        this._logDebug(
-          `[StateManager] addItemToInventory: Inventory not available for "${itemName}"`,
-          null,
-          'warn'
-        );
-      }
-    } else {
-      // Batch mode: Record the item update for later processing by commitBatchUpdate
-      this._logDebug(
-        `[StateManager] addItemToInventory: Batching item "${itemName}" with count ${count}`
-      );
-      const currentBatchedCount = this._batchedUpdates.get(itemName) || 0;
-      this._batchedUpdates.set(itemName, currentBatchedCount + count);
-      // DO NOT call this.inventory.addItem() here directly.
-      // DO NOT call invalidateCache() or _sendSnapshotUpdate() here directly.
-    }
+    InventoryModule.addItemToInventory(this, itemName, count);
   }
 
   /**
    * Removes items from the player's inventory
    */
   removeItemFromInventory(itemName, count = 1) {
-    if (!this._batchMode) {
-      // Non-batch mode: Apply immediately and update
-      if (this.inventory) {
-        // Use format-agnostic helper
-        this._removeItemFromInventory(itemName, count);
-        this._logDebug(
-          `[StateManager] removeItemFromInventory: Removed "${itemName}" x${count} (canonical format)`
-        );
-        this.invalidateCache(); // Removing items can change reachability
-        this._sendSnapshotUpdate(); // Send a new snapshot
-      } else {
-        this._logDebug(
-          `[StateManager] removeItemFromInventory: Inventory not available for "${itemName}"`,
-          null,
-          'warn'
-        );
-      }
-    } else {
-      // Batch mode: Record the item update for later processing by commitBatchUpdate
-      this._logDebug(
-        `[StateManager] removeItemFromInventory: Batching item removal "${itemName}" with count ${count}`
-      );
-      const currentBatchedCount = this._batchedUpdates.get(itemName) || 0;
-      this._batchedUpdates.set(itemName, currentBatchedCount - count);
-      // DO NOT call invalidateCache() or _sendSnapshotUpdate() here directly.
-    }
+    InventoryModule.removeItemFromInventory(this, itemName, count);
   }
 
   /**
    * Adds an item to the player's inventory by its name.
    */
   addItemToInventoryByName(itemName, count = 1, fromServer = false) {
-    if (!itemName) {
-      this._logDebug(
-        '[StateManager addItemToInventoryByName] Attempted to add null or undefined item.',
-        null,
-        'warn'
-      );
-      return;
-    }
-
-    this._logDebug(
-      `[StateManager addItemToInventoryByName] Attempting to add: ${itemName}, Count: ${count}, FromServer: ${fromServer}`
-    );
-
-    // Use format-agnostic helper method that works with both legacy and canonical formats
-    this._addItemToInventory(itemName, count);
-    this._logDebug(
-      `[StateManager addItemToInventoryByName] Added ${count} of "${itemName}" using format-agnostic method.`
-    );
-
-    // Publish events and update state
-    this._publishEvent('stateManager:inventoryItemAdded', {
-      itemName,
-      count,
-      currentInventory: this.inventory, // Canonical format is always a plain object
-    });
-    this.invalidateCache(); // Adding items can change reachability
-    this._sendSnapshotUpdate(); // Send a new snapshot
-
-    // If the item is an event item and settings indicate auto-checking event locations
-    const itemDetails = this.itemData[itemName];
-    if (
-      itemDetails &&
-      itemDetails.event &&
-      this.settings?.gameSpecific?.auto_check_event_locations
-    ) {
-      this.checkEventLocation(itemName); // Check the corresponding event location
-    }
+    InventoryModule.addItemToInventoryByName(this, itemName, count, fromServer);
   }
 
   getItemCount(itemName) {
-    return this._countItem(itemName);
+    return InventoryModule.getItemCount(this, itemName);
   }
 
   /**
@@ -531,15 +397,6 @@ export class StateManager {
    */
   loadFromJSON(jsonData, selectedPlayerId) {
     InitializationModule.loadFromJSON(this, jsonData, selectedPlayerId);
-  }
-
-  // --- ADDED: Helper for inventory initialization ---
-  _initializeInventory(startingItems, itemData, playerId) {
-    // This method should be implemented to initialize the inventory based on the given starting items, item data, and player ID
-    // You might want to call this.initializeInventory(startingItems, itemData, playerId) from the main loadFromJSON method
-    // or implement it separately if needed.
-    // For example, you can use this method to add items based on the itempool_counts,
-    // or to handle any other specific initialization logic for the inventory.
   }
 
   getLocationItem(locationName) {
@@ -2404,200 +2261,45 @@ export class StateManager {
 
   // REMOVED: Legacy inventory migration - now always canonical
 
-  /**
-   * Helper function to add items to canonical inventory
-   */
+  // Delegate inventory helper methods to InventoryModule
   _addItemToInventory(itemName, count = 1) {
-    // Skip virtual progression counter items with type="additive" (e.g., "rep" in Bomb Rush Cyberfunk)
-    // These are managed automatically by progression_mapping when their component items are added
-    // DO NOT skip level-based progressive items (e.g., "Progressive Sword") - those should be added normally
-    if (this.progressionMapping && itemName in this.progressionMapping) {
-      const mapping = this.progressionMapping[itemName];
-      if (mapping && mapping.type === 'additive') {
-        this._logDebug(
-          `[StateManager] Skipping additive progression counter "${itemName}" - it's managed by progression_mapping`
-        );
-        return;
-      }
-      // If it's not additive (e.g., level-based like Progressive Sword), continue to add it normally
-    }
-
-    // Canonical format: plain object
-    if (!(itemName in this.inventory)) {
-      log('warn', `[StateManager] Adding unknown item: ${itemName}`);
-      this.inventory[itemName] = 0;
-    }
-
-    const currentCount = this.inventory[itemName];
-    const itemDef = this.itemData[itemName];
-    const maxCount = itemDef?.max_count ?? Infinity;
-
-    this.inventory[itemName] = Math.min(currentCount + count, maxCount);
-
-    // Handle progression mapping (e.g., REP items in Bomb Rush Cyberfunk)
-    if (this.progressionMapping) {
-      for (const [virtualItemName, mapping] of Object.entries(this.progressionMapping)) {
-        if (mapping.type === 'additive' && mapping.items && itemName in mapping.items) {
-          const valueToAdd = mapping.items[itemName] * count;
-          if (!(virtualItemName in this.inventory)) {
-            this.inventory[virtualItemName] = 0;
-          }
-          this.inventory[virtualItemName] += valueToAdd;
-          this._logDebug(
-            `[StateManager] Progression mapping: Added ${valueToAdd} to "${virtualItemName}" from "${itemName}"`
-          );
-        }
-      }
-    }
+    return InventoryModule._addItemToInventory(this, itemName, count);
   }
 
-  /**
-   * Helper function to remove items from canonical inventory
-   */
   _removeItemFromInventory(itemName, count = 1) {
-    // Canonical format: plain object
-    if (!(itemName in this.inventory)) {
-      this._logDebug(`[StateManager] Attempting to remove unknown item: ${itemName}`, null, 'warn');
-      return;
-    }
-
-    const currentCount = this.inventory[itemName];
-    const newCount = Math.max(0, currentCount - count);
-
-    this.inventory[itemName] = newCount;
-
-    this._logDebug(
-      `[StateManager] _removeItemFromInventory: "${itemName}" count changed from ${currentCount} to ${newCount}`
-    );
-
-    // Handle progression mapping removal (e.g., REP items in Bomb Rush Cyberfunk)
-    if (this.progressionMapping) {
-      for (const [virtualItemName, mapping] of Object.entries(this.progressionMapping)) {
-        if (mapping.type === 'additive' && mapping.items && itemName in mapping.items) {
-          const valueToRemove = mapping.items[itemName] * count;
-          if (virtualItemName in this.inventory) {
-            this.inventory[virtualItemName] = Math.max(0, this.inventory[virtualItemName] - valueToRemove);
-            this._logDebug(
-              `[StateManager] Progression mapping: Removed ${valueToRemove} from "${virtualItemName}" due to "${itemName}"`
-            );
-          }
-        }
-      }
-    }
+    return InventoryModule._removeItemFromInventory(this, itemName, count);
   }
 
-  /**
-   * Helper function to check items in canonical inventory
-   */
   _hasItem(itemName) {
-    return (this.inventory[itemName] || 0) > 0;
+    return InventoryModule.hasItem(this, itemName);
   }
 
-  /**
-   * Helper function to count items in canonical inventory
-   */
   _countItem(itemName) {
-    return this.inventory[itemName] || 0;
+    return InventoryModule.countItem(this, itemName);
   }
 
-  /**
-   * Helper function to count groups in canonical inventory
-   */
   _countGroup(groupName) {
-    // In canonical format, inventory is a plain object, so we need to manually count group items
-    let count = 0;
-    if (this.itemData) {
-      for (const itemName in this.itemData) {
-        const itemInfo = this.itemData[itemName];
-        if (itemInfo?.groups?.includes(groupName)) {
-          const itemCount = this.inventory[itemName] || 0;
-          count += itemCount;
-        }
-      }
-    }
-    return count;
+    return InventoryModule.countGroup(this, groupName);
   }
 
-  /**
-   * Helper function to check if group has items in canonical inventory
-   */
   _hasGroup(groupName) {
-    return this._countGroup(groupName) > 0;
+    return InventoryModule.hasGroup(this, groupName);
   }
 
-  /**
-   * Check if the inventory has any of the specified items
-   * @param {Array<string>} items - Array of item names to check
-   * @returns {boolean} - True if at least one of the items is in inventory
-   */
   has_any(items) {
-    if (!Array.isArray(items)) {
-      this._logDebug('[has_any] Argument is not an array:', items);
-      return false;
-    }
-    const result = items.some(itemName => {
-      const hasIt = this._hasItem(itemName);
-      this._logDebug(`[has_any] Checking ${itemName}: ${hasIt} (inventory count: ${this.inventory[itemName] || 0})`);
-      return hasIt;
-    });
-    this._logDebug(`[has_any] Final result for ${JSON.stringify(items)}: ${result}`);
-    return result;
+    return InventoryModule.has_any(this, items);
   }
 
-  /**
-   * Check if the inventory has all of the specified items
-   * @param {Array<string>} items - Array of item names to check
-   * @returns {boolean} - True if all of the items are in inventory
-   */
   has_all(items) {
-    if (!Array.isArray(items)) {
-      return false;
-    }
-    return items.every(itemName => this._hasItem(itemName));
+    return InventoryModule.has_all(this, items);
   }
 
-  /**
-   * Check if the inventory has all of the specified items with counts
-   * @param {Object} itemCounts - Object mapping item names to required counts
-   * @returns {boolean} - True if all items meet or exceed their required counts
-   */
   has_all_counts(itemCounts) {
-    if (typeof itemCounts !== 'object' || itemCounts === null) {
-      return false;
-    }
-    for (const [itemName, requiredCount] of Object.entries(itemCounts)) {
-      if (this._countItem(itemName) < requiredCount) {
-        return false;
-      }
-    }
-    return true;
+    return InventoryModule.has_all_counts(this, itemCounts);
   }
 
-  /**
-   * Check if the inventory has at least n items from a list
-   * Used by ChecksFinder - returns true if at least n items from the list are in inventory
-   * @param {Array<string>} items - Array of item names to check
-   * @param {number} count - Minimum number of items required
-   * @returns {boolean} - True if at least count items from the list are in inventory
-   * @updated 2025-10-06T05:16:00Z
-   */
   has_from_list(items, count) {
-    if (!Array.isArray(items)) {
-      console.warn('[has_from_list] First argument is not an array:', items);
-      return false;
-    }
-    if (typeof count !== 'number' || count < 0) {
-      console.warn('[has_from_list] Count is not a valid number:', count);
-      return false;
-    }
-
-    // Count how many items from the list we have
-    let itemsFound = 0;
-    for (const itemName of items) {
-      itemsFound += (this._countItem(itemName) || 0);
-    }
-
-    return itemsFound >= count;
+    return InventoryModule.has_from_list(this, items, count);
   }
 
   applyRuntimeState(payload) {
@@ -2879,19 +2581,6 @@ export class StateManager {
   _createInventoryInstance(gameName) {
     // Delegated to initialization module - kept as private method for compatibility
     return InitializationModule.createInventoryInstance(this, gameName);
-  }
-
-  initializeInventory(selectedPlayerId, startingItems) {
-    // Inventory is a canonical plain object created by _createInventoryInstance
-    this._logDebug(
-      `[StateManager initializeInventory] Using canonical inventory format for game: ${this.settings.game}`
-    );
-
-    if (!this.inventory) {
-      this._logError(
-        '[StateManager initializeInventory CRITICAL] this.inventory is null/undefined before processing items!'
-      );
-    }
   }
 
   /**
