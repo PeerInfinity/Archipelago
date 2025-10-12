@@ -15,6 +15,7 @@ import * as InitializationModule from './core/initialization.js';
 import * as InventoryModule from './core/inventoryManager.js';
 import * as ReachabilityModule from './core/reachabilityEngine.js';
 import * as StatePersistenceModule from './core/statePersistence.js';
+import * as LocationCheckingModule from './core/locationChecking.js';
 
 // Create module-level logger
 const moduleLogger = createUniversalLogger('stateManager');
@@ -513,10 +514,8 @@ export class StateManager {
    * Check if a location has been marked as checked
    */
   isLocationChecked(locationName) {
-    return this.checkedLocations.has(locationName);
+    return LocationCheckingModule.isLocationChecked(this, locationName);
   }
-
-
 
   /**
    * Mark a location as checked
@@ -524,97 +523,14 @@ export class StateManager {
    * @param {boolean} addItems - Whether to add the location's item to inventory (default: true)
    */
   checkLocation(locationName, addItems = true) {
-    let locationWasActuallyChecked = false;
-
-    // First check if location is already checked
-    if (this.checkedLocations.has(locationName)) {
-      this._logDebug(`[StateManager Class] Location ${locationName} is already checked, ignoring.`);
-
-      // Publish event to notify UI that location check was rejected due to already being checked
-      this._publishEvent('locationCheckRejected', {
-        locationName: locationName,
-        reason: 'already_checked'
-      });
-    } else {
-      // Find the location data
-      const location = this.locations.get(locationName);
-      if (!location) {
-        this._logDebug(`[StateManager Class] Location ${locationName} not found in locations data.`);
-
-        // Publish event to notify UI that location check was rejected due to location not found
-        this._publishEvent('locationCheckRejected', {
-          locationName: locationName,
-          reason: 'location_not_found'
-        });
-      } else {
-        // Validate that the location is accessible before checking
-        if (!this.isLocationAccessible(location)) {
-          this._logDebug(`[StateManager Class] Location ${locationName} is not accessible, cannot check.`);
-
-          // Publish event to notify UI that location check was rejected due to inaccessibility
-          this._publishEvent('locationCheckRejected', {
-            locationName: locationName,
-            reason: 'not_accessible'
-          });
-        } else {
-          // Location is accessible, proceed with checking
-          this.checkedLocations.add(locationName);
-          this._logDebug(`[StateManager Class] Checked location: ${locationName}`);
-          locationWasActuallyChecked = true;
-
-          // --- ADDED: Grant item from location (if addItems is true) --- >
-          if (addItems && location && location.item && typeof location.item.name === 'string') {
-            this._logDebug(
-              `[StateManager Class] Location ${locationName} contains item: ${location.item.name}`
-            );
-            this._addItemToInventory(location.item.name, 1);
-            this._logDebug(
-              `[StateManager Class] Added ${location.item.name} to inventory.`
-            );
-            // Potentially trigger an event for item acquisition if needed by other systems
-            // this._publishEvent('itemAcquired', { itemName: location.item.name, locationName });
-          } else if (addItems && location && location.item) {
-            this._logDebug(
-              `[StateManager Class] Location ${locationName} has an item, but item.name is not a string: ${JSON.stringify(
-                location.item
-              )}`
-            );
-          } else if (addItems) {
-            this._logDebug(
-              `[StateManager Class] Location ${locationName} has no item or location data is incomplete.`
-            );
-          } else {
-            this._logDebug(
-              `[StateManager Class] Location ${locationName} marked as checked without adding items (addItems=false).`
-            );
-          }
-          // --- END ADDED --- >
-
-          this.invalidateCache();
-        }
-      }
-    }
-
-    // Always send a snapshot update so the UI knows the operation completed
-    // This ensures pending states are cleared even if the location wasn't actually checked
-    this._sendSnapshotUpdate();
+    LocationCheckingModule.checkLocation(this, locationName, addItems);
   }
 
   /**
    * Clear all checked locations
    */
   clearCheckedLocations(options = { sendUpdate: true }) {
-    if (this.checkedLocations && this.checkedLocations.size > 0) {
-      // Ensure checkedLocations exists
-      this.checkedLocations.clear();
-      this._logDebug('[StateManager Class] Cleared checked locations.');
-      this._publishEvent('checkedLocationsCleared');
-      if (options.sendUpdate) {
-        this._sendSnapshotUpdate();
-      }
-    } else if (!this.checkedLocations) {
-      this.checkedLocations = new Set(); // Initialize if it was null/undefined
-    }
+    LocationCheckingModule.clearCheckedLocations(this, options);
   }
 
   /**
@@ -1617,15 +1533,7 @@ export class StateManager {
   }
 
   setAutoCollectEventsConfig(enabled) {
-    this.autoCollectEventsEnabled = enabled;
-    this.logger.info(
-      `[StateManager] Setting autoCollectEventsEnabled to: ${enabled}`
-    );
-    // If disabling, it might be necessary to re-evaluate reachability without auto-collection.
-    // For testing, this is usually paired with a state clear/reset before tests.
-    // If enabling, a re-computation might pick up pending events.
-    this.invalidateCache(); // Invalidate cache as this changes a core behavior
-    this._sendSnapshotUpdate(); // Send update if state might have changed due to this setting
+    LocationCheckingModule.setAutoCollectEventsConfig(this, enabled);
   }
 
   /**
