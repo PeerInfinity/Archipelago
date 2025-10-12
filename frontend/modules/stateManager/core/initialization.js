@@ -81,7 +81,6 @@ export function loadFromJSON(stateManager, jsonData, selectedPlayerId) {
   processStartingItems(sm, jsonData, selectedPlayerId);
 
   // Compute initial reachability
-  sm.enhanceLocationsWithStaticRules();
   sm.buildIndirectConnections();
   sm.computeReachableRegions();
 

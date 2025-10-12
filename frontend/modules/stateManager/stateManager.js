@@ -13,6 +13,7 @@ import { createUniversalLogger } from '../../app/core/universalLogger.js';
 // Import core modules
 import * as InitializationModule from './core/initialization.js';
 import * as InventoryModule from './core/inventoryManager.js';
+import * as ReachabilityModule from './core/reachabilityEngine.js';
 
 // Create module-level logger
 const moduleLogger = createUniversalLogger('stateManager');
@@ -427,484 +428,51 @@ export class StateManager {
     return null;
   }
 
-  /**
-   * Processes location data to attach static rule objects directly for faster evaluation.
-   */
-  enhanceLocationsWithStaticRules() {
-    // Implementation of enhanceLocationsWithStaticRules method
-  }
-
-  /**
-   * Build indirect connections map similar to Python implementation
-   * Identifies exits that depend on regions in their access rules
-   */
+  // Delegate reachability helper methods to ReachabilityModule
   buildIndirectConnections() {
-    this.indirectConnections.clear();
-    if (!this.regions) return;
-    Object.values(this.regions).forEach((region) => {
-      if (!region.exits) return;
-      region.exits.forEach((exit) => {
-        if (exit.rule) {
-          const dependencies = this.findRegionDependencies(exit.rule);
-          dependencies.forEach((depRegionName) => {
-            if (!this.indirectConnections.has(depRegionName)) {
-              this.indirectConnections.set(depRegionName, new Set());
-            }
-            if (exit.name) {
-              this.indirectConnections.get(depRegionName).add(exit.name);
-            }
-          });
-        }
-      });
-    });
+    return ReachabilityModule.buildIndirectConnections(this);
   }
 
-  /**
-   * Find regions that a rule depends on through can_reach state methods
-   */
   findRegionDependencies(rule) {
-    const dependencies = new Set();
-    if (!rule) return dependencies;
-    if (typeof rule === 'string') {
-      if (this.regions && this.regions[rule]) {
-        dependencies.add(rule);
-      } else {
-        const match = rule.match(/@helper\/[^\(]+\(([^\)]+)\)/);
-        if (match && match[1]) {
-          const args = match[1].split(/,\s*/);
-          args.forEach((arg) => {
-            const cleanArg = arg.replace(/['"]/g, '');
-            if (this.regions && this.regions[cleanArg]) {
-              dependencies.add(cleanArg);
-            }
-          });
-        }
-      }
-    } else if (Array.isArray(rule)) {
-      rule.forEach((subRule) => {
-        this.findRegionDependencies(subRule).forEach((dep) =>
-          dependencies.add(dep)
-        );
-      });
-    } else if (typeof rule === 'object') {
-      Object.values(rule).forEach((subRule) => {
-        this.findRegionDependencies(subRule).forEach((dep) =>
-          dependencies.add(dep)
-        );
-      });
-    }
-    return dependencies;
+    return ReachabilityModule.findRegionDependencies(this, rule);
   }
 
   invalidateCache() {
-    this.cacheValid = false;
-    this.knownReachableRegions.clear();
-    this.knownUnreachableRegions.clear();
-    this.path = new Map();
-    this.blockedConnections = new Set();
-    this._logDebug('[StateManager Instance] Cache invalidated.');
+    return ReachabilityModule.invalidateCache(this);
   }
 
-  /**
-   * Core pathfinding logic: determines which regions are reachable
-   * Closely mirrors Python's update_reachable_regions method
-   * Also handles automatic collection of event items
-   */
+  // Delegate BFS core methods to ReachabilityModule
   computeReachableRegions() {
-    // For custom inventories, don't use the cache
-    const useCache = this.cacheValid;
-    if (useCache) {
-      return this.knownReachableRegions;
-    }
-
-    // Recursion protection
-    if (this._computing) {
-      return this.knownReachableRegions;
-    }
-
-    this._computing = true;
-
-    try {
-      // Get start regions and initialize BFS
-      const startRegions = this.getStartRegions();
-
-      // Safety check: ensure startRegions is an array
-      if (!Array.isArray(startRegions)) {
-        log('error', '[StateManager] computeReachableRegions: startRegions is not an array:', typeof startRegions, startRegions);
-        throw new Error(`startRegions must be an array, got ${typeof startRegions}`);
-      }
-
-      // Initialize path tracking
-      this.path.clear();
-      this.blockedConnections.clear();
-
-      // Initialize reachable regions with start regions
-      this.knownReachableRegions = new Set(startRegions);
-
-      // Add exits from start regions to blocked connections
-      for (const startRegion of startRegions) {
-        const region = this.regions[startRegion];
-        if (region && region.exits) {
-          // Add all exits from this region to blocked connections
-          for (const exit of region.exits) {
-            this.blockedConnections.add({
-              fromRegion: startRegion,
-              exit: exit,
-            });
-          }
-        }
-      }
-
-      // Start BFS process
-      let continueSearching = true;
-      let passCount = 0;
-
-      while (continueSearching) {
-        continueSearching = false;
-        passCount++;
-
-        // Process reachability with BFS
-        const newlyReachable = this.runBFSPass();
-        if (newlyReachable) {
-          continueSearching = true;
-        }
-
-        // Auto-collect events - MODIFIED: Make conditional
-        let newEventCollected = false;
-        if (this.autoCollectEventsEnabled) {
-          for (const loc of this.eventLocations.values()) {
-            if (this.knownReachableRegions.has(loc.region)) {
-              const canAccessLoc = this.isLocationAccessible(loc);
-              if (canAccessLoc && !this._hasItem(loc.item.name)) {
-                this._addItemToInventory(loc.item.name, 1);
-                this.checkedLocations.add(loc.name);
-                newEventCollected = true;
-                continueSearching = true;
-                this._logDebug(
-                  `Auto-collected event item: ${loc.item.name} from ${loc.name}`
-                );
-              }
-            }
-          }
-        }
-
-        // If no new regions or events were found, we're done
-        if (!continueSearching) {
-          break;
-        }
-      }
-
-      // Finalize unreachable regions set
-      this.knownUnreachableRegions = new Set(
-        Object.keys(this.regions).filter(
-          (region) => !this.knownReachableRegions.has(region)
-        )
-      );
-
-      this.cacheValid = true;
-    } finally {
-      this._computing = false;
-    }
-
-    return this.knownReachableRegions;
+    return ReachabilityModule.computeReachableRegions(this);
   }
 
-  /**
-   * Run a single BFS pass to find reachable regions
-   * Implements Python's _update_reachable_regions_auto_indirect_conditions approach
-   */
   runBFSPass() {
-    let newRegionsFound = false;
-    const passStartRegions = new Set(this.knownReachableRegions);
-
-    // Exactly match Python's nested loop structure
-    let newConnection = true;
-    while (newConnection) {
-      newConnection = false;
-
-      let queue = [...this.blockedConnections];
-      while (queue.length > 0) {
-        const connection = queue.shift();
-        const { fromRegion, exit } = connection;
-        // Prioritize snake_case connected_region from JSON, fallback to camelCase if needed
-        const targetRegion =
-          exit.connected_region !== undefined
-            ? exit.connected_region
-            : exit.connectedRegion;
-
-        // Skip if the target region is already reachable
-        if (this.knownReachableRegions.has(targetRegion)) {
-          this.blockedConnections.delete(connection);
-          continue;
-        }
-
-        // Skip if the source region isn't reachable (important check)
-        if (!this.knownReachableRegions.has(fromRegion)) {
-          continue;
-        }
-
-        // Check if exit is traversable using the *injected* evaluateRule engine
-        const snapshotInterfaceContext = this._createSelfSnapshotInterface();
-        // Set parent_region context for exit evaluation - needs to be the region object, not just the name
-        snapshotInterfaceContext.parent_region = this.regions[fromRegion];
-        // Set currentExit so get_entrance can detect self-references
-        snapshotInterfaceContext.currentExit = exit.name;
-
-        const ruleEvaluationResult = exit.access_rule
-          ? this.evaluateRuleFromEngine(
-            exit.access_rule,
-            snapshotInterfaceContext
-          )
-          : true; // No rule means true
-
-        const canTraverse = !exit.access_rule || ruleEvaluationResult;
-
-        // +++ DETAILED LOGGING FOR RULE EVALUATION +++
-        //if (exit.name === 'GameStart' || fromRegion === 'Menu') {
-        //  log('info',
-        //    `  - Exit Access Rule:`,
-        //    exit.access_rule
-        //      ? JSON.parse(JSON.stringify(exit.access_rule))
-        //      : 'None (implicitly true)'
-        //  );
-        //  log('info', `  - Rule Evaluation Result: ${ruleEvaluationResult}`);
-        //  log('info', `  - CanTraverse: ${canTraverse}`);
-        //}
-        // +++ END DETAILED LOGGING +++
-
-        if (canTraverse) {
-          // Region is now reachable
-          this.knownReachableRegions.add(targetRegion);
-          newRegionsFound = true;
-          newConnection = true; // Signal that we found a new connection
-
-          // Remove from blocked connections
-          this.blockedConnections.delete(connection);
-
-          // Record the path taken to reach this region
-          if (!this.path.has(targetRegion)) {
-            // Only set path if not already set
-            this.path.set(targetRegion, {
-              name: targetRegion,
-              entrance: exit.name,
-              previousRegion: fromRegion,
-            });
-          }
-
-          // Add all exits from the newly reachable region to blockedConnections (if not already processed)
-          const region = this.regions[targetRegion];
-          if (region && region.exits) {
-            for (const newExit of region.exits) {
-              // Ensure the target of the new exit exists
-              if (
-                newExit.connected_region &&
-                this.regions[newExit.connected_region]
-              ) {
-                const newConnObj = {
-                  fromRegion: targetRegion,
-                  exit: newExit,
-                };
-                // Avoid adding duplicates or exits leading to already reachable regions
-                if (!this.knownReachableRegions.has(newExit.connected_region)) {
-                  let alreadyBlocked = false;
-                  for (const blocked of this.blockedConnections) {
-                    if (
-                      blocked.fromRegion === newConnObj.fromRegion &&
-                      blocked.exit.name === newConnObj.exit.name
-                    ) {
-                      alreadyBlocked = true;
-                      break;
-                    }
-                  }
-                  if (!alreadyBlocked) {
-                    this.blockedConnections.add(newConnObj);
-                    queue.push(newConnObj); // Add to the current pass queue
-                  }
-                }
-              }
-            }
-          }
-
-          // Check for indirect connections affected by this region
-          if (this.indirectConnections.has(targetRegion)) {
-            // Use the indirect connections structure which maps region -> set of EXIT NAMES
-            const affectedExitNames =
-              this.indirectConnections.get(targetRegion);
-            affectedExitNames.forEach((exitName) => {
-              // Find the actual connection object in blockedConnections using the exit name
-              for (const blockedConn of this.blockedConnections) {
-                if (blockedConn.exit.name === exitName) {
-                  // Re-add this connection to the queue to re-evaluate it,
-                  // but only if its source region is reachable.
-                  if (this.knownReachableRegions.has(blockedConn.fromRegion)) {
-                    queue.push(blockedConn);
-                  }
-                  break; // Found the connection, move to next affected exit name
-                }
-              }
-            });
-          }
-        }
-      }
-      // Python equivalent: queue.extend(blocked_connections)
-      // We've finished the current queue, next iteration will recheck all remaining blocked connections
-      if (this.debugMode && newConnection) {
-        this._logDebug(
-          'BFS pass: Found new regions/connections, rechecking blocked connections'
-        );
-      }
-    }
-
-    return newRegionsFound;
-  }
-
-  /**
-   * Evaluate a rule with awareness of the current path context
-   * This is no longer needed with our new BFS approach, but kept for backwards
-   * compatibility with the rest of the code
-   */
-  evaluateRuleWithPathContext(rule, context) {
-    // Standard rule evaluation is now sufficient with our improved BFS
-    return this.evaluateRule(rule);
+    return ReachabilityModule.runBFSPass(this);
   }
 
   getStartRegions() {
-    // Get start regions from startRegions property or use default
-    // Ensure we always return an array
-    if (Array.isArray(this.startRegions)) {
-      return this.startRegions;
-    }
-
-    // Handle object format with 'default' and 'available' properties
-    if (this.startRegions && typeof this.startRegions === 'object') {
-      if (this.startRegions.default && Array.isArray(this.startRegions.default)) {
-        return this.startRegions.default;
-      }
-    }
-
-    // Log unexpected values for debugging
-    if (this.startRegions !== null && this.startRegions !== undefined) {
-      this._logDebug(`[StateManager] Unexpected startRegions value: ${typeof this.startRegions}`, this.startRegions);
-    }
-
-    return ['Menu'];
+    return ReachabilityModule.getStartRegions(this);
   }
 
-  /**
-   * Determines if a region is reachable with the given inventory
-   * @param {string} regionName - The name of the region to check
-   * @return {boolean} - Whether the region is reachable
-   */
+  // Delegate reachability query methods to ReachabilityModule
   isRegionReachable(regionName) {
-    const reachableRegions = this.computeReachableRegions();
-    return reachableRegions.has(regionName);
+    return ReachabilityModule.isRegionReachable(this, regionName);
   }
 
-  /**
-   * Determines if a location is accessible with the given inventory
-   * @param {Object} location - The location to check
-   * @return {boolean} - Whether the location is accessible
-   */
   isLocationAccessible(location) {
-    // The check for serverProvidedUncheckedLocations was removed from here.
-    // A location being unchecked by the server does not mean it's inaccessible by rules.
-
-    // Recursion protection: if we're already computing reachable regions,
-    // use the current state instead of triggering another computation
-    const reachableRegions = this._computing
-      ? this.knownReachableRegions
-      : this.computeReachableRegions();
-    if (!reachableRegions.has(location.region)) {
-      return false;
-    }
-    if (!location.access_rule) return true;
-
-    // Use the *injected* evaluateRule engine
-    try {
-      const snapshotInterface = this._createSelfSnapshotInterface();
-      // Add the current location to the context so rules can access it
-      snapshotInterface.currentLocation = location;
-      snapshotInterface.location = location; // Also set as 'location' for resolveName()
-      return this.evaluateRuleFromEngine(
-        location.access_rule,
-        snapshotInterface
-      );
-    } catch (e) {
-      log(
-        'error',
-        `Error evaluating internal rule for location ${location.name}:`,
-        e,
-        location.access_rule
-      );
-      return false;
-    }
+    return ReachabilityModule.isLocationAccessible(this, location);
   }
 
-  getProcessedLocations(
-    sorting = 'original',
-    showReachable = true,
-    showUnreachable = true
-  ) {
-    return this.locations
-      .slice()
-      .sort((a, b) => {
-        if (sorting === 'accessibility') {
-          const aAccessible = this.isLocationAccessible(a);
-          const bAccessible = this.isLocationAccessible(b);
-          return bAccessible - aAccessible;
-        }
-        return 0;
-      })
-      .filter((location) => {
-        const isAccessible = this.isLocationAccessible(location);
-        return (
-          (isAccessible && showReachable) || (!isAccessible && showUnreachable)
-        );
-      });
+  getProcessedLocations(sorting = 'original', showReachable = true, showUnreachable = true) {
+    return ReachabilityModule.getProcessedLocations(this, sorting, showReachable, showUnreachable);
   }
 
-  /**
-   * Get the path used to reach a region
-   * Similar to Python's get_path method
-   */
   getPathToRegion(regionName) {
-    if (!this.knownReachableRegions.has(regionName)) {
-      return null; // Region not reachable
-    }
-
-    // Build path by following previous regions
-    const pathSegments = [];
-    let currentRegion = regionName;
-
-    while (currentRegion) {
-      const pathEntry = this.path.get(currentRegion);
-      if (!pathEntry) break;
-
-      // Add this segment
-      pathSegments.unshift({
-        from: pathEntry.previousRegion,
-        entrance: pathEntry.entrance,
-        to: currentRegion,
-      });
-
-      // Move to previous region
-      currentRegion = pathEntry.previousRegion;
-    }
-
-    return pathSegments;
+    return ReachabilityModule.getPathToRegion(this, regionName);
   }
 
-  /**
-   * Get all path info for debug/display purposes
-   */
   getAllPaths() {
-    const paths = {};
-
-    for (const region of this.knownReachableRegions) {
-      paths[region] = this.getPathToRegion(region);
-    }
-
-    return paths;
+    return ReachabilityModule.getAllPaths(this);
   }
 
   /**
@@ -1420,58 +988,13 @@ export class StateManager {
     }
   }
 
-  /**
-   * Implementation of can_reach state method that mirrors Python
-   */
-  can_reach(region, type = 'Region', player = 1) {
-    // The context-aware state manager handles position-specific constraints correctly
-    if (player !== this.playerSlot) {
-      this._logDebug(`can_reach check for wrong player (${player})`);
-      return false;
-    }
-    if (type === 'Region') {
-      return this.isRegionReachable(region);
-    } else if (type === 'Location') {
-      // Find the location object
-      const location = this.locations.find((loc) => loc.name === region);
-      return location && this.isLocationAccessible(location);
-    } else if (type === 'Entrance') {
-      // Find the entrance across all regions
-      for (const regionName in this.regions) {
-        const regionData = this.regions[regionName];
-        if (regionData.exits) {
-          const exit = regionData.exits.find((e) => e.name === region);
-          if (exit) {
-            const snapshotInterface = this._createSelfSnapshotInterface();
-            // Set parent_region context for exit evaluation - needs to be the region object, not just the name
-            snapshotInterface.parent_region = this.regions[regionName];
-            // Set currentExit so get_entrance can detect self-references
-            snapshotInterface.currentExit = exit.name;
-            return (
-              this.isRegionReachable(regionName) &&
-              (!exit.access_rule ||
-                this.evaluateRuleFromEngine(
-                  exit.access_rule,
-                  snapshotInterface
-                ))
-            );
-          }
-        }
-      }
-      return false;
-    }
-
-    return false;
+  // Delegate can_reach methods to ReachabilityModule (Python API compatibility)
+  can_reach(target, type = 'Region', player = 1) {
+    return ReachabilityModule.can_reach(this, target, type, player);
   }
 
-  /**
-   * Check if a region can be reached (Python CollectionState.can_reach_region equivalent)
-   * @param {string} region - Region name to check
-   * @param {number} player - Player number (defaults to this.playerSlot)
-   * @returns {boolean} True if region is reachable
-   */
-  can_reach_region(region, player = this.playerSlot) {
-    return this.can_reach(region, 'Region', player);
+  can_reach_region(region, player = null) {
+    return ReachabilityModule.can_reach_region(this, region, player);
   }
 
   /**
