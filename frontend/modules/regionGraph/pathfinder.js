@@ -62,13 +62,13 @@ export class PathFinder {
     const playerSettings = staticData?.settings ? Object.values(staticData.settings)[0] : null;
     const assumeBidirectional = playerSettings?.assume_bidirectional_exits === true;
 
-    // Initialize map
-    for (const regionName of Object.keys(staticData.regions)) {
+    // Phase 3.2: Initialize map
+    for (const regionName of staticData.regions.keys()) {
       adjacencyMap.set(regionName, []);
     }
 
-    // Check each region's exits
-    for (const [regionName, regionData] of Object.entries(staticData.regions)) {
+    // Phase 3.2: Check each region's exits
+    for (const [regionName, regionData] of staticData.regions.entries()) {
       const regionReachable = this.isRegionReachable(regionName, snapshot);
       
       if (!regionReachable || !regionData.exits) {
@@ -77,9 +77,9 @@ export class PathFinder {
 
       for (const exit of regionData.exits) {
         const targetRegion = exit.connected_region;
-        
-        // Check if target region exists
-        if (!staticData.regions[targetRegion]) {
+
+        // Phase 3.2: Check if target region exists
+        if (!staticData.regions.has(targetRegion)) {
           continue;
         }
 
@@ -106,11 +106,11 @@ export class PathFinder {
             exitName: exit.name
           });
 
-          // Add reverse connection if bidirectional is assumed
+          // Phase 3.2: Add reverse connection if bidirectional is assumed
           if (assumeBidirectional) {
             // Look for the reverse exit name, or use the same name
             let reverseExitName = exit.name;
-            const reverseExit = staticData.regions[targetRegion]?.exits?.find(
+            const reverseExit = staticData.regions.get(targetRegion)?.exits?.find(
               e => e.connected_region === regionName
             );
             if (reverseExit) {

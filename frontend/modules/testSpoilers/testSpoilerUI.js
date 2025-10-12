@@ -2012,7 +2012,7 @@ export class TestSpoilerUI {
   _addLocationLinksToElement(element, locationNames) {
     locationNames.forEach((locName, index) => {
       const staticData = stateManager.getStaticData();
-      const locDef = staticData?.locations?.[locName.trim()];
+      const locDef = staticData?.locations?.get(locName.trim());
       const regionName = locDef?.region || locDef?.parent_region;
 
       if (regionName) {
@@ -2036,7 +2036,7 @@ export class TestSpoilerUI {
   _addRegionLinksToElement(element, regionNames) {
     regionNames.forEach((regionName, index) => {
       const staticData = stateManager.getStaticData();
-      const regionDef = staticData?.regions?.[regionName.trim()];
+      const regionDef = staticData?.regions?.get(regionName.trim());
 
       if (regionDef) {
         const snapshot = stateManager.getLatestStateSnapshot();

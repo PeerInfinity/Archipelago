@@ -2315,6 +2315,7 @@ export class StateManager {
     const locationsArray = this.locations ? Array.from(this.locations.entries()) : [];
     const regionsArray = this.regions ? Array.from(this.regions.entries()) : [];
     const dungeonsArray = this.dungeons ? Array.from(this.dungeons.entries()) : [];
+    const locationItemsArray = Array.from(locationItemsMap.entries());
 
     return {
       game_name: this.rules?.game_name,
@@ -2346,8 +2347,8 @@ export class StateManager {
       originalExitOrder: this.originalExitOrder,
       // Event locations
       eventLocations: Object.fromEntries(this.eventLocations || new Map()),
-      // Location items mapping
-      locationItems: locationItemsMap
+      // Location items mapping (Phase 3: Convert Map to array for serialization)
+      locationItems: locationItemsArray
     };
   }
 }

@@ -1,4 +1,5 @@
 import { createPlayerStateSingleton, getPlayerStateSingleton } from './singleton.js';
+import { stateManagerProxySingleton } from '../stateManager/index.js';
 
 // --- Module Info ---
 export const moduleInfo = {
@@ -259,10 +260,12 @@ function handleTrimPath(data, propagationOptions) {
 
 function handleLocationCheck(data, propagationOptions) {
     log('info', `[${moduleId} Module] Received user:locationCheck event`, data);
-    
+
     const playerState = getPlayerStateSingleton();
     if (data && data.locationName) {
-        playerState.addLocationCheck(data.locationName, data.regionName);
+        // Get staticData for region lookup
+        const staticData = stateManagerProxySingleton.getStaticData();
+        playerState.addLocationCheck(data.locationName, data.regionName, staticData);
     }
     
     // Propagate event to the next module (up direction)

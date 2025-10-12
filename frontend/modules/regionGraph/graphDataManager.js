@@ -32,7 +32,8 @@ export class GraphDataManager {
       // Check if this is a reload after rules have already been loaded once
       const isReload = this.ui.graphInitialized;
 
-      logger.info('Building graph from regions', { count: Object.keys(staticData.regions).length });
+      // Phase 3.2: Use Map methods
+      logger.info('Building graph from regions', { count: staticData.regions.size });
       this.buildGraphFromRegions(staticData.regions, staticData.exits);
       this.ui.graphInitialized = true; // Mark as successfully loaded
 
@@ -136,8 +137,9 @@ export class GraphDataManager {
   }
 
   buildGraphFromRegions(regions, exits) {
-    logger.debug('buildGraphFromRegions called', { regionCount: Object.keys(regions || {}).length });
-    if (!regions || Object.keys(regions).length === 0) {
+    // Phase 3.2: Use Map methods
+    logger.debug('buildGraphFromRegions called', { regionCount: regions?.size || 0 });
+    if (!regions || regions.size === 0) {
       logger.warn('No regions to display');
       this.ui.updateStatus('No regions to display');
       return;
@@ -154,8 +156,8 @@ export class GraphDataManager {
     const assumeBidirectional = playerSettings?.assume_bidirectional_exits === true;
     logger.debug('Exit configuration', { assumeBidirectional });
 
-    // Create nodes for each region with location counts
-    for (const [regionName, regionData] of Object.entries(regions)) {
+    // Phase 3.2: Create nodes for each region with location counts
+    for (const [regionName, regionData] of regions.entries()) {
       // Calculate location counts
       const locationCounts = this.calculateLocationCounts(regionName, regionData);
 
@@ -182,14 +184,14 @@ export class GraphDataManager {
     const exitMap = new Map(); // key: "fromRegion->toRegion", value: exitData
     const processedEdges = new Set();
 
-    // Collect all exits from region definitions
-    for (const [regionName, regionData] of Object.entries(regions)) {
+    // Phase 3.2: Collect all exits from region definitions
+    for (const [regionName, regionData] of regions.entries()) {
       if (regionData.exits && regionData.exits.length > 0) {
         for (const exitDef of regionData.exits) {
           const fromRegion = regionName;
           const toRegion = exitDef.connected_region;
 
-          if (fromRegion && toRegion && regions[fromRegion] && regions[toRegion]) {
+          if (fromRegion && toRegion && regions.has(fromRegion) && regions.has(toRegion)) {
             const exitKey = `${fromRegion}->${toRegion}`;
             exitMap.set(exitKey, {
               fromRegion,
@@ -202,13 +204,13 @@ export class GraphDataManager {
       }
     }
 
-    // Also collect exits from static exits data if available (legacy support)
+    // Phase 3.2: Also collect exits from static exits data if available (legacy support)
     if (exits) {
-      for (const [exitName, exitData] of Object.entries(exits)) {
+      for (const [exitName, exitData] of exits.entries()) {
         const fromRegion = exitData.parentRegion;
         const toRegion = exitData.connectedRegion;
 
-        if (fromRegion && toRegion && regions[fromRegion] && regions[toRegion]) {
+        if (fromRegion && toRegion && regions.has(fromRegion) && regions.has(toRegion)) {
           const exitKey = `${fromRegion}->${toRegion}`;
           if (!exitMap.has(exitKey)) {
             exitMap.set(exitKey, {
@@ -390,11 +392,11 @@ export class GraphDataManager {
         return;
       }
 
-      // Handle location nodes separately
+      // Phase 3.2: Handle location nodes separately
       if (node.hasClass('location-node')) {
         const parentRegion = node.data('parentRegion');
         const locationName = node.data('locationName') || node.data('label');
-        const regionData = staticData.regions[parentRegion];
+        const regionData = staticData.regions.get(parentRegion);
 
         if (regionData && regionData.locations) {
           const location = regionData.locations.find(loc => loc.name === locationName);
@@ -412,8 +414,8 @@ export class GraphDataManager {
         return;
       }
 
-      // Handle region nodes
-      const regionData = staticData.regions[regionName];
+      // Phase 3.2: Handle region nodes
+      const regionData = staticData.regions.get(regionName);
 
       const isReachable = snapshot.regionReachability?.[regionName] === true ||
                          snapshot.regionReachability?.[regionName] === 'reachable' ||
@@ -548,7 +550,8 @@ export class GraphDataManager {
   createLocationNodesForRegion(regionId) {
     const region = this.ui.cy.getElementById(regionId);
     const staticData = stateManager.getStaticData();
-    const regionData = staticData?.regions?.[regionId];
+    // Phase 3.2: Use Map methods
+    const regionData = staticData?.regions?.get(regionId);
 
     if (!regionData) return [];
 
@@ -652,7 +655,8 @@ export class GraphDataManager {
 
     const pos = region.position();
     const staticData = stateManager.getStaticData();
-    const regionData = staticData?.regions?.[regionId];
+    // Phase 3.2: Use Map methods
+    const regionData = staticData?.regions?.get(regionId);
 
     if (!regionData) return;
 

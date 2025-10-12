@@ -124,10 +124,11 @@ export class TextAdventureLogic {
             const currentRegion = playerState ? playerState.getCurrentRegion() : null;
             
             log('info', `Current player region: ${currentRegion}`);
-            log('info', `Available regions in static data: ${Object.keys(staticData.regions).join(', ')}`);
-            
-            // Check if the current region exists in the loaded rules
-            if (currentRegion && staticData.regions[currentRegion]) {
+            // Phase 3.2: Use Map methods
+            log('info', `Available regions in static data: ${Array.from(staticData.regions.keys()).join(', ')}`);
+
+            // Phase 3.2: Check if the current region exists in the loaded rules
+            if (currentRegion && staticData.regions.has(currentRegion)) {
                 log('info', `Player region '${currentRegion}' exists in rules, displaying it`);
                 this.displayCurrentRegion();
                 return;
@@ -146,11 +147,11 @@ export class TextAdventureLogic {
                 }
             }
             
-            // If no start_regions, look for common starting regions
+            // Phase 3.2: If no start_regions, look for common starting regions
             if (!targetRegion) {
                 const commonStartRegions = ['Menu', 'Overworld', 'Start', 'Beginning'];
                 for (const regionName of commonStartRegions) {
-                    if (staticData.regions[regionName]) {
+                    if (staticData.regions.has(regionName)) {
                         targetRegion = regionName;
                         log('info', `Found common starting region: ${targetRegion}`);
                         break;
@@ -158,9 +159,9 @@ export class TextAdventureLogic {
                 }
             }
             
-            // If still no target, use the first available region
+            // Phase 3.2: If still no target, use the first available region
             if (!targetRegion) {
-                const availableRegions = Object.keys(staticData.regions);
+                const availableRegions = Array.from(staticData.regions.keys());
                 if (availableRegions.length > 0) {
                     targetRegion = availableRegions[0];
                     log('info', `Using first available region: ${targetRegion}`);
@@ -252,7 +253,8 @@ export class TextAdventureLogic {
                 return null;
             }
 
-            const regionData = staticData.regions[currentRegion];
+            // Phase 3.2: Use Map methods
+            const regionData = staticData.regions.get(currentRegion);
             if (!regionData) {
                 return null;
             }
@@ -325,8 +327,8 @@ export class TextAdventureLogic {
                 return false;
             }
             
-            // Find the location definition
-            const locationDef = staticData.locations[locationName];
+            // Phase 3.2: Find the location definition
+            const locationDef = staticData.locations.get(locationName);
             if (!locationDef) {
                 return false;
             }

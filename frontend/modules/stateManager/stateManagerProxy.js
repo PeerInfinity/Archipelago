@@ -297,6 +297,14 @@ export class StateManagerProxy {
             log('warn', '[StateManagerProxy] newStaticData.dungeons is not an array. Expected [[key, value], ...] format.');
           }
 
+          // Convert locationItems array to Map
+          if (Array.isArray(newCache.locationItems)) {
+            newCache.locationItems = new Map(newCache.locationItems);
+            log('info', `[StateManagerProxy] Converted ${newCache.locationItems.size} locationItems to Map`);
+          } else if (newCache.locationItems) {
+            log('warn', '[StateManagerProxy] newStaticData.locationItems is not an array. Expected [[key, value], ...] format.');
+          }
+
           // Phase 3: Re-link regions to dungeons after Map conversion
           // When regions are serialized from worker, region.dungeon becomes a plain object
           // We need to replace it with a reference to the dungeon in the dungeons Map
