@@ -499,6 +499,22 @@ export class StateManagerProxy {
       case 'eventPublish': // New case for event republishing from worker
         this._handleEventPublish(message);
         break;
+      case 'commandEnqueued': // Phase 8: Command queue acknowledgment
+        // Command was successfully enqueued
+        // Most commands will resolve their promise immediately upon enqueue
+        this._handleQueryResponse(message);
+        break;
+      case 'commandCompleted': // Phase 8: Command completed processing
+        // Command finished processing (for PING and similar that wait for completion)
+        this._handleQueryResponse(message);
+        break;
+      case 'commandFailed': // Phase 8: Command failed during processing
+        // Command encountered an error during execution
+        this._handleQueryResponse({
+          queryId: message.queryId,
+          error: message.error
+        });
+        break;
       default:
         log(
           'warn',

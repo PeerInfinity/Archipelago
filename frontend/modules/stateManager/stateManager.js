@@ -36,10 +36,15 @@ export class StateManager {
   /**
    * @param {function} [evaluateRuleFunction] - The rule evaluation function (from ruleEngine.js).
    *                                             Required when running in worker/isolated context.
+   * @param {object} [loggerInstance] - Logger instance for logging
+   * @param {object} [commandQueueInstance] - Command queue instance (Phase 8)
    */
-  constructor(evaluateRuleFunction, loggerInstance) {
+  constructor(evaluateRuleFunction, loggerInstance, commandQueueInstance) {
     // Store the injected logger instance
     this.logger = loggerInstance || console;
+
+    // Phase 8: Store command queue reference (injected from worker)
+    this.commandQueue = commandQueueInstance || null;
 
     // Core state storage
     this.inventory = null; // Initialize as null
@@ -1007,5 +1012,21 @@ export class StateManager {
    */
   getStaticGameData() {
     return StatePersistenceModule.getStaticGameData(this);
+  }
+
+  /**
+   * Phase 8: Get command queue snapshot for debugging
+   * Returns queue state information including pending commands, history, and metrics
+   * @returns {Object} Queue snapshot or error object if queue not available
+   */
+  getCommandQueueSnapshot() {
+    if (!this.commandQueue) {
+      return {
+        error: 'Command queue not available',
+        available: false
+      };
+    }
+
+    return this.commandQueue.getSnapshot();
   }
 }

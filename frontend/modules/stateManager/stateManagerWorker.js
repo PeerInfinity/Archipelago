@@ -1,10 +1,6 @@
 // Initial startup message using console directly to avoid circular dependency
 // console.log('[stateManagerWorker] Worker starting...');
 
-// RACE CONDITION FIX: Command queue for serialized command processing
-let commandQueue = [];
-let isProcessingCommand = false;
-
 // ADDED: Top-level error handler for the worker
 self.onerror = function (message, source, lineno, colno, error) {
   // Use console directly to avoid circular dependency with log function
@@ -57,6 +53,8 @@ import { evaluateRule } from '../shared/ruleEngine.js';
 import { STATE_MANAGER_COMMANDS } from './stateManagerCommands.js';
 // Import universal logger
 import { initializeWorkerLogger, updateWorkerLoggerConfig, createUniversalLogger, workerLoggerInstance } from '../../app/core/universalLogger.js';
+// Import CommandQueue for Phase 8 command queue implementation
+import { CommandQueue } from './core/commandQueue.js';
 
 // Initialize worker logger with basic settings
 initializeWorkerLogger({
@@ -85,6 +83,14 @@ function log(level, message, ...data) {
 // console.log(
 //   '[stateManagerWorker] Dependencies loaded (StateManager, evaluateRule).'
 // );
+
+// Phase 8: Command Queue - Create queue instance with monitoring enabled
+const QUEUE_ENABLED = true; // Can be set to false for testing/comparison
+const commandQueue = new CommandQueue({
+  enabled: QUEUE_ENABLED,
+  maxHistorySize: 50,
+  debugMode: false // Set to true for detailed queue logging
+});
 
 let stateManagerInstance = null;
 let workerConfig = null;
@@ -119,32 +125,104 @@ function setupCommunicationChannel(instance) {
   });
 }
 
-// RACE CONDITION FIX: Command queue processing functions
-async function processCommandQueue() {
-  if (isProcessingCommand || commandQueue.length === 0) {
-    return;
+/**
+ * Phase 8: Command Queue Processing Loop
+ *
+ * Processes commands from the queue in FIFO order with yield points
+ * to allow incoming commands to be enqueued without blocking.
+ */
+async function processQueue() {
+  if (commandQueue.processing) {
+    return; // Already processing
   }
-  
-  isProcessingCommand = true;
-  
-  while (commandQueue.length > 0) {
-    const messageData = commandQueue.shift();
+
+  commandQueue.processing = true;
+
+  while (commandQueue.hasPending()) {
+    const cmd = commandQueue.getNext();
+
+    if (!cmd) break; // No more commands
+
     try {
-      await handleMessage(messageData);
-    } catch (error) {
-      log('error', '[stateManagerWorker] Error processing queued command:', error);
-      // Send error response if this was a query
-      if (messageData.queryId) {
+      // Execute command
+      await executeCommand(cmd);
+
+      // Mark as completed
+      commandQueue.markCompleted(cmd.queueId);
+
+      // Send completion response for commands that need it (like PING)
+      if (shouldSendCompletionResponse(cmd.command)) {
         self.postMessage({
-          type: 'queryResponse',
-          queryId: messageData.queryId,
-          error: error.message,
+          type: 'commandCompleted',
+          queryId: cmd.queryId,
+          queueId: cmd.queueId,
+          command: cmd.command,
+          timestamp: Date.now()
         });
       }
+
+    } catch (error) {
+      // Mark as failed
+      commandQueue.markFailed(cmd.queueId, error);
+
+      // Send error response
+      self.postMessage({
+        type: 'commandFailed',
+        queryId: cmd.queryId,
+        queueId: cmd.queueId,
+        command: cmd.command,
+        error: error.message,
+        timestamp: Date.now()
+      });
+
+      log('error', `[CommandQueue] Command failed: ${cmd.command}`, error);
     }
+
+    // Yield point: Allow new messages to be received
+    // This prevents the queue from blocking incoming commands
+    await new Promise(resolve => setTimeout(resolve, 0));
   }
-  
-  isProcessingCommand = false;
+
+  commandQueue.processing = false;
+}
+
+/**
+ * Phase 8: Helper Functions for Command Queue
+ */
+
+/**
+ * Determine if command should send completion response
+ * PING is the only command that sends explicit completion response.
+ * All other query commands send queryResponse directly from handleMessage.
+ */
+function shouldSendCompletionResponse(command) {
+  return command === STATE_MANAGER_COMMANDS.PING;
+}
+
+/**
+ * Fallback for direct execution (if queue disabled)
+ * Keeps existing code for comparison testing
+ */
+async function executeCommandDirectly(command, queryId, payload) {
+  // Build message object in old format
+  const message = { command, queryId, payload };
+  await handleMessage(message);
+}
+
+/**
+ * Phase 8: Execute Command
+ *
+ * Routes a command from the queue to the appropriate StateManager method.
+ * This function processes commands that have been dequeued and are ready to execute.
+ *
+ * @param {Object} cmd - Command entry from queue
+ */
+async function executeCommand(cmd) {
+  const { command, payload, queryId } = cmd;
+
+  // Build message object for handleMessage (reuse existing logic)
+  const message = { command, payload, queryId };
+  await handleMessage(message);
 }
 
 // RACE CONDITION FIX: Original message handler logic moved to separate function
@@ -167,7 +245,8 @@ async function handleMessage(message) {
           'info',
           '[stateManagerWorker onmessage] Processing initialize command...'
         );
-        workerConfig = message.config;
+        // Handle both old format (message.config) and new queue format (message.payload.config)
+        workerConfig = message.config || (message.payload && message.payload.config) || message.payload;
         if (!workerConfig) {
           throw new Error('Initialization failed: workerConfig is missing.');
         }
@@ -184,8 +263,8 @@ async function handleMessage(message) {
           );
         }
 
-        // Pass the configured logger to StateManager
-        stateManagerInstance = new StateManager(evaluateRule, workerLoggerInstance);
+        // Pass the configured logger and command queue to StateManager
+        stateManagerInstance = new StateManager(evaluateRule, workerLoggerInstance, commandQueue);
         setupCommunicationChannel(stateManagerInstance);
         // Pass initial settings if available in workerConfig
         if (workerConfig.settings) {
@@ -342,6 +421,26 @@ async function handleMessage(message) {
           payload: message.payload, // Pass the actual dataToEcho (e.g., 'uiSimSyncAfterClick')
         });
         // The ping method itself will post the 'pingResponse' message
+        break;
+
+      case STATE_MANAGER_COMMANDS.GET_WORKER_QUEUE_STATUS_QUERY:
+        // Phase 8: Get command queue snapshot for debugging
+        log('info', '[Worker] Processing GET_WORKER_QUEUE_STATUS_QUERY');
+        try {
+          const queueSnapshot = commandQueue.getSnapshot();
+          self.postMessage({
+            type: 'queryResponse',
+            queryId: message.queryId,
+            result: queueSnapshot
+          });
+        } catch (error) {
+          log('error', '[Worker] Error getting queue snapshot:', error);
+          self.postMessage({
+            type: 'queryResponse',
+            queryId: message.queryId,
+            error: `Failed to get queue snapshot: ${error.message}`
+          });
+        }
         break;
 
       case 'addItemToInventory':
@@ -1035,13 +1134,40 @@ async function handleMessage(message) {
   }
 }
 
-// RACE CONDITION FIX: New queue-based message handler
+/**
+ * Phase 8: Main Message Handler
+ *
+ * Receives messages from main thread and enqueues them for processing.
+ * Sends immediate acknowledgment for most commands.
+ */
 self.onmessage = async function (e) {
   const message = e.data;
-  log('info', '[stateManagerWorker onmessage] Queuing message:', message);
-  
-  commandQueue.push(message);
-  processCommandQueue();
+  const { command, queryId, payload, config } = message; // Extract config too
+
+  log('info', '[stateManagerWorker onmessage] Received command:', command);
+
+  // Check if queue is enabled (for testing/comparison)
+  if (!QUEUE_ENABLED || !commandQueue.enabled) {
+    log('info', '[stateManagerWorker] Queue disabled, executing directly');
+    // For direct execution, pass the entire message to preserve all properties
+    const directMessage = { command, queryId, payload, config };
+    await handleMessage(directMessage);
+    return;
+  }
+
+  // Enqueue command with full message data (including config for initialize command)
+  // Store the entire message in payload to preserve all properties
+  const fullPayload = config ? { ...payload, config } : payload;
+  const entry = commandQueue.enqueue(command, queryId, fullPayload);
+
+  // NOTE: We don't send commandEnqueued acknowledgments anymore.
+  // Fire-and-forget commands (expectResponse=false) resolve immediately in the proxy.
+  // Query commands (expectResponse=true) wait for queryResponse from command execution.
+
+  // Start processing if not already running
+  if (!commandQueue.processing) {
+    processQueue();
+  }
 };
 
 // --- END: Queue-based onmessage Handler ---

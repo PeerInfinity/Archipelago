@@ -65,6 +65,11 @@ class EditorUI {
         loaded: false,
         name: 'Static Data',
       },
+      commandQueue: {
+        text: '{\n  "message": "No command queue data available yet."\n}',
+        loaded: false,
+        name: 'Command Queue Status',
+      },
     };
     this.currentSourceKey = 'rules'; // Default source
     this.editorDropdown = null;
@@ -618,20 +623,25 @@ class EditorUI {
     if (this.contentSources[newSourceKey]) {
       this.currentSourceKey = newSourceKey;
       log('info', `[EditorUI] Switched to source: ${this.currentSourceKey}`);
-      
+
       // If switching to Latest Snapshot and it hasn't been loaded yet, fetch current snapshot
       if (newSourceKey === 'latestSnapshot' && !this.contentSources.latestSnapshot.loaded) {
         this._fetchCurrentSnapshot();
       }
-      
+
       // If switching to Static Data and it hasn't been loaded yet, fetch static data
       if (newSourceKey === 'staticData' && !this.contentSources.staticData.loaded) {
         this._fetchStaticData();
       }
-      
+
+      // If switching to Command Queue and it hasn't been loaded yet, fetch command queue
+      if (newSourceKey === 'commandQueue' && !this.contentSources.commandQueue.loaded) {
+        this._fetchCommandQueueSnapshot();
+      }
+
       this._displayCurrentSourceContent();
     } else {
-      log('warn', 
+      log('warn',
         `[EditorUI] Attempted to switch to unknown source key: ${newSourceKey}`
       );
     }
@@ -688,11 +698,11 @@ class EditorUI {
 
   _fetchStaticData() {
     log('info', '[EditorUI] Fetching static data from stateManager');
-    
+
     // Try to get the static data from the imported stateManager
     if (stateManager) {
       const staticData = stateManager.getStaticData();
-      
+
       if (staticData) {
         try {
           this.contentSources.staticData.text = JSON.stringify(
@@ -704,27 +714,63 @@ class EditorUI {
           log('info', '[EditorUI] Successfully fetched and loaded static data');
         } catch (e) {
           log('error', 'Error processing fetched static data:', e);
-          this.contentSources.staticData.text = 
+          this.contentSources.staticData.text =
             'Error: Could not display static data.';
           this.contentSources.staticData.loaded = true;
         }
       } else {
         log('warn', '[EditorUI] No static data available from stateManager');
-        this.contentSources.staticData.text = 
+        this.contentSources.staticData.text =
           '{\n  "message": "No static data available yet. Rules may not be loaded."\n}';
         this.contentSources.staticData.loaded = true;
       }
     } else {
       log('warn', '[EditorUI] stateManager not available');
-      this.contentSources.staticData.text = 
+      this.contentSources.staticData.text =
         '{\n  "message": "State manager not available. Please wait for initialization."\n}';
       this.contentSources.staticData.loaded = true;
     }
   }
 
-  _handleUpdateNowClick() {
+  async _fetchCommandQueueSnapshot() {
+    log('info', '[EditorUI] Fetching command queue snapshot from stateManager');
+
+    // Try to get the command queue snapshot from the imported stateManager
+    if (stateManager) {
+      try {
+        const queueSnapshot = await stateManager.getWorkerQueueStatus();
+
+        if (queueSnapshot) {
+          this.contentSources.commandQueue.text = JSON.stringify(
+            queueSnapshot,
+            null,
+            2
+          );
+          this.contentSources.commandQueue.loaded = true;
+          log('info', '[EditorUI] Successfully fetched and loaded command queue snapshot');
+        } else {
+          log('warn', '[EditorUI] No command queue data returned');
+          this.contentSources.commandQueue.text =
+            '{\n  "message": "No command queue data available."\n}';
+          this.contentSources.commandQueue.loaded = true;
+        }
+      } catch (e) {
+        log('error', 'Error fetching command queue snapshot:', e);
+        this.contentSources.commandQueue.text =
+          `{\n  "error": "Failed to fetch command queue: ${e.message}"\n}`;
+        this.contentSources.commandQueue.loaded = true;
+      }
+    } else {
+      log('warn', '[EditorUI] stateManager not available');
+      this.contentSources.commandQueue.text =
+        '{\n  "message": "State manager not available. Please wait for initialization."\n}';
+      this.contentSources.commandQueue.loaded = true;
+    }
+  }
+
+  async _handleUpdateNowClick() {
     log('info', '[EditorUI] Update Now button clicked');
-    
+
     if (this.currentSourceKey === 'latestSnapshot') {
       this._fetchCurrentSnapshot();
       this._displayCurrentSourceContent();
@@ -733,6 +779,10 @@ class EditorUI {
       this._fetchStaticData();
       this._displayCurrentSourceContent();
       log('info', '[EditorUI] Manually updated static data display');
+    } else if (this.currentSourceKey === 'commandQueue') {
+      await this._fetchCommandQueueSnapshot();
+      this._displayCurrentSourceContent();
+      log('info', '[EditorUI] Manually updated command queue display');
     } else {
       log('info', '[EditorUI] Update Now clicked but not viewing dynamic data');
     }
