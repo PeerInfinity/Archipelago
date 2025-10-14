@@ -1,3 +1,82 @@
+/**
+ * State Manager Module Entry Point
+ *
+ * This module serves as the entry point for the StateManager system, coordinating
+ * initialization, event registration, and communication between the main thread
+ * and the StateManager web worker.
+ *
+ * **DATA FLOW**:
+ *
+ * Module Initialization (initialize):
+ *   Input: Module configuration from init system
+ *     ├─> moduleId: 'stateManager'
+ *     ├─> priorityIndex: Loading priority
+ *     ├─> initializationApi: Core API access
+ *
+ *   Processing:
+ *     ├─> Store initialization API reference
+ *     ├─> Subscribe to settings:changed events
+ *     ├─> StateManagerProxy singleton already exists (auto-created on import)
+ *
+ *   Output: Module registered and ready for post-initialization
+ *
+ * Post-Initialization (postInitialize):
+ *   Input: Module-specific configuration (optional)
+ *     ├─> rulesConfig: Archipelago JSON rules (optional)
+ *     ├─> playerId: Selected player ID (optional)
+ *     ├─> settings: Game settings (optional)
+ *     ├─> gameName: Game name override (optional)
+ *
+ *   Processing:
+ *     ├─> Determine rules source (config or fetch default)
+ *     ├─> Extract player info from rules
+ *     ├─> Initialize proxy singleton with config
+ *     ├─> Load rules into worker via proxy
+ *     ├─> Publish rawJsonDataLoaded event
+ *
+ *   Output: Worker initialized and ready
+ *     ├─> Proxy connected to worker
+ *     ├─> Rules loaded in worker
+ *     ├─> Initial snapshot available
+ *     ├─> stateManager:ready event published
+ *
+ * Event Handling:
+ *   User Location Check (user:locationCheck):
+ *     Input: { locationName: string } or generic check request
+ *     Processing: Forward to proxy.checkLocation()
+ *     Output: Location checked in worker, snapshot updated
+ *
+ *   User Item Check (user:itemCheck):
+ *     Input: { itemName: string, isShiftPressed: boolean }
+ *     Processing: Add or remove item via proxy
+ *     Output: Inventory updated in worker, snapshot updated
+ *
+ *   Settings Changed (settings:changed):
+ *     Input: { key: string, value: any }
+ *     Processing: If logging settings changed, update worker config
+ *     Output: Worker logging reconfigured
+ *
+ * State Persistence (JSON Module Integration):
+ *   Save State (getSaveDataFunction):
+ *     Input: Current game session
+ *     Processing: Extract inventory and checked locations from proxy
+ *     Output: Serializable state data
+ *
+ *   Load State (applyLoadedDataFunction):
+ *     Input: Previously saved state data
+ *     Processing: Send runtime state to worker via proxy
+ *     Output: Game state restored in worker
+ *
+ * **Architecture Notes**:
+ * - This module runs on the main thread
+ * - Coordinates with stateManagerProxySingleton (main thread proxy)
+ * - Proxy communicates with stateManagerWorker (web worker)
+ * - Worker contains actual StateManager instance
+ * - All state computation happens in worker thread
+ *
+ * @module stateManager/index
+ */
+
 // Remove unused legacy imports
 // import { StateManager } from './stateManager.js';
 // import stateManagerSingleton from './stateManagerSingleton.js';

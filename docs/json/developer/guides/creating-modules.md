@@ -4,6 +4,50 @@ This guide provides a step-by-step walkthrough for creating a new frontend modul
 
 As an example, we will create a simple "Greeter" module that displays a welcome message and reacts to an event.
 
+## Naming Conventions
+
+Before creating a module, it's important to understand the project's naming conventions. The codebase follows a consistent pattern based on whether a name is a single word or a compound name:
+
+### Single-Word Concepts → Use Plural
+
+When a module represents a collection or capability with a single-word name, use the **plural** form:
+
+- **Module directory**: `regions/`, `locations/`, `exits/`, `dungeons/`, `modules/`, `presets/`, `tests/`
+- **Module name** (in `modules.json`): `"regions"`, `"locations"`, `"exits"`, `"dungeons"`
+- **Component type**: `"regionsPanel"`, `"locationsPanel"`, `"exitsPanel"`, `"dungeonsPanel"`
+
+### Compound Names → Singular Noun
+
+When a module name is a compound (modifier + noun), keep the **noun singular**:
+
+- **Module directory**: `regionGraph/`, `pathAnalyzer/`, `playerState/`, `spoilerChecklist/`
+- **Module name**: `"regionGraph"`, `"pathAnalyzer"`, `"playerState"`, `"spoilerChecklist"`
+- **Component type**: `"regionGraphPanel"`, `"pathAnalyzerPanel"`, `"playerStatePanel"`
+
+**Rationale**: In compound names, the noun is modified by another word, making it singular. For example:
+- "region graph" = a graph *of* regions (one graph, many regions)
+- "player state" = the state *of* a player (one state, one player)
+- "spoiler checklist" = a checklist *for* spoilers (one checklist, many spoilers)
+
+### UI Class Names → Always Singular
+
+Regardless of the module name, UI class names should always be **singular** with a "UI" suffix:
+
+- **UI class file**: `regionUI.js`, `locationUI.js`, `exitUI.js`, `dungeonUI.js`
+- **UI class name**: `RegionUI`, `LocationUI`, `ExitUI`, `DungeonUI`
+
+**Rationale**: Each UI class represents a single panel or component instance, so it should be singular even if the module deals with multiple entities.
+
+### Examples
+
+| Module Type | Directory | Module Name | Component Type | UI Class File | UI Class Name |
+|-------------|-----------|-------------|----------------|---------------|---------------|
+| Single-word | `regions/` | `regions` | `regionsPanel` | `regionUI.js` | `RegionUI` |
+| Single-word | `locations/` | `locations` | `locationsPanel` | `locationUI.js` | `LocationUI` |
+| Compound | `regionGraph/` | `regionGraph` | `regionGraphPanel` | `regionGraphUI.js` | `RegionGraphUI` |
+| Compound | `playerState/` | `playerState` | N/A (no panel) | N/A | N/A |
+| Compound | `spoilerChecklist/` | `spoilerChecklist` | `spoilerChecklistPanel` | `spoilerChecklistUI.js` | `SpoilerChecklistUI` |
+
 ## Step 1: Create the Module Directory and Files
 
 First, create a new directory for your module inside `frontend/modules/`.

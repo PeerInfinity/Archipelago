@@ -11,6 +11,148 @@
  * - Snapshot generation and transmission to main thread
  * - Logging coordination with main thread
  *
+ * **DATA FLOW**:
+ *
+ * Worker Initialization (initialize command):
+ *   Input: Worker configuration from proxy
+ *     ├─> rulesData: Archipelago JSON rules (optional)
+ *     ├─> playerId: Selected player ID
+ *     ├─> settings: Game settings
+ *     ├─> loggingConfig: Logging configuration from main thread
+ *
+ *   Processing:
+ *     ├─> Store workerConfig
+ *     ├─> Configure worker logger with main thread settings
+ *     ├─> Create StateManager instance with evaluateRule function
+ *     ├─> Pass CommandQueue to StateManager
+ *     ├─> Set up communication channel (postMessage callback)
+ *     ├─> Apply initial settings if provided
+ *
+ *   Output: Worker initialized
+ *     ├─> StateManager instance created
+ *     ├─> workerInitializedConfirmation sent to proxy
+ *     ├─> Ready to process commands
+ *
+ * Rules Loading (loadRules command):
+ *   Input: Rules and player info from proxy
+ *     ├─> rulesData: Full Archipelago JSON
+ *     ├─> playerInfo: { playerId, playerName }
+ *
+ *   Processing:
+ *     ├─> Call stateManager.loadFromJSON(rulesData, playerId)
+ *     ├─> StateManager processes all locations, regions, exits
+ *     ├─> Game logic module selected based on game name
+ *     ├─> Initial reachability computed
+ *     ├─> Generate initial snapshot
+ *     ├─> Collect static game data
+ *
+ *   Output: Rules loaded confirmation
+ *     ├─> rulesLoadedConfirmation message
+ *     ├─> initialSnapshot included
+ *     ├─> newStaticData (locations, regions, items, etc.)
+ *     ├─> gameName and playerId echoed back
+ *
+ * Command Queue Processing:
+ *   Input: Command message from main thread
+ *     ├─> command: Command name (string)
+ *     ├─> queryId: Unique ID for response matching
+ *     ├─> payload: Command-specific data
+ *     ├─> expectResponse: Whether command needs response
+ *
+ *   Processing (Phase 8):
+ *     ├─> Enqueue command with commandQueue.enqueue()
+ *     ├─> Process queue in FIFO order with processQueue()
+ *     ├─> Execute command via executeCommand()
+ *     ├─> Route to appropriate StateManager method in handleMessage()
+ *     ├─> Mark as completed or failed in queue
+ *     ├─> Send response if expectResponse=true
+ *
+ *   Output: Command result
+ *     ├─> queryResponse for queries
+ *     ├─> pingResponse for ping
+ *     ├─> stateSnapshot for state changes
+ *     ├─> commandCompleted/commandFailed for tracking
+ *
+ * Item Management Commands:
+ *   addItemToInventory:
+ *     Input: { item: string, quantity: number }
+ *     Processing: stateManager.addItemToInventory(item, quantity)
+ *     Output: Inventory updated, snapshot sent
+ *
+ *   removeItemFromInventory:
+ *     Input: { item: string, quantity: number }
+ *     Processing: stateManager.removeItemFromInventory(item, quantity)
+ *     Output: Inventory updated, snapshot sent
+ *
+ * Location Checking Commands:
+ *   checkLocation:
+ *     Input: { locationName: string, addItems: boolean }
+ *     Processing: stateManager.checkLocation(locationName, addItems)
+ *     Output: Location checked, item granted, snapshot sent
+ *
+ * Batch Update Commands:
+ *   beginBatchUpdate:
+ *     Input: { deferRegionComputation: boolean }
+ *     Processing: stateManager.beginBatchUpdate()
+ *     Output: Batch mode enabled, updates queued
+ *
+ *   commitBatchUpdate:
+ *     Input: None
+ *     Processing: stateManager.commitBatchUpdate()
+ *     Output: All updates applied, regions recomputed, snapshot sent
+ *
+ * State Management Commands:
+ *   applyRuntimeState:
+ *     Input: { inventory: {}, checkedLocations: [], ... }
+ *     Processing: stateManager.applyRuntimeState(payload)
+ *     Output: State restored, snapshot sent
+ *
+ *   clearStateAndReset:
+ *     Input: None
+ *     Processing: stateManager.clearState()
+ *     Output: State cleared, snapshot sent
+ *
+ *   clearEventItems:
+ *     Input: None
+ *     Processing: stateManager.clearEventItems()
+ *     Output: Event items removed, snapshot sent
+ *
+ * Query Commands:
+ *   getFullSnapshot / getFullSnapshotQuery:
+ *     Input: None
+ *     Processing: stateManager.getSnapshot()
+ *     Output: queryResponse with full snapshot
+ *
+ *   getWorkerQueueStatusQuery:
+ *     Input: None
+ *     Processing: commandQueue.getSnapshot()
+ *     Output: queryResponse with queue metrics
+ *
+ * Testing Commands:
+ *   evaluateLocationAccessibilityForTest:
+ *     Input: { locationName, requiredItems, excludedItems }
+ *     Processing: stateManager.evaluateAccessibilityForTest()
+ *     Output: queryResponse with accessibility boolean
+ *
+ *   applyTestInventoryAndEvaluate:
+ *     Input: { locationName, requiredItems, excludedItems }
+ *     Processing: Setup test inventory, evaluate location
+ *     Output: queryResponse with snapshot and result
+ *
+ * Ping/Sync Command:
+ *   ping:
+ *     Input: { queryId, payload: dataToEcho }
+ *     Processing: stateManager.ping({ queryId, payload })
+ *     Output: pingResponse with echoed payload
+ *
+ * **Architecture Notes**:
+ * - Worker runs in separate thread (Web Worker context)
+ * - No access to window, document, or DOM
+ * - All communication via postMessage
+ * - StateManager instance owned by worker
+ * - Command queue prevents race conditions
+ * - Yield points allow responsive command processing
+ *
  * @module stateManager/worker
  */
 
