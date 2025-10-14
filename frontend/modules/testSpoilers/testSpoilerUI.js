@@ -1,15 +1,15 @@
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
-import eventBus from '../../app/core/eventBus.js'; // ADDED: Static import
-import { evaluateRule } from '../shared/ruleEngine.js'; // ADDED
-import { createStateSnapshotInterface } from '../shared/stateInterface.js'; // ADDED
-import { createRegionLink } from '../commonUI/index.js'; // ADDED
-import TestSpoilerRuleEvaluator from './testSpoilerRuleEvaluator.js'; // ADDED
-import { FileLoader } from './fileLoader.js'; // Phase 1: File loading module
-import { ComparisonEngine } from './comparisonEngine.js'; // Phase 2: Comparison engine module
-import { AnalysisReporter } from './analysisReporter.js'; // Phase 3: Analysis/reporting module
-import { EventProcessor } from './eventProcessor.js'; // Phase 4: Event processing module
-import { TestOrchestrator } from './testOrchestrator.js'; // Phase 5: Test orchestration module
-import { createUniversalLogger } from '../../app/core/universalLogger.js'; // Phase 1: Universal logger
+import eventBus from '../../app/core/eventBus.js';
+import { evaluateRule } from '../shared/ruleEngine.js';
+import { createStateSnapshotInterface } from '../shared/stateInterface.js';
+import { createRegionLink } from '../commonUI/index.js';
+import TestSpoilerRuleEvaluator from './testSpoilerRuleEvaluator.js';
+import { FileLoader } from './fileLoader.js';
+import { ComparisonEngine } from './comparisonEngine.js';
+import { AnalysisReporter } from './analysisReporter.js';
+import { EventProcessor } from './eventProcessor.js';
+import { TestOrchestrator } from './testOrchestrator.js';
+import { createUniversalLogger } from '../../app/core/universalLogger.js';
 
 const logger = createUniversalLogger('testSpoilerUI');
 
@@ -30,52 +30,43 @@ function log(level, message, ...data) {
 
 export class TestSpoilerUI {
   constructor(container, componentState) {
-    // MODIFIED: GL constructor
-    this.container = container; // ADDED
-    this.componentState = componentState; // ADDED
+    this.container = container;
+    this.componentState = componentState;
 
     this.initialized = false;
     this.testSpoilersContainer = null;
-    this.currentSpoilerFile = null; // ADDED: To store the selected File object
-    this.currentSpoilerLogPath = null; // ADDED: To store the path/name of the loaded log
+    this.currentSpoilerFile = null;
+    this.currentSpoilerLogPath = null;
     this.logContainer = null;
-    this.controlsContainer = null; // ADDED: Div for run/step controls
-    this.abortController = null; // To cancel ongoing tests
-    this.spoilersPanelContainer = null; // Cache container element
+    this.controlsContainer = null;
+    this.abortController = null;
+    this.spoilersPanelContainer = null;
     this.viewChangeSubscription = null;
-    this.eventBus = eventBus; // MODIFIED: Use statically imported eventBus
-    this.rootElement = null; // Added
+    this.eventBus = eventBus;
+    this.rootElement = null;
     this.activeRulesetName = null;
     this.gameName = null;
-    this.playerId = null; // Initialized to null
-    this.log('debug', `[Constructor] Initial playerId: ${this.playerId}`); // Log initial playerId
-    this.isLoadingLogPath = null; // ADDED: To prevent concurrent loads of the same log path
+    this.playerId = null;
+    this.log('debug', `[Constructor] Initial playerId: ${this.playerId}`);
+    this.isLoadingLogPath = null;
 
     // State for stepping through tests
-    this.spoilerLogData = null; // MODIFIED: Renamed from logEvents, initialized to null
+    this.spoilerLogData = null;
     this.currentLogIndex = 0;
     this.testStateInitialized = false;
-    this.initialAutoLoadAttempted = false; // ADDED to help manage auto-load calls
-    this.eventProcessingDelayMs = 0; // ELIMINATED: No delay to prevent background processing issues
-    this.stopOnFirstError = true; // ADDED: To control test run behavior - TEMPORARILY DISABLED for debugging
-    this.currentMismatchDetails = null; // DEPRECATED: Use currentMismatchDetailsArray instead
-    this.currentMismatchDetailsArray = []; // Phase 4: Array to store multiple mismatches per event (locations AND regions)
-    // Phase 4: previousInventory moved to EventProcessor
+    this.initialAutoLoadAttempted = false;
+    this.eventProcessingDelayMs = 0;
+    this.stopOnFirstError = true;
+    this.currentMismatchDetailsArray = [];
     this.ruleEvaluator = new TestSpoilerRuleEvaluator((level, message, ...data) => this.log(level, message, ...data));
 
-    // Phase 1: Initialize file loader module
+    // Initialize module dependencies
     this.fileLoader = new FileLoader();
-
-    // Phase 2: Initialize comparison engine module
     this.comparisonEngine = new ComparisonEngine(stateManager);
-
-    // Phase 3: Initialize analysis reporter module
     this.analysisReporter = new AnalysisReporter(
       this.ruleEvaluator,
       (type, message, ...data) => this.log(type, message, ...data)
     );
-
-    // Phase 4: Initialize event processor module
     this.eventProcessor = new EventProcessor(
       this.comparisonEngine,
       this.analysisReporter,
@@ -83,7 +74,6 @@ export class TestSpoilerUI {
       (type, message, ...data) => this.log(type, message, ...data)
     );
 
-    // Phase 5: Initialize test orchestrator module
     // Create UI callbacks object for orchestrator
     const uiCallbacks = {
       clearContainer: () => {
@@ -112,9 +102,8 @@ export class TestSpoilerUI {
         const testNameElement = this.controlsContainer?.querySelector('#spoiler-test-name');
         if (testNameElement) {
           // Fallback chain: logPath → currentSpoilerFile.name → 'Unknown Log'
-          testNameElement.textContent = `Testing: ${
-            logPath || (this.currentSpoilerFile ? this.currentSpoilerFile.name : 'Unknown Log')
-          }`;
+          testNameElement.textContent = `Testing: ${logPath || (this.currentSpoilerFile ? this.currentSpoilerFile.name : 'Unknown Log')
+            }`;
         }
       },
       getLogEntries: () => {
@@ -160,7 +149,6 @@ export class TestSpoilerUI {
     eventBus.subscribe('app:readyForUiDataLoad', readyHandler, 'testSpoilers');
 
     this.container.on('destroy', () => {
-      // ADDED: Ensure cleanup
       this.dispose();
     });
   }
@@ -168,12 +156,12 @@ export class TestSpoilerUI {
   getRootElement() {
     if (!this.rootElement) {
       this.rootElement = document.createElement('div');
-      this.rootElement.className = 'test-spoilers-module-root'; // Added class for potential styling
+      this.rootElement.className = 'test-spoilers-module-root';
       this.testSpoilersContainer = document.createElement('div');
       this.testSpoilersContainer.className = 'test-spoilers-container';
       this.rootElement.appendChild(this.testSpoilersContainer);
 
-      // Add style for min-height of log container
+      // Add styles for the module
       const style = document.createElement('style');
       style.textContent = `
         .test-spoilers-module-root {
@@ -188,7 +176,7 @@ export class TestSpoilerUI {
           display: flex;
           flex-direction: column;
           padding: 10px;
-          overflow: hidden; /* ADDED: To contain children and enable child scrolling */
+          overflow: hidden;
         }
         #spoiler-controls-container {
             margin-bottom: 10px;
@@ -200,8 +188,8 @@ export class TestSpoilerUI {
           overflow-y: auto;
           background-color: #333; /* Dark background for log */
           color: #ccc; /* Lighter text for log */
-          flex-grow: 1; 
-          flex-basis: 0; /* ADDED: Works with flex-grow for better scrollable area sizing */
+          flex-grow: 1;
+          flex-basis: 0;
           margin-top: 10px;
           font-family: monospace;
         }
@@ -254,9 +242,9 @@ export class TestSpoilerUI {
 
     // Clear container and set up basic structure initially
     this.testSpoilersContainer.innerHTML = '';
-    this.ensureLogContainerReady(); // Create #spoiler-log-output and #spoiler-controls-container
+    this.ensureLogContainerReady();
 
-    // ADDED: Check for existing ruleset immediately on initialization
+    // Check for existing ruleset immediately on initialization
     try {
       const currentRulesetSource = stateManager.getRawJsonDataSource();
       if (currentRulesetSource && !this.activeRulesetName) {
@@ -267,7 +255,7 @@ export class TestSpoilerUI {
       this.log('debug', `Could not get current ruleset source: ${error.message}`);
     }
 
-    // MODIFIED: Always render manual file selection view on initialization
+    // Always render manual file selection view on initialization
     this.renderManualFileSelectionView(
       'Select a spoiler log file or load the suggested one if available.'
     );
@@ -276,19 +264,7 @@ export class TestSpoilerUI {
       'Test Spoilers panel ready. Waiting for user to load a spoiler log.'
     );
 
-    // REMOVE/COMMENT OUT: Direct call to attemptAutoLoadSpoilerLog
-    /*
-    if (this.activeRulesetName) {
-      // ...
-      await this.attemptAutoLoadSpoilerLog(this.activeRulesetName);
-    } else {
-      this.renderManualFileSelectionView(); 
-      // ...
-    }
-    */
-
-    // MODIFIED: The stateManager:rulesLoaded listener will now ONLY update the suggested file, not auto-load.
-    if (this.rulesLoadedUnsub) this.rulesLoadedUnsub(); // Unsubscribe if already subscribed
+    if (this.rulesLoadedUnsub) this.rulesLoadedUnsub();
     this.rulesLoadedUnsub = this.eventBus.subscribe(
       'stateManager:rulesLoaded',
       async (eventData) => {
@@ -305,25 +281,15 @@ export class TestSpoilerUI {
             'info',
             `Active ruleset updated to: ${newRulesetName}, Player ID: ${this.playerId}`
           );
-
-          // Refresh the view to show the new suggested log, but DO NOT auto-load.
-          // Only refresh if no log is currently loaded, or perhaps always to update suggestion.
           if (!this.spoilerLogData) {
-            // Only refresh if no log is active
             this.renderManualFileSelectionView(
               `Ruleset changed to ${newRulesetName}. Suggested log updated.`
             );
           } else {
-            // If a log is already loaded, just update the suggestion text in the existing view if possible,
-            // or inform the user that the ruleset changed but their current log is still active.
-            // For simplicity now, we'll just log. A more advanced UI could update a "suggested file" field.
             this.log(
               'info',
               `Ruleset changed to ${newRulesetName}, but a log is already loaded. Suggested log path may have updated.`
             );
-            // We can call renderManualFileSelectionView again to update the suggested file text.
-            // This will replace the controls and log output, which might be disruptive if a test is running.
-            // Let's only re-render if no test is active.
             if (
               this.controlsContainer &&
               !this.controlsContainer.querySelector('#run-full-spoiler-test')
@@ -335,10 +301,9 @@ export class TestSpoilerUI {
           }
         }
       }
-    , 'testSpoilers');
+      , 'testSpoilers');
 
-    // MODIFIED: The stateManager:rawJsonDataLoaded listener will also ONLY update suggested file.
-    if (this.rawJsonDataUnsub) this.rawJsonDataUnsub(); // Unsubscribe
+    if (this.rawJsonDataUnsub) this.rawJsonDataUnsub();
     this.rawJsonDataUnsub = this.eventBus.subscribe(
       'stateManager:rawJsonDataLoaded',
       (data) => {
@@ -348,16 +313,14 @@ export class TestSpoilerUI {
             'info',
             `[TestSpoilerUI] Active ruleset name set from rawJsonDataLoaded: ${this.activeRulesetName}`
           );
-          // Refresh the view to show the new suggested log, but DO NOT auto-load.
           if (!this.spoilerLogData) {
-            // Only refresh if no log is active
             this.renderManualFileSelectionView(
               `Initial ruleset ${this.activeRulesetName} detected. Suggested log updated.`
             );
           }
         }
       }
-    , 'testSpoilers');
+      , 'testSpoilers');
 
     this.initialized = true;
     this.log(
@@ -380,7 +343,7 @@ export class TestSpoilerUI {
       return;
     }
 
-    // Phase 1: Delegate to FileLoader module
+    // Delegate to FileLoader module
     const result = await this.fileLoader.attemptAutoLoad(
       rulesetPath,
       this.currentSpoilerLogPath,
@@ -445,7 +408,7 @@ export class TestSpoilerUI {
   }
 
   extractFilenameBase(filePathOrName) {
-    // Phase 1: Delegate to FileLoader module
+    // Delegate to FileLoader module
     return this.fileLoader.extractFilenameBase(filePathOrName);
   }
 
@@ -472,11 +435,11 @@ export class TestSpoilerUI {
       canLoadSuggested = true;
       suggestedLogInfoContainer.innerHTML = `
         <p>Current ruleset: <strong>${this.escapeHtml(
-          this.activeRulesetName
-        )}</strong></p>
+        this.activeRulesetName
+      )}</strong></p>
         <p>Suggested log file: <strong>${this.escapeHtml(
-          suggestedLogName
-        )}</strong></p>
+        suggestedLogName
+      )}</strong></p>
       `;
       const loadSuggestedButton = document.createElement('button');
       loadSuggestedButton.textContent = 'Load Suggested Log';
@@ -522,17 +485,14 @@ export class TestSpoilerUI {
     loadButton.onclick = async () => {
       const file = fileInput.files[0];
       if (file) {
-        this.clearTestState(); // ADDED: Clear state before loading new manual file
+        this.clearTestState();
         this.currentSpoilerFile = file;
-        this.currentSpoilerLogPath = file.name; // Use file name as path for display
-        this.abortController = new AbortController();
-        const signal = this.abortController.signal;
+        this.currentSpoilerLogPath = file.name;
         this.log('info', `Loading selected file: ${file.name}`);
-        const success = await this.readSelectedLogFile(file, signal);
+        const success = await this.readSelectedLogFile(file, null);
         if (success) {
-          await this.prepareSpoilerTest(false); // false for isAutoLoad
+          await this.prepareSpoilerTest(false);
         } else {
-          // Error already logged by readSelectedLogFile
           this.renderManualFileSelectionView(
             `Failed to load or parse: ${file.name}. Please try again.`
           );
@@ -571,9 +531,8 @@ export class TestSpoilerUI {
     const testNameElement = document.createElement('span');
     testNameElement.id = 'spoiler-test-name';
     testNameElement.style.marginRight = '10px';
-    testNameElement.textContent = `Testing: ${
-      this.currentSpoilerLogPath || 'Unknown Log'
-    }`;
+    testNameElement.textContent = `Testing: ${this.currentSpoilerLogPath || 'Unknown Log'
+      }`;
 
     const runFullButton = document.createElement('button');
     runFullButton.id = 'run-full-spoiler-test';
@@ -582,12 +541,11 @@ export class TestSpoilerUI {
 
     const stepButton = document.createElement('button');
     stepButton.id = 'step-spoiler-test';
-    stepButton.textContent = `Step Test (Step ${this.currentLogIndex} / ${
-      this.spoilerLogData ? this.spoilerLogData.length : 0
-    })`;
+    stepButton.textContent = `Step Test (Step ${this.currentLogIndex} / ${this.spoilerLogData ? this.spoilerLogData.length : 0
+      })`;
     stepButton.onclick = () => this.stepSpoilerTest();
 
-    // ADDED: Checkbox for "Stop on first error"
+    // Checkbox for "Stop on first error"
     const stopOnErrorContainer = document.createElement('div');
     stopOnErrorContainer.style.display = 'inline-block';
     stopOnErrorContainer.style.marginLeft = '15px';
@@ -600,8 +558,7 @@ export class TestSpoilerUI {
       this.stopOnFirstError = event.target.checked;
       this.log(
         'info',
-        `"Stop on first error" is now ${
-          this.stopOnFirstError ? 'enabled' : 'disabled'
+        `"Stop on first error" is now ${this.stopOnFirstError ? 'enabled' : 'disabled'
         }.`
       );
     };
@@ -614,23 +571,19 @@ export class TestSpoilerUI {
     stopOnErrorContainer.appendChild(stopOnErrorCheckbox);
     stopOnErrorContainer.appendChild(stopOnErrorLabel);
 
-    // ADDED: Checkbox for auto-collect events
+    // Checkbox for auto-collect events
     const autoCollectCheckbox = document.createElement('input');
     autoCollectCheckbox.type = 'checkbox';
     autoCollectCheckbox.id = 'auto-collect-events-checkbox';
-    autoCollectCheckbox.checked = false; // Default to false, as tests usually disable it initially.
-    // The user can override this manually.
+    autoCollectCheckbox.checked = false;
     autoCollectCheckbox.style.marginLeft = '10px';
     autoCollectCheckbox.onchange = async (event) => {
       const isEnabled = event.target.checked;
       try {
         await stateManager.setAutoCollectEventsConfig(isEnabled);
         this.log('info', `Auto-collect events manually set to: ${isEnabled}`);
-        // Optional: Consider if re-running the current step or refreshing view is needed.
-        // For now, the user can manually step again to see the effect.
       } catch (error) {
         this.log('error', 'Failed to set auto-collect events config:', error);
-        // Revert checkbox if the call failed
         event.target.checked = !isEnabled;
       }
     };
@@ -639,534 +592,80 @@ export class TestSpoilerUI {
     autoCollectLabel.htmlFor = 'auto-collect-events-checkbox';
     autoCollectLabel.textContent = 'Auto-collect Events';
     autoCollectLabel.style.marginLeft = '2px';
-    // END ADDED
 
     controlsDiv.appendChild(changeFileButton);
     controlsDiv.appendChild(testNameElement);
     controlsDiv.appendChild(runFullButton);
     controlsDiv.appendChild(stepButton);
-    controlsDiv.appendChild(stopOnErrorContainer); // ADDED
-    // ADDED: Append checkbox and label
+    controlsDiv.appendChild(stopOnErrorContainer);
     controlsDiv.appendChild(autoCollectCheckbox);
     controlsDiv.appendChild(autoCollectLabel);
-    // END ADDED
 
     this.controlsContainer.innerHTML = ''; // Clear previous controls
     this.controlsContainer.appendChild(controlsDiv);
   }
 
   async prepareSpoilerTest(isAutoLoad = false) {
-    // Phase 5: Delegate to TestOrchestrator module
     const prepareSuccess = await this.testOrchestrator.prepareSpoilerTest(
       this.spoilerLogData,
       this.playerId,
       this.currentSpoilerLogPath,
       isAutoLoad
     );
-
-    // Sync state from orchestrator
-    const progress = this.testOrchestrator.getProgress();
-    this.currentLogIndex = progress.currentIndex;
-    this.testStateInitialized = progress.initialized;
-
-    // CRITICAL FIX: Sync abort controller from orchestrator
-    this.abortController = this.testOrchestrator.abortController;
-
+    this._syncStateFromOrchestrator();
     return prepareSuccess;
   }
 
+  /**
+   * Synchronizes UI state from orchestrator and event processor
+   * Called after orchestrator operations to maintain state consistency
+   * @private
+   */
+  _syncStateFromOrchestrator() {
+    // Sync progress and abort controller from orchestrator
+    const progress = this.testOrchestrator.getProgress();
+    this.currentLogIndex = progress.currentIndex;
+    this.testStateInitialized = progress.initialized;
+    this.abortController = this.testOrchestrator.abortController;
+
+    // Sync mismatch details from event processor
+    this.currentMismatchDetailsArray = this.eventProcessor.getMismatchDetailsArray();
+  }
+
   async runFullSpoilerTest() {
-    // Phase 5: Delegate to TestOrchestrator module
     await this.testOrchestrator.runFullSpoilerTest(
       this.spoilerLogData,
       this.playerId,
       this.currentSpoilerLogPath
     );
-
-    // Sync state from orchestrator
-    const progress = this.testOrchestrator.getProgress();
-    this.currentLogIndex = progress.currentIndex;
-    this.testStateInitialized = progress.initialized;
-    this.abortController = this.testOrchestrator.abortController;
-
-    // Sync mismatch details from event processor (for compatibility)
-    this.currentMismatchDetailsArray = this.eventProcessor.getMismatchDetailsArray();
-    if (this.currentMismatchDetailsArray.length > 0) {
-      this.currentMismatchDetails = this.currentMismatchDetailsArray[this.currentMismatchDetailsArray.length - 1];
-    } else {
-      this.currentMismatchDetails = null;
-    }
-  }
-
-  async runFullSpoilerTest_ORIGINAL() {
-    // DEPRECATED: Original implementation kept for reference
-    // This method has been replaced by TestOrchestrator delegation (see runFullSpoilerTest above)
-    this.log(
-      'info',
-      `[runFullSpoilerTest] Starting full spoiler test. playerId: ${this.playerId}`
-    );
-
-    await this.prepareSpoilerTest();
-    
-    this.log('info', `[runFullSpoilerTest] After prepareSpoilerTest: testStateInitialized=${this.testStateInitialized}, currentLogIndex=${this.currentLogIndex}`);
-    
-    if (!this.testStateInitialized) {
-      this.log(
-        'error',
-        'Cannot run full test: Test state not initialized (likely no valid log data).'
-      );
-      return;
-    }
-
-    const currentAbortController = this.abortController; // ADDED: Capture to local variable
-
-    if (!currentAbortController) {
-      // ADDED: Diagnostic check
-      this.log(
-        'error',
-        'CRITICAL: AbortController is null immediately after prepareSpoilerTest in runFullSpoilerTest.'
-      );
-      // Log additional context if possible
-      this.log(
-        'error',
-        `Current log path: ${this.currentSpoilerLogPath}, Data length: ${
-          this.spoilerLogData ? this.spoilerLogData.length : 'N/A'
-        }`
-      );
-      return;
-    }
-
-    if (!this.spoilerLogData) {
-      this.log('error', 'No log events loaded.');
-      return;
-    }
-
-    this.log('step', '4. Processing all log events...');
-    const runButton = document.getElementById('run-full-spoiler-test');
-    const stepButton = document.getElementById('step-spoiler-test');
-    if (runButton) runButton.disabled = true;
-    if (stepButton) stepButton.disabled = true;
-
-    let allEventsPassedSuccessfully = true; // Renamed from allChecksPassed for clarity
-    let detailedErrorMessages = [];
-    let sphereResults = []; // ADDED: Track results for each sphere
-    let mismatchDetails = []; // ADDED: Track detailed mismatch information
-
-    try {
-      // The main loop for processing events.
-      // Critical errors from prepareSpoilerTest or StateManager setup are caught before this.
-      // This loop now continues even if processSingleEvent reports an error for an event.
-      this.log('info', `Starting main processing loop. Total events to process: ${this.spoilerLogData.length}`);
-      
-      while (this.currentLogIndex < this.spoilerLogData.length) {
-        this.log('debug', `Loop iteration: currentLogIndex=${this.currentLogIndex}, totalEvents=${this.spoilerLogData.length}`);
-        
-        if (currentAbortController.signal.aborted) {
-          this.log('warn', `Processing aborted at event ${this.currentLogIndex + 1}`);
-          throw new DOMException('Aborted', 'AbortError');
-        }
-
-        const event = this.spoilerLogData[this.currentLogIndex];
-        this.log('debug', `About to process event ${this.currentLogIndex + 1}: ${JSON.stringify(event).substring(0, 200)}...`);
-        
-        const eventProcessingResult = await this.processSingleEvent(event);
-        this.log('debug', `Completed processing event ${this.currentLogIndex + 1}, result: ${JSON.stringify(eventProcessingResult)}`);
-
-        // ADDED: Capture detailed sphere results
-        const sphereResult = {
-          eventIndex: this.currentLogIndex,
-          sphereIndex: event.sphere_index !== undefined ? event.sphere_index : this.currentLogIndex + 1,
-          eventType: event.type,
-          passed: !eventProcessingResult?.error,
-          message: eventProcessingResult?.message || 'Processed successfully',
-          details: eventProcessingResult?.details || null
-        };
-        sphereResults.push(sphereResult);
-
-        if (eventProcessingResult && eventProcessingResult.error) {
-          allEventsPassedSuccessfully = false;
-          const errorMessage = `Mismatch for event ${
-            this.currentLogIndex + 1
-          } (Sphere ${
-            event.sphere_index !== undefined ? event.sphere_index : 'N/A'
-          }): ${eventProcessingResult.message}`;
-          this.log('error', errorMessage);
-          detailedErrorMessages.push(errorMessage);
-
-          // ADDED: Capture ALL detailed mismatch information (locations AND regions)
-          if (this.currentMismatchDetailsArray && this.currentMismatchDetailsArray.length > 0) {
-            // Push all mismatch details (handles both location and region mismatches for same event)
-            mismatchDetails.push(...this.currentMismatchDetailsArray.map(detail => ({
-              eventIndex: this.currentLogIndex,
-              sphereIndex: sphereResult.sphereIndex,
-              ...detail
-            })));
-            this.currentMismatchDetailsArray = []; // Clear for next event
-          }
-          // Legacy support: also check single mismatch field
-          else if (this.currentMismatchDetails) {
-            mismatchDetails.push({
-              eventIndex: this.currentLogIndex,
-              sphereIndex: sphereResult.sphereIndex,
-              ...this.currentMismatchDetails
-            });
-            this.currentMismatchDetails = null; // Clear for next event
-          }
-
-          // ADDED: Check if we should stop on this error
-          if (this.stopOnFirstError) {
-            this.log(
-              'warn',
-              'Test run halted due to "Stop on first error" being enabled.'
-            );
-            break; // Exit the loop
-          }
-        }
-        
-        // Add a small delay to allow UI updates and prevent blocking
-        this.log('debug', `Adding delay of ${this.eventProcessingDelayMs}ms before next event`);
-        try {
-          await new Promise((resolve) =>
-            setTimeout(resolve, this.eventProcessingDelayMs)
-          );
-          this.log('debug', `Delay completed successfully`);
-        } catch (delayError) {
-          this.log('error', `Error during delay: ${delayError.message}`);
-          throw delayError;
-        }
-
-        try {
-          this.currentLogIndex++;
-          this.log('debug', `Incremented currentLogIndex to ${this.currentLogIndex}`);
-          
-          this.updateStepInfo();
-          this.log('debug', `updateStepInfo() completed`);
-          
-          this.log('debug', `About to check loop condition: ${this.currentLogIndex} < ${this.spoilerLogData.length} = ${this.currentLogIndex < this.spoilerLogData.length}`);
-        } catch (incrementError) {
-          this.log('error', `Error during loop increment/update: ${incrementError.message}`);
-          throw incrementError;
-        }
-      }
-
-      // --- Final Result Determination ---
-      this.log('info', `Exited main processing loop. Final currentLogIndex: ${this.currentLogIndex}, Total events: ${this.spoilerLogData.length}`);
-      
-      if (currentAbortController.signal.aborted) {
-        this.log('info', 'Spoiler test aborted by user.');
-        // No explicit success/failure message if aborted by user, just the abort log.
-      } else if (allEventsPassedSuccessfully) {
-        this.log(
-          'success',
-          'Spoiler test completed successfully. All events matched.'
-        );
-      } else {
-        // This specific log for overall failure might be redundant if individual errors are clear enough,
-        // but kept for a clear summary.
-        this.log(
-          'error',
-          `Spoiler test completed with ${detailedErrorMessages.length} mismatch(es). See logs above for details.`
-        );
-      }
-    } catch (error) {
-      // This catch block now primarily handles unexpected errors or aborts, not first mismatch.
-      if (error.name === 'AbortError') {
-        this.log('info', 'Spoiler test aborted.');
-      } else {
-        // Log critical/unexpected errors not handled as part of normal event processing.
-        this.log(
-          'error',
-          `Critical error during spoiler test execution at step ${
-            this.currentLogIndex + 1
-          }: ${error.message}`
-        );
-        // Also log to the main logger for more detailed stack trace if available
-        log(
-          'error',
-          `Critical Spoiler Test Error at step ${this.currentLogIndex + 1}:`,
-          error
-        );
-        allEventsPassedSuccessfully = false; // Ensure overall status reflects this critical failure
-      }
-    } finally {
-      if (runButton) runButton.disabled = false;
-      if (stepButton) stepButton.disabled = false;
-      this.isRunning = false; // Ensure isRunning is reset
-      
-      // ADDED: Store detailed test results in window object for external access
-      const detailedTestResults = {
-        passed: allEventsPassedSuccessfully,
-        logEntries: [],
-        errorMessages: detailedErrorMessages,
-        sphereResults: sphereResults,
-        mismatchDetails: mismatchDetails,
-        totalEvents: this.spoilerLogData ? this.spoilerLogData.length : 0,
-        processedEvents: this.currentLogIndex,
-        testLogPath: this.currentSpoilerLogPath,
-        playerId: this.playerId,
-        completedAt: new Date().toISOString()
-      };
-
-      // Collect log entries from the UI
-      if (this.logContainer) {
-        const logEntries = this.logContainer.querySelectorAll('.log-entry');
-        logEntries.forEach((entry) => {
-          detailedTestResults.logEntries.push(entry.textContent);
-        });
-      }
-
-      // Store in window for external access (like Playwright tests)
-      if (typeof window !== 'undefined') {
-        window.__spoilerTestResults__ = detailedTestResults;
-        this.log(
-          'info',
-          'Detailed spoiler test results stored in window.__spoilerTestResults__'
-        );
-      }
-
-      // Store in localStorage as backup
-      try {
-        localStorage.setItem(
-          '__spoilerTestResults__',
-          JSON.stringify(detailedTestResults)
-        );
-        this.log(
-          'info',
-          'Detailed spoiler test results stored in localStorage'
-        );
-      } catch (e) {
-        this.log(
-          'warn',
-          `Could not store detailed results in localStorage: ${e.message}`
-        );
-      }
-
-      // MODIFIED: Re-enable auto-collect events
-      try {
-        await stateManager.setAutoCollectEventsConfig(true);
-        this.log(
-          'info',
-          '[TestSpoilerUI] Re-enabled auto-collect events after full test run.'
-        );
-      } catch (error) {
-        this.log(
-          'error',
-          '[TestSpoilerUI] Failed to re-enable auto-collect events after full test:',
-          error
-        );
-      }
-    }
+    this._syncStateFromOrchestrator();
   }
 
   async stepSpoilerTest() {
-    // Phase 5: Delegate to TestOrchestrator module
     await this.testOrchestrator.stepSpoilerTest(
       this.spoilerLogData,
       this.playerId,
       this.currentSpoilerLogPath
     );
-
-    // Sync state from orchestrator
-    const progress = this.testOrchestrator.getProgress();
-    this.currentLogIndex = progress.currentIndex;
-    this.testStateInitialized = progress.initialized;
-    this.abortController = this.testOrchestrator.abortController;
-
-    // Sync mismatch details from event processor (for compatibility)
-    this.currentMismatchDetailsArray = this.eventProcessor.getMismatchDetailsArray();
-    if (this.currentMismatchDetailsArray.length > 0) {
-      this.currentMismatchDetails = this.currentMismatchDetailsArray[this.currentMismatchDetailsArray.length - 1];
-    } else {
-      this.currentMismatchDetails = null;
-    }
+    this._syncStateFromOrchestrator();
   }
 
   updateStepInfo() {
-    // Phase 5: Delegate to TestOrchestrator module via uiCallbacks
-    // The orchestrator's updateStepInfo is called internally, but this wrapper
-    // method is kept for backward compatibility and direct UI updates
+    // Delegate to TestOrchestrator module via uiCallbacks
     this.testOrchestrator.updateStepInfo(
       this.spoilerLogData,
       this.currentSpoilerLogPath
     );
   }
 
-  // Phase 4: _getSphereDataFromSphereState moved to eventProcessor.js
-  // Phase 4: checkLocationViaEvent moved to eventProcessor.js
-
-  async processSingleEvent(event) {
-    // Phase 4: Delegate to EventProcessor module
-    // Set context before processing
-    this.eventProcessor.setContext(this.currentLogIndex, this.spoilerLogData, this.playerId);
-
-    // Process the event and get result
-    const result = await this.eventProcessor.processSingleEvent(event);
-
-    // Store ALL mismatch details if any (for compatibility with runFullSpoilerTest)
-    // EventProcessor may generate both location AND region mismatches for the same event
-    if (result.error) {
-      // Get all mismatch details from EventProcessor (array to capture both types)
-      this.currentMismatchDetailsArray = this.eventProcessor.getMismatchDetailsArray();
-
-      // Also store the last one in legacy field for backwards compatibility
-      if (this.currentMismatchDetailsArray.length > 0) {
-        this.currentMismatchDetails = this.currentMismatchDetailsArray[this.currentMismatchDetailsArray.length - 1];
-      }
-    } else {
-      // Clear mismatch details if event passed
-      this.currentMismatchDetailsArray = [];
-      this.currentMismatchDetails = null;
-    }
-
-    return result;
-  }
-
-  /**
-   * Wrapper method for location comparison
-   *
-   * NOTE (Phase 4): This method is NOT called by EventProcessor.
-   * EventProcessor calls comparisonEngine.compareAccessibleLocations() directly
-   * and triggers analysis inline. This wrapper is kept for potential future use
-   * or for any code paths that might still use it directly.
-   *
-   * @deprecated Consider using EventProcessor for event-based comparisons
-   */
-  async compareAccessibleLocations(
-    logAccessibleLocationNames,
-    currentWorkerSnapshot,
-    playerId,
-    context
-  ) {
-    // Phase 2: Delegate to ComparisonEngine module
-    const result = await this.comparisonEngine.compareAccessibleLocations(
-      logAccessibleLocationNames,
-      currentWorkerSnapshot,
-      playerId,
-      context
-    );
-
-    // If there was a mismatch, call analysis methods for failing locations
-    if (!result) {
-      const mismatchDetails = this.comparisonEngine.getMismatchDetails();
-      if (mismatchDetails && mismatchDetails.type === 'locations') {
-        // Phase 3: Delegate to AnalysisReporter module
-        // Analyze missing locations
-        if (mismatchDetails.missingFromState && mismatchDetails.missingFromState.length > 0) {
-          this.analysisReporter.analyzeFailingLocations(
-            mismatchDetails.missingFromState,
-            mismatchDetails.staticData,
-            mismatchDetails.currentWorkerSnapshot,
-            mismatchDetails.snapshotInterface,
-            'MISSING_FROM_STATE',
-            this.playerId
-          );
-        }
-        // Analyze extra locations
-        if (mismatchDetails.extraInState && mismatchDetails.extraInState.length > 0) {
-          this.analysisReporter.analyzeFailingLocations(
-            mismatchDetails.extraInState,
-            mismatchDetails.staticData,
-            mismatchDetails.currentWorkerSnapshot,
-            mismatchDetails.snapshotInterface,
-            'EXTRA_IN_STATE',
-            this.playerId
-          );
-        }
-
-        // Store in local state for compatibility (excluding large objects)
-        // Only store serializable data, not object references
-        this.currentMismatchDetails = {
-          type: mismatchDetails.type,
-          context: mismatchDetails.context,
-          missingFromState: mismatchDetails.missingFromState,
-          extraInState: mismatchDetails.extraInState,
-          logAccessibleCount: mismatchDetails.logAccessibleCount,
-          stateAccessibleCount: mismatchDetails.stateAccessibleCount,
-          inventoryUsed: mismatchDetails.inventoryUsed
-          // Deliberately exclude: snapshotInterface, staticData, currentWorkerSnapshot
-        };
-      }
-    }
-
-    return result;
-  }
-
-  /**
-   * Wrapper method for region comparison
-   *
-   * NOTE (Phase 4): This method is NOT called by EventProcessor.
-   * EventProcessor calls comparisonEngine.compareAccessibleRegions() directly
-   * and triggers analysis inline. This wrapper is kept for potential future use
-   * or for any code paths that might still use it directly.
-   *
-   * @deprecated Consider using EventProcessor for event-based comparisons
-   */
-  async compareAccessibleRegions(
-    logAccessibleRegionNames,
-    currentWorkerSnapshot,
-    playerId,
-    context
-  ) {
-    // Phase 2: Delegate to ComparisonEngine module
-    const result = await this.comparisonEngine.compareAccessibleRegions(
-      logAccessibleRegionNames,
-      currentWorkerSnapshot,
-      playerId,
-      context
-    );
-
-    // If there was a mismatch, call analysis methods for failing regions
-    if (!result) {
-      const mismatchDetails = this.comparisonEngine.getMismatchDetails();
-      if (mismatchDetails && mismatchDetails.type === 'regions') {
-        // Phase 3: Delegate to AnalysisReporter module
-        // Analyze missing regions
-        if (mismatchDetails.missingFromState && mismatchDetails.missingFromState.length > 0) {
-          this.analysisReporter.analyzeFailingRegions(
-            mismatchDetails.missingFromState,
-            mismatchDetails.staticData,
-            mismatchDetails.currentWorkerSnapshot,
-            this.playerId,
-            'MISSING_FROM_STATE'
-          );
-        }
-        // Analyze extra regions
-        if (mismatchDetails.extraInState && mismatchDetails.extraInState.length > 0) {
-          this.analysisReporter.analyzeFailingRegions(
-            mismatchDetails.extraInState,
-            mismatchDetails.staticData,
-            mismatchDetails.currentWorkerSnapshot,
-            this.playerId,
-            'EXTRA_IN_STATE'
-          );
-        }
-
-        // Store in local state for compatibility (excluding large objects)
-        // Only store serializable data, not object references
-        this.currentMismatchDetails = {
-          type: mismatchDetails.type,
-          context: mismatchDetails.context,
-          missingFromState: mismatchDetails.missingFromState,
-          extraInState: mismatchDetails.extraInState,
-          logAccessibleCount: mismatchDetails.logAccessibleCount,
-          stateAccessibleCount: mismatchDetails.stateAccessibleCount,
-          inventoryUsed: mismatchDetails.inventoryUsed
-          // Deliberately exclude: staticData, currentWorkerSnapshot, playerId
-        };
-      }
-    }
-
-    return result;
-  }
 
   log(type, message, ...additionalData) {
-    // Log to panel
     if (this.logContainer) {
       const entry = document.createElement('div');
       entry.classList.add('log-entry', `log-${type}`);
       const textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
 
-      // MODIFIED: Check for location and region lists to make them clickable
+      // Check for location and region lists to make them clickable
       const prefixLocationMismatch =
         ' > Locations accessible in LOG but NOT in STATE (or checked): ';
       const prefixLocationExtra =
@@ -1218,31 +717,22 @@ export class TestSpoilerUI {
       if (!isSpecialList) {
         entry.textContent = textContent;
       }
-      // END MODIFIED
-
-      // Consider if additionalData should be stringified or handled for panel display
       this.logContainer.appendChild(entry);
       this.logContainer.scrollTop = this.logContainer.scrollHeight;
     }
 
-    // Log to browser console via centralized logger that respects settings
-    // Map custom types to console methods if needed, e.g., 'step' or 'mismatch'
+    // Log to browser console via centralized logger
     let logLevel = type;
     if (type === 'step' || type === 'mismatch' || type === 'state') {
-      logLevel = 'info'; // Or 'debug' or a specific style
+      logLevel = 'info';
     } else if (type === 'success') {
       logLevel = 'info';
     } else if (type === 'log') {
       logLevel = 'info';
     }
-    // Ensure type is a valid log level, defaulting to 'info'
-    if (
-      !['error', 'warn', 'info', 'debug'].includes(logLevel)
-    ) {
+    if (!['error', 'warn', 'info', 'debug'].includes(logLevel)) {
       logLevel = 'info';
     }
-    
-    // Use centralized logger that respects settings.json logging levels
     if (
       typeof window !== 'undefined' &&
       window.logger &&
@@ -1250,7 +740,6 @@ export class TestSpoilerUI {
     ) {
       window.logger[logLevel]('testSpoilerUI', message, ...additionalData);
     } else {
-      // Fallback to console if logger not available
       const consoleMethod = console[logLevel] || console.log;
       consoleMethod(
         `[testSpoilerUI] ${message}`,
@@ -1318,16 +807,11 @@ export class TestSpoilerUI {
   }
 
   clearDisplay() {
-    // Called when switching away from the 'Files' tab or 'Test Spoilers' sub-tab
     this.clearTestState();
-    // Abort any ongoing test/preparation
     if (this.abortController) {
       this.abortController.abort();
       this.abortController = null;
     }
-    // Optionally clear the container if needed, but renderSpoilerList handles it
-    // const container = document.getElementById('test-spoilers-panel');
-    // if (container) container.innerHTML = '';
   }
 
   clearTestState() {
@@ -1336,15 +820,11 @@ export class TestSpoilerUI {
       this.abortController.abort();
       this.abortController = null;
     }
-    this.spoilerLogData = null; // Explicitly nullify
-    // Do NOT clear this.currentSpoilerLogPath here by default.
-    // It's managed by the loading logic (set on success, cleared on certain failures or when changing files).
+    this.spoilerLogData = null;
     this.currentLogIndex = 0;
     this.testStateInitialized = false;
-    // Phase 4: previousInventory moved to EventProcessor
 
-    // MODIFIED: Re-enable auto-collect events as part of clearing test state
-    // This is a fire-and-forget call as clearTestState might not be awaited.
+    // Re-enable auto-collect events (fire-and-forget)
     stateManager
       .setAutoCollectEventsConfig(true)
       .then(() =>
@@ -1360,7 +840,6 @@ export class TestSpoilerUI {
           error
         )
       );
-    // this.clearDisplay(); // Let the calling view manage display clearing.
   }
 
   dispose() {
@@ -1369,18 +848,12 @@ export class TestSpoilerUI {
       this.abortController.abort();
       this.abortController = null;
     }
-    // Unsubscribe if the handle exists
     if (this.viewChangeSubscription) {
       this.viewChangeSubscription();
       this.viewChangeSubscription = null;
       log('info', '[TestSpoilerUI] Unsubscribed from ui:fileViewChanged.');
     }
-    // this.clearTestState(); // clearTestState already handles re-enabling.
-    // Calling it here might be redundant if already called by GL.
-    // However, direct call to setAutoCollectEventsConfig ensures it happens during dispose.
-
-    // MODIFIED: Ensure auto-collect events is re-enabled on dispose
-    // Fire-and-forget, similar to clearTestState
+    // Ensure auto-collect events is re-enabled on dispose (fire-and-forget)
     stateManager
       .setAutoCollectEventsConfig(true)
       .then(() =>
@@ -1397,11 +870,11 @@ export class TestSpoilerUI {
         )
       );
 
-    this.updateStepInfo(); // Clear step info display
+    this.updateStepInfo();
   }
 
   async readSelectedLogFile(file, signal) {
-    // Phase 1: Delegate to FileLoader module
+    // Delegate to FileLoader module
     try {
       const result = await this.fileLoader.readFile(file, signal);
 
@@ -1427,8 +900,7 @@ export class TestSpoilerUI {
   }
 
   ensureLogContainerReady() {
-    // This function ensures the basic DOM structure for controls and log output exists.
-    // It no longer sets the initial message directly in testSpoilersContainer.
+    // Ensures the basic DOM structure for controls and log output exists.
 
     if (!this.testSpoilersContainer) {
       console.error(
@@ -1483,12 +955,7 @@ export class TestSpoilerUI {
       this.logContainer.id = 'spoiler-log-output';
       this.testSpoilersContainer.appendChild(this.logContainer); // Append log container at the end
     }
-    // The actual initial message like "Attempting to load..." should be logged via this.log()
-    // by the calling function (e.g., attemptAutoLoadSpoilerLog or initialize).
   }
-
-  // Phase 3: Analysis methods moved to analysisReporter.js module
-  // Phase 4: findNewlyAddedItems moved to eventProcessor.js
 }
 
 // Add default export
