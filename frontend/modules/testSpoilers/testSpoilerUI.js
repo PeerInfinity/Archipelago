@@ -8,6 +8,7 @@ import { FileLoader } from './fileLoader.js'; // Phase 1: File loading module
 import { ComparisonEngine } from './comparisonEngine.js'; // Phase 2: Comparison engine module
 import { AnalysisReporter } from './analysisReporter.js'; // Phase 3: Analysis/reporting module
 import { EventProcessor } from './eventProcessor.js'; // Phase 4: Event processing module
+import { TestOrchestrator } from './testOrchestrator.js'; // Phase 5: Test orchestration module
 import { createUniversalLogger } from '../../app/core/universalLogger.js'; // Phase 1: Universal logger
 
 const logger = createUniversalLogger('testSpoilerUI');
@@ -80,6 +81,62 @@ export class TestSpoilerUI {
       this.analysisReporter,
       this.eventBus,
       (type, message, ...data) => this.log(type, message, ...data)
+    );
+
+    // Phase 5: Initialize test orchestrator module
+    // Create UI callbacks object for orchestrator
+    const uiCallbacks = {
+      clearContainer: () => {
+        this.testSpoilersContainer.innerHTML = '';
+      },
+      ensureLogContainerReady: () => this.ensureLogContainerReady(),
+      clearLog: () => {
+        if (this.logContainer) {
+          this.logContainer.innerHTML = '';
+        }
+      },
+      log: (type, message, ...data) => this.log(type, message, ...data),
+      renderManualFileSelectionView: (message) => this.renderManualFileSelectionView(message),
+      renderResultsControls: () => this.renderResultsControls(),
+      setButtonsEnabled: (enabled) => {
+        const runButton = document.getElementById('run-full-spoiler-test');
+        const stepButton = document.getElementById('step-spoiler-test');
+        if (runButton) runButton.disabled = !enabled;
+        if (stepButton) stepButton.disabled = !enabled;
+      },
+      updateStepInfo: (currentIndex, totalEvents, logPath) => {
+        const stepButton = this.controlsContainer?.querySelector('#step-spoiler-test');
+        if (stepButton) {
+          stepButton.textContent = `Step Test (Step ${currentIndex} / ${totalEvents})`;
+        }
+        const testNameElement = this.controlsContainer?.querySelector('#spoiler-test-name');
+        if (testNameElement) {
+          // Fallback chain: logPath → currentSpoilerFile.name → 'Unknown Log'
+          testNameElement.textContent = `Testing: ${
+            logPath || (this.currentSpoilerFile ? this.currentSpoilerFile.name : 'Unknown Log')
+          }`;
+        }
+      },
+      getLogEntries: () => {
+        if (this.logContainer) {
+          const logEntries = this.logContainer.querySelectorAll('.log-entry');
+          return Array.from(logEntries).map(entry => entry.textContent);
+        }
+        return [];
+      }
+    };
+
+    // State configuration object for orchestrator
+    const self = this;
+    const stateConfig = {
+      get stopOnFirstError() { return self.stopOnFirstError; },
+      get eventProcessingDelayMs() { return self.eventProcessingDelayMs; }
+    };
+
+    this.testOrchestrator = new TestOrchestrator(
+      this.eventProcessor,
+      uiCallbacks,
+      stateConfig
     );
 
     // Create and append root element immediately
@@ -599,118 +656,56 @@ export class TestSpoilerUI {
   }
 
   async prepareSpoilerTest(isAutoLoad = false) {
-    this.log(
-      'debug',
-      `[prepareSpoilerTest] playerId at start: ${this.playerId}`
-    );
-    this.testSpoilersContainer.innerHTML = '';
-    this.ensureLogContainerReady();
-
-    if (this.logContainer) {
-      this.logContainer.innerHTML = '';
-    }
-
-    this.log('debug', `[prepareSpoilerTest] Resetting currentLogIndex from ${this.currentLogIndex} to 0`);
-    this.currentLogIndex = 0;
-    this.testStateInitialized = false;
-    this.eventProcessor.resetInventoryTracking(); // Phase 4: Reset event processor inventory tracking
-    this.abortController = new AbortController();
-    this.log('debug', `[prepareSpoilerTest] Reset complete. currentLogIndex=${this.currentLogIndex}, testStateInitialized=${this.testStateInitialized}`);
-
-    if (!this.spoilerLogData || this.spoilerLogData.length === 0) {
-      this.log(
-        'error',
-        'Cannot prepare spoiler test: No spoiler log data is loaded or data is empty.'
-      );
-      this.renderManualFileSelectionView(
-        'Error: Spoiler log data is missing or empty. Please load a valid log.'
-      );
-      return;
-    }
-
-    this.log(
-      'info',
-      `Preparing test for: ${
-        this.currentSpoilerLogPath ||
-        (this.currentSpoilerFile ? this.currentSpoilerFile.name : 'Unknown Log')
-      }`
-    );
-    this.log(
-      'info',
-      `Using ${this.spoilerLogData.length} events from ${
-        isAutoLoad ? 'auto-loaded' : 'selected'
-      } log: ${
-        this.currentSpoilerLogPath ||
-        (this.currentSpoilerFile ? this.currentSpoilerFile.name : 'Unknown Log')
-      }`
+    // Phase 5: Delegate to TestOrchestrator module
+    const prepareSuccess = await this.testOrchestrator.prepareSpoilerTest(
+      this.spoilerLogData,
+      this.playerId,
+      this.currentSpoilerLogPath,
+      isAutoLoad
     );
 
-    // Assuming StateManager already has the correct rules context.
-    // No need to explicitly load rules here.
-    this.log(
-      'info',
-      'Skipping explicit rule loading. Assuming StateManager has current rules.'
-    );
+    // Sync state from orchestrator
+    const progress = this.testOrchestrator.getProgress();
+    this.currentLogIndex = progress.currentIndex;
+    this.testStateInitialized = progress.initialized;
 
-    // Load sphere log into sphereState
-    try {
-      if (window.centralRegistry && typeof window.centralRegistry.getPublicFunction === 'function') {
-        const loadSphereLog = window.centralRegistry.getPublicFunction('sphereState', 'loadSphereLog');
-        const setCurrentPlayerId = window.centralRegistry.getPublicFunction('sphereState', 'setCurrentPlayerId');
+    // CRITICAL FIX: Sync abort controller from orchestrator
+    this.abortController = this.testOrchestrator.abortController;
 
-        if (loadSphereLog && setCurrentPlayerId) {
-          // Set player ID first
-          if (this.playerId) {
-            setCurrentPlayerId(this.playerId);
-            this.log('info', `Set sphereState player ID to: ${this.playerId}`);
-          }
-
-          // Load the sphere log
-          const logPath = this.currentSpoilerLogPath;
-          this.log('info', `Loading sphere log into sphereState: ${logPath}`);
-          const success = await loadSphereLog(logPath);
-
-          if (success) {
-            this.log('info', 'Sphere log successfully loaded into sphereState');
-          } else {
-            this.log('warn', 'Failed to load sphere log into sphereState');
-          }
-        } else {
-          this.log('warn', 'sphereState loadSphereLog or setCurrentPlayerId function not available');
-        }
-      }
-    } catch (error) {
-      this.log('error', `Error loading sphere log into sphereState: ${error.message}`);
-    }
-
-    // MODIFIED: Disable auto-event collection for the test
-    try {
-      await stateManager.setAutoCollectEventsConfig(false);
-      this.log(
-        'info',
-        '[TestSpoilerUI] Disabled auto-collect events for test duration.'
-      );
-    } catch (error) {
-      this.log(
-        'error',
-        '[TestSpoilerUI] Failed to disable auto-collect events:',
-        error
-      );
-      // Decide if we should proceed or halt if this fails. For now, log and continue.
-    }
-
-    this.renderResultsControls();
-    this.updateStepInfo();
-    this.log('info', 'Preparation complete. Ready to run or step.');
-    this.testStateInitialized = true;
+    return prepareSuccess;
   }
 
   async runFullSpoilerTest() {
+    // Phase 5: Delegate to TestOrchestrator module
+    await this.testOrchestrator.runFullSpoilerTest(
+      this.spoilerLogData,
+      this.playerId,
+      this.currentSpoilerLogPath
+    );
+
+    // Sync state from orchestrator
+    const progress = this.testOrchestrator.getProgress();
+    this.currentLogIndex = progress.currentIndex;
+    this.testStateInitialized = progress.initialized;
+    this.abortController = this.testOrchestrator.abortController;
+
+    // Sync mismatch details from event processor (for compatibility)
+    this.currentMismatchDetailsArray = this.eventProcessor.getMismatchDetailsArray();
+    if (this.currentMismatchDetailsArray.length > 0) {
+      this.currentMismatchDetails = this.currentMismatchDetailsArray[this.currentMismatchDetailsArray.length - 1];
+    } else {
+      this.currentMismatchDetails = null;
+    }
+  }
+
+  async runFullSpoilerTest_ORIGINAL() {
+    // DEPRECATED: Original implementation kept for reference
+    // This method has been replaced by TestOrchestrator delegation (see runFullSpoilerTest above)
     this.log(
       'info',
       `[runFullSpoilerTest] Starting full spoiler test. playerId: ${this.playerId}`
     );
-    
+
     await this.prepareSpoilerTest();
     
     this.log('info', `[runFullSpoilerTest] After prepareSpoilerTest: testStateInitialized=${this.testStateInitialized}, currentLogIndex=${this.currentLogIndex}`);
@@ -964,88 +959,36 @@ export class TestSpoilerUI {
   }
 
   async stepSpoilerTest() {
-    if (!this.testStateInitialized) {
-      await this.prepareSpoilerTest();
-      if (!this.testStateInitialized) {
-        this.log(
-          'error',
-          'Cannot step test: Test state not initialized after preparation attempt.'
-        );
-        return;
-      }
-    }
+    // Phase 5: Delegate to TestOrchestrator module
+    await this.testOrchestrator.stepSpoilerTest(
+      this.spoilerLogData,
+      this.playerId,
+      this.currentSpoilerLogPath
+    );
 
-    if (!this.spoilerLogData) {
-      this.log('error', 'No log events loaded.');
-      return;
-    }
+    // Sync state from orchestrator
+    const progress = this.testOrchestrator.getProgress();
+    this.currentLogIndex = progress.currentIndex;
+    this.testStateInitialized = progress.initialized;
+    this.abortController = this.testOrchestrator.abortController;
 
-    if (this.currentLogIndex >= this.spoilerLogData.length) {
-      this.log('info', 'End of log file reached.');
-      return;
-    }
-
-    const runButton = document.getElementById('run-full-spoiler-test');
-    const stepButton = document.getElementById('step-spoiler-test');
-    if (runButton) runButton.disabled = true;
-    if (stepButton) stepButton.disabled = true;
-
-    try {
-      await this.processSingleEvent(this.spoilerLogData[this.currentLogIndex]);
-      this.currentLogIndex++;
-      this.updateStepInfo();
-
-      if (this.currentLogIndex >= this.spoilerLogData.length) {
-        this.log(
-          'success',
-          'Spoiler test completed successfully (stepped to end).'
-        );
-      }
-    } catch (error) {
-      if (error.name === 'AbortError') {
-        this.log('info', 'Spoiler step aborted.');
-      } else {
-        this.log(
-          'error',
-          `Test failed at step ${this.currentLogIndex + 1}: ${error.message}`
-        );
-        log(
-          'error',
-          `Spoiler Test Error at step ${this.currentLogIndex + 1}:`,
-          error
-        );
-      }
-    } finally {
-      if (runButton) runButton.disabled = false;
-      if (stepButton) stepButton.disabled = false;
-      // MODIFIED: REMOVE re-enabling auto-collect events here.
-      // It should remain disabled throughout a sequence of steps.
-      // It will be re-enabled by runFullSpoilerTest's finally, or by clearTestState/dispose.
-      /* try {
-        await stateManager.setAutoCollectEventsConfig(true);
-        this.log('info', '[TestSpoilerUI] Re-enabled auto-collect events after step.');
-      } catch (error) {
-        this.log('error', '[TestSpoilerUI] Failed to re-enable auto-collect events after step:', error);
-      } */
+    // Sync mismatch details from event processor (for compatibility)
+    this.currentMismatchDetailsArray = this.eventProcessor.getMismatchDetailsArray();
+    if (this.currentMismatchDetailsArray.length > 0) {
+      this.currentMismatchDetails = this.currentMismatchDetailsArray[this.currentMismatchDetailsArray.length - 1];
+    } else {
+      this.currentMismatchDetails = null;
     }
   }
 
   updateStepInfo() {
-    const stepButton =
-      this.controlsContainer.querySelector('#step-spoiler-test');
-    if (stepButton) {
-      stepButton.textContent = `Step Test (Step ${this.currentLogIndex} / ${
-        this.spoilerLogData ? this.spoilerLogData.length : 0
-      })`;
-    }
-    const testNameElement =
-      this.controlsContainer.querySelector('#spoiler-test-name');
-    if (testNameElement) {
-      testNameElement.textContent = `Testing: ${
-        this.currentSpoilerLogPath ||
-        (this.currentSpoilerFile ? this.currentSpoilerFile.name : 'Unknown Log')
-      }`;
-    }
+    // Phase 5: Delegate to TestOrchestrator module via uiCallbacks
+    // The orchestrator's updateStepInfo is called internally, but this wrapper
+    // method is kept for backward compatibility and direct UI updates
+    this.testOrchestrator.updateStepInfo(
+      this.spoilerLogData,
+      this.currentSpoilerLogPath
+    );
   }
 
   // Phase 4: _getSphereDataFromSphereState moved to eventProcessor.js
