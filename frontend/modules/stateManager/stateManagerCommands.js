@@ -29,4 +29,5 @@ export const STATE_MANAGER_COMMANDS = {
   CLEAR_STATE_AND_RESET: 'clearStateAndReset',
   CLEAR_EVENT_ITEMS: 'clearEventItems',
   SET_AUTO_COLLECT_EVENTS_CONFIG: 'setAutoCollectEventsConfig',
+  SET_SPOILER_TEST_MODE: 'setSpoilerTestMode',
 };

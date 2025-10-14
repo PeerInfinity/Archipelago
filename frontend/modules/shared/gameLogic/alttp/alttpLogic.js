@@ -21,6 +21,56 @@
  * Output: Boolean, number, or structured data based on function purpose
  */
 
+// ============================================================================
+// ALTTP Goal Constants
+// ============================================================================
+// Goal values from worlds/alttp/Options.py (Goal class)
+
+/**
+ * Goal: Climb GT, defeat Agahnim 2, and then kill Ganon
+ */
+export const GOAL_GANON = 0;
+
+/**
+ * Goal: Only killing Ganon is required. Items may still be placed in GT.
+ */
+export const GOAL_CRYSTALS = 1;
+
+/**
+ * Goal: Defeat the boss of all dungeons, including Agahnim's tower and GT (Aga 2)
+ */
+export const GOAL_BOSSES = 2;
+
+/**
+ * Goal: Pull the Triforce from the Master Sword pedestal
+ */
+export const GOAL_PEDESTAL = 3;
+
+/**
+ * Goal: Pull the Master Sword pedestal, then kill Ganon
+ */
+export const GOAL_GANON_PEDESTAL = 4;
+
+/**
+ * Goal: Collect Triforce pieces spread throughout the worlds
+ */
+export const GOAL_TRIFORCE_HUNT = 5;
+
+/**
+ * Goal: Collect Triforce pieces spread throughout your world
+ */
+export const GOAL_LOCAL_TRIFORCE_HUNT = 6;
+
+/**
+ * Goal: Collect Triforce pieces, then kill Ganon
+ */
+export const GOAL_GANON_TRIFORCE_HUNT = 7;
+
+/**
+ * Goal: Collect Triforce pieces in your world, then kill Ganon
+ */
+export const GOAL_LOCAL_GANON_TRIFORCE_HUNT = 8;
+
 /**
  * Check if player has an item, handling progressive items and events.
  *
@@ -202,7 +252,7 @@ export function can_dash(snapshot, staticData) {
 export function is_invincible(snapshot, staticData) {
   return has(snapshot, staticData, 'Cape') ||
     has(snapshot, staticData, 'Cane of Byrna') ||
-    staticData.settings?.['1']?.goal === 'triforce_hunt';
+    staticData.settings?.['1']?.goal === GOAL_TRIFORCE_HUNT;
 }
 
 export function can_block_lasers(snapshot, staticData) {

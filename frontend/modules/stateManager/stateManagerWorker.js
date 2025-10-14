@@ -1250,6 +1250,29 @@ async function handleMessage(message) {
         }
         break;
 
+      case 'setSpoilerTestMode':
+        log(
+          'debug',
+          '[Worker] Received setSpoilerTestMode command',
+          message.payload
+        );
+        if (
+          stateManagerInstance &&
+          message.payload &&
+          typeof message.payload.enabled === 'boolean'
+        ) {
+          stateManagerInstance.setSpoilerTestMode(
+            message.payload.enabled
+          );
+        } else {
+          log(
+            'warn',
+            '[Worker] Invalid payload for setSpoilerTestMode:',
+            message.payload
+          );
+        }
+        break;
+
       case 'updateWorkerLogConfig':
         log(
           'debug',

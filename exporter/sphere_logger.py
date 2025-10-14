@@ -40,7 +40,8 @@ def _is_fractional_sphere(sphere_index: Union[int, str]) -> bool:
 def log_sphere_details(file_handler, multiworld: "MultiWorld", sphere_index: Union[int, str],
                        current_sphere_locations: Set["Location"],
                        current_collection_state: "CollectionState",
-                       verbose_mode: bool = True) -> None:
+                       verbose_mode: bool = True,
+                       extend_sphere_log_to_all_locations: bool = False) -> None:
     """Logs details of the current sphere to the provided file handler."""
     global _previous_fractional_state, _previous_integer_state
 
@@ -66,8 +67,9 @@ def log_sphere_details(file_handler, multiworld: "MultiWorld", sphere_index: Uni
             base_items = {}
             for location in current_collection_state.locations_checked:
                 if location.item and location.item.player == player_id:
-                    # Only count advancement items (same filter as prog_items)
-                    if location.item.advancement:
+                    # When extend_sphere_log_to_all_locations is enabled, count ALL items
+                    # Otherwise, only count advancement items (same filter as prog_items)
+                    if extend_sphere_log_to_all_locations or location.item.advancement:
                         item_name = location.item.name
                         base_items[item_name] = base_items.get(item_name, 0) + 1
 
@@ -317,7 +319,7 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
                 current_playthrough_state.collect(item, True)  # Collect into the accumulating state, prevent sweep
 
             # Log the final "sphere 0" state (contains all precollected items)
-            log_sphere_details(spoiler_log_file_handler, multiworld, 0, set(), current_playthrough_state.copy(), verbose_sphere_log)
+            log_sphere_details(spoiler_log_file_handler, multiworld, 0, set(), current_playthrough_state.copy(), verbose_sphere_log, extend_sphere_log_to_all_locations)
         
         if not spoiler_log_file_handler:
             # If not logging, ensure state includes precollected items for main loop
@@ -350,7 +352,8 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
                                      sub_sphere_label,
                                      {location},  # The single location collected in this sub-step
                                      current_playthrough_state.copy(),
-                                     verbose_sphere_log)
+                                     verbose_sphere_log,
+                                     extend_sphere_log_to_all_locations)
 
             # After all items in the current_full_sphere_locations are processed individually:
             final_collection_spheres.append(current_full_sphere_locations)
@@ -361,7 +364,8 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
                                  main_sphere_index_counter,  # Integer index for the full sphere
                                  current_full_sphere_locations,  # All locations making up this sphere
                                  current_playthrough_state.copy(),  # State AFTER all items in this sphere are collected
-                                 verbose_sphere_log)
+                                 verbose_sphere_log,
+                                 extend_sphere_log_to_all_locations)
             
             logging.debug('Calculated final sphere %i, containing %i of %i progress items.', 
                           main_sphere_index_counter, len(current_full_sphere_locations), len(required_locations))

@@ -118,10 +118,21 @@ export function checkLocation(sm, locationName, addItems = true) {
           sm._logDebug(
             `[StateManager Class] Location ${locationName} contains item: ${location.item.name}`
           );
-          sm._addItemToInventory(location.item.name, 1);
-          sm._logDebug(
-            `[StateManager Class] Added ${location.item.name} to inventory.`
-          );
+          // In spoiler test mode, only add advancement items to inventory (matching Python's CollectionState behavior)
+          // Python's state.count() only counts items where location.item.advancement is true
+          // In normal gameplay, add all items
+          const shouldAddItem = !sm.spoilerTestMode || location.item.advancement !== false;
+
+          if (shouldAddItem) {
+            sm._addItemToInventory(location.item.name, 1);
+            sm._logDebug(
+              `[StateManager Class] Added ${location.item.name} to inventory.`
+            );
+          } else {
+            sm._logDebug(
+              `[StateManager Class] Skipping ${location.item.name} - non-advancement item in spoiler test mode (advancement=${location.item.advancement}).`
+            );
+          }
           // Potentially trigger an event for item acquisition if needed by other systems
           // sm._publishEvent('itemAcquired', { itemName: location.item.name, locationName });
         } else if (addItems && location && location.item) {

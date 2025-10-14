@@ -173,6 +173,22 @@ export class TestOrchestrator {
       // Decide if we should proceed or halt if this fails. For now, log and continue.
     }
 
+    // Enable spoiler test mode (filters non-advancement items to match Python CollectionState)
+    try {
+      await stateManager.setSpoilerTestMode(true);
+      this.uiCallbacks.log(
+        'info',
+        '[TestOrchestrator] Enabled spoiler test mode for test duration.'
+      );
+    } catch (error) {
+      this.uiCallbacks.log(
+        'error',
+        '[TestOrchestrator] Failed to enable spoiler test mode:',
+        error
+      );
+      // Decide if we should proceed or halt if this fails. For now, log and continue.
+    }
+
     // Update UI
     this.uiCallbacks.renderResultsControls();
     this.updateStepInfo(spoilerLogData, logPath);
@@ -450,6 +466,21 @@ export class TestOrchestrator {
         this.uiCallbacks.log(
           'error',
           '[TestOrchestrator] Failed to re-enable auto-collect events after full test:',
+          error
+        );
+      }
+
+      // Disable spoiler test mode after test completes
+      try {
+        await stateManager.setSpoilerTestMode(false);
+        this.uiCallbacks.log(
+          'info',
+          '[TestOrchestrator] Disabled spoiler test mode after full test run.'
+        );
+      } catch (error) {
+        this.uiCallbacks.log(
+          'error',
+          '[TestOrchestrator] Failed to disable spoiler test mode after full test:',
           error
         );
       }

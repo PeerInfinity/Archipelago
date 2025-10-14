@@ -84,6 +84,7 @@ export class StateManager {
     this.postMessageCallback = null; // For worker communication
     this.evaluateRuleFromEngine = evaluateRuleFunction; // Store the injected rule evaluator
     this.autoCollectEventsEnabled = true; // MODIFIED: Added flag, default to true
+    this.spoilerTestMode = false; // Flag to indicate if running in spoiler test mode (filters non-advancement items)
 
     // --- ADDED Check for missing evaluator --- >
     if (!this.evaluateRuleFromEngine) {
@@ -1024,6 +1025,19 @@ export class StateManager {
 
   setAutoCollectEventsConfig(enabled) {
     LocationCheckingModule.setAutoCollectEventsConfig(this, enabled);
+  }
+
+  /**
+   * Sets whether StateManager is running in spoiler test mode
+   * In spoiler test mode, only advancement items are added to inventory (matching Python's CollectionState behavior)
+   * @param {boolean} enabled - True to enable spoiler test mode, false for normal gameplay
+   */
+  setSpoilerTestMode(enabled) {
+    this.spoilerTestMode = enabled;
+    this.logger.info(
+      'StateManager',
+      `Setting spoilerTestMode to: ${enabled}`
+    );
   }
 
   /**

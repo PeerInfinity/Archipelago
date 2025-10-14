@@ -1702,6 +1702,15 @@ export class StateManagerProxy {
       false // This is a fire-and-forget command, no specific response expected beyond ack
     );
   }
+
+  // Method to enable/disable spoiler test mode in the worker's StateManager
+  async setSpoilerTestMode(enabled) {
+    return this._sendCommand(
+      StateManagerProxy.COMMANDS.SET_SPOILER_TEST_MODE,
+      { enabled }, // Pass 'enabled' as part of the payload
+      false // This is a fire-and-forget command, no specific response expected beyond ack
+    );
+  }
 }
 
 export default StateManagerProxy;
