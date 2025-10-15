@@ -243,6 +243,8 @@ test.describe('Multiplayer Client Interaction Tests', () => {
 
     // Build URLs for both clients using the new multiplayer test modes
     // Add autoConnect, server, playerName, game, and seed parameters
+    // NOTE: Both clients use the same playerName because the seed only has one slot
+    // The server treats the second connection as a reconnection to the same slot
     const url1 = `http://localhost:8000/frontend/?mode=test-multiplayer-client1&autoConnect=true&server=ws://localhost:38281&playerName=Player1&game=${testGame}&seed=${testSeed}`;
     const url2 = `http://localhost:8000/frontend/?mode=test-multiplayer-client2&autoConnect=true&server=ws://localhost:38281&playerName=Player1&game=${testGame}&seed=${testSeed}`;
 

@@ -1790,12 +1790,21 @@ def main():
                 errors = len(yaml_files) - passed - failed
                 print(f"Spoiler Test Summary: {passed} passed, {failed} failed, {errors} errors")
         else:
-            passed = sum(1 for r in results['results'].values() 
-                        if r.get('spoiler_test', {}).get('pass_fail') == 'passed')
-            failed = sum(1 for r in results['results'].values() 
-                        if r.get('spoiler_test', {}).get('pass_fail') == 'failed')
-            errors = len(yaml_files) - passed - failed
-            print(f"Single Seed Test Summary: {passed} passed, {failed} failed, {errors} errors")
+            # Full run (not test-only or export-only)
+            if args.multiplayer:
+                # Multiplayer test summary
+                passed = sum(1 for r in results['results'].values()
+                            if r.get('multiplayer_test', {}).get('success', False))
+                failed = len(yaml_files) - passed
+                print(f"Single Seed Test Summary: {passed} passed, {failed} failed, 0 errors")
+            else:
+                # Spoiler test summary
+                passed = sum(1 for r in results['results'].values()
+                            if r.get('spoiler_test', {}).get('pass_fail') == 'passed')
+                failed = sum(1 for r in results['results'].values()
+                            if r.get('spoiler_test', {}).get('pass_fail') == 'failed')
+                errors = len(yaml_files) - passed - failed
+                print(f"Single Seed Test Summary: {passed} passed, {failed} failed, {errors} errors")
     
     # Run post-processing scripts if requested (only if not already run after each test)
     # This ensures post-processing runs at least once, even if no tests were run

@@ -284,7 +284,7 @@ export class MessageHandler {
 
   async _handleConnected(data) {
     log('info', '[MessageHandler] _handleConnected called with data:', data);
-    
+
     // Get stateManager
     const stateManager = await this._getStateManager();
 
@@ -294,10 +294,10 @@ export class MessageHandler {
     this.players = data.players;
     this.missingLocationIds = data.missing_locations || [];
     this.checkedLocationIds = data.checked_locations || [];
-    
+
     // Build reverse mapping: location name -> server protocol ID
     this.serverLocationNameToId = new Map();
-    
+
     // Add missing locations to reverse mapping
     if (data.missing_locations) {
       for (const serverId of data.missing_locations) {
@@ -307,7 +307,7 @@ export class MessageHandler {
         }
       }
     }
-    
+
     // Add checked locations to reverse mapping
     if (data.checked_locations) {
       for (const serverId of data.checked_locations) {
@@ -317,7 +317,7 @@ export class MessageHandler {
         }
       }
     }
-    
+
     log('info', `[MessageHandler] Built server location name->ID mapping with ${this.serverLocationNameToId.size} entries`);
 
     log('info', '[MessageHandler] Connection established:');
@@ -326,7 +326,26 @@ export class MessageHandler {
     log('info', '  - Players:', this.players);
     log('info', '  - Missing Locations:', data.missing_locations?.length || 0);
     log('info', '  - Checked Locations:', data.checked_locations?.length || 0);
-    
+
+    // Check if there are other players already connected on the same team
+    // Players with same team but different slot are other clients
+    const otherPlayers = data.players.filter(p =>
+      p.team === this.clientTeam && p.slot !== this.clientSlot
+    );
+
+    if (otherPlayers.length > 0) {
+      log('info', `[MessageHandler] Detected ${otherPlayers.length} other player(s) already connected on same team`);
+
+      // Publish event for each other player
+      otherPlayers.forEach(player => {
+        this.eventBus?.publish('game:playerJoined', {
+          player: player,
+          totalPlayers: data.players.length,
+          alreadyConnected: true
+        }, 'client');
+      });
+    }
+
     // Use injected eventBus
     this.eventBus?.publish('game:connected', {
       slot: this.clientSlot,
@@ -531,6 +550,8 @@ export class MessageHandler {
   }
 
   async _handleRoomUpdate(data) {
+    log('info', '[MessageHandler] RoomUpdate received');
+
     // Get stateManager
     const stateManager = await this._getStateManager();
 
@@ -539,9 +560,34 @@ export class MessageHandler {
       await this._syncLocationsFromServer(data.checked_locations);
     }
 
-    // Process player updates if present
+    // Process player updates if present - detect new players joining
     if (data.players) {
+      const previousPlayers = this.players;
       this.players = data.players;
+
+      // Detect if a new player has joined
+      // RoomUpdate sends all players, so we check if the count increased
+      if (previousPlayers.length > 0 && data.players.length > previousPlayers.length) {
+        // Find the new player(s)
+        const previousSlots = new Set(previousPlayers.map(p => `${p.team}-${p.slot}`));
+        const newPlayers = data.players.filter(p => !previousSlots.has(`${p.team}-${p.slot}`));
+
+        if (newPlayers.length > 0) {
+          log('info', `[MessageHandler] Detected ${newPlayers.length} new player(s) joining via RoomUpdate`);
+
+          // Publish event for each new player
+          newPlayers.forEach(player => {
+            // Only publish if it's not this client (don't notify about ourselves)
+            if (player.slot !== this.clientSlot || player.team !== this.clientTeam) {
+              log('info', `[MessageHandler] Publishing game:playerJoined for player: team=${player.team}, slot=${player.slot}`);
+              this.eventBus?.publish('game:playerJoined', {
+                player: player,
+                totalPlayers: data.players.length
+              }, 'client');
+            }
+          });
+        }
+      }
     }
 
     // Publish the event for UI updates
