@@ -40,60 +40,36 @@ export async function timerSendTest(testController) {
     const unsubSecondClient = testController.eventBus.subscribe('game:playerJoined', secondClientHandler, 'tests');
 
     // Give autoConnect time to establish connection (it runs 500ms after postInit)
-    // We'll wait for game:connected which is published after the full connection handshake
+    // Poll for connection status instead of waiting for event to avoid race conditions
     testController.log('Waiting for server connection to complete...');
 
-    let connected = false;
-    const connectHandler = () => {
-      connected = true;
-    };
+    // Get connection status check function from central registry
+    const isHandshakeComplete = window.centralRegistry.getPublicFunction('client', 'isHandshakeComplete');
+    const getConnectionInfo = window.centralRegistry.getPublicFunction('client', 'getConnectionInfo');
 
-    // Subscribe to game:connected event BEFORE the delay
-    const unsubConnect = testController.eventBus.subscribe('game:connected', connectHandler, 'tests');
-
-    // Wait up to 10 seconds for connection
-    const startTime = Date.now();
-    while (!connected && (Date.now() - startTime) < 10000) {
-      await new Promise(resolve => setTimeout(resolve, 100));
+    if (!isHandshakeComplete) {
+      throw new Error('Connection status functions not found in central registry');
     }
 
-    unsubConnect();
+    // Wait up to 10 seconds for handshake to complete
+    const startTime = Date.now();
+    let handshakeComplete = false;
+    while (!handshakeComplete && (Date.now() - startTime) < 10000) {
+      handshakeComplete = isHandshakeComplete();
+      if (!handshakeComplete) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+    }
 
-    if (!connected) {
+    if (!handshakeComplete) {
+      const connInfo = getConnectionInfo ? getConnectionInfo() : null;
+      testController.log('Connection info at timeout:', connInfo);
       throw new Error('Failed to connect to server within timeout period');
     }
 
+    const connInfo = getConnectionInfo ? getConnectionInfo() : null;
+    testController.log('Connection established:', connInfo);
     testController.reportCondition('Connected to server and ready', true);
-
-    // Check if we already detected another player during connection
-    if (secondClientConnected) {
-      testController.log('Second client was already connected when this client joined');
-      testController.reportCondition('Second client already connected', true);
-      unsubSecondClient();
-    } else {
-      // Wait for second client to connect
-      // NOTE: When both clients connect to the same slot (same player name), they're treated
-      // as reconnections and we won't receive a game:playerJoined event. We add a delay to
-      // ensure Client 2 has time to connect before Client 1 starts the timer.
-      testController.log('Waiting for second client to connect...');
-
-      // Wait up to 5 seconds for second client (mostly just to give it time to connect)
-      const waitStartTime = Date.now();
-      while (!secondClientConnected && (Date.now() - waitStartTime) < 5000) {
-        await new Promise(resolve => setTimeout(resolve, 100));
-      }
-
-      unsubSecondClient();
-
-      if (secondClientConnected) {
-        testController.log('Second client connected (detected via playerJoined event)');
-        testController.reportCondition('Second client connected', true);
-      } else {
-        const waitTime = Date.now() - waitStartTime;
-        testController.log(`No playerJoined event after ${waitTime}ms (expected for same-slot connections)`);
-        testController.reportCondition('Proceeding (second client likely connected to same slot)', true);
-      }
-    }
 
     // Wait for rules to be loaded (or check if already loaded)
     testController.log('Waiting for rules to load...');
@@ -112,6 +88,56 @@ export async function timerSendTest(testController) {
     if (!staticData || !staticData.locations) {
       throw new Error('Static data or locations not available');
     }
+
+    // Use Bounce messages to synchronize with Client 2
+    // Get ready message functions from central registry
+    const sendReadyMessage = window.centralRegistry.getPublicFunction('client', 'sendReadyMessage');
+    const waitForReadyMessage = window.centralRegistry.getPublicFunction('client', 'waitForReadyMessage');
+
+    if (!sendReadyMessage || !waitForReadyMessage) {
+      throw new Error('Ready message functions not found in central registry');
+    }
+
+    // Get the game name from staticData to target the Bounce message
+    const gameName = staticData.game_name;
+    testController.log(`Using game name for Bounce targeting: ${gameName}`);
+
+    // Send "CLIENT1_READY" message to let Client 2 know we're ready
+    // Use retry logic since Client 2 might not be connected yet
+    testController.log('Sending CLIENT1_READY message with retry...');
+
+    let client2Ready = false;
+    const readyPromise = waitForReadyMessage('CLIENT2', 15000); // 15 second total timeout
+
+    // Set up retry interval - send every 2 seconds
+    const retryInterval = setInterval(() => {
+      if (!client2Ready) {
+        testController.log('Sending/retrying CLIENT1_READY message...');
+        sendReadyMessage('CLIENT1', { games: [gameName] });
+      }
+    }, 2000);
+
+    // Send first message immediately
+    sendReadyMessage('CLIENT1', { games: [gameName] });
+    testController.reportCondition('Sent ready message', true);
+
+    // Wait for Client 2's ready message
+    testController.log('Waiting for CLIENT2_READY message...');
+    try {
+      const bounceData = await readyPromise;
+      client2Ready = true;
+      clearInterval(retryInterval);
+      testController.log('Received CLIENT2_READY message:', bounceData);
+      testController.reportCondition('Received ready message from Client 2', true);
+    } catch (error) {
+      clearInterval(retryInterval);
+      testController.log('Timeout waiting for CLIENT2_READY message', 'error');
+      testController.reportCondition('Failed to receive Client 2 confirmation', false);
+      throw error; // Fail the test
+    }
+
+    // Clean up the playerJoined subscription we no longer need
+    unsubSecondClient();
 
     // Get timer logic and UI references from central registry
     const getTimerLogic = window.centralRegistry.getPublicFunction('timer', 'getTimerLogic');
@@ -290,16 +316,35 @@ export async function timerReceiveTest(testController) {
     testController.reportCondition('Test started', true);
 
     // Wait for connection to be established (autoConnect via URL params)
+    // Poll for connection status instead of waiting for event to avoid race conditions
     testController.log('Waiting for autoConnect to establish connection...');
 
-    // Try to wait for connection:open event, but if it times out, assume already connected
-    try {
-      await testController.waitForEvent('connection:open', 5000);
-      testController.log('Connection established via event');
-    } catch (error) {
-      // Event timeout likely means connection already established before test started
-      testController.log('Connection event not received (likely already connected)');
+    // Get connection status check function from central registry
+    const isHandshakeComplete = window.centralRegistry.getPublicFunction('client', 'isHandshakeComplete');
+    const getConnectionInfo = window.centralRegistry.getPublicFunction('client', 'getConnectionInfo');
+
+    if (!isHandshakeComplete) {
+      throw new Error('Connection status functions not found in central registry');
     }
+
+    // Wait up to 10 seconds for handshake to complete
+    const startTime = Date.now();
+    let handshakeComplete = false;
+    while (!handshakeComplete && (Date.now() - startTime) < 10000) {
+      handshakeComplete = isHandshakeComplete();
+      if (!handshakeComplete) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+    }
+
+    if (!handshakeComplete) {
+      const connInfo = getConnectionInfo ? getConnectionInfo() : null;
+      testController.log('Connection info at timeout:', connInfo);
+      throw new Error('Failed to connect to server within timeout period');
+    }
+
+    const connInfo = getConnectionInfo ? getConnectionInfo() : null;
+    testController.log('Connection established:', connInfo);
     testController.reportCondition('Connected to server', true);
 
     // Wait for rules to be loaded (or check if already loaded)
@@ -332,6 +377,36 @@ export async function timerReceiveTest(testController) {
 
     testController.log(`Expecting to receive checks for ${totalCheckable} locations (includes all events)`);
     testController.reportCondition('Location data loaded', true);
+
+    // Use Bounce messages to synchronize with Client 1
+    // Get ready message functions from central registry
+    const sendReadyMessage = window.centralRegistry.getPublicFunction('client', 'sendReadyMessage');
+    const waitForReadyMessage = window.centralRegistry.getPublicFunction('client', 'waitForReadyMessage');
+
+    if (!sendReadyMessage || !waitForReadyMessage) {
+      throw new Error('Ready message functions not found in central registry');
+    }
+
+    // Get the game name from staticData to target the Bounce message
+    const gameName = staticData.game_name;
+    testController.log(`Using game name for Bounce targeting: ${gameName}`);
+
+    // Wait for Client 1's ready message first
+    testController.log('Waiting for CLIENT1_READY message...');
+    try {
+      const bounceData = await waitForReadyMessage('CLIENT1', 10000); // 10 second timeout
+      testController.log('Received CLIENT1_READY message:', bounceData);
+      testController.reportCondition('Received ready message from Client 1', true);
+    } catch (error) {
+      testController.log('Timeout waiting for CLIENT1_READY message', 'error');
+      testController.reportCondition('Failed to receive Client 1 confirmation', false);
+      throw error; // Fail the test
+    }
+
+    // Send our own ready message
+    testController.log('Sending CLIENT2_READY message...');
+    sendReadyMessage('CLIENT2', { games: [gameName] });
+    testController.reportCondition('Sent ready message', true);
 
     // Track received location checks
     let receivedChecks = 0;
@@ -367,7 +442,7 @@ export async function timerReceiveTest(testController) {
     testController.log('Waiting to receive all location checks...');
 
     const maxStallTime = 10000; // 10 seconds without progress = stalled
-    const startTime = Date.now();
+    const progressStartTime = Date.now();
     let lastReceivedCount = 0;
     let lastProgressTime = Date.now();
 
@@ -389,7 +464,7 @@ export async function timerReceiveTest(testController) {
       }
 
       // Log progress periodically
-      if ((Date.now() - startTime) % 15000 < 1000) { // Every 15 seconds
+      if ((Date.now() - progressStartTime) % 15000 < 1000) { // Every 15 seconds
         testController.log(`Progress: received ${receivedChecks}/${totalCheckable} checks`);
       }
     }

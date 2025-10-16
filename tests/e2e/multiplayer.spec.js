@@ -254,11 +254,16 @@ test.describe('Multiplayer Client Interaction Tests', () => {
     console.log(`Client 2 (timer receive): ${url2}`);
     console.log('='.repeat(60));
 
-    // Navigate both clients in parallel
-    await Promise.all([
-      page1.goto(url1, { waitUntil: 'networkidle', timeout: 60000 }),
-      page2.goto(url2, { waitUntil: 'networkidle', timeout: 60000 }),
-    ]);
+    // Navigate Client 1 first
+    await page1.goto(url1, { waitUntil: 'networkidle', timeout: 60000 });
+    console.log('Client 1 loaded and connected.');
+
+    // Small delay to avoid race condition when both clients connect simultaneously
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    // Navigate Client 2
+    await page2.goto(url2, { waitUntil: 'networkidle', timeout: 60000 });
+    console.log('Client 2 loaded and connected.');
 
     console.log('Both clients loaded. Waiting for test completion...');
 

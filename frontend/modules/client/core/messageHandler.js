@@ -124,8 +124,7 @@ export class MessageHandler {
         break;
 
       case 'Bounced':
-        // Use injected eventBus
-        this.eventBus?.publish('game:bounced', command, 'client');
+        this._handleBounced(command);
         break;
 
       default:
@@ -606,6 +605,20 @@ export class MessageHandler {
     // PrintJSON is purely for displaying messages to the player
     // Location updates are handled by RoomUpdate, items by ReceivedItems
 
+    // Check if this is a chat message (type === 'Chat')
+    if (data.type === 'Chat') {
+      log('info', '[MessageHandler] Received chat message:', data);
+
+      // Publish a specific event for chat messages
+      this.eventBus?.publish('game:chatMessage', {
+        message: data.message,  // The actual chat message text
+        slot: data.slot,         // Slot of the player who sent it
+        team: data.team,         // Team of the player who sent it
+        data: data.data,         // Formatted message parts
+        raw: data,               // Full raw data for advanced use
+      }, 'client');
+    }
+
     // Handle PrintJSON messages that contain console text (Join, Tutorial, ItemSend, etc.)
     if (this.eventBus && data.data && Array.isArray(data.data)) {
       // PrintJSON data is an array of structured text objects with type information
@@ -613,6 +626,21 @@ export class MessageHandler {
       this.eventBus.publish('ui:printFormattedToConsole', {
         messageParts: data.data,
         type: 'server-message',
+      }, 'client');
+    }
+  }
+
+  _handleBounced(data) {
+    log('info', '[MessageHandler _handleBounced] Received bounced message:', data);
+
+    // Publish bounced data for application use
+    if (this.eventBus && data.data) {
+      this.eventBus.publish('game:bouncedMessage', {
+        data: data.data,
+        games: data.games,
+        slots: data.slots,
+        tags: data.tags,
+        raw: data,
       }, 'client');
     }
   }
@@ -778,6 +806,30 @@ export class MessageHandler {
         text: message,
       },
     ]);
+  }
+
+  sendBounce(data, options = {}) {
+    if (!connection.isConnected()) {
+      return false;
+    }
+
+    const bouncePacket = {
+      cmd: 'Bounce',
+      data: data,
+    };
+
+    // Add optional targeting
+    if (options.games && options.games.length > 0) {
+      bouncePacket.games = options.games;
+    }
+    if (options.slots && options.slots.length > 0) {
+      bouncePacket.slots = options.slots;
+    }
+    if (options.tags && options.tags.length > 0) {
+      bouncePacket.tags = options.tags;
+    }
+
+    return connection.send([bouncePacket]);
   }
 
   sendStatusUpdate(status) {
