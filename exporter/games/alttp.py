@@ -351,6 +351,15 @@ class ALttPGameExportHandler(BaseGameExportHandler): # Ensure correct inheritanc
         for prog_type in mapping_data.values():
             prog_type['items'].sort(key=lambda x: x['level'])
 
+        # Add Progressive Bow (Alt) with same progression as Progressive Bow
+        # This handles the runtime conversion that happens in ItemPool.py line 330-335
+        # where one Progressive Bow is converted to Progressive Bow (Alt) for hint text
+        if 'Progressive Bow' in mapping_data:
+            mapping_data['Progressive Bow (Alt)'] = {
+                'items': [item.copy() for item in mapping_data['Progressive Bow']['items']],
+                'base_item': 'Progressive Bow (Alt)'
+            }
+
         return mapping_data
 
     # --- Add overrides for itempool/settings/info/cleanup ---

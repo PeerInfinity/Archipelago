@@ -44,6 +44,7 @@ const TEST_CASE_FILES = [
   './testCases/timerTests.js',
   './testCases/multiplayerTests.js',
   './testCases/testSpoilersPanelTests.js',
+  //'./testCases/manualTests.js',
 ];
 
 let discoveryComplete = false;

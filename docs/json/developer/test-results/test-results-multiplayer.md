@@ -2,20 +2,20 @@
 
 ## Multiplayer Test
 
-**Generated:** 2025-10-15 09:31:27
+**Generated:** 2025-10-17 21:14:55
 
 ## Summary
 
 - **Total Games:** 79
-- **Passed:** 26 (32.9%)
-- **Failed:** 53 (67.1%)
+- **Passed:** 27 (34.2%)
+- **Failed:** 52 (65.8%)
 
 ## Test Results
 
 | Game Name | Test Result | Gen Errors | Client 1 Status | C1 Checked | C1 Checkable | Client 2 Status | C2 Received | C2 Total | Custom Exporter | Custom GameLogic |
 |-----------|-------------|------------|-----------------|------------|--------------|-----------------|-------------|----------|-----------------|------------------|
 | A Hat in Time | ✅ Passed | 0 | ✅ | 232 | 223 | ✅ | 232 | 232 | ✅ | ✅ |
-| A Link to the Past | ❌ Failed | 0 | ✅ | 267 | 249 | ❌ | 0 | 268 | ✅ | ✅ |
+| A Link to the Past | ✅ Passed | 0 | ✅ | 268 | 249 | ✅ | 268 | 268 | ✅ | ✅ |
 | A Short Hike | ✅ Passed | 0 | ✅ | 131 | 131 | ✅ | 131 | 131 | ✅ | ⚫ |
 | Adventure | ✅ Passed | 0 | ✅ | 25 | 24 | ✅ | 25 | 25 | ✅ | ⚫ |
 | Aquaria | ✅ Passed | 0 | ✅ | 237 | 218 | ✅ | 237 | 237 | ✅ | ✅ |

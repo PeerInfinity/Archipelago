@@ -152,9 +152,13 @@ export function getSnapshot(sm) {
     }
   }
 
+  // Increment snapshot counter
+  sm.snapshotCount++;
+
   // 6. Assemble Snapshot
   // REFACTOR: Duplication removed - using single source of truth for all fields
   const snapshot = {
+    snapshotCount: sm.snapshotCount,
     inventory: inventorySnapshot,
     // All games now use gameStateModule flags
     flags: sm.gameStateModule?.flags || [],
@@ -190,6 +194,7 @@ export function getSnapshot(sm) {
       'info',
       '[StateManager getSnapshot] Snapshot structure:',
       {
+        snapshotCount: snapshot.snapshotCount,
         game: snapshot.game,
         inventoryItemCount: Object.keys(snapshot.inventory).length,
         flagsCount: snapshot.flags.length,

@@ -119,7 +119,16 @@ export function has(snapshot, staticData, itemName) {
 
     // Check if this item is provided by any progressive item
     for (const [progressiveBase, progression] of Object.entries(playerProgressionMapping)) {
-      const baseCount = snapshot.inventory[progressiveBase] || 0;
+      let baseCount = snapshot.inventory[progressiveBase] || 0;
+
+      // Special case: Progressive Bow and Progressive Bow (Alt) should be combined
+      // This handles the server's runtime conversion of one bow to (Alt) in ItemPool.py
+      if (progressiveBase === 'Progressive Bow') {
+        baseCount += snapshot.inventory['Progressive Bow (Alt)'] || 0;
+      } else if (progressiveBase === 'Progressive Bow (Alt)') {
+        baseCount += snapshot.inventory['Progressive Bow'] || 0;
+      }
+
       if (baseCount > 0 && progression && progression.items) {
         // Check each upgrade in the progression
         for (const upgrade of progression.items) {
@@ -169,7 +178,16 @@ export function count(snapshot, staticData, itemName) {
   // Check if itemName is a specific tier of any progressive item we hold
   if (playerProgressionMapping) {
     for (const [progressiveBase, progression] of Object.entries(playerProgressionMapping)) {
-      const baseCount = snapshot.inventory[progressiveBase] || 0;
+      let baseCount = snapshot.inventory[progressiveBase] || 0;
+
+      // Special case: Progressive Bow and Progressive Bow (Alt) should be combined
+      // This handles the server's runtime conversion of one bow to (Alt) in ItemPool.py
+      if (progressiveBase === 'Progressive Bow') {
+        baseCount += snapshot.inventory['Progressive Bow (Alt)'] || 0;
+      } else if (progressiveBase === 'Progressive Bow (Alt)') {
+        baseCount += snapshot.inventory['Progressive Bow'] || 0;
+      }
+
       if (baseCount > 0 && progression && progression.items) {
         // Check each upgrade in the progression
         for (const upgrade of progression.items) {

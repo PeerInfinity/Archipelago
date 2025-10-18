@@ -173,10 +173,10 @@ export async function timerSendTest(testController) {
 
     testController.reportCondition('Timer components available', true);
 
-    // Set timer delay to 0.1 seconds to give server time to respond between checks
+    // Set timer delay to 0.1 seconds between checks
     // The timer uses minCheckDelay and maxCheckDelay in seconds
-    timerLogic.minCheckDelay = 0.1;
-    timerLogic.maxCheckDelay = 0.1;
+    timerLogic.minCheckDelay = 0.0;
+    timerLogic.maxCheckDelay = 0.0;
 
     testController.log('Timer delay set to 0.1 seconds');
     testController.reportCondition('Timer delay configured', true);
@@ -284,16 +284,23 @@ export async function timerSendTest(testController) {
         loc => loc.id !== null && loc.id !== undefined && loc.id !== 0
       );
       const totalManuallyCheckable = manuallyCheckableLocations.length;
+      const totalLocations = locationsArray.length; // All locations including events
 
-      testController.log(`Final result: ${checkedCount} locations checked (includes auto-checked events)`);
+      testController.log(`Final result: ${checkedCount} locations checked`);
       testController.log(`Manually-checkable locations: ${totalManuallyCheckable}`);
+      testController.log(`Total locations (including events): ${totalLocations}`);
 
-      // Test passes if ALL manually-checkable locations were checked
-      // (checkedCount may be higher due to auto-checked events)
-      if (checkedCount >= totalManuallyCheckable) {
+      // Test passes if ALL locations were checked (including auto-checked events)
+      // The timer checks manually-checkable locations, but events should also be auto-collected
+      if (checkedCount >= totalLocations) {
         testController.reportCondition(
-          `All ${totalManuallyCheckable} manually-checkable locations successfully checked`,
+          `All ${totalLocations} locations successfully checked (${totalManuallyCheckable} manual + ${totalLocations - totalManuallyCheckable} events)`,
           true
+        );
+      } else if (checkedCount >= totalManuallyCheckable) {
+        testController.reportCondition(
+          `Only ${checkedCount}/${totalLocations} locations checked - ${totalLocations - checkedCount} event locations missing - TEST FAILED`,
+          false
         );
       } else {
         testController.reportCondition(

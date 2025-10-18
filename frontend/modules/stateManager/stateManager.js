@@ -142,6 +142,9 @@ export class StateManager {
     // Add debug mode flag
     this.debugMode = false; // Set to true to enable detailed logging
 
+    // Snapshot counter - tracks how many snapshots have been generated
+    this.snapshotCount = 0;
+
     // New maps for item and location IDs
     this.itemNameToId = {};
     this.locationNameToId = {};

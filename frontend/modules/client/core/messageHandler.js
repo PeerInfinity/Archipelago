@@ -403,31 +403,21 @@ export class MessageHandler {
   }
 
   /**
-   * Process received items from server, with deduplication
+   * Process received items from server
    * @param {Object} data - The ReceivedItems packet from server
    */
   async _handleReceivedItems(data) {
     // Get stateManager
     const stateManager = await this._getStateManager();
     if (!stateManager) {
-      log('error', 
+      log('error',
         '[MessageHandler _handleReceivedItems] Failed to process received items: stateManager not available'
       );
       return;
     }
 
-    // Skip if we're already processing
-    if (sharedClientState.processingBatchItems) {
-      log('info', 
-        '[MessageHandler _handleReceivedItems] Already processing an item batch, skipping duplicate'
-      );
-      return;
-    }
-
-    // Set processing flag
-    sharedClientState.processingBatchItems = true;
     this._logDebug(
-      `[MessageHandler _handleReceivedItems] Processing ${data.items.length} items from server`
+      `[MessageHandler _handleReceivedItems] Processing ${data.items.length} items from server (index: ${data.index})`
     );
 
     const processedItemDetails = []; // Array to hold { itemName, locationNameToMark }
@@ -442,22 +432,10 @@ export class MessageHandler {
         try {
           itemName = getItemNameFromServerId(item.item, stateManager);
           if (!itemName) {
-            log('warn', 
+            log('warn',
               `[MessageHandler _handleReceivedItems] Could not find matching item name for server ID: ${item.item}`
             );
             continue; // Skip this item if name not found
-          }
-
-          // Skip if this item was just clicked by the user (to prevent echo processing)
-          if (
-            sharedClientState.userClickedItems &&
-            sharedClientState.userClickedItems.has(itemName)
-          ) {
-            this._logDebug(
-              `[MessageHandler _handleReceivedItems] Skipping server item ${itemName} as it was just clicked by user`
-            );
-            sharedClientState.userClickedItems.delete(itemName);
-            continue;
           }
 
           const locationNameToMark =
@@ -483,7 +461,7 @@ export class MessageHandler {
           );
         } catch (error) {
           // Catch errors from processing a single item (e.g., getting itemName or locationName)
-          log('error', 
+          log('error',
             `[MessageHandler _handleReceivedItems] Error preparing item ID ${item.item} (current item name context: ${itemName}):`,
             error
           );
@@ -501,7 +479,7 @@ export class MessageHandler {
             `[MessageHandler _handleReceivedItems] Incremental items (index=${data.index}): Adding ${processedItemDetails.length} items to inventory.`
           );
         }
-        
+
         // Add all items to inventory
         for (const itemDetail of processedItemDetails) {
           if (itemDetail && itemDetail.itemName) {
@@ -517,17 +495,10 @@ export class MessageHandler {
       await stateManager.commitBatchUpdate();
     } catch (batchError) {
       // Catch errors related to beginBatchUpdate, commitBatchUpdate, or the applyRuntimeStateData call itself
-      log('error', 
+      log('error',
         '[MessageHandler _handleReceivedItems] Error during batch processing of received items:',
         batchError
       );
-      // It might be prudent to ensure batch processing flag is reset even if commit fails
-      // However, the finally block handles this.
-    } finally {
-      // Always clear the processing flag
-      setTimeout(() => {
-        sharedClientState.processingBatchItems = false;
-      }, 100);
     }
 
     // Publish notification

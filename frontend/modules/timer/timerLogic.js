@@ -28,7 +28,7 @@ export class TimerLogic {
     this.stateManager = dependencies.stateManager; // This is stateManagerProxySingleton
     this.eventBus = dependencies.eventBus;
     this.dispatcher = dependencies.dispatcher;
-    log('info', 
+    log('info',
       '[TimerLogic Constructor] Received dispatcher:',
       typeof this.dispatcher,
       this.dispatcher
@@ -45,6 +45,13 @@ export class TimerLogic {
     // Track locations we've attempted to check during this timer session
     // This prevents duplicate check attempts before state updates
     this.attemptedChecks = new Set();
+
+    // Track fallback delay state for zero-delay mode
+    // When delay is 0 and no locations are available, we switch to 0.1s delay
+    // for up to 10 cycles to give other code time to catch up
+    this.isInFallbackDelay = false;
+    this.fallbackCycleCount = 0;
+    this.maxFallbackCycles = 50;
 
     log('info', '[TimerLogic] Instance created.');
   }
@@ -72,7 +79,7 @@ export class TimerLogic {
     const unsubLoopMode = this.eventBus.subscribe(
       'loop:modeChanged',
       loopModeHandler
-    , 'timer');
+      , 'timer');
     this.unsubscribeHandles.push(unsubLoopMode);
 
     // TODO: Add listener for settings:changed if delays become configurable
@@ -100,6 +107,10 @@ export class TimerLogic {
     // Clear attempted checks tracking when starting a new timer session
     this.attemptedChecks.clear();
     log('info', '[TimerLogic] Cleared attempted checks tracking for new session');
+
+    // Reset fallback delay state for new timer session
+    this.isInFallbackDelay = false;
+    this.fallbackCycleCount = 0;
 
     const rangeMs = (this.maxCheckDelay - this.minCheckDelay) * 1000;
     const baseMs = this.minCheckDelay * 1000;
@@ -151,19 +162,14 @@ export class TimerLogic {
         if (snapshotInterface) {
           const { snapshot, staticData } = snapshotInterface;
 
-          // Determine and dispatch next location check using the same snapshot
-          checkDispatched = await this._determineAndDispatchNextLocationCheckWithSnapshot(
-            snapshotInterface
-          );
-
-          // Check if all manually-checkable locations have been checked
+          // First check if all locations are already complete BEFORE dispatching
           if (staticData && staticData.locations) {
             // Handle Map (Phase 3.2 format), Array, or Object (legacy)
             const locationsArray = staticData.locations instanceof Map
               ? Array.from(staticData.locations.values())
               : (Array.isArray(staticData.locations)
-                  ? staticData.locations
-                  : Object.values(staticData.locations));
+                ? staticData.locations
+                : Object.values(staticData.locations));
 
             // Get list of manually-checkable locations (exclude event locations with id=0)
             const manuallyCheckableLocations = locationsArray.filter(
@@ -183,18 +189,127 @@ export class TimerLogic {
               `[TimerLogic] Location check progress: ${checkedManualLocations}/${totalCheckable} manually-checkable locations checked`
             );
           }
+
+          // Only try to dispatch if not all checked yet
+          if (!allChecked) {
+            // Determine and dispatch next location check using the same snapshot
+            checkDispatched = await this._determineAndDispatchNextLocationCheckWithSnapshot(
+              snapshotInterface
+            );
+          }
         }
 
         if (allChecked) {
-          log('info', '[TimerLogic] All locations checked. Stopping timer.');
+          log('info', '[TimerLogic] All manually-checkable locations checked. Stopping timer immediately...');
+
+          // Stop the timer immediately (this clears the interval and publishes timer:stopped)
           this.stop();
+
+          // Do a final recalculate + ping in the background to catch any remaining event locations
+          // This doesn't block the timer from stopping
+          (async () => {
+            try {
+              await this.stateManager.recalculateAccessibility();
+              log('info', '[TimerLogic] Final recalculation complete. Pinging worker...');
+              await this.stateManager.pingWorker('timer_final_recalculate', 5000);
+
+              // Wait a bit for snapshot updates to propagate
+              await new Promise(resolve => setTimeout(resolve, 500));
+
+              log('info', '[TimerLogic] Final recalculation and ping complete.');
+            } catch (error) {
+              log('error', '[TimerLogic] Error during final recalculation:', error);
+            }
+          })();
         } else if (!checkDispatched) {
-          // No location was dispatched - either all inaccessible or recalculation found nothing
-          log('info', '[TimerLogic] No accessible locations found. Stopping timer.');
-          this.stop();
+          // No location was dispatched - check if all manually-checkable locations are done
+          // before entering fallback mode
+
+          // Re-check if all locations are complete (in case they were just checked)
+          let stillHaveUncheckedLocations = false;
+          if (snapshotInterface) {
+            const { snapshot, staticData } = snapshotInterface;
+            if (staticData && staticData.locations) {
+              const locationsArray = staticData.locations instanceof Map
+                ? Array.from(staticData.locations.values())
+                : (Array.isArray(staticData.locations)
+                  ? staticData.locations
+                  : Object.values(staticData.locations));
+
+              const manuallyCheckableLocations = locationsArray.filter(
+                loc => loc.id !== null && loc.id !== undefined && loc.id !== 0
+              );
+              const checkedSet = new Set(snapshot.checkedLocations || []);
+              const checkedManualLocations = manuallyCheckableLocations.filter(
+                loc => checkedSet.has(loc.name)
+              ).length;
+
+              stillHaveUncheckedLocations = (checkedManualLocations < manuallyCheckableLocations.length);
+            }
+          }
+
+          // Only enter fallback mode if there are still unchecked locations
+          if (!stillHaveUncheckedLocations) {
+            log('info', '[TimerLogic] All manually-checkable locations checked. Stopping timer.');
+            this.stop();
+          } else {
+            // Still have unchecked locations - check if we're in zero-delay mode and should use fallback delay
+            const isZeroDelayMode = (this.minCheckDelay === 0 && this.maxCheckDelay === 0);
+
+          if (isZeroDelayMode && !this.isInFallbackDelay) {
+            // Enter fallback delay mode: switch to 0.1s delay for up to 10 cycles
+            log('info', '[TimerLogic] No accessible locations found in zero-delay mode. Entering fallback delay mode (0.1s) to allow other code to catch up.');
+            this.isInFallbackDelay = true;
+            this.fallbackCycleCount = 0;
+
+            // Set next check with 0.1s delay
+            const fallbackDelayMs = 100; // 0.1 seconds
+            this.startTime = Date.now();
+            this.endTime = this.startTime + fallbackDelayMs;
+            this.eventBus.publish('timer:started', {
+              startTime: this.startTime,
+              endTime: this.endTime,
+            }, 'timer');
+          } else if (isZeroDelayMode && this.isInFallbackDelay) {
+            // Already in fallback mode, increment cycle count
+            this.fallbackCycleCount++;
+
+            if (this.fallbackCycleCount >= this.maxFallbackCycles) {
+              // Reached max fallback cycles, stop timer
+              log('info', `[TimerLogic] No accessible locations found after ${this.maxFallbackCycles} fallback cycles. Stopping timer.`);
+              this.isInFallbackDelay = false;
+              this.fallbackCycleCount = 0;
+              this.stop();
+            } else {
+              // Continue fallback delay for another cycle
+              log('info', `[TimerLogic] Fallback cycle ${this.fallbackCycleCount}/${this.maxFallbackCycles}: No accessible locations yet, continuing with 0.1s delay.`);
+              const fallbackDelayMs = 100; // 0.1 seconds
+              this.startTime = Date.now();
+              this.endTime = this.startTime + fallbackDelayMs;
+              this.eventBus.publish('timer:started', {
+                startTime: this.startTime,
+                endTime: this.endTime,
+              }, 'timer');
+            }
+          } else {
+            // Not in zero-delay mode, just stop
+            log('info', '[TimerLogic] No accessible locations found. Stopping timer.');
+            this.stop();
+            }
+          }
         } else {
           // Successfully dispatched a check, continue the timer
           // This allows waiting for items from the server to unlock new locations
+
+          // Check if we were in fallback delay mode and found a location
+          const isZeroDelayMode = (this.minCheckDelay === 0 && this.maxCheckDelay === 0);
+          if (isZeroDelayMode && this.isInFallbackDelay) {
+            // Exit fallback mode - we found locations, return to zero delay
+            log('info', '[TimerLogic] Location found during fallback mode. Returning to zero-delay mode.');
+            this.isInFallbackDelay = false;
+            this.fallbackCycleCount = 0;
+          }
+
           const nextDelay = Math.floor(Math.random() * rangeMs + baseMs);
           this.startTime = Date.now();
           this.endTime = this.startTime + nextDelay;
@@ -247,7 +362,7 @@ export class TimerLogic {
       const staticData = this.stateManager.getStaticData();
 
       if (!snapshot || !staticData) {
-        log('warn', 
+        log('warn',
           '[TimerLogic] Snapshot or static data not available for creating interface.'
         );
         return null;
@@ -291,8 +406,8 @@ export class TimerLogic {
     const locationsArray = staticData.locations instanceof Map
       ? Array.from(staticData.locations.values())
       : (Array.isArray(staticData.locations)
-          ? staticData.locations
-          : Object.values(staticData.locations));
+        ? staticData.locations
+        : Object.values(staticData.locations));
 
     let locationToCheck = null;
     let uncheckedCount = 0;
@@ -387,8 +502,8 @@ export class TimerLogic {
           const locationsArrayUpdated = updatedStaticData.locations instanceof Map
             ? Array.from(updatedStaticData.locations.values())
             : (Array.isArray(updatedStaticData.locations)
-                ? updatedStaticData.locations
-                : Object.values(updatedStaticData.locations));
+              ? updatedStaticData.locations
+              : Object.values(updatedStaticData.locations));
 
           let newLocationToCheck = null;
           for (const loc of locationsArrayUpdated) {
@@ -455,7 +570,7 @@ export class TimerLogic {
     const { snapshot, staticData } = snapshotInterface; // Destructure
 
     if (!staticData || !staticData.locations || !staticData.regions) {
-      log('warn', 
+      log('warn',
         '[TimerLogic QuickCheck] Snapshot or static data not available.'
       );
       this.eventBus.publish('ui:notification', {
@@ -479,8 +594,8 @@ export class TimerLogic {
     const locationsArray = staticData.locations instanceof Map
       ? Array.from(staticData.locations.values())
       : (Array.isArray(staticData.locations)
-          ? staticData.locations
-          : Object.values(staticData.locations));
+        ? staticData.locations
+        : Object.values(staticData.locations));
 
     let quickCheckTarget = null;
 
@@ -498,7 +613,7 @@ export class TimerLogic {
     }
 
     if (quickCheckTarget) {
-      log('info', 
+      log('info',
         `[TimerLogic QuickCheck] Dispatching check for: ${quickCheckTarget.name}`
       );
       this.dispatcher.publish(
@@ -518,7 +633,7 @@ export class TimerLogic {
       }, 'timer');
       return true;
     } else {
-      log('info', 
+      log('info',
         '[TimerLogic QuickCheck] No accessible, un-checked location found.'
       );
       this.eventBus.publish('ui:notification', {
@@ -544,7 +659,7 @@ export class TimerLogic {
 
     this.minCheckDelay = newMin;
     this.maxCheckDelay = newMax;
-    log('info', 
+    log('info',
       `[TimerLogic] Check delay updated: ${this.minCheckDelay}s - ${this.maxCheckDelay}s`
     );
 

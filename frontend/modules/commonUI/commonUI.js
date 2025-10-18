@@ -245,8 +245,7 @@ class CommonUI {
     }
 
     // Get all item names from static data
-    // Phase 3.2: Use Map methods
-    const itemNames = Array.from(staticData.items.keys());
+    const itemNames = Object.keys(staticData.items);
 
     // Check if showLocationItems is enabled
     const showLocationItems = await settingsManager.getSetting('moduleSettings.commonUI.showLocationItems', false);
