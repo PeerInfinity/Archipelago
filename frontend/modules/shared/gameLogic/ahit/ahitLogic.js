@@ -250,9 +250,15 @@ export function can_clear_required_act(snapshot, staticData, actEntrance) {
           if (parentRegion && parentRegion.exits) {
             const exitDef = parentRegion.exits.find(e => e.name === entrance.name);
             if (exitDef && exitDef.access_rule) {
-              // If there's an entrance with constant true, the region is potentially reachable
+              // If there's an entrance with constant true, check if parent region is reachable
               if (exitDef.access_rule.type === 'constant' && exitDef.access_rule.value === true) {
-                return true;
+                // Check if the parent region is actually reachable
+                const parentReachable = snapshot.regionReachability &&
+                  (snapshot.regionReachability[entrance.parent_region] === true ||
+                   snapshot.regionReachability[entrance.parent_region] === 'reachable');
+                if (parentReachable) {
+                  return true;
+                }
               }
             }
           }

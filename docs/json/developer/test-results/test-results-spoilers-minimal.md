@@ -4,23 +4,23 @@
 
 [← Back to Test Results Summary](./test-results-summary.md)
 
-**Generated:** 2025-10-18 14:31:40
+**Generated:** 2025-10-18 20:24:35
 
 **Source Data Created:** 2025-10-14T13:24:10.253834
 
-**Source Data Last Updated:** 2025-10-17T21:14:55.823599
+**Source Data Last Updated:** 2025-10-18T20:24:35.317384
 
 ## Summary
 
 - **Total Games:** 79
-- **Passed:** 27 (34.2%)
-- **Failed:** 52 (65.8%)
+- **Passed:** 28 (35.4%)
+- **Failed:** 51 (64.6%)
 
 ## Test Results
 
 | Game Name | Test Result | Gen Errors | Sphere Reached | Max Spheres | Progress | Custom Exporter | Custom GameLogic |
 |-----------|-------------|------------|----------------|-------------|----------|-----------------|------------------|
-| A Hat in Time | ❌ Failed seed 8 | 0 | 0 | 8.1 | 🔴 0.0% | ✅ | ✅ |
+| A Hat in Time | ✅ Passed seeds 1-10 | 0 | 5.1 | 5.1 | 🟢 Complete | ✅ | ✅ |
 | A Link to the Past | ❌ Failed seed 2 | 0 | 13.1 | 19.1 | 🟡 68.6% | ✅ | ✅ |
 | A Short Hike | ✅ Passed seeds 1-10 | 0 | 1.5 | 1.5 | 🟢 Complete | ✅ | ⚫ |
 | Adventure | ✅ Passed seeds 1-10 | 0 | 6.1 | 6.1 | 🟢 Complete | ✅ | ⚫ |

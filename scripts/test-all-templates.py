@@ -12,29 +12,33 @@ comprehensive JSON output file.
 import argparse
 import json
 import os
-import re
 import subprocess
 import sys
 import time
-import urllib.request
-import urllib.error
-import yaml
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List
+
+# Import utility functions from refactored modules
+from test_utils import (
+    read_host_yaml_config,
+    build_and_load_world_mapping,
+    check_virtual_environment,
+    check_http_server
+)
+from test_results import (
+    is_test_passing,
+    get_failed_templates,
+    get_failing_seed_info,
+    load_existing_results,
+    merge_results,
+    save_results
+)
+from test_runner import (
+    test_template_single_seed,
+    test_template_seed_range
+)
 from seed_utils import get_seed_id as compute_seed_id
-
-
-def read_host_yaml_config(project_root: str) -> Dict:
-    """Read configuration from host.yaml file."""
-    host_yaml_path = os.path.join(project_root, 'host.yaml')
-    try:
-        with open(host_yaml_path, 'r') as f:
-            config = yaml.safe_load(f)
-            return config
-    except (FileNotFoundError, yaml.YAMLError) as e:
-        print(f"Warning: Could not read host.yaml: {e}")
-        return {}
 
 
 def run_post_processing_scripts(project_root: str, results_file: str, multiplayer: bool = False):
@@ -102,1183 +106,6 @@ def run_post_processing_scripts(project_root: str, results_file: str, multiplaye
         print("\nSkipping preset files update (extend_sphere_log_to_all_locations is false)")
 
     print("\n=== Post-Processing Complete ===")
-
-
-def build_and_load_world_mapping(project_root: str) -> Dict[str, Dict]:
-    """Build world mapping and load it."""
-    mapping_file = os.path.join(project_root, 'scripts', 'data', 'world-mapping.json')
-    build_script = os.path.join(project_root, 'scripts', 'build-world-mapping.py')
-    
-    # Always build the mapping to ensure it's current
-    try:
-        print("Building world mapping...")
-        result = subprocess.run([sys.executable, build_script], 
-                              cwd=project_root, 
-                              capture_output=True, 
-                              text=True)
-        if result.returncode != 0:
-            print(f"Warning: Failed to build world mapping: {result.stderr}")
-            return {}
-        else:
-            print("World mapping built successfully")
-    except Exception as e:
-        print(f"Warning: Failed to build world mapping: {e}")
-        return {}
-    
-    # Load the mapping
-    try:
-        with open(mapping_file, 'r') as f:
-            return json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
-        print("Warning: Could not load world mapping, using empty mapping")
-        return {}
-
-
-def extract_game_name_from_template(template_path: str) -> Optional[str]:
-    """Extract the game name from a template YAML file."""
-    try:
-        import yaml
-        with open(template_path, 'r', encoding='utf-8') as f:
-            data = yaml.safe_load(f)
-            return data.get('game')
-    except (ImportError, yaml.YAMLError, FileNotFoundError, UnicodeDecodeError):
-        # Fall back to normalized template name if YAML parsing fails
-        return None
-
-
-def get_world_info(template_file: str, templates_dir: str, world_mapping: Dict[str, Dict]) -> Dict:
-    """Get world information including custom exporter/gameLogic status."""
-    template_path = os.path.join(templates_dir, template_file)
-    
-    # Try to extract game name from YAML file
-    game_name = extract_game_name_from_template(template_path)
-    
-    if game_name and game_name in world_mapping:
-        world_info = world_mapping[game_name].copy()
-        world_info['game_name_from_yaml'] = game_name
-        world_info['normalized_name'] = normalize_game_name(template_file)
-        return world_info
-    else:
-        # Fallback to normalized name
-        normalized_name = normalize_game_name(template_file)
-        return {
-            'game_name_from_yaml': game_name,
-            'normalized_name': normalized_name,
-            'world_directory': None,
-            'has_custom_exporter': False,
-            'has_custom_game_logic': False,
-            'exporter_path': None,
-            'game_logic_path': None
-        }
-
-
-def check_virtual_environment() -> bool:
-    """
-    Check if the virtual environment is properly activated.
-    Returns True if environment is ready, False otherwise.
-    """
-    # Check if VIRTUAL_ENV environment variable is set (most reliable indicator)
-    if 'VIRTUAL_ENV' in os.environ:
-        return True
-    
-    # If not, check if we can import dependencies (fallback for other setups)
-    try:
-        # Add the project root to Python path for imports
-        project_root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-        if project_root not in sys.path:
-            sys.path.insert(0, project_root)
-        
-        # Try to import a dependency that should be available
-        import BaseClasses
-        
-        # If import works but no VIRTUAL_ENV, warn but allow to continue
-        return True
-    except ImportError:
-        return False
-
-
-def check_http_server(url: str = "http://localhost:8000", timeout: int = 5) -> bool:
-    """
-    Check if the HTTP server is running by attempting to connect.
-    Returns True if server is reachable, False otherwise.
-    """
-    try:
-        with urllib.request.urlopen(url, timeout=timeout) as response:
-            return response.getcode() == 200
-    except (urllib.error.URLError, urllib.error.HTTPError, OSError):
-        return False
-
-
-def get_world_directory_name_from_game_name(game_name: str) -> str:
-    """
-    Get the world directory name for a given game name by scanning worlds directory.
-    This replicates the logic from build-world-mapping.py and exporter.py.
-    """
-    try:
-        # Get path to worlds directory relative to this file (scripts/test-all-templates.py)
-        project_root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-        worlds_dir = os.path.join(project_root, 'worlds')
-        
-        if not os.path.exists(worlds_dir):
-            print(f"Warning: Worlds directory not found: {worlds_dir}")
-            return game_name.lower().replace(' ', '_').replace(':', '_')
-        
-        # Scan each world directory
-        for world_dir_name in os.listdir(worlds_dir):
-            world_path = os.path.join(worlds_dir, world_dir_name)
-            
-            # Skip non-directories and hidden/private directories
-            if not os.path.isdir(world_path) or world_dir_name.startswith('.') or world_dir_name.startswith('_'):
-                continue
-                
-            init_file = os.path.join(world_path, '__init__.py')
-            if not os.path.exists(init_file):
-                continue
-                
-            # Extract game name from __init__.py
-            try:
-                with open(init_file, 'r', encoding='utf-8') as f:
-                    content = f.read()
-                    
-                # Look for pattern: game: ClassVar[str] = "Game Name"
-                pattern = r'game:\s*ClassVar\[str\]\s*=\s*"([^"]*)"'
-                match = re.search(pattern, content, re.MULTILINE)
-                
-                if match:
-                    found_game_name = match.group(1)
-                    if found_game_name == game_name:
-                        return world_dir_name
-                
-                # Fallback pattern for single quotes
-                pattern = r'game:\s*ClassVar\[str\]\s*=\s*\'([^\']*)\''
-                match = re.search(pattern, content, re.MULTILINE)
-                
-                if match:
-                    found_game_name = match.group(1)
-                    if found_game_name == game_name:
-                        return world_dir_name
-                
-                # Fallback: look for simpler pattern: game = "Game Name"
-                pattern = r'game\s*=\s*"([^"]*)"'
-                match = re.search(pattern, content, re.MULTILINE)
-                
-                if match:
-                    found_game_name = match.group(1)
-                    if found_game_name == game_name:
-                        return world_dir_name
-                
-                # Fallback pattern for single quotes
-                pattern = r'game\s*=\s*\'([^\']*)\''
-                match = re.search(pattern, content, re.MULTILINE)
-                
-                if match:
-                    found_game_name = match.group(1)
-                    if found_game_name == game_name:
-                        return world_dir_name
-                        
-            except (IOError, UnicodeDecodeError):
-                continue
-        
-        # If no matching world found, fall back to old logic
-        return game_name.lower().replace(' ', '_').replace(':', '_')
-        
-    except Exception as e:
-        print(f"Error finding world directory for game '{game_name}': {e}")
-        return game_name.lower().replace(' ', '_').replace(':', '_')
-
-
-def normalize_game_name(template_name: str) -> str:
-    """Convert template filename to world directory name format."""
-    # Remove .yaml extension to get the game name (handle both .yaml and .yml)
-    game_name = template_name
-    if game_name.endswith('.yaml'):
-        game_name = game_name[:-5]
-    elif game_name.endswith('.yml'):
-        game_name = game_name[:-4]
-    # Use the same logic as the exporter to find the world directory name
-    return get_world_directory_name_from_game_name(game_name)
-
-
-def count_errors_and_warnings(text: str) -> Tuple[int, int, Optional[str], Optional[str]]:
-    """
-    Count occurrences of 'error' and 'warning' in text (case insensitive).
-    Ignores lines that start with "[SKIP]", contain "Error Logs:", or "No errors detected" to avoid false positives.
-    Returns tuple of (error_count, warning_count, first_error_line, first_warning_line).
-    """
-    lines = text.split('\n')
-    error_count = 0
-    warning_count = 0
-    first_error_line = None
-    first_warning_line = None
-    
-    for line in lines:
-        line_stripped = line.strip()
-        line_lower = line_stripped.lower()
-        
-        # Skip lines that are false positives
-        if (line_stripped.startswith('[SKIP]') or 
-            'error logs:' in line_lower or
-            'no errors detected' in line_lower):
-            continue
-            
-        if 'error' in line_lower:
-            error_count += 1
-            if first_error_line is None:
-                first_error_line = line_stripped
-        if 'warning' in line_lower:
-            warning_count += 1
-            if first_warning_line is None:
-                first_warning_line = line_stripped
-    
-    return error_count, warning_count, first_error_line, first_warning_line
-
-
-def run_command(cmd: List[str], cwd: str = None, timeout: int = 300, env: Dict = None) -> Tuple[int, str, str]:
-    """
-    Run a command and return (return_code, stdout, stderr).
-    """
-    try:
-        result = subprocess.run(
-            cmd,
-            cwd=cwd,
-            env=env,
-            capture_output=True,
-            text=True,
-            timeout=timeout
-        )
-        return result.returncode, result.stdout, result.stderr
-    except subprocess.TimeoutExpired:
-        return -1, "", "Command timed out"
-    except Exception as e:
-        return -1, "", str(e)
-
-
-def count_total_spheres(spheres_log_path: str) -> float:
-    """
-    Get the highest sphere_index from spheres_log.jsonl file.
-    Returns the sphere_index value from the last line in the file.
-    """
-    try:
-        if not os.path.exists(spheres_log_path):
-            return 0
-        
-        with open(spheres_log_path, 'r') as f:
-            last_sphere = 0
-            for line in f:
-                line = line.strip()
-                if line:
-                    try:
-                        sphere_data = json.loads(line)
-                        sphere_index = sphere_data.get('sphere_index', 0)
-                        # Convert to float to handle values like "1.1", "2.3", etc.
-                        if isinstance(sphere_index, str):
-                            last_sphere = float(sphere_index)
-                        else:
-                            last_sphere = float(sphere_index)
-                    except (json.JSONDecodeError, ValueError):
-                        continue
-            return last_sphere
-    except (IOError, OSError):
-        return 0
-
-
-def parse_multiplayer_test_results(test_results_dir: str) -> Dict:
-    """Parse multiplayer test results from JSON files for both clients."""
-    result = {
-        'success': False,
-        'client1_passed': False,
-        'client2_passed': False,
-        'client1_locations_checked': 0,
-        'client1_manually_checkable': 0,
-        'client2_locations_received': 0,
-        'client2_total_locations': 0,
-        'error_message': None
-    }
-
-    # Find the most recent test result files for both clients
-    try:
-        from pathlib import Path
-        client1_files = list(Path(test_results_dir).glob('client1-timer-*.json'))
-        client2_files = list(Path(test_results_dir).glob('client2-timer-*.json'))
-
-        if not client1_files:
-            result['error_message'] = "No client1 test result files found"
-            return result
-
-        # Get the most recent client1 file
-        latest_client1_file = max(client1_files, key=os.path.getctime)
-
-        # Parse Client 1 results
-        with open(latest_client1_file, 'r') as f:
-            data = json.load(f)
-
-        # Parse the results
-        summary = data.get('summary', {})
-        result['client1_passed'] = summary.get('failedCount', 1) == 0
-
-        # Extract locations checked from Client 1 logs
-        test_details = data.get('testDetails', [])
-        if test_details:
-            logs = test_details[0].get('logs', [])
-            locations_checked_val = 0
-            manually_checkable_val = 0
-
-            for log_entry in logs:
-                message = log_entry.get('message', '')
-
-                # Look for "Final result: X locations checked"
-                if 'final result' in message.lower() and 'locations checked' in message.lower():
-                    match = re.search(r'(\d+)\s+locations?\s+checked', message)
-                    if match:
-                        locations_checked_val = int(match.group(1))
-
-                # Look for "Manually-checkable locations: X"
-                if 'manually-checkable locations' in message.lower():
-                    match = re.search(r'manually-checkable locations:\s*(\d+)', message, re.IGNORECASE)
-                    if match:
-                        manually_checkable_val = int(match.group(1))
-
-            result['client1_locations_checked'] = locations_checked_val
-            result['client1_manually_checkable'] = manually_checkable_val
-
-        # Parse Client 2 results if available
-        if client2_files:
-            latest_client2_file = max(client2_files, key=os.path.getctime)
-
-            with open(latest_client2_file, 'r') as f:
-                data2 = json.load(f)
-
-            # Parse Client 2 summary
-            summary2 = data2.get('summary', {})
-            result['client2_passed'] = summary2.get('failedCount', 1) == 0
-
-            # Extract locations received from Client 2 logs
-            test_details2 = data2.get('testDetails', [])
-            if test_details2:
-                logs2 = test_details2[0].get('logs', [])
-                expecting_val = 0
-                final_state_val = 0
-
-                for log_entry in logs2:
-                    message = log_entry.get('message', '')
-
-                    # Look for "Expecting to receive checks for X locations"
-                    if 'expecting to receive' in message.lower() and 'locations' in message.lower():
-                        match = re.search(r'(\d+)\s+locations?', message)
-                        if match:
-                            expecting_val = int(match.group(1))
-
-                    # Look for "Final state: X locations marked as checked"
-                    if 'final state' in message.lower() and 'locations marked as checked' in message.lower():
-                        match = re.search(r'(\d+)\s+locations?\s+marked', message)
-                        if match:
-                            final_state_val = int(match.group(1))
-
-                result['client2_total_locations'] = expecting_val
-                result['client2_locations_received'] = final_state_val
-
-        # Test passes if:
-        # - Client 1 passed (sent all manually-checkable locations)
-        # - Client 2 passed (received all locations)
-        # - Client 2 received all expected locations
-        result['success'] = (result['client1_passed'] and
-                            result['client2_passed'] and
-                            result['client2_locations_received'] >= result['client2_total_locations'] and
-                            result['client2_total_locations'] > 0)
-
-    except Exception as e:
-        result['error_message'] = f"Error parsing test results: {str(e)}"
-
-    return result
-
-
-def parse_playwright_analysis(analysis_text: str) -> Dict:
-    """
-    Parse playwright-analysis.txt to extract test results.
-    """
-    result = {
-        'pass_fail': 'unknown',
-        'sphere_reached': 0,
-        'total_spheres': 0,
-        'error_count': 0,
-        'warning_count': 0,
-        'first_error_line': None,
-        'first_warning_line': None
-    }
-
-    # Count errors and warnings
-    error_count, warning_count, first_error, first_warning = count_errors_and_warnings(analysis_text)
-    result['error_count'] = error_count
-    result['warning_count'] = warning_count
-    result['first_error_line'] = first_error
-    result['first_warning_line'] = first_warning
-
-    # Parse for sphere information and pass/fail status
-    lines = analysis_text.split('\n')
-    for line in lines:
-        line_stripped = line.strip()
-        line_upper = line_stripped.upper()
-
-        # Look for pass/fail status - check for [PASS] or [FAIL] in test results
-        if '[PASS]' in line_upper:
-            result['pass_fail'] = 'passed'
-        elif '[FAIL]' in line_upper:
-            result['pass_fail'] = 'failed'
-        elif 'PASSED:' in line_upper or 'FAILED:' in line_upper:
-            if 'PASSED:' in line_upper:
-                result['pass_fail'] = 'passed'
-            else:
-                result['pass_fail'] = 'failed'
-        elif 'NO ERRORS DETECTED' in line_upper:
-            result['pass_fail'] = 'passed'
-
-        # Look for sphere information
-        sphere_match = re.search(r'sphere\s+(\d+(?:\.\d+)?)', line_stripped.lower())
-        if sphere_match:
-            result['sphere_reached'] = float(sphere_match.group(1))
-
-        total_match = re.search(r'(\d+)\s+total\s+spheres?', line_stripped.lower())
-        if total_match:
-            result['total_spheres'] = int(total_match.group(1))
-
-        # Alternative patterns for total spheres
-        if 'spheres' in line_stripped.lower() and '/' in line_stripped:
-            parts = line_stripped.split('/')
-            if len(parts) >= 2:
-                try:
-                    total = int(re.findall(r'\d+', parts[1])[0])
-                    result['total_spheres'] = total
-                except (IndexError, ValueError):
-                    pass
-
-    return result
-
-
-def load_existing_results(results_file: str) -> Dict:
-    """Load existing results file or create empty structure."""
-    if os.path.exists(results_file):
-        try:
-            with open(results_file, 'r') as f:
-                data = json.load(f)
-
-                # Check if this is an old-format file (list-based results from old multiplayer script)
-                if isinstance(data.get('results'), list):
-                    # Convert old format to new format
-                    print("Converting old-format results file to new format...")
-                    return {
-                        'metadata': {
-                            'created': data.get('timestamp', datetime.now().isoformat()),
-                            'last_updated': datetime.now().isoformat(),
-                            'script_version': '1.0.0'
-                        },
-                        'results': {}
-                    }
-
-                # Check if metadata exists, if not add it
-                if 'metadata' not in data:
-                    data['metadata'] = {
-                        'created': datetime.now().isoformat(),
-                        'last_updated': datetime.now().isoformat(),
-                        'script_version': '1.0.0'
-                    }
-
-                return data
-        except (json.JSONDecodeError, IOError):
-            pass
-
-    return {
-        'metadata': {
-            'created': datetime.now().isoformat(),
-            'last_updated': datetime.now().isoformat(),
-            'script_version': '1.0.0'
-        },
-        'results': {}
-    }
-
-
-def merge_results(existing_results: Dict, new_results: Dict, templates_tested: List[str], update_metadata: bool = True) -> Dict:
-    """
-    Merge new test results into existing results.
-    Only updates entries for templates/seeds that were tested in the current run.
-    Preserves all other existing results.
-
-    For seed range tests, merges at the individual seed level - if you test seeds 1-10
-    and then retest just seed 1, only seed 1's results are updated.
-
-    Args:
-        existing_results: The existing results to merge into
-        new_results: The new results from this run
-        templates_tested: List of template names tested in this run
-        update_metadata: If True, updates metadata fields like batch processing time
-    """
-    merged = existing_results.copy()
-
-    # Only update metadata if requested (typically only for full runs, not --include-list runs)
-    if update_metadata:
-        merged['metadata']['last_updated'] = new_results['metadata']['last_updated']
-
-        # Copy over batch processing time metadata from new results if present
-        for key in ['batch_processing_time_seconds', 'batch_processing_time_minutes', 'average_time_per_template_seconds']:
-            if key in new_results['metadata']:
-                merged['metadata'][key] = new_results['metadata'][key]
-    else:
-        # Always update last_updated timestamp, but not the batch processing metrics
-        merged['metadata']['last_updated'] = new_results['metadata']['last_updated']
-
-    # Merge results: only update entries for templates tested in this run
-    if 'results' not in merged:
-        merged['results'] = {}
-
-    for template_name in templates_tested:
-        if template_name not in new_results['results']:
-            continue
-
-        new_result = new_results['results'][template_name]
-
-        # Check if existing result is a seed range (has 'individual_results' key)
-        existing_has_seed_range = (template_name in merged['results'] and
-                                   'individual_results' in merged['results'][template_name])
-
-        # Check if this is a seed range result (has 'individual_results' key)
-        if 'individual_results' in new_result:
-            # New result is a seed range result - merge at the seed level
-            if existing_has_seed_range:
-                # Template already exists with seed range results - merge individual seeds
-                existing_template = merged['results'][template_name]
-
-                # Merge individual seed results
-                if 'individual_results' not in existing_template:
-                    existing_template['individual_results'] = {}
-
-                for seed, seed_result in new_result['individual_results'].items():
-                    existing_template['individual_results'][seed] = seed_result
-
-                # Recalculate summary statistics based on all seeds
-                all_seeds = existing_template['individual_results']
-                total_seeds = len(all_seeds)
-                seeds_passed = 0
-                seeds_failed = 0
-                first_failure_seed = None
-                first_failure_reason = None
-                consecutive_passes = 0
-
-                # Sort seeds numerically for consistent processing
-                sorted_seeds = sorted(all_seeds.keys(), key=lambda x: int(x))
-
-                for seed in sorted_seeds:
-                    seed_result = all_seeds[seed]
-                    # Check if seed passed (same logic as in test_template_seed_range)
-                    if 'spoiler_test' in seed_result:
-                        passed = seed_result.get('spoiler_test', {}).get('pass_fail') == 'passed'
-                    else:
-                        passed = seed_result.get('generation', {}).get('success', False)
-
-                    if passed:
-                        seeds_passed += 1
-                        if first_failure_seed is None:
-                            consecutive_passes += 1
-                    else:
-                        seeds_failed += 1
-                        if first_failure_seed is None:
-                            first_failure_seed = int(seed)
-                            # Get failure reason from the seed result
-                            if 'spoiler_test' in seed_result:
-                                spoiler_result = seed_result.get('spoiler_test', {})
-                                if spoiler_result.get('first_error_line'):
-                                    first_failure_reason = f"Test error: {spoiler_result['first_error_line']}"
-                                else:
-                                    first_failure_reason = f"Test failed at sphere {spoiler_result.get('sphere_reached', 0)}"
-                            else:
-                                gen_result = seed_result.get('generation', {})
-                                if gen_result.get('first_error_line'):
-                                    first_failure_reason = f"Generation error: {gen_result['first_error_line']}"
-                                else:
-                                    first_failure_reason = f"Generation failed with return code {gen_result.get('return_code')}"
-
-                # Update summary fields
-                existing_template['total_seeds_tested'] = total_seeds
-                existing_template['seeds_passed'] = seeds_passed
-                existing_template['seeds_failed'] = seeds_failed
-                existing_template['first_failure_seed'] = first_failure_seed
-                existing_template['first_failure_reason'] = first_failure_reason
-                existing_template['consecutive_passes_before_failure'] = consecutive_passes
-
-                # Update seed_range to reflect actual range
-                if sorted_seeds:
-                    existing_template['seed_range'] = f"{sorted_seeds[0]}-{sorted_seeds[-1]}" if len(sorted_seeds) > 1 else str(sorted_seeds[0])
-
-                # Update summary stats
-                if total_seeds > 0:
-                    existing_template['summary']['failure_rate'] = seeds_failed / total_seeds
-                    existing_template['summary']['all_passed'] = seeds_failed == 0
-                    existing_template['summary']['any_failed'] = seeds_failed > 0
-
-                # Update timestamp
-                existing_template['timestamp'] = new_result['timestamp']
-
-            else:
-                # No existing seed range results for this template, use new results entirely
-                merged['results'][template_name] = new_result
-        else:
-            # New result is a single seed result
-            if existing_has_seed_range:
-                # Existing result is a seed range - merge this single seed into it
-                existing_template = merged['results'][template_name]
-
-                # Get the seed from the new result
-                seed = new_result.get('seed', '1')
-
-                # Add this single seed result to the individual_results
-                if 'individual_results' not in existing_template:
-                    existing_template['individual_results'] = {}
-
-                existing_template['individual_results'][seed] = new_result
-
-                # Recalculate summary statistics (same logic as above)
-                all_seeds = existing_template['individual_results']
-                total_seeds = len(all_seeds)
-                seeds_passed = 0
-                seeds_failed = 0
-                first_failure_seed = None
-                first_failure_reason = None
-                consecutive_passes = 0
-
-                # Sort seeds numerically for consistent processing
-                sorted_seeds = sorted(all_seeds.keys(), key=lambda x: int(x))
-
-                for seed in sorted_seeds:
-                    seed_result = all_seeds[seed]
-                    # Check if seed passed
-                    if 'spoiler_test' in seed_result:
-                        passed = seed_result.get('spoiler_test', {}).get('pass_fail') == 'passed'
-                    else:
-                        passed = seed_result.get('generation', {}).get('success', False)
-
-                    if passed:
-                        seeds_passed += 1
-                        if first_failure_seed is None:
-                            consecutive_passes += 1
-                    else:
-                        seeds_failed += 1
-                        if first_failure_seed is None:
-                            first_failure_seed = int(seed)
-                            # Get failure reason from the seed result
-                            if 'spoiler_test' in seed_result:
-                                spoiler_result = seed_result.get('spoiler_test', {})
-                                if spoiler_result.get('first_error_line'):
-                                    first_failure_reason = f"Test error: {spoiler_result['first_error_line']}"
-                                else:
-                                    first_failure_reason = f"Test failed at sphere {spoiler_result.get('sphere_reached', 0)}"
-                            else:
-                                gen_result = seed_result.get('generation', {})
-                                if gen_result.get('first_error_line'):
-                                    first_failure_reason = f"Generation error: {gen_result['first_error_line']}"
-                                else:
-                                    first_failure_reason = f"Generation failed with return code {gen_result.get('return_code')}"
-
-                # Update summary fields
-                existing_template['total_seeds_tested'] = total_seeds
-                existing_template['seeds_passed'] = seeds_passed
-                existing_template['seeds_failed'] = seeds_failed
-                existing_template['first_failure_seed'] = first_failure_seed
-                existing_template['first_failure_reason'] = first_failure_reason
-                existing_template['consecutive_passes_before_failure'] = consecutive_passes
-
-                # Update seed_range to reflect actual range
-                if sorted_seeds:
-                    existing_template['seed_range'] = f"{sorted_seeds[0]}-{sorted_seeds[-1]}" if len(sorted_seeds) > 1 else str(sorted_seeds[0])
-
-                # Update summary stats
-                if total_seeds > 0:
-                    existing_template['summary']['failure_rate'] = seeds_failed / total_seeds
-                    existing_template['summary']['all_passed'] = seeds_failed == 0
-                    existing_template['summary']['any_failed'] = seeds_failed > 0
-
-                # Update timestamp
-                existing_template['timestamp'] = new_result['timestamp']
-            else:
-                # Single seed result and no existing seed range - replace entirely
-                merged['results'][template_name] = new_result
-
-    return merged
-
-
-def save_results(results: Dict, results_file: str, batch_processing_time: float = None, timestamped_file: str = None):
-    """Save results to JSON file and optionally to a timestamped file."""
-    results['metadata']['last_updated'] = datetime.now().isoformat()
-
-    # Add batch processing time if provided
-    if batch_processing_time is not None:
-        results['metadata']['batch_processing_time_seconds'] = round(batch_processing_time, 1)
-        results['metadata']['batch_processing_time_minutes'] = round(batch_processing_time / 60, 1)
-
-        # Calculate average time per template if we have results
-        if 'results' in results and len(results['results']) > 0:
-            avg_time = batch_processing_time / len(results['results'])
-            results['metadata']['average_time_per_template_seconds'] = round(avg_time, 1)
-
-    # Save to timestamped file if provided
-    if timestamped_file:
-        try:
-            with open(timestamped_file, 'w') as f:
-                json.dump(results, f, indent=2, sort_keys=True)
-            print(f"Timestamped results saved to: {timestamped_file}")
-        except IOError as e:
-            print(f"Error saving timestamped results: {e}")
-
-    # Save to main results file
-    try:
-        with open(results_file, 'w') as f:
-            json.dump(results, f, indent=2, sort_keys=True)
-        print(f"Results saved to: {results_file}")
-    except IOError as e:
-        print(f"Error saving results: {e}")
-
-
-def test_template_single_seed(template_file: str, templates_dir: str, project_root: str, world_mapping: Dict[str, Dict], seed: str = "1", export_only: bool = False, test_only: bool = False, multiplayer: bool = False, single_client: bool = False, headed: bool = False) -> Dict:
-    """Test a single template file and return results."""
-    template_name = os.path.basename(template_file)
-    game_name = normalize_game_name(template_name)
-    
-    # Compute seed ID directly from seed number
-    try:
-        seed_id = compute_seed_id(int(seed))
-    except (ValueError, TypeError):
-        print(f"Error: Seed '{seed}' is not a valid number")
-        seed_id = None
-    
-    # Get world info using the provided world mapping
-    world_info = get_world_info(template_file, templates_dir, world_mapping)
-    
-    print(f"\n=== Testing {template_name} ===")
-
-    result = {
-        'template_name': template_name,
-        'game_name': game_name,
-        'seed': seed,
-        'seed_id': seed_id,
-        'timestamp': datetime.now().isoformat(),
-        'world_info': world_info,
-        'generation': {
-            'success': False,
-            'error_count': 0,
-            'warning_count': 0,
-            'first_error_line': None,
-            'first_warning_line': None,
-            'return_code': None,
-            'processing_time_seconds': 0
-        },
-        'rules_file': {
-            'path': None,
-            'size_bytes': 0,
-            'size_mb': 0.0
-        }
-    }
-
-    # Add appropriate test structure based on test type
-    if multiplayer:
-        result['multiplayer_test'] = {
-            'success': False,
-            'client1_passed': False,
-            'locations_checked': 0,
-            'total_locations': 0,
-            'error_count': 0,
-            'warning_count': 0,
-            'first_error_line': None,
-            'first_warning_line': None,
-            'return_code': None,
-            'processing_time_seconds': 0
-        }
-    else:
-        result['spoiler_test'] = {
-            'success': False,
-            'pass_fail': 'unknown',
-            'sphere_reached': 0,
-            'total_spheres': 0,
-            'error_count': 0,
-            'warning_count': 0,
-            'first_error_line': None,
-            'first_warning_line': None,
-            'return_code': None,
-            'processing_time_seconds': 0
-        }
-        result['analysis'] = {
-            'success': False,
-            'error_count': 0,
-            'warning_count': 0,
-            'first_error_line': None,
-            'first_warning_line': None
-        }
-    
-    # Step 1: Run Generate.py (skip if test_only mode)
-    if not test_only:
-        print(f"Running Generate.py for {template_name}...")
-        # Ensure template name has .yaml extension for the file path
-        template_file = template_name if template_name.endswith(('.yaml', '.yml')) else f"{template_name}.yaml"
-        template_path = f"Templates/{template_file}"
-        generate_cmd = [
-            "python", "Generate.py", 
-            "--weights_file_path", template_path,
-            "--multi", "1",
-            "--seed", seed
-        ]
-        
-        # Time the generation process
-        gen_start_time = time.time()
-        gen_return_code, gen_stdout, gen_stderr = run_command(generate_cmd, cwd=project_root, timeout=600)
-        gen_end_time = time.time()
-        gen_processing_time = round(gen_end_time - gen_start_time, 2)
-        
-        # Write generate output to file
-        generate_output_file = os.path.join(project_root, "generate_output.txt")
-        with open(generate_output_file, 'w') as f:
-            f.write(f"STDOUT:\n{gen_stdout}\n\nSTDERR:\n{gen_stderr}\n")
-        
-        # Seed ID is already computed, no need to extract or verify
-        
-        # Analyze generation output
-        full_output = gen_stdout + "\n" + gen_stderr
-        gen_error_count, gen_warning_count, gen_first_error, gen_first_warning = count_errors_and_warnings(full_output)
-        
-        result['generation'].update({
-            'success': gen_return_code == 0,
-            'return_code': gen_return_code,
-            'error_count': gen_error_count,
-            'warning_count': gen_warning_count,
-            'first_error_line': gen_first_error,
-            'first_warning_line': gen_first_warning,
-            'processing_time_seconds': gen_processing_time
-        })
-        
-        if gen_return_code != 0:
-            print(f"Generation failed with return code {gen_return_code}")
-            return result
-    else:
-        print(f"Skipping generation for {template_name} (test-only mode)")
-        result['generation'].update({
-            'success': True,  # Assume success since we're skipping
-            'return_code': 0,
-            'processing_time_seconds': 0,
-            'note': 'Skipped in test-only mode'
-        })
-    
-    # Return early if export_only mode
-    if export_only:
-        print(f"Export completed for {template_name} (export-only mode)")
-        return result
-
-    # Check if rules file exists (files are actually in frontend/presets/)
-    rules_path = f"./presets/{game_name}/{seed_id}/{seed_id}_rules.json"
-    full_rules_path = os.path.join(project_root, 'frontend', rules_path.lstrip('./'))
-    if not os.path.exists(full_rules_path):
-        print(f"Rules file not found: {full_rules_path}")
-        test_key = 'multiplayer_test' if multiplayer else 'spoiler_test'
-        result[test_key]['error_count'] = 1
-        result[test_key]['first_error_line'] = f"Rules file not found: {rules_path}"
-        return result
-
-    # Step 2: Run test (multiplayer or spoiler based on mode)
-    if multiplayer:
-        # Multiplayer test
-        test_mode = "single-client" if single_client else "dual-client"
-        print(f"Running multiplayer timer test ({test_mode} mode)...")
-
-        # Run the multiplayer test
-        if single_client:
-            # Single-client mode
-            multiplayer_cmd = [
-                "npx", "playwright", "test",
-                "tests/e2e/multiplayer.spec.js",
-                "-g", "single client timer test"
-            ]
-            multiplayer_env = os.environ.copy()
-            multiplayer_env['ENABLE_SINGLE_CLIENT'] = 'true'
-        else:
-            # Dual-client mode (default)
-            multiplayer_cmd = [
-                "npx", "playwright", "test",
-                "tests/e2e/multiplayer.spec.js",
-                "-g", "multiplayer timer test"
-            ]
-            multiplayer_env = os.environ.copy()
-
-        # Add --headed flag if requested
-        if headed:
-            multiplayer_cmd.append("--headed")
-
-        multiplayer_env['TEST_GAME'] = game_name
-        multiplayer_env['TEST_SEED'] = seed
-
-        # Time the multiplayer test process
-        test_start_time = time.time()
-        test_return_code, test_stdout, test_stderr = run_command(
-            multiplayer_cmd, cwd=project_root, timeout=180, env=multiplayer_env
-        )
-        test_end_time = time.time()
-        test_processing_time = round(test_end_time - test_start_time, 2)
-
-        result['multiplayer_test']['return_code'] = test_return_code
-        result['multiplayer_test']['processing_time_seconds'] = test_processing_time
-
-        # Analyze test output
-        full_output = test_stdout + "\n" + test_stderr
-        test_error_count, test_warning_count, test_first_error, test_first_warning = count_errors_and_warnings(full_output)
-
-        result['multiplayer_test']['error_count'] = test_error_count
-        result['multiplayer_test']['warning_count'] = test_warning_count
-        result['multiplayer_test']['first_error_line'] = test_first_error
-        result['multiplayer_test']['first_warning_line'] = test_first_warning
-
-        # Parse test results
-        test_results_dir = os.path.join(project_root, 'test_results', 'multiplayer')
-        test_results = parse_multiplayer_test_results(test_results_dir)
-
-        result['multiplayer_test'].update({
-            'success': test_results['success'],
-            'client1_passed': test_results['client1_passed'],
-            'client2_passed': test_results['client2_passed'],
-            'client1_locations_checked': test_results['client1_locations_checked'],
-            'client1_manually_checkable': test_results['client1_manually_checkable'],
-            'client2_locations_received': test_results['client2_locations_received'],
-            'client2_total_locations': test_results['client2_total_locations'],
-            # Legacy fields for backwards compatibility
-            'locations_checked': test_results['client2_locations_received'],
-            'total_locations': test_results['client2_total_locations']
-        })
-
-        if test_results.get('error_message'):
-            result['multiplayer_test']['first_error_line'] = test_results['error_message']
-
-    else:
-        # Spoiler test
-        print("Running spoiler test...")
-
-        # Use npm run test:headed if --headed flag is set
-        if headed:
-            spoiler_cmd = ["npm", "run", "test:headed", f"--mode=test-spoilers", f"--game={game_name}", f"--seed={seed}"]
-        else:
-            spoiler_cmd = ["npm", "test", "--mode=test-spoilers", f"--game={game_name}", f"--seed={seed}"]
-        spoiler_env = os.environ.copy()
-
-        # Time the spoiler test process
-        spoiler_start_time = time.time()
-        spoiler_return_code, spoiler_stdout, spoiler_stderr = run_command(
-            spoiler_cmd, cwd=project_root, timeout=900, env=spoiler_env
-        )
-        spoiler_end_time = time.time()
-        spoiler_processing_time = round(spoiler_end_time - spoiler_start_time, 2)
-
-        result['spoiler_test']['return_code'] = spoiler_return_code
-        result['spoiler_test']['success'] = spoiler_return_code == 0
-        result['spoiler_test']['processing_time_seconds'] = spoiler_processing_time
-
-        # Step 3: Run test analysis
-        print("Running test analysis...")
-        analysis_cmd = ["npm", "run", "test:analyze"]
-        analysis_return_code, analysis_stdout, analysis_stderr = run_command(
-            analysis_cmd, cwd=project_root, timeout=60
-        )
-
-        # Read playwright-analysis.txt if it exists
-        analysis_file = os.path.join(project_root, "playwright-analysis.txt")
-        if os.path.exists(analysis_file):
-            try:
-                with open(analysis_file, 'r') as f:
-                    analysis_text = f.read()
-
-                # Parse the analysis
-                analysis_result = parse_playwright_analysis(analysis_text)
-                result['spoiler_test'].update(analysis_result)
-                result['analysis']['success'] = True
-
-            except IOError:
-                result['analysis']['first_error_line'] = "Could not read playwright-analysis.txt"
-        else:
-            result['analysis']['first_error_line'] = "playwright-analysis.txt not found"
-
-        # Read total spheres from spheres_log.jsonl file
-        spheres_log_path = os.path.join(project_root, 'frontend', 'presets', game_name, seed_id, f'{seed_id}_spheres_log.jsonl')
-        total_spheres = count_total_spheres(spheres_log_path)
-        result['spoiler_test']['total_spheres'] = total_spheres
-
-        # If test passed, sphere_reached should equal total_spheres
-        if result['spoiler_test']['pass_fail'] == 'passed':
-            result['spoiler_test']['sphere_reached'] = total_spheres
-    
-    # Get rules file size
-    rules_file_path = os.path.join(project_root, 'frontend', 'presets', game_name, seed_id, f'{seed_id}_rules.json')
-    try:
-        if os.path.exists(rules_file_path):
-            file_size_bytes = os.path.getsize(rules_file_path)
-            file_size_mb = round(file_size_bytes / (1024 * 1024), 2)
-            result['rules_file'] = {
-                'path': f'frontend/presets/{game_name}/{seed_id}/{seed_id}_rules.json',
-                'size_bytes': file_size_bytes,
-                'size_mb': file_size_mb
-            }
-        else:
-            result['rules_file'] = {
-                'path': f'frontend/presets/{game_name}/{seed_id}/{seed_id}_rules.json',
-                'size_bytes': 0,
-                'size_mb': 0.0,
-                'note': 'File not found'
-            }
-    except OSError:
-        result['rules_file'] = {
-            'path': f'frontend/presets/{game_name}/{seed_id}/{seed_id}_rules.json',
-            'size_bytes': 0,
-            'size_mb': 0.0,
-            'note': 'Error reading file size'
-        }
-    
-    if multiplayer:
-        print(f"Completed {template_name}: Generation={'[PASS]' if result['generation']['success'] else '[FAIL]'}, "
-              f"Test={'[PASS]' if result['multiplayer_test']['success'] else '[FAIL]'}, "
-              f"Gen Errors={result['generation']['error_count']}, "
-              f"Locations Checked={result['multiplayer_test']['locations_checked']}/{result['multiplayer_test']['total_locations']}")
-    else:
-        print(f"Completed {template_name}: Generation={'[PASS]' if result['generation']['success'] else '[FAIL]'}, "
-              f"Test={'[PASS]' if result['spoiler_test']['pass_fail'] == 'passed' else '[FAIL]'}, "
-              f"Gen Errors={result['generation']['error_count']}, "
-              f"Sphere Reached={result['spoiler_test']['sphere_reached']}, "
-              f"Max Spheres={result['spoiler_test']['total_spheres']}")
-
-    return result
-
-
-def test_template_seed_range(template_file: str, templates_dir: str, project_root: str, world_mapping: Dict[str, Dict], seed_list: List[int], export_only: bool = False, test_only: bool = False, stop_on_failure: bool = False, multiplayer: bool = False, single_client: bool = False, headed: bool = False) -> Dict:
-    """Test a template file with multiple seeds and return aggregated results."""
-    template_name = os.path.basename(template_file)
-    
-    print(f"\n=== Testing {template_name} with {len(seed_list)} seeds ===")
-    
-    # Initialize seed range result
-    seed_range_result = {
-        'template_name': template_name,
-        'seed_range': f"{seed_list[0]}-{seed_list[-1]}" if len(seed_list) > 1 else str(seed_list[0]),
-        'total_seeds_tested': 0,
-        'seeds_passed': 0,
-        'seeds_failed': 0,
-        'first_failure_seed': None,
-        'first_failure_reason': None,
-        'consecutive_passes_before_failure': 0,
-        'stop_on_failure': stop_on_failure,
-        'timestamp': datetime.now().isoformat(),
-        'individual_results': {},
-        'summary': {
-            'all_passed': False,
-            'any_failed': False,
-            'failure_rate': 0.0
-        }
-    }
-    
-    consecutive_passes = 0
-    
-    for i, seed in enumerate(seed_list, 1):
-        print(f"\n--- Seed {seed} ({i}/{len(seed_list)}) ---")
-        
-        try:
-            # Test this specific seed
-            result = test_template_single_seed(
-                template_file, templates_dir, project_root, world_mapping,
-                str(seed), export_only, test_only, multiplayer, single_client, headed
-            )
-
-            seed_range_result['individual_results'][str(seed)] = result
-            seed_range_result['total_seeds_tested'] += 1
-
-            # Check if this seed passed
-            if export_only:
-                passed = result.get('generation', {}).get('success', False)
-            elif multiplayer:
-                passed = result.get('multiplayer_test', {}).get('success', False)
-            else:
-                passed = result.get('spoiler_test', {}).get('pass_fail') == 'passed'
-            
-            if passed:
-                seed_range_result['seeds_passed'] += 1
-                consecutive_passes += 1
-                print(f"✅ Seed {seed} PASSED")
-            else:
-                seed_range_result['seeds_failed'] += 1
-                print(f"❌ Seed {seed} FAILED")
-                
-                # Record first failure
-                if seed_range_result['first_failure_seed'] is None:
-                    seed_range_result['first_failure_seed'] = seed
-                    seed_range_result['consecutive_passes_before_failure'] = consecutive_passes
-                    
-                    # Determine failure reason
-                    if export_only:
-                        gen_result = result.get('generation', {})
-                        if gen_result.get('first_error_line'):
-                            seed_range_result['first_failure_reason'] = f"Generation error: {gen_result['first_error_line']}"
-                        else:
-                            seed_range_result['first_failure_reason'] = f"Generation failed with return code {gen_result.get('return_code')}"
-                    elif multiplayer:
-                        mp_result = result.get('multiplayer_test', {})
-                        if mp_result.get('first_error_line'):
-                            seed_range_result['first_failure_reason'] = f"Multiplayer test error: {mp_result['first_error_line']}"
-                        else:
-                            locations_checked = mp_result.get('locations_checked', 0)
-                            total_locations = mp_result.get('total_locations', 0)
-                            seed_range_result['first_failure_reason'] = f"Multiplayer test failed: {locations_checked}/{total_locations} locations checked"
-                    else:
-                        spoiler_result = result.get('spoiler_test', {})
-                        if spoiler_result.get('first_error_line'):
-                            seed_range_result['first_failure_reason'] = f"Test error: {spoiler_result['first_error_line']}"
-                        else:
-                            seed_range_result['first_failure_reason'] = f"Test failed at sphere {spoiler_result.get('sphere_reached', 0)}"
-                
-                # Stop on failure if requested
-                if stop_on_failure:
-                    print(f"Stopping at first failure (seed {seed})")
-                    break
-                    
-                # Reset consecutive passes counter after failure
-                consecutive_passes = 0
-        
-        except Exception as e:
-            print(f"❌ Seed {seed} ERROR: {e}")
-            seed_range_result['total_seeds_tested'] += 1
-            seed_range_result['seeds_failed'] += 1
-            
-            # Record as first failure if none yet
-            if seed_range_result['first_failure_seed'] is None:
-                seed_range_result['first_failure_seed'] = seed
-                seed_range_result['consecutive_passes_before_failure'] = consecutive_passes
-                seed_range_result['first_failure_reason'] = f"Exception: {str(e)}"
-            
-            if stop_on_failure:
-                print(f"Stopping due to exception on seed {seed}")
-                break
-            
-            consecutive_passes = 0
-    
-    # Calculate summary statistics
-    total_tested = seed_range_result['total_seeds_tested']
-    if total_tested > 0:
-        seed_range_result['summary']['failure_rate'] = seed_range_result['seeds_failed'] / total_tested
-        seed_range_result['summary']['all_passed'] = seed_range_result['seeds_failed'] == 0
-        seed_range_result['summary']['any_failed'] = seed_range_result['seeds_failed'] > 0
-    
-    # If no failures and we tested all seeds, consecutive passes = total
-    if seed_range_result['first_failure_seed'] is None:
-        seed_range_result['consecutive_passes_before_failure'] = seed_range_result['seeds_passed']
-    
-    # Print summary
-    print(f"\n=== Seed Range Summary for {template_name} ===")
-    print(f"Seeds tested: {total_tested}")
-    print(f"Passed: {seed_range_result['seeds_passed']}")
-    print(f"Failed: {seed_range_result['seeds_failed']}")
-    if seed_range_result['first_failure_seed'] is not None:
-        print(f"First failure at seed: {seed_range_result['first_failure_seed']}")
-        print(f"Consecutive passes before failure: {seed_range_result['consecutive_passes_before_failure']}")
-        print(f"Failure reason: {seed_range_result['first_failure_reason']}")
-    else:
-        print(f"🎉 All {seed_range_result['seeds_passed']} seeds passed!")
-    
-    return seed_range_result
 
 
 def main():
@@ -1358,6 +185,17 @@ def main():
         action='store_true',
         help='Run Playwright tests in headed mode (with visible browser windows)'
     )
+    parser.add_argument(
+        '--retest',
+        action='store_true',
+        help='Retest only previously failed tests, stopping at the first test that still fails'
+    )
+    parser.add_argument(
+        '--retest-continue',
+        type=int,
+        metavar='MAX_SEED',
+        help='When used with --retest, if a failing seed passes, continue testing subsequent seeds up to MAX_SEED (e.g., --retest-continue 10 to test through seed 10)'
+    )
 
     args = parser.parse_args()
 
@@ -1369,7 +207,23 @@ def main():
     if args.single_client and not args.multiplayer:
         print("Error: --single-client can only be used with --multiplayer")
         sys.exit(1)
-    
+
+    if args.retest and args.include_list is not None:
+        print("Error: --retest and --include-list are mutually exclusive")
+        sys.exit(1)
+
+    if args.retest and args.start_from:
+        print("Error: --retest and --start-from are mutually exclusive")
+        sys.exit(1)
+
+    if args.retest_continue and not args.retest:
+        print("Error: --retest-continue can only be used with --retest")
+        sys.exit(1)
+
+    if args.retest_continue and args.retest_continue < 1:
+        print("Error: --retest-continue MAX_SEED must be at least 1")
+        sys.exit(1)
+
     # Check if both seed and seed_range were explicitly provided
     if args.seed is not None and args.seed_range is not None:
         print("Error: --seed and --seed-range are mutually exclusive")
@@ -1490,9 +344,109 @@ def main():
     if not all_yaml_files:
         print(f"Error: No YAML files found in {templates_dir}")
         sys.exit(1)
-    
+
+    # Initialize retest_seed_info (used in test loop)
+    retest_seed_info = {}
+
+    # Handle --retest mode: load existing results and filter to only failed tests
+    if args.retest:
+        # Determine the correct results file path based on mode
+        if args.multiplayer:
+            retest_results_file = os.path.join(project_root, 'scripts/output-multiplayer/test-results-multiplayer.json')
+        else:
+            # Read host.yaml to determine spoiler output directory
+            host_config = read_host_yaml_config(project_root)
+            extend_sphere_log = host_config.get('general_options', {}).get('extend_sphere_log_to_all_locations', True)
+            if extend_sphere_log:
+                retest_results_file = os.path.join(project_root, 'scripts/output-spoiler-full/template-test-results.json')
+            else:
+                retest_results_file = os.path.join(project_root, 'scripts/output-spoiler-minimal/template-test-results.json')
+
+        # Load existing results
+        if not os.path.exists(retest_results_file):
+            print(f"Error: Cannot use --retest because results file not found: {retest_results_file}")
+            print("Please run a full test first to generate results.")
+            sys.exit(1)
+
+        existing_results = load_existing_results(retest_results_file)
+        if 'results' not in existing_results or not existing_results['results']:
+            print(f"Error: Cannot use --retest because results file is empty: {retest_results_file}")
+            print("Please run a full test first to generate results.")
+            sys.exit(1)
+
+        # Get list of failed templates and their failing seed info
+        failed_templates = get_failed_templates(existing_results['results'], args.multiplayer)
+
+        # If --retest-continue is specified, also include templates that haven't been tested up to that threshold
+        templates_to_test = set(failed_templates)
+        if args.retest_continue:
+            for template, result in existing_results['results'].items():
+                if template not in templates_to_test and isinstance(result, dict):
+                    # Check if this template has seed range data
+                    seed_range = result.get('seed_range')
+                    if seed_range:
+                        try:
+                            # Parse the highest tested seed
+                            if '-' in seed_range:
+                                _, max_tested = seed_range.split('-')
+                                max_tested_seed = int(max_tested)
+                            else:
+                                max_tested_seed = int(seed_range)
+
+                            # If we haven't tested up to retest_continue, include this template
+                            if max_tested_seed < args.retest_continue:
+                                templates_to_test.add(template)
+                        except (ValueError, AttributeError):
+                            pass
+
+        if not templates_to_test:
+            print("No templates need retesting!")
+            if args.retest_continue:
+                print(f"All templates have either failed tests or have been tested through seed {args.retest_continue}.")
+            sys.exit(0)
+
+        # Build a dictionary mapping template to seed info for retest
+        retest_seed_info = {}
+        for template in templates_to_test:
+            seed_info = get_failing_seed_info(template, existing_results['results'], args.multiplayer)
+            retest_seed_info[template] = seed_info
+
+        # Filter to only include templates that exist in the templates directory
+        yaml_files = sorted([f for f in templates_to_test if f in all_yaml_files])
+
+        if not yaml_files:
+            print("Error: No templates to retest found in the templates directory")
+            print(f"Templates to retest: {', '.join(templates_to_test)}")
+            print(f"Templates in directory: {', '.join(all_yaml_files)}")
+            sys.exit(1)
+
+        print(f"Retest mode: Found {len(yaml_files)} templates to test")
+        for template in yaml_files:
+            seed_info = retest_seed_info[template]
+            if seed_info['failing_seed']:
+                print(f"  - {template}: will test seed {seed_info['failing_seed']}", end='')
+                if args.retest_continue and seed_info['failing_seed'] < args.retest_continue:
+                    print(f" (and continue to seed {args.retest_continue} if it passes)")
+                else:
+                    print()
+            elif args.retest_continue and seed_info['seed_range_tested']:
+                # No failing seed, but needs to continue testing
+                try:
+                    if '-' in seed_info['seed_range_tested']:
+                        _, max_tested = seed_info['seed_range_tested'].split('-')
+                        max_tested_seed = int(max_tested)
+                    else:
+                        max_tested_seed = int(seed_info['seed_range_tested'])
+                    print(f"  - {template}: will test seeds {max_tested_seed + 1}-{args.retest_continue} (continuing from seed {max_tested_seed})")
+                except (ValueError, AttributeError):
+                    print(f"  - {template}: will test seed 1 (no seed-specific failure data)")
+            else:
+                print(f"  - {template}: will test seed 1 (no seed-specific failure data)")
+        filter_description = f"retest mode ({len(yaml_files)} templates)"
+        skipped_files = [f for f in all_yaml_files if f not in yaml_files]
+
     # Handle include list vs skip list logic
-    if args.include_list is not None:
+    elif args.include_list is not None:
         # Include list mode: only test specified files
         # Allow matching with or without .yaml extension
         yaml_files = []
@@ -1615,8 +569,8 @@ def main():
     existing_results = load_existing_results(results_file)
 
     # Determine if we should update metadata in merged results
-    # Only update metadata for full runs (no --include-list)
-    update_metadata = args.include_list is None
+    # Only update metadata for full runs (no --include-list and no --retest)
+    update_metadata = args.include_list is None and not args.retest
 
     # Create new results structure for this run
     results = {
@@ -1669,10 +623,90 @@ def main():
     total_files = len(yaml_files)
     for i, yaml_file in enumerate(yaml_files, 1):
         print(f"\n[{i}/{total_files}] Processing {yaml_file}")
-        
+
         try:
-            if len(seed_list) > 1:
-                # Test with seed range
+            # Determine which seed(s) to test
+            if args.retest:
+                # In retest mode, use the failing seed from the test results
+                seed_info = retest_seed_info.get(yaml_file, {})
+                failing_seed = seed_info.get('failing_seed')
+                seed_range_tested = seed_info.get('seed_range_tested')
+
+                if failing_seed and args.retest_continue:
+                    # Test from failing seed to retest_continue max
+                    if failing_seed < args.retest_continue:
+                        retest_seed_list = list(range(failing_seed, args.retest_continue + 1))
+                        print(f"Testing seeds {failing_seed}-{args.retest_continue} (failing seed + continue)")
+                        template_result = test_template_seed_range(
+                            yaml_file, templates_dir, project_root, world_mapping,
+                            retest_seed_list, export_only=args.export_only, test_only=args.test_only,
+                            stop_on_failure=True,  # Stop on first failure in retest mode
+                            multiplayer=args.multiplayer, single_client=args.single_client,
+                            headed=args.headed
+                        )
+                    else:
+                        # Failing seed is >= retest_continue, just test the failing seed
+                        print(f"Testing seed {failing_seed} (failing seed)")
+                        template_result = test_template_single_seed(
+                            yaml_file, templates_dir, project_root, world_mapping,
+                            str(failing_seed), export_only=args.export_only, test_only=args.test_only,
+                            multiplayer=args.multiplayer, single_client=args.single_client,
+                            headed=args.headed
+                        )
+                elif failing_seed:
+                    # Test just the failing seed
+                    print(f"Testing seed {failing_seed} (failing seed)")
+                    template_result = test_template_single_seed(
+                        yaml_file, templates_dir, project_root, world_mapping,
+                        str(failing_seed), export_only=args.export_only, test_only=args.test_only,
+                        multiplayer=args.multiplayer, single_client=args.single_client,
+                        headed=args.headed
+                    )
+                elif args.retest_continue and seed_range_tested:
+                    # No failing seed, but we have seed range data and --retest-continue
+                    # Parse the seed range to find the highest tested seed
+                    try:
+                        if '-' in seed_range_tested:
+                            _, max_tested = seed_range_tested.split('-')
+                            max_tested_seed = int(max_tested)
+                        else:
+                            max_tested_seed = int(seed_range_tested)
+
+                        # Test from next untested seed to retest_continue
+                        if max_tested_seed < args.retest_continue:
+                            retest_seed_list = list(range(max_tested_seed + 1, args.retest_continue + 1))
+                            print(f"Testing seeds {max_tested_seed + 1}-{args.retest_continue} (continuing from last tested seed)")
+                            template_result = test_template_seed_range(
+                                yaml_file, templates_dir, project_root, world_mapping,
+                                retest_seed_list, export_only=args.export_only, test_only=args.test_only,
+                                stop_on_failure=True,  # Stop on first failure in retest mode
+                                multiplayer=args.multiplayer, single_client=args.single_client,
+                                headed=args.headed
+                            )
+                        else:
+                            # Already tested up to or past retest_continue, nothing to do
+                            print(f"Already tested through seed {max_tested_seed}, which is >= {args.retest_continue}. Skipping.")
+                            continue
+                    except (ValueError, AttributeError):
+                        # Couldn't parse seed range, fall back to testing seed 1
+                        print(f"Testing seed 1 (couldn't parse seed range: {seed_range_tested})")
+                        template_result = test_template_single_seed(
+                            yaml_file, templates_dir, project_root, world_mapping,
+                            "1", export_only=args.export_only, test_only=args.test_only,
+                            multiplayer=args.multiplayer, single_client=args.single_client,
+                            headed=args.headed
+                        )
+                else:
+                    # No seed-specific failure data, test seed 1
+                    print(f"Testing seed 1 (no seed-specific failure data)")
+                    template_result = test_template_single_seed(
+                        yaml_file, templates_dir, project_root, world_mapping,
+                        "1", export_only=args.export_only, test_only=args.test_only,
+                        multiplayer=args.multiplayer, single_client=args.single_client,
+                        headed=args.headed
+                    )
+            elif len(seed_list) > 1:
+                # Test with seed range (normal mode)
                 template_result = test_template_seed_range(
                     yaml_file, templates_dir, project_root, world_mapping,
                     seed_list, export_only=args.export_only, test_only=args.test_only,
@@ -1681,7 +715,7 @@ def main():
                     headed=args.headed
                 )
             else:
-                # Test with single seed
+                # Test with single seed (normal mode)
                 template_result = test_template_single_seed(
                     yaml_file, templates_dir, project_root, world_mapping,
                     str(seed_list[0]), export_only=args.export_only, test_only=args.test_only,
@@ -1697,9 +731,27 @@ def main():
             incremental_merged = merge_results(existing_results, results, templates_tested_so_far, update_metadata)
             save_results(incremental_merged, results_file)
 
-            # Run post-processing after each test if requested
+            # Run post-processing after each test if requested (do this BEFORE checking retest status)
             if args.post_process:
                 run_post_processing_scripts(project_root, results_file, args.multiplayer)
+
+            # In retest mode, check if this test is now passing and stop if it still fails
+            if args.retest:
+                test_passed = is_test_passing(yaml_file, results['results'], args.multiplayer)
+                if test_passed:
+                    print(f"✅ {yaml_file} is now passing! Continuing to next failed test...")
+                else:
+                    print(f"❌ {yaml_file} still failing. Stopping retest.")
+                    print(f"\nRetest stopped at first still-failing test: {yaml_file}")
+                    # Save timestamped partial results (snapshot of this retest run only)
+                    # Note: Don't save to results_file here - incremental_merged was already saved above
+                    try:
+                        with open(timestamped_file, 'w') as f:
+                            json.dump(results, f, indent=2, sort_keys=True)
+                        print(f"Timestamped results saved to: {timestamped_file}")
+                    except IOError as e:
+                        print(f"Error saving timestamped results: {e}")
+                    sys.exit(0)
 
         except KeyboardInterrupt:
             print("\nInterrupted by user. Saving current results...")
@@ -1731,12 +783,20 @@ def main():
     save_results(results, results_file, total_batch_time, timestamped_file)
 
     # Merge this run's results into the existing results
-    merged_results = merge_results(existing_results, results, yaml_files, update_metadata)
+    # Use the actual templates tested (from results dict) rather than yaml_files
+    # This is important for --retest mode where yaml_files only contains failed templates
+    templates_actually_tested = list(results['results'].keys())
+    merged_results = merge_results(existing_results, results, templates_actually_tested, update_metadata)
 
     # Save merged results to main file
     save_results(merged_results, results_file)
 
     print(f"\n=== Testing Complete ===")
+
+    # Special message for retest mode where all tests passed
+    if args.retest:
+        print(f"🎉 All {len(yaml_files)} previously failed tests are now passing!")
+
     print(f"Processed {len(yaml_files)} templates")
     print(f"Total batch processing time: {total_batch_time:.1f} seconds ({total_batch_time/60:.1f} minutes)")
     if len(yaml_files) > 0:
