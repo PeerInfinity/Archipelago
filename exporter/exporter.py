@@ -100,12 +100,11 @@ def get_world_directory_name(game_name: str) -> str:
 # This applies recursively to nested structures.
 EXCLUDED_FIELDS = {
     'item_rule',
-    #'entrances',
+    'entrances',  # Exclude entrance arrays from regions (redundant with exits)
 }
 
 # Context-specific exclusions
 CONTEXT_EXCLUDED_FIELDS = {
-    'entrances': ['access_rule'],  # Exclude access_rule from entrance objects
     # Add more context-specific exclusions here as needed
 }
 

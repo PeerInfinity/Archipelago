@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Hub entrance",
@@ -29,13 +28,6 @@
       },
       "Cave": {
         "name": "Cave",
-        "entrances": [
-          {
-            "name": "Cave entrance",
-            "parent_region": "Hub",
-            "connected_region": "Cave"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -132,13 +124,6 @@
       },
       "Volcanic": {
         "name": "Volcanic",
-        "entrances": [
-          {
-            "name": "Volcanic entrance",
-            "parent_region": "Hub",
-            "connected_region": "Volcanic"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -305,13 +290,6 @@
       },
       "Arctic": {
         "name": "Arctic",
-        "entrances": [
-          {
-            "name": "Arctic entrance",
-            "parent_region": "Hub",
-            "connected_region": "Arctic"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -460,13 +438,6 @@
       },
       "Hub": {
         "name": "Hub",
-        "entrances": [
-          {
-            "name": "Hub entrance",
-            "parent_region": "Menu",
-            "connected_region": "Hub"
-          }
-        ],
         "exits": [
           {
             "name": "Cave entrance",
@@ -764,13 +735,6 @@
       },
       "Swamp": {
         "name": "Swamp",
-        "entrances": [
-          {
-            "name": "Swamp entrance",
-            "parent_region": "Hub",
-            "connected_region": "Swamp"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -925,13 +889,6 @@
       },
       "Electrical": {
         "name": "Electrical",
-        "entrances": [
-          {
-            "name": "Electrical entrance",
-            "parent_region": "Hub",
-            "connected_region": "Electrical"
-          }
-        ],
         "exits": [
           {
             "name": "Electrical (Power On) entrance",
@@ -1024,13 +981,6 @@
       },
       "Electrical (Power On)": {
         "name": "Electrical (Power On)",
-        "entrances": [
-          {
-            "name": "Electrical (Power On) entrance",
-            "parent_region": "Electrical",
-            "connected_region": "Electrical (Power On)"
-          }
-        ],
         "exits": [],
         "locations": [
           {

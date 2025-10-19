@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Menu -> Hub",
@@ -29,13 +28,6 @@
       },
       "Hub": {
         "name": "Hub",
-        "entrances": [
-          {
-            "name": "Menu -> Hub",
-            "parent_region": "Menu",
-            "connected_region": "Hub"
-          }
-        ],
         "exits": [
           {
             "name": "Hub -> Hangar (E1M1) Main",
@@ -1341,13 +1333,6 @@
       },
       "Hangar (E1M1) Main": {
         "name": "Hangar (E1M1) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Hangar (E1M1) Main",
-            "parent_region": "Hub",
-            "connected_region": "Hangar (E1M1) Main"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1410,18 +1395,6 @@
       },
       "Nuclear Plant (E1M2) Main": {
         "name": "Nuclear Plant (E1M2) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Nuclear Plant (E1M2) Main",
-            "parent_region": "Hub",
-            "connected_region": "Nuclear Plant (E1M2) Main"
-          },
-          {
-            "name": "Nuclear Plant (E1M2) Red -> Nuclear Plant (E1M2) Main",
-            "parent_region": "Nuclear Plant (E1M2) Red",
-            "connected_region": "Nuclear Plant (E1M2) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Nuclear Plant (E1M2) Main -> Nuclear Plant (E1M2) Red",
@@ -1542,13 +1515,6 @@
       },
       "Nuclear Plant (E1M2) Red": {
         "name": "Nuclear Plant (E1M2) Red",
-        "entrances": [
-          {
-            "name": "Nuclear Plant (E1M2) Main -> Nuclear Plant (E1M2) Red",
-            "parent_region": "Nuclear Plant (E1M2) Main",
-            "connected_region": "Nuclear Plant (E1M2) Red"
-          }
-        ],
         "exits": [
           {
             "name": "Nuclear Plant (E1M2) Red -> Nuclear Plant (E1M2) Main",
@@ -1641,18 +1607,6 @@
       },
       "Toxin Refinery (E1M3) Main": {
         "name": "Toxin Refinery (E1M3) Main",
-        "entrances": [
-          {
-            "name": "Toxin Refinery (E1M3) Blue -> Toxin Refinery (E1M3) Main",
-            "parent_region": "Toxin Refinery (E1M3) Blue",
-            "connected_region": "Toxin Refinery (E1M3) Main"
-          },
-          {
-            "name": "Toxin Refinery (E1M3) Start -> Toxin Refinery (E1M3) Main",
-            "parent_region": "Toxin Refinery (E1M3) Start",
-            "connected_region": "Toxin Refinery (E1M3) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Toxin Refinery (E1M3) Main -> Toxin Refinery (E1M3) Blue",
@@ -1809,18 +1763,6 @@
       },
       "Toxin Refinery (E1M3) Blue": {
         "name": "Toxin Refinery (E1M3) Blue",
-        "entrances": [
-          {
-            "name": "Toxin Refinery (E1M3) Main -> Toxin Refinery (E1M3) Blue",
-            "parent_region": "Toxin Refinery (E1M3) Main",
-            "connected_region": "Toxin Refinery (E1M3) Blue"
-          },
-          {
-            "name": "Toxin Refinery (E1M3) Yellow -> Toxin Refinery (E1M3) Blue",
-            "parent_region": "Toxin Refinery (E1M3) Yellow",
-            "connected_region": "Toxin Refinery (E1M3) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Toxin Refinery (E1M3) Blue -> Toxin Refinery (E1M3) Yellow",
@@ -1900,13 +1842,6 @@
       },
       "Toxin Refinery (E1M3) Yellow": {
         "name": "Toxin Refinery (E1M3) Yellow",
-        "entrances": [
-          {
-            "name": "Toxin Refinery (E1M3) Blue -> Toxin Refinery (E1M3) Yellow",
-            "parent_region": "Toxin Refinery (E1M3) Blue",
-            "connected_region": "Toxin Refinery (E1M3) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "Toxin Refinery (E1M3) Yellow -> Toxin Refinery (E1M3) Blue",
@@ -1971,18 +1906,6 @@
       },
       "Toxin Refinery (E1M3) Start": {
         "name": "Toxin Refinery (E1M3) Start",
-        "entrances": [
-          {
-            "name": "Hub -> Toxin Refinery (E1M3) Start",
-            "parent_region": "Hub",
-            "connected_region": "Toxin Refinery (E1M3) Start"
-          },
-          {
-            "name": "Toxin Refinery (E1M3) Main -> Toxin Refinery (E1M3) Start",
-            "parent_region": "Toxin Refinery (E1M3) Main",
-            "connected_region": "Toxin Refinery (E1M3) Start"
-          }
-        ],
         "exits": [
           {
             "name": "Toxin Refinery (E1M3) Start -> Toxin Refinery (E1M3) Main",
@@ -2035,28 +1958,6 @@
       },
       "Command Control (E1M4) Main": {
         "name": "Command Control (E1M4) Main",
-        "entrances": [
-          {
-            "name": "Command Control (E1M4) Blue -> Command Control (E1M4) Main",
-            "parent_region": "Command Control (E1M4) Blue",
-            "connected_region": "Command Control (E1M4) Main"
-          },
-          {
-            "name": "Command Control (E1M4) Yellow -> Command Control (E1M4) Main",
-            "parent_region": "Command Control (E1M4) Yellow",
-            "connected_region": "Command Control (E1M4) Main"
-          },
-          {
-            "name": "Command Control (E1M4) Ledge -> Command Control (E1M4) Main",
-            "parent_region": "Command Control (E1M4) Ledge",
-            "connected_region": "Command Control (E1M4) Main"
-          },
-          {
-            "name": "Command Control (E1M4) Start -> Command Control (E1M4) Main",
-            "parent_region": "Command Control (E1M4) Start",
-            "connected_region": "Command Control (E1M4) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Command Control (E1M4) Main -> Command Control (E1M4) Blue",
@@ -2218,18 +2119,6 @@
       },
       "Command Control (E1M4) Blue": {
         "name": "Command Control (E1M4) Blue",
-        "entrances": [
-          {
-            "name": "Command Control (E1M4) Main -> Command Control (E1M4) Blue",
-            "parent_region": "Command Control (E1M4) Main",
-            "connected_region": "Command Control (E1M4) Blue"
-          },
-          {
-            "name": "Command Control (E1M4) Ledge -> Command Control (E1M4) Blue",
-            "parent_region": "Command Control (E1M4) Ledge",
-            "connected_region": "Command Control (E1M4) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Command Control (E1M4) Blue -> Command Control (E1M4) Ledge",
@@ -2304,18 +2193,6 @@
       },
       "Command Control (E1M4) Yellow": {
         "name": "Command Control (E1M4) Yellow",
-        "entrances": [
-          {
-            "name": "Command Control (E1M4) Main -> Command Control (E1M4) Yellow",
-            "parent_region": "Command Control (E1M4) Main",
-            "connected_region": "Command Control (E1M4) Yellow"
-          },
-          {
-            "name": "Command Control (E1M4) Ledge -> Command Control (E1M4) Yellow",
-            "parent_region": "Command Control (E1M4) Ledge",
-            "connected_region": "Command Control (E1M4) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "Command Control (E1M4) Yellow -> Command Control (E1M4) Main",
@@ -2345,13 +2222,6 @@
       },
       "Command Control (E1M4) Ledge": {
         "name": "Command Control (E1M4) Ledge",
-        "entrances": [
-          {
-            "name": "Command Control (E1M4) Blue -> Command Control (E1M4) Ledge",
-            "parent_region": "Command Control (E1M4) Blue",
-            "connected_region": "Command Control (E1M4) Ledge"
-          }
-        ],
         "exits": [
           {
             "name": "Command Control (E1M4) Ledge -> Command Control (E1M4) Main",
@@ -2382,18 +2252,6 @@
       },
       "Command Control (E1M4) Start": {
         "name": "Command Control (E1M4) Start",
-        "entrances": [
-          {
-            "name": "Hub -> Command Control (E1M4) Start",
-            "parent_region": "Hub",
-            "connected_region": "Command Control (E1M4) Start"
-          },
-          {
-            "name": "Command Control (E1M4) Main -> Command Control (E1M4) Start",
-            "parent_region": "Command Control (E1M4) Main",
-            "connected_region": "Command Control (E1M4) Start"
-          }
-        ],
         "exits": [
           {
             "name": "Command Control (E1M4) Start -> Command Control (E1M4) Main",
@@ -2446,23 +2304,6 @@
       },
       "Phobos Lab (E1M5) Main": {
         "name": "Phobos Lab (E1M5) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Phobos Lab (E1M5) Main",
-            "parent_region": "Hub",
-            "connected_region": "Phobos Lab (E1M5) Main"
-          },
-          {
-            "name": "Phobos Lab (E1M5) Yellow -> Phobos Lab (E1M5) Main",
-            "parent_region": "Phobos Lab (E1M5) Yellow",
-            "connected_region": "Phobos Lab (E1M5) Main"
-          },
-          {
-            "name": "Phobos Lab (E1M5) Green -> Phobos Lab (E1M5) Main",
-            "parent_region": "Phobos Lab (E1M5) Green",
-            "connected_region": "Phobos Lab (E1M5) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Phobos Lab (E1M5) Main -> Phobos Lab (E1M5) Yellow",
@@ -2583,18 +2424,6 @@
       },
       "Phobos Lab (E1M5) Yellow": {
         "name": "Phobos Lab (E1M5) Yellow",
-        "entrances": [
-          {
-            "name": "Phobos Lab (E1M5) Main -> Phobos Lab (E1M5) Yellow",
-            "parent_region": "Phobos Lab (E1M5) Main",
-            "connected_region": "Phobos Lab (E1M5) Yellow"
-          },
-          {
-            "name": "Phobos Lab (E1M5) Blue -> Phobos Lab (E1M5) Yellow",
-            "parent_region": "Phobos Lab (E1M5) Blue",
-            "connected_region": "Phobos Lab (E1M5) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "Phobos Lab (E1M5) Yellow -> Phobos Lab (E1M5) Main",
@@ -2689,18 +2518,6 @@
       },
       "Phobos Lab (E1M5) Blue": {
         "name": "Phobos Lab (E1M5) Blue",
-        "entrances": [
-          {
-            "name": "Phobos Lab (E1M5) Yellow -> Phobos Lab (E1M5) Blue",
-            "parent_region": "Phobos Lab (E1M5) Yellow",
-            "connected_region": "Phobos Lab (E1M5) Blue"
-          },
-          {
-            "name": "Phobos Lab (E1M5) Green -> Phobos Lab (E1M5) Blue",
-            "parent_region": "Phobos Lab (E1M5) Green",
-            "connected_region": "Phobos Lab (E1M5) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Phobos Lab (E1M5) Blue -> Phobos Lab (E1M5) Green",
@@ -2745,18 +2562,6 @@
       },
       "Phobos Lab (E1M5) Green": {
         "name": "Phobos Lab (E1M5) Green",
-        "entrances": [
-          {
-            "name": "Phobos Lab (E1M5) Yellow -> Phobos Lab (E1M5) Green",
-            "parent_region": "Phobos Lab (E1M5) Yellow",
-            "connected_region": "Phobos Lab (E1M5) Green"
-          },
-          {
-            "name": "Phobos Lab (E1M5) Blue -> Phobos Lab (E1M5) Green",
-            "parent_region": "Phobos Lab (E1M5) Blue",
-            "connected_region": "Phobos Lab (E1M5) Green"
-          }
-        ],
         "exits": [
           {
             "name": "Phobos Lab (E1M5) Green -> Phobos Lab (E1M5) Main",
@@ -2857,28 +2662,6 @@
       },
       "Central Processing (E1M6) Main": {
         "name": "Central Processing (E1M6) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Central Processing (E1M6) Main",
-            "parent_region": "Hub",
-            "connected_region": "Central Processing (E1M6) Main"
-          },
-          {
-            "name": "Central Processing (E1M6) Red -> Central Processing (E1M6) Main",
-            "parent_region": "Central Processing (E1M6) Red",
-            "connected_region": "Central Processing (E1M6) Main"
-          },
-          {
-            "name": "Central Processing (E1M6) Blue -> Central Processing (E1M6) Main",
-            "parent_region": "Central Processing (E1M6) Blue",
-            "connected_region": "Central Processing (E1M6) Main"
-          },
-          {
-            "name": "Central Processing (E1M6) Yellow -> Central Processing (E1M6) Main",
-            "parent_region": "Central Processing (E1M6) Yellow",
-            "connected_region": "Central Processing (E1M6) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Central Processing (E1M6) Main -> Central Processing (E1M6) Yellow",
@@ -3058,13 +2841,6 @@
       },
       "Central Processing (E1M6) Red": {
         "name": "Central Processing (E1M6) Red",
-        "entrances": [
-          {
-            "name": "Central Processing (E1M6) Main -> Central Processing (E1M6) Red",
-            "parent_region": "Central Processing (E1M6) Main",
-            "connected_region": "Central Processing (E1M6) Red"
-          }
-        ],
         "exits": [
           {
             "name": "Central Processing (E1M6) Red -> Central Processing (E1M6) Main",
@@ -3136,13 +2912,6 @@
       },
       "Central Processing (E1M6) Blue": {
         "name": "Central Processing (E1M6) Blue",
-        "entrances": [
-          {
-            "name": "Central Processing (E1M6) Main -> Central Processing (E1M6) Blue",
-            "parent_region": "Central Processing (E1M6) Main",
-            "connected_region": "Central Processing (E1M6) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Central Processing (E1M6) Blue -> Central Processing (E1M6) Main",
@@ -3214,18 +2983,6 @@
       },
       "Central Processing (E1M6) Yellow": {
         "name": "Central Processing (E1M6) Yellow",
-        "entrances": [
-          {
-            "name": "Central Processing (E1M6) Main -> Central Processing (E1M6) Yellow",
-            "parent_region": "Central Processing (E1M6) Main",
-            "connected_region": "Central Processing (E1M6) Yellow"
-          },
-          {
-            "name": "Central Processing (E1M6) Nukage -> Central Processing (E1M6) Yellow",
-            "parent_region": "Central Processing (E1M6) Nukage",
-            "connected_region": "Central Processing (E1M6) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "Central Processing (E1M6) Yellow -> Central Processing (E1M6) Main",
@@ -3276,13 +3033,6 @@
       },
       "Central Processing (E1M6) Nukage": {
         "name": "Central Processing (E1M6) Nukage",
-        "entrances": [
-          {
-            "name": "Central Processing (E1M6) Main -> Central Processing (E1M6) Nukage",
-            "parent_region": "Central Processing (E1M6) Main",
-            "connected_region": "Central Processing (E1M6) Nukage"
-          }
-        ],
         "exits": [
           {
             "name": "Central Processing (E1M6) Nukage -> Central Processing (E1M6) Yellow",
@@ -3326,23 +3076,6 @@
       },
       "Computer Station (E1M7) Main": {
         "name": "Computer Station (E1M7) Main",
-        "entrances": [
-          {
-            "name": "Computer Station (E1M7) Red -> Computer Station (E1M7) Main",
-            "parent_region": "Computer Station (E1M7) Red",
-            "connected_region": "Computer Station (E1M7) Main"
-          },
-          {
-            "name": "Computer Station (E1M7) Yellow -> Computer Station (E1M7) Main",
-            "parent_region": "Computer Station (E1M7) Yellow",
-            "connected_region": "Computer Station (E1M7) Main"
-          },
-          {
-            "name": "Computer Station (E1M7) Start -> Computer Station (E1M7) Main",
-            "parent_region": "Computer Station (E1M7) Start",
-            "connected_region": "Computer Station (E1M7) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Computer Station (E1M7) Main -> Computer Station (E1M7) Red",
@@ -3416,13 +3149,6 @@
       },
       "Computer Station (E1M7) Blue": {
         "name": "Computer Station (E1M7) Blue",
-        "entrances": [
-          {
-            "name": "Computer Station (E1M7) Yellow -> Computer Station (E1M7) Blue",
-            "parent_region": "Computer Station (E1M7) Yellow",
-            "connected_region": "Computer Station (E1M7) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Computer Station (E1M7) Blue -> Computer Station (E1M7) Yellow",
@@ -3473,13 +3199,6 @@
       },
       "Computer Station (E1M7) Red": {
         "name": "Computer Station (E1M7) Red",
-        "entrances": [
-          {
-            "name": "Computer Station (E1M7) Main -> Computer Station (E1M7) Red",
-            "parent_region": "Computer Station (E1M7) Main",
-            "connected_region": "Computer Station (E1M7) Red"
-          }
-        ],
         "exits": [
           {
             "name": "Computer Station (E1M7) Red -> Computer Station (E1M7) Main",
@@ -3516,23 +3235,6 @@
       },
       "Computer Station (E1M7) Yellow": {
         "name": "Computer Station (E1M7) Yellow",
-        "entrances": [
-          {
-            "name": "Computer Station (E1M7) Main -> Computer Station (E1M7) Yellow",
-            "parent_region": "Computer Station (E1M7) Main",
-            "connected_region": "Computer Station (E1M7) Yellow"
-          },
-          {
-            "name": "Computer Station (E1M7) Blue -> Computer Station (E1M7) Yellow",
-            "parent_region": "Computer Station (E1M7) Blue",
-            "connected_region": "Computer Station (E1M7) Yellow"
-          },
-          {
-            "name": "Computer Station (E1M7) Courtyard -> Computer Station (E1M7) Yellow",
-            "parent_region": "Computer Station (E1M7) Courtyard",
-            "connected_region": "Computer Station (E1M7) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "Computer Station (E1M7) Yellow -> Computer Station (E1M7) Blue",
@@ -3720,13 +3422,6 @@
       },
       "Computer Station (E1M7) Courtyard": {
         "name": "Computer Station (E1M7) Courtyard",
-        "entrances": [
-          {
-            "name": "Computer Station (E1M7) Yellow -> Computer Station (E1M7) Courtyard",
-            "parent_region": "Computer Station (E1M7) Yellow",
-            "connected_region": "Computer Station (E1M7) Courtyard"
-          }
-        ],
         "exits": [
           {
             "name": "Computer Station (E1M7) Courtyard -> Computer Station (E1M7) Yellow",
@@ -3763,18 +3458,6 @@
       },
       "Computer Station (E1M7) Start": {
         "name": "Computer Station (E1M7) Start",
-        "entrances": [
-          {
-            "name": "Hub -> Computer Station (E1M7) Start",
-            "parent_region": "Hub",
-            "connected_region": "Computer Station (E1M7) Start"
-          },
-          {
-            "name": "Computer Station (E1M7) Main -> Computer Station (E1M7) Start",
-            "parent_region": "Computer Station (E1M7) Main",
-            "connected_region": "Computer Station (E1M7) Start"
-          }
-        ],
         "exits": [
           {
             "name": "Computer Station (E1M7) Start -> Computer Station (E1M7) Main",
@@ -3838,13 +3521,6 @@
       },
       "Phobos Anomaly (E1M8) Main": {
         "name": "Phobos Anomaly (E1M8) Main",
-        "entrances": [
-          {
-            "name": "Phobos Anomaly (E1M8) Start -> Phobos Anomaly (E1M8) Main",
-            "parent_region": "Phobos Anomaly (E1M8) Start",
-            "connected_region": "Phobos Anomaly (E1M8) Main"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3963,13 +3639,6 @@
       },
       "Phobos Anomaly (E1M8) Start": {
         "name": "Phobos Anomaly (E1M8) Start",
-        "entrances": [
-          {
-            "name": "Hub -> Phobos Anomaly (E1M8) Start",
-            "parent_region": "Hub",
-            "connected_region": "Phobos Anomaly (E1M8) Start"
-          }
-        ],
         "exits": [
           {
             "name": "Phobos Anomaly (E1M8) Start -> Phobos Anomaly (E1M8) Main",
@@ -3984,28 +3653,6 @@
       },
       "Military Base (E1M9) Main": {
         "name": "Military Base (E1M9) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Military Base (E1M9) Main",
-            "parent_region": "Hub",
-            "connected_region": "Military Base (E1M9) Main"
-          },
-          {
-            "name": "Military Base (E1M9) Blue -> Military Base (E1M9) Main",
-            "parent_region": "Military Base (E1M9) Blue",
-            "connected_region": "Military Base (E1M9) Main"
-          },
-          {
-            "name": "Military Base (E1M9) Red -> Military Base (E1M9) Main",
-            "parent_region": "Military Base (E1M9) Red",
-            "connected_region": "Military Base (E1M9) Main"
-          },
-          {
-            "name": "Military Base (E1M9) Yellow -> Military Base (E1M9) Main",
-            "parent_region": "Military Base (E1M9) Yellow",
-            "connected_region": "Military Base (E1M9) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Military Base (E1M9) Main -> Military Base (E1M9) Blue",
@@ -4114,13 +3761,6 @@
       },
       "Military Base (E1M9) Blue": {
         "name": "Military Base (E1M9) Blue",
-        "entrances": [
-          {
-            "name": "Military Base (E1M9) Main -> Military Base (E1M9) Blue",
-            "parent_region": "Military Base (E1M9) Main",
-            "connected_region": "Military Base (E1M9) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Military Base (E1M9) Blue -> Military Base (E1M9) Main",
@@ -4199,13 +3839,6 @@
       },
       "Military Base (E1M9) Red": {
         "name": "Military Base (E1M9) Red",
-        "entrances": [
-          {
-            "name": "Military Base (E1M9) Main -> Military Base (E1M9) Red",
-            "parent_region": "Military Base (E1M9) Main",
-            "connected_region": "Military Base (E1M9) Red"
-          }
-        ],
         "exits": [
           {
             "name": "Military Base (E1M9) Red -> Military Base (E1M9) Main",
@@ -4235,13 +3868,6 @@
       },
       "Military Base (E1M9) Yellow": {
         "name": "Military Base (E1M9) Yellow",
-        "entrances": [
-          {
-            "name": "Military Base (E1M9) Main -> Military Base (E1M9) Yellow",
-            "parent_region": "Military Base (E1M9) Main",
-            "connected_region": "Military Base (E1M9) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "Military Base (E1M9) Yellow -> Military Base (E1M9) Main",
@@ -4278,23 +3904,6 @@
       },
       "Deimos Anomaly (E2M1) Main": {
         "name": "Deimos Anomaly (E2M1) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Deimos Anomaly (E2M1) Main",
-            "parent_region": "Hub",
-            "connected_region": "Deimos Anomaly (E2M1) Main"
-          },
-          {
-            "name": "Deimos Anomaly (E2M1) Blue -> Deimos Anomaly (E2M1) Main",
-            "parent_region": "Deimos Anomaly (E2M1) Blue",
-            "connected_region": "Deimos Anomaly (E2M1) Main"
-          },
-          {
-            "name": "Deimos Anomaly (E2M1) Red -> Deimos Anomaly (E2M1) Main",
-            "parent_region": "Deimos Anomaly (E2M1) Red",
-            "connected_region": "Deimos Anomaly (E2M1) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Deimos Anomaly (E2M1) Main -> Deimos Anomaly (E2M1) Red",
@@ -4416,13 +4025,6 @@
       },
       "Deimos Anomaly (E2M1) Blue": {
         "name": "Deimos Anomaly (E2M1) Blue",
-        "entrances": [
-          {
-            "name": "Deimos Anomaly (E2M1) Main -> Deimos Anomaly (E2M1) Blue",
-            "parent_region": "Deimos Anomaly (E2M1) Main",
-            "connected_region": "Deimos Anomaly (E2M1) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Deimos Anomaly (E2M1) Blue -> Deimos Anomaly (E2M1) Main",
@@ -4459,13 +4061,6 @@
       },
       "Deimos Anomaly (E2M1) Red": {
         "name": "Deimos Anomaly (E2M1) Red",
-        "entrances": [
-          {
-            "name": "Deimos Anomaly (E2M1) Main -> Deimos Anomaly (E2M1) Red",
-            "parent_region": "Deimos Anomaly (E2M1) Main",
-            "connected_region": "Deimos Anomaly (E2M1) Red"
-          }
-        ],
         "exits": [
           {
             "name": "Deimos Anomaly (E2M1) Red -> Deimos Anomaly (E2M1) Main",
@@ -4516,28 +4111,6 @@
       },
       "Containment Area (E2M2) Main": {
         "name": "Containment Area (E2M2) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Containment Area (E2M2) Main",
-            "parent_region": "Hub",
-            "connected_region": "Containment Area (E2M2) Main"
-          },
-          {
-            "name": "Containment Area (E2M2) Blue -> Containment Area (E2M2) Main",
-            "parent_region": "Containment Area (E2M2) Blue",
-            "connected_region": "Containment Area (E2M2) Main"
-          },
-          {
-            "name": "Containment Area (E2M2) Red -> Containment Area (E2M2) Main",
-            "parent_region": "Containment Area (E2M2) Red",
-            "connected_region": "Containment Area (E2M2) Main"
-          },
-          {
-            "name": "Containment Area (E2M2) Yellow -> Containment Area (E2M2) Main",
-            "parent_region": "Containment Area (E2M2) Yellow",
-            "connected_region": "Containment Area (E2M2) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Containment Area (E2M2) Main -> Containment Area (E2M2) Yellow",
@@ -4800,13 +4373,6 @@
       },
       "Containment Area (E2M2) Blue": {
         "name": "Containment Area (E2M2) Blue",
-        "entrances": [
-          {
-            "name": "Containment Area (E2M2) Main -> Containment Area (E2M2) Blue",
-            "parent_region": "Containment Area (E2M2) Main",
-            "connected_region": "Containment Area (E2M2) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Containment Area (E2M2) Blue -> Containment Area (E2M2) Main",
@@ -4843,13 +4409,6 @@
       },
       "Containment Area (E2M2) Red": {
         "name": "Containment Area (E2M2) Red",
-        "entrances": [
-          {
-            "name": "Containment Area (E2M2) Main -> Containment Area (E2M2) Red",
-            "parent_region": "Containment Area (E2M2) Main",
-            "connected_region": "Containment Area (E2M2) Red"
-          }
-        ],
         "exits": [
           {
             "name": "Containment Area (E2M2) Red -> Containment Area (E2M2) Main",
@@ -4879,13 +4438,6 @@
       },
       "Containment Area (E2M2) Yellow": {
         "name": "Containment Area (E2M2) Yellow",
-        "entrances": [
-          {
-            "name": "Containment Area (E2M2) Main -> Containment Area (E2M2) Yellow",
-            "parent_region": "Containment Area (E2M2) Main",
-            "connected_region": "Containment Area (E2M2) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "Containment Area (E2M2) Yellow -> Containment Area (E2M2) Main",
@@ -4943,13 +4495,6 @@
       },
       "Containment Area (E2M2) Red Exit": {
         "name": "Containment Area (E2M2) Red Exit",
-        "entrances": [
-          {
-            "name": "Containment Area (E2M2) Red -> Containment Area (E2M2) Red Exit",
-            "parent_region": "Containment Area (E2M2) Red",
-            "connected_region": "Containment Area (E2M2) Red Exit"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4970,18 +4515,6 @@
       },
       "Refinery (E2M3) Main": {
         "name": "Refinery (E2M3) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Refinery (E2M3) Main",
-            "parent_region": "Hub",
-            "connected_region": "Refinery (E2M3) Main"
-          },
-          {
-            "name": "Refinery (E2M3) Blue -> Refinery (E2M3) Main",
-            "parent_region": "Refinery (E2M3) Blue",
-            "connected_region": "Refinery (E2M3) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Refinery (E2M3) Main -> Refinery (E2M3) Blue",
@@ -5130,13 +4663,6 @@
       },
       "Refinery (E2M3) Blue": {
         "name": "Refinery (E2M3) Blue",
-        "entrances": [
-          {
-            "name": "Refinery (E2M3) Main -> Refinery (E2M3) Blue",
-            "parent_region": "Refinery (E2M3) Main",
-            "connected_region": "Refinery (E2M3) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Refinery (E2M3) Blue -> Refinery (E2M3) Main",
@@ -5201,18 +4727,6 @@
       },
       "Deimos Lab (E2M4) Main": {
         "name": "Deimos Lab (E2M4) Main",
-        "entrances": [
-          {
-            "name": "Deimos Lab (E2M4) Blue -> Deimos Lab (E2M4) Main",
-            "parent_region": "Deimos Lab (E2M4) Blue",
-            "connected_region": "Deimos Lab (E2M4) Main"
-          },
-          {
-            "name": "Deimos Lab (E2M4) Start -> Deimos Lab (E2M4) Main",
-            "parent_region": "Deimos Lab (E2M4) Start",
-            "connected_region": "Deimos Lab (E2M4) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Deimos Lab (E2M4) Main -> Deimos Lab (E2M4) Blue",
@@ -5397,18 +4911,6 @@
       },
       "Deimos Lab (E2M4) Blue": {
         "name": "Deimos Lab (E2M4) Blue",
-        "entrances": [
-          {
-            "name": "Deimos Lab (E2M4) Main -> Deimos Lab (E2M4) Blue",
-            "parent_region": "Deimos Lab (E2M4) Main",
-            "connected_region": "Deimos Lab (E2M4) Blue"
-          },
-          {
-            "name": "Deimos Lab (E2M4) Yellow -> Deimos Lab (E2M4) Blue",
-            "parent_region": "Deimos Lab (E2M4) Yellow",
-            "connected_region": "Deimos Lab (E2M4) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Deimos Lab (E2M4) Blue -> Deimos Lab (E2M4) Main",
@@ -5453,13 +4955,6 @@
       },
       "Deimos Lab (E2M4) Yellow": {
         "name": "Deimos Lab (E2M4) Yellow",
-        "entrances": [
-          {
-            "name": "Deimos Lab (E2M4) Blue -> Deimos Lab (E2M4) Yellow",
-            "parent_region": "Deimos Lab (E2M4) Blue",
-            "connected_region": "Deimos Lab (E2M4) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "Deimos Lab (E2M4) Yellow -> Deimos Lab (E2M4) Blue",
@@ -5531,18 +5026,6 @@
       },
       "Deimos Lab (E2M4) Start": {
         "name": "Deimos Lab (E2M4) Start",
-        "entrances": [
-          {
-            "name": "Hub -> Deimos Lab (E2M4) Start",
-            "parent_region": "Hub",
-            "connected_region": "Deimos Lab (E2M4) Start"
-          },
-          {
-            "name": "Deimos Lab (E2M4) Main -> Deimos Lab (E2M4) Start",
-            "parent_region": "Deimos Lab (E2M4) Main",
-            "connected_region": "Deimos Lab (E2M4) Start"
-          }
-        ],
         "exits": [
           {
             "name": "Deimos Lab (E2M4) Start -> Deimos Lab (E2M4) Main",
@@ -5606,13 +5089,6 @@
       },
       "Command Center (E2M5) Main": {
         "name": "Command Center (E2M5) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Command Center (E2M5) Main",
-            "parent_region": "Hub",
-            "connected_region": "Command Center (E2M5) Main"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -5773,28 +5249,6 @@
       },
       "Halls of the Damned (E2M6) Main": {
         "name": "Halls of the Damned (E2M6) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Halls of the Damned (E2M6) Main",
-            "parent_region": "Hub",
-            "connected_region": "Halls of the Damned (E2M6) Main"
-          },
-          {
-            "name": "Halls of the Damned (E2M6) Yellow -> Halls of the Damned (E2M6) Main",
-            "parent_region": "Halls of the Damned (E2M6) Yellow",
-            "connected_region": "Halls of the Damned (E2M6) Main"
-          },
-          {
-            "name": "Halls of the Damned (E2M6) Blue Yellow Red -> Halls of the Damned (E2M6) Main",
-            "parent_region": "Halls of the Damned (E2M6) Blue Yellow Red",
-            "connected_region": "Halls of the Damned (E2M6) Main"
-          },
-          {
-            "name": "Halls of the Damned (E2M6) One way Yellow -> Halls of the Damned (E2M6) Main",
-            "parent_region": "Halls of the Damned (E2M6) One way Yellow",
-            "connected_region": "Halls of the Damned (E2M6) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Halls of the Damned (E2M6) Main -> Halls of the Damned (E2M6) Blue Yellow Red",
@@ -6056,13 +5510,6 @@
       },
       "Halls of the Damned (E2M6) Yellow": {
         "name": "Halls of the Damned (E2M6) Yellow",
-        "entrances": [
-          {
-            "name": "Halls of the Damned (E2M6) Main -> Halls of the Damned (E2M6) Yellow",
-            "parent_region": "Halls of the Damned (E2M6) Main",
-            "connected_region": "Halls of the Damned (E2M6) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "Halls of the Damned (E2M6) Yellow -> Halls of the Damned (E2M6) Main",
@@ -6106,13 +5553,6 @@
       },
       "Halls of the Damned (E2M6) Blue Yellow Red": {
         "name": "Halls of the Damned (E2M6) Blue Yellow Red",
-        "entrances": [
-          {
-            "name": "Halls of the Damned (E2M6) Main -> Halls of the Damned (E2M6) Blue Yellow Red",
-            "parent_region": "Halls of the Damned (E2M6) Main",
-            "connected_region": "Halls of the Damned (E2M6) Blue Yellow Red"
-          }
-        ],
         "exits": [
           {
             "name": "Halls of the Damned (E2M6) Blue Yellow Red -> Halls of the Damned (E2M6) Main",
@@ -6176,13 +5616,6 @@
       },
       "Halls of the Damned (E2M6) One way Yellow": {
         "name": "Halls of the Damned (E2M6) One way Yellow",
-        "entrances": [
-          {
-            "name": "Halls of the Damned (E2M6) Main -> Halls of the Damned (E2M6) One way Yellow",
-            "parent_region": "Halls of the Damned (E2M6) Main",
-            "connected_region": "Halls of the Damned (E2M6) One way Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "Halls of the Damned (E2M6) One way Yellow -> Halls of the Damned (E2M6) Main",
@@ -6233,33 +5666,6 @@
       },
       "Spawning Vats (E2M7) Main": {
         "name": "Spawning Vats (E2M7) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Spawning Vats (E2M7) Main",
-            "parent_region": "Hub",
-            "connected_region": "Spawning Vats (E2M7) Main"
-          },
-          {
-            "name": "Spawning Vats (E2M7) Blue -> Spawning Vats (E2M7) Main",
-            "parent_region": "Spawning Vats (E2M7) Blue",
-            "connected_region": "Spawning Vats (E2M7) Main"
-          },
-          {
-            "name": "Spawning Vats (E2M7) Yellow -> Spawning Vats (E2M7) Main",
-            "parent_region": "Spawning Vats (E2M7) Yellow",
-            "connected_region": "Spawning Vats (E2M7) Main"
-          },
-          {
-            "name": "Spawning Vats (E2M7) Red -> Spawning Vats (E2M7) Main",
-            "parent_region": "Spawning Vats (E2M7) Red",
-            "connected_region": "Spawning Vats (E2M7) Main"
-          },
-          {
-            "name": "Spawning Vats (E2M7) Entrance Secret -> Spawning Vats (E2M7) Main",
-            "parent_region": "Spawning Vats (E2M7) Entrance Secret",
-            "connected_region": "Spawning Vats (E2M7) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Spawning Vats (E2M7) Main -> Spawning Vats (E2M7) Blue",
@@ -6497,13 +5903,6 @@
       },
       "Spawning Vats (E2M7) Blue": {
         "name": "Spawning Vats (E2M7) Blue",
-        "entrances": [
-          {
-            "name": "Spawning Vats (E2M7) Main -> Spawning Vats (E2M7) Blue",
-            "parent_region": "Spawning Vats (E2M7) Main",
-            "connected_region": "Spawning Vats (E2M7) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Spawning Vats (E2M7) Blue -> Spawning Vats (E2M7) Main",
@@ -6561,13 +5960,6 @@
       },
       "Spawning Vats (E2M7) Yellow": {
         "name": "Spawning Vats (E2M7) Yellow",
-        "entrances": [
-          {
-            "name": "Spawning Vats (E2M7) Main -> Spawning Vats (E2M7) Yellow",
-            "parent_region": "Spawning Vats (E2M7) Main",
-            "connected_region": "Spawning Vats (E2M7) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "Spawning Vats (E2M7) Yellow -> Spawning Vats (E2M7) Main",
@@ -6604,13 +5996,6 @@
       },
       "Spawning Vats (E2M7) Red": {
         "name": "Spawning Vats (E2M7) Red",
-        "entrances": [
-          {
-            "name": "Spawning Vats (E2M7) Main -> Spawning Vats (E2M7) Red",
-            "parent_region": "Spawning Vats (E2M7) Main",
-            "connected_region": "Spawning Vats (E2M7) Red"
-          }
-        ],
         "exits": [
           {
             "name": "Spawning Vats (E2M7) Red -> Spawning Vats (E2M7) Main",
@@ -6655,13 +6040,6 @@
       },
       "Spawning Vats (E2M7) Entrance Secret": {
         "name": "Spawning Vats (E2M7) Entrance Secret",
-        "entrances": [
-          {
-            "name": "Spawning Vats (E2M7) Main -> Spawning Vats (E2M7) Entrance Secret",
-            "parent_region": "Spawning Vats (E2M7) Main",
-            "connected_region": "Spawning Vats (E2M7) Entrance Secret"
-          }
-        ],
         "exits": [
           {
             "name": "Spawning Vats (E2M7) Entrance Secret -> Spawning Vats (E2M7) Main",
@@ -6714,25 +6092,11 @@
       },
       "Spawning Vats (E2M7) Red Exit": {
         "name": "Spawning Vats (E2M7) Red Exit",
-        "entrances": [
-          {
-            "name": "Spawning Vats (E2M7) Red -> Spawning Vats (E2M7) Red Exit",
-            "parent_region": "Spawning Vats (E2M7) Red",
-            "connected_region": "Spawning Vats (E2M7) Red Exit"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Tower of Babel (E2M8) Main": {
         "name": "Tower of Babel (E2M8) Main",
-        "entrances": [
-          {
-            "name": "Tower of Babel (E2M8) Start -> Tower of Babel (E2M8) Main",
-            "parent_region": "Tower of Babel (E2M8) Start",
-            "connected_region": "Tower of Babel (E2M8) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Tower of Babel (E2M8) Main -> Tower of Babel (E2M8) Start",
@@ -6804,18 +6168,6 @@
       },
       "Tower of Babel (E2M8) Start": {
         "name": "Tower of Babel (E2M8) Start",
-        "entrances": [
-          {
-            "name": "Hub -> Tower of Babel (E2M8) Start",
-            "parent_region": "Hub",
-            "connected_region": "Tower of Babel (E2M8) Start"
-          },
-          {
-            "name": "Tower of Babel (E2M8) Main -> Tower of Babel (E2M8) Start",
-            "parent_region": "Tower of Babel (E2M8) Main",
-            "connected_region": "Tower of Babel (E2M8) Start"
-          }
-        ],
         "exits": [
           {
             "name": "Tower of Babel (E2M8) Start -> Tower of Babel (E2M8) Main",
@@ -6911,28 +6263,6 @@
       },
       "Fortress of Mystery (E2M9) Main": {
         "name": "Fortress of Mystery (E2M9) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Fortress of Mystery (E2M9) Main",
-            "parent_region": "Hub",
-            "connected_region": "Fortress of Mystery (E2M9) Main"
-          },
-          {
-            "name": "Fortress of Mystery (E2M9) Blue -> Fortress of Mystery (E2M9) Main",
-            "parent_region": "Fortress of Mystery (E2M9) Blue",
-            "connected_region": "Fortress of Mystery (E2M9) Main"
-          },
-          {
-            "name": "Fortress of Mystery (E2M9) Red -> Fortress of Mystery (E2M9) Main",
-            "parent_region": "Fortress of Mystery (E2M9) Red",
-            "connected_region": "Fortress of Mystery (E2M9) Main"
-          },
-          {
-            "name": "Fortress of Mystery (E2M9) Yellow -> Fortress of Mystery (E2M9) Main",
-            "parent_region": "Fortress of Mystery (E2M9) Yellow",
-            "connected_region": "Fortress of Mystery (E2M9) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Fortress of Mystery (E2M9) Main -> Fortress of Mystery (E2M9) Blue",
@@ -7125,13 +6455,6 @@
       },
       "Fortress of Mystery (E2M9) Blue": {
         "name": "Fortress of Mystery (E2M9) Blue",
-        "entrances": [
-          {
-            "name": "Fortress of Mystery (E2M9) Main -> Fortress of Mystery (E2M9) Blue",
-            "parent_region": "Fortress of Mystery (E2M9) Main",
-            "connected_region": "Fortress of Mystery (E2M9) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Fortress of Mystery (E2M9) Blue -> Fortress of Mystery (E2M9) Main",
@@ -7168,13 +6491,6 @@
       },
       "Fortress of Mystery (E2M9) Red": {
         "name": "Fortress of Mystery (E2M9) Red",
-        "entrances": [
-          {
-            "name": "Fortress of Mystery (E2M9) Main -> Fortress of Mystery (E2M9) Red",
-            "parent_region": "Fortress of Mystery (E2M9) Main",
-            "connected_region": "Fortress of Mystery (E2M9) Red"
-          }
-        ],
         "exits": [
           {
             "name": "Fortress of Mystery (E2M9) Red -> Fortress of Mystery (E2M9) Main",
@@ -7211,13 +6527,6 @@
       },
       "Fortress of Mystery (E2M9) Yellow": {
         "name": "Fortress of Mystery (E2M9) Yellow",
-        "entrances": [
-          {
-            "name": "Fortress of Mystery (E2M9) Main -> Fortress of Mystery (E2M9) Yellow",
-            "parent_region": "Fortress of Mystery (E2M9) Main",
-            "connected_region": "Fortress of Mystery (E2M9) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "Fortress of Mystery (E2M9) Yellow -> Fortress of Mystery (E2M9) Main",
@@ -7254,18 +6563,6 @@
       },
       "Hell Keep (E3M1) Main": {
         "name": "Hell Keep (E3M1) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Hell Keep (E3M1) Main",
-            "parent_region": "Hub",
-            "connected_region": "Hell Keep (E3M1) Main"
-          },
-          {
-            "name": "Hell Keep (E3M1) Narrow -> Hell Keep (E3M1) Main",
-            "parent_region": "Hell Keep (E3M1) Narrow",
-            "connected_region": "Hell Keep (E3M1) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Hell Keep (E3M1) Main -> Hell Keep (E3M1) Narrow",
@@ -7318,13 +6615,6 @@
       },
       "Hell Keep (E3M1) Narrow": {
         "name": "Hell Keep (E3M1) Narrow",
-        "entrances": [
-          {
-            "name": "Hell Keep (E3M1) Main -> Hell Keep (E3M1) Narrow",
-            "parent_region": "Hell Keep (E3M1) Main",
-            "connected_region": "Hell Keep (E3M1) Narrow"
-          }
-        ],
         "exits": [
           {
             "name": "Hell Keep (E3M1) Narrow -> Hell Keep (E3M1) Main",
@@ -7368,18 +6658,6 @@
       },
       "Slough of Despair (E3M2) Main": {
         "name": "Slough of Despair (E3M2) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Slough of Despair (E3M2) Main",
-            "parent_region": "Hub",
-            "connected_region": "Slough of Despair (E3M2) Main"
-          },
-          {
-            "name": "Slough of Despair (E3M2) Blue -> Slough of Despair (E3M2) Main",
-            "parent_region": "Slough of Despair (E3M2) Blue",
-            "connected_region": "Slough of Despair (E3M2) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Slough of Despair (E3M2) Main -> Slough of Despair (E3M2) Blue",
@@ -7528,13 +6806,6 @@
       },
       "Slough of Despair (E3M2) Blue": {
         "name": "Slough of Despair (E3M2) Blue",
-        "entrances": [
-          {
-            "name": "Slough of Despair (E3M2) Main -> Slough of Despair (E3M2) Blue",
-            "parent_region": "Slough of Despair (E3M2) Main",
-            "connected_region": "Slough of Despair (E3M2) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Slough of Despair (E3M2) Blue -> Slough of Despair (E3M2) Main",
@@ -7571,18 +6842,6 @@
       },
       "Pandemonium (E3M3) Main": {
         "name": "Pandemonium (E3M3) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Pandemonium (E3M3) Main",
-            "parent_region": "Hub",
-            "connected_region": "Pandemonium (E3M3) Main"
-          },
-          {
-            "name": "Pandemonium (E3M3) Blue -> Pandemonium (E3M3) Main",
-            "parent_region": "Pandemonium (E3M3) Blue",
-            "connected_region": "Pandemonium (E3M3) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Pandemonium (E3M3) Main -> Pandemonium (E3M3) Blue",
@@ -7801,13 +7060,6 @@
       },
       "Pandemonium (E3M3) Blue": {
         "name": "Pandemonium (E3M3) Blue",
-        "entrances": [
-          {
-            "name": "Pandemonium (E3M3) Main -> Pandemonium (E3M3) Blue",
-            "parent_region": "Pandemonium (E3M3) Main",
-            "connected_region": "Pandemonium (E3M3) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Pandemonium (E3M3) Blue -> Pandemonium (E3M3) Main",
@@ -7844,18 +7096,6 @@
       },
       "House of Pain (E3M4) Main": {
         "name": "House of Pain (E3M4) Main",
-        "entrances": [
-          {
-            "name": "Hub -> House of Pain (E3M4) Main",
-            "parent_region": "Hub",
-            "connected_region": "House of Pain (E3M4) Main"
-          },
-          {
-            "name": "House of Pain (E3M4) Blue -> House of Pain (E3M4) Main",
-            "parent_region": "House of Pain (E3M4) Blue",
-            "connected_region": "House of Pain (E3M4) Main"
-          }
-        ],
         "exits": [
           {
             "name": "House of Pain (E3M4) Main -> House of Pain (E3M4) Blue",
@@ -8004,23 +7244,6 @@
       },
       "House of Pain (E3M4) Blue": {
         "name": "House of Pain (E3M4) Blue",
-        "entrances": [
-          {
-            "name": "House of Pain (E3M4) Main -> House of Pain (E3M4) Blue",
-            "parent_region": "House of Pain (E3M4) Main",
-            "connected_region": "House of Pain (E3M4) Blue"
-          },
-          {
-            "name": "House of Pain (E3M4) Red -> House of Pain (E3M4) Blue",
-            "parent_region": "House of Pain (E3M4) Red",
-            "connected_region": "House of Pain (E3M4) Blue"
-          },
-          {
-            "name": "House of Pain (E3M4) Yellow -> House of Pain (E3M4) Blue",
-            "parent_region": "House of Pain (E3M4) Yellow",
-            "connected_region": "House of Pain (E3M4) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "House of Pain (E3M4) Blue -> House of Pain (E3M4) Main",
@@ -8157,13 +7380,6 @@
       },
       "House of Pain (E3M4) Red": {
         "name": "House of Pain (E3M4) Red",
-        "entrances": [
-          {
-            "name": "House of Pain (E3M4) Blue -> House of Pain (E3M4) Red",
-            "parent_region": "House of Pain (E3M4) Blue",
-            "connected_region": "House of Pain (E3M4) Red"
-          }
-        ],
         "exits": [
           {
             "name": "House of Pain (E3M4) Red -> House of Pain (E3M4) Blue",
@@ -8228,13 +7444,6 @@
       },
       "House of Pain (E3M4) Yellow": {
         "name": "House of Pain (E3M4) Yellow",
-        "entrances": [
-          {
-            "name": "House of Pain (E3M4) Blue -> House of Pain (E3M4) Yellow",
-            "parent_region": "House of Pain (E3M4) Blue",
-            "connected_region": "House of Pain (E3M4) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "House of Pain (E3M4) Yellow -> House of Pain (E3M4) Blue",
@@ -8271,23 +7480,6 @@
       },
       "Unholy Cathedral (E3M5) Main": {
         "name": "Unholy Cathedral (E3M5) Main",
-        "entrances": [
-          {
-            "name": "Unholy Cathedral (E3M5) Blue -> Unholy Cathedral (E3M5) Main",
-            "parent_region": "Unholy Cathedral (E3M5) Blue",
-            "connected_region": "Unholy Cathedral (E3M5) Main"
-          },
-          {
-            "name": "Unholy Cathedral (E3M5) Yellow -> Unholy Cathedral (E3M5) Main",
-            "parent_region": "Unholy Cathedral (E3M5) Yellow",
-            "connected_region": "Unholy Cathedral (E3M5) Main"
-          },
-          {
-            "name": "Unholy Cathedral (E3M5) Start -> Unholy Cathedral (E3M5) Main",
-            "parent_region": "Unholy Cathedral (E3M5) Start",
-            "connected_region": "Unholy Cathedral (E3M5) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Unholy Cathedral (E3M5) Main -> Unholy Cathedral (E3M5) Yellow",
@@ -8473,13 +7665,6 @@
       },
       "Unholy Cathedral (E3M5) Blue": {
         "name": "Unholy Cathedral (E3M5) Blue",
-        "entrances": [
-          {
-            "name": "Unholy Cathedral (E3M5) Main -> Unholy Cathedral (E3M5) Blue",
-            "parent_region": "Unholy Cathedral (E3M5) Main",
-            "connected_region": "Unholy Cathedral (E3M5) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Unholy Cathedral (E3M5) Blue -> Unholy Cathedral (E3M5) Main",
@@ -8530,13 +7715,6 @@
       },
       "Unholy Cathedral (E3M5) Yellow": {
         "name": "Unholy Cathedral (E3M5) Yellow",
-        "entrances": [
-          {
-            "name": "Unholy Cathedral (E3M5) Main -> Unholy Cathedral (E3M5) Yellow",
-            "parent_region": "Unholy Cathedral (E3M5) Main",
-            "connected_region": "Unholy Cathedral (E3M5) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "Unholy Cathedral (E3M5) Yellow -> Unholy Cathedral (E3M5) Main",
@@ -8587,18 +7765,6 @@
       },
       "Unholy Cathedral (E3M5) Start": {
         "name": "Unholy Cathedral (E3M5) Start",
-        "entrances": [
-          {
-            "name": "Hub -> Unholy Cathedral (E3M5) Start",
-            "parent_region": "Hub",
-            "connected_region": "Unholy Cathedral (E3M5) Start"
-          },
-          {
-            "name": "Unholy Cathedral (E3M5) Main -> Unholy Cathedral (E3M5) Start",
-            "parent_region": "Unholy Cathedral (E3M5) Main",
-            "connected_region": "Unholy Cathedral (E3M5) Start"
-          }
-        ],
         "exits": [
           {
             "name": "Unholy Cathedral (E3M5) Start -> Unholy Cathedral (E3M5) Main",
@@ -8694,18 +7860,6 @@
       },
       "Mt. Erebus (E3M6) Main": {
         "name": "Mt. Erebus (E3M6) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Mt. Erebus (E3M6) Main",
-            "parent_region": "Hub",
-            "connected_region": "Mt. Erebus (E3M6) Main"
-          },
-          {
-            "name": "Mt. Erebus (E3M6) Blue -> Mt. Erebus (E3M6) Main",
-            "parent_region": "Mt. Erebus (E3M6) Blue",
-            "connected_region": "Mt. Erebus (E3M6) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Mt. Erebus (E3M6) Main -> Mt. Erebus (E3M6) Blue",
@@ -8966,13 +8120,6 @@
       },
       "Mt. Erebus (E3M6) Blue": {
         "name": "Mt. Erebus (E3M6) Blue",
-        "entrances": [
-          {
-            "name": "Mt. Erebus (E3M6) Main -> Mt. Erebus (E3M6) Blue",
-            "parent_region": "Mt. Erebus (E3M6) Main",
-            "connected_region": "Mt. Erebus (E3M6) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Mt. Erebus (E3M6) Blue -> Mt. Erebus (E3M6) Main",
@@ -9009,28 +8156,6 @@
       },
       "Limbo (E3M7) Main": {
         "name": "Limbo (E3M7) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Limbo (E3M7) Main",
-            "parent_region": "Hub",
-            "connected_region": "Limbo (E3M7) Main"
-          },
-          {
-            "name": "Limbo (E3M7) Blue -> Limbo (E3M7) Main",
-            "parent_region": "Limbo (E3M7) Blue",
-            "connected_region": "Limbo (E3M7) Main"
-          },
-          {
-            "name": "Limbo (E3M7) Red -> Limbo (E3M7) Main",
-            "parent_region": "Limbo (E3M7) Red",
-            "connected_region": "Limbo (E3M7) Main"
-          },
-          {
-            "name": "Limbo (E3M7) Pink -> Limbo (E3M7) Main",
-            "parent_region": "Limbo (E3M7) Pink",
-            "connected_region": "Limbo (E3M7) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Limbo (E3M7) Main -> Limbo (E3M7) Red",
@@ -9167,13 +8292,6 @@
       },
       "Limbo (E3M7) Blue": {
         "name": "Limbo (E3M7) Blue",
-        "entrances": [
-          {
-            "name": "Limbo (E3M7) Main -> Limbo (E3M7) Blue",
-            "parent_region": "Limbo (E3M7) Main",
-            "connected_region": "Limbo (E3M7) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Limbo (E3M7) Blue -> Limbo (E3M7) Main",
@@ -9217,23 +8335,6 @@
       },
       "Limbo (E3M7) Red": {
         "name": "Limbo (E3M7) Red",
-        "entrances": [
-          {
-            "name": "Limbo (E3M7) Main -> Limbo (E3M7) Red",
-            "parent_region": "Limbo (E3M7) Main",
-            "connected_region": "Limbo (E3M7) Red"
-          },
-          {
-            "name": "Limbo (E3M7) Yellow -> Limbo (E3M7) Red",
-            "parent_region": "Limbo (E3M7) Yellow",
-            "connected_region": "Limbo (E3M7) Red"
-          },
-          {
-            "name": "Limbo (E3M7) Green -> Limbo (E3M7) Red",
-            "parent_region": "Limbo (E3M7) Green",
-            "connected_region": "Limbo (E3M7) Red"
-          }
-        ],
         "exits": [
           {
             "name": "Limbo (E3M7) Red -> Limbo (E3M7) Main",
@@ -9286,13 +8387,6 @@
       },
       "Limbo (E3M7) Yellow": {
         "name": "Limbo (E3M7) Yellow",
-        "entrances": [
-          {
-            "name": "Limbo (E3M7) Red -> Limbo (E3M7) Yellow",
-            "parent_region": "Limbo (E3M7) Red",
-            "connected_region": "Limbo (E3M7) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "Limbo (E3M7) Yellow -> Limbo (E3M7) Red",
@@ -9322,18 +8416,6 @@
       },
       "Limbo (E3M7) Pink": {
         "name": "Limbo (E3M7) Pink",
-        "entrances": [
-          {
-            "name": "Limbo (E3M7) Main -> Limbo (E3M7) Pink",
-            "parent_region": "Limbo (E3M7) Main",
-            "connected_region": "Limbo (E3M7) Pink"
-          },
-          {
-            "name": "Limbo (E3M7) Green -> Limbo (E3M7) Pink",
-            "parent_region": "Limbo (E3M7) Green",
-            "connected_region": "Limbo (E3M7) Pink"
-          }
-        ],
         "exits": [
           {
             "name": "Limbo (E3M7) Pink -> Limbo (E3M7) Green",
@@ -9363,18 +8445,6 @@
       },
       "Limbo (E3M7) Green": {
         "name": "Limbo (E3M7) Green",
-        "entrances": [
-          {
-            "name": "Limbo (E3M7) Red -> Limbo (E3M7) Green",
-            "parent_region": "Limbo (E3M7) Red",
-            "connected_region": "Limbo (E3M7) Green"
-          },
-          {
-            "name": "Limbo (E3M7) Pink -> Limbo (E3M7) Green",
-            "parent_region": "Limbo (E3M7) Pink",
-            "connected_region": "Limbo (E3M7) Green"
-          }
-        ],
         "exits": [
           {
             "name": "Limbo (E3M7) Green -> Limbo (E3M7) Pink",
@@ -9426,13 +8496,6 @@
       },
       "Dis (E3M8) Main": {
         "name": "Dis (E3M8) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Dis (E3M8) Main",
-            "parent_region": "Hub",
-            "connected_region": "Dis (E3M8) Main"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -9495,18 +8558,6 @@
       },
       "Warrens (E3M9) Main": {
         "name": "Warrens (E3M9) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Warrens (E3M9) Main",
-            "parent_region": "Hub",
-            "connected_region": "Warrens (E3M9) Main"
-          },
-          {
-            "name": "Warrens (E3M9) Blue -> Warrens (E3M9) Main",
-            "parent_region": "Warrens (E3M9) Blue",
-            "connected_region": "Warrens (E3M9) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Warrens (E3M9) Main -> Warrens (E3M9) Blue",
@@ -9558,13 +8609,6 @@
       },
       "Warrens (E3M9) Red": {
         "name": "Warrens (E3M9) Red",
-        "entrances": [
-          {
-            "name": "Warrens (E3M9) Blue -> Warrens (E3M9) Red",
-            "parent_region": "Warrens (E3M9) Blue",
-            "connected_region": "Warrens (E3M9) Red"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -9585,13 +8629,6 @@
       },
       "Warrens (E3M9) Blue": {
         "name": "Warrens (E3M9) Blue",
-        "entrances": [
-          {
-            "name": "Warrens (E3M9) Main -> Warrens (E3M9) Blue",
-            "parent_region": "Warrens (E3M9) Main",
-            "connected_region": "Warrens (E3M9) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Warrens (E3M9) Blue -> Warrens (E3M9) Main",
@@ -9741,13 +8778,6 @@
       },
       "Warrens (E3M9) Blue trigger": {
         "name": "Warrens (E3M9) Blue trigger",
-        "entrances": [
-          {
-            "name": "Warrens (E3M9) Main -> Warrens (E3M9) Blue trigger",
-            "parent_region": "Warrens (E3M9) Main",
-            "connected_region": "Warrens (E3M9) Blue trigger"
-          }
-        ],
         "exits": [],
         "locations": [
           {

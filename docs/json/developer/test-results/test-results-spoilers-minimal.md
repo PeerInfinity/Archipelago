@@ -4,11 +4,11 @@
 
 [← Back to Test Results Summary](./test-results-summary.md)
 
-**Generated:** 2025-10-18 20:24:35
+**Generated:** 2025-10-19 14:27:20
 
 **Source Data Created:** 2025-10-14T13:24:10.253834
 
-**Source Data Last Updated:** 2025-10-18T20:24:35.317384
+**Source Data Last Updated:** 2025-10-19T14:27:20.666509
 
 ## Summary
 
@@ -50,7 +50,7 @@
 | Jak and Daxter: The Precursor Legacy | ❌ Failed seed 1 | 0 | 0 | 0 | 🔴 0.0% | ⚫ | ⚫ |
 | Kingdom Hearts | ❌ Failed seed 1 | 0 | 0 | 11.1 | 🔴 0.0% | ✅ | ✅ |
 | Kingdom Hearts 2 | ❌ Failed seed 1 | 0 | 0.2 | 12.1 | 🟠 1.7% | ✅ | ⚫ |
-| Kirby's Dream Land 3 | ❌ Failed seed 1 | 0 | 0.8 | 11.1 | 🟠 7.2% | ✅ | ⚫ |
+| Kirby's Dream Land 3 | ❌ Failed seed 1 | 0 | 0.9 | 11.1 | 🟠 8.1% | ✅ | ⚫ |
 | Landstalker - The Treasures of King Nole | ❌ Failed seed 1 | 49 | 0.1 | 9.1 | 🟠 1.1% | ⚫ | ⚫ |
 | Lingo | ❌ Failed seed 1 | 0 | 0 | 4.1 | 🔴 0.0% | ✅ | ⚫ |
 | Links Awakening DX | ❌ Failed seed 1 | 0 | 0 | 14.1 | 🔴 0.0% | ⚫ | ⚫ |
@@ -68,7 +68,7 @@
 | Overcooked! 2 | ❌ Failed seed 1 | 0 | 0 | 17.1 | 🔴 0.0% | ⚫ | ⚫ |
 | Paint | ❌ Failed seed 1 | 130 | 0 | 12.1 | 🔴 0.0% | ⚫ | ⚫ |
 | Pokemon Emerald | ❌ Failed seed 1 | 0 | 6.2 | 15.1 | 🟡 41.1% | ⚫ | ⚫ |
-| Pokemon Red and Blue | ❌ Failed seed 1 | 0 | 3.2 | 10.1 | 🟡 31.7% | ✅ | ✅ |
+| Pokemon Red and Blue | ❌ Failed seed 1 | 0 | 3.6 | 10.1 | 🟡 35.6% | ✅ | ✅ |
 | Raft | ❌ Failed seed 1 | 0 | 0 | 10.1 | 🔴 0.0% | ⚫ | ⚫ |
 | Risk of Rain 2 | ✅ Passed seeds 1-10 | 0 | 8.1 | 8.1 | 🟢 Complete | ⚫ | ⚫ |
 | SMZ3 | ❌ Failed seed 1 | 0 | 0 | 14.1 | 🔴 0.0% | ⚫ | ⚫ |

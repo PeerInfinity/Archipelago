@@ -14,18 +14,6 @@
     "1": {
       "Catacomb": {
         "name": "Catacomb",
-        "entrances": [
-          {
-            "name": "Start Game",
-            "parent_region": "Menu",
-            "connected_region": "Catacomb"
-          },
-          {
-            "name": "Start Game",
-            "parent_region": "Menu",
-            "connected_region": "Catacomb"
-          }
-        ],
         "exits": [
           {
             "name": "Catacomb to Stairway",
@@ -403,13 +391,6 @@
       },
       "Abyss Stairway": {
         "name": "Abyss Stairway",
-        "entrances": [
-          {
-            "name": "Catacomb to Stairway",
-            "parent_region": "Catacomb",
-            "connected_region": "Abyss Stairway"
-          }
-        ],
         "exits": [
           {
             "name": "Stairway to Audience",
@@ -466,13 +447,6 @@
       },
       "Audience Room": {
         "name": "Audience Room",
-        "entrances": [
-          {
-            "name": "Stairway to Audience",
-            "parent_region": "Abyss Stairway",
-            "connected_region": "Audience Room"
-          }
-        ],
         "exits": [
           {
             "name": "Audience to Machine Bottom",
@@ -1234,13 +1208,6 @@
       },
       "Machine Tower Bottom": {
         "name": "Machine Tower Bottom",
-        "entrances": [
-          {
-            "name": "Audience to Machine Bottom",
-            "parent_region": "Audience Room",
-            "connected_region": "Machine Tower Bottom"
-          }
-        ],
         "exits": [
           {
             "name": "Machine Bottom to Top",
@@ -1394,18 +1361,6 @@
       },
       "Machine Tower Top": {
         "name": "Machine Tower Top",
-        "entrances": [
-          {
-            "name": "Audience to Machine Top",
-            "parent_region": "Audience Room",
-            "connected_region": "Machine Tower Top"
-          },
-          {
-            "name": "Machine Bottom to Top",
-            "parent_region": "Machine Tower Bottom",
-            "connected_region": "Machine Tower Top"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1475,18 +1430,6 @@
       },
       "Eternal Corridor Pit": {
         "name": "Eternal Corridor Pit",
-        "entrances": [
-          {
-            "name": "Into the Corridor Pit",
-            "parent_region": "Chapel Tower Bottom",
-            "connected_region": "Eternal Corridor Pit"
-          },
-          {
-            "name": "Gallery to Corridor",
-            "parent_region": "Underground Gallery Upper",
-            "connected_region": "Eternal Corridor Pit"
-          }
-        ],
         "exits": [
           {
             "name": "Corridor to Gallery",
@@ -1567,18 +1510,6 @@
       },
       "Chapel Tower Bottom": {
         "name": "Chapel Tower Bottom",
-        "entrances": [
-          {
-            "name": "Audience to Chapel",
-            "parent_region": "Audience Room",
-            "connected_region": "Chapel Tower Bottom"
-          },
-          {
-            "name": "Escape the Gallery Pit",
-            "parent_region": "Eternal Corridor Pit",
-            "connected_region": "Chapel Tower Bottom"
-          }
-        ],
         "exits": [
           {
             "name": "Into the Corridor Pit",
@@ -1846,13 +1777,6 @@
       },
       "Chapel Tower Top": {
         "name": "Chapel Tower Top",
-        "entrances": [
-          {
-            "name": "Climb to Chapel Top",
-            "parent_region": "Chapel Tower Bottom",
-            "connected_region": "Chapel Tower Top"
-          }
-        ],
         "exits": [
           {
             "name": "Arena Passage",
@@ -1967,13 +1891,6 @@
       },
       "Battle Arena": {
         "name": "Battle Arena",
-        "entrances": [
-          {
-            "name": "Arena Passage",
-            "parent_region": "Chapel Tower Top",
-            "connected_region": "Battle Arena"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2054,18 +1971,6 @@
       },
       "Underground Gallery Upper": {
         "name": "Underground Gallery Upper",
-        "entrances": [
-          {
-            "name": "Corridor to Gallery",
-            "parent_region": "Eternal Corridor Pit",
-            "connected_region": "Underground Gallery Upper"
-          },
-          {
-            "name": "Gallery Lower to Upper",
-            "parent_region": "Underground Gallery Lower",
-            "connected_region": "Underground Gallery Upper"
-          }
-        ],
         "exits": [
           {
             "name": "Gallery to Corridor",
@@ -2194,18 +2099,6 @@
       },
       "Underground Gallery Lower": {
         "name": "Underground Gallery Lower",
-        "entrances": [
-          {
-            "name": "Audience to Gallery",
-            "parent_region": "Audience Room",
-            "connected_region": "Underground Gallery Lower"
-          },
-          {
-            "name": "Gallery Upper to Lower",
-            "parent_region": "Underground Gallery Upper",
-            "connected_region": "Underground Gallery Lower"
-          }
-        ],
         "exits": [
           {
             "name": "Gallery Lower to Upper",
@@ -2301,13 +2194,6 @@
       },
       "Underground Warehouse Start": {
         "name": "Underground Warehouse Start",
-        "entrances": [
-          {
-            "name": "Audience to Warehouse",
-            "parent_region": "Audience Room",
-            "connected_region": "Underground Warehouse Start"
-          }
-        ],
         "exits": [
           {
             "name": "Into Warehouse Main",
@@ -2344,13 +2230,6 @@
       },
       "Underground Warehouse Main": {
         "name": "Underground Warehouse Main",
-        "entrances": [
-          {
-            "name": "Into Warehouse Main",
-            "parent_region": "Underground Warehouse Start",
-            "connected_region": "Underground Warehouse Main"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2582,13 +2461,6 @@
       },
       "Underground Waterway Start": {
         "name": "Underground Waterway Start",
-        "entrances": [
-          {
-            "name": "Audience to Waterway",
-            "parent_region": "Audience Room",
-            "connected_region": "Underground Waterway Start"
-          }
-        ],
         "exits": [
           {
             "name": "Into Waterway Main",
@@ -2638,13 +2510,6 @@
       },
       "Underground Waterway Main": {
         "name": "Underground Waterway Main",
-        "entrances": [
-          {
-            "name": "Into Waterway Main",
-            "parent_region": "Underground Waterway Start",
-            "connected_region": "Underground Waterway Main"
-          }
-        ],
         "exits": [
           {
             "name": "Onward to Waterway End",
@@ -2804,18 +2669,6 @@
       },
       "Underground Waterway End": {
         "name": "Underground Waterway End",
-        "entrances": [
-          {
-            "name": "Dip Into Waterway End",
-            "parent_region": "Chapel Tower Bottom",
-            "connected_region": "Underground Waterway End"
-          },
-          {
-            "name": "Onward to Waterway End",
-            "parent_region": "Underground Waterway Main",
-            "connected_region": "Underground Waterway End"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2992,13 +2845,6 @@
       },
       "Observation Tower": {
         "name": "Observation Tower",
-        "entrances": [
-          {
-            "name": "Audience to Observation",
-            "parent_region": "Audience Room",
-            "connected_region": "Observation Tower"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3149,13 +2995,6 @@
       },
       "Ceremonial Room": {
         "name": "Ceremonial Room",
-        "entrances": [
-          {
-            "name": "Ceremonial Door",
-            "parent_region": "Audience Room",
-            "connected_region": "Ceremonial Room"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3208,7 +3047,6 @@
       },
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Start Game",

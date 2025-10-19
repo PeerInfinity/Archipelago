@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Menu -> 'Free 7 Scout Flies' Power Cells",
@@ -37,13 +36,6 @@
       },
       "'Free 7 Scout Flies' Power Cells": {
         "name": "'Free 7 Scout Flies' Power Cells",
-        "entrances": [
-          {
-            "name": "Menu -> 'Free 7 Scout Flies' Power Cells",
-            "parent_region": "Menu",
-            "connected_region": "'Free 7 Scout Flies' Power Cells"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -498,18 +490,6 @@
       },
       "Geyser Rock Main Area": {
         "name": "Geyser Rock Main Area",
-        "entrances": [
-          {
-            "name": "Geyser Rock Cliff -> Geyser Rock Main Area",
-            "parent_region": "Geyser Rock Cliff",
-            "connected_region": "Geyser Rock Main Area"
-          },
-          {
-            "name": "Menu -> Geyser Rock Main Area",
-            "parent_region": "Menu",
-            "connected_region": "Geyser Rock Main Area"
-          }
-        ],
         "exits": [
           {
             "name": "Geyser Rock Main Area -> Geyser Rock Cliff",
@@ -693,13 +673,6 @@
       },
       "Geyser Rock Cliff": {
         "name": "Geyser Rock Cliff",
-        "entrances": [
-          {
-            "name": "Geyser Rock Main Area -> Geyser Rock Cliff",
-            "parent_region": "Geyser Rock Main Area",
-            "connected_region": "Geyser Rock Cliff"
-          }
-        ],
         "exits": [
           {
             "name": "Geyser Rock Cliff -> Geyser Rock Main Area",
@@ -729,28 +702,6 @@
       },
       "Sandover Village Main Area": {
         "name": "Sandover Village Main Area",
-        "entrances": [
-          {
-            "name": "Sandover Village Orb Cache Cliff -> Sandover Village Main Area",
-            "parent_region": "Sandover Village Orb Cache Cliff",
-            "connected_region": "Sandover Village Main Area"
-          },
-          {
-            "name": "Sandover Village Yakow Cliff -> Sandover Village Main Area",
-            "parent_region": "Sandover Village Yakow Cliff",
-            "connected_region": "Sandover Village Main Area"
-          },
-          {
-            "name": "Sandover Village Oracle Platforms -> Sandover Village Main Area",
-            "parent_region": "Sandover Village Oracle Platforms",
-            "connected_region": "Sandover Village Main Area"
-          },
-          {
-            "name": "Geyser Rock Main Area -> Sandover Village Main Area",
-            "parent_region": "Geyser Rock Main Area",
-            "connected_region": "Sandover Village Main Area"
-          }
-        ],
         "exits": [
           {
             "name": "Sandover Village Main Area -> Sandover Village Orb Cache Cliff",
@@ -1102,13 +1053,6 @@
       },
       "Sandover Village Orb Cache Cliff": {
         "name": "Sandover Village Orb Cache Cliff",
-        "entrances": [
-          {
-            "name": "Sandover Village Main Area -> Sandover Village Orb Cache Cliff",
-            "parent_region": "Sandover Village Main Area",
-            "connected_region": "Sandover Village Orb Cache Cliff"
-          }
-        ],
         "exits": [
           {
             "name": "Sandover Village Orb Cache Cliff -> Sandover Village Main Area",
@@ -1138,13 +1082,6 @@
       },
       "Sandover Village Yakow Cliff": {
         "name": "Sandover Village Yakow Cliff",
-        "entrances": [
-          {
-            "name": "Sandover Village Main Area -> Sandover Village Yakow Cliff",
-            "parent_region": "Sandover Village Main Area",
-            "connected_region": "Sandover Village Yakow Cliff"
-          }
-        ],
         "exits": [
           {
             "name": "Sandover Village Yakow Cliff -> Sandover Village Main Area",
@@ -1176,13 +1113,6 @@
       },
       "Sandover Village Oracle Platforms": {
         "name": "Sandover Village Oracle Platforms",
-        "entrances": [
-          {
-            "name": "Sandover Village Main Area -> Sandover Village Oracle Platforms",
-            "parent_region": "Sandover Village Main Area",
-            "connected_region": "Sandover Village Oracle Platforms"
-          }
-        ],
         "exits": [
           {
             "name": "Sandover Village Oracle Platforms -> Sandover Village Main Area",
@@ -1284,28 +1214,6 @@
       },
       "Forbidden Jungle Main Area": {
         "name": "Forbidden Jungle Main Area",
-        "entrances": [
-          {
-            "name": "Forbidden Jungle Lurker Machine -> Forbidden Jungle Main Area",
-            "parent_region": "Forbidden Jungle Lurker Machine",
-            "connected_region": "Forbidden Jungle Main Area"
-          },
-          {
-            "name": "Forbidden Jungle River -> Forbidden Jungle Main Area",
-            "parent_region": "Forbidden Jungle River",
-            "connected_region": "Forbidden Jungle Main Area"
-          },
-          {
-            "name": "Forbidden Jungle Temple Exit -> Forbidden Jungle Main Area",
-            "parent_region": "Forbidden Jungle Temple Exit",
-            "connected_region": "Forbidden Jungle Main Area"
-          },
-          {
-            "name": "Sandover Village Main Area -> Forbidden Jungle Main Area",
-            "parent_region": "Sandover Village Main Area",
-            "connected_region": "Forbidden Jungle Main Area"
-          }
-        ],
         "exits": [
           {
             "name": "Forbidden Jungle Main Area -> Forbidden Jungle Lurker Machine",
@@ -1351,18 +1259,6 @@
       },
       "Forbidden Jungle Lurker Machine": {
         "name": "Forbidden Jungle Lurker Machine",
-        "entrances": [
-          {
-            "name": "Forbidden Jungle Main Area -> Forbidden Jungle Lurker Machine",
-            "parent_region": "Forbidden Jungle Main Area",
-            "connected_region": "Forbidden Jungle Lurker Machine"
-          },
-          {
-            "name": "Forbidden Jungle River -> Forbidden Jungle Lurker Machine",
-            "parent_region": "Forbidden Jungle River",
-            "connected_region": "Forbidden Jungle Lurker Machine"
-          }
-        ],
         "exits": [
           {
             "name": "Forbidden Jungle Lurker Machine -> Forbidden Jungle Main Area",
@@ -1438,23 +1334,6 @@
       },
       "Forbidden Jungle River": {
         "name": "Forbidden Jungle River",
-        "entrances": [
-          {
-            "name": "Forbidden Jungle Main Area -> Forbidden Jungle River",
-            "parent_region": "Forbidden Jungle Main Area",
-            "connected_region": "Forbidden Jungle River"
-          },
-          {
-            "name": "Forbidden Jungle Lurker Machine -> Forbidden Jungle River",
-            "parent_region": "Forbidden Jungle Lurker Machine",
-            "connected_region": "Forbidden Jungle River"
-          },
-          {
-            "name": "Forbidden Jungle Temple Exit -> Forbidden Jungle River",
-            "parent_region": "Forbidden Jungle Temple Exit",
-            "connected_region": "Forbidden Jungle River"
-          }
-        ],
         "exits": [
           {
             "name": "Forbidden Jungle River -> Forbidden Jungle Main Area",
@@ -1578,23 +1457,6 @@
       },
       "Forbidden Jungle Temple Exit": {
         "name": "Forbidden Jungle Temple Exit",
-        "entrances": [
-          {
-            "name": "Forbidden Jungle Main Area -> Forbidden Jungle Temple Exit",
-            "parent_region": "Forbidden Jungle Main Area",
-            "connected_region": "Forbidden Jungle Temple Exit"
-          },
-          {
-            "name": "Forbidden Jungle River -> Forbidden Jungle Temple Exit",
-            "parent_region": "Forbidden Jungle River",
-            "connected_region": "Forbidden Jungle Temple Exit"
-          },
-          {
-            "name": "Forbidden Jungle Temple Interior (Post Blue Eco) -> Forbidden Jungle Temple Exit",
-            "parent_region": "Forbidden Jungle Temple Interior (Post Blue Eco)",
-            "connected_region": "Forbidden Jungle Temple Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Forbidden Jungle Temple Exit -> Forbidden Jungle Main Area",
@@ -1642,23 +1504,6 @@
       },
       "Forbidden Jungle Temple Exterior": {
         "name": "Forbidden Jungle Temple Exterior",
-        "entrances": [
-          {
-            "name": "Forbidden Jungle Lurker Machine -> Forbidden Jungle Temple Exterior",
-            "parent_region": "Forbidden Jungle Lurker Machine",
-            "connected_region": "Forbidden Jungle Temple Exterior"
-          },
-          {
-            "name": "Forbidden Jungle River -> Forbidden Jungle Temple Exterior",
-            "parent_region": "Forbidden Jungle River",
-            "connected_region": "Forbidden Jungle Temple Exterior"
-          },
-          {
-            "name": "Forbidden Jungle Temple Exit -> Forbidden Jungle Temple Exterior",
-            "parent_region": "Forbidden Jungle Temple Exit",
-            "connected_region": "Forbidden Jungle Temple Exterior"
-          }
-        ],
         "exits": [
           {
             "name": "Forbidden Jungle Temple Exterior -> Forbidden Jungle Temple Interior (Pre Blue Eco)",
@@ -1733,13 +1578,6 @@
       },
       "Forbidden Jungle Temple Interior (Pre Blue Eco)": {
         "name": "Forbidden Jungle Temple Interior (Pre Blue Eco)",
-        "entrances": [
-          {
-            "name": "Forbidden Jungle Temple Exterior -> Forbidden Jungle Temple Interior (Pre Blue Eco)",
-            "parent_region": "Forbidden Jungle Temple Exterior",
-            "connected_region": "Forbidden Jungle Temple Interior (Pre Blue Eco)"
-          }
-        ],
         "exits": [
           {
             "name": "Forbidden Jungle Temple Interior (Pre Blue Eco) -> Forbidden Jungle Temple Interior (Post Blue Eco)",
@@ -1786,13 +1624,6 @@
       },
       "Forbidden Jungle Temple Interior (Post Blue Eco)": {
         "name": "Forbidden Jungle Temple Interior (Post Blue Eco)",
-        "entrances": [
-          {
-            "name": "Forbidden Jungle Temple Interior (Pre Blue Eco) -> Forbidden Jungle Temple Interior (Post Blue Eco)",
-            "parent_region": "Forbidden Jungle Temple Interior (Pre Blue Eco)",
-            "connected_region": "Forbidden Jungle Temple Interior (Post Blue Eco)"
-          }
-        ],
         "exits": [
           {
             "name": "Forbidden Jungle Temple Interior (Post Blue Eco) -> Forbidden Jungle Temple Exit",
@@ -1826,43 +1657,6 @@
       },
       "Sentinel Beach Main Area": {
         "name": "Sentinel Beach Main Area",
-        "entrances": [
-          {
-            "name": "Sentinel Beach Pelican -> Sentinel Beach Main Area",
-            "parent_region": "Sentinel Beach Pelican",
-            "connected_region": "Sentinel Beach Main Area"
-          },
-          {
-            "name": "Sentinel Beach Flut Flut Egg -> Sentinel Beach Main Area",
-            "parent_region": "Sentinel Beach Flut Flut Egg",
-            "connected_region": "Sentinel Beach Main Area"
-          },
-          {
-            "name": "Sentinel Beach Eco Harvesters -> Sentinel Beach Main Area",
-            "parent_region": "Sentinel Beach Eco Harvesters",
-            "connected_region": "Sentinel Beach Main Area"
-          },
-          {
-            "name": "Sentinel Beach Ridge Near Green Vents -> Sentinel Beach Main Area",
-            "parent_region": "Sentinel Beach Ridge Near Green Vents",
-            "connected_region": "Sentinel Beach Main Area"
-          },
-          {
-            "name": "Sentinel Beach Ridge Near Blue Vent -> Sentinel Beach Main Area",
-            "parent_region": "Sentinel Beach Ridge Near Blue Vent",
-            "connected_region": "Sentinel Beach Main Area"
-          },
-          {
-            "name": "Sentinel Beach Cannon Tower -> Sentinel Beach Main Area",
-            "parent_region": "Sentinel Beach Cannon Tower",
-            "connected_region": "Sentinel Beach Main Area"
-          },
-          {
-            "name": "Sandover Village Main Area -> Sentinel Beach Main Area",
-            "parent_region": "Sandover Village Main Area",
-            "connected_region": "Sentinel Beach Main Area"
-          }
-        ],
         "exits": [
           {
             "name": "Sentinel Beach Main Area -> Sentinel Beach Pelican",
@@ -2226,13 +2020,6 @@
       },
       "Sentinel Beach Pelican": {
         "name": "Sentinel Beach Pelican",
-        "entrances": [
-          {
-            "name": "Sentinel Beach Main Area -> Sentinel Beach Pelican",
-            "parent_region": "Sentinel Beach Main Area",
-            "connected_region": "Sentinel Beach Pelican"
-          }
-        ],
         "exits": [
           {
             "name": "Sentinel Beach Pelican -> Sentinel Beach Main Area",
@@ -2264,13 +2051,6 @@
       },
       "Sentinel Beach Flut Flut Egg": {
         "name": "Sentinel Beach Flut Flut Egg",
-        "entrances": [
-          {
-            "name": "Sentinel Beach Main Area -> Sentinel Beach Flut Flut Egg",
-            "parent_region": "Sentinel Beach Main Area",
-            "connected_region": "Sentinel Beach Flut Flut Egg"
-          }
-        ],
         "exits": [
           {
             "name": "Sentinel Beach Flut Flut Egg -> Sentinel Beach Main Area",
@@ -2334,13 +2114,6 @@
       },
       "Sentinel Beach Eco Harvesters": {
         "name": "Sentinel Beach Eco Harvesters",
-        "entrances": [
-          {
-            "name": "Sentinel Beach Main Area -> Sentinel Beach Eco Harvesters",
-            "parent_region": "Sentinel Beach Main Area",
-            "connected_region": "Sentinel Beach Eco Harvesters"
-          }
-        ],
         "exits": [
           {
             "name": "Sentinel Beach Eco Harvesters -> Sentinel Beach Main Area",
@@ -2372,13 +2145,6 @@
       },
       "Sentinel Beach Ridge Near Green Vents": {
         "name": "Sentinel Beach Ridge Near Green Vents",
-        "entrances": [
-          {
-            "name": "Sentinel Beach Main Area -> Sentinel Beach Ridge Near Green Vents",
-            "parent_region": "Sentinel Beach Main Area",
-            "connected_region": "Sentinel Beach Ridge Near Green Vents"
-          }
-        ],
         "exits": [
           {
             "name": "Sentinel Beach Ridge Near Green Vents -> Sentinel Beach Main Area",
@@ -2410,13 +2176,6 @@
       },
       "Sentinel Beach Ridge Near Blue Vent": {
         "name": "Sentinel Beach Ridge Near Blue Vent",
-        "entrances": [
-          {
-            "name": "Sentinel Beach Main Area -> Sentinel Beach Ridge Near Blue Vent",
-            "parent_region": "Sentinel Beach Main Area",
-            "connected_region": "Sentinel Beach Ridge Near Blue Vent"
-          }
-        ],
         "exits": [
           {
             "name": "Sentinel Beach Ridge Near Blue Vent -> Sentinel Beach Main Area",
@@ -2460,13 +2219,6 @@
       },
       "Sentinel Beach Cannon Tower": {
         "name": "Sentinel Beach Cannon Tower",
-        "entrances": [
-          {
-            "name": "Sentinel Beach Main Area -> Sentinel Beach Cannon Tower",
-            "parent_region": "Sentinel Beach Main Area",
-            "connected_region": "Sentinel Beach Cannon Tower"
-          }
-        ],
         "exits": [
           {
             "name": "Sentinel Beach Cannon Tower -> Sentinel Beach Main Area",
@@ -2498,28 +2250,6 @@
       },
       "Misty Island Main Area": {
         "name": "Misty Island Main Area",
-        "entrances": [
-          {
-            "name": "Misty Island Muse Course -> Misty Island Main Area",
-            "parent_region": "Misty Island Muse Course",
-            "connected_region": "Misty Island Main Area"
-          },
-          {
-            "name": "Misty Island Zoomer -> Misty Island Main Area",
-            "parent_region": "Misty Island Zoomer",
-            "connected_region": "Misty Island Main Area"
-          },
-          {
-            "name": "Misty Island Ship -> Misty Island Main Area",
-            "parent_region": "Misty Island Ship",
-            "connected_region": "Misty Island Main Area"
-          },
-          {
-            "name": "Sandover Village Main Area -> Misty Island Main Area",
-            "parent_region": "Sandover Village Main Area",
-            "connected_region": "Misty Island Main Area"
-          }
-        ],
         "exits": [
           {
             "name": "Misty Island Main Area -> Misty Island Muse Course",
@@ -2568,13 +2298,6 @@
       },
       "Misty Island Muse Course": {
         "name": "Misty Island Muse Course",
-        "entrances": [
-          {
-            "name": "Misty Island Main Area -> Misty Island Muse Course",
-            "parent_region": "Misty Island Main Area",
-            "connected_region": "Misty Island Muse Course"
-          }
-        ],
         "exits": [
           {
             "name": "Misty Island Muse Course -> Misty Island Main Area",
@@ -2620,13 +2343,6 @@
       },
       "Misty Island Zoomer": {
         "name": "Misty Island Zoomer",
-        "entrances": [
-          {
-            "name": "Misty Island Main Area -> Misty Island Zoomer",
-            "parent_region": "Misty Island Main Area",
-            "connected_region": "Misty Island Zoomer"
-          }
-        ],
         "exits": [
           {
             "name": "Misty Island Zoomer -> Misty Island Main Area",
@@ -2693,18 +2409,6 @@
       },
       "Misty Island Ship": {
         "name": "Misty Island Ship",
-        "entrances": [
-          {
-            "name": "Misty Island Main Area -> Misty Island Ship",
-            "parent_region": "Misty Island Main Area",
-            "connected_region": "Misty Island Ship"
-          },
-          {
-            "name": "Misty Island Far Side -> Misty Island Ship",
-            "parent_region": "Misty Island Far Side",
-            "connected_region": "Misty Island Ship"
-          }
-        ],
         "exits": [
           {
             "name": "Misty Island Ship -> Misty Island Main Area",
@@ -2766,23 +2470,6 @@
       },
       "Misty Island Far Side": {
         "name": "Misty Island Far Side",
-        "entrances": [
-          {
-            "name": "Misty Island Ship -> Misty Island Far Side",
-            "parent_region": "Misty Island Ship",
-            "connected_region": "Misty Island Far Side"
-          },
-          {
-            "name": "Misty Island Far Side Cliff -> Misty Island Far Side",
-            "parent_region": "Misty Island Far Side Cliff",
-            "connected_region": "Misty Island Far Side"
-          },
-          {
-            "name": "Misty Island Arena -> Misty Island Far Side",
-            "parent_region": "Misty Island Arena",
-            "connected_region": "Misty Island Far Side"
-          }
-        ],
         "exits": [
           {
             "name": "Misty Island Far Side -> Misty Island Ship",
@@ -2844,13 +2531,6 @@
       },
       "Misty Island Far Side Cliff": {
         "name": "Misty Island Far Side Cliff",
-        "entrances": [
-          {
-            "name": "Misty Island Far Side -> Misty Island Far Side Cliff",
-            "parent_region": "Misty Island Far Side",
-            "connected_region": "Misty Island Far Side Cliff"
-          }
-        ],
         "exits": [
           {
             "name": "Misty Island Far Side Cliff -> Misty Island Far Side",
@@ -2882,13 +2562,6 @@
       },
       "Misty Island Far Side Orb Cache": {
         "name": "Misty Island Far Side Orb Cache",
-        "entrances": [
-          {
-            "name": "Misty Island Far Side -> Misty Island Far Side Orb Cache",
-            "parent_region": "Misty Island Far Side",
-            "connected_region": "Misty Island Far Side Orb Cache"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2911,18 +2584,6 @@
       },
       "Misty Island Barrel Course": {
         "name": "Misty Island Barrel Course",
-        "entrances": [
-          {
-            "name": "Misty Island Ship -> Misty Island Barrel Course",
-            "parent_region": "Misty Island Ship",
-            "connected_region": "Misty Island Barrel Course"
-          },
-          {
-            "name": "Misty Island Cannon -> Misty Island Barrel Course",
-            "parent_region": "Misty Island Cannon",
-            "connected_region": "Misty Island Barrel Course"
-          }
-        ],
         "exits": [
           {
             "name": "Misty Island Barrel Course -> Misty Island Cannon",
@@ -2954,13 +2615,6 @@
       },
       "Misty Island Cannon": {
         "name": "Misty Island Cannon",
-        "entrances": [
-          {
-            "name": "Misty Island Barrel Course -> Misty Island Cannon",
-            "parent_region": "Misty Island Barrel Course",
-            "connected_region": "Misty Island Cannon"
-          }
-        ],
         "exits": [
           {
             "name": "Misty Island Cannon -> Misty Island Barrel Course",
@@ -3008,23 +2662,6 @@
       },
       "Misty Island Upper Arena Approach": {
         "name": "Misty Island Upper Arena Approach",
-        "entrances": [
-          {
-            "name": "Misty Island Main Area -> Misty Island Upper Arena Approach",
-            "parent_region": "Misty Island Main Area",
-            "connected_region": "Misty Island Upper Arena Approach"
-          },
-          {
-            "name": "Misty Island Cannon -> Misty Island Upper Arena Approach",
-            "parent_region": "Misty Island Cannon",
-            "connected_region": "Misty Island Upper Arena Approach"
-          },
-          {
-            "name": "Misty Island Lower Arena Approach -> Misty Island Upper Arena Approach",
-            "parent_region": "Misty Island Lower Arena Approach",
-            "connected_region": "Misty Island Upper Arena Approach"
-          }
-        ],
         "exits": [
           {
             "name": "Misty Island Upper Arena Approach -> Misty Island Lower Arena Approach",
@@ -3080,23 +2717,6 @@
       },
       "Misty Island Lower Arena Approach": {
         "name": "Misty Island Lower Arena Approach",
-        "entrances": [
-          {
-            "name": "Misty Island Main Area -> Misty Island Lower Arena Approach",
-            "parent_region": "Misty Island Main Area",
-            "connected_region": "Misty Island Lower Arena Approach"
-          },
-          {
-            "name": "Misty Island Upper Arena Approach -> Misty Island Lower Arena Approach",
-            "parent_region": "Misty Island Upper Arena Approach",
-            "connected_region": "Misty Island Lower Arena Approach"
-          },
-          {
-            "name": "Misty Island Arena -> Misty Island Lower Arena Approach",
-            "parent_region": "Misty Island Arena",
-            "connected_region": "Misty Island Lower Arena Approach"
-          }
-        ],
         "exits": [
           {
             "name": "Misty Island Lower Arena Approach -> Misty Island Upper Arena Approach",
@@ -3145,28 +2765,6 @@
       },
       "Misty Island Arena": {
         "name": "Misty Island Arena",
-        "entrances": [
-          {
-            "name": "Misty Island Far Side -> Misty Island Arena",
-            "parent_region": "Misty Island Far Side",
-            "connected_region": "Misty Island Arena"
-          },
-          {
-            "name": "Misty Island Cannon -> Misty Island Arena",
-            "parent_region": "Misty Island Cannon",
-            "connected_region": "Misty Island Arena"
-          },
-          {
-            "name": "Misty Island Upper Arena Approach -> Misty Island Arena",
-            "parent_region": "Misty Island Upper Arena Approach",
-            "connected_region": "Misty Island Arena"
-          },
-          {
-            "name": "Misty Island Lower Arena Approach -> Misty Island Arena",
-            "parent_region": "Misty Island Lower Arena Approach",
-            "connected_region": "Misty Island Arena"
-          }
-        ],
         "exits": [
           {
             "name": "Misty Island Arena -> Misty Island Lower Arena Approach",
@@ -3206,13 +2804,6 @@
       },
       "Fire Canyon Main Area": {
         "name": "Fire Canyon Main Area",
-        "entrances": [
-          {
-            "name": "Sandover Village Main Area -> Fire Canyon Main Area",
-            "parent_region": "Sandover Village Main Area",
-            "connected_region": "Fire Canyon Main Area"
-          }
-        ],
         "exits": [
           {
             "name": "Fire Canyon Main Area -> Rock Village Main Area",
@@ -3340,23 +2931,6 @@
       },
       "Rock Village Main Area": {
         "name": "Rock Village Main Area",
-        "entrances": [
-          {
-            "name": "Rock Village Orb Cache -> Rock Village Main Area",
-            "parent_region": "Rock Village Orb Cache",
-            "connected_region": "Rock Village Main Area"
-          },
-          {
-            "name": "Rock Village Pontoon Bridge -> Rock Village Main Area",
-            "parent_region": "Rock Village Pontoon Bridge",
-            "connected_region": "Rock Village Main Area"
-          },
-          {
-            "name": "Fire Canyon Main Area -> Rock Village Main Area",
-            "parent_region": "Fire Canyon Main Area",
-            "connected_region": "Rock Village Main Area"
-          }
-        ],
         "exits": [
           {
             "name": "Rock Village Main Area -> Rock Village Orb Cache",
@@ -3689,13 +3263,6 @@
       },
       "Rock Village Orb Cache": {
         "name": "Rock Village Orb Cache",
-        "entrances": [
-          {
-            "name": "Rock Village Main Area -> Rock Village Orb Cache",
-            "parent_region": "Rock Village Main Area",
-            "connected_region": "Rock Village Orb Cache"
-          }
-        ],
         "exits": [
           {
             "name": "Rock Village Orb Cache -> Rock Village Main Area",
@@ -3734,18 +3301,6 @@
       },
       "Rock Village Pontoon Bridge": {
         "name": "Rock Village Pontoon Bridge",
-        "entrances": [
-          {
-            "name": "Rock Village Main Area -> Rock Village Pontoon Bridge",
-            "parent_region": "Rock Village Main Area",
-            "connected_region": "Rock Village Pontoon Bridge"
-          },
-          {
-            "name": "Rock Village Klaww's Cliff -> Rock Village Pontoon Bridge",
-            "parent_region": "Rock Village Klaww's Cliff",
-            "connected_region": "Rock Village Pontoon Bridge"
-          }
-        ],
         "exits": [
           {
             "name": "Rock Village Pontoon Bridge -> Rock Village Main Area",
@@ -3829,13 +3384,6 @@
       },
       "Rock Village Klaww's Cliff": {
         "name": "Rock Village Klaww's Cliff",
-        "entrances": [
-          {
-            "name": "Rock Village Pontoon Bridge -> Rock Village Klaww's Cliff",
-            "parent_region": "Rock Village Pontoon Bridge",
-            "connected_region": "Rock Village Klaww's Cliff"
-          }
-        ],
         "exits": [
           {
             "name": "Rock Village Klaww's Cliff -> Rock Village Pontoon Bridge",
@@ -3865,13 +3413,6 @@
       },
       "Precursor Basin Main Area": {
         "name": "Precursor Basin Main Area",
-        "entrances": [
-          {
-            "name": "Rock Village Main Area -> Precursor Basin Main Area",
-            "parent_region": "Rock Village Main Area",
-            "connected_region": "Precursor Basin Main Area"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4074,23 +3615,6 @@
       },
       "Lost Precursor City Main Area": {
         "name": "Lost Precursor City Main Area",
-        "entrances": [
-          {
-            "name": "Lost Precursor City First Chamber (Upper) -> Lost Precursor City Main Area",
-            "parent_region": "Lost Precursor City First Chamber (Upper)",
-            "connected_region": "Lost Precursor City Main Area"
-          },
-          {
-            "name": "Lost Precursor City Capsule Chamber -> Lost Precursor City Main Area",
-            "parent_region": "Lost Precursor City Capsule Chamber",
-            "connected_region": "Lost Precursor City Main Area"
-          },
-          {
-            "name": "Rock Village Main Area -> Lost Precursor City Main Area",
-            "parent_region": "Rock Village Main Area",
-            "connected_region": "Lost Precursor City Main Area"
-          }
-        ],
         "exits": [
           {
             "name": "Lost Precursor City Main Area -> Lost Precursor City First Chamber (Upper)",
@@ -4105,23 +3629,6 @@
       },
       "Lost Precursor City First Chamber (Upper)": {
         "name": "Lost Precursor City First Chamber (Upper)",
-        "entrances": [
-          {
-            "name": "Lost Precursor City Main Area -> Lost Precursor City First Chamber (Upper)",
-            "parent_region": "Lost Precursor City Main Area",
-            "connected_region": "Lost Precursor City First Chamber (Upper)"
-          },
-          {
-            "name": "Lost Precursor City First Chamber (Lower) -> Lost Precursor City First Chamber (Upper)",
-            "parent_region": "Lost Precursor City First Chamber (Lower)",
-            "connected_region": "Lost Precursor City First Chamber (Upper)"
-          },
-          {
-            "name": "Lost Precursor City First Hallway -> Lost Precursor City First Chamber (Upper)",
-            "parent_region": "Lost Precursor City First Hallway",
-            "connected_region": "Lost Precursor City First Chamber (Upper)"
-          }
-        ],
         "exits": [
           {
             "name": "Lost Precursor City First Chamber (Upper) -> Lost Precursor City Main Area",
@@ -4152,18 +3659,6 @@
       },
       "Lost Precursor City First Chamber (Lower)": {
         "name": "Lost Precursor City First Chamber (Lower)",
-        "entrances": [
-          {
-            "name": "Lost Precursor City First Chamber (Upper) -> Lost Precursor City First Chamber (Lower)",
-            "parent_region": "Lost Precursor City First Chamber (Upper)",
-            "connected_region": "Lost Precursor City First Chamber (Lower)"
-          },
-          {
-            "name": "Lost Precursor City First Chamber Orb Cache -> Lost Precursor City First Chamber (Lower)",
-            "parent_region": "Lost Precursor City First Chamber Orb Cache",
-            "connected_region": "Lost Precursor City First Chamber (Lower)"
-          }
-        ],
         "exits": [
           {
             "name": "Lost Precursor City First Chamber (Lower) -> Lost Precursor City First Chamber (Upper)",
@@ -4212,13 +3707,6 @@
       },
       "Lost Precursor City First Chamber Orb Cache": {
         "name": "Lost Precursor City First Chamber Orb Cache",
-        "entrances": [
-          {
-            "name": "Lost Precursor City First Chamber (Lower) -> Lost Precursor City First Chamber Orb Cache",
-            "parent_region": "Lost Precursor City First Chamber (Lower)",
-            "connected_region": "Lost Precursor City First Chamber Orb Cache"
-          }
-        ],
         "exits": [
           {
             "name": "Lost Precursor City First Chamber Orb Cache -> Lost Precursor City First Chamber (Lower)",
@@ -4266,18 +3754,6 @@
       },
       "Lost Precursor City First Hallway": {
         "name": "Lost Precursor City First Hallway",
-        "entrances": [
-          {
-            "name": "Lost Precursor City First Chamber (Upper) -> Lost Precursor City First Hallway",
-            "parent_region": "Lost Precursor City First Chamber (Upper)",
-            "connected_region": "Lost Precursor City First Hallway"
-          },
-          {
-            "name": "Lost Precursor City Second Chamber -> Lost Precursor City First Hallway",
-            "parent_region": "Lost Precursor City Second Chamber",
-            "connected_region": "Lost Precursor City First Hallway"
-          }
-        ],
         "exits": [
           {
             "name": "Lost Precursor City First Hallway -> Lost Precursor City First Chamber (Upper)",
@@ -4317,18 +3793,6 @@
       },
       "Lost Precursor City Second Chamber": {
         "name": "Lost Precursor City Second Chamber",
-        "entrances": [
-          {
-            "name": "Lost Precursor City First Hallway -> Lost Precursor City Second Chamber",
-            "parent_region": "Lost Precursor City First Hallway",
-            "connected_region": "Lost Precursor City Second Chamber"
-          },
-          {
-            "name": "Lost Precursor City Center of the Complex -> Lost Precursor City Second Chamber",
-            "parent_region": "Lost Precursor City Center of the Complex",
-            "connected_region": "Lost Precursor City Second Chamber"
-          }
-        ],
         "exits": [
           {
             "name": "Lost Precursor City Second Chamber -> Lost Precursor City First Hallway",
@@ -4447,23 +3911,6 @@
       },
       "Lost Precursor City Center of the Complex": {
         "name": "Lost Precursor City Center of the Complex",
-        "entrances": [
-          {
-            "name": "Lost Precursor City Second Chamber -> Lost Precursor City Center of the Complex",
-            "parent_region": "Lost Precursor City Second Chamber",
-            "connected_region": "Lost Precursor City Center of the Complex"
-          },
-          {
-            "name": "Lost Precursor City Color Platforms -> Lost Precursor City Center of the Complex",
-            "parent_region": "Lost Precursor City Color Platforms",
-            "connected_region": "Lost Precursor City Center of the Complex"
-          },
-          {
-            "name": "Lost Precursor City Quick Platforms -> Lost Precursor City Center of the Complex",
-            "parent_region": "Lost Precursor City Quick Platforms",
-            "connected_region": "Lost Precursor City Center of the Complex"
-          }
-        ],
         "exits": [
           {
             "name": "Lost Precursor City Center of the Complex -> Lost Precursor City Second Chamber",
@@ -4509,13 +3956,6 @@
       },
       "Lost Precursor City Color Platforms": {
         "name": "Lost Precursor City Color Platforms",
-        "entrances": [
-          {
-            "name": "Lost Precursor City Center of the Complex -> Lost Precursor City Color Platforms",
-            "parent_region": "Lost Precursor City Center of the Complex",
-            "connected_region": "Lost Precursor City Color Platforms"
-          }
-        ],
         "exits": [
           {
             "name": "Lost Precursor City Color Platforms -> Lost Precursor City Center of the Complex",
@@ -4547,18 +3987,6 @@
       },
       "Lost Precursor City Quick Platforms": {
         "name": "Lost Precursor City Quick Platforms",
-        "entrances": [
-          {
-            "name": "Lost Precursor City Center of the Complex -> Lost Precursor City Quick Platforms",
-            "parent_region": "Lost Precursor City Center of the Complex",
-            "connected_region": "Lost Precursor City Quick Platforms"
-          },
-          {
-            "name": "Lost Precursor City Helix Chamber -> Lost Precursor City Quick Platforms",
-            "parent_region": "Lost Precursor City Helix Chamber",
-            "connected_region": "Lost Precursor City Quick Platforms"
-          }
-        ],
         "exits": [
           {
             "name": "Lost Precursor City Quick Platforms -> Lost Precursor City Center of the Complex",
@@ -4599,13 +4027,6 @@
       },
       "Lost Precursor City First Slide": {
         "name": "Lost Precursor City First Slide",
-        "entrances": [
-          {
-            "name": "Lost Precursor City Quick Platforms -> Lost Precursor City First Slide",
-            "parent_region": "Lost Precursor City Quick Platforms",
-            "connected_region": "Lost Precursor City First Slide"
-          }
-        ],
         "exits": [
           {
             "name": "Lost Precursor City First Slide -> Lost Precursor City Capsule Chamber",
@@ -4620,13 +4041,6 @@
       },
       "Lost Precursor City Capsule Chamber": {
         "name": "Lost Precursor City Capsule Chamber",
-        "entrances": [
-          {
-            "name": "Lost Precursor City First Slide -> Lost Precursor City Capsule Chamber",
-            "parent_region": "Lost Precursor City First Slide",
-            "connected_region": "Lost Precursor City Capsule Chamber"
-          }
-        ],
         "exits": [
           {
             "name": "Lost Precursor City Capsule Chamber -> Lost Precursor City Second Slide",
@@ -4720,13 +4134,6 @@
       },
       "Lost Precursor City Second Slide": {
         "name": "Lost Precursor City Second Slide",
-        "entrances": [
-          {
-            "name": "Lost Precursor City Capsule Chamber -> Lost Precursor City Second Slide",
-            "parent_region": "Lost Precursor City Capsule Chamber",
-            "connected_region": "Lost Precursor City Second Slide"
-          }
-        ],
         "exits": [
           {
             "name": "Lost Precursor City Second Slide -> Lost Precursor City Helix Chamber",
@@ -4810,13 +4217,6 @@
       },
       "Lost Precursor City Helix Chamber": {
         "name": "Lost Precursor City Helix Chamber",
-        "entrances": [
-          {
-            "name": "Lost Precursor City Second Slide -> Lost Precursor City Helix Chamber",
-            "parent_region": "Lost Precursor City Second Slide",
-            "connected_region": "Lost Precursor City Helix Chamber"
-          }
-        ],
         "exits": [
           {
             "name": "Lost Precursor City Helix Chamber -> Lost Precursor City Quick Platforms",
@@ -4874,23 +4274,6 @@
       },
       "Boggy Swamp Main Area": {
         "name": "Boggy Swamp Main Area",
-        "entrances": [
-          {
-            "name": "Boggy Swamp First Bats Area -> Boggy Swamp Main Area",
-            "parent_region": "Boggy Swamp First Bats Area",
-            "connected_region": "Boggy Swamp Main Area"
-          },
-          {
-            "name": "Boggy Swamp Fourth Tether -> Boggy Swamp Main Area",
-            "parent_region": "Boggy Swamp Fourth Tether",
-            "connected_region": "Boggy Swamp Main Area"
-          },
-          {
-            "name": "Rock Village Pontoon Bridge -> Boggy Swamp Main Area",
-            "parent_region": "Rock Village Pontoon Bridge",
-            "connected_region": "Boggy Swamp Main Area"
-          }
-        ],
         "exits": [
           {
             "name": "Boggy Swamp Main Area -> Boggy Swamp First Bats Area",
@@ -4955,23 +4338,6 @@
       },
       "Boggy Swamp First Bats Area": {
         "name": "Boggy Swamp First Bats Area",
-        "entrances": [
-          {
-            "name": "Boggy Swamp Main Area -> Boggy Swamp First Bats Area",
-            "parent_region": "Boggy Swamp Main Area",
-            "connected_region": "Boggy Swamp First Bats Area"
-          },
-          {
-            "name": "Boggy Swamp First Jump Pad -> Boggy Swamp First Bats Area",
-            "parent_region": "Boggy Swamp First Jump Pad",
-            "connected_region": "Boggy Swamp First Bats Area"
-          },
-          {
-            "name": "Boggy Swamp First Tether -> Boggy Swamp First Bats Area",
-            "parent_region": "Boggy Swamp First Tether",
-            "connected_region": "Boggy Swamp First Bats Area"
-          }
-        ],
         "exits": [
           {
             "name": "Boggy Swamp First Bats Area -> Boggy Swamp Main Area",
@@ -5002,13 +4368,6 @@
       },
       "Boggy Swamp First Jump Pad": {
         "name": "Boggy Swamp First Jump Pad",
-        "entrances": [
-          {
-            "name": "Boggy Swamp First Bats Area -> Boggy Swamp First Jump Pad",
-            "parent_region": "Boggy Swamp First Bats Area",
-            "connected_region": "Boggy Swamp First Jump Pad"
-          }
-        ],
         "exits": [
           {
             "name": "Boggy Swamp First Jump Pad -> Boggy Swamp First Bats Area",
@@ -5038,28 +4397,6 @@
       },
       "Boggy Swamp First Tether": {
         "name": "Boggy Swamp First Tether",
-        "entrances": [
-          {
-            "name": "Boggy Swamp First Bats Area -> Boggy Swamp First Tether",
-            "parent_region": "Boggy Swamp First Bats Area",
-            "connected_region": "Boggy Swamp First Tether"
-          },
-          {
-            "name": "Boggy Swamp First Tether Rat Colony -> Boggy Swamp First Tether",
-            "parent_region": "Boggy Swamp First Tether Rat Colony",
-            "connected_region": "Boggy Swamp First Tether"
-          },
-          {
-            "name": "Boggy Swamp Second Jump Pad -> Boggy Swamp First Tether",
-            "parent_region": "Boggy Swamp Second Jump Pad",
-            "connected_region": "Boggy Swamp First Tether"
-          },
-          {
-            "name": "Boggy Swamp First Pole Course -> Boggy Swamp First Tether",
-            "parent_region": "Boggy Swamp First Pole Course",
-            "connected_region": "Boggy Swamp First Tether"
-          }
-        ],
         "exits": [
           {
             "name": "Boggy Swamp First Tether -> Boggy Swamp First Bats Area",
@@ -5140,13 +4477,6 @@
       },
       "Boggy Swamp First Tether Rat Colony": {
         "name": "Boggy Swamp First Tether Rat Colony",
-        "entrances": [
-          {
-            "name": "Boggy Swamp First Tether -> Boggy Swamp First Tether Rat Colony",
-            "parent_region": "Boggy Swamp First Tether",
-            "connected_region": "Boggy Swamp First Tether Rat Colony"
-          }
-        ],
         "exits": [
           {
             "name": "Boggy Swamp First Tether Rat Colony -> Boggy Swamp First Tether",
@@ -5161,13 +4491,6 @@
       },
       "Boggy Swamp Second Jump Pad": {
         "name": "Boggy Swamp Second Jump Pad",
-        "entrances": [
-          {
-            "name": "Boggy Swamp First Tether -> Boggy Swamp Second Jump Pad",
-            "parent_region": "Boggy Swamp First Tether",
-            "connected_region": "Boggy Swamp Second Jump Pad"
-          }
-        ],
         "exits": [
           {
             "name": "Boggy Swamp Second Jump Pad -> Boggy Swamp First Tether",
@@ -5197,18 +4520,6 @@
       },
       "Boggy Swamp First Pole Course": {
         "name": "Boggy Swamp First Pole Course",
-        "entrances": [
-          {
-            "name": "Boggy Swamp First Tether -> Boggy Swamp First Pole Course",
-            "parent_region": "Boggy Swamp First Tether",
-            "connected_region": "Boggy Swamp First Pole Course"
-          },
-          {
-            "name": "Boggy Swamp Second Tether -> Boggy Swamp First Pole Course",
-            "parent_region": "Boggy Swamp Second Tether",
-            "connected_region": "Boggy Swamp First Pole Course"
-          }
-        ],
         "exits": [
           {
             "name": "Boggy Swamp First Pole Course -> Boggy Swamp First Tether",
@@ -5231,18 +4542,6 @@
       },
       "Boggy Swamp Second Tether": {
         "name": "Boggy Swamp Second Tether",
-        "entrances": [
-          {
-            "name": "Boggy Swamp First Pole Course -> Boggy Swamp Second Tether",
-            "parent_region": "Boggy Swamp First Pole Course",
-            "connected_region": "Boggy Swamp Second Tether"
-          },
-          {
-            "name": "Boggy Swamp Second Bats Area -> Boggy Swamp Second Tether",
-            "parent_region": "Boggy Swamp Second Bats Area",
-            "connected_region": "Boggy Swamp Second Tether"
-          }
-        ],
         "exits": [
           {
             "name": "Boggy Swamp Second Tether -> Boggy Swamp First Pole Course",
@@ -5406,28 +4705,6 @@
       },
       "Boggy Swamp Second Bats Area": {
         "name": "Boggy Swamp Second Bats Area",
-        "entrances": [
-          {
-            "name": "Boggy Swamp Second Tether -> Boggy Swamp Second Bats Area",
-            "parent_region": "Boggy Swamp Second Tether",
-            "connected_region": "Boggy Swamp Second Bats Area"
-          },
-          {
-            "name": "Boggy Swamp Third Jump Pad (Arena) -> Boggy Swamp Second Bats Area",
-            "parent_region": "Boggy Swamp Third Jump Pad (Arena)",
-            "connected_region": "Boggy Swamp Second Bats Area"
-          },
-          {
-            "name": "Boggy Swamp Fourth Jump Pad (Third Tether) -> Boggy Swamp Second Bats Area",
-            "parent_region": "Boggy Swamp Fourth Jump Pad (Third Tether)",
-            "connected_region": "Boggy Swamp Second Bats Area"
-          },
-          {
-            "name": "Boggy Swamp Flut Flut Pad -> Boggy Swamp Second Bats Area",
-            "parent_region": "Boggy Swamp Flut Flut Pad",
-            "connected_region": "Boggy Swamp Second Bats Area"
-          }
-        ],
         "exits": [
           {
             "name": "Boggy Swamp Second Bats Area -> Boggy Swamp Second Tether",
@@ -5516,13 +4793,6 @@
       },
       "Boggy Swamp Third Jump Pad (Arena)": {
         "name": "Boggy Swamp Third Jump Pad (Arena)",
-        "entrances": [
-          {
-            "name": "Boggy Swamp Second Bats Area -> Boggy Swamp Third Jump Pad (Arena)",
-            "parent_region": "Boggy Swamp Second Bats Area",
-            "connected_region": "Boggy Swamp Third Jump Pad (Arena)"
-          }
-        ],
         "exits": [
           {
             "name": "Boggy Swamp Third Jump Pad (Arena) -> Boggy Swamp Second Bats Area",
@@ -5554,13 +4824,6 @@
       },
       "Boggy Swamp Fourth Jump Pad (Third Tether)": {
         "name": "Boggy Swamp Fourth Jump Pad (Third Tether)",
-        "entrances": [
-          {
-            "name": "Boggy Swamp Second Bats Area -> Boggy Swamp Fourth Jump Pad (Third Tether)",
-            "parent_region": "Boggy Swamp Second Bats Area",
-            "connected_region": "Boggy Swamp Fourth Jump Pad (Third Tether)"
-          }
-        ],
         "exits": [
           {
             "name": "Boggy Swamp Fourth Jump Pad (Third Tether) -> Boggy Swamp Second Bats Area",
@@ -5590,23 +4853,6 @@
       },
       "Boggy Swamp Flut Flut Pad": {
         "name": "Boggy Swamp Flut Flut Pad",
-        "entrances": [
-          {
-            "name": "Boggy Swamp Second Bats Area -> Boggy Swamp Flut Flut Pad",
-            "parent_region": "Boggy Swamp Second Bats Area",
-            "connected_region": "Boggy Swamp Flut Flut Pad"
-          },
-          {
-            "name": "Boggy Swamp Flut Flut Course -> Boggy Swamp Flut Flut Pad",
-            "parent_region": "Boggy Swamp Flut Flut Course",
-            "connected_region": "Boggy Swamp Flut Flut Pad"
-          },
-          {
-            "name": "Boggy Swamp Farthy's Snacks -> Boggy Swamp Flut Flut Pad",
-            "parent_region": "Boggy Swamp Farthy's Snacks",
-            "connected_region": "Boggy Swamp Flut Flut Pad"
-          }
-        ],
         "exits": [
           {
             "name": "Boggy Swamp Flut Flut Pad -> Boggy Swamp Second Bats Area",
@@ -5640,13 +4886,6 @@
       },
       "Boggy Swamp Flut Flut Course": {
         "name": "Boggy Swamp Flut Flut Course",
-        "entrances": [
-          {
-            "name": "Boggy Swamp Flut Flut Pad -> Boggy Swamp Flut Flut Course",
-            "parent_region": "Boggy Swamp Flut Flut Pad",
-            "connected_region": "Boggy Swamp Flut Flut Course"
-          }
-        ],
         "exits": [
           {
             "name": "Boggy Swamp Flut Flut Course -> Boggy Swamp Flut Flut Pad",
@@ -5704,18 +4943,6 @@
       },
       "Boggy Swamp Farthy's Snacks": {
         "name": "Boggy Swamp Farthy's Snacks",
-        "entrances": [
-          {
-            "name": "Boggy Swamp Flut Flut Pad -> Boggy Swamp Farthy's Snacks",
-            "parent_region": "Boggy Swamp Flut Flut Pad",
-            "connected_region": "Boggy Swamp Farthy's Snacks"
-          },
-          {
-            "name": "Boggy Swamp Field of Boxes -> Boggy Swamp Farthy's Snacks",
-            "parent_region": "Boggy Swamp Field of Boxes",
-            "connected_region": "Boggy Swamp Farthy's Snacks"
-          }
-        ],
         "exits": [
           {
             "name": "Boggy Swamp Farthy's Snacks -> Boggy Swamp Flut Flut Pad",
@@ -5816,18 +5043,6 @@
       },
       "Boggy Swamp Field of Boxes": {
         "name": "Boggy Swamp Field of Boxes",
-        "entrances": [
-          {
-            "name": "Boggy Swamp Farthy's Snacks -> Boggy Swamp Field of Boxes",
-            "parent_region": "Boggy Swamp Farthy's Snacks",
-            "connected_region": "Boggy Swamp Field of Boxes"
-          },
-          {
-            "name": "Boggy Swamp Last Tar Pit -> Boggy Swamp Field of Boxes",
-            "parent_region": "Boggy Swamp Last Tar Pit",
-            "connected_region": "Boggy Swamp Field of Boxes"
-          }
-        ],
         "exits": [
           {
             "name": "Boggy Swamp Field of Boxes -> Boggy Swamp Farthy's Snacks",
@@ -5963,18 +5178,6 @@
       },
       "Boggy Swamp Last Tar Pit": {
         "name": "Boggy Swamp Last Tar Pit",
-        "entrances": [
-          {
-            "name": "Boggy Swamp Field of Boxes -> Boggy Swamp Last Tar Pit",
-            "parent_region": "Boggy Swamp Field of Boxes",
-            "connected_region": "Boggy Swamp Last Tar Pit"
-          },
-          {
-            "name": "Boggy Swamp Fourth Tether -> Boggy Swamp Last Tar Pit",
-            "parent_region": "Boggy Swamp Fourth Tether",
-            "connected_region": "Boggy Swamp Last Tar Pit"
-          }
-        ],
         "exits": [
           {
             "name": "Boggy Swamp Last Tar Pit -> Boggy Swamp Field of Boxes",
@@ -6067,13 +5270,6 @@
       },
       "Boggy Swamp Fourth Tether": {
         "name": "Boggy Swamp Fourth Tether",
-        "entrances": [
-          {
-            "name": "Boggy Swamp Last Tar Pit -> Boggy Swamp Fourth Tether",
-            "parent_region": "Boggy Swamp Last Tar Pit",
-            "connected_region": "Boggy Swamp Fourth Tether"
-          }
-        ],
         "exits": [
           {
             "name": "Boggy Swamp Fourth Tether -> Boggy Swamp Last Tar Pit",
@@ -6209,18 +5405,6 @@
       },
       "Mountain Pass Main Area": {
         "name": "Mountain Pass Main Area",
-        "entrances": [
-          {
-            "name": "Mountain Pass Race -> Mountain Pass Main Area",
-            "parent_region": "Mountain Pass Race",
-            "connected_region": "Mountain Pass Main Area"
-          },
-          {
-            "name": "Rock Village Klaww's Cliff -> Mountain Pass Main Area",
-            "parent_region": "Rock Village Klaww's Cliff",
-            "connected_region": "Mountain Pass Main Area"
-          }
-        ],
         "exits": [
           {
             "name": "Mountain Pass Main Area -> Mountain Pass Race",
@@ -6256,18 +5440,6 @@
       },
       "Mountain Pass Race": {
         "name": "Mountain Pass Race",
-        "entrances": [
-          {
-            "name": "Mountain Pass Main Area -> Mountain Pass Race",
-            "parent_region": "Mountain Pass Main Area",
-            "connected_region": "Mountain Pass Race"
-          },
-          {
-            "name": "Mountain Pass Shortcut -> Mountain Pass Race",
-            "parent_region": "Mountain Pass Shortcut",
-            "connected_region": "Mountain Pass Race"
-          }
-        ],
         "exits": [
           {
             "name": "Mountain Pass Race -> Mountain Pass Main Area",
@@ -6414,13 +5586,6 @@
       },
       "Mountain Pass Shortcut": {
         "name": "Mountain Pass Shortcut",
-        "entrances": [
-          {
-            "name": "Mountain Pass Race -> Mountain Pass Shortcut",
-            "parent_region": "Mountain Pass Race",
-            "connected_region": "Mountain Pass Shortcut"
-          }
-        ],
         "exits": [
           {
             "name": "Mountain Pass Shortcut -> Mountain Pass Race",
@@ -6450,13 +5615,6 @@
       },
       "Volcanic Crater Main Area": {
         "name": "Volcanic Crater Main Area",
-        "entrances": [
-          {
-            "name": "Mountain Pass Race -> Volcanic Crater Main Area",
-            "parent_region": "Mountain Pass Race",
-            "connected_region": "Volcanic Crater Main Area"
-          }
-        ],
         "exits": [
           {
             "name": "Volcanic Crater Main Area -> Spider Cave Main Area",
@@ -6848,23 +6006,6 @@
       },
       "Spider Cave Main Area": {
         "name": "Spider Cave Main Area",
-        "entrances": [
-          {
-            "name": "Spider Cave Robot Cave -> Spider Cave Main Area",
-            "parent_region": "Spider Cave Robot Cave",
-            "connected_region": "Spider Cave Main Area"
-          },
-          {
-            "name": "Spider Cave Spider Tunnel -> Spider Cave Main Area",
-            "parent_region": "Spider Cave Spider Tunnel",
-            "connected_region": "Spider Cave Main Area"
-          },
-          {
-            "name": "Volcanic Crater Main Area -> Spider Cave Main Area",
-            "parent_region": "Volcanic Crater Main Area",
-            "connected_region": "Spider Cave Main Area"
-          }
-        ],
         "exits": [
           {
             "name": "Spider Cave Main Area -> Spider Cave Dark Crystals",
@@ -7012,13 +6153,6 @@
       },
       "Spider Cave Dark Crystals": {
         "name": "Spider Cave Dark Crystals",
-        "entrances": [
-          {
-            "name": "Spider Cave Main Area -> Spider Cave Dark Crystals",
-            "parent_region": "Spider Cave Main Area",
-            "connected_region": "Spider Cave Dark Crystals"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7059,13 +6193,6 @@
       },
       "Spider Cave Dark Cave": {
         "name": "Spider Cave Dark Cave",
-        "entrances": [
-          {
-            "name": "Spider Cave Main Area -> Spider Cave Dark Cave",
-            "parent_region": "Spider Cave Main Area",
-            "connected_region": "Spider Cave Dark Cave"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7102,38 +6229,6 @@
       },
       "Spider Cave Robot Cave": {
         "name": "Spider Cave Robot Cave",
-        "entrances": [
-          {
-            "name": "Spider Cave Main Area -> Spider Cave Robot Cave",
-            "parent_region": "Spider Cave Main Area",
-            "connected_region": "Spider Cave Robot Cave"
-          },
-          {
-            "name": "Spider Cave Pole Course -> Spider Cave Robot Cave",
-            "parent_region": "Spider Cave Pole Course",
-            "connected_region": "Spider Cave Robot Cave"
-          },
-          {
-            "name": "Spider Cave Robot Scaffolding Level 1 -> Spider Cave Robot Cave",
-            "parent_region": "Spider Cave Robot Scaffolding Level 1",
-            "connected_region": "Spider Cave Robot Cave"
-          },
-          {
-            "name": "Spider Cave Robot Scaffolding Level 2 -> Spider Cave Robot Cave",
-            "parent_region": "Spider Cave Robot Scaffolding Level 2",
-            "connected_region": "Spider Cave Robot Cave"
-          },
-          {
-            "name": "Spider Cave Robot Scaffolding Level 3 -> Spider Cave Robot Cave",
-            "parent_region": "Spider Cave Robot Scaffolding Level 3",
-            "connected_region": "Spider Cave Robot Cave"
-          },
-          {
-            "name": "Spider Cave Spider Tunnel -> Spider Cave Robot Cave",
-            "parent_region": "Spider Cave Spider Tunnel",
-            "connected_region": "Spider Cave Robot Cave"
-          }
-        ],
         "exits": [
           {
             "name": "Spider Cave Robot Cave -> Spider Cave Main Area",
@@ -7172,13 +6267,6 @@
       },
       "Spider Cave Robot Scaffolding Level 0": {
         "name": "Spider Cave Robot Scaffolding Level 0",
-        "entrances": [
-          {
-            "name": "Spider Cave Robot Scaffolding Level 1 -> Spider Cave Robot Scaffolding Level 0",
-            "parent_region": "Spider Cave Robot Scaffolding Level 1",
-            "connected_region": "Spider Cave Robot Scaffolding Level 0"
-          }
-        ],
         "exits": [
           {
             "name": "Spider Cave Robot Scaffolding Level 0 -> Spider Cave Robot Scaffolding Level 1",
@@ -7193,23 +6281,6 @@
       },
       "Spider Cave Robot Scaffolding Level 1": {
         "name": "Spider Cave Robot Scaffolding Level 1",
-        "entrances": [
-          {
-            "name": "Spider Cave Robot Cave -> Spider Cave Robot Scaffolding Level 1",
-            "parent_region": "Spider Cave Robot Cave",
-            "connected_region": "Spider Cave Robot Scaffolding Level 1"
-          },
-          {
-            "name": "Spider Cave Robot Scaffolding Level 0 -> Spider Cave Robot Scaffolding Level 1",
-            "parent_region": "Spider Cave Robot Scaffolding Level 0",
-            "connected_region": "Spider Cave Robot Scaffolding Level 1"
-          },
-          {
-            "name": "Spider Cave Robot Scaffolding Level 2 -> Spider Cave Robot Scaffolding Level 1",
-            "parent_region": "Spider Cave Robot Scaffolding Level 2",
-            "connected_region": "Spider Cave Robot Scaffolding Level 1"
-          }
-        ],
         "exits": [
           {
             "name": "Spider Cave Robot Scaffolding Level 1 -> Spider Cave Robot Cave",
@@ -7266,18 +6337,6 @@
       },
       "Spider Cave Robot Scaffolding Level 2": {
         "name": "Spider Cave Robot Scaffolding Level 2",
-        "entrances": [
-          {
-            "name": "Spider Cave Robot Scaffolding Level 1 -> Spider Cave Robot Scaffolding Level 2",
-            "parent_region": "Spider Cave Robot Scaffolding Level 1",
-            "connected_region": "Spider Cave Robot Scaffolding Level 2"
-          },
-          {
-            "name": "Spider Cave Robot Scaffolding Level 3 -> Spider Cave Robot Scaffolding Level 2",
-            "parent_region": "Spider Cave Robot Scaffolding Level 3",
-            "connected_region": "Spider Cave Robot Scaffolding Level 2"
-          }
-        ],
         "exits": [
           {
             "name": "Spider Cave Robot Scaffolding Level 2 -> Spider Cave Robot Cave",
@@ -7310,13 +6369,6 @@
       },
       "Spider Cave Robot Scaffolding Level 3": {
         "name": "Spider Cave Robot Scaffolding Level 3",
-        "entrances": [
-          {
-            "name": "Spider Cave Robot Scaffolding Level 2 -> Spider Cave Robot Scaffolding Level 3",
-            "parent_region": "Spider Cave Robot Scaffolding Level 2",
-            "connected_region": "Spider Cave Robot Scaffolding Level 3"
-          }
-        ],
         "exits": [
           {
             "name": "Spider Cave Robot Scaffolding Level 3 -> Spider Cave Robot Cave",
@@ -7368,13 +6420,6 @@
       },
       "Spider Cave Pole Course": {
         "name": "Spider Cave Pole Course",
-        "entrances": [
-          {
-            "name": "Spider Cave Robot Cave -> Spider Cave Pole Course",
-            "parent_region": "Spider Cave Robot Cave",
-            "connected_region": "Spider Cave Pole Course"
-          }
-        ],
         "exits": [
           {
             "name": "Spider Cave Pole Course -> Spider Cave Robot Cave",
@@ -7404,13 +6449,6 @@
       },
       "Spider Cave Spider Tunnel": {
         "name": "Spider Cave Spider Tunnel",
-        "entrances": [
-          {
-            "name": "Spider Cave Robot Cave -> Spider Cave Spider Tunnel",
-            "parent_region": "Spider Cave Robot Cave",
-            "connected_region": "Spider Cave Spider Tunnel"
-          }
-        ],
         "exits": [
           {
             "name": "Spider Cave Spider Tunnel -> Spider Cave Robot Cave",
@@ -7459,30 +6497,11 @@
       },
       "Spider Cave Spider Tunnel Orb Crates": {
         "name": "Spider Cave Spider Tunnel Orb Crates",
-        "entrances": [
-          {
-            "name": "Spider Cave Spider Tunnel -> Spider Cave Spider Tunnel Orb Crates",
-            "parent_region": "Spider Cave Spider Tunnel",
-            "connected_region": "Spider Cave Spider Tunnel Orb Crates"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Snowy Mountain Main Area": {
         "name": "Snowy Mountain Main Area",
-        "entrances": [
-          {
-            "name": "Snowy Mountain Snowball Canyon -> Snowy Mountain Main Area",
-            "parent_region": "Snowy Mountain Snowball Canyon",
-            "connected_region": "Snowy Mountain Main Area"
-          },
-          {
-            "name": "Volcanic Crater Main Area -> Snowy Mountain Main Area",
-            "parent_region": "Volcanic Crater Main Area",
-            "connected_region": "Snowy Mountain Main Area"
-          }
-        ],
         "exits": [
           {
             "name": "Snowy Mountain Main Area -> Snowy Mountain Precursor Blockers",
@@ -7619,13 +6638,6 @@
       },
       "Snowy Mountain Glacier Lurkers": {
         "name": "Snowy Mountain Glacier Lurkers",
-        "entrances": [
-          {
-            "name": "Snowy Mountain Main Area -> Snowy Mountain Glacier Lurkers",
-            "parent_region": "Snowy Mountain Main Area",
-            "connected_region": "Snowy Mountain Glacier Lurkers"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7692,13 +6704,6 @@
       },
       "Snowy Mountain Precursor Blockers": {
         "name": "Snowy Mountain Precursor Blockers",
-        "entrances": [
-          {
-            "name": "Snowy Mountain Main Area -> Snowy Mountain Precursor Blockers",
-            "parent_region": "Snowy Mountain Main Area",
-            "connected_region": "Snowy Mountain Precursor Blockers"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7765,23 +6770,6 @@
       },
       "Snowy Mountain Snowball Canyon": {
         "name": "Snowy Mountain Snowball Canyon",
-        "entrances": [
-          {
-            "name": "Snowy Mountain Main Area -> Snowy Mountain Snowball Canyon",
-            "parent_region": "Snowy Mountain Main Area",
-            "connected_region": "Snowy Mountain Snowball Canyon"
-          },
-          {
-            "name": "Snowy Mountain Frozen Box Cave -> Snowy Mountain Snowball Canyon",
-            "parent_region": "Snowy Mountain Frozen Box Cave",
-            "connected_region": "Snowy Mountain Snowball Canyon"
-          },
-          {
-            "name": "Snowy Mountain Fort Exterior -> Snowy Mountain Snowball Canyon",
-            "parent_region": "Snowy Mountain Fort Exterior",
-            "connected_region": "Snowy Mountain Snowball Canyon"
-          }
-        ],
         "exits": [
           {
             "name": "Snowy Mountain Snowball Canyon -> Snowy Mountain Main Area",
@@ -7855,23 +6843,6 @@
       },
       "Snowy Mountain Frozen Box Cave": {
         "name": "Snowy Mountain Frozen Box Cave",
-        "entrances": [
-          {
-            "name": "Snowy Mountain Snowball Canyon -> Snowy Mountain Frozen Box Cave",
-            "parent_region": "Snowy Mountain Snowball Canyon",
-            "connected_region": "Snowy Mountain Frozen Box Cave"
-          },
-          {
-            "name": "Snowy Mountain Frozen Box Cave Orb Crates -> Snowy Mountain Frozen Box Cave",
-            "parent_region": "Snowy Mountain Frozen Box Cave Orb Crates",
-            "connected_region": "Snowy Mountain Frozen Box Cave"
-          },
-          {
-            "name": "Snowy Mountain Ice Skating Rink -> Snowy Mountain Frozen Box Cave",
-            "parent_region": "Snowy Mountain Ice Skating Rink",
-            "connected_region": "Snowy Mountain Frozen Box Cave"
-          }
-        ],
         "exits": [
           {
             "name": "Snowy Mountain Frozen Box Cave -> Snowy Mountain Snowball Canyon",
@@ -8004,13 +6975,6 @@
       },
       "Snowy Mountain Frozen Box Cave Orb Crates": {
         "name": "Snowy Mountain Frozen Box Cave Orb Crates",
-        "entrances": [
-          {
-            "name": "Snowy Mountain Frozen Box Cave -> Snowy Mountain Frozen Box Cave Orb Crates",
-            "parent_region": "Snowy Mountain Frozen Box Cave",
-            "connected_region": "Snowy Mountain Frozen Box Cave Orb Crates"
-          }
-        ],
         "exits": [
           {
             "name": "Snowy Mountain Frozen Box Cave Orb Crates -> Snowy Mountain Frozen Box Cave",
@@ -8043,18 +7007,6 @@
       },
       "Snowy Mountain Ice Skating Rink": {
         "name": "Snowy Mountain Ice Skating Rink",
-        "entrances": [
-          {
-            "name": "Snowy Mountain Frozen Box Cave -> Snowy Mountain Ice Skating Rink",
-            "parent_region": "Snowy Mountain Frozen Box Cave",
-            "connected_region": "Snowy Mountain Ice Skating Rink"
-          },
-          {
-            "name": "Snowy Mountain Fort Exterior -> Snowy Mountain Ice Skating Rink",
-            "parent_region": "Snowy Mountain Fort Exterior",
-            "connected_region": "Snowy Mountain Ice Skating Rink"
-          }
-        ],
         "exits": [
           {
             "name": "Snowy Mountain Ice Skating Rink -> Snowy Mountain Frozen Box Cave",
@@ -8140,13 +7092,6 @@
       },
       "Snowy Mountain Flut Flut Course": {
         "name": "Snowy Mountain Flut Flut Course",
-        "entrances": [
-          {
-            "name": "Snowy Mountain Ice Skating Rink -> Snowy Mountain Flut Flut Course",
-            "parent_region": "Snowy Mountain Ice Skating Rink",
-            "connected_region": "Snowy Mountain Flut Flut Course"
-          }
-        ],
         "exits": [
           {
             "name": "Snowy Mountain Flut Flut Course -> Snowy Mountain Fort Exterior",
@@ -8196,33 +7141,6 @@
       },
       "Snowy Mountain Fort Exterior": {
         "name": "Snowy Mountain Fort Exterior",
-        "entrances": [
-          {
-            "name": "Snowy Mountain Snowball Canyon -> Snowy Mountain Fort Exterior",
-            "parent_region": "Snowy Mountain Snowball Canyon",
-            "connected_region": "Snowy Mountain Fort Exterior"
-          },
-          {
-            "name": "Snowy Mountain Ice Skating Rink -> Snowy Mountain Fort Exterior",
-            "parent_region": "Snowy Mountain Ice Skating Rink",
-            "connected_region": "Snowy Mountain Fort Exterior"
-          },
-          {
-            "name": "Snowy Mountain Flut Flut Course -> Snowy Mountain Fort Exterior",
-            "parent_region": "Snowy Mountain Flut Flut Course",
-            "connected_region": "Snowy Mountain Fort Exterior"
-          },
-          {
-            "name": "Snowy Mountain Yellow Eco Switch Cave -> Snowy Mountain Fort Exterior",
-            "parent_region": "Snowy Mountain Yellow Eco Switch Cave",
-            "connected_region": "Snowy Mountain Fort Exterior"
-          },
-          {
-            "name": "Snowy Mountain Bunny Cave (End) -> Snowy Mountain Fort Exterior",
-            "parent_region": "Snowy Mountain Bunny Cave (End)",
-            "connected_region": "Snowy Mountain Fort Exterior"
-          }
-        ],
         "exits": [
           {
             "name": "Snowy Mountain Fort Exterior -> Snowy Mountain Ice Skating Rink",
@@ -8392,18 +7310,6 @@
       },
       "Snowy Mountain Bunny Cave (Start)": {
         "name": "Snowy Mountain Bunny Cave (Start)",
-        "entrances": [
-          {
-            "name": "Snowy Mountain Snowball Canyon -> Snowy Mountain Bunny Cave (Start)",
-            "parent_region": "Snowy Mountain Snowball Canyon",
-            "connected_region": "Snowy Mountain Bunny Cave (Start)"
-          },
-          {
-            "name": "Snowy Mountain Fort Exterior -> Snowy Mountain Bunny Cave (Start)",
-            "parent_region": "Snowy Mountain Fort Exterior",
-            "connected_region": "Snowy Mountain Bunny Cave (Start)"
-          }
-        ],
         "exits": [
           {
             "name": "Snowy Mountain Bunny Cave (Start) -> Snowy Mountain Bunny Cave (End)",
@@ -8450,13 +7356,6 @@
       },
       "Snowy Mountain Bunny Cave (End)": {
         "name": "Snowy Mountain Bunny Cave (End)",
-        "entrances": [
-          {
-            "name": "Snowy Mountain Bunny Cave (Start) -> Snowy Mountain Bunny Cave (End)",
-            "parent_region": "Snowy Mountain Bunny Cave (Start)",
-            "connected_region": "Snowy Mountain Bunny Cave (End)"
-          }
-        ],
         "exits": [
           {
             "name": "Snowy Mountain Bunny Cave (End) -> Snowy Mountain Fort Exterior",
@@ -8486,13 +7385,6 @@
       },
       "Snowy Mountain Yellow Eco Switch Cave": {
         "name": "Snowy Mountain Yellow Eco Switch Cave",
-        "entrances": [
-          {
-            "name": "Snowy Mountain Fort Exterior -> Snowy Mountain Yellow Eco Switch Cave",
-            "parent_region": "Snowy Mountain Fort Exterior",
-            "connected_region": "Snowy Mountain Yellow Eco Switch Cave"
-          }
-        ],
         "exits": [
           {
             "name": "Snowy Mountain Yellow Eco Switch Cave -> Snowy Mountain Fort Exterior",
@@ -8536,28 +7428,6 @@
       },
       "Snowy Mountain Fort Interior (Main)": {
         "name": "Snowy Mountain Fort Interior (Main)",
-        "entrances": [
-          {
-            "name": "Snowy Mountain Fort Exterior -> Snowy Mountain Fort Interior (Main)",
-            "parent_region": "Snowy Mountain Fort Exterior",
-            "connected_region": "Snowy Mountain Fort Interior (Main)"
-          },
-          {
-            "name": "Snowy Mountain Fort Interior (Caches) -> Snowy Mountain Fort Interior (Main)",
-            "parent_region": "Snowy Mountain Fort Interior (Caches)",
-            "connected_region": "Snowy Mountain Fort Interior (Main)"
-          },
-          {
-            "name": "Snowy Mountain Fort Interior (Base) -> Snowy Mountain Fort Interior (Main)",
-            "parent_region": "Snowy Mountain Fort Interior (Base)",
-            "connected_region": "Snowy Mountain Fort Interior (Main)"
-          },
-          {
-            "name": "Snowy Mountain Fort Interior (Course End) -> Snowy Mountain Fort Interior (Main)",
-            "parent_region": "Snowy Mountain Fort Interior (Course End)",
-            "connected_region": "Snowy Mountain Fort Interior (Main)"
-          }
-        ],
         "exits": [
           {
             "name": "Snowy Mountain Fort Interior (Main) -> Snowy Mountain Fort Interior (Caches)",
@@ -8657,13 +7527,6 @@
       },
       "Snowy Mountain Fort Interior (Caches)": {
         "name": "Snowy Mountain Fort Interior (Caches)",
-        "entrances": [
-          {
-            "name": "Snowy Mountain Fort Interior (Main) -> Snowy Mountain Fort Interior (Caches)",
-            "parent_region": "Snowy Mountain Fort Interior (Main)",
-            "connected_region": "Snowy Mountain Fort Interior (Caches)"
-          }
-        ],
         "exits": [
           {
             "name": "Snowy Mountain Fort Interior (Caches) -> Snowy Mountain Fort Interior (Main)",
@@ -8735,13 +7598,6 @@
       },
       "Snowy Mountain Fort Interior (Base)": {
         "name": "Snowy Mountain Fort Interior (Base)",
-        "entrances": [
-          {
-            "name": "Snowy Mountain Fort Interior (Main) -> Snowy Mountain Fort Interior (Base)",
-            "parent_region": "Snowy Mountain Fort Interior (Main)",
-            "connected_region": "Snowy Mountain Fort Interior (Base)"
-          }
-        ],
         "exits": [
           {
             "name": "Snowy Mountain Fort Interior (Base) -> Snowy Mountain Fort Interior (Main)",
@@ -8773,13 +7629,6 @@
       },
       "Snowy Mountain Fort Interior (Course End)": {
         "name": "Snowy Mountain Fort Interior (Course End)",
-        "entrances": [
-          {
-            "name": "Snowy Mountain Fort Interior (Main) -> Snowy Mountain Fort Interior (Course End)",
-            "parent_region": "Snowy Mountain Fort Interior (Main)",
-            "connected_region": "Snowy Mountain Fort Interior (Course End)"
-          }
-        ],
         "exits": [
           {
             "name": "Snowy Mountain Fort Interior (Course End) -> Snowy Mountain Fort Interior (Main)",
@@ -8809,13 +7658,6 @@
       },
       "Lava Tube Main Area": {
         "name": "Lava Tube Main Area",
-        "entrances": [
-          {
-            "name": "Volcanic Crater Main Area -> Lava Tube Main Area",
-            "parent_region": "Volcanic Crater Main Area",
-            "connected_region": "Lava Tube Main Area"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Tube Main Area -> Gol and Maia's Citadel Main Area",
@@ -8943,28 +7785,6 @@
       },
       "Gol and Maia's Citadel Main Area": {
         "name": "Gol and Maia's Citadel Main Area",
-        "entrances": [
-          {
-            "name": "Gol and Maia's Citadel Scaffolding Around Robot -> Gol and Maia's Citadel Main Area",
-            "parent_region": "Gol and Maia's Citadel Scaffolding Around Robot",
-            "connected_region": "Gol and Maia's Citadel Main Area"
-          },
-          {
-            "name": "Gol and Maia's Citadel Jump Pad Chamber -> Gol and Maia's Citadel Main Area",
-            "parent_region": "Gol and Maia's Citadel Jump Pad Chamber",
-            "connected_region": "Gol and Maia's Citadel Main Area"
-          },
-          {
-            "name": "Gol and Maia's Citadel Rotating Tower -> Gol and Maia's Citadel Main Area",
-            "parent_region": "Gol and Maia's Citadel Rotating Tower",
-            "connected_region": "Gol and Maia's Citadel Main Area"
-          },
-          {
-            "name": "Lava Tube Main Area -> Gol and Maia's Citadel Main Area",
-            "parent_region": "Lava Tube Main Area",
-            "connected_region": "Gol and Maia's Citadel Main Area"
-          }
-        ],
         "exits": [
           {
             "name": "Gol and Maia's Citadel Main Area -> Gol and Maia's Citadel Scaffolding Around Robot",
@@ -9025,28 +7845,6 @@
       },
       "Gol and Maia's Citadel Scaffolding Around Robot": {
         "name": "Gol and Maia's Citadel Scaffolding Around Robot",
-        "entrances": [
-          {
-            "name": "Gol and Maia's Citadel Main Area -> Gol and Maia's Citadel Scaffolding Around Robot",
-            "parent_region": "Gol and Maia's Citadel Main Area",
-            "connected_region": "Gol and Maia's Citadel Scaffolding Around Robot"
-          },
-          {
-            "name": "Gol and Maia's Citadel Jump Pad Chamber -> Gol and Maia's Citadel Scaffolding Around Robot",
-            "parent_region": "Gol and Maia's Citadel Jump Pad Chamber",
-            "connected_region": "Gol and Maia's Citadel Scaffolding Around Robot"
-          },
-          {
-            "name": "Gol and Maia's Citadel Blast Furnace -> Gol and Maia's Citadel Scaffolding Around Robot",
-            "parent_region": "Gol and Maia's Citadel Blast Furnace",
-            "connected_region": "Gol and Maia's Citadel Scaffolding Around Robot"
-          },
-          {
-            "name": "Gol and Maia's Citadel Bunny Chamber -> Gol and Maia's Citadel Scaffolding Around Robot",
-            "parent_region": "Gol and Maia's Citadel Bunny Chamber",
-            "connected_region": "Gol and Maia's Citadel Scaffolding Around Robot"
-          }
-        ],
         "exits": [
           {
             "name": "Gol and Maia's Citadel Scaffolding Around Robot -> Gol and Maia's Citadel Main Area",
@@ -9345,13 +8143,6 @@
       },
       "Gol and Maia's Citadel Jump Pad Chamber": {
         "name": "Gol and Maia's Citadel Jump Pad Chamber",
-        "entrances": [
-          {
-            "name": "Gol and Maia's Citadel Main Area -> Gol and Maia's Citadel Jump Pad Chamber",
-            "parent_region": "Gol and Maia's Citadel Main Area",
-            "connected_region": "Gol and Maia's Citadel Jump Pad Chamber"
-          }
-        ],
         "exits": [
           {
             "name": "Gol and Maia's Citadel Jump Pad Chamber -> Gol and Maia's Citadel Main Area",
@@ -9552,13 +8343,6 @@
       },
       "Gol and Maia's Citadel Blast Furnace": {
         "name": "Gol and Maia's Citadel Blast Furnace",
-        "entrances": [
-          {
-            "name": "Gol and Maia's Citadel Scaffolding Around Robot -> Gol and Maia's Citadel Blast Furnace",
-            "parent_region": "Gol and Maia's Citadel Scaffolding Around Robot",
-            "connected_region": "Gol and Maia's Citadel Blast Furnace"
-          }
-        ],
         "exits": [
           {
             "name": "Gol and Maia's Citadel Blast Furnace -> Gol and Maia's Citadel Scaffolding Around Robot",
@@ -9634,13 +8418,6 @@
       },
       "Gol and Maia's Citadel Bunny Chamber": {
         "name": "Gol and Maia's Citadel Bunny Chamber",
-        "entrances": [
-          {
-            "name": "Gol and Maia's Citadel Scaffolding Around Robot -> Gol and Maia's Citadel Bunny Chamber",
-            "parent_region": "Gol and Maia's Citadel Scaffolding Around Robot",
-            "connected_region": "Gol and Maia's Citadel Bunny Chamber"
-          }
-        ],
         "exits": [
           {
             "name": "Gol and Maia's Citadel Bunny Chamber -> Gol and Maia's Citadel Scaffolding Around Robot",
@@ -9769,18 +8546,6 @@
       },
       "Gol and Maia's Citadel Rotating Tower": {
         "name": "Gol and Maia's Citadel Rotating Tower",
-        "entrances": [
-          {
-            "name": "Gol and Maia's Citadel Scaffolding Around Robot -> Gol and Maia's Citadel Rotating Tower",
-            "parent_region": "Gol and Maia's Citadel Scaffolding Around Robot",
-            "connected_region": "Gol and Maia's Citadel Rotating Tower"
-          },
-          {
-            "name": "Gol and Maia's Citadel Final Boss -> Gol and Maia's Citadel Rotating Tower",
-            "parent_region": "Gol and Maia's Citadel Final Boss",
-            "connected_region": "Gol and Maia's Citadel Rotating Tower"
-          }
-        ],
         "exits": [
           {
             "name": "Gol and Maia's Citadel Rotating Tower -> Gol and Maia's Citadel Main Area",
@@ -9866,13 +8631,6 @@
       },
       "Gol and Maia's Citadel Final Boss": {
         "name": "Gol and Maia's Citadel Final Boss",
-        "entrances": [
-          {
-            "name": "Gol and Maia's Citadel Rotating Tower -> Gol and Maia's Citadel Final Boss",
-            "parent_region": "Gol and Maia's Citadel Rotating Tower",
-            "connected_region": "Gol and Maia's Citadel Final Boss"
-          }
-        ],
         "exits": [
           {
             "name": "Gol and Maia's Citadel Final Boss -> Gol and Maia's Citadel Rotating Tower",

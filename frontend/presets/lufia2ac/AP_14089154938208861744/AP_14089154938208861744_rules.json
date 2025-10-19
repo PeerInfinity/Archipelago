@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "AncientDungeonEntrance",
@@ -29,13 +28,6 @@
       },
       "AncientDungeon": {
         "name": "AncientDungeon",
-        "entrances": [
-          {
-            "name": "AncientDungeonEntrance",
-            "parent_region": "Menu",
-            "connected_region": "AncientDungeon"
-          }
-        ],
         "exits": [
           {
             "name": "FinalFloorEntrance",
@@ -814,13 +806,6 @@
       },
       "FinalFloor": {
         "name": "FinalFloor",
-        "entrances": [
-          {
-            "name": "FinalFloorEntrance",
-            "parent_region": "AncientDungeon",
-            "connected_region": "FinalFloor"
-          }
-        ],
         "exits": [],
         "locations": [
           {

@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Menu -> Hub",
@@ -29,13 +28,6 @@
       },
       "Hub": {
         "name": "Hub",
-        "entrances": [
-          {
-            "name": "Menu -> Hub",
-            "parent_region": "Menu",
-            "connected_region": "Hub"
-          }
-        ],
         "exits": [
           {
             "name": "Hub -> The Docks (E1M1) Main",
@@ -1872,23 +1864,6 @@
       },
       "The Docks (E1M1) Main": {
         "name": "The Docks (E1M1) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Docks (E1M1) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Docks (E1M1) Main"
-          },
-          {
-            "name": "The Docks (E1M1) Yellow -> The Docks (E1M1) Main",
-            "parent_region": "The Docks (E1M1) Yellow",
-            "connected_region": "The Docks (E1M1) Main"
-          },
-          {
-            "name": "The Docks (E1M1) Sea -> The Docks (E1M1) Main",
-            "parent_region": "The Docks (E1M1) Sea",
-            "connected_region": "The Docks (E1M1) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Docks (E1M1) Main -> The Docks (E1M1) Yellow",
@@ -1939,13 +1914,6 @@
       },
       "The Docks (E1M1) Yellow": {
         "name": "The Docks (E1M1) Yellow",
-        "entrances": [
-          {
-            "name": "The Docks (E1M1) Main -> The Docks (E1M1) Yellow",
-            "parent_region": "The Docks (E1M1) Main",
-            "connected_region": "The Docks (E1M1) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Docks (E1M1) Yellow -> The Docks (E1M1) Main",
@@ -2025,13 +1993,6 @@
       },
       "The Docks (E1M1) Sea": {
         "name": "The Docks (E1M1) Sea",
-        "entrances": [
-          {
-            "name": "The Docks (E1M1) Yellow -> The Docks (E1M1) Sea",
-            "parent_region": "The Docks (E1M1) Yellow",
-            "connected_region": "The Docks (E1M1) Sea"
-          }
-        ],
         "exits": [
           {
             "name": "The Docks (E1M1) Sea -> The Docks (E1M1) Main",
@@ -2061,23 +2022,6 @@
       },
       "The Dungeons (E1M2) Main": {
         "name": "The Dungeons (E1M2) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Dungeons (E1M2) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Dungeons (E1M2) Main"
-          },
-          {
-            "name": "The Dungeons (E1M2) Yellow -> The Dungeons (E1M2) Main",
-            "parent_region": "The Dungeons (E1M2) Yellow",
-            "connected_region": "The Dungeons (E1M2) Main"
-          },
-          {
-            "name": "The Dungeons (E1M2) Green -> The Dungeons (E1M2) Main",
-            "parent_region": "The Dungeons (E1M2) Green",
-            "connected_region": "The Dungeons (E1M2) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Dungeons (E1M2) Main -> The Dungeons (E1M2) Yellow",
@@ -2185,13 +2129,6 @@
       },
       "The Dungeons (E1M2) Blue": {
         "name": "The Dungeons (E1M2) Blue",
-        "entrances": [
-          {
-            "name": "The Dungeons (E1M2) Yellow -> The Dungeons (E1M2) Blue",
-            "parent_region": "The Dungeons (E1M2) Yellow",
-            "connected_region": "The Dungeons (E1M2) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The Dungeons (E1M2) Blue -> The Dungeons (E1M2) Yellow",
@@ -2228,23 +2165,6 @@
       },
       "The Dungeons (E1M2) Yellow": {
         "name": "The Dungeons (E1M2) Yellow",
-        "entrances": [
-          {
-            "name": "The Dungeons (E1M2) Main -> The Dungeons (E1M2) Yellow",
-            "parent_region": "The Dungeons (E1M2) Main",
-            "connected_region": "The Dungeons (E1M2) Yellow"
-          },
-          {
-            "name": "The Dungeons (E1M2) Blue -> The Dungeons (E1M2) Yellow",
-            "parent_region": "The Dungeons (E1M2) Blue",
-            "connected_region": "The Dungeons (E1M2) Yellow"
-          },
-          {
-            "name": "The Dungeons (E1M2) Green -> The Dungeons (E1M2) Yellow",
-            "parent_region": "The Dungeons (E1M2) Green",
-            "connected_region": "The Dungeons (E1M2) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Dungeons (E1M2) Yellow -> The Dungeons (E1M2) Main",
@@ -2359,13 +2279,6 @@
       },
       "The Dungeons (E1M2) Green": {
         "name": "The Dungeons (E1M2) Green",
-        "entrances": [
-          {
-            "name": "The Dungeons (E1M2) Main -> The Dungeons (E1M2) Green",
-            "parent_region": "The Dungeons (E1M2) Main",
-            "connected_region": "The Dungeons (E1M2) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The Dungeons (E1M2) Green -> The Dungeons (E1M2) Main",
@@ -2417,28 +2330,6 @@
       },
       "The Gatehouse (E1M3) Main": {
         "name": "The Gatehouse (E1M3) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Gatehouse (E1M3) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Gatehouse (E1M3) Main"
-          },
-          {
-            "name": "The Gatehouse (E1M3) Yellow -> The Gatehouse (E1M3) Main",
-            "parent_region": "The Gatehouse (E1M3) Yellow",
-            "connected_region": "The Gatehouse (E1M3) Main"
-          },
-          {
-            "name": "The Gatehouse (E1M3) Green -> The Gatehouse (E1M3) Main",
-            "parent_region": "The Gatehouse (E1M3) Green",
-            "connected_region": "The Gatehouse (E1M3) Main"
-          },
-          {
-            "name": "The Gatehouse (E1M3) Sea -> The Gatehouse (E1M3) Main",
-            "parent_region": "The Gatehouse (E1M3) Sea",
-            "connected_region": "The Gatehouse (E1M3) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Gatehouse (E1M3) Main -> The Gatehouse (E1M3) Yellow",
@@ -2603,13 +2494,6 @@
       },
       "The Gatehouse (E1M3) Yellow": {
         "name": "The Gatehouse (E1M3) Yellow",
-        "entrances": [
-          {
-            "name": "The Gatehouse (E1M3) Main -> The Gatehouse (E1M3) Yellow",
-            "parent_region": "The Gatehouse (E1M3) Main",
-            "connected_region": "The Gatehouse (E1M3) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Gatehouse (E1M3) Yellow -> The Gatehouse (E1M3) Main",
@@ -2695,13 +2579,6 @@
       },
       "The Gatehouse (E1M3) Green": {
         "name": "The Gatehouse (E1M3) Green",
-        "entrances": [
-          {
-            "name": "The Gatehouse (E1M3) Main -> The Gatehouse (E1M3) Green",
-            "parent_region": "The Gatehouse (E1M3) Main",
-            "connected_region": "The Gatehouse (E1M3) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The Gatehouse (E1M3) Green -> The Gatehouse (E1M3) Main",
@@ -2738,13 +2615,6 @@
       },
       "The Gatehouse (E1M3) Sea": {
         "name": "The Gatehouse (E1M3) Sea",
-        "entrances": [
-          {
-            "name": "The Gatehouse (E1M3) Main -> The Gatehouse (E1M3) Sea",
-            "parent_region": "The Gatehouse (E1M3) Main",
-            "connected_region": "The Gatehouse (E1M3) Sea"
-          }
-        ],
         "exits": [
           {
             "name": "The Gatehouse (E1M3) Sea -> The Gatehouse (E1M3) Main",
@@ -2774,18 +2644,6 @@
       },
       "The Guard Tower (E1M4) Main": {
         "name": "The Guard Tower (E1M4) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Guard Tower (E1M4) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Guard Tower (E1M4) Main"
-          },
-          {
-            "name": "The Guard Tower (E1M4) Yellow -> The Guard Tower (E1M4) Main",
-            "parent_region": "The Guard Tower (E1M4) Yellow",
-            "connected_region": "The Guard Tower (E1M4) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Guard Tower (E1M4) Main -> The Guard Tower (E1M4) Yellow",
@@ -2934,18 +2792,6 @@
       },
       "The Guard Tower (E1M4) Yellow": {
         "name": "The Guard Tower (E1M4) Yellow",
-        "entrances": [
-          {
-            "name": "The Guard Tower (E1M4) Main -> The Guard Tower (E1M4) Yellow",
-            "parent_region": "The Guard Tower (E1M4) Main",
-            "connected_region": "The Guard Tower (E1M4) Yellow"
-          },
-          {
-            "name": "The Guard Tower (E1M4) Green -> The Guard Tower (E1M4) Yellow",
-            "parent_region": "The Guard Tower (E1M4) Green",
-            "connected_region": "The Guard Tower (E1M4) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Guard Tower (E1M4) Yellow -> The Guard Tower (E1M4) Green",
@@ -3018,13 +2864,6 @@
       },
       "The Guard Tower (E1M4) Green": {
         "name": "The Guard Tower (E1M4) Green",
-        "entrances": [
-          {
-            "name": "The Guard Tower (E1M4) Yellow -> The Guard Tower (E1M4) Green",
-            "parent_region": "The Guard Tower (E1M4) Yellow",
-            "connected_region": "The Guard Tower (E1M4) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The Guard Tower (E1M4) Green -> The Guard Tower (E1M4) Yellow",
@@ -3061,28 +2900,6 @@
       },
       "The Citadel (E1M5) Main": {
         "name": "The Citadel (E1M5) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Citadel (E1M5) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Citadel (E1M5) Main"
-          },
-          {
-            "name": "The Citadel (E1M5) Yellow -> The Citadel (E1M5) Main",
-            "parent_region": "The Citadel (E1M5) Yellow",
-            "connected_region": "The Citadel (E1M5) Main"
-          },
-          {
-            "name": "The Citadel (E1M5) Green -> The Citadel (E1M5) Main",
-            "parent_region": "The Citadel (E1M5) Green",
-            "connected_region": "The Citadel (E1M5) Main"
-          },
-          {
-            "name": "The Citadel (E1M5) Well -> The Citadel (E1M5) Main",
-            "parent_region": "The Citadel (E1M5) Well",
-            "connected_region": "The Citadel (E1M5) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Citadel (E1M5) Main -> The Citadel (E1M5) Yellow",
@@ -3161,13 +2978,6 @@
       },
       "The Citadel (E1M5) Blue": {
         "name": "The Citadel (E1M5) Blue",
-        "entrances": [
-          {
-            "name": "The Citadel (E1M5) Green -> The Citadel (E1M5) Blue",
-            "parent_region": "The Citadel (E1M5) Green",
-            "connected_region": "The Citadel (E1M5) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The Citadel (E1M5) Blue -> The Citadel (E1M5) Green",
@@ -3232,13 +3042,6 @@
       },
       "The Citadel (E1M5) Yellow": {
         "name": "The Citadel (E1M5) Yellow",
-        "entrances": [
-          {
-            "name": "The Citadel (E1M5) Main -> The Citadel (E1M5) Yellow",
-            "parent_region": "The Citadel (E1M5) Main",
-            "connected_region": "The Citadel (E1M5) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Citadel (E1M5) Yellow -> The Citadel (E1M5) Main",
@@ -3305,18 +3108,6 @@
       },
       "The Citadel (E1M5) Green": {
         "name": "The Citadel (E1M5) Green",
-        "entrances": [
-          {
-            "name": "The Citadel (E1M5) Blue -> The Citadel (E1M5) Green",
-            "parent_region": "The Citadel (E1M5) Blue",
-            "connected_region": "The Citadel (E1M5) Green"
-          },
-          {
-            "name": "The Citadel (E1M5) Yellow -> The Citadel (E1M5) Green",
-            "parent_region": "The Citadel (E1M5) Yellow",
-            "connected_region": "The Citadel (E1M5) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The Citadel (E1M5) Green -> The Citadel (E1M5) Main",
@@ -3481,18 +3272,6 @@
       },
       "The Citadel (E1M5) Well": {
         "name": "The Citadel (E1M5) Well",
-        "entrances": [
-          {
-            "name": "The Citadel (E1M5) Yellow -> The Citadel (E1M5) Well",
-            "parent_region": "The Citadel (E1M5) Yellow",
-            "connected_region": "The Citadel (E1M5) Well"
-          },
-          {
-            "name": "The Citadel (E1M5) Green -> The Citadel (E1M5) Well",
-            "parent_region": "The Citadel (E1M5) Green",
-            "connected_region": "The Citadel (E1M5) Well"
-          }
-        ],
         "exits": [
           {
             "name": "The Citadel (E1M5) Well -> The Citadel (E1M5) Main",
@@ -3522,23 +3301,6 @@
       },
       "The Cathedral (E1M6) Main": {
         "name": "The Cathedral (E1M6) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Cathedral (E1M6) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Cathedral (E1M6) Main"
-          },
-          {
-            "name": "The Cathedral (E1M6) Yellow -> The Cathedral (E1M6) Main",
-            "parent_region": "The Cathedral (E1M6) Yellow",
-            "connected_region": "The Cathedral (E1M6) Main"
-          },
-          {
-            "name": "The Cathedral (E1M6) Main Fly -> The Cathedral (E1M6) Main",
-            "parent_region": "The Cathedral (E1M6) Main Fly",
-            "connected_region": "The Cathedral (E1M6) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Cathedral (E1M6) Main -> The Cathedral (E1M6) Yellow",
@@ -3603,18 +3365,6 @@
       },
       "The Cathedral (E1M6) Yellow": {
         "name": "The Cathedral (E1M6) Yellow",
-        "entrances": [
-          {
-            "name": "The Cathedral (E1M6) Main -> The Cathedral (E1M6) Yellow",
-            "parent_region": "The Cathedral (E1M6) Main",
-            "connected_region": "The Cathedral (E1M6) Yellow"
-          },
-          {
-            "name": "The Cathedral (E1M6) Green -> The Cathedral (E1M6) Yellow",
-            "parent_region": "The Cathedral (E1M6) Green",
-            "connected_region": "The Cathedral (E1M6) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Cathedral (E1M6) Yellow -> The Cathedral (E1M6) Green",
@@ -3835,13 +3585,6 @@
       },
       "The Cathedral (E1M6) Green": {
         "name": "The Cathedral (E1M6) Green",
-        "entrances": [
-          {
-            "name": "The Cathedral (E1M6) Yellow -> The Cathedral (E1M6) Green",
-            "parent_region": "The Cathedral (E1M6) Yellow",
-            "connected_region": "The Cathedral (E1M6) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The Cathedral (E1M6) Green -> The Cathedral (E1M6) Yellow",
@@ -3907,18 +3650,6 @@
       },
       "The Cathedral (E1M6) Main Fly": {
         "name": "The Cathedral (E1M6) Main Fly",
-        "entrances": [
-          {
-            "name": "The Cathedral (E1M6) Yellow -> The Cathedral (E1M6) Main Fly",
-            "parent_region": "The Cathedral (E1M6) Yellow",
-            "connected_region": "The Cathedral (E1M6) Main Fly"
-          },
-          {
-            "name": "The Cathedral (E1M6) Green -> The Cathedral (E1M6) Main Fly",
-            "parent_region": "The Cathedral (E1M6) Green",
-            "connected_region": "The Cathedral (E1M6) Main Fly"
-          }
-        ],
         "exits": [
           {
             "name": "The Cathedral (E1M6) Main Fly -> The Cathedral (E1M6) Main",
@@ -3962,28 +3693,6 @@
       },
       "The Crypts (E1M7) Main": {
         "name": "The Crypts (E1M7) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Crypts (E1M7) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Crypts (E1M7) Main"
-          },
-          {
-            "name": "The Crypts (E1M7) Blue -> The Crypts (E1M7) Main",
-            "parent_region": "The Crypts (E1M7) Blue",
-            "connected_region": "The Crypts (E1M7) Main"
-          },
-          {
-            "name": "The Crypts (E1M7) Yellow -> The Crypts (E1M7) Main",
-            "parent_region": "The Crypts (E1M7) Yellow",
-            "connected_region": "The Crypts (E1M7) Main"
-          },
-          {
-            "name": "The Crypts (E1M7) Green -> The Crypts (E1M7) Main",
-            "parent_region": "The Crypts (E1M7) Green",
-            "connected_region": "The Crypts (E1M7) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Crypts (E1M7) Main -> The Crypts (E1M7) Yellow",
@@ -4049,13 +3758,6 @@
       },
       "The Crypts (E1M7) Blue": {
         "name": "The Crypts (E1M7) Blue",
-        "entrances": [
-          {
-            "name": "The Crypts (E1M7) Yellow -> The Crypts (E1M7) Blue",
-            "parent_region": "The Crypts (E1M7) Yellow",
-            "connected_region": "The Crypts (E1M7) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The Crypts (E1M7) Blue -> The Crypts (E1M7) Yellow",
@@ -4135,23 +3837,6 @@
       },
       "The Crypts (E1M7) Yellow": {
         "name": "The Crypts (E1M7) Yellow",
-        "entrances": [
-          {
-            "name": "The Crypts (E1M7) Main -> The Crypts (E1M7) Yellow",
-            "parent_region": "The Crypts (E1M7) Main",
-            "connected_region": "The Crypts (E1M7) Yellow"
-          },
-          {
-            "name": "The Crypts (E1M7) Blue -> The Crypts (E1M7) Yellow",
-            "parent_region": "The Crypts (E1M7) Blue",
-            "connected_region": "The Crypts (E1M7) Yellow"
-          },
-          {
-            "name": "The Crypts (E1M7) Green -> The Crypts (E1M7) Yellow",
-            "parent_region": "The Crypts (E1M7) Green",
-            "connected_region": "The Crypts (E1M7) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Crypts (E1M7) Yellow -> The Crypts (E1M7) Main",
@@ -4309,18 +3994,6 @@
       },
       "The Crypts (E1M7) Green": {
         "name": "The Crypts (E1M7) Green",
-        "entrances": [
-          {
-            "name": "The Crypts (E1M7) Main -> The Crypts (E1M7) Green",
-            "parent_region": "The Crypts (E1M7) Main",
-            "connected_region": "The Crypts (E1M7) Green"
-          },
-          {
-            "name": "The Crypts (E1M7) Yellow -> The Crypts (E1M7) Green",
-            "parent_region": "The Crypts (E1M7) Yellow",
-            "connected_region": "The Crypts (E1M7) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The Crypts (E1M7) Green -> The Crypts (E1M7) Yellow",
@@ -4407,13 +4080,6 @@
       },
       "Hell's Maw (E1M8) Main": {
         "name": "Hell's Maw (E1M8) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Hell's Maw (E1M8) Main",
-            "parent_region": "Hub",
-            "connected_region": "Hell's Maw (E1M8) Main"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4602,28 +4268,6 @@
       },
       "The Graveyard (E1M9) Main": {
         "name": "The Graveyard (E1M9) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Graveyard (E1M9) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Graveyard (E1M9) Main"
-          },
-          {
-            "name": "The Graveyard (E1M9) Blue -> The Graveyard (E1M9) Main",
-            "parent_region": "The Graveyard (E1M9) Blue",
-            "connected_region": "The Graveyard (E1M9) Main"
-          },
-          {
-            "name": "The Graveyard (E1M9) Yellow -> The Graveyard (E1M9) Main",
-            "parent_region": "The Graveyard (E1M9) Yellow",
-            "connected_region": "The Graveyard (E1M9) Main"
-          },
-          {
-            "name": "The Graveyard (E1M9) Green -> The Graveyard (E1M9) Main",
-            "parent_region": "The Graveyard (E1M9) Green",
-            "connected_region": "The Graveyard (E1M9) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Graveyard (E1M9) Main -> The Graveyard (E1M9) Yellow",
@@ -4760,13 +4404,6 @@
       },
       "The Graveyard (E1M9) Blue": {
         "name": "The Graveyard (E1M9) Blue",
-        "entrances": [
-          {
-            "name": "The Graveyard (E1M9) Main -> The Graveyard (E1M9) Blue",
-            "parent_region": "The Graveyard (E1M9) Main",
-            "connected_region": "The Graveyard (E1M9) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The Graveyard (E1M9) Blue -> The Graveyard (E1M9) Main",
@@ -4810,13 +4447,6 @@
       },
       "The Graveyard (E1M9) Yellow": {
         "name": "The Graveyard (E1M9) Yellow",
-        "entrances": [
-          {
-            "name": "The Graveyard (E1M9) Main -> The Graveyard (E1M9) Yellow",
-            "parent_region": "The Graveyard (E1M9) Main",
-            "connected_region": "The Graveyard (E1M9) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Graveyard (E1M9) Yellow -> The Graveyard (E1M9) Main",
@@ -4867,13 +4497,6 @@
       },
       "The Graveyard (E1M9) Green": {
         "name": "The Graveyard (E1M9) Green",
-        "entrances": [
-          {
-            "name": "The Graveyard (E1M9) Main -> The Graveyard (E1M9) Green",
-            "parent_region": "The Graveyard (E1M9) Main",
-            "connected_region": "The Graveyard (E1M9) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The Graveyard (E1M9) Green -> The Graveyard (E1M9) Main",
@@ -4980,18 +4603,6 @@
       },
       "The Crater (E2M1) Main": {
         "name": "The Crater (E2M1) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Crater (E2M1) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Crater (E2M1) Main"
-          },
-          {
-            "name": "The Crater (E2M1) Yellow -> The Crater (E2M1) Main",
-            "parent_region": "The Crater (E2M1) Yellow",
-            "connected_region": "The Crater (E2M1) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Crater (E2M1) Main -> The Crater (E2M1) Yellow",
@@ -5084,18 +4695,6 @@
       },
       "The Crater (E2M1) Yellow": {
         "name": "The Crater (E2M1) Yellow",
-        "entrances": [
-          {
-            "name": "The Crater (E2M1) Main -> The Crater (E2M1) Yellow",
-            "parent_region": "The Crater (E2M1) Main",
-            "connected_region": "The Crater (E2M1) Yellow"
-          },
-          {
-            "name": "The Crater (E2M1) Green -> The Crater (E2M1) Yellow",
-            "parent_region": "The Crater (E2M1) Green",
-            "connected_region": "The Crater (E2M1) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Crater (E2M1) Yellow -> The Crater (E2M1) Main",
@@ -5196,13 +4795,6 @@
       },
       "The Crater (E2M1) Green": {
         "name": "The Crater (E2M1) Green",
-        "entrances": [
-          {
-            "name": "The Crater (E2M1) Yellow -> The Crater (E2M1) Green",
-            "parent_region": "The Crater (E2M1) Yellow",
-            "connected_region": "The Crater (E2M1) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The Crater (E2M1) Green -> The Crater (E2M1) Yellow",
@@ -5239,23 +4831,6 @@
       },
       "The Lava Pits (E2M2) Main": {
         "name": "The Lava Pits (E2M2) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Lava Pits (E2M2) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Lava Pits (E2M2) Main"
-          },
-          {
-            "name": "The Lava Pits (E2M2) Yellow -> The Lava Pits (E2M2) Main",
-            "parent_region": "The Lava Pits (E2M2) Yellow",
-            "connected_region": "The Lava Pits (E2M2) Main"
-          },
-          {
-            "name": "The Lava Pits (E2M2) Green -> The Lava Pits (E2M2) Main",
-            "parent_region": "The Lava Pits (E2M2) Green",
-            "connected_region": "The Lava Pits (E2M2) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Lava Pits (E2M2) Main -> The Lava Pits (E2M2) Yellow",
@@ -5348,18 +4923,6 @@
       },
       "The Lava Pits (E2M2) Yellow": {
         "name": "The Lava Pits (E2M2) Yellow",
-        "entrances": [
-          {
-            "name": "The Lava Pits (E2M2) Main -> The Lava Pits (E2M2) Yellow",
-            "parent_region": "The Lava Pits (E2M2) Main",
-            "connected_region": "The Lava Pits (E2M2) Yellow"
-          },
-          {
-            "name": "The Lava Pits (E2M2) Green -> The Lava Pits (E2M2) Yellow",
-            "parent_region": "The Lava Pits (E2M2) Green",
-            "connected_region": "The Lava Pits (E2M2) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Lava Pits (E2M2) Yellow -> The Lava Pits (E2M2) Green",
@@ -5523,13 +5086,6 @@
       },
       "The Lava Pits (E2M2) Green": {
         "name": "The Lava Pits (E2M2) Green",
-        "entrances": [
-          {
-            "name": "The Lava Pits (E2M2) Yellow -> The Lava Pits (E2M2) Green",
-            "parent_region": "The Lava Pits (E2M2) Yellow",
-            "connected_region": "The Lava Pits (E2M2) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The Lava Pits (E2M2) Green -> The Lava Pits (E2M2) Main",
@@ -5616,28 +5172,6 @@
       },
       "The River of Fire (E2M3) Main": {
         "name": "The River of Fire (E2M3) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The River of Fire (E2M3) Main",
-            "parent_region": "Hub",
-            "connected_region": "The River of Fire (E2M3) Main"
-          },
-          {
-            "name": "The River of Fire (E2M3) Blue -> The River of Fire (E2M3) Main",
-            "parent_region": "The River of Fire (E2M3) Blue",
-            "connected_region": "The River of Fire (E2M3) Main"
-          },
-          {
-            "name": "The River of Fire (E2M3) Yellow -> The River of Fire (E2M3) Main",
-            "parent_region": "The River of Fire (E2M3) Yellow",
-            "connected_region": "The River of Fire (E2M3) Main"
-          },
-          {
-            "name": "The River of Fire (E2M3) Green -> The River of Fire (E2M3) Main",
-            "parent_region": "The River of Fire (E2M3) Green",
-            "connected_region": "The River of Fire (E2M3) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The River of Fire (E2M3) Main -> The River of Fire (E2M3) Yellow",
@@ -5788,13 +5322,6 @@
       },
       "The River of Fire (E2M3) Blue": {
         "name": "The River of Fire (E2M3) Blue",
-        "entrances": [
-          {
-            "name": "The River of Fire (E2M3) Main -> The River of Fire (E2M3) Blue",
-            "parent_region": "The River of Fire (E2M3) Main",
-            "connected_region": "The River of Fire (E2M3) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The River of Fire (E2M3) Blue -> The River of Fire (E2M3) Main",
@@ -5873,13 +5400,6 @@
       },
       "The River of Fire (E2M3) Yellow": {
         "name": "The River of Fire (E2M3) Yellow",
-        "entrances": [
-          {
-            "name": "The River of Fire (E2M3) Main -> The River of Fire (E2M3) Yellow",
-            "parent_region": "The River of Fire (E2M3) Main",
-            "connected_region": "The River of Fire (E2M3) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The River of Fire (E2M3) Yellow -> The River of Fire (E2M3) Main",
@@ -5930,13 +5450,6 @@
       },
       "The River of Fire (E2M3) Green": {
         "name": "The River of Fire (E2M3) Green",
-        "entrances": [
-          {
-            "name": "The River of Fire (E2M3) Main -> The River of Fire (E2M3) Green",
-            "parent_region": "The River of Fire (E2M3) Main",
-            "connected_region": "The River of Fire (E2M3) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The River of Fire (E2M3) Green -> The River of Fire (E2M3) Main",
@@ -6015,23 +5528,6 @@
       },
       "The Ice Grotto (E2M4) Main": {
         "name": "The Ice Grotto (E2M4) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Ice Grotto (E2M4) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Ice Grotto (E2M4) Main"
-          },
-          {
-            "name": "The Ice Grotto (E2M4) Yellow -> The Ice Grotto (E2M4) Main",
-            "parent_region": "The Ice Grotto (E2M4) Yellow",
-            "connected_region": "The Ice Grotto (E2M4) Main"
-          },
-          {
-            "name": "The Ice Grotto (E2M4) Green -> The Ice Grotto (E2M4) Main",
-            "parent_region": "The Ice Grotto (E2M4) Green",
-            "connected_region": "The Ice Grotto (E2M4) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Ice Grotto (E2M4) Main -> The Ice Grotto (E2M4) Green",
@@ -6167,13 +5663,6 @@
       },
       "The Ice Grotto (E2M4) Blue": {
         "name": "The Ice Grotto (E2M4) Blue",
-        "entrances": [
-          {
-            "name": "The Ice Grotto (E2M4) Green -> The Ice Grotto (E2M4) Blue",
-            "parent_region": "The Ice Grotto (E2M4) Green",
-            "connected_region": "The Ice Grotto (E2M4) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The Ice Grotto (E2M4) Blue -> The Ice Grotto (E2M4) Green",
@@ -6224,18 +5713,6 @@
       },
       "The Ice Grotto (E2M4) Yellow": {
         "name": "The Ice Grotto (E2M4) Yellow",
-        "entrances": [
-          {
-            "name": "The Ice Grotto (E2M4) Main -> The Ice Grotto (E2M4) Yellow",
-            "parent_region": "The Ice Grotto (E2M4) Main",
-            "connected_region": "The Ice Grotto (E2M4) Yellow"
-          },
-          {
-            "name": "The Ice Grotto (E2M4) Magenta -> The Ice Grotto (E2M4) Yellow",
-            "parent_region": "The Ice Grotto (E2M4) Magenta",
-            "connected_region": "The Ice Grotto (E2M4) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Ice Grotto (E2M4) Yellow -> The Ice Grotto (E2M4) Main",
@@ -6324,18 +5801,6 @@
       },
       "The Ice Grotto (E2M4) Green": {
         "name": "The Ice Grotto (E2M4) Green",
-        "entrances": [
-          {
-            "name": "The Ice Grotto (E2M4) Main -> The Ice Grotto (E2M4) Green",
-            "parent_region": "The Ice Grotto (E2M4) Main",
-            "connected_region": "The Ice Grotto (E2M4) Green"
-          },
-          {
-            "name": "The Ice Grotto (E2M4) Blue -> The Ice Grotto (E2M4) Green",
-            "parent_region": "The Ice Grotto (E2M4) Blue",
-            "connected_region": "The Ice Grotto (E2M4) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The Ice Grotto (E2M4) Green -> The Ice Grotto (E2M4) Main",
@@ -6492,13 +5957,6 @@
       },
       "The Ice Grotto (E2M4) Magenta": {
         "name": "The Ice Grotto (E2M4) Magenta",
-        "entrances": [
-          {
-            "name": "The Ice Grotto (E2M4) Yellow -> The Ice Grotto (E2M4) Magenta",
-            "parent_region": "The Ice Grotto (E2M4) Yellow",
-            "connected_region": "The Ice Grotto (E2M4) Magenta"
-          }
-        ],
         "exits": [
           {
             "name": "The Ice Grotto (E2M4) Magenta -> The Ice Grotto (E2M4) Yellow",
@@ -6528,23 +5986,6 @@
       },
       "The Catacombs (E2M5) Main": {
         "name": "The Catacombs (E2M5) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Catacombs (E2M5) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Catacombs (E2M5) Main"
-          },
-          {
-            "name": "The Catacombs (E2M5) Yellow -> The Catacombs (E2M5) Main",
-            "parent_region": "The Catacombs (E2M5) Yellow",
-            "connected_region": "The Catacombs (E2M5) Main"
-          },
-          {
-            "name": "The Catacombs (E2M5) Green -> The Catacombs (E2M5) Main",
-            "parent_region": "The Catacombs (E2M5) Green",
-            "connected_region": "The Catacombs (E2M5) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Catacombs (E2M5) Main -> The Catacombs (E2M5) Yellow",
@@ -6637,13 +6078,6 @@
       },
       "The Catacombs (E2M5) Blue": {
         "name": "The Catacombs (E2M5) Blue",
-        "entrances": [
-          {
-            "name": "The Catacombs (E2M5) Green -> The Catacombs (E2M5) Blue",
-            "parent_region": "The Catacombs (E2M5) Green",
-            "connected_region": "The Catacombs (E2M5) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The Catacombs (E2M5) Blue -> The Catacombs (E2M5) Green",
@@ -6680,18 +6114,6 @@
       },
       "The Catacombs (E2M5) Yellow": {
         "name": "The Catacombs (E2M5) Yellow",
-        "entrances": [
-          {
-            "name": "The Catacombs (E2M5) Main -> The Catacombs (E2M5) Yellow",
-            "parent_region": "The Catacombs (E2M5) Main",
-            "connected_region": "The Catacombs (E2M5) Yellow"
-          },
-          {
-            "name": "The Catacombs (E2M5) Green -> The Catacombs (E2M5) Yellow",
-            "parent_region": "The Catacombs (E2M5) Green",
-            "connected_region": "The Catacombs (E2M5) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Catacombs (E2M5) Yellow -> The Catacombs (E2M5) Green",
@@ -6876,18 +6298,6 @@
       },
       "The Catacombs (E2M5) Green": {
         "name": "The Catacombs (E2M5) Green",
-        "entrances": [
-          {
-            "name": "The Catacombs (E2M5) Blue -> The Catacombs (E2M5) Green",
-            "parent_region": "The Catacombs (E2M5) Blue",
-            "connected_region": "The Catacombs (E2M5) Green"
-          },
-          {
-            "name": "The Catacombs (E2M5) Yellow -> The Catacombs (E2M5) Green",
-            "parent_region": "The Catacombs (E2M5) Yellow",
-            "connected_region": "The Catacombs (E2M5) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The Catacombs (E2M5) Green -> The Catacombs (E2M5) Blue",
@@ -6982,28 +6392,6 @@
       },
       "The Labyrinth (E2M6) Main": {
         "name": "The Labyrinth (E2M6) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Labyrinth (E2M6) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Labyrinth (E2M6) Main"
-          },
-          {
-            "name": "The Labyrinth (E2M6) Blue -> The Labyrinth (E2M6) Main",
-            "parent_region": "The Labyrinth (E2M6) Blue",
-            "connected_region": "The Labyrinth (E2M6) Main"
-          },
-          {
-            "name": "The Labyrinth (E2M6) Yellow -> The Labyrinth (E2M6) Main",
-            "parent_region": "The Labyrinth (E2M6) Yellow",
-            "connected_region": "The Labyrinth (E2M6) Main"
-          },
-          {
-            "name": "The Labyrinth (E2M6) Green -> The Labyrinth (E2M6) Main",
-            "parent_region": "The Labyrinth (E2M6) Green",
-            "connected_region": "The Labyrinth (E2M6) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Labyrinth (E2M6) Main -> The Labyrinth (E2M6) Blue",
@@ -7126,13 +6514,6 @@
       },
       "The Labyrinth (E2M6) Blue": {
         "name": "The Labyrinth (E2M6) Blue",
-        "entrances": [
-          {
-            "name": "The Labyrinth (E2M6) Main -> The Labyrinth (E2M6) Blue",
-            "parent_region": "The Labyrinth (E2M6) Main",
-            "connected_region": "The Labyrinth (E2M6) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The Labyrinth (E2M6) Blue -> The Labyrinth (E2M6) Main",
@@ -7211,13 +6592,6 @@
       },
       "The Labyrinth (E2M6) Yellow": {
         "name": "The Labyrinth (E2M6) Yellow",
-        "entrances": [
-          {
-            "name": "The Labyrinth (E2M6) Main -> The Labyrinth (E2M6) Yellow",
-            "parent_region": "The Labyrinth (E2M6) Main",
-            "connected_region": "The Labyrinth (E2M6) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Labyrinth (E2M6) Yellow -> The Labyrinth (E2M6) Main",
@@ -7317,13 +6691,6 @@
       },
       "The Labyrinth (E2M6) Green": {
         "name": "The Labyrinth (E2M6) Green",
-        "entrances": [
-          {
-            "name": "The Labyrinth (E2M6) Main -> The Labyrinth (E2M6) Green",
-            "parent_region": "The Labyrinth (E2M6) Main",
-            "connected_region": "The Labyrinth (E2M6) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The Labyrinth (E2M6) Green -> The Labyrinth (E2M6) Main",
@@ -7437,23 +6804,6 @@
       },
       "The Great Hall (E2M7) Main": {
         "name": "The Great Hall (E2M7) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Great Hall (E2M7) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Great Hall (E2M7) Main"
-          },
-          {
-            "name": "The Great Hall (E2M7) Yellow -> The Great Hall (E2M7) Main",
-            "parent_region": "The Great Hall (E2M7) Yellow",
-            "connected_region": "The Great Hall (E2M7) Main"
-          },
-          {
-            "name": "The Great Hall (E2M7) Green -> The Great Hall (E2M7) Main",
-            "parent_region": "The Great Hall (E2M7) Green",
-            "connected_region": "The Great Hall (E2M7) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Great Hall (E2M7) Main -> The Great Hall (E2M7) Yellow",
@@ -7645,13 +6995,6 @@
       },
       "The Great Hall (E2M7) Blue": {
         "name": "The Great Hall (E2M7) Blue",
-        "entrances": [
-          {
-            "name": "The Great Hall (E2M7) Yellow -> The Great Hall (E2M7) Blue",
-            "parent_region": "The Great Hall (E2M7) Yellow",
-            "connected_region": "The Great Hall (E2M7) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The Great Hall (E2M7) Blue -> The Great Hall (E2M7) Yellow",
@@ -7702,18 +7045,6 @@
       },
       "The Great Hall (E2M7) Yellow": {
         "name": "The Great Hall (E2M7) Yellow",
-        "entrances": [
-          {
-            "name": "The Great Hall (E2M7) Main -> The Great Hall (E2M7) Yellow",
-            "parent_region": "The Great Hall (E2M7) Main",
-            "connected_region": "The Great Hall (E2M7) Yellow"
-          },
-          {
-            "name": "The Great Hall (E2M7) Blue -> The Great Hall (E2M7) Yellow",
-            "parent_region": "The Great Hall (E2M7) Blue",
-            "connected_region": "The Great Hall (E2M7) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Great Hall (E2M7) Yellow -> The Great Hall (E2M7) Blue",
@@ -7849,13 +7180,6 @@
       },
       "The Great Hall (E2M7) Green": {
         "name": "The Great Hall (E2M7) Green",
-        "entrances": [
-          {
-            "name": "The Great Hall (E2M7) Main -> The Great Hall (E2M7) Green",
-            "parent_region": "The Great Hall (E2M7) Main",
-            "connected_region": "The Great Hall (E2M7) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The Great Hall (E2M7) Green -> The Great Hall (E2M7) Main",
@@ -7885,13 +7209,6 @@
       },
       "The Portals of Chaos (E2M8) Main": {
         "name": "The Portals of Chaos (E2M8) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Portals of Chaos (E2M8) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Portals of Chaos (E2M8) Main"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8066,28 +7383,6 @@
       },
       "The Glacier (E2M9) Main": {
         "name": "The Glacier (E2M9) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Glacier (E2M9) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Glacier (E2M9) Main"
-          },
-          {
-            "name": "The Glacier (E2M9) Blue -> The Glacier (E2M9) Main",
-            "parent_region": "The Glacier (E2M9) Blue",
-            "connected_region": "The Glacier (E2M9) Main"
-          },
-          {
-            "name": "The Glacier (E2M9) Yellow -> The Glacier (E2M9) Main",
-            "parent_region": "The Glacier (E2M9) Yellow",
-            "connected_region": "The Glacier (E2M9) Main"
-          },
-          {
-            "name": "The Glacier (E2M9) Green -> The Glacier (E2M9) Main",
-            "parent_region": "The Glacier (E2M9) Green",
-            "connected_region": "The Glacier (E2M9) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Glacier (E2M9) Main -> The Glacier (E2M9) Yellow",
@@ -8280,13 +7575,6 @@
       },
       "The Glacier (E2M9) Blue": {
         "name": "The Glacier (E2M9) Blue",
-        "entrances": [
-          {
-            "name": "The Glacier (E2M9) Main -> The Glacier (E2M9) Blue",
-            "parent_region": "The Glacier (E2M9) Main",
-            "connected_region": "The Glacier (E2M9) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The Glacier (E2M9) Blue -> The Glacier (E2M9) Main",
@@ -8365,13 +7653,6 @@
       },
       "The Glacier (E2M9) Yellow": {
         "name": "The Glacier (E2M9) Yellow",
-        "entrances": [
-          {
-            "name": "The Glacier (E2M9) Main -> The Glacier (E2M9) Yellow",
-            "parent_region": "The Glacier (E2M9) Main",
-            "connected_region": "The Glacier (E2M9) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Glacier (E2M9) Yellow -> The Glacier (E2M9) Main",
@@ -8450,13 +7731,6 @@
       },
       "The Glacier (E2M9) Green": {
         "name": "The Glacier (E2M9) Green",
-        "entrances": [
-          {
-            "name": "The Glacier (E2M9) Main -> The Glacier (E2M9) Green",
-            "parent_region": "The Glacier (E2M9) Main",
-            "connected_region": "The Glacier (E2M9) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The Glacier (E2M9) Green -> The Glacier (E2M9) Main",
@@ -8570,23 +7844,6 @@
       },
       "The Storehouse (E3M1) Main": {
         "name": "The Storehouse (E3M1) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Storehouse (E3M1) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Storehouse (E3M1) Main"
-          },
-          {
-            "name": "The Storehouse (E3M1) Yellow -> The Storehouse (E3M1) Main",
-            "parent_region": "The Storehouse (E3M1) Yellow",
-            "connected_region": "The Storehouse (E3M1) Main"
-          },
-          {
-            "name": "The Storehouse (E3M1) Green -> The Storehouse (E3M1) Main",
-            "parent_region": "The Storehouse (E3M1) Green",
-            "connected_region": "The Storehouse (E3M1) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Storehouse (E3M1) Main -> The Storehouse (E3M1) Yellow",
@@ -8722,13 +7979,6 @@
       },
       "The Storehouse (E3M1) Yellow": {
         "name": "The Storehouse (E3M1) Yellow",
-        "entrances": [
-          {
-            "name": "The Storehouse (E3M1) Main -> The Storehouse (E3M1) Yellow",
-            "parent_region": "The Storehouse (E3M1) Main",
-            "connected_region": "The Storehouse (E3M1) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Storehouse (E3M1) Yellow -> The Storehouse (E3M1) Main",
@@ -8765,13 +8015,6 @@
       },
       "The Storehouse (E3M1) Green": {
         "name": "The Storehouse (E3M1) Green",
-        "entrances": [
-          {
-            "name": "The Storehouse (E3M1) Main -> The Storehouse (E3M1) Green",
-            "parent_region": "The Storehouse (E3M1) Main",
-            "connected_region": "The Storehouse (E3M1) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The Storehouse (E3M1) Green -> The Storehouse (E3M1) Main",
@@ -8864,23 +8107,6 @@
       },
       "The Cesspool (E3M2) Main": {
         "name": "The Cesspool (E3M2) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Cesspool (E3M2) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Cesspool (E3M2) Main"
-          },
-          {
-            "name": "The Cesspool (E3M2) Yellow -> The Cesspool (E3M2) Main",
-            "parent_region": "The Cesspool (E3M2) Yellow",
-            "connected_region": "The Cesspool (E3M2) Main"
-          },
-          {
-            "name": "The Cesspool (E3M2) Green -> The Cesspool (E3M2) Main",
-            "parent_region": "The Cesspool (E3M2) Green",
-            "connected_region": "The Cesspool (E3M2) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Cesspool (E3M2) Main -> The Cesspool (E3M2) Yellow",
@@ -8987,13 +8213,6 @@
       },
       "The Cesspool (E3M2) Blue": {
         "name": "The Cesspool (E3M2) Blue",
-        "entrances": [
-          {
-            "name": "The Cesspool (E3M2) Green -> The Cesspool (E3M2) Blue",
-            "parent_region": "The Cesspool (E3M2) Green",
-            "connected_region": "The Cesspool (E3M2) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The Cesspool (E3M2) Blue -> The Cesspool (E3M2) Green",
@@ -9044,18 +8263,6 @@
       },
       "The Cesspool (E3M2) Yellow": {
         "name": "The Cesspool (E3M2) Yellow",
-        "entrances": [
-          {
-            "name": "The Cesspool (E3M2) Main -> The Cesspool (E3M2) Yellow",
-            "parent_region": "The Cesspool (E3M2) Main",
-            "connected_region": "The Cesspool (E3M2) Yellow"
-          },
-          {
-            "name": "The Cesspool (E3M2) Green -> The Cesspool (E3M2) Yellow",
-            "parent_region": "The Cesspool (E3M2) Green",
-            "connected_region": "The Cesspool (E3M2) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Cesspool (E3M2) Yellow -> The Cesspool (E3M2) Main",
@@ -9212,18 +8419,6 @@
       },
       "The Cesspool (E3M2) Green": {
         "name": "The Cesspool (E3M2) Green",
-        "entrances": [
-          {
-            "name": "The Cesspool (E3M2) Blue -> The Cesspool (E3M2) Green",
-            "parent_region": "The Cesspool (E3M2) Blue",
-            "connected_region": "The Cesspool (E3M2) Green"
-          },
-          {
-            "name": "The Cesspool (E3M2) Yellow -> The Cesspool (E3M2) Green",
-            "parent_region": "The Cesspool (E3M2) Yellow",
-            "connected_region": "The Cesspool (E3M2) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The Cesspool (E3M2) Green -> The Cesspool (E3M2) Blue",
@@ -9395,23 +8590,6 @@
       },
       "The Confluence (E3M3) Main": {
         "name": "The Confluence (E3M3) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Confluence (E3M3) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Confluence (E3M3) Main"
-          },
-          {
-            "name": "The Confluence (E3M3) Yellow -> The Confluence (E3M3) Main",
-            "parent_region": "The Confluence (E3M3) Yellow",
-            "connected_region": "The Confluence (E3M3) Main"
-          },
-          {
-            "name": "The Confluence (E3M3) Green -> The Confluence (E3M3) Main",
-            "parent_region": "The Confluence (E3M3) Green",
-            "connected_region": "The Confluence (E3M3) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Confluence (E3M3) Main -> The Confluence (E3M3) Green",
@@ -9491,13 +8669,6 @@
       },
       "The Confluence (E3M3) Blue": {
         "name": "The Confluence (E3M3) Blue",
-        "entrances": [
-          {
-            "name": "The Confluence (E3M3) Green -> The Confluence (E3M3) Blue",
-            "parent_region": "The Confluence (E3M3) Green",
-            "connected_region": "The Confluence (E3M3) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The Confluence (E3M3) Blue -> The Confluence (E3M3) Green",
@@ -9688,18 +8859,6 @@
       },
       "The Confluence (E3M3) Yellow": {
         "name": "The Confluence (E3M3) Yellow",
-        "entrances": [
-          {
-            "name": "The Confluence (E3M3) Main -> The Confluence (E3M3) Yellow",
-            "parent_region": "The Confluence (E3M3) Main",
-            "connected_region": "The Confluence (E3M3) Yellow"
-          },
-          {
-            "name": "The Confluence (E3M3) Green -> The Confluence (E3M3) Yellow",
-            "parent_region": "The Confluence (E3M3) Green",
-            "connected_region": "The Confluence (E3M3) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Confluence (E3M3) Yellow -> The Confluence (E3M3) Main",
@@ -9743,18 +8902,6 @@
       },
       "The Confluence (E3M3) Green": {
         "name": "The Confluence (E3M3) Green",
-        "entrances": [
-          {
-            "name": "The Confluence (E3M3) Main -> The Confluence (E3M3) Green",
-            "parent_region": "The Confluence (E3M3) Main",
-            "connected_region": "The Confluence (E3M3) Green"
-          },
-          {
-            "name": "The Confluence (E3M3) Blue -> The Confluence (E3M3) Green",
-            "parent_region": "The Confluence (E3M3) Blue",
-            "connected_region": "The Confluence (E3M3) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The Confluence (E3M3) Green -> The Confluence (E3M3) Main",
@@ -9954,23 +9101,6 @@
       },
       "The Azure Fortress (E3M4) Main": {
         "name": "The Azure Fortress (E3M4) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Azure Fortress (E3M4) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Azure Fortress (E3M4) Main"
-          },
-          {
-            "name": "The Azure Fortress (E3M4) Yellow -> The Azure Fortress (E3M4) Main",
-            "parent_region": "The Azure Fortress (E3M4) Yellow",
-            "connected_region": "The Azure Fortress (E3M4) Main"
-          },
-          {
-            "name": "The Azure Fortress (E3M4) Green -> The Azure Fortress (E3M4) Main",
-            "parent_region": "The Azure Fortress (E3M4) Green",
-            "connected_region": "The Azure Fortress (E3M4) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Azure Fortress (E3M4) Main -> The Azure Fortress (E3M4) Green",
@@ -10190,13 +9320,6 @@
       },
       "The Azure Fortress (E3M4) Yellow": {
         "name": "The Azure Fortress (E3M4) Yellow",
-        "entrances": [
-          {
-            "name": "The Azure Fortress (E3M4) Main -> The Azure Fortress (E3M4) Yellow",
-            "parent_region": "The Azure Fortress (E3M4) Main",
-            "connected_region": "The Azure Fortress (E3M4) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Azure Fortress (E3M4) Yellow -> The Azure Fortress (E3M4) Main",
@@ -10296,13 +9419,6 @@
       },
       "The Azure Fortress (E3M4) Green": {
         "name": "The Azure Fortress (E3M4) Green",
-        "entrances": [
-          {
-            "name": "The Azure Fortress (E3M4) Main -> The Azure Fortress (E3M4) Green",
-            "parent_region": "The Azure Fortress (E3M4) Main",
-            "connected_region": "The Azure Fortress (E3M4) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The Azure Fortress (E3M4) Green -> The Azure Fortress (E3M4) Main",
@@ -10444,23 +9560,6 @@
       },
       "The Ophidian Lair (E3M5) Main": {
         "name": "The Ophidian Lair (E3M5) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Ophidian Lair (E3M5) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Ophidian Lair (E3M5) Main"
-          },
-          {
-            "name": "The Ophidian Lair (E3M5) Yellow -> The Ophidian Lair (E3M5) Main",
-            "parent_region": "The Ophidian Lair (E3M5) Yellow",
-            "connected_region": "The Ophidian Lair (E3M5) Main"
-          },
-          {
-            "name": "The Ophidian Lair (E3M5) Green -> The Ophidian Lair (E3M5) Main",
-            "parent_region": "The Ophidian Lair (E3M5) Green",
-            "connected_region": "The Ophidian Lair (E3M5) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Ophidian Lair (E3M5) Main -> The Ophidian Lair (E3M5) Yellow",
@@ -10610,13 +9709,6 @@
       },
       "The Ophidian Lair (E3M5) Yellow": {
         "name": "The Ophidian Lair (E3M5) Yellow",
-        "entrances": [
-          {
-            "name": "The Ophidian Lair (E3M5) Main -> The Ophidian Lair (E3M5) Yellow",
-            "parent_region": "The Ophidian Lair (E3M5) Main",
-            "connected_region": "The Ophidian Lair (E3M5) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Ophidian Lair (E3M5) Yellow -> The Ophidian Lair (E3M5) Main",
@@ -10730,13 +9822,6 @@
       },
       "The Ophidian Lair (E3M5) Green": {
         "name": "The Ophidian Lair (E3M5) Green",
-        "entrances": [
-          {
-            "name": "The Ophidian Lair (E3M5) Main -> The Ophidian Lair (E3M5) Green",
-            "parent_region": "The Ophidian Lair (E3M5) Main",
-            "connected_region": "The Ophidian Lair (E3M5) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The Ophidian Lair (E3M5) Green -> The Ophidian Lair (E3M5) Main",
@@ -10808,28 +9893,6 @@
       },
       "The Halls of Fear (E3M6) Main": {
         "name": "The Halls of Fear (E3M6) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Halls of Fear (E3M6) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Halls of Fear (E3M6) Main"
-          },
-          {
-            "name": "The Halls of Fear (E3M6) Yellow -> The Halls of Fear (E3M6) Main",
-            "parent_region": "The Halls of Fear (E3M6) Yellow",
-            "connected_region": "The Halls of Fear (E3M6) Main"
-          },
-          {
-            "name": "The Halls of Fear (E3M6) Green -> The Halls of Fear (E3M6) Main",
-            "parent_region": "The Halls of Fear (E3M6) Green",
-            "connected_region": "The Halls of Fear (E3M6) Main"
-          },
-          {
-            "name": "The Halls of Fear (E3M6) Cyan -> The Halls of Fear (E3M6) Main",
-            "parent_region": "The Halls of Fear (E3M6) Cyan",
-            "connected_region": "The Halls of Fear (E3M6) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Halls of Fear (E3M6) Main -> The Halls of Fear (E3M6) Yellow",
@@ -10936,13 +9999,6 @@
       },
       "The Halls of Fear (E3M6) Blue": {
         "name": "The Halls of Fear (E3M6) Blue",
-        "entrances": [
-          {
-            "name": "The Halls of Fear (E3M6) Yellow -> The Halls of Fear (E3M6) Blue",
-            "parent_region": "The Halls of Fear (E3M6) Yellow",
-            "connected_region": "The Halls of Fear (E3M6) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The Halls of Fear (E3M6) Blue -> The Halls of Fear (E3M6) Yellow",
@@ -11057,28 +10113,6 @@
       },
       "The Halls of Fear (E3M6) Yellow": {
         "name": "The Halls of Fear (E3M6) Yellow",
-        "entrances": [
-          {
-            "name": "The Halls of Fear (E3M6) Main -> The Halls of Fear (E3M6) Yellow",
-            "parent_region": "The Halls of Fear (E3M6) Main",
-            "connected_region": "The Halls of Fear (E3M6) Yellow"
-          },
-          {
-            "name": "The Halls of Fear (E3M6) Blue -> The Halls of Fear (E3M6) Yellow",
-            "parent_region": "The Halls of Fear (E3M6) Blue",
-            "connected_region": "The Halls of Fear (E3M6) Yellow"
-          },
-          {
-            "name": "The Halls of Fear (E3M6) Green -> The Halls of Fear (E3M6) Yellow",
-            "parent_region": "The Halls of Fear (E3M6) Green",
-            "connected_region": "The Halls of Fear (E3M6) Yellow"
-          },
-          {
-            "name": "The Halls of Fear (E3M6) Cyan -> The Halls of Fear (E3M6) Yellow",
-            "parent_region": "The Halls of Fear (E3M6) Cyan",
-            "connected_region": "The Halls of Fear (E3M6) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Halls of Fear (E3M6) Yellow -> The Halls of Fear (E3M6) Blue",
@@ -11194,13 +10228,6 @@
       },
       "The Halls of Fear (E3M6) Green": {
         "name": "The Halls of Fear (E3M6) Green",
-        "entrances": [
-          {
-            "name": "The Halls of Fear (E3M6) Yellow -> The Halls of Fear (E3M6) Green",
-            "parent_region": "The Halls of Fear (E3M6) Yellow",
-            "connected_region": "The Halls of Fear (E3M6) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The Halls of Fear (E3M6) Green -> The Halls of Fear (E3M6) Yellow",
@@ -11316,18 +10343,6 @@
       },
       "The Halls of Fear (E3M6) Cyan": {
         "name": "The Halls of Fear (E3M6) Cyan",
-        "entrances": [
-          {
-            "name": "The Halls of Fear (E3M6) Blue -> The Halls of Fear (E3M6) Cyan",
-            "parent_region": "The Halls of Fear (E3M6) Blue",
-            "connected_region": "The Halls of Fear (E3M6) Cyan"
-          },
-          {
-            "name": "The Halls of Fear (E3M6) Green -> The Halls of Fear (E3M6) Cyan",
-            "parent_region": "The Halls of Fear (E3M6) Green",
-            "connected_region": "The Halls of Fear (E3M6) Cyan"
-          }
-        ],
         "exits": [
           {
             "name": "The Halls of Fear (E3M6) Cyan -> The Halls of Fear (E3M6) Yellow",
@@ -11393,18 +10408,6 @@
       },
       "The Chasm (E3M7) Main": {
         "name": "The Chasm (E3M7) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Chasm (E3M7) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Chasm (E3M7) Main"
-          },
-          {
-            "name": "The Chasm (E3M7) Yellow -> The Chasm (E3M7) Main",
-            "parent_region": "The Chasm (E3M7) Yellow",
-            "connected_region": "The Chasm (E3M7) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Chasm (E3M7) Main -> The Chasm (E3M7) Yellow",
@@ -11539,13 +10542,6 @@
       },
       "The Chasm (E3M7) Blue": {
         "name": "The Chasm (E3M7) Blue",
-        "entrances": [
-          {
-            "name": "The Chasm (E3M7) Yellow -> The Chasm (E3M7) Blue",
-            "parent_region": "The Chasm (E3M7) Yellow",
-            "connected_region": "The Chasm (E3M7) Blue"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -11566,18 +10562,6 @@
       },
       "The Chasm (E3M7) Yellow": {
         "name": "The Chasm (E3M7) Yellow",
-        "entrances": [
-          {
-            "name": "The Chasm (E3M7) Main -> The Chasm (E3M7) Yellow",
-            "parent_region": "The Chasm (E3M7) Main",
-            "connected_region": "The Chasm (E3M7) Yellow"
-          },
-          {
-            "name": "The Chasm (E3M7) Green -> The Chasm (E3M7) Yellow",
-            "parent_region": "The Chasm (E3M7) Green",
-            "connected_region": "The Chasm (E3M7) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Chasm (E3M7) Yellow -> The Chasm (E3M7) Main",
@@ -11672,13 +10656,6 @@
       },
       "The Chasm (E3M7) Green": {
         "name": "The Chasm (E3M7) Green",
-        "entrances": [
-          {
-            "name": "The Chasm (E3M7) Yellow -> The Chasm (E3M7) Green",
-            "parent_region": "The Chasm (E3M7) Yellow",
-            "connected_region": "The Chasm (E3M7) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The Chasm (E3M7) Green -> The Chasm (E3M7) Yellow",
@@ -11855,13 +10832,6 @@
       },
       "D'Sparil's Keep (E3M8) Main": {
         "name": "D'Sparil's Keep (E3M8) Main",
-        "entrances": [
-          {
-            "name": "Hub -> D'Sparil's Keep (E3M8) Main",
-            "parent_region": "Hub",
-            "connected_region": "D'Sparil's Keep (E3M8) Main"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -12036,23 +11006,6 @@
       },
       "The Aquifer (E3M9) Main": {
         "name": "The Aquifer (E3M9) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Aquifer (E3M9) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Aquifer (E3M9) Main"
-          },
-          {
-            "name": "The Aquifer (E3M9) Yellow -> The Aquifer (E3M9) Main",
-            "parent_region": "The Aquifer (E3M9) Yellow",
-            "connected_region": "The Aquifer (E3M9) Main"
-          },
-          {
-            "name": "The Aquifer (E3M9) Green -> The Aquifer (E3M9) Main",
-            "parent_region": "The Aquifer (E3M9) Green",
-            "connected_region": "The Aquifer (E3M9) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Aquifer (E3M9) Main -> The Aquifer (E3M9) Yellow",
@@ -12131,13 +11084,6 @@
       },
       "The Aquifer (E3M9) Blue": {
         "name": "The Aquifer (E3M9) Blue",
-        "entrances": [
-          {
-            "name": "The Aquifer (E3M9) Green -> The Aquifer (E3M9) Blue",
-            "parent_region": "The Aquifer (E3M9) Green",
-            "connected_region": "The Aquifer (E3M9) Blue"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -12158,18 +11104,6 @@
       },
       "The Aquifer (E3M9) Yellow": {
         "name": "The Aquifer (E3M9) Yellow",
-        "entrances": [
-          {
-            "name": "The Aquifer (E3M9) Main -> The Aquifer (E3M9) Yellow",
-            "parent_region": "The Aquifer (E3M9) Main",
-            "connected_region": "The Aquifer (E3M9) Yellow"
-          },
-          {
-            "name": "The Aquifer (E3M9) Green -> The Aquifer (E3M9) Yellow",
-            "parent_region": "The Aquifer (E3M9) Green",
-            "connected_region": "The Aquifer (E3M9) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Aquifer (E3M9) Yellow -> The Aquifer (E3M9) Green",
@@ -12277,13 +11211,6 @@
       },
       "The Aquifer (E3M9) Green": {
         "name": "The Aquifer (E3M9) Green",
-        "entrances": [
-          {
-            "name": "The Aquifer (E3M9) Yellow -> The Aquifer (E3M9) Green",
-            "parent_region": "The Aquifer (E3M9) Yellow",
-            "connected_region": "The Aquifer (E3M9) Green"
-          }
-        ],
         "exits": [
           {
             "name": "The Aquifer (E3M9) Green -> The Aquifer (E3M9) Yellow",

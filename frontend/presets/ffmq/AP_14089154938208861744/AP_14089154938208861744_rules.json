@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Enter Overworld",
@@ -29,13 +28,6 @@
       },
       "Overworld": {
         "name": "Overworld",
-        "entrances": [
-          {
-            "name": "Enter Overworld",
-            "parent_region": "Menu",
-            "connected_region": "Overworld"
-          }
-        ],
         "exits": [
           {
             "name": "Overworld to Subregion Foresta",
@@ -50,53 +42,6 @@
       },
       "Subregion Foresta": {
         "name": "Subregion Foresta",
-        "entrances": [
-          {
-            "name": "Overworld to Subregion Foresta",
-            "parent_region": "Overworld",
-            "connected_region": "Subregion Foresta"
-          },
-          {
-            "name": "Subregion Aquaria to Subregion Foresta",
-            "parent_region": "Subregion Aquaria",
-            "connected_region": "Subregion Foresta"
-          },
-          {
-            "name": "Subregion Fireburg to Subregion Foresta",
-            "parent_region": "Subregion Fireburg",
-            "connected_region": "Subregion Foresta"
-          },
-          {
-            "name": "Subregion Windia to Subregion Foresta",
-            "parent_region": "Subregion Windia",
-            "connected_region": "Subregion Foresta"
-          },
-          {
-            "name": "Focus Tower B1 - Main Loop - South Entrance",
-            "parent_region": "Focus Tower B1 - Main Loop",
-            "connected_region": "Subregion Foresta"
-          },
-          {
-            "name": "Level Forest - Exit Level Forest 1",
-            "parent_region": "Level Forest",
-            "connected_region": "Subregion Foresta"
-          },
-          {
-            "name": "Foresta - Exit Foresta 1",
-            "parent_region": "Foresta",
-            "connected_region": "Subregion Foresta"
-          },
-          {
-            "name": "Sand Temple - Sand Temple Entrance",
-            "parent_region": "Sand Temple",
-            "connected_region": "Subregion Foresta"
-          },
-          {
-            "name": "Bone Dungeon 1F - Bone Dungeon Entrance",
-            "parent_region": "Bone Dungeon 1F",
-            "connected_region": "Subregion Foresta"
-          }
-        ],
         "exits": [
           {
             "name": "Overworld - Level Forest",
@@ -197,58 +142,6 @@
       },
       "Subregion Aquaria": {
         "name": "Subregion Aquaria",
-        "entrances": [
-          {
-            "name": "Subregion Foresta to Subregion Aquaria",
-            "parent_region": "Subregion Foresta",
-            "connected_region": "Subregion Aquaria"
-          },
-          {
-            "name": "Subregion Frozen Fields to Subregion Aquaria",
-            "parent_region": "Subregion Frozen Fields",
-            "connected_region": "Subregion Aquaria"
-          },
-          {
-            "name": "Subregion Fireburg to Subregion Aquaria",
-            "parent_region": "Subregion Fireburg",
-            "connected_region": "Subregion Aquaria"
-          },
-          {
-            "name": "Subregion Windia to Subregion Aquaria",
-            "parent_region": "Subregion Windia",
-            "connected_region": "Subregion Aquaria"
-          },
-          {
-            "name": "Focus Tower 2F - Sand Coin Passage - North Entrance",
-            "parent_region": "Focus Tower 2F - Sand Coin Passage",
-            "connected_region": "Subregion Aquaria"
-          },
-          {
-            "name": "Libra Temple - Entrance",
-            "parent_region": "Libra Temple",
-            "connected_region": "Subregion Aquaria"
-          },
-          {
-            "name": "Aquaria Winter - Winter Entrance 1",
-            "parent_region": "Aquaria",
-            "connected_region": "Subregion Aquaria"
-          },
-          {
-            "name": "Wintry Cave 1F - Main Entrance",
-            "parent_region": "Wintry Cave 1F - East Ledge",
-            "connected_region": "Subregion Aquaria"
-          },
-          {
-            "name": "Fall Basin - Main Exit",
-            "parent_region": "Fall Basin",
-            "connected_region": "Subregion Aquaria"
-          },
-          {
-            "name": "Ice Pyramid 1F Maze - Main Entrance 1",
-            "parent_region": "Ice Pyramid 1F Maze Lobby",
-            "connected_region": "Subregion Aquaria"
-          }
-        ],
         "exits": [
           {
             "name": "Overworld - Focus Tower Aquaria",
@@ -378,13 +271,6 @@
       },
       "Subregion Life Temple": {
         "name": "Subregion Life Temple",
-        "entrances": [
-          {
-            "name": "Life Temple - Entrance",
-            "parent_region": "Life Temple",
-            "connected_region": "Subregion Life Temple"
-          }
-        ],
         "exits": [
           {
             "name": "Overworld - Life Temple",
@@ -399,28 +285,6 @@
       },
       "Subregion Frozen Fields": {
         "name": "Subregion Frozen Fields",
-        "entrances": [
-          {
-            "name": "Subregion Aquaria to Subregion Frozen Fields",
-            "parent_region": "Subregion Aquaria",
-            "connected_region": "Subregion Frozen Fields"
-          },
-          {
-            "name": "Subregion Volcano Battlefield to Subregion Frozen Fields",
-            "parent_region": "Subregion Volcano Battlefield",
-            "connected_region": "Subregion Frozen Fields"
-          },
-          {
-            "name": "Focus Tower 3F - Upper Floor - To Aquaria Entrance",
-            "parent_region": "Focus Tower 3F - Upper Floor",
-            "connected_region": "Subregion Frozen Fields"
-          },
-          {
-            "name": "Wintry Temple Outer Room - Main Entrance",
-            "parent_region": "Wintry Temple Outer Room",
-            "connected_region": "Subregion Frozen Fields"
-          }
-        ],
         "exits": [
           {
             "name": "Overworld - Wintry Temple",
@@ -483,58 +347,6 @@
       },
       "Subregion Fireburg": {
         "name": "Subregion Fireburg",
-        "entrances": [
-          {
-            "name": "Subregion Foresta to Subregion Fireburg",
-            "parent_region": "Subregion Foresta",
-            "connected_region": "Subregion Fireburg"
-          },
-          {
-            "name": "Subregion Aquaria to Subregion Fireburg",
-            "parent_region": "Subregion Aquaria",
-            "connected_region": "Subregion Fireburg"
-          },
-          {
-            "name": "Subregion Volcano Battlefield to Subregion Fireburg",
-            "parent_region": "Subregion Volcano Battlefield",
-            "connected_region": "Subregion Fireburg"
-          },
-          {
-            "name": "Subregion Windia to Subregion Fireburg",
-            "parent_region": "Subregion Windia",
-            "connected_region": "Subregion Fireburg"
-          },
-          {
-            "name": "Focus Tower 3F - Lower Floor - To Fireburg Entrance",
-            "parent_region": "Focus Tower 3F - Lower Floor",
-            "connected_region": "Subregion Fireburg"
-          },
-          {
-            "name": "Fireburg - To Overworld",
-            "parent_region": "Fireburg Upper Plaza",
-            "connected_region": "Subregion Fireburg"
-          },
-          {
-            "name": "Mine Exterior - Main Entrance",
-            "parent_region": "Mine Exterior North West Platforms",
-            "connected_region": "Subregion Fireburg"
-          },
-          {
-            "name": "Sealed Temple - To Overworld",
-            "parent_region": "Sealed Temple",
-            "connected_region": "Subregion Fireburg"
-          },
-          {
-            "name": "Volcano Base - Main Entrance 1",
-            "parent_region": "Volcano Base",
-            "connected_region": "Subregion Fireburg"
-          },
-          {
-            "name": "Lava Dome Inner Ring Main Loop - Main Entrance 1",
-            "parent_region": "Lava Dome Inner Ring Main Loop",
-            "connected_region": "Subregion Fireburg"
-          }
-        ],
         "exits": [
           {
             "name": "Overworld - Focus Tower Fireburg",
@@ -678,18 +490,6 @@
       },
       "Subregion Volcano Battlefield": {
         "name": "Subregion Volcano Battlefield",
-        "entrances": [
-          {
-            "name": "Subregion Frozen Fields to Subregion Volcano Battlefield",
-            "parent_region": "Subregion Frozen Fields",
-            "connected_region": "Subregion Volcano Battlefield"
-          },
-          {
-            "name": "Subregion Fireburg to Subregion Volcano Battlefield",
-            "parent_region": "Subregion Fireburg",
-            "connected_region": "Subregion Volcano Battlefield"
-          }
-        ],
         "exits": [
           {
             "name": "Subregion Volcano Battlefield to Subregion Fireburg",
@@ -722,68 +522,6 @@
       },
       "Subregion Windia": {
         "name": "Subregion Windia",
-        "entrances": [
-          {
-            "name": "Subregion Foresta to Subregion Windia",
-            "parent_region": "Subregion Foresta",
-            "connected_region": "Subregion Windia"
-          },
-          {
-            "name": "Subregion Aquaria to Subregion Windia",
-            "parent_region": "Subregion Aquaria",
-            "connected_region": "Subregion Windia"
-          },
-          {
-            "name": "Subregion Fireburg to Subregion Windia",
-            "parent_region": "Subregion Fireburg",
-            "connected_region": "Subregion Windia"
-          },
-          {
-            "name": "Subregion Spencer's Cave to Subregion Windia",
-            "parent_region": "Subregion Spencer's Cave",
-            "connected_region": "Subregion Windia"
-          },
-          {
-            "name": "Focus Tower 1F - Focus Tower West Entrance",
-            "parent_region": "Focus Tower 1F SunCoin Room",
-            "connected_region": "Subregion Windia"
-          },
-          {
-            "name": "Rope Bridge - West Entrance 1",
-            "parent_region": "Rope Bridge",
-            "connected_region": "Subregion Windia"
-          },
-          {
-            "name": "Alive Forest - West Entrance 1",
-            "parent_region": "Alive Forest",
-            "connected_region": "Subregion Windia"
-          },
-          {
-            "name": "Kaidge Temple - Entrance",
-            "parent_region": "Kaidge Temple Lower Ledge",
-            "connected_region": "Subregion Windia"
-          },
-          {
-            "name": "Windhole Temple - Entrance",
-            "parent_region": "Windhole Temple",
-            "connected_region": "Subregion Windia"
-          },
-          {
-            "name": "Mount Gale - Entrance 1",
-            "parent_region": "Mount Gale",
-            "connected_region": "Subregion Windia"
-          },
-          {
-            "name": "Windia - Main Entrance 1",
-            "parent_region": "Windia",
-            "connected_region": "Subregion Windia"
-          },
-          {
-            "name": "Pazuzu Tower 1F Main Lobby - Main Entrance 1",
-            "parent_region": "Pazuzu Tower 1F Main Lobby",
-            "connected_region": "Subregion Windia"
-          }
-        ],
         "exits": [
           {
             "name": "Overworld - Focus Tower Windia",
@@ -927,18 +665,6 @@
       },
       "Subregion Spencer's Cave": {
         "name": "Subregion Spencer's Cave",
-        "entrances": [
-          {
-            "name": "Subregion Windia to Subregion Spencer's Cave",
-            "parent_region": "Subregion Windia",
-            "connected_region": "Subregion Spencer's Cave"
-          },
-          {
-            "name": "Spencer Cave Normal From Overworld - Exit to Overworld",
-            "parent_region": "Spencer Cave Normal South Ledge",
-            "connected_region": "Subregion Spencer's Cave"
-          }
-        ],
         "exits": [
           {
             "name": "Overworld - Spencer's Place",
@@ -966,18 +692,6 @@
       },
       "Subregion Ship Dock": {
         "name": "Subregion Ship Dock",
-        "entrances": [
-          {
-            "name": "Subregion Mac's Ship to Subregion Ship Dock",
-            "parent_region": "Subregion Mac's Ship",
-            "connected_region": "Subregion Ship Dock"
-          },
-          {
-            "name": "Ship Dock - Entrance",
-            "parent_region": "Ship Dock",
-            "connected_region": "Subregion Ship Dock"
-          }
-        ],
         "exits": [
           {
             "name": "Overworld - Ship Dock",
@@ -1009,23 +723,6 @@
       },
       "Subregion Mac's Ship": {
         "name": "Subregion Mac's Ship",
-        "entrances": [
-          {
-            "name": "Subregion Ship Dock to Subregion Mac's Ship",
-            "parent_region": "Subregion Ship Dock",
-            "connected_region": "Subregion Mac's Ship"
-          },
-          {
-            "name": "Subregion Doom Castle to Subregion Mac's Ship",
-            "parent_region": "Subregion Doom Castle",
-            "connected_region": "Subregion Mac's Ship"
-          },
-          {
-            "name": "Mac Ship Deck - East Entrance Script",
-            "parent_region": "Mac Ship Deck",
-            "connected_region": "Subregion Mac's Ship"
-          }
-        ],
         "exits": [
           {
             "name": "Overworld - Mac Ship",
@@ -1078,13 +775,6 @@
       },
       "Subregion Light Temple": {
         "name": "Subregion Light Temple",
-        "entrances": [
-          {
-            "name": "Light Temple - Entrance",
-            "parent_region": "Light Temple",
-            "connected_region": "Subregion Light Temple"
-          }
-        ],
         "exits": [
           {
             "name": "Overworld - Light Temple",
@@ -1099,18 +789,6 @@
       },
       "Subregion Doom Castle": {
         "name": "Subregion Doom Castle",
-        "entrances": [
-          {
-            "name": "Subregion Mac's Ship to Subregion Doom Castle",
-            "parent_region": "Subregion Mac's Ship",
-            "connected_region": "Subregion Doom Castle"
-          },
-          {
-            "name": "Doom Castle - Sand Floor - Main Entrance - Sand Floor",
-            "parent_region": "Doom Castle - Sand Floor",
-            "connected_region": "Subregion Doom Castle"
-          }
-        ],
         "exits": [
           {
             "name": "Overworld - Doom Castle",
@@ -1159,18 +837,6 @@
       },
       "Doom Castle - Sand Floor": {
         "name": "Doom Castle - Sand Floor",
-        "entrances": [
-          {
-            "name": "Overworld - Doom Castle",
-            "parent_region": "Subregion Doom Castle",
-            "connected_region": "Doom Castle - Sand Floor"
-          },
-          {
-            "name": "Focus Tower B1 - Inner Loop - To Doom Castle Sand Floor",
-            "parent_region": "Focus Tower B1 - Inner Loop",
-            "connected_region": "Doom Castle - Sand Floor"
-          }
-        ],
         "exits": [
           {
             "name": "Doom Castle - Sand Floor - Main Entrance - Sand Floor",
@@ -1280,13 +946,6 @@
       },
       "Doom Castle - Aero Room": {
         "name": "Doom Castle - Aero Room",
-        "entrances": [
-          {
-            "name": "Focus Tower B1 - Aero Corridor - To Sand Floor - Aero Chest",
-            "parent_region": "Focus Tower B1 - Aero Corridor",
-            "connected_region": "Doom Castle - Aero Room"
-          }
-        ],
         "exits": [
           {
             "name": "Doom Castle - Aero Room - Aero Room Entrance",
@@ -1316,18 +975,6 @@
       },
       "Focus Tower B1 - Main Loop": {
         "name": "Focus Tower B1 - Main Loop",
-        "entrances": [
-          {
-            "name": "Overworld - Focus Tower Foresta",
-            "parent_region": "Subregion Foresta",
-            "connected_region": "Focus Tower B1 - Main Loop"
-          },
-          {
-            "name": "Focus Tower 1F - To Focus Tower B1 - Main Hall",
-            "parent_region": "Focus Tower 1F Main Lobby",
-            "connected_region": "Focus Tower B1 - Main Loop"
-          }
-        ],
         "exits": [
           {
             "name": "Focus Tower B1 - Main Loop - South Entrance",
@@ -1350,18 +997,6 @@
       },
       "Focus Tower B1 - Aero Corridor": {
         "name": "Focus Tower B1 - Aero Corridor",
-        "entrances": [
-          {
-            "name": "Doom Castle - Aero Room - Aero Room Entrance",
-            "parent_region": "Doom Castle - Aero Room",
-            "connected_region": "Focus Tower B1 - Aero Corridor"
-          },
-          {
-            "name": "Focus Tower 1F - To Focus Tower B1 - To Aero Chest",
-            "parent_region": "Focus Tower 1F SunCoin Room",
-            "connected_region": "Focus Tower B1 - Aero Corridor"
-          }
-        ],
         "exits": [
           {
             "name": "Focus Tower B1 - Aero Corridor - To Focus Tower 1F - Sun Coin Room",
@@ -1384,18 +1019,6 @@
       },
       "Focus Tower B1 - Inner Loop": {
         "name": "Focus Tower B1 - Inner Loop",
-        "entrances": [
-          {
-            "name": "Doom Castle - Sand Floor - To Sky Door - Sand Floor",
-            "parent_region": "Doom Castle - Sand Floor",
-            "connected_region": "Focus Tower B1 - Inner Loop"
-          },
-          {
-            "name": "Focus Tower 1F - To Focus Tower B1 - From Sky Door",
-            "parent_region": "Focus Tower 1F SkyCoin Room",
-            "connected_region": "Focus Tower B1 - Inner Loop"
-          }
-        ],
         "exits": [
           {
             "name": "Focus Tower B1 - Inner Loop - To Doom Castle Sand Floor",
@@ -1418,28 +1041,6 @@
       },
       "Focus Tower 1F Main Lobby": {
         "name": "Focus Tower 1F Main Lobby",
-        "entrances": [
-          {
-            "name": "Focus Tower B1 - Main Loop - To Focus Tower 1F - Main Hall",
-            "parent_region": "Focus Tower B1 - Main Loop",
-            "connected_region": "Focus Tower 1F Main Lobby"
-          },
-          {
-            "name": "Focus Tower 1F SandCoin Room to Focus Tower 1F Main Lobby",
-            "parent_region": "Focus Tower 1F SandCoin Room",
-            "connected_region": "Focus Tower 1F Main Lobby"
-          },
-          {
-            "name": "Focus Tower 1F RiverCoin Room to Focus Tower 1F Main Lobby",
-            "parent_region": "Focus Tower 1F RiverCoin Room",
-            "connected_region": "Focus Tower 1F Main Lobby"
-          },
-          {
-            "name": "Focus Tower 1F SunCoin Room to Focus Tower 1F Main Lobby",
-            "parent_region": "Focus Tower 1F SunCoin Room",
-            "connected_region": "Focus Tower 1F Main Lobby"
-          }
-        ],
         "exits": [
           {
             "name": "Focus Tower 1F - To Focus Tower B1 - Main Hall",
@@ -1508,18 +1109,6 @@
       },
       "Focus Tower 1F SandCoin Room": {
         "name": "Focus Tower 1F SandCoin Room",
-        "entrances": [
-          {
-            "name": "Focus Tower 1F Main Lobby to Focus Tower 1F SandCoin Room",
-            "parent_region": "Focus Tower 1F Main Lobby",
-            "connected_region": "Focus Tower 1F SandCoin Room"
-          },
-          {
-            "name": "Focus Tower 2F - Sand Coin Passage - To Focus Tower 1F - To SandCoin",
-            "parent_region": "Focus Tower 2F - Sand Coin Passage",
-            "connected_region": "Focus Tower 1F SandCoin Room"
-          }
-        ],
         "exits": [
           {
             "name": "Focus Tower 1F SandCoin Room to Focus Tower 1F Main Lobby",
@@ -1547,18 +1136,6 @@
       },
       "Focus Tower 1F RiverCoin Room": {
         "name": "Focus Tower 1F RiverCoin Room",
-        "entrances": [
-          {
-            "name": "Focus Tower 1F Main Lobby to Focus Tower 1F RiverCoin Room",
-            "parent_region": "Focus Tower 1F Main Lobby",
-            "connected_region": "Focus Tower 1F RiverCoin Room"
-          },
-          {
-            "name": "Focus Tower 2F - River Coin Passage - To Focus Tower 1F - To RiverCoin",
-            "parent_region": "Focus Tower 2F - River Coin Passage",
-            "connected_region": "Focus Tower 1F RiverCoin Room"
-          }
-        ],
         "exits": [
           {
             "name": "Focus Tower 1F RiverCoin Room to Focus Tower 1F Main Lobby",
@@ -1586,23 +1163,6 @@
       },
       "Focus Tower 1F SunCoin Room": {
         "name": "Focus Tower 1F SunCoin Room",
-        "entrances": [
-          {
-            "name": "Overworld - Focus Tower Windia",
-            "parent_region": "Subregion Windia",
-            "connected_region": "Focus Tower 1F SunCoin Room"
-          },
-          {
-            "name": "Focus Tower B1 - Aero Corridor - To Focus Tower 1F - Sun Coin Room",
-            "parent_region": "Focus Tower B1 - Aero Corridor",
-            "connected_region": "Focus Tower 1F SunCoin Room"
-          },
-          {
-            "name": "Focus Tower 1F Main Lobby to Focus Tower 1F SunCoin Room",
-            "parent_region": "Focus Tower 1F Main Lobby",
-            "connected_region": "Focus Tower 1F SunCoin Room"
-          }
-        ],
         "exits": [
           {
             "name": "Focus Tower 1F SunCoin Room to Focus Tower 1F Main Lobby",
@@ -1638,18 +1198,6 @@
       },
       "Focus Tower 1F SkyCoin Room": {
         "name": "Focus Tower 1F SkyCoin Room",
-        "entrances": [
-          {
-            "name": "Focus Tower B1 - Inner Loop - To Focus Tower 1F - Sky Door",
-            "parent_region": "Focus Tower B1 - Inner Loop",
-            "connected_region": "Focus Tower 1F SkyCoin Room"
-          },
-          {
-            "name": "Doom Castle Corridor of Destiny - South Entrance",
-            "parent_region": "Doom Castle Corridor of Destiny",
-            "connected_region": "Focus Tower 1F SkyCoin Room"
-          }
-        ],
         "exits": [
           {
             "name": "Focus Tower 1F - Sky Door",
@@ -1675,18 +1223,6 @@
       },
       "Focus Tower 2F - Sand Coin Passage": {
         "name": "Focus Tower 2F - Sand Coin Passage",
-        "entrances": [
-          {
-            "name": "Overworld - Focus Tower Aquaria",
-            "parent_region": "Subregion Aquaria",
-            "connected_region": "Focus Tower 2F - Sand Coin Passage"
-          },
-          {
-            "name": "Focus Tower 1F - To Focus Tower 2F - From SandCoin",
-            "parent_region": "Focus Tower 1F SandCoin Room",
-            "connected_region": "Focus Tower 2F - Sand Coin Passage"
-          }
-        ],
         "exits": [
           {
             "name": "Focus Tower 2F - Sand Coin Passage - North Entrance",
@@ -1724,18 +1260,6 @@
       },
       "Focus Tower 2F - River Coin Passage": {
         "name": "Focus Tower 2F - River Coin Passage",
-        "entrances": [
-          {
-            "name": "Focus Tower 1F - To Focus Tower 2F - From RiverCoin",
-            "parent_region": "Focus Tower 1F RiverCoin Room",
-            "connected_region": "Focus Tower 2F - River Coin Passage"
-          },
-          {
-            "name": "Focus Tower 3F - Lower Floor - To Focus Tower 2F - Jump on Pillar",
-            "parent_region": "Focus Tower 3F - Lower Floor",
-            "connected_region": "Focus Tower 2F - River Coin Passage"
-          }
-        ],
         "exits": [
           {
             "name": "Focus Tower 2F - River Coin Passage - To Focus Tower 1F - To RiverCoin",
@@ -1758,13 +1282,6 @@
       },
       "Focus Tower 2F - Venus Chest Room": {
         "name": "Focus Tower 2F - Venus Chest Room",
-        "entrances": [
-          {
-            "name": "Focus Tower 3F - Upper Floor - To Focus Tower 2F - Venus Chest Room",
-            "parent_region": "Focus Tower 3F - Upper Floor",
-            "connected_region": "Focus Tower 2F - Venus Chest Room"
-          }
-        ],
         "exits": [
           {
             "name": "Focus Tower 2F - Venus Chest Room - To Focus Tower 3F - Upper Floor",
@@ -1843,18 +1360,6 @@
       },
       "Focus Tower 3F - Lower Floor": {
         "name": "Focus Tower 3F - Lower Floor",
-        "entrances": [
-          {
-            "name": "Overworld - Focus Tower Fireburg",
-            "parent_region": "Subregion Fireburg",
-            "connected_region": "Focus Tower 3F - Lower Floor"
-          },
-          {
-            "name": "Focus Tower 2F - River Coin Passage - To Focus Tower 3F - Lower Floor",
-            "parent_region": "Focus Tower 2F - River Coin Passage",
-            "connected_region": "Focus Tower 3F - Lower Floor"
-          }
-        ],
         "exits": [
           {
             "name": "Focus Tower 3F - Lower Floor - To Fireburg Entrance",
@@ -1892,18 +1397,6 @@
       },
       "Focus Tower 3F - Upper Floor": {
         "name": "Focus Tower 3F - Upper Floor",
-        "entrances": [
-          {
-            "name": "Overworld - Focus Tower Frozen Strip",
-            "parent_region": "Subregion Frozen Fields",
-            "connected_region": "Focus Tower 3F - Upper Floor"
-          },
-          {
-            "name": "Focus Tower 2F - Venus Chest Room - To Focus Tower 3F - Upper Floor",
-            "parent_region": "Focus Tower 2F - Venus Chest Room",
-            "connected_region": "Focus Tower 3F - Upper Floor"
-          }
-        ],
         "exits": [
           {
             "name": "Focus Tower 3F - Upper Floor - To Aquaria Entrance",
@@ -1926,13 +1419,6 @@
       },
       "Level Forest": {
         "name": "Level Forest",
-        "entrances": [
-          {
-            "name": "Overworld - Level Forest",
-            "parent_region": "Subregion Foresta",
-            "connected_region": "Level Forest"
-          }
-        ],
         "exits": [
           {
             "name": "Level Forest - Exit Level Forest 1",
@@ -2194,33 +1680,6 @@
       },
       "Foresta": {
         "name": "Foresta",
-        "entrances": [
-          {
-            "name": "Overworld - Foresta",
-            "parent_region": "Subregion Foresta",
-            "connected_region": "Foresta"
-          },
-          {
-            "name": "Kaeli's House - Kaeli's House Entrance",
-            "parent_region": "Kaeli's House",
-            "connected_region": "Foresta"
-          },
-          {
-            "name": "Foresta Houses - Old Man's House - Old Man Front Exit",
-            "parent_region": "Foresta Houses - Old Man's House Main",
-            "connected_region": "Foresta"
-          },
-          {
-            "name": "Foresta Houses - Old Man's House - Old Man Back Exit",
-            "parent_region": "Foresta Houses - Old Man's House Back",
-            "connected_region": "Foresta"
-          },
-          {
-            "name": "Foresta Houses - Rest House - Rest House Exit",
-            "parent_region": "Foresta Houses - Rest House",
-            "connected_region": "Foresta"
-          }
-        ],
         "exits": [
           {
             "name": "Foresta - Exit Foresta 1",
@@ -2312,13 +1771,6 @@
       },
       "Kaeli's House": {
         "name": "Kaeli's House",
-        "entrances": [
-          {
-            "name": "Foresta - Kaeli's House",
-            "parent_region": "Foresta",
-            "connected_region": "Kaeli's House"
-          }
-        ],
         "exits": [
           {
             "name": "Kaeli's House - Kaeli's House Entrance",
@@ -2394,18 +1846,6 @@
       },
       "Foresta Houses - Old Man's House Main": {
         "name": "Foresta Houses - Old Man's House Main",
-        "entrances": [
-          {
-            "name": "Foresta - Old Man House - Front Door",
-            "parent_region": "Foresta",
-            "connected_region": "Foresta Houses - Old Man's House Main"
-          },
-          {
-            "name": "Foresta Houses - Old Man's House Back to Foresta Houses - Old Man's House Main",
-            "parent_region": "Foresta Houses - Old Man's House Back",
-            "connected_region": "Foresta Houses - Old Man's House Main"
-          }
-        ],
         "exits": [
           {
             "name": "Foresta Houses - Old Man's House Main to Foresta Houses - Old Man's House Back",
@@ -2433,18 +1873,6 @@
       },
       "Foresta Houses - Old Man's House Back": {
         "name": "Foresta Houses - Old Man's House Back",
-        "entrances": [
-          {
-            "name": "Foresta - Old Man House - Back Door",
-            "parent_region": "Foresta",
-            "connected_region": "Foresta Houses - Old Man's House Back"
-          },
-          {
-            "name": "Foresta Houses - Old Man's House Main to Foresta Houses - Old Man's House Back",
-            "parent_region": "Foresta Houses - Old Man's House Main",
-            "connected_region": "Foresta Houses - Old Man's House Back"
-          }
-        ],
         "exits": [
           {
             "name": "Foresta Houses - Old Man's House Back to Foresta Houses - Old Man's House Main",
@@ -2501,13 +1929,6 @@
       },
       "Foresta Houses - Rest House": {
         "name": "Foresta Houses - Rest House",
-        "entrances": [
-          {
-            "name": "Foresta - Rest House",
-            "parent_region": "Foresta",
-            "connected_region": "Foresta Houses - Rest House"
-          }
-        ],
         "exits": [
           {
             "name": "Foresta Houses - Rest House - Rest House Exit",
@@ -2537,13 +1958,6 @@
       },
       "Libra Treehouse": {
         "name": "Libra Treehouse",
-        "entrances": [
-          {
-            "name": "Alive Forest - Libra Teleporter Script",
-            "parent_region": "Alive Forest",
-            "connected_region": "Libra Treehouse"
-          }
-        ],
         "exits": [
           {
             "name": "Foresta Houses - Libra House - Libra House Script",
@@ -2578,13 +1992,6 @@
       },
       "Gemini Treehouse": {
         "name": "Gemini Treehouse",
-        "entrances": [
-          {
-            "name": "Alive Forest - Gemini Teleporter Script",
-            "parent_region": "Alive Forest",
-            "connected_region": "Gemini Treehouse"
-          }
-        ],
         "exits": [
           {
             "name": "Foresta Houses - Gemini House - Gemini House Script",
@@ -2619,13 +2026,6 @@
       },
       "Mobius Treehouse": {
         "name": "Mobius Treehouse",
-        "entrances": [
-          {
-            "name": "Alive Forest - Mobius Teleporter Script",
-            "parent_region": "Alive Forest",
-            "connected_region": "Mobius Treehouse"
-          }
-        ],
         "exits": [
           {
             "name": "Foresta Houses - Mobius House - Mobius House Script",
@@ -2674,13 +2074,6 @@
       },
       "Sand Temple": {
         "name": "Sand Temple",
-        "entrances": [
-          {
-            "name": "Overworld - Sand Temple",
-            "parent_region": "Subregion Foresta",
-            "connected_region": "Sand Temple"
-          }
-        ],
         "exits": [
           {
             "name": "Sand Temple - Sand Temple Entrance",
@@ -2710,18 +2103,6 @@
       },
       "Bone Dungeon 1F": {
         "name": "Bone Dungeon 1F",
-        "entrances": [
-          {
-            "name": "Overworld - Bone Dungeon",
-            "parent_region": "Subregion Foresta",
-            "connected_region": "Bone Dungeon 1F"
-          },
-          {
-            "name": "Bone Dungeon B1 - Waterway - To Bone Dungeon 1F",
-            "parent_region": "Bone Dungeon B1 - Waterway",
-            "connected_region": "Bone Dungeon 1F"
-          }
-        ],
         "exits": [
           {
             "name": "Bone Dungeon 1F - Bone Dungeon Entrance",
@@ -2787,18 +2168,6 @@
       },
       "Bone Dungeon B1 - Waterway": {
         "name": "Bone Dungeon B1 - Waterway",
-        "entrances": [
-          {
-            "name": "Bone Dungeon 1F - To Bone Dungeon B1",
-            "parent_region": "Bone Dungeon 1F",
-            "connected_region": "Bone Dungeon B1 - Waterway"
-          },
-          {
-            "name": "Bone Dungeon B1 - Checker Room - To Waterway",
-            "parent_region": "Bone Dungeon B1 - Checker Room",
-            "connected_region": "Bone Dungeon B1 - Waterway"
-          }
-        ],
         "exits": [
           {
             "name": "Bone Dungeon B1 - Waterway - To Bone Dungeon 1F",
@@ -2934,18 +2303,6 @@
       },
       "Bone Dungeon B1 - Checker Room": {
         "name": "Bone Dungeon B1 - Checker Room",
-        "entrances": [
-          {
-            "name": "Bone Dungeon B1 - Waterway - Exit Waterway",
-            "parent_region": "Bone Dungeon B1 - Waterway",
-            "connected_region": "Bone Dungeon B1 - Checker Room"
-          },
-          {
-            "name": "Bonne Dungeon B2 - Exploding Skull Room - To Checker Room",
-            "parent_region": "Bone Dungeon B2 - Exploding Skull Room - First Room",
-            "connected_region": "Bone Dungeon B1 - Checker Room"
-          }
-        ],
         "exits": [
           {
             "name": "Bone Dungeon B1 - Checker Room - To Waterway",
@@ -3013,13 +2370,6 @@
       },
       "Bone Dungeon B1 - Hidden Room": {
         "name": "Bone Dungeon B1 - Hidden Room",
-        "entrances": [
-          {
-            "name": "Bonne Dungeon B2 - Exploding Skull Room - To Hidden Passage",
-            "parent_region": "Bone Dungeon B2 - Exploding Skull Room - Second Room",
-            "connected_region": "Bone Dungeon B1 - Hidden Room"
-          }
-        ],
         "exits": [
           {
             "name": "Bone Dungeon B1 - Hidden Room - To B2 - Exploding Skull Room",
@@ -3049,18 +2399,6 @@
       },
       "Bone Dungeon B2 - Exploding Skull Room - First Room": {
         "name": "Bone Dungeon B2 - Exploding Skull Room - First Room",
-        "entrances": [
-          {
-            "name": "Bone Dungeon B1 - Checker Room - Exit Checker Room",
-            "parent_region": "Bone Dungeon B1 - Checker Room",
-            "connected_region": "Bone Dungeon B2 - Exploding Skull Room - First Room"
-          },
-          {
-            "name": "Bone Dungeon B2 - Exploding Skull Room - Second Room to Bone Dungeon B2 - Exploding Skull Room - First Room",
-            "parent_region": "Bone Dungeon B2 - Exploding Skull Room - Second Room",
-            "connected_region": "Bone Dungeon B2 - Exploding Skull Room - First Room"
-          }
-        ],
         "exits": [
           {
             "name": "Bonne Dungeon B2 - Exploding Skull Room - To Checker Room",
@@ -3147,23 +2485,6 @@
       },
       "Bone Dungeon B2 - Exploding Skull Room - Second Room": {
         "name": "Bone Dungeon B2 - Exploding Skull Room - Second Room",
-        "entrances": [
-          {
-            "name": "Bone Dungeon B1 - Hidden Room - To B2 - Exploding Skull Room",
-            "parent_region": "Bone Dungeon B1 - Hidden Room",
-            "connected_region": "Bone Dungeon B2 - Exploding Skull Room - Second Room"
-          },
-          {
-            "name": "Bone Dungeon B2 - Exploding Skull Room - First Room to Bone Dungeon B2 - Exploding Skull Room - Second Room",
-            "parent_region": "Bone Dungeon B2 - Exploding Skull Room - First Room",
-            "connected_region": "Bone Dungeon B2 - Exploding Skull Room - Second Room"
-          },
-          {
-            "name": "Bone Dungeon B2 - Exploding Skull Room - Third Room to Bone Dungeon B2 - Exploding Skull Room - Second Room",
-            "parent_region": "Bone Dungeon B2 - Exploding Skull Room - Third Room",
-            "connected_region": "Bone Dungeon B2 - Exploding Skull Room - Second Room"
-          }
-        ],
         "exits": [
           {
             "name": "Bonne Dungeon B2 - Exploding Skull Room - To Hidden Passage",
@@ -3268,18 +2589,6 @@
       },
       "Bone Dungeon B2 - Exploding Skull Room - Third Room": {
         "name": "Bone Dungeon B2 - Exploding Skull Room - Third Room",
-        "entrances": [
-          {
-            "name": "Bone Dungeon B2 - Exploding Skull Room - Second Room to Bone Dungeon B2 - Exploding Skull Room - Third Room",
-            "parent_region": "Bone Dungeon B2 - Exploding Skull Room - Second Room",
-            "connected_region": "Bone Dungeon B2 - Exploding Skull Room - Third Room"
-          },
-          {
-            "name": "Bonne Dungeon B2 - Two Skulls Room - To B2 - Exploding Skull Room",
-            "parent_region": "Bone Dungeon B2 - Two Skulls Room - First Room",
-            "connected_region": "Bone Dungeon B2 - Exploding Skull Room - Third Room"
-          }
-        ],
         "exits": [
           {
             "name": "Bonne Dungeon B2 - Exploding Skull Room - To Two Skulls Room",
@@ -3307,13 +2616,6 @@
       },
       "Bone Dungeon B2 - Box Room": {
         "name": "Bone Dungeon B2 - Box Room",
-        "entrances": [
-          {
-            "name": "Bonne Dungeon B2 - Two Skulls Room - To Box Room",
-            "parent_region": "Bone Dungeon B2 - Two Skulls Room - Second Room",
-            "connected_region": "Bone Dungeon B2 - Box Room"
-          }
-        ],
         "exits": [
           {
             "name": "Bonne Dungeon B2 - Box Room - To B2 - Two Skulls Room",
@@ -3343,13 +2645,6 @@
       },
       "Bone Dungeon B2 - Quake Room": {
         "name": "Bone Dungeon B2 - Quake Room",
-        "entrances": [
-          {
-            "name": "Bonne Dungeon B2 - Two Skulls Room - To Quake Room",
-            "parent_region": "Bone Dungeon B2 - Two Skulls Room - Third Room",
-            "connected_region": "Bone Dungeon B2 - Quake Room"
-          }
-        ],
         "exits": [
           {
             "name": "Bonne Dungeon B2 - Quake Room - To B2 - Two Skulls Room",
@@ -3379,18 +2674,6 @@
       },
       "Bone Dungeon B2 - Two Skulls Room - First Room": {
         "name": "Bone Dungeon B2 - Two Skulls Room - First Room",
-        "entrances": [
-          {
-            "name": "Bonne Dungeon B2 - Exploding Skull Room - To Two Skulls Room",
-            "parent_region": "Bone Dungeon B2 - Exploding Skull Room - Third Room",
-            "connected_region": "Bone Dungeon B2 - Two Skulls Room - First Room"
-          },
-          {
-            "name": "Bone Dungeon B2 - Two Skulls Room - Second Room to Bone Dungeon B2 - Two Skulls Room - First Room",
-            "parent_region": "Bone Dungeon B2 - Two Skulls Room - Second Room",
-            "connected_region": "Bone Dungeon B2 - Two Skulls Room - First Room"
-          }
-        ],
         "exits": [
           {
             "name": "Bonne Dungeon B2 - Two Skulls Room - To B2 - Exploding Skull Room",
@@ -3477,23 +2760,6 @@
       },
       "Bone Dungeon B2 - Two Skulls Room - Second Room": {
         "name": "Bone Dungeon B2 - Two Skulls Room - Second Room",
-        "entrances": [
-          {
-            "name": "Bonne Dungeon B2 - Box Room - To B2 - Two Skulls Room",
-            "parent_region": "Bone Dungeon B2 - Box Room",
-            "connected_region": "Bone Dungeon B2 - Two Skulls Room - Second Room"
-          },
-          {
-            "name": "Bone Dungeon B2 - Two Skulls Room - First Room to Bone Dungeon B2 - Two Skulls Room - Second Room",
-            "parent_region": "Bone Dungeon B2 - Two Skulls Room - First Room",
-            "connected_region": "Bone Dungeon B2 - Two Skulls Room - Second Room"
-          },
-          {
-            "name": "Bone Dungeon B2 - Two Skulls Room - Third Room to Bone Dungeon B2 - Two Skulls Room - Second Room",
-            "parent_region": "Bone Dungeon B2 - Two Skulls Room - Third Room",
-            "connected_region": "Bone Dungeon B2 - Two Skulls Room - Second Room"
-          }
-        ],
         "exits": [
           {
             "name": "Bonne Dungeon B2 - Two Skulls Room - To Box Room",
@@ -3579,23 +2845,6 @@
       },
       "Bone Dungeon B2 - Two Skulls Room - Third Room": {
         "name": "Bone Dungeon B2 - Two Skulls Room - Third Room",
-        "entrances": [
-          {
-            "name": "Bonne Dungeon B2 - Quake Room - To B2 - Two Skulls Room",
-            "parent_region": "Bone Dungeon B2 - Quake Room",
-            "connected_region": "Bone Dungeon B2 - Two Skulls Room - Third Room"
-          },
-          {
-            "name": "Bone Dungeon B2 - Two Skulls Room - Second Room to Bone Dungeon B2 - Two Skulls Room - Third Room",
-            "parent_region": "Bone Dungeon B2 - Two Skulls Room - Second Room",
-            "connected_region": "Bone Dungeon B2 - Two Skulls Room - Third Room"
-          },
-          {
-            "name": "Bone Dungeon B2 - Boss Room - To B2 - Two Skulls Room",
-            "parent_region": "Bone Dungeon B2 - Boss Room",
-            "connected_region": "Bone Dungeon B2 - Two Skulls Room - Third Room"
-          }
-        ],
         "exits": [
           {
             "name": "Bonne Dungeon B2 - Two Skulls Room - To Quake Room",
@@ -3661,13 +2910,6 @@
       },
       "Bone Dungeon B2 - Boss Room": {
         "name": "Bone Dungeon B2 - Boss Room",
-        "entrances": [
-          {
-            "name": "Bonne Dungeon B2 - Two Skulls Room - To Boss Room",
-            "parent_region": "Bone Dungeon B2 - Two Skulls Room - Third Room",
-            "connected_region": "Bone Dungeon B2 - Boss Room"
-          }
-        ],
         "exits": [
           {
             "name": "Bone Dungeon B2 - Boss Room - To B2 - Two Skulls Room",
@@ -3753,18 +2995,6 @@
       },
       "Libra Temple": {
         "name": "Libra Temple",
-        "entrances": [
-          {
-            "name": "Overworld - Libra Temple",
-            "parent_region": "Subregion Aquaria",
-            "connected_region": "Libra Temple"
-          },
-          {
-            "name": "Life Temple - Libra Tile Script",
-            "parent_region": "Life Temple",
-            "connected_region": "Libra Temple"
-          }
-        ],
         "exits": [
           {
             "name": "Libra Temple - Entrance",
@@ -3821,38 +3051,6 @@
       },
       "Aquaria": {
         "name": "Aquaria",
-        "entrances": [
-          {
-            "name": "Overworld - Aquaria",
-            "parent_region": "Subregion Aquaria",
-            "connected_region": "Aquaria"
-          },
-          {
-            "name": "Phoebe's House - Entrance",
-            "parent_region": "Phoebe's House",
-            "connected_region": "Aquaria"
-          },
-          {
-            "name": "Aquaria Vendor House - Vendor House Entrance's Script",
-            "parent_region": "Aquaria Vendor House",
-            "connected_region": "Aquaria"
-          },
-          {
-            "name": "Aquaria INN - Aquaria INN entrance",
-            "parent_region": "Aquaria INN",
-            "connected_region": "Aquaria"
-          },
-          {
-            "name": "Spencer Waterfall - Upper Exit to Aquaria 2",
-            "parent_region": "Spencer Waterfall",
-            "connected_region": "Aquaria"
-          },
-          {
-            "name": "Spencer Waterfall - Right Exit to Aquaria 1",
-            "parent_region": "Spencer Waterfall",
-            "connected_region": "Aquaria"
-          }
-        ],
         "exits": [
           {
             "name": "Aquaria Winter - Winter Entrance 1",
@@ -3937,13 +3135,6 @@
       },
       "Phoebe's House": {
         "name": "Phoebe's House",
-        "entrances": [
-          {
-            "name": "Aquaria Winter - Winter Phoebe's House Entrance Script",
-            "parent_region": "Aquaria",
-            "connected_region": "Phoebe's House"
-          }
-        ],
         "exits": [
           {
             "name": "Phoebe's House - Entrance",
@@ -3973,18 +3164,6 @@
       },
       "Aquaria Vendor House": {
         "name": "Aquaria Vendor House",
-        "entrances": [
-          {
-            "name": "Aquaria Winter - Winter Vendor House Entrance",
-            "parent_region": "Aquaria",
-            "connected_region": "Aquaria Vendor House"
-          },
-          {
-            "name": "Aquaria Gemini Room - Gemini Room Stairs",
-            "parent_region": "Aquaria Gemini Room",
-            "connected_region": "Aquaria Vendor House"
-          }
-        ],
         "exits": [
           {
             "name": "Aquaria Vendor House - Vendor House Entrance's Script",
@@ -4036,18 +3215,6 @@
       },
       "Aquaria Gemini Room": {
         "name": "Aquaria Gemini Room",
-        "entrances": [
-          {
-            "name": "Aquaria Vendor House - Vendor House Stairs",
-            "parent_region": "Aquaria Vendor House",
-            "connected_region": "Aquaria Gemini Room"
-          },
-          {
-            "name": "Fireburg Gemini Room - Gemini Teleporter Script",
-            "parent_region": "Fireburg Gemini Room",
-            "connected_region": "Aquaria Gemini Room"
-          }
-        ],
         "exits": [
           {
             "name": "Aquaria Gemini Room - Gemini Room Stairs",
@@ -4070,13 +3237,6 @@
       },
       "Aquaria INN": {
         "name": "Aquaria INN",
-        "entrances": [
-          {
-            "name": "Aquaria Winter - Winter INN Entrance",
-            "parent_region": "Aquaria",
-            "connected_region": "Aquaria INN"
-          }
-        ],
         "exits": [
           {
             "name": "Aquaria INN - Aquaria INN entrance",
@@ -4091,23 +3251,6 @@
       },
       "Wintry Cave 1F - East Ledge": {
         "name": "Wintry Cave 1F - East Ledge",
-        "entrances": [
-          {
-            "name": "Overworld - Wintry Cave",
-            "parent_region": "Subregion Aquaria",
-            "connected_region": "Wintry Cave 1F - East Ledge"
-          },
-          {
-            "name": "Wintry Cave 1F - Central Space to Wintry Cave 1F - East Ledge",
-            "parent_region": "Wintry Cave 1F - Central Space",
-            "connected_region": "Wintry Cave 1F - East Ledge"
-          },
-          {
-            "name": "Wintry Cave 3F Top - Exit from 3F Top",
-            "parent_region": "Wintry Cave 3F Top",
-            "connected_region": "Wintry Cave 1F - East Ledge"
-          }
-        ],
         "exits": [
           {
             "name": "Wintry Cave 1F - Main Entrance",
@@ -4290,18 +3433,6 @@
       },
       "Wintry Cave 1F - Central Space": {
         "name": "Wintry Cave 1F - Central Space",
-        "entrances": [
-          {
-            "name": "Wintry Cave 1F - East Ledge to Wintry Cave 1F - Central Space",
-            "parent_region": "Wintry Cave 1F - East Ledge",
-            "connected_region": "Wintry Cave 1F - Central Space"
-          },
-          {
-            "name": "Wintry Cave 1F - West Ledge to Wintry Cave 1F - Central Space",
-            "parent_region": "Wintry Cave 1F - West Ledge",
-            "connected_region": "Wintry Cave 1F - Central Space"
-          }
-        ],
         "exits": [
           {
             "name": "Wintry Cave 1F - Central Space to Wintry Cave 1F - East Ledge",
@@ -4429,18 +3560,6 @@
       },
       "Wintry Cave 1F - West Ledge": {
         "name": "Wintry Cave 1F - West Ledge",
-        "entrances": [
-          {
-            "name": "Wintry Cave 1F - Central Space to Wintry Cave 1F - West Ledge",
-            "parent_region": "Wintry Cave 1F - Central Space",
-            "connected_region": "Wintry Cave 1F - West Ledge"
-          },
-          {
-            "name": "Wintry Cave 2F - To 1F",
-            "parent_region": "Wintry Cave 2F",
-            "connected_region": "Wintry Cave 1F - West Ledge"
-          }
-        ],
         "exits": [
           {
             "name": "Wintry Cave 1F - To 2F",
@@ -4523,18 +3642,6 @@
       },
       "Wintry Cave 2F": {
         "name": "Wintry Cave 2F",
-        "entrances": [
-          {
-            "name": "Wintry Cave 1F - To 2F",
-            "parent_region": "Wintry Cave 1F - West Ledge",
-            "connected_region": "Wintry Cave 2F"
-          },
-          {
-            "name": "Wintry Cave 3F Bottom - Exit to 2F",
-            "parent_region": "Wintry Cave 3F Bottom",
-            "connected_region": "Wintry Cave 2F"
-          }
-        ],
         "exits": [
           {
             "name": "Wintry Cave 2F - To 1F",
@@ -4614,13 +3721,6 @@
       },
       "Wintry Cave 3F Top": {
         "name": "Wintry Cave 3F Top",
-        "entrances": [
-          {
-            "name": "Wintry Cave 1F - To 3F Top",
-            "parent_region": "Wintry Cave 1F - East Ledge",
-            "connected_region": "Wintry Cave 3F Top"
-          }
-        ],
         "exits": [
           {
             "name": "Wintry Cave 3F Top - Exit from 3F Top",
@@ -4664,13 +3764,6 @@
       },
       "Wintry Cave 3F Bottom": {
         "name": "Wintry Cave 3F Bottom",
-        "entrances": [
-          {
-            "name": "Wintry Cave 2F - To 3F Bottom",
-            "parent_region": "Wintry Cave 2F",
-            "connected_region": "Wintry Cave 3F Bottom"
-          }
-        ],
         "exits": [
           {
             "name": "Wintry Cave 3F Bottom - Exit to 2F",
@@ -4733,18 +3826,6 @@
       },
       "Life Temple": {
         "name": "Life Temple",
-        "entrances": [
-          {
-            "name": "Overworld - Life Temple",
-            "parent_region": "Subregion Life Temple",
-            "connected_region": "Life Temple"
-          },
-          {
-            "name": "Libra Temple - Libra Tile Script",
-            "parent_region": "Libra Temple",
-            "connected_region": "Life Temple"
-          }
-        ],
         "exits": [
           {
             "name": "Life Temple - Entrance",
@@ -4801,13 +3882,6 @@
       },
       "Fall Basin": {
         "name": "Fall Basin",
-        "entrances": [
-          {
-            "name": "Overworld - Falls Basin",
-            "parent_region": "Subregion Aquaria",
-            "connected_region": "Fall Basin"
-          }
-        ],
         "exits": [
           {
             "name": "Fall Basin - Main Exit",
@@ -4870,18 +3944,6 @@
       },
       "Ice Pyramid B1 Taunt Room": {
         "name": "Ice Pyramid B1 Taunt Room",
-        "entrances": [
-          {
-            "name": "Ice Pyramid 5F Leap of Faith Room to Ice Pyramid B1 Taunt Room",
-            "parent_region": "Ice Pyramid 5F Leap of Faith Room",
-            "connected_region": "Ice Pyramid B1 Taunt Room"
-          },
-          {
-            "name": "Ice Pyramid Climbing Wall Room - To Taunt Room",
-            "parent_region": "Ice Pyramid Climbing Wall Room Lower Space",
-            "connected_region": "Ice Pyramid B1 Taunt Room"
-          }
-        ],
         "exits": [
           {
             "name": "Ice Pyramid B1 Taunt Room - To Climbing Wall Room",
@@ -4953,18 +4015,6 @@
       },
       "Ice Pyramid 1F Maze Lobby": {
         "name": "Ice Pyramid 1F Maze Lobby",
-        "entrances": [
-          {
-            "name": "Overworld - Ice Pyramid",
-            "parent_region": "Subregion Aquaria",
-            "connected_region": "Ice Pyramid 1F Maze Lobby"
-          },
-          {
-            "name": "Ice Pyramid 1F Maze to Ice Pyramid 1F Maze Lobby",
-            "parent_region": "Ice Pyramid 1F Maze",
-            "connected_region": "Ice Pyramid 1F Maze Lobby"
-          }
-        ],
         "exits": [
           {
             "name": "Ice Pyramid 1F Maze - Main Entrance 1",
@@ -5037,38 +4087,6 @@
       },
       "Ice Pyramid 1F Maze": {
         "name": "Ice Pyramid 1F Maze",
-        "entrances": [
-          {
-            "name": "Ice Pyramid 1F Maze Lobby to Ice Pyramid 1F Maze",
-            "parent_region": "Ice Pyramid 1F Maze Lobby",
-            "connected_region": "Ice Pyramid 1F Maze"
-          },
-          {
-            "name": "Ice Pyramid 2F South Tiled Room - To 1F",
-            "parent_region": "Ice Pyramid 2F South Tiled Room",
-            "connected_region": "Ice Pyramid 1F Maze"
-          },
-          {
-            "name": "Ice Pyramid 2F West Room - To 1F",
-            "parent_region": "Ice Pyramid 2F West Room",
-            "connected_region": "Ice Pyramid 1F Maze"
-          },
-          {
-            "name": "Ice Pyramid 2F Center Room - To 1F",
-            "parent_region": "Ice Pyramid 2F Center Room",
-            "connected_region": "Ice Pyramid 1F Maze"
-          },
-          {
-            "name": "Ice Pyramid 2F Small North Room - To 1F",
-            "parent_region": "Ice Pyramid 2F Small North Room",
-            "connected_region": "Ice Pyramid 1F Maze"
-          },
-          {
-            "name": "Ice Pyramid 2F North Corridor - To 1F",
-            "parent_region": "Ice Pyramid 2F North Corridor",
-            "connected_region": "Ice Pyramid 1F Maze"
-          }
-        ],
         "exits": [
           {
             "name": "Ice Pyramid 1F Maze - West Stairs To 2F South Tiled Room",
@@ -5185,18 +4203,6 @@
       },
       "Ice Pyramid 2F South Tiled Room": {
         "name": "Ice Pyramid 2F South Tiled Room",
-        "entrances": [
-          {
-            "name": "Ice Pyramid 1F Maze - West Stairs To 2F South Tiled Room",
-            "parent_region": "Ice Pyramid 1F Maze",
-            "connected_region": "Ice Pyramid 2F South Tiled Room"
-          },
-          {
-            "name": "Ice Pyramid 3F Two Boxes Room - To 2F South Tiled Room",
-            "parent_region": "Ice Pyramid 3F Two Boxes Room",
-            "connected_region": "Ice Pyramid 2F South Tiled Room"
-          }
-        ],
         "exits": [
           {
             "name": "Ice Pyramid 2F South Tiled Room - To 1F",
@@ -5278,13 +4284,6 @@
       },
       "Ice Pyramid 2F West Room": {
         "name": "Ice Pyramid 2F West Room",
-        "entrances": [
-          {
-            "name": "Ice Pyramid 1F Maze - West Center Stairs to 2F West Room",
-            "parent_region": "Ice Pyramid 1F Maze",
-            "connected_region": "Ice Pyramid 2F West Room"
-          }
-        ],
         "exits": [
           {
             "name": "Ice Pyramid 2F West Room - To 1F",
@@ -5314,13 +4313,6 @@
       },
       "Ice Pyramid 2F Center Room": {
         "name": "Ice Pyramid 2F Center Room",
-        "entrances": [
-          {
-            "name": "Ice Pyramid 1F Maze - East Center Stairs to 2F Center Room",
-            "parent_region": "Ice Pyramid 1F Maze",
-            "connected_region": "Ice Pyramid 2F Center Room"
-          }
-        ],
         "exits": [
           {
             "name": "Ice Pyramid 2F Center Room - To 1F",
@@ -5350,13 +4342,6 @@
       },
       "Ice Pyramid 2F Small North Room": {
         "name": "Ice Pyramid 2F Small North Room",
-        "entrances": [
-          {
-            "name": "Ice Pyramid 1F Maze - Upper Stairs to 2F Small North Room",
-            "parent_region": "Ice Pyramid 1F Maze",
-            "connected_region": "Ice Pyramid 2F Small North Room"
-          }
-        ],
         "exits": [
           {
             "name": "Ice Pyramid 2F Small North Room - To 1F",
@@ -5416,18 +4401,6 @@
       },
       "Ice Pyramid 2F North Corridor": {
         "name": "Ice Pyramid 2F North Corridor",
-        "entrances": [
-          {
-            "name": "Ice Pyramid 1F Maze - East Stairs to 2F North Corridor",
-            "parent_region": "Ice Pyramid 1F Maze",
-            "connected_region": "Ice Pyramid 2F North Corridor"
-          },
-          {
-            "name": "Ice Pyramid 3F Main Loop - To 2F Corridor",
-            "parent_region": "Ice Pyramid 3F Main Loop",
-            "connected_region": "Ice Pyramid 2F North Corridor"
-          }
-        ],
         "exits": [
           {
             "name": "Ice Pyramid 2F North Corridor - To 1F",
@@ -5495,13 +4468,6 @@
       },
       "Ice Pyramid 3F Two Boxes Room": {
         "name": "Ice Pyramid 3F Two Boxes Room",
-        "entrances": [
-          {
-            "name": "Ice Pyramid 2F South Tiled Room - To 3F Two Boxes Room",
-            "parent_region": "Ice Pyramid 2F South Tiled Room",
-            "connected_region": "Ice Pyramid 3F Two Boxes Room"
-          }
-        ],
         "exits": [
           {
             "name": "Ice Pyramid 3F Two Boxes Room - To 2F South Tiled Room",
@@ -5545,18 +4511,6 @@
       },
       "Ice Pyramid 3F Main Loop": {
         "name": "Ice Pyramid 3F Main Loop",
-        "entrances": [
-          {
-            "name": "Ice Pyramid 2F North Corridor - To 3F Main Loop",
-            "parent_region": "Ice Pyramid 2F North Corridor",
-            "connected_region": "Ice Pyramid 3F Main Loop"
-          },
-          {
-            "name": "Ice Pyramid 3F Blocked Room to Ice Pyramid 3F Main Loop",
-            "parent_region": "Ice Pyramid 3F Blocked Room",
-            "connected_region": "Ice Pyramid 3F Main Loop"
-          }
-        ],
         "exits": [
           {
             "name": "Ice Pyramid 3F Main Loop - To 2F Corridor",
@@ -5685,18 +4639,6 @@
       },
       "Ice Pyramid 3F Blocked Room": {
         "name": "Ice Pyramid 3F Blocked Room",
-        "entrances": [
-          {
-            "name": "Ice Pyramid 3F Main Loop to Ice Pyramid 3F Blocked Room",
-            "parent_region": "Ice Pyramid 3F Main Loop",
-            "connected_region": "Ice Pyramid 3F Blocked Room"
-          },
-          {
-            "name": "Ice Pyramid 4F Treasure Room - To 3F Main Loop",
-            "parent_region": "Ice Pyramid 4F Main Loop",
-            "connected_region": "Ice Pyramid 3F Blocked Room"
-          }
-        ],
         "exits": [
           {
             "name": "Ice Pyramid 3F Main Loop - To 4F",
@@ -5724,23 +4666,6 @@
       },
       "Ice Pyramid 4F Main Loop": {
         "name": "Ice Pyramid 4F Main Loop",
-        "entrances": [
-          {
-            "name": "Ice Pyramid 3F Main Loop - To 4F",
-            "parent_region": "Ice Pyramid 3F Blocked Room",
-            "connected_region": "Ice Pyramid 4F Main Loop"
-          },
-          {
-            "name": "Ice Pyramid 4F Treasure Room to Ice Pyramid 4F Main Loop",
-            "parent_region": "Ice Pyramid 4F Treasure Room",
-            "connected_region": "Ice Pyramid 4F Main Loop"
-          },
-          {
-            "name": "Ice Pyramid 5F Leap of Faith Room - To 4F Treasure Room",
-            "parent_region": "Ice Pyramid 5F Leap of Faith Room",
-            "connected_region": "Ice Pyramid 4F Main Loop"
-          }
-        ],
         "exits": [
           {
             "name": "Ice Pyramid 4F Treasure Room - To 5F Leap of Faith Room",
@@ -5776,23 +4701,6 @@
       },
       "Ice Pyramid 4F Treasure Room": {
         "name": "Ice Pyramid 4F Treasure Room",
-        "entrances": [
-          {
-            "name": "Ice Pyramid 4F Main Loop to Ice Pyramid 4F Treasure Room",
-            "parent_region": "Ice Pyramid 4F Main Loop",
-            "connected_region": "Ice Pyramid 4F Treasure Room"
-          },
-          {
-            "name": "Ice Pyramid 5F Leap of Faith Room to Ice Pyramid 4F Treasure Room",
-            "parent_region": "Ice Pyramid 5F Leap of Faith Room",
-            "connected_region": "Ice Pyramid 4F Treasure Room"
-          },
-          {
-            "name": "Ice Pyramid 5F Stairs to Ice Golem to Ice Pyramid 4F Treasure Room",
-            "parent_region": "Ice Pyramid 5F Stairs to Ice Golem",
-            "connected_region": "Ice Pyramid 4F Treasure Room"
-          }
-        ],
         "exits": [
           {
             "name": "Ice Pyramid 4F Treasure Room to Ice Pyramid 4F Main Loop",
@@ -5969,18 +4877,6 @@
       },
       "Ice Pyramid 5F Leap of Faith Room": {
         "name": "Ice Pyramid 5F Leap of Faith Room",
-        "entrances": [
-          {
-            "name": "Ice Pyramid 4F Treasure Room - To 5F Leap of Faith Room",
-            "parent_region": "Ice Pyramid 4F Main Loop",
-            "connected_region": "Ice Pyramid 5F Leap of Faith Room"
-          },
-          {
-            "name": "Ice Pyramid Ice Golem Room to Ice Pyramid 5F Leap of Faith Room",
-            "parent_region": "Ice Pyramid Ice Golem Room",
-            "connected_region": "Ice Pyramid 5F Leap of Faith Room"
-          }
-        ],
         "exits": [
           {
             "name": "Ice Pyramid 5F Leap of Faith Room - To 4F Treasure Room",
@@ -6196,18 +5092,6 @@
       },
       "Ice Pyramid 5F Stairs to Ice Golem": {
         "name": "Ice Pyramid 5F Stairs to Ice Golem",
-        "entrances": [
-          {
-            "name": "Ice Pyramid Climbing Wall Room - To 5F Stairs",
-            "parent_region": "Ice Pyramid Climbing Wall Room Upper Space",
-            "connected_region": "Ice Pyramid 5F Stairs to Ice Golem"
-          },
-          {
-            "name": "Ice Pyramid Ice Golem Room - To 5F Stairs",
-            "parent_region": "Ice Pyramid Ice Golem Room",
-            "connected_region": "Ice Pyramid 5F Stairs to Ice Golem"
-          }
-        ],
         "exits": [
           {
             "name": "Ice Pyramid 5F Stairs to Ice Golem - To Climbing Wall Room",
@@ -6283,18 +5167,6 @@
       },
       "Ice Pyramid Climbing Wall Room Lower Space": {
         "name": "Ice Pyramid Climbing Wall Room Lower Space",
-        "entrances": [
-          {
-            "name": "Ice Pyramid B1 Taunt Room - To Climbing Wall Room",
-            "parent_region": "Ice Pyramid B1 Taunt Room",
-            "connected_region": "Ice Pyramid Climbing Wall Room Lower Space"
-          },
-          {
-            "name": "Ice Pyramid Climbing Wall Room Upper Space to Ice Pyramid Climbing Wall Room Lower Space",
-            "parent_region": "Ice Pyramid Climbing Wall Room Upper Space",
-            "connected_region": "Ice Pyramid Climbing Wall Room Lower Space"
-          }
-        ],
         "exits": [
           {
             "name": "Ice Pyramid Climbing Wall Room - To Taunt Room",
@@ -6347,18 +5219,6 @@
       },
       "Ice Pyramid Climbing Wall Room Upper Space": {
         "name": "Ice Pyramid Climbing Wall Room Upper Space",
-        "entrances": [
-          {
-            "name": "Ice Pyramid 5F Stairs to Ice Golem - To Climbing Wall Room",
-            "parent_region": "Ice Pyramid 5F Stairs to Ice Golem",
-            "connected_region": "Ice Pyramid Climbing Wall Room Upper Space"
-          },
-          {
-            "name": "Ice Pyramid Climbing Wall Room Lower Space to Ice Pyramid Climbing Wall Room Upper Space",
-            "parent_region": "Ice Pyramid Climbing Wall Room Lower Space",
-            "connected_region": "Ice Pyramid Climbing Wall Room Upper Space"
-          }
-        ],
         "exits": [
           {
             "name": "Ice Pyramid Climbing Wall Room - To 5F Stairs",
@@ -6411,13 +5271,6 @@
       },
       "Ice Pyramid Ice Golem Room": {
         "name": "Ice Pyramid Ice Golem Room",
-        "entrances": [
-          {
-            "name": "Ice Pyramid 5F Stairs to Ice Golem - To Ice Golem Room",
-            "parent_region": "Ice Pyramid 5F Stairs to Ice Golem",
-            "connected_region": "Ice Pyramid Ice Golem Room"
-          }
-        ],
         "exits": [
           {
             "name": "Ice Pyramid Ice Golem Room - To 5F Stairs",
@@ -6474,23 +5327,6 @@
       },
       "Spencer Waterfall": {
         "name": "Spencer Waterfall",
-        "entrances": [
-          {
-            "name": "Aquaria Summer - Spencer's Place Entrance Top",
-            "parent_region": "Aquaria",
-            "connected_region": "Spencer Waterfall"
-          },
-          {
-            "name": "Aquaria Summer - Spencer's Place Entrance Side",
-            "parent_region": "Aquaria",
-            "connected_region": "Spencer Waterfall"
-          },
-          {
-            "name": "Spencer Cave Normal Main - To Waterfall",
-            "parent_region": "Spencer Cave Normal Main",
-            "connected_region": "Spencer Waterfall"
-          }
-        ],
         "exits": [
           {
             "name": "Spencer Waterfall - To Spencer Cave",
@@ -6521,13 +5357,6 @@
       },
       "Spencer Cave Normal Main": {
         "name": "Spencer Cave Normal Main",
-        "entrances": [
-          {
-            "name": "Spencer Waterfall - To Spencer Cave",
-            "parent_region": "Spencer Waterfall",
-            "connected_region": "Spencer Cave Normal Main"
-          }
-        ],
         "exits": [
           {
             "name": "Spencer Cave Normal Main - To Waterfall",
@@ -6620,18 +5449,6 @@
       },
       "Spencer Cave Normal South Ledge": {
         "name": "Spencer Cave Normal South Ledge",
-        "entrances": [
-          {
-            "name": "Overworld - Spencer's Place",
-            "parent_region": "Subregion Spencer's Cave",
-            "connected_region": "Spencer Cave Normal South Ledge"
-          },
-          {
-            "name": "Spencer Cave Caved In Main Loop to Spencer Cave Normal South Ledge",
-            "parent_region": "Spencer Cave Caved In Main Loop",
-            "connected_region": "Spencer Cave Normal South Ledge"
-          }
-        ],
         "exits": [
           {
             "name": "Spencer Cave Normal From Overworld - Exit to Overworld",
@@ -6679,23 +5496,6 @@
       },
       "Spencer Cave Caved In Main Loop": {
         "name": "Spencer Cave Caved In Main Loop",
-        "entrances": [
-          {
-            "name": "Spencer Cave Normal South Ledge to Spencer Cave Caved In Main Loop",
-            "parent_region": "Spencer Cave Normal South Ledge",
-            "connected_region": "Spencer Cave Caved In Main Loop"
-          },
-          {
-            "name": "Spencer Cave Caved In Waters to Spencer Cave Caved In Main Loop",
-            "parent_region": "Spencer Cave Caved In Waters",
-            "connected_region": "Spencer Cave Caved In Main Loop"
-          },
-          {
-            "name": "Spencer Cave Unplug - Mobius Teleporter Chest Script",
-            "parent_region": "Spencer Cave Caved In Mobius Chest",
-            "connected_region": "Spencer Cave Caved In Main Loop"
-          }
-        ],
         "exits": [
           {
             "name": "Spencer Cave Caved In Main Loop to Spencer Cave Normal South Ledge",
@@ -6799,13 +5599,6 @@
       },
       "Spencer Cave Caved In Waters": {
         "name": "Spencer Cave Caved In Waters",
-        "entrances": [
-          {
-            "name": "Spencer Cave Caved In Main Loop to Spencer Cave Caved In Waters",
-            "parent_region": "Spencer Cave Caved In Main Loop",
-            "connected_region": "Spencer Cave Caved In Waters"
-          }
-        ],
         "exits": [
           {
             "name": "Spencer Cave Caved In Waters to Spencer Cave Caved In Main Loop",
@@ -6900,18 +5693,6 @@
       },
       "Spencer Cave Caved In Libra Nook": {
         "name": "Spencer Cave Caved In Libra Nook",
-        "entrances": [
-          {
-            "name": "Spencer Cave Caved In Main Loop to Spencer Cave Caved In Libra Nook",
-            "parent_region": "Spencer Cave Caved In Main Loop",
-            "connected_region": "Spencer Cave Caved In Libra Nook"
-          },
-          {
-            "name": "Spencer Cave Unplug - Libra Teleporter End Script",
-            "parent_region": "Spencer Cave Caved In Libra Corridor",
-            "connected_region": "Spencer Cave Caved In Libra Nook"
-          }
-        ],
         "exits": [
           {
             "name": "Spencer Cave Unplug - Libra Teleporter Start Script",
@@ -6931,18 +5712,6 @@
       },
       "Spencer Cave Caved In Libra Corridor": {
         "name": "Spencer Cave Caved In Libra Corridor",
-        "entrances": [
-          {
-            "name": "Spencer Cave Unplug - Libra Teleporter Start Script",
-            "parent_region": "Spencer Cave Caved In Libra Nook",
-            "connected_region": "Spencer Cave Caved In Libra Corridor"
-          },
-          {
-            "name": "Spencer Cave Caved In Mobius Chest to Spencer Cave Caved In Libra Corridor",
-            "parent_region": "Spencer Cave Caved In Mobius Chest",
-            "connected_region": "Spencer Cave Caved In Libra Corridor"
-          }
-        ],
         "exits": [
           {
             "name": "Spencer Cave Unplug - Libra Teleporter End Script",
@@ -6975,18 +5744,6 @@
       },
       "Spencer Cave Caved In Mobius Chest": {
         "name": "Spencer Cave Caved In Mobius Chest",
-        "entrances": [
-          {
-            "name": "Spencer Cave Unplug - Mobius Teleporter Start Script",
-            "parent_region": "Spencer Cave Caved In Main Loop",
-            "connected_region": "Spencer Cave Caved In Mobius Chest"
-          },
-          {
-            "name": "Spencer Cave Caved In Libra Corridor to Spencer Cave Caved In Mobius Chest",
-            "parent_region": "Spencer Cave Caved In Libra Corridor",
-            "connected_region": "Spencer Cave Caved In Mobius Chest"
-          }
-        ],
         "exits": [
           {
             "name": "Spencer Cave Unplug - Mobius Teleporter Chest Script",
@@ -7059,13 +5816,6 @@
       },
       "Wintry Temple Outer Room": {
         "name": "Wintry Temple Outer Room",
-        "entrances": [
-          {
-            "name": "Overworld - Wintry Temple",
-            "parent_region": "Subregion Frozen Fields",
-            "connected_region": "Wintry Temple Outer Room"
-          }
-        ],
         "exits": [
           {
             "name": "Wintry Temple Outer Room - Main Entrance",
@@ -7080,13 +5830,6 @@
       },
       "Wintry Temple Inner Room": {
         "name": "Wintry Temple Inner Room",
-        "entrances": [
-          {
-            "name": "Sealed Temple - Gemini Tile Script",
-            "parent_region": "Sealed Temple",
-            "connected_region": "Wintry Temple Inner Room"
-          }
-        ],
         "exits": [
           {
             "name": "Wintry Temple Inner Room - Gemini Tile to Sealed temple",
@@ -7135,33 +5878,6 @@
       },
       "Fireburg Upper Plaza": {
         "name": "Fireburg Upper Plaza",
-        "entrances": [
-          {
-            "name": "Overworld - Fireburg",
-            "parent_region": "Subregion Fireburg",
-            "connected_region": "Fireburg Upper Plaza"
-          },
-          {
-            "name": "Fireburg Lower Plaza to Fireburg Upper Plaza",
-            "parent_region": "Fireburg Lower Plaza",
-            "connected_region": "Fireburg Upper Plaza"
-          },
-          {
-            "name": "Reuben House - Main Entrance",
-            "parent_region": "Reuben's House",
-            "connected_region": "Fireburg Upper Plaza"
-          },
-          {
-            "name": "Fireburg Vendor House - Entrance Script",
-            "parent_region": "Fireburg Vendor House",
-            "connected_region": "Fireburg Upper Plaza"
-          },
-          {
-            "name": "Fireburg Hotel Lobby - Entrance",
-            "parent_region": "Fireburg Hotel Lobby",
-            "connected_region": "Fireburg Upper Plaza"
-          }
-        ],
         "exits": [
           {
             "name": "Fireburg - To Overworld",
@@ -7238,18 +5954,6 @@
       },
       "Fireburg Lower Plaza": {
         "name": "Fireburg Lower Plaza",
-        "entrances": [
-          {
-            "name": "Fireburg Upper Plaza to Fireburg Lower Plaza",
-            "parent_region": "Fireburg Upper Plaza",
-            "connected_region": "Fireburg Lower Plaza"
-          },
-          {
-            "name": "GrenadeMan House - Entrance Script",
-            "parent_region": "GrenadeMan's House",
-            "connected_region": "Fireburg Lower Plaza"
-          }
-        ],
         "exits": [
           {
             "name": "Fireburg Lower Plaza to Fireburg Upper Plaza",
@@ -7322,13 +6026,6 @@
       },
       "Reuben's House": {
         "name": "Reuben's House",
-        "entrances": [
-          {
-            "name": "Fireburg - Reuben House",
-            "parent_region": "Fireburg Upper Plaza",
-            "connected_region": "Reuben's House"
-          }
-        ],
         "exits": [
           {
             "name": "Reuben House - Main Entrance",
@@ -7391,18 +6088,6 @@
       },
       "GrenadeMan's House": {
         "name": "GrenadeMan's House",
-        "entrances": [
-          {
-            "name": "Fireburg - GrenadeMan House Script",
-            "parent_region": "Fireburg Lower Plaza",
-            "connected_region": "GrenadeMan's House"
-          },
-          {
-            "name": "GrenadeMan Mobius Room - Stairs to House",
-            "parent_region": "GrenadeMan's Mobius Room",
-            "connected_region": "GrenadeMan's House"
-          }
-        ],
         "exits": [
           {
             "name": "GrenadeMan House - Entrance Script",
@@ -7445,18 +6130,6 @@
       },
       "GrenadeMan's Mobius Room": {
         "name": "GrenadeMan's Mobius Room",
-        "entrances": [
-          {
-            "name": "GrenadeMan House - To Mobius Crest Room",
-            "parent_region": "GrenadeMan's House",
-            "connected_region": "GrenadeMan's Mobius Room"
-          },
-          {
-            "name": "Windia Kid House Basement - Mobius Teleporter",
-            "parent_region": "Windia Kid House Basement",
-            "connected_region": "GrenadeMan's Mobius Room"
-          }
-        ],
         "exits": [
           {
             "name": "GrenadeMan Mobius Room - Stairs to House",
@@ -7479,18 +6152,6 @@
       },
       "Fireburg Vendor House": {
         "name": "Fireburg Vendor House",
-        "entrances": [
-          {
-            "name": "Fireburg - Vendor House",
-            "parent_region": "Fireburg Upper Plaza",
-            "connected_region": "Fireburg Vendor House"
-          },
-          {
-            "name": "Fireburg Gemini Room - Stairs to Vendor House",
-            "parent_region": "Fireburg Gemini Room",
-            "connected_region": "Fireburg Vendor House"
-          }
-        ],
         "exits": [
           {
             "name": "Fireburg Vendor House - Entrance Script",
@@ -7528,18 +6189,6 @@
       },
       "Fireburg Gemini Room": {
         "name": "Fireburg Gemini Room",
-        "entrances": [
-          {
-            "name": "Aquaria Gemini Room - Gemini Script",
-            "parent_region": "Aquaria Gemini Room",
-            "connected_region": "Fireburg Gemini Room"
-          },
-          {
-            "name": "Fireburg Vendor House - Stairs to Gemini Room",
-            "parent_region": "Fireburg Vendor House",
-            "connected_region": "Fireburg Gemini Room"
-          }
-        ],
         "exits": [
           {
             "name": "Fireburg Gemini Room - Stairs to Vendor House",
@@ -7562,18 +6211,6 @@
       },
       "Fireburg Hotel Lobby": {
         "name": "Fireburg Hotel Lobby",
-        "entrances": [
-          {
-            "name": "Fireburg - Hotel",
-            "parent_region": "Fireburg Upper Plaza",
-            "connected_region": "Fireburg Hotel Lobby"
-          },
-          {
-            "name": "Fireburg Hotel Beds - Stairs to Hotel Lobby",
-            "parent_region": "Fireburg Hotel Beds",
-            "connected_region": "Fireburg Hotel Lobby"
-          }
-        ],
         "exits": [
           {
             "name": "Fireburg Hotel Lobby - Entrance",
@@ -7620,13 +6257,6 @@
       },
       "Fireburg Hotel Beds": {
         "name": "Fireburg Hotel Beds",
-        "entrances": [
-          {
-            "name": "Fireburg Hotel Lobby - Stairs to beds",
-            "parent_region": "Fireburg Hotel Lobby",
-            "connected_region": "Fireburg Hotel Beds"
-          }
-        ],
         "exits": [
           {
             "name": "Fireburg Hotel Beds - Stairs to Hotel Lobby",
@@ -7641,23 +6271,6 @@
       },
       "Mine Exterior North West Platforms": {
         "name": "Mine Exterior North West Platforms",
-        "entrances": [
-          {
-            "name": "Overworld - Mine",
-            "parent_region": "Subregion Fireburg",
-            "connected_region": "Mine Exterior North West Platforms"
-          },
-          {
-            "name": "Mine Exterior Central Ledge to Mine Exterior North West Platforms",
-            "parent_region": "Mine Exterior Central Ledge",
-            "connected_region": "Mine Exterior North West Platforms"
-          },
-          {
-            "name": "Mine Parallel Room - To Mine Exterior",
-            "parent_region": "Mine Parallel Room",
-            "connected_region": "Mine Exterior North West Platforms"
-          }
-        ],
         "exits": [
           {
             "name": "Mine Exterior - Main Entrance",
@@ -7824,28 +6437,6 @@
       },
       "Mine Exterior Central Ledge": {
         "name": "Mine Exterior Central Ledge",
-        "entrances": [
-          {
-            "name": "Mine Exterior North West Platforms to Mine Exterior Central Ledge",
-            "parent_region": "Mine Exterior North West Platforms",
-            "connected_region": "Mine Exterior Central Ledge"
-          },
-          {
-            "name": "Mine Exterior North Ledge to Mine Exterior Central Ledge",
-            "parent_region": "Mine Exterior North Ledge",
-            "connected_region": "Mine Exterior Central Ledge"
-          },
-          {
-            "name": "Mine Exterior South East Platforms to Mine Exterior Central Ledge",
-            "parent_region": "Mine Exterior South East Platforms",
-            "connected_region": "Mine Exterior Central Ledge"
-          },
-          {
-            "name": "Mine Climbing Room - To Mine Exterior",
-            "parent_region": "Mine Climbing Room",
-            "connected_region": "Mine Exterior Central Ledge"
-          }
-        ],
         "exits": [
           {
             "name": "Mine Exterior - To Climbing Room",
@@ -7928,23 +6519,6 @@
       },
       "Mine Exterior North Ledge": {
         "name": "Mine Exterior North Ledge",
-        "entrances": [
-          {
-            "name": "Mine Exterior North West Platforms to Mine Exterior North Ledge",
-            "parent_region": "Mine Exterior North West Platforms",
-            "connected_region": "Mine Exterior North Ledge"
-          },
-          {
-            "name": "Mine Exterior South East Platforms to Mine Exterior North Ledge",
-            "parent_region": "Mine Exterior South East Platforms",
-            "connected_region": "Mine Exterior North Ledge"
-          },
-          {
-            "name": "Mine Crescent Room - To Mine Exterior",
-            "parent_region": "Mine Crescent Room",
-            "connected_region": "Mine Exterior North Ledge"
-          }
-        ],
         "exits": [
           {
             "name": "Mine Exterior - To Crescent Room",
@@ -8027,18 +6601,6 @@
       },
       "Mine Exterior South East Platforms": {
         "name": "Mine Exterior South East Platforms",
-        "entrances": [
-          {
-            "name": "Mine Exterior North West Platforms to Mine Exterior South East Platforms",
-            "parent_region": "Mine Exterior North West Platforms",
-            "connected_region": "Mine Exterior South East Platforms"
-          },
-          {
-            "name": "Mine Cliff - Entrance",
-            "parent_region": "Mine Cliff",
-            "connected_region": "Mine Exterior South East Platforms"
-          }
-        ],
         "exits": [
           {
             "name": "Mine Exterior - To Cliff",
@@ -8119,13 +6681,6 @@
       },
       "Mine Parallel Room": {
         "name": "Mine Parallel Room",
-        "entrances": [
-          {
-            "name": "Mine Exterior - To Parallel Room",
-            "parent_region": "Mine Exterior North West Platforms",
-            "connected_region": "Mine Parallel Room"
-          }
-        ],
         "exits": [
           {
             "name": "Mine Parallel Room - To Mine Exterior",
@@ -8229,13 +6784,6 @@
       },
       "Mine Crescent Room": {
         "name": "Mine Crescent Room",
-        "entrances": [
-          {
-            "name": "Mine Exterior - To Crescent Room",
-            "parent_region": "Mine Exterior North Ledge",
-            "connected_region": "Mine Crescent Room"
-          }
-        ],
         "exits": [
           {
             "name": "Mine Crescent Room - To Mine Exterior",
@@ -8265,13 +6813,6 @@
       },
       "Mine Climbing Room": {
         "name": "Mine Climbing Room",
-        "entrances": [
-          {
-            "name": "Mine Exterior - To Climbing Room",
-            "parent_region": "Mine Exterior Central Ledge",
-            "connected_region": "Mine Climbing Room"
-          }
-        ],
         "exits": [
           {
             "name": "Mine Climbing Room - To Mine Exterior",
@@ -8331,13 +6872,6 @@
       },
       "Mine Cliff": {
         "name": "Mine Cliff",
-        "entrances": [
-          {
-            "name": "Mine Exterior - To Cliff",
-            "parent_region": "Mine Exterior South East Platforms",
-            "connected_region": "Mine Cliff"
-          }
-        ],
         "exits": [
           {
             "name": "Mine Cliff - Entrance",
@@ -8447,18 +6981,6 @@
       },
       "Sealed Temple": {
         "name": "Sealed Temple",
-        "entrances": [
-          {
-            "name": "Overworld - Sealed Temple",
-            "parent_region": "Subregion Fireburg",
-            "connected_region": "Sealed Temple"
-          },
-          {
-            "name": "Wintry Temple Inner Room - Gemini Tile to Sealed temple",
-            "parent_region": "Wintry Temple Inner Room",
-            "connected_region": "Sealed Temple"
-          }
-        ],
         "exits": [
           {
             "name": "Sealed Temple - To Overworld",
@@ -8515,23 +7037,6 @@
       },
       "Volcano Base": {
         "name": "Volcano Base",
-        "entrances": [
-          {
-            "name": "Overworld - Volcano",
-            "parent_region": "Subregion Fireburg",
-            "connected_region": "Volcano Base"
-          },
-          {
-            "name": "Volcano Right Path - To Volcano Base Script",
-            "parent_region": "Volcano Right Path",
-            "connected_region": "Volcano Base"
-          },
-          {
-            "name": "Volcano Left Path - To Volcano Base Script",
-            "parent_region": "Volcano Left Path",
-            "connected_region": "Volcano Base"
-          }
-        ],
         "exits": [
           {
             "name": "Volcano Base - Main Entrance 1",
@@ -8619,13 +7124,6 @@
       },
       "Volcano Top Left": {
         "name": "Volcano Top Left",
-        "entrances": [
-          {
-            "name": "Volcano Cross Right-Left - To Volcano Top Left Script",
-            "parent_region": "Volcano Cross Right-Left",
-            "connected_region": "Volcano Top Left"
-          }
-        ],
         "exits": [
           {
             "name": "Volcano Top Left - To Right-Left Path Script",
@@ -8688,13 +7186,6 @@
       },
       "Volcano Top Right": {
         "name": "Volcano Top Right",
-        "entrances": [
-          {
-            "name": "Volcano Cross Left-Right - To Volcano Top Right Script",
-            "parent_region": "Volcano Cross Left-Right",
-            "connected_region": "Volcano Top Right"
-          }
-        ],
         "exits": [
           {
             "name": "Volcano Top Right - To Left-Right Path Script",
@@ -8738,13 +7229,6 @@
       },
       "Volcano Right Path": {
         "name": "Volcano Right Path",
-        "entrances": [
-          {
-            "name": "Volcano Base - Right Stairs Script",
-            "parent_region": "Volcano Base",
-            "connected_region": "Volcano Right Path"
-          }
-        ],
         "exits": [
           {
             "name": "Volcano Right Path - To Volcano Base Script",
@@ -8774,23 +7258,6 @@
       },
       "Volcano Left Path": {
         "name": "Volcano Left Path",
-        "entrances": [
-          {
-            "name": "Volcano Base - Left Stairs Script",
-            "parent_region": "Volcano Base",
-            "connected_region": "Volcano Left Path"
-          },
-          {
-            "name": "Volcano Cross Left-Right - To Volcano Left Path",
-            "parent_region": "Volcano Cross Left-Right",
-            "connected_region": "Volcano Left Path"
-          },
-          {
-            "name": "Volcano Cross Right-Left - To Volcano Left Path",
-            "parent_region": "Volcano Cross Right-Left",
-            "connected_region": "Volcano Left Path"
-          }
-        ],
         "exits": [
           {
             "name": "Volcano Left Path - To Volcano Base Script",
@@ -8836,18 +7303,6 @@
       },
       "Volcano Cross Left-Right": {
         "name": "Volcano Cross Left-Right",
-        "entrances": [
-          {
-            "name": "Volcano Top Right - To Left-Right Path Script",
-            "parent_region": "Volcano Top Right",
-            "connected_region": "Volcano Cross Left-Right"
-          },
-          {
-            "name": "Volcano Left Path - To Volcano Cross Left-Right",
-            "parent_region": "Volcano Left Path",
-            "connected_region": "Volcano Cross Left-Right"
-          }
-        ],
         "exits": [
           {
             "name": "Volcano Cross Left-Right - To Volcano Top Right Script",
@@ -8870,18 +7325,6 @@
       },
       "Volcano Cross Right-Left": {
         "name": "Volcano Cross Right-Left",
-        "entrances": [
-          {
-            "name": "Volcano Top Left - To Right-Left Path Script",
-            "parent_region": "Volcano Top Left",
-            "connected_region": "Volcano Cross Right-Left"
-          },
-          {
-            "name": "Volcano Left Path - To Volcano Cross Right-Left",
-            "parent_region": "Volcano Left Path",
-            "connected_region": "Volcano Cross Right-Left"
-          }
-        ],
         "exits": [
           {
             "name": "Volcano Cross Right-Left - To Volcano Left Path",
@@ -8919,43 +7362,6 @@
       },
       "Lava Dome Inner Ring Main Loop": {
         "name": "Lava Dome Inner Ring Main Loop",
-        "entrances": [
-          {
-            "name": "Overworld - Lava Dome",
-            "parent_region": "Subregion Fireburg",
-            "connected_region": "Lava Dome Inner Ring Main Loop"
-          },
-          {
-            "name": "Lava Dome Inner Ring Center Ledge to Lava Dome Inner Ring Main Loop",
-            "parent_region": "Lava Dome Inner Ring Center Ledge",
-            "connected_region": "Lava Dome Inner Ring Main Loop"
-          },
-          {
-            "name": "Lava Dome Inner Ring Upper Ledge West to Lava Dome Inner Ring Main Loop",
-            "parent_region": "Lava Dome Inner Ring Upper Ledge West",
-            "connected_region": "Lava Dome Inner Ring Main Loop"
-          },
-          {
-            "name": "Lava Dome Three Jumps Room - To Main Loop",
-            "parent_region": "Lava Dome Three Jumps Room",
-            "connected_region": "Lava Dome Inner Ring Main Loop"
-          },
-          {
-            "name": "Lava Dome Life Chest Room - Lower South Entrance",
-            "parent_region": "Lava Dome Life Chest Room Lower Ledge",
-            "connected_region": "Lava Dome Inner Ring Main Loop"
-          },
-          {
-            "name": "Lava Dome Big Jump Room - Left Entrance",
-            "parent_region": "Lava Dome Big Jump Room Main Area",
-            "connected_region": "Lava Dome Inner Ring Main Loop"
-          },
-          {
-            "name": "Lava Dome Split Corridor - Lower Stairs",
-            "parent_region": "Lava Dome Split Corridor",
-            "connected_region": "Lava Dome Inner Ring Main Loop"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Inner Ring Main Loop - Main Entrance 1",
@@ -9031,13 +7437,6 @@
       },
       "Lava Dome Inner Ring Center Ledge": {
         "name": "Lava Dome Inner Ring Center Ledge",
-        "entrances": [
-          {
-            "name": "Lava Dome Life Chest Room - Upper South Entrance",
-            "parent_region": "Lava Dome Life Chest Room Upper Ledge",
-            "connected_region": "Lava Dome Inner Ring Center Ledge"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Inner Ring Center Ledge - To Life Chest Room Higher",
@@ -9105,13 +7504,6 @@
       },
       "Lava Dome Inner Ring Plate Ledge": {
         "name": "Lava Dome Inner Ring Plate Ledge",
-        "entrances": [
-          {
-            "name": "Lava Dome Plate Corridor - Right Entrance",
-            "parent_region": "Lava Dome Plate Corridor",
-            "connected_region": "Lava Dome Inner Ring Plate Ledge"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Inner Ring Plate Ledge - To Plate Corridor",
@@ -9141,23 +7533,6 @@
       },
       "Lava Dome Inner Ring Upper Ledge West": {
         "name": "Lava Dome Inner Ring Upper Ledge West",
-        "entrances": [
-          {
-            "name": "Lava Dome Inner Ring Upper Ledge East to Lava Dome Inner Ring Upper Ledge West",
-            "parent_region": "Lava Dome Inner Ring Upper Ledge East",
-            "connected_region": "Lava Dome Inner Ring Upper Ledge West"
-          },
-          {
-            "name": "Lava Dome Up-Down Corridor - Upper Entrance",
-            "parent_region": "Lava Dome Up-Down Corridor",
-            "connected_region": "Lava Dome Inner Ring Upper Ledge West"
-          },
-          {
-            "name": "Lava Dome Lower Moon Helm Room - Left Entrance",
-            "parent_region": "Lava Dome Lower Moon Helm Room",
-            "connected_region": "Lava Dome Inner Ring Upper Ledge West"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Inner Ring Upper Ledges - To Lower Moon Helm Room",
@@ -9256,18 +7631,6 @@
       },
       "Lava Dome Inner Ring Upper Ledge East": {
         "name": "Lava Dome Inner Ring Upper Ledge East",
-        "entrances": [
-          {
-            "name": "Lava Dome Inner Ring Upper Ledge West to Lava Dome Inner Ring Upper Ledge East",
-            "parent_region": "Lava Dome Inner Ring Upper Ledge West",
-            "connected_region": "Lava Dome Inner Ring Upper Ledge East"
-          },
-          {
-            "name": "Lava Dome Pointless Room - Entrance",
-            "parent_region": "Lava Dome Pointless Room",
-            "connected_region": "Lava Dome Inner Ring Upper Ledge East"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Inner Ring Upper Ledges - To Pointless Room",
@@ -9320,18 +7683,6 @@
       },
       "Lava Dome Inner Ring Big Door Ledge": {
         "name": "Lava Dome Inner Ring Big Door Ledge",
-        "entrances": [
-          {
-            "name": "Lava Dome Jump Maze II - Lower Right Entrance",
-            "parent_region": "Lava Dome Jump Maze II",
-            "connected_region": "Lava Dome Inner Ring Big Door Ledge"
-          },
-          {
-            "name": "Lava Dome Hydra Room - South Entrance",
-            "parent_region": "Lava Dome Hydra Room",
-            "connected_region": "Lava Dome Inner Ring Big Door Ledge"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Inner Ring Big Door Ledge - To Jumping Maze II",
@@ -9359,13 +7710,6 @@
       },
       "Lava Dome Inner Ring Tiny Bottom Ledge": {
         "name": "Lava Dome Inner Ring Tiny Bottom Ledge",
-        "entrances": [
-          {
-            "name": "Lava Dome Four Boxes Stairs - Lower Entrance",
-            "parent_region": "Lava Dome Four Boxes Stairs",
-            "connected_region": "Lava Dome Inner Ring Tiny Bottom Ledge"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Inner Ring Tiny Bottom Ledge - To Four Boxes Corridor",
@@ -9395,23 +7739,6 @@
       },
       "Lava Dome Jump Maze II": {
         "name": "Lava Dome Jump Maze II",
-        "entrances": [
-          {
-            "name": "Lava Dome Inner Ring Big Door Ledge - To Jumping Maze II",
-            "parent_region": "Lava Dome Inner Ring Big Door Ledge",
-            "connected_region": "Lava Dome Jump Maze II"
-          },
-          {
-            "name": "Lava Dome Up-Down Corridor - Lower Entrance",
-            "parent_region": "Lava Dome Up-Down Corridor",
-            "connected_region": "Lava Dome Jump Maze II"
-          },
-          {
-            "name": "Lava Dome Four Boxes Stairs - Upper Entrance",
-            "parent_region": "Lava Dome Four Boxes Stairs",
-            "connected_region": "Lava Dome Jump Maze II"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Jump Maze II - Lower Right Entrance",
@@ -9527,18 +7854,6 @@
       },
       "Lava Dome Up-Down Corridor": {
         "name": "Lava Dome Up-Down Corridor",
-        "entrances": [
-          {
-            "name": "Lava Dome Inner Ring Upper Ledges - To Up-Down Corridor",
-            "parent_region": "Lava Dome Inner Ring Upper Ledge West",
-            "connected_region": "Lava Dome Up-Down Corridor"
-          },
-          {
-            "name": "Lava Dome Jump Maze II - Upper Entrance",
-            "parent_region": "Lava Dome Jump Maze II",
-            "connected_region": "Lava Dome Up-Down Corridor"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Up-Down Corridor - Lower Entrance",
@@ -9561,18 +7876,6 @@
       },
       "Lava Dome Jump Maze I": {
         "name": "Lava Dome Jump Maze I",
-        "entrances": [
-          {
-            "name": "Lava Dome Lower Moon Helm Room - Right Entrance",
-            "parent_region": "Lava Dome Lower Moon Helm Room",
-            "connected_region": "Lava Dome Jump Maze I"
-          },
-          {
-            "name": "Lava Dome Split Corridor - Upper Stairs",
-            "parent_region": "Lava Dome Split Corridor",
-            "connected_region": "Lava Dome Jump Maze I"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Jump Maze I - South Entrance",
@@ -9652,13 +7955,6 @@
       },
       "Lava Dome Pointless Room": {
         "name": "Lava Dome Pointless Room",
-        "entrances": [
-          {
-            "name": "Lava Dome Inner Ring Upper Ledges - To Pointless Room",
-            "parent_region": "Lava Dome Inner Ring Upper Ledge East",
-            "connected_region": "Lava Dome Pointless Room"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Pointless Room - Entrance",
@@ -9673,18 +7969,6 @@
       },
       "Lava Dome Lower Moon Helm Room": {
         "name": "Lava Dome Lower Moon Helm Room",
-        "entrances": [
-          {
-            "name": "Lava Dome Inner Ring Upper Ledges - To Lower Moon Helm Room",
-            "parent_region": "Lava Dome Inner Ring Upper Ledge West",
-            "connected_region": "Lava Dome Lower Moon Helm Room"
-          },
-          {
-            "name": "Lava Dome Jump Maze I - North Entrance",
-            "parent_region": "Lava Dome Jump Maze I",
-            "connected_region": "Lava Dome Lower Moon Helm Room"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Lower Moon Helm Room - Left Entrance",
@@ -9736,13 +8020,6 @@
       },
       "Lava Dome Moon Helm Room": {
         "name": "Lava Dome Moon Helm Room",
-        "entrances": [
-          {
-            "name": "Lava Dome Big Jump Room - North Entrance",
-            "parent_region": "Lava Dome Big Jump Room MegaGrenade Area",
-            "connected_region": "Lava Dome Moon Helm Room"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Moon Helm Room - Entrance",
@@ -9786,13 +8063,6 @@
       },
       "Lava Dome Three Jumps Room": {
         "name": "Lava Dome Three Jumps Room",
-        "entrances": [
-          {
-            "name": "Lava Dome Inner Ring Main Loop - To Three Steps Room",
-            "parent_region": "Lava Dome Inner Ring Main Loop",
-            "connected_region": "Lava Dome Three Jumps Room"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Three Jumps Room - To Main Loop",
@@ -9822,18 +8092,6 @@
       },
       "Lava Dome Life Chest Room Lower Ledge": {
         "name": "Lava Dome Life Chest Room Lower Ledge",
-        "entrances": [
-          {
-            "name": "Lava Dome Inner Ring Main Loop - To Life Chest Room Lower",
-            "parent_region": "Lava Dome Inner Ring Main Loop",
-            "connected_region": "Lava Dome Life Chest Room Lower Ledge"
-          },
-          {
-            "name": "Lava Dome Life Chest Room Upper Ledge to Lava Dome Life Chest Room Lower Ledge",
-            "parent_region": "Lava Dome Life Chest Room Upper Ledge",
-            "connected_region": "Lava Dome Life Chest Room Lower Ledge"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Life Chest Room - Lower South Entrance",
@@ -9906,18 +8164,6 @@
       },
       "Lava Dome Life Chest Room Upper Ledge": {
         "name": "Lava Dome Life Chest Room Upper Ledge",
-        "entrances": [
-          {
-            "name": "Lava Dome Inner Ring Center Ledge - To Life Chest Room Higher",
-            "parent_region": "Lava Dome Inner Ring Center Ledge",
-            "connected_region": "Lava Dome Life Chest Room Upper Ledge"
-          },
-          {
-            "name": "Lava Dome Life Chest Room Lower Ledge to Lava Dome Life Chest Room Upper Ledge",
-            "parent_region": "Lava Dome Life Chest Room Lower Ledge",
-            "connected_region": "Lava Dome Life Chest Room Upper Ledge"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Life Chest Room - Upper South Entrance",
@@ -9999,23 +8245,6 @@
       },
       "Lava Dome Big Jump Room Main Area": {
         "name": "Lava Dome Big Jump Room Main Area",
-        "entrances": [
-          {
-            "name": "Lava Dome Inner Ring Main Loop - To Big Jump Room Left",
-            "parent_region": "Lava Dome Inner Ring Main Loop",
-            "connected_region": "Lava Dome Big Jump Room Main Area"
-          },
-          {
-            "name": "Lava Dome Big Jump Room MegaGrenade Area to Lava Dome Big Jump Room Main Area",
-            "parent_region": "Lava Dome Big Jump Room MegaGrenade Area",
-            "connected_region": "Lava Dome Big Jump Room Main Area"
-          },
-          {
-            "name": "Lava Dome Plate Corridor - Left Entrance",
-            "parent_region": "Lava Dome Plate Corridor",
-            "connected_region": "Lava Dome Big Jump Room Main Area"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Big Jump Room - Left Entrance",
@@ -10094,18 +8323,6 @@
       },
       "Lava Dome Big Jump Room MegaGrenade Area": {
         "name": "Lava Dome Big Jump Room MegaGrenade Area",
-        "entrances": [
-          {
-            "name": "Lava Dome Moon Helm Room - Entrance",
-            "parent_region": "Lava Dome Moon Helm Room",
-            "connected_region": "Lava Dome Big Jump Room MegaGrenade Area"
-          },
-          {
-            "name": "Lava Dome Big Jump Room Main Area to Lava Dome Big Jump Room MegaGrenade Area",
-            "parent_region": "Lava Dome Big Jump Room Main Area",
-            "connected_region": "Lava Dome Big Jump Room MegaGrenade Area"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Big Jump Room - North Entrance",
@@ -10158,18 +8375,6 @@
       },
       "Lava Dome Split Corridor": {
         "name": "Lava Dome Split Corridor",
-        "entrances": [
-          {
-            "name": "Lava Dome Inner Ring Main Loop - To Split Corridor Room",
-            "parent_region": "Lava Dome Inner Ring Main Loop",
-            "connected_region": "Lava Dome Split Corridor"
-          },
-          {
-            "name": "Lava Dome Jump Maze I - South Entrance",
-            "parent_region": "Lava Dome Jump Maze I",
-            "connected_region": "Lava Dome Split Corridor"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Split Corridor - Upper Stairs",
@@ -10207,18 +8412,6 @@
       },
       "Lava Dome Plate Corridor": {
         "name": "Lava Dome Plate Corridor",
-        "entrances": [
-          {
-            "name": "Lava Dome Inner Ring Plate Ledge - To Plate Corridor",
-            "parent_region": "Lava Dome Inner Ring Plate Ledge",
-            "connected_region": "Lava Dome Plate Corridor"
-          },
-          {
-            "name": "Lava Dome Big Jump Room - Lower Right Stairs",
-            "parent_region": "Lava Dome Big Jump Room Main Area",
-            "connected_region": "Lava Dome Plate Corridor"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Plate Corridor - Right Entrance",
@@ -10241,18 +8434,6 @@
       },
       "Lava Dome Four Boxes Stairs": {
         "name": "Lava Dome Four Boxes Stairs",
-        "entrances": [
-          {
-            "name": "Lava Dome Inner Ring Tiny Bottom Ledge - To Four Boxes Corridor",
-            "parent_region": "Lava Dome Inner Ring Tiny Bottom Ledge",
-            "connected_region": "Lava Dome Four Boxes Stairs"
-          },
-          {
-            "name": "Lava Dome Jump Maze II - Lower Left Entrance",
-            "parent_region": "Lava Dome Jump Maze II",
-            "connected_region": "Lava Dome Four Boxes Stairs"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Four Boxes Stairs - Upper Entrance",
@@ -10332,18 +8513,6 @@
       },
       "Lava Dome Hydra Room": {
         "name": "Lava Dome Hydra Room",
-        "entrances": [
-          {
-            "name": "Lava Dome Inner Ring Big Door Ledge - Hydra Gate 1",
-            "parent_region": "Lava Dome Inner Ring Big Door Ledge",
-            "connected_region": "Lava Dome Hydra Room"
-          },
-          {
-            "name": "Lava Dome Escape Corridor - South Entrance",
-            "parent_region": "Lava Dome Escape Corridor",
-            "connected_region": "Lava Dome Hydra Room"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Hydra Room - South Entrance",
@@ -10433,13 +8602,6 @@
       },
       "Lava Dome Escape Corridor": {
         "name": "Lava Dome Escape Corridor",
-        "entrances": [
-          {
-            "name": "Lava Dome Hydra Room - North Exit",
-            "parent_region": "Lava Dome Hydra Room",
-            "connected_region": "Lava Dome Escape Corridor"
-          }
-        ],
         "exits": [
           {
             "name": "Lava Dome Escape Corridor - South Entrance",
@@ -10454,13 +8616,6 @@
       },
       "Rope Bridge": {
         "name": "Rope Bridge",
-        "entrances": [
-          {
-            "name": "Overworld - Rope Bridge",
-            "parent_region": "Subregion Windia",
-            "connected_region": "Rope Bridge"
-          }
-        ],
         "exits": [
           {
             "name": "Rope Bridge - West Entrance 1",
@@ -10504,33 +8659,6 @@
       },
       "Alive Forest": {
         "name": "Alive Forest",
-        "entrances": [
-          {
-            "name": "Overworld - Alive Forest",
-            "parent_region": "Subregion Windia",
-            "connected_region": "Alive Forest"
-          },
-          {
-            "name": "Foresta Houses - Libra House - Libra House Script",
-            "parent_region": "Libra Treehouse",
-            "connected_region": "Alive Forest"
-          },
-          {
-            "name": "Foresta Houses - Gemini House - Gemini House Script",
-            "parent_region": "Gemini Treehouse",
-            "connected_region": "Alive Forest"
-          },
-          {
-            "name": "Foresta Houses - Mobius House - Mobius House Script",
-            "parent_region": "Mobius Treehouse",
-            "connected_region": "Alive Forest"
-          },
-          {
-            "name": "Giant Tree 1F - Entrance Script 1",
-            "parent_region": "Giant Tree 1F Main Area",
-            "connected_region": "Alive Forest"
-          }
-        ],
         "exits": [
           {
             "name": "Alive Forest - West Entrance 1",
@@ -10919,28 +9047,6 @@
       },
       "Giant Tree 1F Main Area": {
         "name": "Giant Tree 1F Main Area",
-        "entrances": [
-          {
-            "name": "Overworld - Giant Tree",
-            "parent_region": "Subregion Windia",
-            "connected_region": "Giant Tree 1F Main Area"
-          },
-          {
-            "name": "Alive Forest - Giant Tree Entrance",
-            "parent_region": "Alive Forest",
-            "connected_region": "Giant Tree 1F Main Area"
-          },
-          {
-            "name": "Giant Tree 1F North Island to Giant Tree 1F Main Area",
-            "parent_region": "Giant Tree 1F North Island",
-            "connected_region": "Giant Tree 1F Main Area"
-          },
-          {
-            "name": "Giant Tree 2F Main Lobby - North Entrance to 1F",
-            "parent_region": "Giant Tree 2F Main Lobby",
-            "connected_region": "Giant Tree 1F Main Area"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 1F - Entrance Script 1",
@@ -11025,18 +9131,6 @@
       },
       "Giant Tree 1F North Island": {
         "name": "Giant Tree 1F North Island",
-        "entrances": [
-          {
-            "name": "Giant Tree 1F Main Area to Giant Tree 1F North Island",
-            "parent_region": "Giant Tree 1F Main Area",
-            "connected_region": "Giant Tree 1F North Island"
-          },
-          {
-            "name": "Giant Tree 1F Central Island to Giant Tree 1F North Island",
-            "parent_region": "Giant Tree 1F Central Island",
-            "connected_region": "Giant Tree 1F North Island"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 1F - North Entrance To 2F",
@@ -11064,13 +9158,6 @@
       },
       "Giant Tree 1F Central Island": {
         "name": "Giant Tree 1F Central Island",
-        "entrances": [
-          {
-            "name": "Giant Tree 2F Main Lobby to Giant Tree 1F Central Island",
-            "parent_region": "Giant Tree 2F Main Lobby",
-            "connected_region": "Giant Tree 1F Central Island"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 1F Central Island to Giant Tree 1F North Island",
@@ -11090,23 +9177,6 @@
       },
       "Giant Tree 2F Main Lobby": {
         "name": "Giant Tree 2F Main Lobby",
-        "entrances": [
-          {
-            "name": "Giant Tree 1F - North Entrance To 2F",
-            "parent_region": "Giant Tree 1F North Island",
-            "connected_region": "Giant Tree 2F Main Lobby"
-          },
-          {
-            "name": "Giant Tree 2F Mushroom Room - Entrance",
-            "parent_region": "Giant Tree 2F Mushroom Room",
-            "connected_region": "Giant Tree 2F Main Lobby"
-          },
-          {
-            "name": "Giant Tree 3F Central Area to Giant Tree 2F Main Lobby",
-            "parent_region": "Giant Tree 3F Central Area",
-            "connected_region": "Giant Tree 2F Main Lobby"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 2F Main Lobby to Giant Tree 1F Central Island",
@@ -11170,18 +9240,6 @@
       },
       "Giant Tree 2F West Ledge": {
         "name": "Giant Tree 2F West Ledge",
-        "entrances": [
-          {
-            "name": "Giant Tree 3F West Area to Giant Tree 2F West Ledge",
-            "parent_region": "Giant Tree 3F West Area",
-            "connected_region": "Giant Tree 2F West Ledge"
-          },
-          {
-            "name": "Giant Tree 3F West Platform - Lower Entrance",
-            "parent_region": "Giant Tree 3F West Platform",
-            "connected_region": "Giant Tree 2F West Ledge"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 2F West Ledge - To 3F Northwest Ledge",
@@ -11254,23 +9312,6 @@
       },
       "Giant Tree 2F Lower Area": {
         "name": "Giant Tree 2F Lower Area",
-        "entrances": [
-          {
-            "name": "Giant Tree 2F Main Lobby to Giant Tree 2F Lower Area",
-            "parent_region": "Giant Tree 2F Main Lobby",
-            "connected_region": "Giant Tree 2F Lower Area"
-          },
-          {
-            "name": "Giant Tree 2F Central Island to Giant Tree 2F Lower Area",
-            "parent_region": "Giant Tree 2F Central Island",
-            "connected_region": "Giant Tree 2F Lower Area"
-          },
-          {
-            "name": "Giant Tree 2F East Ledge to Giant Tree 2F Lower Area",
-            "parent_region": "Giant Tree 2F East Ledge",
-            "connected_region": "Giant Tree 2F Lower Area"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 2F Lower Area to Giant Tree 2F Central Island",
@@ -11368,28 +9409,6 @@
       },
       "Giant Tree 2F Central Island": {
         "name": "Giant Tree 2F Central Island",
-        "entrances": [
-          {
-            "name": "Giant Tree 2F West Ledge to Giant Tree 2F Central Island",
-            "parent_region": "Giant Tree 2F West Ledge",
-            "connected_region": "Giant Tree 2F Central Island"
-          },
-          {
-            "name": "Giant Tree 2F Lower Area to Giant Tree 2F Central Island",
-            "parent_region": "Giant Tree 2F Lower Area",
-            "connected_region": "Giant Tree 2F Central Island"
-          },
-          {
-            "name": "Giant Tree 2F East Ledge to Giant Tree 2F Central Island",
-            "parent_region": "Giant Tree 2F East Ledge",
-            "connected_region": "Giant Tree 2F Central Island"
-          },
-          {
-            "name": "Giant Tree 3F Central Room - Central Entrance to 2F",
-            "parent_region": "Giant Tree 3F Central Island",
-            "connected_region": "Giant Tree 2F Central Island"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 2F Central Island to Giant Tree 2F Lower Area",
@@ -11472,18 +9491,6 @@
       },
       "Giant Tree 2F East Ledge": {
         "name": "Giant Tree 2F East Ledge",
-        "entrances": [
-          {
-            "name": "Giant Tree 2F Lower Area to Giant Tree 2F East Ledge",
-            "parent_region": "Giant Tree 2F Lower Area",
-            "connected_region": "Giant Tree 2F East Ledge"
-          },
-          {
-            "name": "Giant Tree 3F Central Area to Giant Tree 2F East Ledge",
-            "parent_region": "Giant Tree 3F Central Area",
-            "connected_region": "Giant Tree 2F East Ledge"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 2F East Ledge to Giant Tree 2F Lower Area",
@@ -11541,13 +9548,6 @@
       },
       "Giant Tree 2F Meteor Chest Room": {
         "name": "Giant Tree 2F Meteor Chest Room",
-        "entrances": [
-          {
-            "name": "Giant Tree 2F Mushroom Room - North Face to Meteor",
-            "parent_region": "Giant Tree 2F Mushroom Room",
-            "connected_region": "Giant Tree 2F Meteor Chest Room"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree Meteor Chest Room - To 2F Mushroom Room",
@@ -11577,18 +9577,6 @@
       },
       "Giant Tree 2F Mushroom Room": {
         "name": "Giant Tree 2F Mushroom Room",
-        "entrances": [
-          {
-            "name": "Giant Tree 2F Main Lobby - West Entrance to Mushroom Room",
-            "parent_region": "Giant Tree 2F Main Lobby",
-            "connected_region": "Giant Tree 2F Mushroom Room"
-          },
-          {
-            "name": "Giant Tree Meteor Chest Room - To 2F Mushroom Room",
-            "parent_region": "Giant Tree 2F Meteor Chest Room",
-            "connected_region": "Giant Tree 2F Mushroom Room"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 2F Mushroom Room - Entrance",
@@ -11765,23 +9753,6 @@
       },
       "Giant Tree 3F Central Island": {
         "name": "Giant Tree 3F Central Island",
-        "entrances": [
-          {
-            "name": "Giant Tree 2F Main Lobby - Central Entrance to 3F",
-            "parent_region": "Giant Tree 2F Central Island",
-            "connected_region": "Giant Tree 3F Central Island"
-          },
-          {
-            "name": "Giant Tree 3F Central Area to Giant Tree 3F Central Island",
-            "parent_region": "Giant Tree 3F Central Area",
-            "connected_region": "Giant Tree 3F Central Island"
-          },
-          {
-            "name": "Giant Tree 3F Lower Ledge to Giant Tree 3F Central Island",
-            "parent_region": "Giant Tree 3F Lower Ledge",
-            "connected_region": "Giant Tree 3F Central Island"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 3F Central Room - Central Entrance to 2F",
@@ -11862,23 +9833,6 @@
       },
       "Giant Tree 3F Central Area": {
         "name": "Giant Tree 3F Central Area",
-        "entrances": [
-          {
-            "name": "Giant Tree 3F Central Island to Giant Tree 3F Central Area",
-            "parent_region": "Giant Tree 3F Central Island",
-            "connected_region": "Giant Tree 3F Central Area"
-          },
-          {
-            "name": "Giant Tree 3F Middle Up Island to Giant Tree 3F Central Area",
-            "parent_region": "Giant Tree 3F Middle Up Island",
-            "connected_region": "Giant Tree 3F Central Area"
-          },
-          {
-            "name": "Giant Tree 3F North Ledge to Giant Tree 3F Central Area",
-            "parent_region": "Giant Tree 3F North Ledge",
-            "connected_region": "Giant Tree 3F Central Area"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 3F Central Area to Giant Tree 3F Central Island",
@@ -11968,18 +9922,6 @@
       },
       "Giant Tree 3F Lower Ledge": {
         "name": "Giant Tree 3F Lower Ledge",
-        "entrances": [
-          {
-            "name": "Giant Tree 3F Central Island to Giant Tree 3F Lower Ledge",
-            "parent_region": "Giant Tree 3F Central Island",
-            "connected_region": "Giant Tree 3F Lower Ledge"
-          },
-          {
-            "name": "Giant Tree Worm Room - East Entrance",
-            "parent_region": "Giant Tree Worm Room Upper Ledge",
-            "connected_region": "Giant Tree 3F Lower Ledge"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 3F Lower Ledge to Giant Tree 3F Central Island",
@@ -12037,13 +9979,6 @@
       },
       "Giant Tree 3F West Area": {
         "name": "Giant Tree 3F West Area",
-        "entrances": [
-          {
-            "name": "Giant Tree Worm Room - West Entrance",
-            "parent_region": "Giant Tree Worm Room Lower Ledge",
-            "connected_region": "Giant Tree 3F West Area"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 3F West Area to Giant Tree 2F West Ledge",
@@ -12081,18 +10016,6 @@
       },
       "Giant Tree 3F Middle Up Island": {
         "name": "Giant Tree 3F Middle Up Island",
-        "entrances": [
-          {
-            "name": "Giant Tree 3F West Platform to Giant Tree 3F Middle Up Island",
-            "parent_region": "Giant Tree 3F West Platform",
-            "connected_region": "Giant Tree 3F Middle Up Island"
-          },
-          {
-            "name": "Giant Tree 3F North Ledge to Giant Tree 3F Middle Up Island",
-            "parent_region": "Giant Tree 3F North Ledge",
-            "connected_region": "Giant Tree 3F Middle Up Island"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 3F Middle Up Island to Giant Tree 3F Central Area",
@@ -12137,13 +10060,6 @@
       },
       "Giant Tree 3F West Platform": {
         "name": "Giant Tree 3F West Platform",
-        "entrances": [
-          {
-            "name": "Giant Tree 2F West Ledge - To 3F Northwest Ledge",
-            "parent_region": "Giant Tree 2F West Ledge",
-            "connected_region": "Giant Tree 3F West Platform"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 3F West Platform to Giant Tree 3F Middle Up Island",
@@ -12234,18 +10150,6 @@
       },
       "Giant Tree 3F North Ledge": {
         "name": "Giant Tree 3F North Ledge",
-        "entrances": [
-          {
-            "name": "Giant Tree 3F West Platform to Giant Tree 3F North Ledge",
-            "parent_region": "Giant Tree 3F West Platform",
-            "connected_region": "Giant Tree 3F North Ledge"
-          },
-          {
-            "name": "Giant Tree 4F Lower Floor - Entrance",
-            "parent_region": "Giant Tree 4F Lower Floor",
-            "connected_region": "Giant Tree 3F North Ledge"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 3F West Platform - Top Entrance",
@@ -12366,13 +10270,6 @@
       },
       "Giant Tree Worm Room Upper Ledge": {
         "name": "Giant Tree Worm Room Upper Ledge",
-        "entrances": [
-          {
-            "name": "Giant Tree 3F Central Room - East Entrance to Worm Room",
-            "parent_region": "Giant Tree 3F Lower Ledge",
-            "connected_region": "Giant Tree Worm Room Upper Ledge"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree Worm Room - East Entrance",
@@ -12574,18 +10471,6 @@
       },
       "Giant Tree Worm Room Lower Ledge": {
         "name": "Giant Tree Worm Room Lower Ledge",
-        "entrances": [
-          {
-            "name": "Giant Tree 3F Lower Corridor - Entrance from Worm Room",
-            "parent_region": "Giant Tree 3F West Area",
-            "connected_region": "Giant Tree Worm Room Lower Ledge"
-          },
-          {
-            "name": "Giant Tree Worm Room Upper Ledge to Giant Tree Worm Room Lower Ledge",
-            "parent_region": "Giant Tree Worm Room Upper Ledge",
-            "connected_region": "Giant Tree Worm Room Lower Ledge"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree Worm Room - West Entrance",
@@ -12600,33 +10485,6 @@
       },
       "Giant Tree 4F Lower Floor": {
         "name": "Giant Tree 4F Lower Floor",
-        "entrances": [
-          {
-            "name": "Giant Tree 3F West Platform - Top Entrance",
-            "parent_region": "Giant Tree 3F North Ledge",
-            "connected_region": "Giant Tree 4F Lower Floor"
-          },
-          {
-            "name": "Giant Tree 4F Slime Room - East Entrance",
-            "parent_region": "Giant Tree 4F Slime Room East Area",
-            "connected_region": "Giant Tree 4F Lower Floor"
-          },
-          {
-            "name": "Giant Tree 4F Slime Room - Central Entrance",
-            "parent_region": "Giant Tree 4F Slime Room West Area",
-            "connected_region": "Giant Tree 4F Lower Floor"
-          },
-          {
-            "name": "Giant Tree 4F Slime Room - West Entrance",
-            "parent_region": "Giant Tree 4F Slime Room West Area",
-            "connected_region": "Giant Tree 4F Lower Floor"
-          },
-          {
-            "name": "Giant Tree 5F Lower Area to Giant Tree 4F Lower Floor",
-            "parent_region": "Giant Tree 5F Lower Area",
-            "connected_region": "Giant Tree 4F Lower Floor"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 4F Lower Floor - Entrance",
@@ -12695,23 +10553,6 @@
       },
       "Giant Tree 4F Middle Floor": {
         "name": "Giant Tree 4F Middle Floor",
-        "entrances": [
-          {
-            "name": "Giant Tree 4F Upper Floor to Giant Tree 4F Middle Floor",
-            "parent_region": "Giant Tree 4F Upper Floor",
-            "connected_region": "Giant Tree 4F Middle Floor"
-          },
-          {
-            "name": "Giant Tree 4F South Ledge to Giant Tree 4F Middle Floor",
-            "parent_region": "Giant Tree 4F South Ledge",
-            "connected_region": "Giant Tree 4F Middle Floor"
-          },
-          {
-            "name": "Giant Tree 4F Slime Room - Exit",
-            "parent_region": "Giant Tree 4F Slime Room Platform",
-            "connected_region": "Giant Tree 4F Middle Floor"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 4F Upper Floor - Upper West Mouth",
@@ -12806,18 +10647,6 @@
       },
       "Giant Tree 4F Upper Floor": {
         "name": "Giant Tree 4F Upper Floor",
-        "entrances": [
-          {
-            "name": "Giant Tree 4F Middle Floor to Giant Tree 4F Upper Floor",
-            "parent_region": "Giant Tree 4F Middle Floor",
-            "connected_region": "Giant Tree 4F Upper Floor"
-          },
-          {
-            "name": "Giant Tree 5F - Entrance",
-            "parent_region": "Giant Tree 5F Lower Area",
-            "connected_region": "Giant Tree 4F Upper Floor"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 4F Upper Floor - Upper Central Mouth",
@@ -12900,13 +10729,6 @@
       },
       "Giant Tree 4F South Ledge": {
         "name": "Giant Tree 4F South Ledge",
-        "entrances": [
-          {
-            "name": "Giant Tree 4F Middle Floor to Giant Tree 4F South Ledge",
-            "parent_region": "Giant Tree 4F Middle Floor",
-            "connected_region": "Giant Tree 4F South Ledge"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 4F South Ledge to Giant Tree 4F Middle Floor",
@@ -12955,13 +10777,6 @@
       },
       "Giant Tree 4F Slime Room East Area": {
         "name": "Giant Tree 4F Slime Room East Area",
-        "entrances": [
-          {
-            "name": "Giant Tree 4F Lower Floor - Lower East Mouth",
-            "parent_region": "Giant Tree 4F Lower Floor",
-            "connected_region": "Giant Tree 4F Slime Room East Area"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 4F Slime Room - East Entrance",
@@ -13021,23 +10836,6 @@
       },
       "Giant Tree 4F Slime Room West Area": {
         "name": "Giant Tree 4F Slime Room West Area",
-        "entrances": [
-          {
-            "name": "Giant Tree 4F Lower Floor - Lower West Mouth",
-            "parent_region": "Giant Tree 4F Lower Floor",
-            "connected_region": "Giant Tree 4F Slime Room West Area"
-          },
-          {
-            "name": "Giant Tree 4F Lower Floor - Lower Central Mouth",
-            "parent_region": "Giant Tree 4F Lower Floor",
-            "connected_region": "Giant Tree 4F Slime Room West Area"
-          },
-          {
-            "name": "Giant Tree 4F Slime Room Platform to Giant Tree 4F Slime Room West Area",
-            "parent_region": "Giant Tree 4F Slime Room Platform",
-            "connected_region": "Giant Tree 4F Slime Room West Area"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 4F Slime Room - Central Entrance",
@@ -13188,18 +10986,6 @@
       },
       "Giant Tree 4F Slime Room Platform": {
         "name": "Giant Tree 4F Slime Room Platform",
-        "entrances": [
-          {
-            "name": "Giant Tree 4F Upper Floor - Upper West Mouth",
-            "parent_region": "Giant Tree 4F Middle Floor",
-            "connected_region": "Giant Tree 4F Slime Room Platform"
-          },
-          {
-            "name": "Giant Tree 4F Slime Room West Area to Giant Tree 4F Slime Room Platform",
-            "parent_region": "Giant Tree 4F Slime Room West Area",
-            "connected_region": "Giant Tree 4F Slime Room Platform"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 4F Slime Room - Exit",
@@ -13267,18 +11053,6 @@
       },
       "Giant Tree 5F Lower Area": {
         "name": "Giant Tree 5F Lower Area",
-        "entrances": [
-          {
-            "name": "Giant Tree 4F Upper Floor - Upper Central Mouth",
-            "parent_region": "Giant Tree 4F Upper Floor",
-            "connected_region": "Giant Tree 5F Lower Area"
-          },
-          {
-            "name": "Giant Tree 5F Gidrah Platform to Giant Tree 5F Lower Area",
-            "parent_region": "Giant Tree 5F Gidrah Platform",
-            "connected_region": "Giant Tree 5F Lower Area"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 5F - Entrance",
@@ -13396,13 +11170,6 @@
       },
       "Giant Tree 5F Gidrah Platform": {
         "name": "Giant Tree 5F Gidrah Platform",
-        "entrances": [
-          {
-            "name": "Giant Tree 5F Lower Area to Giant Tree 5F Gidrah Platform",
-            "parent_region": "Giant Tree 5F Lower Area",
-            "connected_region": "Giant Tree 5F Gidrah Platform"
-          }
-        ],
         "exits": [
           {
             "name": "Giant Tree 5F Gidrah Platform to Giant Tree 5F Lower Area",
@@ -13471,18 +11238,6 @@
       },
       "Kaidge Temple Lower Ledge": {
         "name": "Kaidge Temple Lower Ledge",
-        "entrances": [
-          {
-            "name": "Overworld - Kaidge Temple",
-            "parent_region": "Subregion Windia",
-            "connected_region": "Kaidge Temple Lower Ledge"
-          },
-          {
-            "name": "Kaidge Temple Upper Ledge to Kaidge Temple Lower Ledge",
-            "parent_region": "Kaidge Temple Upper Ledge",
-            "connected_region": "Kaidge Temple Lower Ledge"
-          }
-        ],
         "exits": [
           {
             "name": "Kaidge Temple - Entrance",
@@ -13535,18 +11290,6 @@
       },
       "Kaidge Temple Upper Ledge": {
         "name": "Kaidge Temple Upper Ledge",
-        "entrances": [
-          {
-            "name": "Kaidge Temple Lower Ledge to Kaidge Temple Upper Ledge",
-            "parent_region": "Kaidge Temple Lower Ledge",
-            "connected_region": "Kaidge Temple Upper Ledge"
-          },
-          {
-            "name": "Light Temple - Mobius Teleporter Script",
-            "parent_region": "Light Temple",
-            "connected_region": "Kaidge Temple Upper Ledge"
-          }
-        ],
         "exits": [
           {
             "name": "Kaidge Temple - Mobius Teleporter Script",
@@ -13619,13 +11362,6 @@
       },
       "Windhole Temple": {
         "name": "Windhole Temple",
-        "entrances": [
-          {
-            "name": "Overworld - Windhole Temple",
-            "parent_region": "Subregion Windia",
-            "connected_region": "Windhole Temple"
-          }
-        ],
         "exits": [
           {
             "name": "Windhole Temple - Entrance",
@@ -13655,13 +11391,6 @@
       },
       "Mount Gale": {
         "name": "Mount Gale",
-        "entrances": [
-          {
-            "name": "Overworld - Mount Gale",
-            "parent_region": "Subregion Windia",
-            "connected_region": "Mount Gale"
-          }
-        ],
         "exits": [
           {
             "name": "Mount Gale - Entrance 1",
@@ -13770,38 +11499,6 @@
       },
       "Windia": {
         "name": "Windia",
-        "entrances": [
-          {
-            "name": "Overworld - Windia",
-            "parent_region": "Subregion Windia",
-            "connected_region": "Windia"
-          },
-          {
-            "name": "Otto's House - Entrance",
-            "parent_region": "Otto's House",
-            "connected_region": "Windia"
-          },
-          {
-            "name": "Windia Kid House - Entrance Script",
-            "parent_region": "Windia Kid House",
-            "connected_region": "Windia"
-          },
-          {
-            "name": "Windia Old People House - Entrance",
-            "parent_region": "Windia Old People House",
-            "connected_region": "Windia"
-          },
-          {
-            "name": "Windia Inn Lobby - Exit",
-            "parent_region": "Windia Inn Lobby",
-            "connected_region": "Windia"
-          },
-          {
-            "name": "Windia Vendor House - Entrance",
-            "parent_region": "Windia Vendor House",
-            "connected_region": "Windia"
-          }
-        ],
         "exits": [
           {
             "name": "Windia - Main Entrance 1",
@@ -13856,18 +11553,6 @@
       },
       "Otto's House": {
         "name": "Otto's House",
-        "entrances": [
-          {
-            "name": "Windia - Otto's House",
-            "parent_region": "Windia",
-            "connected_region": "Otto's House"
-          },
-          {
-            "name": "Otto's Attic - Stairs",
-            "parent_region": "Otto's Attic",
-            "connected_region": "Otto's House"
-          }
-        ],
         "exits": [
           {
             "name": "Otto's House - Entrance",
@@ -13910,13 +11595,6 @@
       },
       "Otto's Attic": {
         "name": "Otto's Attic",
-        "entrances": [
-          {
-            "name": "Otto's House - Attic Stairs",
-            "parent_region": "Otto's House",
-            "connected_region": "Otto's Attic"
-          }
-        ],
         "exits": [
           {
             "name": "Otto's Attic - Stairs",
@@ -13946,18 +11624,6 @@
       },
       "Windia Kid House": {
         "name": "Windia Kid House",
-        "entrances": [
-          {
-            "name": "Windia - Kid House",
-            "parent_region": "Windia",
-            "connected_region": "Windia Kid House"
-          },
-          {
-            "name": "Windia Kid House Basement - Stairs",
-            "parent_region": "Windia Kid House Basement",
-            "connected_region": "Windia Kid House"
-          }
-        ],
         "exits": [
           {
             "name": "Windia Kid House - Entrance Script",
@@ -13980,18 +11646,6 @@
       },
       "Windia Old People House": {
         "name": "Windia Old People House",
-        "entrances": [
-          {
-            "name": "Windia - Old People House",
-            "parent_region": "Windia",
-            "connected_region": "Windia Old People House"
-          },
-          {
-            "name": "Windia Old People House Basement - Stairs",
-            "parent_region": "Windia Old People House Basement",
-            "connected_region": "Windia Old People House"
-          }
-        ],
         "exits": [
           {
             "name": "Windia Old People House - Entrance",
@@ -14014,18 +11668,6 @@
       },
       "Windia Kid House Basement": {
         "name": "Windia Kid House Basement",
-        "entrances": [
-          {
-            "name": "GrenadeMan Mobius Room - Mobius Teleporter Script",
-            "parent_region": "GrenadeMan's Mobius Room",
-            "connected_region": "Windia Kid House Basement"
-          },
-          {
-            "name": "Windia Kid House - Basement Stairs",
-            "parent_region": "Windia Kid House",
-            "connected_region": "Windia Kid House Basement"
-          }
-        ],
         "exits": [
           {
             "name": "Windia Kid House Basement - Stairs",
@@ -14048,18 +11690,6 @@
       },
       "Windia Old People House Basement": {
         "name": "Windia Old People House Basement",
-        "entrances": [
-          {
-            "name": "Windia Old People House - Basement Stairs",
-            "parent_region": "Windia Old People House",
-            "connected_region": "Windia Old People House Basement"
-          },
-          {
-            "name": "Ship Dock - Mobius Teleporter Script",
-            "parent_region": "Ship Dock",
-            "connected_region": "Windia Old People House Basement"
-          }
-        ],
         "exits": [
           {
             "name": "Windia Old People House Basement - Stairs",
@@ -14116,18 +11746,6 @@
       },
       "Windia Inn Lobby": {
         "name": "Windia Inn Lobby",
-        "entrances": [
-          {
-            "name": "Windia - INN's Script",
-            "parent_region": "Windia",
-            "connected_region": "Windia Inn Lobby"
-          },
-          {
-            "name": "Windia Inn Beds - Stairs to Lobby",
-            "parent_region": "Windia Inn Beds",
-            "connected_region": "Windia Inn Lobby"
-          }
-        ],
         "exits": [
           {
             "name": "Windia Inn Lobby - Exit",
@@ -14150,13 +11768,6 @@
       },
       "Windia Inn Beds": {
         "name": "Windia Inn Beds",
-        "entrances": [
-          {
-            "name": "Windia Inn Lobby - Stairs to Beds",
-            "parent_region": "Windia Inn Lobby",
-            "connected_region": "Windia Inn Beds"
-          }
-        ],
         "exits": [
           {
             "name": "Windia Inn Beds - Stairs to Lobby",
@@ -14219,13 +11830,6 @@
       },
       "Windia Vendor House": {
         "name": "Windia Vendor House",
-        "entrances": [
-          {
-            "name": "Windia - Vendor House",
-            "parent_region": "Windia",
-            "connected_region": "Windia Vendor House"
-          }
-        ],
         "exits": [
           {
             "name": "Windia Vendor House - Entrance",
@@ -14255,23 +11859,6 @@
       },
       "Pazuzu Tower 1F Main Lobby": {
         "name": "Pazuzu Tower 1F Main Lobby",
-        "entrances": [
-          {
-            "name": "Overworld - Pazuzu Tower",
-            "parent_region": "Subregion Windia",
-            "connected_region": "Pazuzu Tower 1F Main Lobby"
-          },
-          {
-            "name": "Pazuzu Tower 1F Southern Platform to Pazuzu Tower 1F Main Lobby",
-            "parent_region": "Pazuzu Tower 1F Southern Platform",
-            "connected_region": "Pazuzu Tower 1F Main Lobby"
-          },
-          {
-            "name": "Pazuzu 1F to 3F - South Stairs",
-            "parent_region": "Pazuzu 1F to 3F",
-            "connected_region": "Pazuzu Tower 1F Main Lobby"
-          }
-        ],
         "exits": [
           {
             "name": "Pazuzu Tower 1F Main Lobby - Main Entrance 1",
@@ -14318,13 +11905,6 @@
       },
       "Pazuzu Tower 1F Boxes Room": {
         "name": "Pazuzu Tower 1F Boxes Room",
-        "entrances": [
-          {
-            "name": "Pazuzu 2F - West Lower Stairs",
-            "parent_region": "Pazuzu 2F",
-            "connected_region": "Pazuzu Tower 1F Boxes Room"
-          }
-        ],
         "exits": [
           {
             "name": "Pazuzu Tower 1F Boxes Room - West Stairs",
@@ -14486,13 +12066,6 @@
       },
       "Pazuzu Tower 1F Southern Platform": {
         "name": "Pazuzu Tower 1F Southern Platform",
-        "entrances": [
-          {
-            "name": "Pazuzu 2F - South Stairs",
-            "parent_region": "Pazuzu 2F",
-            "connected_region": "Pazuzu Tower 1F Southern Platform"
-          }
-        ],
         "exits": [
           {
             "name": "Pazuzu Tower 1F Main Lobby - South Stairs",
@@ -14520,28 +12093,6 @@
       },
       "Pazuzu 2F": {
         "name": "Pazuzu 2F",
-        "entrances": [
-          {
-            "name": "Pazuzu Tower 1F Boxes Room - West Stairs",
-            "parent_region": "Pazuzu Tower 1F Boxes Room",
-            "connected_region": "Pazuzu 2F"
-          },
-          {
-            "name": "Pazuzu Tower 1F Main Lobby - South Stairs",
-            "parent_region": "Pazuzu Tower 1F Southern Platform",
-            "connected_region": "Pazuzu 2F"
-          },
-          {
-            "name": "Pazuzu 3F Central Island - Central Stairs",
-            "parent_region": "Pazuzu 3F Central Island",
-            "connected_region": "Pazuzu 2F"
-          },
-          {
-            "name": "Pazuzu 2F to 4F - South Stairs",
-            "parent_region": "Pazuzu 2F to 4F",
-            "connected_region": "Pazuzu 2F"
-          }
-        ],
         "exits": [
           {
             "name": "Pazuzu 2F - West Upper Stairs",
@@ -14697,23 +12248,6 @@
       },
       "Pazuzu 3F Main Room": {
         "name": "Pazuzu 3F Main Room",
-        "entrances": [
-          {
-            "name": "Pazuzu 3F Central Island to Pazuzu 3F Main Room",
-            "parent_region": "Pazuzu 3F Central Island",
-            "connected_region": "Pazuzu 3F Main Room"
-          },
-          {
-            "name": "Pazuzu 1F to 3F - North Stairs",
-            "parent_region": "Pazuzu 1F to 3F",
-            "connected_region": "Pazuzu 3F Main Room"
-          },
-          {
-            "name": "Pazuzu 3F to 5F - South Stairs",
-            "parent_region": "Pazuzu 3F to 5F",
-            "connected_region": "Pazuzu 3F Main Room"
-          }
-        ],
         "exits": [
           {
             "name": "Pazuzu 3F Main Room - North Stairs",
@@ -14779,18 +12313,6 @@
       },
       "Pazuzu 3F Central Island": {
         "name": "Pazuzu 3F Central Island",
-        "entrances": [
-          {
-            "name": "Pazuzu 2F - Central Stairs",
-            "parent_region": "Pazuzu 2F",
-            "connected_region": "Pazuzu 3F Central Island"
-          },
-          {
-            "name": "Pazuzu 3F Southern Island to Pazuzu 3F Central Island",
-            "parent_region": "Pazuzu 3F Southern Island",
-            "connected_region": "Pazuzu 3F Central Island"
-          }
-        ],
         "exits": [
           {
             "name": "Pazuzu 3F Central Island - Central Stairs",
@@ -14831,18 +12353,6 @@
       },
       "Pazuzu 3F Southern Island": {
         "name": "Pazuzu 3F Southern Island",
-        "entrances": [
-          {
-            "name": "Pazuzu 3F Central Island to Pazuzu 3F Southern Island",
-            "parent_region": "Pazuzu 3F Central Island",
-            "connected_region": "Pazuzu 3F Southern Island"
-          },
-          {
-            "name": "Pazuzu 4F - South Stairs",
-            "parent_region": "Pazuzu 4F",
-            "connected_region": "Pazuzu 3F Southern Island"
-          }
-        ],
         "exits": [
           {
             "name": "Pazuzu 3F Central Island - South Stairs",
@@ -14885,28 +12395,6 @@
       },
       "Pazuzu 4F": {
         "name": "Pazuzu 4F",
-        "entrances": [
-          {
-            "name": "Pazuzu 3F Central Island - South Stairs",
-            "parent_region": "Pazuzu 3F Southern Island",
-            "connected_region": "Pazuzu 4F"
-          },
-          {
-            "name": "Pazuzu 5F Upper Loop - Northeast Stairs",
-            "parent_region": "Pazuzu 5F Upper Loop",
-            "connected_region": "Pazuzu 4F"
-          },
-          {
-            "name": "Pazuzu 2F to 4F - North Stairs",
-            "parent_region": "Pazuzu 2F to 4F",
-            "connected_region": "Pazuzu 4F"
-          },
-          {
-            "name": "Pazuzu 4F to 6F - South Stairs",
-            "parent_region": "Pazuzu 4F to 6F",
-            "connected_region": "Pazuzu 4F"
-          }
-        ],
         "exits": [
           {
             "name": "Pazuzu 4F - Northwest Stairs",
@@ -15136,18 +12624,6 @@
       },
       "Pazuzu 5F Pazuzu Loop": {
         "name": "Pazuzu 5F Pazuzu Loop",
-        "entrances": [
-          {
-            "name": "Pazuzu 3F to 5F - North Stairs",
-            "parent_region": "Pazuzu 3F to 5F",
-            "connected_region": "Pazuzu 5F Pazuzu Loop"
-          },
-          {
-            "name": "Pazuzu 5F to 7F - South Stairs",
-            "parent_region": "Pazuzu 5F to 7F",
-            "connected_region": "Pazuzu 5F Pazuzu Loop"
-          }
-        ],
         "exits": [
           {
             "name": "Pazuzu 5F Pazuzu Loop - West Stairs",
@@ -15185,18 +12661,6 @@
       },
       "Pazuzu 5F Upper Loop": {
         "name": "Pazuzu 5F Upper Loop",
-        "entrances": [
-          {
-            "name": "Pazuzu 4F - Northeast Stairs",
-            "parent_region": "Pazuzu 4F",
-            "connected_region": "Pazuzu 5F Upper Loop"
-          },
-          {
-            "name": "Pazuzu 6F - Northwest Stairs",
-            "parent_region": "Pazuzu 6F",
-            "connected_region": "Pazuzu 5F Upper Loop"
-          }
-        ],
         "exits": [
           {
             "name": "Pazuzu 5F Upper Loop - Northeast Stairs",
@@ -15248,28 +12712,6 @@
       },
       "Pazuzu 6F": {
         "name": "Pazuzu 6F",
-        "entrances": [
-          {
-            "name": "Pazuzu 5F Upper Loop - Northwest Stairs",
-            "parent_region": "Pazuzu 5F Upper Loop",
-            "connected_region": "Pazuzu 6F"
-          },
-          {
-            "name": "Pazuzu 7F Main Room - Northeast Stairs",
-            "parent_region": "Pazuzu 7F Rest of the Area",
-            "connected_region": "Pazuzu 6F"
-          },
-          {
-            "name": "Pazuzu 7F Main Room - Southeast Stairs",
-            "parent_region": "Pazuzu 7F Rest of the Area",
-            "connected_region": "Pazuzu 6F"
-          },
-          {
-            "name": "Pazuzu 4F to 6F - North Stairs",
-            "parent_region": "Pazuzu 4F to 6F",
-            "connected_region": "Pazuzu 6F"
-          }
-        ],
         "exits": [
           {
             "name": "Pazuzu 6F - West Stairs",
@@ -15455,18 +12897,6 @@
       },
       "Pazuzu 7F Southwest Area": {
         "name": "Pazuzu 7F Southwest Area",
-        "entrances": [
-          {
-            "name": "Pazuzu 7F Rest of the Area to Pazuzu 7F Southwest Area",
-            "parent_region": "Pazuzu 7F Rest of the Area",
-            "connected_region": "Pazuzu 7F Southwest Area"
-          },
-          {
-            "name": "Pazuzu 5F to 7F - North Stairs",
-            "parent_region": "Pazuzu 5F to 7F",
-            "connected_region": "Pazuzu 7F Southwest Area"
-          }
-        ],
         "exits": [
           {
             "name": "Pazuzu 7F Main Room - Southwest Stairs",
@@ -15494,28 +12924,6 @@
       },
       "Pazuzu 7F Rest of the Area": {
         "name": "Pazuzu 7F Rest of the Area",
-        "entrances": [
-          {
-            "name": "Pazuzu 6F - Northeast Stairs",
-            "parent_region": "Pazuzu 6F",
-            "connected_region": "Pazuzu 7F Rest of the Area"
-          },
-          {
-            "name": "Pazuzu 6F - South Stairs",
-            "parent_region": "Pazuzu 6F",
-            "connected_region": "Pazuzu 7F Rest of the Area"
-          },
-          {
-            "name": "Pazuzu 7F Southwest Area to Pazuzu 7F Rest of the Area",
-            "parent_region": "Pazuzu 7F Southwest Area",
-            "connected_region": "Pazuzu 7F Rest of the Area"
-          },
-          {
-            "name": "Pazuzu 7F Sky Room to Pazuzu 7F Rest of the Area",
-            "parent_region": "Pazuzu 7F Sky Room",
-            "connected_region": "Pazuzu 7F Rest of the Area"
-          }
-        ],
         "exits": [
           {
             "name": "Pazuzu 7F Rest of the Area to Pazuzu 7F Southwest Area",
@@ -15600,13 +13008,6 @@
       },
       "Pazuzu 7F Sky Room": {
         "name": "Pazuzu 7F Sky Room",
-        "entrances": [
-          {
-            "name": "Pazuzu 7F Rest of the Area to Pazuzu 7F Sky Room",
-            "parent_region": "Pazuzu 7F Rest of the Area",
-            "connected_region": "Pazuzu 7F Sky Room"
-          }
-        ],
         "exits": [
           {
             "name": "Pazuzu 7F Sky Room to Pazuzu 7F Rest of the Area",
@@ -15692,18 +13093,6 @@
       },
       "Pazuzu 1F to 3F": {
         "name": "Pazuzu 1F to 3F",
-        "entrances": [
-          {
-            "name": "Pazuzu Tower 1F Main Lobby - East Entrance",
-            "parent_region": "Pazuzu Tower 1F Main Lobby",
-            "connected_region": "Pazuzu 1F to 3F"
-          },
-          {
-            "name": "Pazuzu 3F Main Room - North Stairs",
-            "parent_region": "Pazuzu 3F Main Room",
-            "connected_region": "Pazuzu 1F to 3F"
-          }
-        ],
         "exits": [
           {
             "name": "Pazuzu 1F to 3F - South Stairs",
@@ -15726,18 +13115,6 @@
       },
       "Pazuzu 3F to 5F": {
         "name": "Pazuzu 3F to 5F",
-        "entrances": [
-          {
-            "name": "Pazuzu 3F Main Room - West Stairs",
-            "parent_region": "Pazuzu 3F Main Room",
-            "connected_region": "Pazuzu 3F to 5F"
-          },
-          {
-            "name": "Pazuzu 5F Pazuzu Loop - West Stairs",
-            "parent_region": "Pazuzu 5F Pazuzu Loop",
-            "connected_region": "Pazuzu 3F to 5F"
-          }
-        ],
         "exits": [
           {
             "name": "Pazuzu 3F to 5F - South Stairs",
@@ -15760,18 +13137,6 @@
       },
       "Pazuzu 5F to 7F": {
         "name": "Pazuzu 5F to 7F",
-        "entrances": [
-          {
-            "name": "Pazuzu 5F Pazuzu Loop - South Stairs",
-            "parent_region": "Pazuzu 5F Pazuzu Loop",
-            "connected_region": "Pazuzu 5F to 7F"
-          },
-          {
-            "name": "Pazuzu 7F Main Room - Southwest Stairs",
-            "parent_region": "Pazuzu 7F Southwest Area",
-            "connected_region": "Pazuzu 5F to 7F"
-          }
-        ],
         "exits": [
           {
             "name": "Pazuzu 5F to 7F - South Stairs",
@@ -15794,18 +13159,6 @@
       },
       "Pazuzu 2F to 4F": {
         "name": "Pazuzu 2F to 4F",
-        "entrances": [
-          {
-            "name": "Pazuzu 2F - West Upper Stairs",
-            "parent_region": "Pazuzu 2F",
-            "connected_region": "Pazuzu 2F to 4F"
-          },
-          {
-            "name": "Pazuzu 4F - Northwest Stairs",
-            "parent_region": "Pazuzu 4F",
-            "connected_region": "Pazuzu 2F to 4F"
-          }
-        ],
         "exits": [
           {
             "name": "Pazuzu 2F to 4F - South Stairs",
@@ -15828,18 +13181,6 @@
       },
       "Pazuzu 4F to 6F": {
         "name": "Pazuzu 4F to 6F",
-        "entrances": [
-          {
-            "name": "Pazuzu 4F - Southwest Stairs",
-            "parent_region": "Pazuzu 4F",
-            "connected_region": "Pazuzu 4F to 6F"
-          },
-          {
-            "name": "Pazuzu 6F - West Stairs",
-            "parent_region": "Pazuzu 6F",
-            "connected_region": "Pazuzu 4F to 6F"
-          }
-        ],
         "exits": [
           {
             "name": "Pazuzu 4F to 6F - South Stairs",
@@ -15862,18 +13203,6 @@
       },
       "Light Temple": {
         "name": "Light Temple",
-        "entrances": [
-          {
-            "name": "Overworld - Light Temple",
-            "parent_region": "Subregion Light Temple",
-            "connected_region": "Light Temple"
-          },
-          {
-            "name": "Kaidge Temple - Mobius Teleporter Script",
-            "parent_region": "Kaidge Temple Upper Ledge",
-            "connected_region": "Light Temple"
-          }
-        ],
         "exits": [
           {
             "name": "Light Temple - Entrance",
@@ -15916,18 +13245,6 @@
       },
       "Ship Dock": {
         "name": "Ship Dock",
-        "entrances": [
-          {
-            "name": "Overworld - Ship Dock",
-            "parent_region": "Subregion Ship Dock",
-            "connected_region": "Ship Dock"
-          },
-          {
-            "name": "Windia Old People House Basement - Mobius Teleporter Script",
-            "parent_region": "Windia Old People House Basement",
-            "connected_region": "Ship Dock"
-          }
-        ],
         "exits": [
           {
             "name": "Ship Dock - Entrance",
@@ -15970,38 +13287,6 @@
       },
       "Mac Ship Deck": {
         "name": "Mac Ship Deck",
-        "entrances": [
-          {
-            "name": "Overworld - Mac Ship",
-            "parent_region": "Subregion Mac's Ship",
-            "connected_region": "Mac Ship Deck"
-          },
-          {
-            "name": "Overworld - Mac Ship Doom",
-            "parent_region": "Subregion Doom Castle",
-            "connected_region": "Mac Ship Deck"
-          },
-          {
-            "name": "Mac Ship B1 Outer Ring - South Stairs",
-            "parent_region": "Mac Ship B1 Outer Ring",
-            "connected_region": "Mac Ship Deck"
-          },
-          {
-            "name": "Mac Ship B1 Outer Ring - West Stairs",
-            "parent_region": "Mac Ship B1 Outer Ring",
-            "connected_region": "Mac Ship Deck"
-          },
-          {
-            "name": "Mac Ship B1 Outer Ring - East Stairs",
-            "parent_region": "Mac Ship B1 Outer Ring",
-            "connected_region": "Mac Ship Deck"
-          },
-          {
-            "name": "Mac Ship B1 Square Room - North Stairs",
-            "parent_region": "Mac Ship B1 Square Room",
-            "connected_region": "Mac Ship Deck"
-          }
-        ],
         "exits": [
           {
             "name": "Mac Ship Deck - East Entrance Script",
@@ -16105,28 +13390,6 @@
       },
       "Mac Ship B1 Outer Ring": {
         "name": "Mac Ship B1 Outer Ring",
-        "entrances": [
-          {
-            "name": "Mac Ship Deck - Central Stairs Script",
-            "parent_region": "Mac Ship Deck",
-            "connected_region": "Mac Ship B1 Outer Ring"
-          },
-          {
-            "name": "Mac Ship Deck - West Stairs Script",
-            "parent_region": "Mac Ship Deck",
-            "connected_region": "Mac Ship B1 Outer Ring"
-          },
-          {
-            "name": "Mac Ship Deck - East Stairs Script",
-            "parent_region": "Mac Ship Deck",
-            "connected_region": "Mac Ship B1 Outer Ring"
-          },
-          {
-            "name": "Mac Ship B2 Outer Ring - Northwest Stairs Script",
-            "parent_region": "Mac Ship B2 Outer Ring",
-            "connected_region": "Mac Ship B1 Outer Ring"
-          }
-        ],
         "exits": [
           {
             "name": "Mac Ship B1 Outer Ring - South Stairs",
@@ -16212,18 +13475,6 @@
       },
       "Mac Ship B1 Square Room": {
         "name": "Mac Ship B1 Square Room",
-        "entrances": [
-          {
-            "name": "Mac Ship Deck - North Stairs Script",
-            "parent_region": "Mac Ship Deck",
-            "connected_region": "Mac Ship B1 Square Room"
-          },
-          {
-            "name": "Mac Ship B2 North Corridor - North Stairs Script",
-            "parent_region": "Mac Ship B2 North Corridor",
-            "connected_region": "Mac Ship B1 Square Room"
-          }
-        ],
         "exits": [
           {
             "name": "Mac Ship B1 Square Room - North Stairs",
@@ -16246,18 +13497,6 @@
       },
       "Mac Ship B1 Central Corridor": {
         "name": "Mac Ship B1 Central Corridor",
-        "entrances": [
-          {
-            "name": "Mac Ship B2 South Corridor - North Stairs Script",
-            "parent_region": "Mac Ship B2 South Corridor",
-            "connected_region": "Mac Ship B1 Central Corridor"
-          },
-          {
-            "name": "Mac Ship B2 North Corridor - South Stairs Script",
-            "parent_region": "Mac Ship B2 North Corridor",
-            "connected_region": "Mac Ship B1 Central Corridor"
-          }
-        ],
         "exits": [
           {
             "name": "Mac Ship B1 Central Corridor - North Stairs",
@@ -16303,18 +13542,6 @@
       },
       "Mac Ship B2 South Corridor": {
         "name": "Mac Ship B2 South Corridor",
-        "entrances": [
-          {
-            "name": "Mac Ship B1 Central Corridor - South Stairs",
-            "parent_region": "Mac Ship B1 Central Corridor",
-            "connected_region": "Mac Ship B2 South Corridor"
-          },
-          {
-            "name": "Mac Ship B1 Mac Room Cleared - Main Stairs",
-            "parent_region": "Mac Ship B1 Mac Room",
-            "connected_region": "Mac Ship B2 South Corridor"
-          }
-        ],
         "exits": [
           {
             "name": "Mac Ship B2 South Corridor - North Stairs Script",
@@ -16337,18 +13564,6 @@
       },
       "Mac Ship B2 North Corridor": {
         "name": "Mac Ship B2 North Corridor",
-        "entrances": [
-          {
-            "name": "Mac Ship B1 Square Room - South Stairs",
-            "parent_region": "Mac Ship B1 Square Room",
-            "connected_region": "Mac Ship B2 North Corridor"
-          },
-          {
-            "name": "Mac Ship B1 Central Corridor - North Stairs",
-            "parent_region": "Mac Ship B1 Central Corridor",
-            "connected_region": "Mac Ship B2 North Corridor"
-          }
-        ],
         "exits": [
           {
             "name": "Mac Ship B2 North Corridor - South Stairs Script",
@@ -16371,23 +13586,6 @@
       },
       "Mac Ship B2 Outer Ring": {
         "name": "Mac Ship B2 Outer Ring",
-        "entrances": [
-          {
-            "name": "Mac Ship B1 Outer Ring - Northwest Stairs",
-            "parent_region": "Mac Ship B1 Outer Ring",
-            "connected_region": "Mac Ship B2 Outer Ring"
-          },
-          {
-            "name": "Mac Ship B1 Outer Ring to Mac Ship B2 Outer Ring",
-            "parent_region": "Mac Ship B1 Outer Ring",
-            "connected_region": "Mac Ship B2 Outer Ring"
-          },
-          {
-            "name": "Mac Ship B1 Central Corridor to Mac Ship B2 Outer Ring",
-            "parent_region": "Mac Ship B1 Central Corridor",
-            "connected_region": "Mac Ship B2 Outer Ring"
-          }
-        ],
         "exits": [
           {
             "name": "Mac Ship B2 Outer Ring - Northwest Stairs Script",
@@ -16459,13 +13657,6 @@
       },
       "Mac Ship B1 Mac Room": {
         "name": "Mac Ship B1 Mac Room",
-        "entrances": [
-          {
-            "name": "Mac Ship B2 South Corridor - South Stairs",
-            "parent_region": "Mac Ship B2 South Corridor",
-            "connected_region": "Mac Ship B1 Mac Room"
-          }
-        ],
         "exits": [
           {
             "name": "Mac Ship B1 Mac Room Cleared - Main Stairs",
@@ -16514,33 +13705,6 @@
       },
       "Doom Castle Corridor of Destiny": {
         "name": "Doom Castle Corridor of Destiny",
-        "entrances": [
-          {
-            "name": "Focus Tower 1F - Sky Door",
-            "parent_region": "Focus Tower 1F SkyCoin Room",
-            "connected_region": "Doom Castle Corridor of Destiny"
-          },
-          {
-            "name": "Doom Castle Ice Floor - Entrance",
-            "parent_region": "Doom Castle Ice Floor",
-            "connected_region": "Doom Castle Corridor of Destiny"
-          },
-          {
-            "name": "Doom Castle Lava Floor - Entrance",
-            "parent_region": "Doom Castle Lava Floor",
-            "connected_region": "Doom Castle Corridor of Destiny"
-          },
-          {
-            "name": "Doom Castle Sky Floor - Entrance",
-            "parent_region": "Doom Castle Sky Floor",
-            "connected_region": "Doom Castle Corridor of Destiny"
-          },
-          {
-            "name": "Doom Castle Hero Room - Entrance",
-            "parent_region": "Doom Castle Hero Room",
-            "connected_region": "Doom Castle Corridor of Destiny"
-          }
-        ],
         "exits": [
           {
             "name": "Doom Castle Corridor of Destiny - South Entrance",
@@ -16614,13 +13778,6 @@
       },
       "Doom Castle Ice Floor": {
         "name": "Doom Castle Ice Floor",
-        "entrances": [
-          {
-            "name": "Doom Castle Corridor of Destiny - Ice Floor Entrance",
-            "parent_region": "Doom Castle Corridor of Destiny",
-            "connected_region": "Doom Castle Ice Floor"
-          }
-        ],
         "exits": [
           {
             "name": "Doom Castle Ice Floor - Entrance",
@@ -16876,18 +14033,6 @@
       },
       "Doom Castle Lava Floor": {
         "name": "Doom Castle Lava Floor",
-        "entrances": [
-          {
-            "name": "Doom Castle Corridor of Destiny - Lava Floor Entrance",
-            "parent_region": "Doom Castle Corridor of Destiny",
-            "connected_region": "Doom Castle Lava Floor"
-          },
-          {
-            "name": "Doom Castle Sky Floor to Doom Castle Lava Floor",
-            "parent_region": "Doom Castle Sky Floor",
-            "connected_region": "Doom Castle Lava Floor"
-          }
-        ],
         "exits": [
           {
             "name": "Doom Castle Lava Floor - Entrance",
@@ -16998,13 +14143,6 @@
       },
       "Doom Castle Sky Floor": {
         "name": "Doom Castle Sky Floor",
-        "entrances": [
-          {
-            "name": "Doom Castle Corridor of Destiny - Sky Floor Entrance",
-            "parent_region": "Doom Castle Corridor of Destiny",
-            "connected_region": "Doom Castle Sky Floor"
-          }
-        ],
         "exits": [
           {
             "name": "Doom Castle Sky Floor - Entrance",
@@ -17075,18 +14213,6 @@
       },
       "Doom Castle Hero Room": {
         "name": "Doom Castle Hero Room",
-        "entrances": [
-          {
-            "name": "Doom Castle Corridor of Destiny - Hero Room Entrance",
-            "parent_region": "Doom Castle Corridor of Destiny",
-            "connected_region": "Doom Castle Hero Room"
-          },
-          {
-            "name": "Doom Castle Dark King Room - Entrance",
-            "parent_region": "Doom Castle Dark King Room",
-            "connected_region": "Doom Castle Hero Room"
-          }
-        ],
         "exits": [
           {
             "name": "Doom Castle Hero Room - Dark King Entrance 1",
@@ -17109,13 +14235,6 @@
       },
       "Doom Castle Dark King Room": {
         "name": "Doom Castle Dark King Room",
-        "entrances": [
-          {
-            "name": "Doom Castle Hero Room - Dark King Entrance 1",
-            "parent_region": "Doom Castle Hero Room",
-            "connected_region": "Doom Castle Dark King Room"
-          }
-        ],
         "exits": [
           {
             "name": "Doom Castle Dark King Room - Entrance",

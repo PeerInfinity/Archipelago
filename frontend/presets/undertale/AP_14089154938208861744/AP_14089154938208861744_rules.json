@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "New Game",
@@ -37,25 +36,11 @@
       },
       "???": {
         "name": "???",
-        "entrances": [
-          {
-            "name": "??? Exit",
-            "parent_region": "Menu",
-            "connected_region": "???"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Hub": {
         "name": "Hub",
-        "entrances": [
-          {
-            "name": "New Game",
-            "parent_region": "Menu",
-            "connected_region": "Hub"
-          }
-        ],
         "exits": [
           {
             "name": "Ruins Hub",
@@ -117,13 +102,6 @@
       },
       "Ruins": {
         "name": "Ruins",
-        "entrances": [
-          {
-            "name": "Ruins Hub",
-            "parent_region": "Hub",
-            "connected_region": "Ruins"
-          }
-        ],
         "exits": [
           {
             "name": "Ruins Exit",
@@ -265,25 +243,11 @@
       },
       "Old Home": {
         "name": "Old Home",
-        "entrances": [
-          {
-            "name": "Ruins Exit",
-            "parent_region": "Ruins",
-            "connected_region": "Old Home"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Snowdin Forest": {
         "name": "Snowdin Forest",
-        "entrances": [
-          {
-            "name": "Snowdin Hub",
-            "parent_region": "Hub",
-            "connected_region": "Snowdin Forest"
-          }
-        ],
         "exits": [
           {
             "name": "Snowdin Forest Exit",
@@ -347,13 +311,6 @@
       },
       "Snowdin Town": {
         "name": "Snowdin Town",
-        "entrances": [
-          {
-            "name": "Snowdin Forest Exit",
-            "parent_region": "Snowdin Forest",
-            "connected_region": "Snowdin Town"
-          }
-        ],
         "exits": [
           {
             "name": "Papyrus\" Home Entrance",
@@ -465,13 +422,6 @@
       },
       "Papyrus\" Home": {
         "name": "Papyrus\" Home",
-        "entrances": [
-          {
-            "name": "Papyrus\" Home Entrance",
-            "parent_region": "Snowdin Town",
-            "connected_region": "Papyrus\" Home"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -492,13 +442,6 @@
       },
       "Waterfall": {
         "name": "Waterfall",
-        "entrances": [
-          {
-            "name": "Waterfall Hub",
-            "parent_region": "Hub",
-            "connected_region": "Waterfall"
-          }
-        ],
         "exits": [
           {
             "name": "Undyne\"s Home Entrance",
@@ -930,13 +873,6 @@
       },
       "Undyne\"s Home": {
         "name": "Undyne\"s Home",
-        "entrances": [
-          {
-            "name": "Undyne\"s Home Entrance",
-            "parent_region": "Waterfall",
-            "connected_region": "Undyne\"s Home"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -957,13 +893,6 @@
       },
       "Hotland": {
         "name": "Hotland",
-        "entrances": [
-          {
-            "name": "Hotland Hub",
-            "parent_region": "Hub",
-            "connected_region": "Hotland"
-          }
-        ],
         "exits": [
           {
             "name": "Cooking Show Entrance",
@@ -1265,13 +1194,6 @@
       },
       "Cooking Show": {
         "name": "Cooking Show",
-        "entrances": [
-          {
-            "name": "Cooking Show Entrance",
-            "parent_region": "Hotland",
-            "connected_region": "Cooking Show"
-          }
-        ],
         "exits": [
           {
             "name": "News Show Entrance",
@@ -1286,37 +1208,16 @@
       },
       "News Show": {
         "name": "News Show",
-        "entrances": [
-          {
-            "name": "News Show Entrance",
-            "parent_region": "Cooking Show",
-            "connected_region": "News Show"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "True Lab": {
         "name": "True Lab",
-        "entrances": [
-          {
-            "name": "Lab Elevator",
-            "parent_region": "Hotland",
-            "connected_region": "True Lab"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Core": {
         "name": "Core",
-        "entrances": [
-          {
-            "name": "Core Hub",
-            "parent_region": "Hub",
-            "connected_region": "Core"
-          }
-        ],
         "exits": [
           {
             "name": "Core Exit",
@@ -1386,13 +1287,6 @@
       },
       "New Home": {
         "name": "New Home",
-        "entrances": [
-          {
-            "name": "Core Exit",
-            "parent_region": "Core",
-            "connected_region": "New Home"
-          }
-        ],
         "exits": [
           {
             "name": "New Home Exit",
@@ -1535,13 +1429,6 @@
       },
       "Last Corridor": {
         "name": "Last Corridor",
-        "entrances": [
-          {
-            "name": "New Home Exit",
-            "parent_region": "New Home",
-            "connected_region": "Last Corridor"
-          }
-        ],
         "exits": [
           {
             "name": "Last Corridor Exit",
@@ -1556,13 +1443,6 @@
       },
       "Barrier": {
         "name": "Barrier",
-        "entrances": [
-          {
-            "name": "Last Corridor Exit",
-            "parent_region": "Last Corridor",
-            "connected_region": "Barrier"
-          }
-        ],
         "exits": [],
         "locations": []
       }

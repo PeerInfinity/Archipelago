@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Placing belts",
@@ -143,13 +142,6 @@
       },
       "Shape transportation": {
         "name": "Shape transportation",
-        "entrances": [
-          {
-            "name": "Placing belts",
-            "parent_region": "Menu",
-            "connected_region": "Shape transportation"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -170,13 +162,6 @@
       },
       "Shape extraction": {
         "name": "Shape extraction",
-        "entrances": [
-          {
-            "name": "Extracting shapes from patches",
-            "parent_region": "Menu",
-            "connected_region": "Shape extraction"
-          }
-        ],
         "exits": [
           {
             "name": "Transporting shapes over the canvas",
@@ -254,13 +239,6 @@
       },
       "Main": {
         "name": "Main",
-        "entrances": [
-          {
-            "name": "Transporting shapes over the canvas",
-            "parent_region": "Shape extraction",
-            "connected_region": "Main"
-          }
-        ],
         "exits": [
           {
             "name": "Painting with (double) painter",
@@ -714,13 +692,6 @@
       },
       "Levels with 1 building": {
         "name": "Levels with 1 building",
-        "entrances": [
-          {
-            "name": "Using first level building",
-            "parent_region": "Main",
-            "connected_region": "Levels with 1 building"
-          }
-        ],
         "exits": [
           {
             "name": "Using second level building",
@@ -794,13 +765,6 @@
       },
       "Levels with 2 buildings": {
         "name": "Levels with 2 buildings",
-        "entrances": [
-          {
-            "name": "Using second level building",
-            "parent_region": "Levels with 1 building",
-            "connected_region": "Levels with 2 buildings"
-          }
-        ],
         "exits": [
           {
             "name": "Using third level building",
@@ -874,13 +838,6 @@
       },
       "Levels with 3 buildings": {
         "name": "Levels with 3 buildings",
-        "entrances": [
-          {
-            "name": "Using third level building",
-            "parent_region": "Levels with 2 buildings",
-            "connected_region": "Levels with 3 buildings"
-          }
-        ],
         "exits": [
           {
             "name": "Using fourth level building",
@@ -954,13 +911,6 @@
       },
       "Levels with 4 buildings": {
         "name": "Levels with 4 buildings",
-        "entrances": [
-          {
-            "name": "Using fourth level building",
-            "parent_region": "Levels with 3 buildings",
-            "connected_region": "Levels with 4 buildings"
-          }
-        ],
         "exits": [
           {
             "name": "Using fifth level building",
@@ -1034,13 +984,6 @@
       },
       "Levels with 5 buildings": {
         "name": "Levels with 5 buildings",
-        "entrances": [
-          {
-            "name": "Using fifth level building",
-            "parent_region": "Levels with 4 buildings",
-            "connected_region": "Levels with 5 buildings"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1187,13 +1130,6 @@
       },
       "Upgrades with 1 building": {
         "name": "Upgrades with 1 building",
-        "entrances": [
-          {
-            "name": "Using first upgrade building",
-            "parent_region": "Main",
-            "connected_region": "Upgrades with 1 building"
-          }
-        ],
         "exits": [
           {
             "name": "Using second upgrade building",
@@ -1267,13 +1203,6 @@
       },
       "Upgrades with 2 buildings": {
         "name": "Upgrades with 2 buildings",
-        "entrances": [
-          {
-            "name": "Using second upgrade building",
-            "parent_region": "Upgrades with 1 building",
-            "connected_region": "Upgrades with 2 buildings"
-          }
-        ],
         "exits": [
           {
             "name": "Using third upgrade building",
@@ -1347,13 +1276,6 @@
       },
       "Upgrades with 3 buildings": {
         "name": "Upgrades with 3 buildings",
-        "entrances": [
-          {
-            "name": "Using third upgrade building",
-            "parent_region": "Upgrades with 2 buildings",
-            "connected_region": "Upgrades with 3 buildings"
-          }
-        ],
         "exits": [
           {
             "name": "Using fourth upgrade building",
@@ -1441,13 +1363,6 @@
       },
       "Upgrades with 4 buildings": {
         "name": "Upgrades with 4 buildings",
-        "entrances": [
-          {
-            "name": "Using fourth upgrade building",
-            "parent_region": "Upgrades with 3 buildings",
-            "connected_region": "Upgrades with 4 buildings"
-          }
-        ],
         "exits": [
           {
             "name": "Using fifth upgrade building",
@@ -1521,13 +1436,6 @@
       },
       "Upgrades with 5 buildings": {
         "name": "Upgrades with 5 buildings",
-        "entrances": [
-          {
-            "name": "Using fifth upgrade building",
-            "parent_region": "Upgrades with 4 buildings",
-            "connected_region": "Upgrades with 5 buildings"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1660,13 +1568,6 @@
       },
       "Achievements with (double) painter": {
         "name": "Achievements with (double) painter",
-        "entrances": [
-          {
-            "name": "Painting with (double) painter",
-            "parent_region": "Main",
-            "connected_region": "Achievements with (double) painter"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1687,13 +1588,6 @@
       },
       "Achievements with half cutter": {
         "name": "Achievements with half cutter",
-        "entrances": [
-          {
-            "name": "Cutting with half cutter",
-            "parent_region": "Shape extraction",
-            "connected_region": "Achievements with half cutter"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1714,13 +1608,6 @@
       },
       "Achievements with clockwise rotator": {
         "name": "Achievements with clockwise rotator",
-        "entrances": [
-          {
-            "name": "Rotating clockwise",
-            "parent_region": "Shape extraction",
-            "connected_region": "Achievements with clockwise rotator"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1741,13 +1628,6 @@
       },
       "Achievements with stacker": {
         "name": "Achievements with stacker",
-        "entrances": [
-          {
-            "name": "Stacking shapes",
-            "parent_region": "Shape extraction",
-            "connected_region": "Achievements with stacker"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1782,13 +1662,6 @@
       },
       "Achievements with storage": {
         "name": "Achievements with storage",
-        "entrances": [
-          {
-            "name": "Storing shapes",
-            "parent_region": "Shape extraction",
-            "connected_region": "Achievements with storage"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1809,13 +1682,6 @@
       },
       "Achievements with trash": {
         "name": "Achievements with trash",
-        "entrances": [
-          {
-            "name": "Trashing shapes",
-            "parent_region": "Shape extraction",
-            "connected_region": "Achievements with trash"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1836,13 +1702,6 @@
       },
       "Achievements with blueprints": {
         "name": "Achievements with blueprints",
-        "entrances": [
-          {
-            "name": "Copying and placing blueprints",
-            "parent_region": "Main",
-            "connected_region": "Achievements with blueprints"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1877,13 +1736,6 @@
       },
       "Achievements with wires": {
         "name": "Achievements with wires",
-        "entrances": [
-          {
-            "name": "Using the wires layer",
-            "parent_region": "Menu",
-            "connected_region": "Achievements with wires"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1918,13 +1770,6 @@
       },
       "Achievements with any placeable building": {
         "name": "Achievements with any placeable building",
-        "entrances": [
-          {
-            "name": "Placing any building",
-            "parent_region": "Menu",
-            "connected_region": "Achievements with any placeable building"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1945,13 +1790,6 @@
       },
       "Achievements with all main buildings": {
         "name": "Achievements with all main buildings",
-        "entrances": [
-          {
-            "name": "Using all main buildings",
-            "parent_region": "Main",
-            "connected_region": "Achievements with all main buildings"
-          }
-        ],
         "exits": [
           {
             "name": "Delivering per second with 1.6x belt speed",
@@ -2109,13 +1947,6 @@
       },
       "Achievements with x1.6 belt speed": {
         "name": "Achievements with x1.6 belt speed",
-        "entrances": [
-          {
-            "name": "Delivering per second with 1.6x belt speed",
-            "parent_region": "Achievements with all main buildings",
-            "connected_region": "Achievements with x1.6 belt speed"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2150,13 +1981,6 @@
       },
       "Shapesanity Full Uncolored": {
         "name": "Shapesanity Full Uncolored",
-        "entrances": [
-          {
-            "name": "Delivering unprocessed",
-            "parent_region": "Main",
-            "connected_region": "Shapesanity Full Uncolored"
-          }
-        ],
         "exits": [
           {
             "name": "Painting a full shape",
@@ -2216,13 +2040,6 @@
       },
       "Shapesanity Full Painted": {
         "name": "Shapesanity Full Painted",
-        "entrances": [
-          {
-            "name": "Painting a full shape",
-            "parent_region": "Shapesanity Full Uncolored",
-            "connected_region": "Shapesanity Full Painted"
-          }
-        ],
         "exits": [
           {
             "name": "Mixing colors for a full shape",
@@ -2254,13 +2071,6 @@
       },
       "Shapesanity Full Mixed": {
         "name": "Shapesanity Full Mixed",
-        "entrances": [
-          {
-            "name": "Mixing colors for a full shape",
-            "parent_region": "Shapesanity Full Painted",
-            "connected_region": "Shapesanity Full Mixed"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2281,13 +2091,6 @@
       },
       "Shapesanity Half Uncolored": {
         "name": "Shapesanity Half Uncolored",
-        "entrances": [
-          {
-            "name": "Cutting in single half",
-            "parent_region": "Main",
-            "connected_region": "Shapesanity Half Uncolored"
-          }
-        ],
         "exits": [
           {
             "name": "Painting a half shape",
@@ -2304,13 +2107,6 @@
       },
       "Shapesanity Half Painted": {
         "name": "Shapesanity Half Painted",
-        "entrances": [
-          {
-            "name": "Painting a half shape",
-            "parent_region": "Shapesanity Half Uncolored",
-            "connected_region": "Shapesanity Half Painted"
-          }
-        ],
         "exits": [
           {
             "name": "Mixing colors for a half shape",
@@ -2356,13 +2152,6 @@
       },
       "Shapesanity Half Mixed": {
         "name": "Shapesanity Half Mixed",
-        "entrances": [
-          {
-            "name": "Mixing colors for a half shape",
-            "parent_region": "Shapesanity Half Painted",
-            "connected_region": "Shapesanity Half Mixed"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2397,13 +2186,6 @@
       },
       "Shapesanity Piece Uncolored": {
         "name": "Shapesanity Piece Uncolored",
-        "entrances": [
-          {
-            "name": "Cutting in single piece",
-            "parent_region": "Main",
-            "connected_region": "Shapesanity Piece Uncolored"
-          }
-        ],
         "exits": [
           {
             "name": "Painting a piece shape",
@@ -2420,13 +2202,6 @@
       },
       "Shapesanity Piece Painted": {
         "name": "Shapesanity Piece Painted",
-        "entrances": [
-          {
-            "name": "Painting a piece shape",
-            "parent_region": "Shapesanity Piece Uncolored",
-            "connected_region": "Shapesanity Piece Painted"
-          }
-        ],
         "exits": [
           {
             "name": "Mixing colors for a piece shape",
@@ -2486,13 +2261,6 @@
       },
       "Shapesanity Piece Mixed": {
         "name": "Shapesanity Piece Mixed",
-        "entrances": [
-          {
-            "name": "Mixing colors for a piece shape",
-            "parent_region": "Shapesanity Piece Painted",
-            "connected_region": "Shapesanity Piece Mixed"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2541,13 +2309,6 @@
       },
       "Shapesanity Stitched Uncolored": {
         "name": "Shapesanity Stitched Uncolored",
-        "entrances": [
-          {
-            "name": "Stitching complex shapes",
-            "parent_region": "Main",
-            "connected_region": "Shapesanity Stitched Uncolored"
-          }
-        ],
         "exits": [
           {
             "name": "Painting a stitched shape",
@@ -2579,13 +2340,6 @@
       },
       "Shapesanity Stitched Painted": {
         "name": "Shapesanity Stitched Painted",
-        "entrances": [
-          {
-            "name": "Painting a stitched shape",
-            "parent_region": "Shapesanity Stitched Uncolored",
-            "connected_region": "Shapesanity Stitched Painted"
-          }
-        ],
         "exits": [
           {
             "name": "Mixing colors for a stitched shape",
@@ -2715,13 +2469,6 @@
       },
       "Shapesanity Stitched Mixed": {
         "name": "Shapesanity Stitched Mixed",
-        "entrances": [
-          {
-            "name": "Mixing colors for a stitched shape",
-            "parent_region": "Shapesanity Stitched Painted",
-            "connected_region": "Shapesanity Stitched Mixed"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2966,13 +2713,6 @@
       },
       "Shapesanity East Windmill Uncolored": {
         "name": "Shapesanity East Windmill Uncolored",
-        "entrances": [
-          {
-            "name": "Rotating and stitching a single windmill half",
-            "parent_region": "Main",
-            "connected_region": "Shapesanity East Windmill Uncolored"
-          }
-        ],
         "exits": [
           {
             "name": "Painting a east windmill shape",
@@ -3004,13 +2744,6 @@
       },
       "Shapesanity East Windmill Painted": {
         "name": "Shapesanity East Windmill Painted",
-        "entrances": [
-          {
-            "name": "Painting a east windmill shape",
-            "parent_region": "Shapesanity East Windmill Uncolored",
-            "connected_region": "Shapesanity East Windmill Painted"
-          }
-        ],
         "exits": [
           {
             "name": "Mixing colors for a east windmill shape",
@@ -3042,13 +2775,6 @@
       },
       "Shapesanity East Windmill Mixed": {
         "name": "Shapesanity East Windmill Mixed",
-        "entrances": [
-          {
-            "name": "Mixing colors for a east windmill shape",
-            "parent_region": "Shapesanity East Windmill Painted",
-            "connected_region": "Shapesanity East Windmill Mixed"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3069,13 +2795,6 @@
       },
       "Shapesanity Half-Half Uncolored": {
         "name": "Shapesanity Half-Half Uncolored",
-        "entrances": [
-          {
-            "name": "Cutting and stacking into two halves",
-            "parent_region": "Main",
-            "connected_region": "Shapesanity Half-Half Uncolored"
-          }
-        ],
         "exits": [
           {
             "name": "Painting a half-half shape",
@@ -3092,13 +2811,6 @@
       },
       "Shapesanity Half-Half Painted": {
         "name": "Shapesanity Half-Half Painted",
-        "entrances": [
-          {
-            "name": "Painting a half-half shape",
-            "parent_region": "Shapesanity Half-Half Uncolored",
-            "connected_region": "Shapesanity Half-Half Painted"
-          }
-        ],
         "exits": [
           {
             "name": "Mixing colors for a half-half shape",
@@ -3115,13 +2827,6 @@
       },
       "Shapesanity Half-Half Mixed": {
         "name": "Shapesanity Half-Half Mixed",
-        "entrances": [
-          {
-            "name": "Mixing colors for a half-half shape",
-            "parent_region": "Shapesanity Half-Half Painted",
-            "connected_region": "Shapesanity Half-Half Mixed"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3142,13 +2847,6 @@
       },
       "Shapesanity Colorful East Windmill Uncolored": {
         "name": "Shapesanity Colorful East Windmill Uncolored",
-        "entrances": [
-          {
-            "name": "Why windmill, why?",
-            "parent_region": "Main",
-            "connected_region": "Shapesanity Colorful East Windmill Uncolored"
-          }
-        ],
         "exits": [
           {
             "name": "Painting a colorful east windmill shape",
@@ -3165,13 +2863,6 @@
       },
       "Shapesanity Colorful East Windmill Painted": {
         "name": "Shapesanity Colorful East Windmill Painted",
-        "entrances": [
-          {
-            "name": "Painting a colorful east windmill shape",
-            "parent_region": "Shapesanity Colorful East Windmill Uncolored",
-            "connected_region": "Shapesanity Colorful East Windmill Painted"
-          }
-        ],
         "exits": [
           {
             "name": "Mixing colors for a colorful east windmill shape",
@@ -3188,13 +2879,6 @@
       },
       "Shapesanity Colorful Half-Half Uncolored": {
         "name": "Shapesanity Colorful Half-Half Uncolored",
-        "entrances": [
-          {
-            "name": "Quad painting a half-half shape",
-            "parent_region": "Main",
-            "connected_region": "Shapesanity Colorful Half-Half Uncolored"
-          }
-        ],
         "exits": [
           {
             "name": "Painting a colorful half-half shape",
@@ -3211,13 +2895,6 @@
       },
       "Shapesanity Colorful Half-Half Painted": {
         "name": "Shapesanity Colorful Half-Half Painted",
-        "entrances": [
-          {
-            "name": "Painting a colorful half-half shape",
-            "parent_region": "Shapesanity Colorful Half-Half Uncolored",
-            "connected_region": "Shapesanity Colorful Half-Half Painted"
-          }
-        ],
         "exits": [
           {
             "name": "Mixing colors for a colorful half-half shape",
@@ -3234,13 +2911,6 @@
       },
       "Shapesanity Colorful Half-Half Mixed": {
         "name": "Shapesanity Colorful Half-Half Mixed",
-        "entrances": [
-          {
-            "name": "Mixing colors for a colorful half-half shape",
-            "parent_region": "Shapesanity Colorful Half-Half Painted",
-            "connected_region": "Shapesanity Colorful Half-Half Mixed"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3275,13 +2945,6 @@
       },
       "Shapesanity Colorful Full Uncolored": {
         "name": "Shapesanity Colorful Full Uncolored",
-        "entrances": [
-          {
-            "name": "Painting with a quad painter or stitching",
-            "parent_region": "Main",
-            "connected_region": "Shapesanity Colorful Full Uncolored"
-          }
-        ],
         "exits": [
           {
             "name": "Painting a colorful full shape",
@@ -3298,13 +2961,6 @@
       },
       "Shapesanity Colorful Full Painted": {
         "name": "Shapesanity Colorful Full Painted",
-        "entrances": [
-          {
-            "name": "Painting a colorful full shape",
-            "parent_region": "Shapesanity Colorful Full Uncolored",
-            "connected_region": "Shapesanity Colorful Full Painted"
-          }
-        ],
         "exits": [
           {
             "name": "Mixing colors for a colorful full shape",
@@ -3321,13 +2977,6 @@
       },
       "Shapesanity Colorful Full Mixed": {
         "name": "Shapesanity Colorful Full Mixed",
-        "entrances": [
-          {
-            "name": "Mixing colors for a colorful full shape",
-            "parent_region": "Shapesanity Colorful Full Painted",
-            "connected_region": "Shapesanity Colorful Full Mixed"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3376,13 +3025,6 @@
       },
       "Shapesanity Colorful Half Uncolored": {
         "name": "Shapesanity Colorful Half Uncolored",
-        "entrances": [
-          {
-            "name": "Quad painting a half shape",
-            "parent_region": "Main",
-            "connected_region": "Shapesanity Colorful Half Uncolored"
-          }
-        ],
         "exits": [
           {
             "name": "Painting a colorful half shape",
@@ -3399,13 +3041,6 @@
       },
       "Shapesanity Colorful Half Painted": {
         "name": "Shapesanity Colorful Half Painted",
-        "entrances": [
-          {
-            "name": "Painting a colorful half shape",
-            "parent_region": "Shapesanity Colorful Half Uncolored",
-            "connected_region": "Shapesanity Colorful Half Painted"
-          }
-        ],
         "exits": [
           {
             "name": "Mixing colors for a colorful half shape",

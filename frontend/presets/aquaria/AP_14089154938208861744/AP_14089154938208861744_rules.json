@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Menu to Verse Cave right area",
@@ -29,18 +28,6 @@
       },
       "Verse Cave right area": {
         "name": "Verse Cave right area",
-        "entrances": [
-          {
-            "name": "Menu to Verse Cave right area",
-            "parent_region": "Menu",
-            "connected_region": "Verse Cave right area"
-          },
-          {
-            "name": "Verse Cave left area to Verse Cave right area",
-            "parent_region": "Verse Cave left area",
-            "connected_region": "Verse Cave right area"
-          }
-        ],
         "exits": [
           {
             "name": "Verse Cave right area to Verse Cave left area",
@@ -98,18 +85,6 @@
       },
       "Verse Cave left area": {
         "name": "Verse Cave left area",
-        "entrances": [
-          {
-            "name": "Verse Cave right area to Verse Cave left area",
-            "parent_region": "Verse Cave right area",
-            "connected_region": "Verse Cave left area"
-          },
-          {
-            "name": "Home Waters to Verse Cave left area",
-            "parent_region": "Home Waters",
-            "connected_region": "Verse Cave left area"
-          }
-        ],
         "exits": [
           {
             "name": "Verse Cave left area to Verse Cave right area",
@@ -189,38 +164,6 @@
       },
       "Home Waters": {
         "name": "Home Waters",
-        "entrances": [
-          {
-            "name": "Verse Cave left area to Home Waters",
-            "parent_region": "Verse Cave left area",
-            "connected_region": "Home Waters"
-          },
-          {
-            "name": "Naija's Home to Home Waters",
-            "parent_region": "Naija's Home",
-            "connected_region": "Home Waters"
-          },
-          {
-            "name": "Song Cave to Home Waters",
-            "parent_region": "Song Cave",
-            "connected_region": "Home Waters"
-          },
-          {
-            "name": "Home Waters, behind rock to Home Waters",
-            "parent_region": "Home Waters, behind rock",
-            "connected_region": "Home Waters"
-          },
-          {
-            "name": "Home Waters, turtle room to Home Waters",
-            "parent_region": "Home Waters, turtle room",
-            "connected_region": "Home Waters"
-          },
-          {
-            "name": "Open Waters top left area to Home Waters",
-            "parent_region": "Open Waters top left area",
-            "connected_region": "Home Waters"
-          }
-        ],
         "exits": [
           {
             "name": "Home Waters to Verse Cave left area",
@@ -387,13 +330,6 @@
       },
       "Home Waters, Nautilus nest": {
         "name": "Home Waters, Nautilus nest",
-        "entrances": [
-          {
-            "name": "Home Waters, behind rock to Home Waters, Nautilus nest",
-            "parent_region": "Home Waters, behind rock",
-            "connected_region": "Home Waters, Nautilus nest"
-          }
-        ],
         "exits": [
           {
             "name": "Home Waters, Nautilus nest to Home Waters, behind rock",
@@ -455,53 +391,6 @@
       },
       "Home Waters, turtle room": {
         "name": "Home Waters, turtle room",
-        "entrances": [
-          {
-            "name": "Home Waters to Home Waters, turtle room",
-            "parent_region": "Home Waters",
-            "connected_region": "Home Waters, turtle room"
-          },
-          {
-            "name": "The Veil top left area to Home Waters, turtle room",
-            "parent_region": "The Veil top left area",
-            "connected_region": "Home Waters, turtle room"
-          },
-          {
-            "name": "The Veil top right area, left of temple to Home Waters, turtle room",
-            "parent_region": "The Veil top right area, left of temple",
-            "connected_region": "Home Waters, turtle room"
-          },
-          {
-            "name": "Open Waters top right area, turtle room to Home Waters, turtle room",
-            "parent_region": "Open Waters top right area, turtle room",
-            "connected_region": "Home Waters, turtle room"
-          },
-          {
-            "name": "Kelp Forest bottom left area to Home Waters, turtle room",
-            "parent_region": "Kelp Forest bottom left area",
-            "connected_region": "Home Waters, turtle room"
-          },
-          {
-            "name": "Abyss right area, transturtle to Home Waters, turtle room",
-            "parent_region": "Abyss right area, transturtle",
-            "connected_region": "Home Waters, turtle room"
-          },
-          {
-            "name": "The Body, final boss area turtle room to Home Waters, turtle room",
-            "parent_region": "The Body, final boss area turtle room",
-            "connected_region": "Home Waters, turtle room"
-          },
-          {
-            "name": "Simon Says area to Home Waters, turtle room",
-            "parent_region": "Simon Says area",
-            "connected_region": "Home Waters, turtle room"
-          },
-          {
-            "name": "Arnassi Ruins cave, transturtle area to Home Waters, turtle room",
-            "parent_region": "Arnassi Ruins cave, transturtle area",
-            "connected_region": "Home Waters, turtle room"
-          }
-        ],
         "exits": [
           {
             "name": "Home Waters, turtle room to Home Waters",
@@ -619,13 +508,6 @@
       },
       "Naija's Home": {
         "name": "Naija's Home",
-        "entrances": [
-          {
-            "name": "Home Waters to Naija's Home",
-            "parent_region": "Home Waters",
-            "connected_region": "Naija's Home"
-          }
-        ],
         "exits": [
           {
             "name": "Naija's Home to Home Waters",
@@ -687,13 +569,6 @@
       },
       "Song Cave": {
         "name": "Song Cave",
-        "entrances": [
-          {
-            "name": "Home Waters to Song Cave",
-            "parent_region": "Home Waters",
-            "connected_region": "Song Cave"
-          }
-        ],
         "exits": [
           {
             "name": "Song Cave to Home Waters",
@@ -836,28 +711,6 @@
       },
       "Energy Temple first area": {
         "name": "Energy Temple first area",
-        "entrances": [
-          {
-            "name": "Home Waters, behind rock to Energy Temple first area",
-            "parent_region": "Home Waters, behind rock",
-            "connected_region": "Energy Temple first area"
-          },
-          {
-            "name": "Energy Temple second area to Energy Temple first area",
-            "parent_region": "Energy Temple second area",
-            "connected_region": "Energy Temple first area"
-          },
-          {
-            "name": "Energy Temple Idol room to Energy Temple first area",
-            "parent_region": "Energy Temple Idol room",
-            "connected_region": "Energy Temple first area"
-          },
-          {
-            "name": "Energy Temple after boss path to Energy Temple first area",
-            "parent_region": "Energy Temple after boss path",
-            "connected_region": "Energy Temple first area"
-          }
-        ],
         "exits": [
           {
             "name": "Energy Temple first area to Home Waters, behind rock",
@@ -926,18 +779,6 @@
       },
       "Energy Temple second area": {
         "name": "Energy Temple second area",
-        "entrances": [
-          {
-            "name": "Energy Temple first area to Energy Temple second area",
-            "parent_region": "Energy Temple first area",
-            "connected_region": "Energy Temple second area"
-          },
-          {
-            "name": "Energy Temple third area to Energy Temple second area",
-            "parent_region": "Energy Temple third area",
-            "connected_region": "Energy Temple second area"
-          }
-        ],
         "exits": [
           {
             "name": "Energy Temple second area to Energy Temple first area",
@@ -975,13 +816,6 @@
       },
       "Energy Temple third area": {
         "name": "Energy Temple third area",
-        "entrances": [
-          {
-            "name": "Energy Temple second area to Energy Temple third area",
-            "parent_region": "Energy Temple second area",
-            "connected_region": "Energy Temple third area"
-          }
-        ],
         "exits": [
           {
             "name": "Energy Temple third area to Energy Temple second area",
@@ -1046,23 +880,6 @@
       },
       "Energy Temple fallen God room": {
         "name": "Energy Temple fallen God room",
-        "entrances": [
-          {
-            "name": "Energy Temple Idol room to Energy Temple fallen God room",
-            "parent_region": "Energy Temple Idol room",
-            "connected_region": "Energy Temple fallen God room"
-          },
-          {
-            "name": "Energy Temple after boss path to Energy Temple fallen God room",
-            "parent_region": "Energy Temple after boss path",
-            "connected_region": "Energy Temple fallen God room"
-          },
-          {
-            "name": "Energy Temple third area to Energy Temple fallen God room",
-            "parent_region": "Energy Temple third area",
-            "connected_region": "Energy Temple fallen God room"
-          }
-        ],
         "exits": [
           {
             "name": "Energy Temple fallen God room to Energy Temple Idol room",
@@ -1160,13 +977,6 @@
       },
       "Energy Temple blaster room": {
         "name": "Energy Temple blaster room",
-        "entrances": [
-          {
-            "name": "Energy Temple after boss path to Energy Temple blaster room",
-            "parent_region": "Energy Temple after boss path",
-            "connected_region": "Energy Temple blaster room"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1201,13 +1011,6 @@
       },
       "Energy Temple bottom entrance": {
         "name": "Energy Temple bottom entrance",
-        "entrances": [
-          {
-            "name": "Home Waters, behind rock to Energy Temple bottom entrance",
-            "parent_region": "Home Waters, behind rock",
-            "connected_region": "Energy Temple bottom entrance"
-          }
-        ],
         "exits": [
           {
             "name": "Energy Temple bottom entrance to Home Waters, behind rock",
@@ -1264,28 +1067,6 @@
       },
       "Open Waters top left area": {
         "name": "Open Waters top left area",
-        "entrances": [
-          {
-            "name": "Home Waters to Open Waters top left area",
-            "parent_region": "Home Waters",
-            "connected_region": "Open Waters top left area"
-          },
-          {
-            "name": "Open Waters top right area to Open Waters top left area",
-            "parent_region": "Open Waters top right area",
-            "connected_region": "Open Waters top left area"
-          },
-          {
-            "name": "Open Waters bottom left area to Open Waters top left area",
-            "parent_region": "Open Waters bottom left area",
-            "connected_region": "Open Waters top left area"
-          },
-          {
-            "name": "Kelp Forest bottom right area to Open Waters top left area",
-            "parent_region": "Kelp Forest bottom right area",
-            "connected_region": "Open Waters top left area"
-          }
-        ],
         "exits": [
           {
             "name": "Open Waters top left area to Home Waters",
@@ -1367,38 +1148,6 @@
       },
       "Open Waters top right area": {
         "name": "Open Waters top right area",
-        "entrances": [
-          {
-            "name": "Open Waters top left area to Open Waters top right area",
-            "parent_region": "Open Waters top left area",
-            "connected_region": "Open Waters top right area"
-          },
-          {
-            "name": "Open Waters top right area, turtle room to Open Waters top right area",
-            "parent_region": "Open Waters top right area, turtle room",
-            "connected_region": "Open Waters top right area"
-          },
-          {
-            "name": "Open Waters bottom right area to Open Waters top right area",
-            "parent_region": "Open Waters bottom right area",
-            "connected_region": "Open Waters top right area"
-          },
-          {
-            "name": "Mithalas City to Open Waters top right area",
-            "parent_region": "Mithalas City",
-            "connected_region": "Open Waters top right area"
-          },
-          {
-            "name": "The Veil bottom left area to Open Waters top right area",
-            "parent_region": "The Veil bottom left area",
-            "connected_region": "Open Waters top right area"
-          },
-          {
-            "name": "The Veil bottom right area to Open Waters top right area",
-            "parent_region": "The Veil bottom right area",
-            "connected_region": "Open Waters top right area"
-          }
-        ],
         "exits": [
           {
             "name": "Open Waters top right area to Open Waters top left area",
@@ -1588,53 +1337,6 @@
       },
       "Open Waters top right area, turtle room": {
         "name": "Open Waters top right area, turtle room",
-        "entrances": [
-          {
-            "name": "Open Waters top right area to Open Waters top right area, turtle room",
-            "parent_region": "Open Waters top right area",
-            "connected_region": "Open Waters top right area, turtle room"
-          },
-          {
-            "name": "The Veil top left area to Open Waters top right area, turtle room",
-            "parent_region": "The Veil top left area",
-            "connected_region": "Open Waters top right area, turtle room"
-          },
-          {
-            "name": "The Veil top right area, left of temple to Open Waters top right area, turtle room",
-            "parent_region": "The Veil top right area, left of temple",
-            "connected_region": "Open Waters top right area, turtle room"
-          },
-          {
-            "name": "Kelp Forest bottom left area to Open Waters top right area, turtle room",
-            "parent_region": "Kelp Forest bottom left area",
-            "connected_region": "Open Waters top right area, turtle room"
-          },
-          {
-            "name": "Home Waters, turtle room to Open Waters top right area, turtle room",
-            "parent_region": "Home Waters, turtle room",
-            "connected_region": "Open Waters top right area, turtle room"
-          },
-          {
-            "name": "Abyss right area, transturtle to Open Waters top right area, turtle room",
-            "parent_region": "Abyss right area, transturtle",
-            "connected_region": "Open Waters top right area, turtle room"
-          },
-          {
-            "name": "The Body, final boss area turtle room to Open Waters top right area, turtle room",
-            "parent_region": "The Body, final boss area turtle room",
-            "connected_region": "Open Waters top right area, turtle room"
-          },
-          {
-            "name": "Simon Says area to Open Waters top right area, turtle room",
-            "parent_region": "Simon Says area",
-            "connected_region": "Open Waters top right area, turtle room"
-          },
-          {
-            "name": "Arnassi Ruins cave, transturtle area to Open Waters top right area, turtle room",
-            "parent_region": "Arnassi Ruins cave, transturtle area",
-            "connected_region": "Open Waters top right area, turtle room"
-          }
-        ],
         "exits": [
           {
             "name": "Open Waters top right area, turtle room to Open Waters top right area",
@@ -1766,28 +1468,6 @@
       },
       "Open Waters bottom left area": {
         "name": "Open Waters bottom left area",
-        "entrances": [
-          {
-            "name": "Open Waters top left area to Open Waters bottom left area",
-            "parent_region": "Open Waters top left area",
-            "connected_region": "Open Waters bottom left area"
-          },
-          {
-            "name": "Open Waters bottom right area to Open Waters bottom left area",
-            "parent_region": "Open Waters bottom right area",
-            "connected_region": "Open Waters bottom left area"
-          },
-          {
-            "name": "Open Waters skeleton path to Open Waters bottom left area",
-            "parent_region": "Open Waters skeleton path",
-            "connected_region": "Open Waters bottom left area"
-          },
-          {
-            "name": "Abyss left area to Open Waters bottom left area",
-            "parent_region": "Abyss left area",
-            "connected_region": "Open Waters bottom left area"
-          }
-        ],
         "exits": [
           {
             "name": "Open Waters bottom left area to Open Waters top left area",
@@ -1865,28 +1545,6 @@
       },
       "Open Waters bottom right area": {
         "name": "Open Waters bottom right area",
-        "entrances": [
-          {
-            "name": "Open Waters top right area to Open Waters bottom right area",
-            "parent_region": "Open Waters top right area",
-            "connected_region": "Open Waters bottom right area"
-          },
-          {
-            "name": "Open Waters bottom left area to Open Waters bottom right area",
-            "parent_region": "Open Waters bottom left area",
-            "connected_region": "Open Waters bottom right area"
-          },
-          {
-            "name": "Abyss right area to Open Waters bottom right area",
-            "parent_region": "Abyss right area",
-            "connected_region": "Open Waters bottom right area"
-          },
-          {
-            "name": "Arnassi Ruins to Open Waters bottom right area",
-            "parent_region": "Arnassi Ruins",
-            "connected_region": "Open Waters bottom right area"
-          }
-        ],
         "exits": [
           {
             "name": "Open Waters bottom right area to Open Waters top right area",
@@ -1934,18 +1592,6 @@
       },
       "Open Waters skeleton path": {
         "name": "Open Waters skeleton path",
-        "entrances": [
-          {
-            "name": "Open Waters bottom left area to Open Waters skeleton path",
-            "parent_region": "Open Waters bottom left area",
-            "connected_region": "Open Waters skeleton path"
-          },
-          {
-            "name": "Open Waters skeleton path spirit crystal to Open Waters skeleton path",
-            "parent_region": "Open Waters skeleton path spirit crystal",
-            "connected_region": "Open Waters skeleton path"
-          }
-        ],
         "exits": [
           {
             "name": "Open Waters skeleton path to Open Waters bottom left area",
@@ -1997,13 +1643,6 @@
       },
       "Open Waters skeleton path spirit crystal": {
         "name": "Open Waters skeleton path spirit crystal",
-        "entrances": [
-          {
-            "name": "Open Waters skeleton path to Open Waters skeleton path spirit crystal",
-            "parent_region": "Open Waters skeleton path",
-            "connected_region": "Open Waters skeleton path spirit crystal"
-          }
-        ],
         "exits": [
           {
             "name": "Open Waters skeleton path spirit crystal to Open Waters skeleton path",
@@ -2033,18 +1672,6 @@
       },
       "Arnassi Ruins": {
         "name": "Arnassi Ruins",
-        "entrances": [
-          {
-            "name": "Open Waters bottom right area to Arnassi Ruins",
-            "parent_region": "Open Waters bottom right area",
-            "connected_region": "Arnassi Ruins"
-          },
-          {
-            "name": "Arnassi Ruins cave to Arnassi Ruins",
-            "parent_region": "Arnassi Ruins cave",
-            "connected_region": "Arnassi Ruins"
-          }
-        ],
         "exits": [
           {
             "name": "Arnassi Ruins to Open Waters bottom right area",
@@ -2158,23 +1785,6 @@
       },
       "Arnassi Ruins cave": {
         "name": "Arnassi Ruins cave",
-        "entrances": [
-          {
-            "name": "Arnassi Ruins to Arnassi Ruins cave",
-            "parent_region": "Arnassi Ruins",
-            "connected_region": "Arnassi Ruins cave"
-          },
-          {
-            "name": "Arnassi Ruins cave, transturtle area to Arnassi Ruins cave",
-            "parent_region": "Arnassi Ruins cave, transturtle area",
-            "connected_region": "Arnassi Ruins cave"
-          },
-          {
-            "name": "Arnassi Ruins, Crabbius Maximus lair to Arnassi Ruins cave",
-            "parent_region": "Arnassi Ruins, Crabbius Maximus lair",
-            "connected_region": "Arnassi Ruins cave"
-          }
-        ],
         "exits": [
           {
             "name": "Arnassi Ruins cave to Arnassi Ruins",
@@ -2267,53 +1877,6 @@
       },
       "Arnassi Ruins cave, transturtle area": {
         "name": "Arnassi Ruins cave, transturtle area",
-        "entrances": [
-          {
-            "name": "Arnassi Ruins cave to Arnassi Ruins cave, transturtle area",
-            "parent_region": "Arnassi Ruins cave",
-            "connected_region": "Arnassi Ruins cave, transturtle area"
-          },
-          {
-            "name": "The Veil top left area to Arnassi Ruins cave, transturtle area",
-            "parent_region": "The Veil top left area",
-            "connected_region": "Arnassi Ruins cave, transturtle area"
-          },
-          {
-            "name": "The Veil top right area, left of temple to Arnassi Ruins cave, transturtle area",
-            "parent_region": "The Veil top right area, left of temple",
-            "connected_region": "Arnassi Ruins cave, transturtle area"
-          },
-          {
-            "name": "Open Waters top right area, turtle room to Arnassi Ruins cave, transturtle area",
-            "parent_region": "Open Waters top right area, turtle room",
-            "connected_region": "Arnassi Ruins cave, transturtle area"
-          },
-          {
-            "name": "Kelp Forest bottom left area to Arnassi Ruins cave, transturtle area",
-            "parent_region": "Kelp Forest bottom left area",
-            "connected_region": "Arnassi Ruins cave, transturtle area"
-          },
-          {
-            "name": "Home Waters, turtle room to Arnassi Ruins cave, transturtle area",
-            "parent_region": "Home Waters, turtle room",
-            "connected_region": "Arnassi Ruins cave, transturtle area"
-          },
-          {
-            "name": "Abyss right area, transturtle to Arnassi Ruins cave, transturtle area",
-            "parent_region": "Abyss right area, transturtle",
-            "connected_region": "Arnassi Ruins cave, transturtle area"
-          },
-          {
-            "name": "The Body, final boss area turtle room to Arnassi Ruins cave, transturtle area",
-            "parent_region": "The Body, final boss area turtle room",
-            "connected_region": "Arnassi Ruins cave, transturtle area"
-          },
-          {
-            "name": "Simon Says area to Arnassi Ruins cave, transturtle area",
-            "parent_region": "Simon Says area",
-            "connected_region": "Arnassi Ruins cave, transturtle area"
-          }
-        ],
         "exits": [
           {
             "name": "Arnassi Ruins cave, transturtle area to Arnassi Ruins cave",
@@ -2432,13 +1995,6 @@
       },
       "Arnassi Ruins, Crabbius Maximus lair": {
         "name": "Arnassi Ruins, Crabbius Maximus lair",
-        "entrances": [
-          {
-            "name": "Arnassi Ruins cave to Arnassi Ruins, Crabbius Maximus lair",
-            "parent_region": "Arnassi Ruins cave",
-            "connected_region": "Arnassi Ruins, Crabbius Maximus lair"
-          }
-        ],
         "exits": [
           {
             "name": "Arnassi Ruins, Crabbius Maximus lair to Arnassi Ruins cave",
@@ -2482,48 +2038,6 @@
       },
       "Simon Says area": {
         "name": "Simon Says area",
-        "entrances": [
-          {
-            "name": "The Veil top left area to Simon Says area",
-            "parent_region": "The Veil top left area",
-            "connected_region": "Simon Says area"
-          },
-          {
-            "name": "The Veil top right area, left of temple to Simon Says area",
-            "parent_region": "The Veil top right area, left of temple",
-            "connected_region": "Simon Says area"
-          },
-          {
-            "name": "Open Waters top right area, turtle room to Simon Says area",
-            "parent_region": "Open Waters top right area, turtle room",
-            "connected_region": "Simon Says area"
-          },
-          {
-            "name": "Kelp Forest bottom left area to Simon Says area",
-            "parent_region": "Kelp Forest bottom left area",
-            "connected_region": "Simon Says area"
-          },
-          {
-            "name": "Home Waters, turtle room to Simon Says area",
-            "parent_region": "Home Waters, turtle room",
-            "connected_region": "Simon Says area"
-          },
-          {
-            "name": "Abyss right area, transturtle to Simon Says area",
-            "parent_region": "Abyss right area, transturtle",
-            "connected_region": "Simon Says area"
-          },
-          {
-            "name": "The Body, final boss area turtle room to Simon Says area",
-            "parent_region": "The Body, final boss area turtle room",
-            "connected_region": "Simon Says area"
-          },
-          {
-            "name": "Arnassi Ruins cave, transturtle area to Simon Says area",
-            "parent_region": "Arnassi Ruins cave, transturtle area",
-            "connected_region": "Simon Says area"
-          }
-        ],
         "exits": [
           {
             "name": "Simon Says area to The Veil top left area",
@@ -2647,28 +2161,6 @@
       },
       "Mithalas City": {
         "name": "Mithalas City",
-        "entrances": [
-          {
-            "name": "Open Waters top right area to Mithalas City",
-            "parent_region": "Open Waters top right area",
-            "connected_region": "Mithalas City"
-          },
-          {
-            "name": "Mithalas City top path to Mithalas City",
-            "parent_region": "Mithalas City top path",
-            "connected_region": "Mithalas City"
-          },
-          {
-            "name": "Mithalas City fish pass to Mithalas City",
-            "parent_region": "Mithalas City fish pass",
-            "connected_region": "Mithalas City"
-          },
-          {
-            "name": "Mithalas castle to Mithalas City",
-            "parent_region": "Mithalas castle",
-            "connected_region": "Mithalas City"
-          }
-        ],
         "exits": [
           {
             "name": "Mithalas City to Open Waters top right area",
@@ -2895,18 +2387,6 @@
       },
       "Mithalas City top path": {
         "name": "Mithalas City top path",
-        "entrances": [
-          {
-            "name": "Mithalas City to Mithalas City top path",
-            "parent_region": "Mithalas City",
-            "connected_region": "Mithalas City top path"
-          },
-          {
-            "name": "Mithalas castle, plant tube entrance to Mithalas City top path",
-            "parent_region": "Mithalas castle, plant tube entrance",
-            "connected_region": "Mithalas City top path"
-          }
-        ],
         "exits": [
           {
             "name": "Mithalas City top path to Mithalas City",
@@ -3057,13 +2537,6 @@
       },
       "Mithalas City fish pass": {
         "name": "Mithalas City fish pass",
-        "entrances": [
-          {
-            "name": "Mithalas City to Mithalas City fish pass",
-            "parent_region": "Mithalas City",
-            "connected_region": "Mithalas City fish pass"
-          }
-        ],
         "exits": [
           {
             "name": "Mithalas City fish pass to Mithalas City",
@@ -3137,33 +2610,6 @@
       },
       "Mithalas castle": {
         "name": "Mithalas castle",
-        "entrances": [
-          {
-            "name": "Mithalas City to Mithalas castle",
-            "parent_region": "Mithalas City",
-            "connected_region": "Mithalas castle"
-          },
-          {
-            "name": "Mithalas castle, plant tube entrance to Mithalas castle",
-            "parent_region": "Mithalas castle, plant tube entrance",
-            "connected_region": "Mithalas castle"
-          },
-          {
-            "name": "Mithalas castle spirit crystal to Mithalas castle",
-            "parent_region": "Mithalas castle spirit crystal",
-            "connected_region": "Mithalas castle"
-          },
-          {
-            "name": "Mithalas Cathedral, after Mithalan God to Mithalas castle",
-            "parent_region": "Mithalas Cathedral, after Mithalan God",
-            "connected_region": "Mithalas castle"
-          },
-          {
-            "name": "Mithalas Cathedral underground to Mithalas castle",
-            "parent_region": "Mithalas Cathedral underground",
-            "connected_region": "Mithalas castle"
-          }
-        ],
         "exits": [
           {
             "name": "Mithalas castle to Mithalas City",
@@ -3276,13 +2722,6 @@
       },
       "Mithalas castle, plant tube entrance": {
         "name": "Mithalas castle, plant tube entrance",
-        "entrances": [
-          {
-            "name": "Mithalas City top path to Mithalas castle, plant tube entrance",
-            "parent_region": "Mithalas City top path",
-            "connected_region": "Mithalas castle, plant tube entrance"
-          }
-        ],
         "exits": [
           {
             "name": "Mithalas castle, plant tube entrance to Mithalas City top path",
@@ -3343,18 +2782,6 @@
       },
       "Mithalas castle spirit crystal": {
         "name": "Mithalas castle spirit crystal",
-        "entrances": [
-          {
-            "name": "Mithalas castle, plant tube entrance to Mithalas castle spirit crystal",
-            "parent_region": "Mithalas castle, plant tube entrance",
-            "connected_region": "Mithalas castle spirit crystal"
-          },
-          {
-            "name": "Mithalas castle to Mithalas castle spirit crystal",
-            "parent_region": "Mithalas castle",
-            "connected_region": "Mithalas castle spirit crystal"
-          }
-        ],
         "exits": [
           {
             "name": "Mithalas castle spirit crystal to Mithalas castle",
@@ -3384,18 +2811,6 @@
       },
       "Mithalas Cathedral start": {
         "name": "Mithalas Cathedral start",
-        "entrances": [
-          {
-            "name": "Mithalas castle to Mithalas Cathedral start",
-            "parent_region": "Mithalas castle",
-            "connected_region": "Mithalas Cathedral start"
-          },
-          {
-            "name": "Mithalas Cathedral end to Mithalas Cathedral start",
-            "parent_region": "Mithalas Cathedral end",
-            "connected_region": "Mithalas Cathedral start"
-          }
-        ],
         "exits": [
           {
             "name": "Mithalas Cathedral start to Mithalas Cathedral start urns",
@@ -3494,13 +2909,6 @@
       },
       "Mithalas Cathedral start urns": {
         "name": "Mithalas Cathedral start urns",
-        "entrances": [
-          {
-            "name": "Mithalas Cathedral start to Mithalas Cathedral start urns",
-            "parent_region": "Mithalas Cathedral start",
-            "connected_region": "Mithalas Cathedral start urns"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3647,18 +3055,6 @@
       },
       "Mithalas Cathedral end": {
         "name": "Mithalas Cathedral end",
-        "entrances": [
-          {
-            "name": "Mithalas Cathedral start to Mithalas Cathedral end",
-            "parent_region": "Mithalas Cathedral start",
-            "connected_region": "Mithalas Cathedral end"
-          },
-          {
-            "name": "Mithalas Cathedral underground to Mithalas Cathedral end",
-            "parent_region": "Mithalas Cathedral underground",
-            "connected_region": "Mithalas Cathedral end"
-          }
-        ],
         "exits": [
           {
             "name": "Mithalas Cathedral end to Mithalas Cathedral start",
@@ -3746,23 +3142,6 @@
       },
       "Mithalas Cathedral underground": {
         "name": "Mithalas Cathedral underground",
-        "entrances": [
-          {
-            "name": "Mithalas castle to Mithalas Cathedral underground",
-            "parent_region": "Mithalas castle",
-            "connected_region": "Mithalas Cathedral underground"
-          },
-          {
-            "name": "Mithalas Cathedral end to Mithalas Cathedral underground",
-            "parent_region": "Mithalas Cathedral end",
-            "connected_region": "Mithalas Cathedral underground"
-          },
-          {
-            "name": "Mithalas Cathedral, before Mithalan God to Mithalas Cathedral underground",
-            "parent_region": "Mithalas Cathedral, before Mithalan God",
-            "connected_region": "Mithalas Cathedral underground"
-          }
-        ],
         "exits": [
           {
             "name": "Mithalas Cathedral underground to Mithalas castle",
@@ -3916,13 +3295,6 @@
       },
       "Mithalas Cathedral, after Mithalan God": {
         "name": "Mithalas Cathedral, after Mithalan God",
-        "entrances": [
-          {
-            "name": "Mithalas Cathedral, before Mithalan God to Mithalas Cathedral, after Mithalan God",
-            "parent_region": "Mithalas Cathedral, before Mithalan God",
-            "connected_region": "Mithalas Cathedral, after Mithalan God"
-          }
-        ],
         "exits": [
           {
             "name": "Mithalas Cathedral, after Mithalan God to Mithalas castle",
@@ -3974,23 +3346,6 @@
       },
       "Mithalas Cathedral, before Mithalan God": {
         "name": "Mithalas Cathedral, before Mithalan God",
-        "entrances": [
-          {
-            "name": "Mithalas castle to Mithalas Cathedral, before Mithalan God",
-            "parent_region": "Mithalas castle",
-            "connected_region": "Mithalas Cathedral, before Mithalan God"
-          },
-          {
-            "name": "Mithalas Cathedral underground to Mithalas Cathedral, before Mithalan God",
-            "parent_region": "Mithalas Cathedral underground",
-            "connected_region": "Mithalas Cathedral, before Mithalan God"
-          },
-          {
-            "name": "Mithalas Cathedral, after Mithalan God to Mithalas Cathedral, before Mithalan God",
-            "parent_region": "Mithalas Cathedral, after Mithalan God",
-            "connected_region": "Mithalas Cathedral, before Mithalan God"
-          }
-        ],
         "exits": [
           {
             "name": "Mithalas Cathedral, before Mithalan God to Mithalas Cathedral underground",
@@ -4040,28 +3395,6 @@
       },
       "Kelp Forest top left area": {
         "name": "Kelp Forest top left area",
-        "entrances": [
-          {
-            "name": "Kelp Forest bottom left area to Kelp Forest top left area",
-            "parent_region": "Kelp Forest bottom left area",
-            "connected_region": "Kelp Forest top left area"
-          },
-          {
-            "name": "Kelp Forest top left area fish pass to Kelp Forest top left area",
-            "parent_region": "Kelp Forest top left area fish pass",
-            "connected_region": "Kelp Forest top left area"
-          },
-          {
-            "name": "Kelp Forest top right area to Kelp Forest top left area",
-            "parent_region": "Kelp Forest top right area",
-            "connected_region": "Kelp Forest top left area"
-          },
-          {
-            "name": "Kelp Forest Drunian God room entrance to Kelp Forest top left area",
-            "parent_region": "Kelp Forest Drunian God room entrance",
-            "connected_region": "Kelp Forest top left area"
-          }
-        ],
         "exits": [
           {
             "name": "Kelp Forest top left area to Kelp Forest bottom left area",
@@ -4194,13 +3527,6 @@
       },
       "Kelp Forest top left area fish pass": {
         "name": "Kelp Forest top left area fish pass",
-        "entrances": [
-          {
-            "name": "Kelp Forest top left area to Kelp Forest top left area fish pass",
-            "parent_region": "Kelp Forest top left area",
-            "connected_region": "Kelp Forest top left area fish pass"
-          }
-        ],
         "exits": [
           {
             "name": "Kelp Forest top left area fish pass to Kelp Forest top left area",
@@ -4245,28 +3571,6 @@
       },
       "Kelp Forest top right area": {
         "name": "Kelp Forest top right area",
-        "entrances": [
-          {
-            "name": "Kelp Forest bottom right area to Kelp Forest top right area",
-            "parent_region": "Kelp Forest bottom right area",
-            "connected_region": "Kelp Forest top right area"
-          },
-          {
-            "name": "Kelp Forest top left area to Kelp Forest top right area",
-            "parent_region": "Kelp Forest top left area",
-            "connected_region": "Kelp Forest top right area"
-          },
-          {
-            "name": "Kelp Forest top right area fish pass to Kelp Forest top right area",
-            "parent_region": "Kelp Forest top right area fish pass",
-            "connected_region": "Kelp Forest top right area"
-          },
-          {
-            "name": "Sprite cave to Kelp Forest top right area",
-            "parent_region": "Sprite cave",
-            "connected_region": "Kelp Forest top right area"
-          }
-        ],
         "exits": [
           {
             "name": "Kelp Forest top right area to Kelp Forest bottom right area",
@@ -4400,18 +3704,6 @@
       },
       "Kelp Forest top right area fish pass": {
         "name": "Kelp Forest top right area fish pass",
-        "entrances": [
-          {
-            "name": "Kelp Forest top right area to Kelp Forest top right area fish pass",
-            "parent_region": "Kelp Forest top right area",
-            "connected_region": "Kelp Forest top right area fish pass"
-          },
-          {
-            "name": "Mermog cave to Kelp Forest top right area fish pass",
-            "parent_region": "Mermog cave",
-            "connected_region": "Kelp Forest top right area fish pass"
-          }
-        ],
         "exits": [
           {
             "name": "Kelp Forest top right area fish pass to Kelp Forest top right area",
@@ -4450,73 +3742,6 @@
       },
       "Kelp Forest bottom left area": {
         "name": "Kelp Forest bottom left area",
-        "entrances": [
-          {
-            "name": "Kelp Forest bottom right area to Kelp Forest bottom left area",
-            "parent_region": "Kelp Forest bottom right area",
-            "connected_region": "Kelp Forest bottom left area"
-          },
-          {
-            "name": "Kelp Forest bottom left area, spirit crystals to Kelp Forest bottom left area",
-            "parent_region": "Kelp Forest bottom left area, spirit crystals",
-            "connected_region": "Kelp Forest bottom left area"
-          },
-          {
-            "name": "Kelp Forest fish cave to Kelp Forest bottom left area",
-            "parent_region": "Kelp Forest fish cave",
-            "connected_region": "Kelp Forest bottom left area"
-          },
-          {
-            "name": "Kelp Forest top left area to Kelp Forest bottom left area",
-            "parent_region": "Kelp Forest top left area",
-            "connected_region": "Kelp Forest bottom left area"
-          },
-          {
-            "name": "Kelp Forest Drunian God room entrance to Kelp Forest bottom left area",
-            "parent_region": "Kelp Forest Drunian God room entrance",
-            "connected_region": "Kelp Forest bottom left area"
-          },
-          {
-            "name": "The Veil top left area to Kelp Forest bottom left area",
-            "parent_region": "The Veil top left area",
-            "connected_region": "Kelp Forest bottom left area"
-          },
-          {
-            "name": "The Veil top right area, left of temple to Kelp Forest bottom left area",
-            "parent_region": "The Veil top right area, left of temple",
-            "connected_region": "Kelp Forest bottom left area"
-          },
-          {
-            "name": "Open Waters top right area, turtle room to Kelp Forest bottom left area",
-            "parent_region": "Open Waters top right area, turtle room",
-            "connected_region": "Kelp Forest bottom left area"
-          },
-          {
-            "name": "Home Waters, turtle room to Kelp Forest bottom left area",
-            "parent_region": "Home Waters, turtle room",
-            "connected_region": "Kelp Forest bottom left area"
-          },
-          {
-            "name": "Abyss right area, transturtle to Kelp Forest bottom left area",
-            "parent_region": "Abyss right area, transturtle",
-            "connected_region": "Kelp Forest bottom left area"
-          },
-          {
-            "name": "The Body, final boss area turtle room to Kelp Forest bottom left area",
-            "parent_region": "The Body, final boss area turtle room",
-            "connected_region": "Kelp Forest bottom left area"
-          },
-          {
-            "name": "Simon Says area to Kelp Forest bottom left area",
-            "parent_region": "Simon Says area",
-            "connected_region": "Kelp Forest bottom left area"
-          },
-          {
-            "name": "Arnassi Ruins cave, transturtle area to Kelp Forest bottom left area",
-            "parent_region": "Arnassi Ruins cave, transturtle area",
-            "connected_region": "Kelp Forest bottom left area"
-          }
-        ],
         "exits": [
           {
             "name": "Kelp Forest bottom left area to Kelp Forest bottom right area",
@@ -4695,13 +3920,6 @@
       },
       "Kelp Forest bottom left area, spirit crystals": {
         "name": "Kelp Forest bottom left area, spirit crystals",
-        "entrances": [
-          {
-            "name": "Kelp Forest bottom left area to Kelp Forest bottom left area, spirit crystals",
-            "parent_region": "Kelp Forest bottom left area",
-            "connected_region": "Kelp Forest bottom left area, spirit crystals"
-          }
-        ],
         "exits": [
           {
             "name": "Kelp Forest bottom left area, spirit crystals to Kelp Forest bottom left area",
@@ -4745,28 +3963,6 @@
       },
       "Kelp Forest bottom right area": {
         "name": "Kelp Forest bottom right area",
-        "entrances": [
-          {
-            "name": "Open Waters top left area to Kelp Forest bottom right area",
-            "parent_region": "Open Waters top left area",
-            "connected_region": "Kelp Forest bottom right area"
-          },
-          {
-            "name": "The Veil bottom left area to Kelp Forest bottom right area",
-            "parent_region": "The Veil bottom left area",
-            "connected_region": "Kelp Forest bottom right area"
-          },
-          {
-            "name": "Kelp Forest bottom left area to Kelp Forest bottom right area",
-            "parent_region": "Kelp Forest bottom left area",
-            "connected_region": "Kelp Forest bottom right area"
-          },
-          {
-            "name": "Kelp Forest top right area to Kelp Forest bottom right area",
-            "parent_region": "Kelp Forest top right area",
-            "connected_region": "Kelp Forest bottom right area"
-          }
-        ],
         "exits": [
           {
             "name": "Kelp Forest bottom right area to Open Waters top left area",
@@ -4829,13 +4025,6 @@
       },
       "Kelp Forest Drunian God room": {
         "name": "Kelp Forest Drunian God room",
-        "entrances": [
-          {
-            "name": "Kelp Forest Drunian God room entrance to Kelp Forest Drunian God room",
-            "parent_region": "Kelp Forest Drunian God room entrance",
-            "connected_region": "Kelp Forest Drunian God room"
-          }
-        ],
         "exits": [
           {
             "name": "Kelp Forest Drunian God room to Kelp Forest Drunian God room entrance",
@@ -4879,23 +4068,6 @@
       },
       "Kelp Forest Drunian God room entrance": {
         "name": "Kelp Forest Drunian God room entrance",
-        "entrances": [
-          {
-            "name": "Kelp Forest bottom left area to Kelp Forest Drunian God room entrance",
-            "parent_region": "Kelp Forest bottom left area",
-            "connected_region": "Kelp Forest Drunian God room entrance"
-          },
-          {
-            "name": "Kelp Forest top left area to Kelp Forest Drunian God room entrance",
-            "parent_region": "Kelp Forest top left area",
-            "connected_region": "Kelp Forest Drunian God room entrance"
-          },
-          {
-            "name": "Kelp Forest Drunian God room to Kelp Forest Drunian God room entrance",
-            "parent_region": "Kelp Forest Drunian God room",
-            "connected_region": "Kelp Forest Drunian God room entrance"
-          }
-        ],
         "exits": [
           {
             "name": "Kelp Forest Drunian God room entrance to Kelp Forest bottom left area",
@@ -4960,18 +4132,6 @@
       },
       "Sprite cave": {
         "name": "Sprite cave",
-        "entrances": [
-          {
-            "name": "Kelp Forest top right area to Sprite cave",
-            "parent_region": "Kelp Forest top right area",
-            "connected_region": "Sprite cave"
-          },
-          {
-            "name": "Sprite cave after the plant tube to Sprite cave",
-            "parent_region": "Sprite cave after the plant tube",
-            "connected_region": "Sprite cave"
-          }
-        ],
         "exits": [
           {
             "name": "Sprite cave to Kelp Forest top right area",
@@ -5010,13 +4170,6 @@
       },
       "Sprite cave after the plant tube": {
         "name": "Sprite cave after the plant tube",
-        "entrances": [
-          {
-            "name": "Sprite cave to Sprite cave after the plant tube",
-            "parent_region": "Sprite cave",
-            "connected_region": "Sprite cave after the plant tube"
-          }
-        ],
         "exits": [
           {
             "name": "Sprite cave after the plant tube to Sprite cave",
@@ -5061,18 +4214,6 @@
       },
       "Mermog cave": {
         "name": "Mermog cave",
-        "entrances": [
-          {
-            "name": "Kelp Forest top right area fish pass to Mermog cave",
-            "parent_region": "Kelp Forest top right area fish pass",
-            "connected_region": "Mermog cave"
-          },
-          {
-            "name": "Mermog cave boss to Mermog cave",
-            "parent_region": "Mermog cave boss",
-            "connected_region": "Mermog cave"
-          }
-        ],
         "exits": [
           {
             "name": "Mermog cave to Kelp Forest top right area fish pass",
@@ -5137,13 +4278,6 @@
       },
       "Mermog cave boss": {
         "name": "Mermog cave boss",
-        "entrances": [
-          {
-            "name": "Mermog cave to Mermog cave boss",
-            "parent_region": "Mermog cave",
-            "connected_region": "Mermog cave boss"
-          }
-        ],
         "exits": [
           {
             "name": "Mermog cave boss to Mermog cave",
@@ -5214,13 +4348,6 @@
       },
       "Kelp Forest fish cave": {
         "name": "Kelp Forest fish cave",
-        "entrances": [
-          {
-            "name": "Kelp Forest bottom left area to Kelp Forest fish cave",
-            "parent_region": "Kelp Forest bottom left area",
-            "connected_region": "Kelp Forest fish cave"
-          }
-        ],
         "exits": [
           {
             "name": "Kelp Forest fish cave to Kelp Forest bottom left area",
@@ -5250,68 +4377,6 @@
       },
       "The Veil top left area": {
         "name": "The Veil top left area",
-        "entrances": [
-          {
-            "name": "The Veil bottom right area to The Veil top left area",
-            "parent_region": "The Veil bottom right area",
-            "connected_region": "The Veil top left area"
-          },
-          {
-            "name": "The Veil top left area fish pass to The Veil top left area",
-            "parent_region": "The Veil top left area fish pass",
-            "connected_region": "The Veil top left area"
-          },
-          {
-            "name": "The Veil top right area, right of temple to The Veil top left area",
-            "parent_region": "The Veil top right area, right of temple",
-            "connected_region": "The Veil top left area"
-          },
-          {
-            "name": "The Veil top left area, turtle cave to The Veil top left area",
-            "parent_region": "The Veil top left area, turtle cave",
-            "connected_region": "The Veil top left area"
-          },
-          {
-            "name": "The Veil top right area, left of temple to The Veil top left area",
-            "parent_region": "The Veil top right area, left of temple",
-            "connected_region": "The Veil top left area"
-          },
-          {
-            "name": "Open Waters top right area, turtle room to The Veil top left area",
-            "parent_region": "Open Waters top right area, turtle room",
-            "connected_region": "The Veil top left area"
-          },
-          {
-            "name": "Kelp Forest bottom left area to The Veil top left area",
-            "parent_region": "Kelp Forest bottom left area",
-            "connected_region": "The Veil top left area"
-          },
-          {
-            "name": "Home Waters, turtle room to The Veil top left area",
-            "parent_region": "Home Waters, turtle room",
-            "connected_region": "The Veil top left area"
-          },
-          {
-            "name": "Abyss right area, transturtle to The Veil top left area",
-            "parent_region": "Abyss right area, transturtle",
-            "connected_region": "The Veil top left area"
-          },
-          {
-            "name": "The Body, final boss area turtle room to The Veil top left area",
-            "parent_region": "The Body, final boss area turtle room",
-            "connected_region": "The Veil top left area"
-          },
-          {
-            "name": "Simon Says area to The Veil top left area",
-            "parent_region": "Simon Says area",
-            "connected_region": "The Veil top left area"
-          },
-          {
-            "name": "Arnassi Ruins cave, transturtle area to The Veil top left area",
-            "parent_region": "Arnassi Ruins cave, transturtle area",
-            "connected_region": "The Veil top left area"
-          }
-        ],
         "exits": [
           {
             "name": "The Veil top left area to The Veil bottom right area",
@@ -5505,13 +4570,6 @@
       },
       "The Veil top left area fish pass": {
         "name": "The Veil top left area fish pass",
-        "entrances": [
-          {
-            "name": "The Veil top left area to The Veil top left area fish pass",
-            "parent_region": "The Veil top left area",
-            "connected_region": "The Veil top left area fish pass"
-          }
-        ],
         "exits": [
           {
             "name": "The Veil top left area fish pass to The Veil top left area",
@@ -5542,63 +4600,6 @@
       },
       "The Veil top right area, left of temple": {
         "name": "The Veil top right area, left of temple",
-        "entrances": [
-          {
-            "name": "Sun Temple left area entrance to The Veil top right area, left of temple",
-            "parent_region": "Sun Temple left area entrance",
-            "connected_region": "The Veil top right area, left of temple"
-          },
-          {
-            "name": "Sun Temple boss area to The Veil top right area, left of temple",
-            "parent_region": "Sun Temple boss area",
-            "connected_region": "The Veil top right area, left of temple"
-          },
-          {
-            "name": "The Veil top right area, fish pass left of temple to The Veil top right area, left of temple",
-            "parent_region": "The Veil top right area, fish pass left of temple",
-            "connected_region": "The Veil top right area, left of temple"
-          },
-          {
-            "name": "The Veil top left area to The Veil top right area, left of temple",
-            "parent_region": "The Veil top left area",
-            "connected_region": "The Veil top right area, left of temple"
-          },
-          {
-            "name": "Open Waters top right area, turtle room to The Veil top right area, left of temple",
-            "parent_region": "Open Waters top right area, turtle room",
-            "connected_region": "The Veil top right area, left of temple"
-          },
-          {
-            "name": "Kelp Forest bottom left area to The Veil top right area, left of temple",
-            "parent_region": "Kelp Forest bottom left area",
-            "connected_region": "The Veil top right area, left of temple"
-          },
-          {
-            "name": "Home Waters, turtle room to The Veil top right area, left of temple",
-            "parent_region": "Home Waters, turtle room",
-            "connected_region": "The Veil top right area, left of temple"
-          },
-          {
-            "name": "Abyss right area, transturtle to The Veil top right area, left of temple",
-            "parent_region": "Abyss right area, transturtle",
-            "connected_region": "The Veil top right area, left of temple"
-          },
-          {
-            "name": "The Body, final boss area turtle room to The Veil top right area, left of temple",
-            "parent_region": "The Body, final boss area turtle room",
-            "connected_region": "The Veil top right area, left of temple"
-          },
-          {
-            "name": "Simon Says area to The Veil top right area, left of temple",
-            "parent_region": "Simon Says area",
-            "connected_region": "The Veil top right area, left of temple"
-          },
-          {
-            "name": "Arnassi Ruins cave, transturtle area to The Veil top right area, left of temple",
-            "parent_region": "Arnassi Ruins cave, transturtle area",
-            "connected_region": "The Veil top right area, left of temple"
-          }
-        ],
         "exits": [
           {
             "name": "The Veil top right area, left of temple to Sun Temple left area entrance",
@@ -5740,23 +4741,6 @@
       },
       "The Veil top right area, fish pass left of temple": {
         "name": "The Veil top right area, fish pass left of temple",
-        "entrances": [
-          {
-            "name": "The Veil top right area, left of temple to The Veil top right area, fish pass left of temple",
-            "parent_region": "The Veil top right area, left of temple",
-            "connected_region": "The Veil top right area, fish pass left of temple"
-          },
-          {
-            "name": "Octopus Cave top entrance to The Veil top right area, fish pass left of temple",
-            "parent_region": "Octopus Cave top entrance",
-            "connected_region": "The Veil top right area, fish pass left of temple"
-          },
-          {
-            "name": "Octopus Cave bottom entrance to The Veil top right area, fish pass left of temple",
-            "parent_region": "Octopus Cave bottom entrance",
-            "connected_region": "The Veil top right area, fish pass left of temple"
-          }
-        ],
         "exits": [
           {
             "name": "The Veil top right area, fish pass left of temple to The Veil top right area, left of temple",
@@ -5819,18 +4803,6 @@
       },
       "The Veil top right area, right of temple": {
         "name": "The Veil top right area, right of temple",
-        "entrances": [
-          {
-            "name": "The Veil top left area to The Veil top right area, right of temple",
-            "parent_region": "The Veil top left area",
-            "connected_region": "The Veil top right area, right of temple"
-          },
-          {
-            "name": "Sun Temple right area to The Veil top right area, right of temple",
-            "parent_region": "Sun Temple right area",
-            "connected_region": "The Veil top right area, right of temple"
-          }
-        ],
         "exits": [
           {
             "name": "The Veil top right area, right of temple to The Veil top left area",
@@ -5891,28 +4863,6 @@
       },
       "The Veil bottom left area": {
         "name": "The Veil bottom left area",
-        "entrances": [
-          {
-            "name": "Open Waters top right area to The Veil bottom left area",
-            "parent_region": "Open Waters top right area",
-            "connected_region": "The Veil bottom left area"
-          },
-          {
-            "name": "Kelp Forest bottom right area to The Veil bottom left area",
-            "parent_region": "Kelp Forest bottom right area",
-            "connected_region": "The Veil bottom left area"
-          },
-          {
-            "name": "The Veil bottom left area, in the sunken ship to The Veil bottom left area",
-            "parent_region": "The Veil bottom left area, in the sunken ship",
-            "connected_region": "The Veil bottom left area"
-          },
-          {
-            "name": "The Veil bottom spirit crystal area to The Veil bottom left area",
-            "parent_region": "The Veil bottom spirit crystal area",
-            "connected_region": "The Veil bottom left area"
-          }
-        ],
         "exits": [
           {
             "name": "The Veil bottom left area to Open Waters top right area",
@@ -5976,18 +4926,6 @@
       },
       "The Veil bottom spirit crystal area": {
         "name": "The Veil bottom spirit crystal area",
-        "entrances": [
-          {
-            "name": "The Veil bottom left area to The Veil bottom spirit crystal area",
-            "parent_region": "The Veil bottom left area",
-            "connected_region": "The Veil bottom spirit crystal area"
-          },
-          {
-            "name": "The Veil bottom right area to The Veil bottom spirit crystal area",
-            "parent_region": "The Veil bottom right area",
-            "connected_region": "The Veil bottom spirit crystal area"
-          }
-        ],
         "exits": [
           {
             "name": "The Veil bottom spirit crystal area to The Veil bottom left area",
@@ -6025,13 +4963,6 @@
       },
       "The Veil bottom left area, in the sunken ship": {
         "name": "The Veil bottom left area, in the sunken ship",
-        "entrances": [
-          {
-            "name": "The Veil bottom left area to The Veil bottom left area, in the sunken ship",
-            "parent_region": "The Veil bottom left area",
-            "connected_region": "The Veil bottom left area, in the sunken ship"
-          }
-        ],
         "exits": [
           {
             "name": "The Veil bottom left area, in the sunken ship to The Veil bottom left area",
@@ -6071,23 +5002,6 @@
       },
       "The Veil bottom right area": {
         "name": "The Veil bottom right area",
-        "entrances": [
-          {
-            "name": "Open Waters top right area to The Veil bottom right area",
-            "parent_region": "Open Waters top right area",
-            "connected_region": "The Veil bottom right area"
-          },
-          {
-            "name": "The Veil bottom spirit crystal area to The Veil bottom right area",
-            "parent_region": "The Veil bottom spirit crystal area",
-            "connected_region": "The Veil bottom right area"
-          },
-          {
-            "name": "The Veil top left area to The Veil bottom right area",
-            "parent_region": "The Veil top left area",
-            "connected_region": "The Veil bottom right area"
-          }
-        ],
         "exits": [
           {
             "name": "The Veil bottom right area to Open Waters top right area",
@@ -6133,13 +5047,6 @@
       },
       "Octopus Cave top entrance": {
         "name": "Octopus Cave top entrance",
-        "entrances": [
-          {
-            "name": "The Veil top right area, fish pass left of temple to Octopus Cave top entrance",
-            "parent_region": "The Veil top right area, fish pass left of temple",
-            "connected_region": "Octopus Cave top entrance"
-          }
-        ],
         "exits": [
           {
             "name": "Octopus Cave top entrance to The Veil top right area, fish pass left of temple",
@@ -6183,13 +5090,6 @@
       },
       "Octopus Cave bottom entrance": {
         "name": "Octopus Cave bottom entrance",
-        "entrances": [
-          {
-            "name": "The Veil top right area, fish pass left of temple to Octopus Cave bottom entrance",
-            "parent_region": "The Veil top right area, fish pass left of temple",
-            "connected_region": "Octopus Cave bottom entrance"
-          }
-        ],
         "exits": [
           {
             "name": "Octopus Cave bottom entrance to The Veil top right area, fish pass left of temple",
@@ -6219,18 +5119,6 @@
       },
       "The Veil top left area, turtle cave": {
         "name": "The Veil top left area, turtle cave",
-        "entrances": [
-          {
-            "name": "The Veil top left area to The Veil top left area, turtle cave",
-            "parent_region": "The Veil top left area",
-            "connected_region": "The Veil top left area, turtle cave"
-          },
-          {
-            "name": "The Veil top left area, turtle cave Bubble Cliff to The Veil top left area, turtle cave",
-            "parent_region": "The Veil top left area, turtle cave Bubble Cliff",
-            "connected_region": "The Veil top left area, turtle cave"
-          }
-        ],
         "exits": [
           {
             "name": "The Veil top left area, turtle cave to The Veil top left area",
@@ -6268,13 +5156,6 @@
       },
       "The Veil top left area, turtle cave Bubble Cliff": {
         "name": "The Veil top left area, turtle cave Bubble Cliff",
-        "entrances": [
-          {
-            "name": "The Veil top left area, turtle cave to The Veil top left area, turtle cave Bubble Cliff",
-            "parent_region": "The Veil top left area, turtle cave",
-            "connected_region": "The Veil top left area, turtle cave Bubble Cliff"
-          }
-        ],
         "exits": [
           {
             "name": "The Veil top left area, turtle cave Bubble Cliff to The Veil top left area, turtle cave",
@@ -6319,18 +5200,6 @@
       },
       "Sun Temple left area": {
         "name": "Sun Temple left area",
-        "entrances": [
-          {
-            "name": "Sun Temple left area entrance to Sun Temple left area",
-            "parent_region": "Sun Temple left area entrance",
-            "connected_region": "Sun Temple left area"
-          },
-          {
-            "name": "Sun Temple before boss area to Sun Temple left area",
-            "parent_region": "Sun Temple before boss area",
-            "connected_region": "Sun Temple left area"
-          }
-        ],
         "exits": [
           {
             "name": "Sun Temple left area to Sun Temple left area entrance",
@@ -6424,23 +5293,6 @@
       },
       "Sun Temple left area entrance": {
         "name": "Sun Temple left area entrance",
-        "entrances": [
-          {
-            "name": "Sun Temple right area to Sun Temple left area entrance",
-            "parent_region": "Sun Temple right area",
-            "connected_region": "Sun Temple left area entrance"
-          },
-          {
-            "name": "The Veil top right area, left of temple to Sun Temple left area entrance",
-            "parent_region": "The Veil top right area, left of temple",
-            "connected_region": "Sun Temple left area entrance"
-          },
-          {
-            "name": "Sun Temple left area to Sun Temple left area entrance",
-            "parent_region": "Sun Temple left area",
-            "connected_region": "Sun Temple left area entrance"
-          }
-        ],
         "exits": [
           {
             "name": "Sun Temple left area entrance to Sun Temple right area",
@@ -6499,18 +5351,6 @@
       },
       "Sun Temple right area": {
         "name": "Sun Temple right area",
-        "entrances": [
-          {
-            "name": "The Veil top right area, right of temple to Sun Temple right area",
-            "parent_region": "The Veil top right area, right of temple",
-            "connected_region": "Sun Temple right area"
-          },
-          {
-            "name": "Sun Temple left area entrance to Sun Temple right area",
-            "parent_region": "Sun Temple left area entrance",
-            "connected_region": "Sun Temple right area"
-          }
-        ],
         "exits": [
           {
             "name": "Sun Temple right area to The Veil top right area, right of temple",
@@ -6622,18 +5462,6 @@
       },
       "Sun Temple before boss area": {
         "name": "Sun Temple before boss area",
-        "entrances": [
-          {
-            "name": "Sun Temple left area to Sun Temple before boss area",
-            "parent_region": "Sun Temple left area",
-            "connected_region": "Sun Temple before boss area"
-          },
-          {
-            "name": "Sun Temple boss area to Sun Temple before boss area",
-            "parent_region": "Sun Temple boss area",
-            "connected_region": "Sun Temple before boss area"
-          }
-        ],
         "exits": [
           {
             "name": "Sun Temple before boss area to Sun Temple left area",
@@ -6800,13 +5628,6 @@
       },
       "Sun Temple boss area": {
         "name": "Sun Temple boss area",
-        "entrances": [
-          {
-            "name": "Sun Temple before boss area to Sun Temple boss area",
-            "parent_region": "Sun Temple before boss area",
-            "connected_region": "Sun Temple boss area"
-          }
-        ],
         "exits": [
           {
             "name": "Sun Temple boss area to Sun Temple before boss area",
@@ -6876,28 +5697,6 @@
       },
       "Abyss left area": {
         "name": "Abyss left area",
-        "entrances": [
-          {
-            "name": "Open Waters bottom left area to Abyss left area",
-            "parent_region": "Open Waters bottom left area",
-            "connected_region": "Abyss left area"
-          },
-          {
-            "name": "Abyss left bottom area to Abyss left area",
-            "parent_region": "Abyss left bottom area",
-            "connected_region": "Abyss left area"
-          },
-          {
-            "name": "Abyss left area, King jellyfish cave to Abyss left area",
-            "parent_region": "Abyss left area, King jellyfish cave",
-            "connected_region": "Abyss left area"
-          },
-          {
-            "name": "Abyss right area to Abyss left area",
-            "parent_region": "Abyss right area",
-            "connected_region": "Abyss left area"
-          }
-        ],
         "exits": [
           {
             "name": "Abyss left area to Open Waters bottom left area",
@@ -7021,23 +5820,6 @@
       },
       "Abyss left bottom area": {
         "name": "Abyss left bottom area",
-        "entrances": [
-          {
-            "name": "Abyss left area to Abyss left bottom area",
-            "parent_region": "Abyss left area",
-            "connected_region": "Abyss left bottom area"
-          },
-          {
-            "name": "Sunken City right area to Abyss left bottom area",
-            "parent_region": "Sunken City right area",
-            "connected_region": "Abyss left bottom area"
-          },
-          {
-            "name": "The Body center area to Abyss left bottom area",
-            "parent_region": "The Body center area",
-            "connected_region": "Abyss left bottom area"
-          }
-        ],
         "exits": [
           {
             "name": "Abyss left bottom area to Abyss left area",
@@ -7086,38 +5868,6 @@
       },
       "Abyss right area": {
         "name": "Abyss right area",
-        "entrances": [
-          {
-            "name": "Open Waters bottom right area to Abyss right area",
-            "parent_region": "Open Waters bottom right area",
-            "connected_region": "Abyss right area"
-          },
-          {
-            "name": "Abyss left area to Abyss right area",
-            "parent_region": "Abyss left area",
-            "connected_region": "Abyss right area"
-          },
-          {
-            "name": "Abyss right area, outside the whale to Abyss right area",
-            "parent_region": "Abyss right area, outside the whale",
-            "connected_region": "Abyss right area"
-          },
-          {
-            "name": "Abyss right area, transturtle to Abyss right area",
-            "parent_region": "Abyss right area, transturtle",
-            "connected_region": "Abyss right area"
-          },
-          {
-            "name": "First Secret area to Abyss right area",
-            "parent_region": "First Secret area",
-            "connected_region": "Abyss right area"
-          },
-          {
-            "name": "Ice Cavern to Abyss right area",
-            "parent_region": "Ice Cavern",
-            "connected_region": "Abyss right area"
-          }
-        ],
         "exits": [
           {
             "name": "Abyss right area to Open Waters bottom right area",
@@ -7259,18 +6009,6 @@
       },
       "Abyss right area, outside the whale": {
         "name": "Abyss right area, outside the whale",
-        "entrances": [
-          {
-            "name": "Abyss right area to Abyss right area, outside the whale",
-            "parent_region": "Abyss right area",
-            "connected_region": "Abyss right area, outside the whale"
-          },
-          {
-            "name": "Inside the whale to Abyss right area, outside the whale",
-            "parent_region": "Inside the whale",
-            "connected_region": "Abyss right area, outside the whale"
-          }
-        ],
         "exits": [
           {
             "name": "Abyss right area, outside the whale to Abyss right area",
@@ -7317,53 +6055,6 @@
       },
       "Abyss right area, transturtle": {
         "name": "Abyss right area, transturtle",
-        "entrances": [
-          {
-            "name": "Abyss right area to Abyss right area, transturtle",
-            "parent_region": "Abyss right area",
-            "connected_region": "Abyss right area, transturtle"
-          },
-          {
-            "name": "The Veil top left area to Abyss right area, transturtle",
-            "parent_region": "The Veil top left area",
-            "connected_region": "Abyss right area, transturtle"
-          },
-          {
-            "name": "The Veil top right area, left of temple to Abyss right area, transturtle",
-            "parent_region": "The Veil top right area, left of temple",
-            "connected_region": "Abyss right area, transturtle"
-          },
-          {
-            "name": "Open Waters top right area, turtle room to Abyss right area, transturtle",
-            "parent_region": "Open Waters top right area, turtle room",
-            "connected_region": "Abyss right area, transturtle"
-          },
-          {
-            "name": "Kelp Forest bottom left area to Abyss right area, transturtle",
-            "parent_region": "Kelp Forest bottom left area",
-            "connected_region": "Abyss right area, transturtle"
-          },
-          {
-            "name": "Home Waters, turtle room to Abyss right area, transturtle",
-            "parent_region": "Home Waters, turtle room",
-            "connected_region": "Abyss right area, transturtle"
-          },
-          {
-            "name": "The Body, final boss area turtle room to Abyss right area, transturtle",
-            "parent_region": "The Body, final boss area turtle room",
-            "connected_region": "Abyss right area, transturtle"
-          },
-          {
-            "name": "Simon Says area to Abyss right area, transturtle",
-            "parent_region": "Simon Says area",
-            "connected_region": "Abyss right area, transturtle"
-          },
-          {
-            "name": "Arnassi Ruins cave, transturtle area to Abyss right area, transturtle",
-            "parent_region": "Arnassi Ruins cave, transturtle area",
-            "connected_region": "Abyss right area, transturtle"
-          }
-        ],
         "exits": [
           {
             "name": "Abyss right area, transturtle to Abyss right area",
@@ -7490,18 +6181,6 @@
       },
       "Ice Cavern": {
         "name": "Ice Cavern",
-        "entrances": [
-          {
-            "name": "Abyss right area to Ice Cavern",
-            "parent_region": "Abyss right area",
-            "connected_region": "Ice Cavern"
-          },
-          {
-            "name": "Frozen Veil to Ice Cavern",
-            "parent_region": "Frozen Veil",
-            "connected_region": "Ice Cavern"
-          }
-        ],
         "exits": [
           {
             "name": "Ice Cavern to Abyss right area",
@@ -7595,18 +6274,6 @@
       },
       "Bubble Cave": {
         "name": "Bubble Cave",
-        "entrances": [
-          {
-            "name": "Frozen Veil to Bubble Cave",
-            "parent_region": "Frozen Veil",
-            "connected_region": "Bubble Cave"
-          },
-          {
-            "name": "Bubble Cave boss area to Bubble Cave",
-            "parent_region": "Bubble Cave boss area",
-            "connected_region": "Bubble Cave"
-          }
-        ],
         "exits": [
           {
             "name": "Bubble Cave to Frozen Veil",
@@ -7668,13 +6335,6 @@
       },
       "Bubble Cave boss area": {
         "name": "Bubble Cave boss area",
-        "entrances": [
-          {
-            "name": "Bubble Cave to Bubble Cave boss area",
-            "parent_region": "Bubble Cave",
-            "connected_region": "Bubble Cave boss area"
-          }
-        ],
         "exits": [
           {
             "name": "Bubble Cave boss area to Bubble Cave",
@@ -7718,13 +6378,6 @@
       },
       "Abyss left area, King jellyfish cave": {
         "name": "Abyss left area, King jellyfish cave",
-        "entrances": [
-          {
-            "name": "Abyss left area to Abyss left area, King jellyfish cave",
-            "parent_region": "Abyss left area",
-            "connected_region": "Abyss left area, King jellyfish cave"
-          }
-        ],
         "exits": [
           {
             "name": "Abyss left area, King jellyfish cave to Abyss left area",
@@ -7782,13 +6435,6 @@
       },
       "Inside the whale": {
         "name": "Inside the whale",
-        "entrances": [
-          {
-            "name": "Abyss right area, outside the whale to Inside the whale",
-            "parent_region": "Abyss right area, outside the whale",
-            "connected_region": "Inside the whale"
-          }
-        ],
         "exits": [
           {
             "name": "Inside the whale to Abyss right area, outside the whale",
@@ -7818,23 +6464,6 @@
       },
       "Sunken City left area": {
         "name": "Sunken City left area",
-        "entrances": [
-          {
-            "name": "Sunken City right area to Sunken City left area",
-            "parent_region": "Sunken City right area",
-            "connected_region": "Sunken City left area"
-          },
-          {
-            "name": "Sunken City left area, bedroom to Sunken City left area",
-            "parent_region": "Sunken City left area, bedroom",
-            "connected_region": "Sunken City left area"
-          },
-          {
-            "name": "Sunken City boss area to Sunken City left area",
-            "parent_region": "Sunken City boss area",
-            "connected_region": "Sunken City left area"
-          }
-        ],
         "exits": [
           {
             "name": "Sunken City left area to Sunken City right area",
@@ -7926,18 +6555,6 @@
       },
       "Sunken City right area": {
         "name": "Sunken City right area",
-        "entrances": [
-          {
-            "name": "Abyss left bottom area to Sunken City right area",
-            "parent_region": "Abyss left bottom area",
-            "connected_region": "Sunken City right area"
-          },
-          {
-            "name": "Sunken City left area to Sunken City right area",
-            "parent_region": "Sunken City left area",
-            "connected_region": "Sunken City right area"
-          }
-        ],
         "exits": [
           {
             "name": "Sunken City right area to Abyss left bottom area",
@@ -7986,13 +6603,6 @@
       },
       "Sunken City boss area": {
         "name": "Sunken City boss area",
-        "entrances": [
-          {
-            "name": "Sunken City left area to Sunken City boss area",
-            "parent_region": "Sunken City left area",
-            "connected_region": "Sunken City boss area"
-          }
-        ],
         "exits": [
           {
             "name": "Sunken City boss area to Sunken City left area",
@@ -8085,13 +6695,6 @@
       },
       "Sunken City left area, bedroom": {
         "name": "Sunken City left area, bedroom",
-        "entrances": [
-          {
-            "name": "Sunken City left area to Sunken City left area, bedroom",
-            "parent_region": "Sunken City left area",
-            "connected_region": "Sunken City left area, bedroom"
-          }
-        ],
         "exits": [
           {
             "name": "Sunken City left area, bedroom to Sunken City left area",
@@ -8121,33 +6724,6 @@
       },
       "The Body center area": {
         "name": "The Body center area",
-        "entrances": [
-          {
-            "name": "Abyss left bottom area to The Body center area",
-            "parent_region": "Abyss left bottom area",
-            "connected_region": "The Body center area"
-          },
-          {
-            "name": "The Body left area to The Body center area",
-            "parent_region": "The Body left area",
-            "connected_region": "The Body center area"
-          },
-          {
-            "name": "The Body right area, top path to The Body center area",
-            "parent_region": "The Body right area, top path",
-            "connected_region": "The Body center area"
-          },
-          {
-            "name": "The Body right area, bottom path to The Body center area",
-            "parent_region": "The Body right area, bottom path",
-            "connected_region": "The Body center area"
-          },
-          {
-            "name": "The Body bottom area to The Body center area",
-            "parent_region": "The Body bottom area",
-            "connected_region": "The Body center area"
-          }
-        ],
         "exits": [
           {
             "name": "The Body center area to Abyss left bottom area",
@@ -8242,13 +6818,6 @@
       },
       "The Body left area": {
         "name": "The Body left area",
-        "entrances": [
-          {
-            "name": "The Body center area to The Body left area",
-            "parent_region": "The Body center area",
-            "connected_region": "The Body left area"
-          }
-        ],
         "exits": [
           {
             "name": "The Body left area to The Body center area",
@@ -8334,13 +6903,6 @@
       },
       "The Body right area, top path": {
         "name": "The Body right area, top path",
-        "entrances": [
-          {
-            "name": "The Body center area to The Body right area, top path",
-            "parent_region": "The Body center area",
-            "connected_region": "The Body right area, top path"
-          }
-        ],
         "exits": [
           {
             "name": "The Body right area, top path to The Body center area",
@@ -8370,13 +6932,6 @@
       },
       "The Body right area, bottom path": {
         "name": "The Body right area, bottom path",
-        "entrances": [
-          {
-            "name": "The Body center area to The Body right area, bottom path",
-            "parent_region": "The Body center area",
-            "connected_region": "The Body right area, bottom path"
-          }
-        ],
         "exits": [
           {
             "name": "The Body right area, bottom path to The Body center area",
@@ -8420,18 +6975,6 @@
       },
       "The Body bottom area": {
         "name": "The Body bottom area",
-        "entrances": [
-          {
-            "name": "The Body center area to The Body bottom area",
-            "parent_region": "The Body center area",
-            "connected_region": "The Body bottom area"
-          },
-          {
-            "name": "The Body, before final boss to The Body bottom area",
-            "parent_region": "The Body, before final boss",
-            "connected_region": "The Body bottom area"
-          }
-        ],
         "exits": [
           {
             "name": "The Body bottom area to The Body center area",
@@ -8515,18 +7058,6 @@
       },
       "The Body, before final boss": {
         "name": "The Body, before final boss",
-        "entrances": [
-          {
-            "name": "The Body bottom area to The Body, before final boss",
-            "parent_region": "The Body bottom area",
-            "connected_region": "The Body, before final boss"
-          },
-          {
-            "name": "The Body, final boss area turtle room to The Body, before final boss",
-            "parent_region": "The Body, final boss area turtle room",
-            "connected_region": "The Body, before final boss"
-          }
-        ],
         "exits": [
           {
             "name": "The Body, before final boss to The Body bottom area",
@@ -8593,53 +7124,6 @@
       },
       "The Body, final boss area turtle room": {
         "name": "The Body, final boss area turtle room",
-        "entrances": [
-          {
-            "name": "The Body, before final boss to The Body, final boss area turtle room",
-            "parent_region": "The Body, before final boss",
-            "connected_region": "The Body, final boss area turtle room"
-          },
-          {
-            "name": "The Veil top left area to The Body, final boss area turtle room",
-            "parent_region": "The Veil top left area",
-            "connected_region": "The Body, final boss area turtle room"
-          },
-          {
-            "name": "The Veil top right area, left of temple to The Body, final boss area turtle room",
-            "parent_region": "The Veil top right area, left of temple",
-            "connected_region": "The Body, final boss area turtle room"
-          },
-          {
-            "name": "Open Waters top right area, turtle room to The Body, final boss area turtle room",
-            "parent_region": "Open Waters top right area, turtle room",
-            "connected_region": "The Body, final boss area turtle room"
-          },
-          {
-            "name": "Kelp Forest bottom left area to The Body, final boss area turtle room",
-            "parent_region": "Kelp Forest bottom left area",
-            "connected_region": "The Body, final boss area turtle room"
-          },
-          {
-            "name": "Home Waters, turtle room to The Body, final boss area turtle room",
-            "parent_region": "Home Waters, turtle room",
-            "connected_region": "The Body, final boss area turtle room"
-          },
-          {
-            "name": "Abyss right area, transturtle to The Body, final boss area turtle room",
-            "parent_region": "Abyss right area, transturtle",
-            "connected_region": "The Body, final boss area turtle room"
-          },
-          {
-            "name": "Simon Says area to The Body, final boss area turtle room",
-            "parent_region": "Simon Says area",
-            "connected_region": "The Body, final boss area turtle room"
-          },
-          {
-            "name": "Arnassi Ruins cave, transturtle area to The Body, final boss area turtle room",
-            "parent_region": "Arnassi Ruins cave, transturtle area",
-            "connected_region": "The Body, final boss area turtle room"
-          }
-        ],
         "exits": [
           {
             "name": "The Body, final boss area turtle room to The Body, before final boss",
@@ -8800,13 +7284,6 @@
       },
       "The Body, final boss": {
         "name": "The Body, final boss",
-        "entrances": [
-          {
-            "name": "The Body, before final boss to The Body, final boss",
-            "parent_region": "The Body, before final boss",
-            "connected_region": "The Body, final boss"
-          }
-        ],
         "exits": [
           {
             "name": "The Body, final boss to The Body, final boss area",
@@ -8836,13 +7313,6 @@
       },
       "The Body, final boss area": {
         "name": "The Body, final boss area",
-        "entrances": [
-          {
-            "name": "The Body, final boss to The Body, final boss area",
-            "parent_region": "The Body, final boss",
-            "connected_region": "The Body, final boss area"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8863,13 +7333,6 @@
       },
       "First Secret area": {
         "name": "First Secret area",
-        "entrances": [
-          {
-            "name": "Abyss right area to First Secret area",
-            "parent_region": "Abyss right area",
-            "connected_region": "First Secret area"
-          }
-        ],
         "exits": [
           {
             "name": "First Secret area to Abyss right area",
@@ -8935,18 +7398,6 @@
       },
       "Energy Temple Idol room": {
         "name": "Energy Temple Idol room",
-        "entrances": [
-          {
-            "name": "Energy Temple first area to Energy Temple Idol room",
-            "parent_region": "Energy Temple first area",
-            "connected_region": "Energy Temple Idol room"
-          },
-          {
-            "name": "Energy Temple fallen God room to Energy Temple Idol room",
-            "parent_region": "Energy Temple fallen God room",
-            "connected_region": "Energy Temple Idol room"
-          }
-        ],
         "exits": [
           {
             "name": "Energy Temple Idol room to Energy Temple first area",
@@ -9014,18 +7465,6 @@
       },
       "Energy Temple after boss path": {
         "name": "Energy Temple after boss path",
-        "entrances": [
-          {
-            "name": "Energy Temple first area to Energy Temple after boss path",
-            "parent_region": "Energy Temple first area",
-            "connected_region": "Energy Temple after boss path"
-          },
-          {
-            "name": "Energy Temple fallen God room to Energy Temple after boss path",
-            "parent_region": "Energy Temple fallen God room",
-            "connected_region": "Energy Temple after boss path"
-          }
-        ],
         "exits": [
           {
             "name": "Energy Temple after boss path to Energy Temple first area",
@@ -9107,18 +7546,6 @@
       },
       "Frozen Veil": {
         "name": "Frozen Veil",
-        "entrances": [
-          {
-            "name": "Ice Cavern to Frozen Veil",
-            "parent_region": "Ice Cavern",
-            "connected_region": "Frozen Veil"
-          },
-          {
-            "name": "Bubble Cave to Frozen Veil",
-            "parent_region": "Bubble Cave",
-            "connected_region": "Frozen Veil"
-          }
-        ],
         "exits": [
           {
             "name": "Frozen Veil to Ice Cavern",
@@ -9152,13 +7579,6 @@
       },
       "Sunken City left area crates": {
         "name": "Sunken City left area crates",
-        "entrances": [
-          {
-            "name": "Sunken City left area to Sunken City left area",
-            "parent_region": "Sunken City left area",
-            "connected_region": "Sunken City left area crates"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -9208,13 +7628,6 @@
       },
       "Sunken City right area crates": {
         "name": "Sunken City right area crates",
-        "entrances": [
-          {
-            "name": "Sunken City right area to Sunken City right area crates",
-            "parent_region": "Sunken City right area",
-            "connected_region": "Sunken City right area crates"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -9250,28 +7663,6 @@
       },
       "Home Waters, behind rock": {
         "name": "Home Waters, behind rock",
-        "entrances": [
-          {
-            "name": "Home Waters to Home Waters, behind rock",
-            "parent_region": "Home Waters",
-            "connected_region": "Home Waters, behind rock"
-          },
-          {
-            "name": "Home Waters, Nautilus nest to Home Waters, behind rock",
-            "parent_region": "Home Waters, Nautilus nest",
-            "connected_region": "Home Waters, behind rock"
-          },
-          {
-            "name": "Energy Temple first area to Home Waters, behind rock",
-            "parent_region": "Energy Temple first area",
-            "connected_region": "Home Waters, behind rock"
-          },
-          {
-            "name": "Energy Temple bottom entrance to Home Waters, behind rock",
-            "parent_region": "Energy Temple bottom entrance",
-            "connected_region": "Home Waters, behind rock"
-          }
-        ],
         "exits": [
           {
             "name": "Home Waters, behind rock to Home Waters",
@@ -9385,13 +7776,6 @@
       },
       "Open Waters top right area, Mithalas entrance": {
         "name": "Open Waters top right area, Mithalas entrance",
-        "entrances": [
-          {
-            "name": "Open Waters top right area to Open Waters top right area, Mithalas entrance",
-            "parent_region": "Open Waters top right area",
-            "connected_region": "Open Waters top right area, Mithalas entrance"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -9441,13 +7825,6 @@
       },
       "Mithalas City urns": {
         "name": "Mithalas City urns",
-        "entrances": [
-          {
-            "name": "Mithalas City to Mithalas City urns",
-            "parent_region": "Mithalas City",
-            "connected_region": "Mithalas City urns"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -9525,13 +7902,6 @@
       },
       "Mithalas castle urns": {
         "name": "Mithalas castle urns",
-        "entrances": [
-          {
-            "name": "Mithalas castle to Mithalas castle urns",
-            "parent_region": "Mithalas castle",
-            "connected_region": "Mithalas castle urns"
-          }
-        ],
         "exits": [],
         "locations": [
           {

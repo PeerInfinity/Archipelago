@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Menu -> Eolis",
@@ -29,13 +28,6 @@
       },
       "Eolis": {
         "name": "Eolis",
-        "entrances": [
-          {
-            "name": "Menu -> Eolis",
-            "parent_region": "Menu",
-            "connected_region": "Eolis"
-          }
-        ],
         "exits": [
           {
             "name": "Eolis -> Path to Apolune",
@@ -209,13 +201,6 @@
       },
       "Path to Apolune": {
         "name": "Path to Apolune",
-        "entrances": [
-          {
-            "name": "Eolis -> Path to Apolune",
-            "parent_region": "Eolis",
-            "connected_region": "Path to Apolune"
-          }
-        ],
         "exits": [
           {
             "name": "Path to Apolune -> Apolune",
@@ -265,13 +250,6 @@
       },
       "Apolune": {
         "name": "Apolune",
-        "entrances": [
-          {
-            "name": "Path to Apolune -> Apolune",
-            "parent_region": "Path to Apolune",
-            "connected_region": "Apolune"
-          }
-        ],
         "exits": [
           {
             "name": "Apolune -> Tower of Trunk",
@@ -374,13 +352,6 @@
       },
       "Tower of Trunk": {
         "name": "Tower of Trunk",
-        "entrances": [
-          {
-            "name": "Apolune -> Tower of Trunk",
-            "parent_region": "Apolune",
-            "connected_region": "Tower of Trunk"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -452,13 +423,6 @@
       },
       "Path to Forepaw": {
         "name": "Path to Forepaw",
-        "entrances": [
-          {
-            "name": "Apolune -> Path to Forepaw",
-            "parent_region": "Apolune",
-            "connected_region": "Path to Forepaw"
-          }
-        ],
         "exits": [
           {
             "name": "Path to Forepaw -> Forepaw",
@@ -511,13 +475,6 @@
       },
       "Forepaw": {
         "name": "Forepaw",
-        "entrances": [
-          {
-            "name": "Path to Forepaw -> Forepaw",
-            "parent_region": "Path to Forepaw",
-            "connected_region": "Forepaw"
-          }
-        ],
         "exits": [
           {
             "name": "Forepaw -> Trunk",
@@ -631,13 +588,6 @@
       },
       "Trunk": {
         "name": "Trunk",
-        "entrances": [
-          {
-            "name": "Forepaw -> Trunk",
-            "parent_region": "Forepaw",
-            "connected_region": "Trunk"
-          }
-        ],
         "exits": [
           {
             "name": "Trunk -> Joker Spring",
@@ -765,13 +715,6 @@
       },
       "Joker Spring": {
         "name": "Joker Spring",
-        "entrances": [
-          {
-            "name": "Trunk -> Joker Spring",
-            "parent_region": "Trunk",
-            "connected_region": "Joker Spring"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -806,13 +749,6 @@
       },
       "Tower of Fortress": {
         "name": "Tower of Fortress",
-        "entrances": [
-          {
-            "name": "Trunk -> Tower of Fortress",
-            "parent_region": "Trunk",
-            "connected_region": "Tower of Fortress"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -937,13 +873,6 @@
       },
       "Path to Mascon": {
         "name": "Path to Mascon",
-        "entrances": [
-          {
-            "name": "Trunk -> Path to Mascon",
-            "parent_region": "Trunk",
-            "connected_region": "Path to Mascon"
-          }
-        ],
         "exits": [
           {
             "name": "Path to Mascon -> Tower of Red Potion",
@@ -1000,13 +929,6 @@
       },
       "Tower of Red Potion": {
         "name": "Tower of Red Potion",
-        "entrances": [
-          {
-            "name": "Path to Mascon -> Tower of Red Potion",
-            "parent_region": "Path to Mascon",
-            "connected_region": "Tower of Red Potion"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1027,13 +949,6 @@
       },
       "Mascon": {
         "name": "Mascon",
-        "entrances": [
-          {
-            "name": "Path to Mascon -> Mascon",
-            "parent_region": "Path to Mascon",
-            "connected_region": "Mascon"
-          }
-        ],
         "exits": [
           {
             "name": "Mascon -> Path to Victim",
@@ -1133,13 +1048,6 @@
       },
       "Path to Victim": {
         "name": "Path to Victim",
-        "entrances": [
-          {
-            "name": "Mascon -> Path to Victim",
-            "parent_region": "Mascon",
-            "connected_region": "Path to Victim"
-          }
-        ],
         "exits": [
           {
             "name": "Path to Victim -> Tower of Suffer",
@@ -1263,13 +1171,6 @@
       },
       "Tower of Suffer": {
         "name": "Tower of Suffer",
-        "entrances": [
-          {
-            "name": "Path to Victim -> Tower of Suffer",
-            "parent_region": "Path to Victim",
-            "connected_region": "Tower of Suffer"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1337,13 +1238,6 @@
       },
       "Victim": {
         "name": "Victim",
-        "entrances": [
-          {
-            "name": "Path to Victim -> Victim",
-            "parent_region": "Path to Victim",
-            "connected_region": "Victim"
-          }
-        ],
         "exits": [
           {
             "name": "Victim -> Mist",
@@ -1432,13 +1326,6 @@
       },
       "Mist": {
         "name": "Mist",
-        "entrances": [
-          {
-            "name": "Victim -> Mist",
-            "parent_region": "Victim",
-            "connected_region": "Mist"
-          }
-        ],
         "exits": [
           {
             "name": "Mist -> Useless Tower",
@@ -1572,13 +1459,6 @@
       },
       "Useless Tower": {
         "name": "Useless Tower",
-        "entrances": [
-          {
-            "name": "Mist -> Useless Tower",
-            "parent_region": "Mist",
-            "connected_region": "Useless Tower"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1599,13 +1479,6 @@
       },
       "Tower of Mist": {
         "name": "Tower of Mist",
-        "entrances": [
-          {
-            "name": "Mist -> Tower of Mist",
-            "parent_region": "Mist",
-            "connected_region": "Tower of Mist"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1654,13 +1527,6 @@
       },
       "Path to Conflate": {
         "name": "Path to Conflate",
-        "entrances": [
-          {
-            "name": "Mist -> Path to Conflate",
-            "parent_region": "Mist",
-            "connected_region": "Path to Conflate"
-          }
-        ],
         "exits": [
           {
             "name": "Path to Conflate -> Helm Branch",
@@ -1726,13 +1592,6 @@
       },
       "Helm Branch": {
         "name": "Helm Branch",
-        "entrances": [
-          {
-            "name": "Path to Conflate -> Helm Branch",
-            "parent_region": "Path to Conflate",
-            "connected_region": "Helm Branch"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1767,13 +1626,6 @@
       },
       "Conflate": {
         "name": "Conflate",
-        "entrances": [
-          {
-            "name": "Path to Conflate -> Conflate",
-            "parent_region": "Path to Conflate",
-            "connected_region": "Conflate"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1857,13 +1709,6 @@
       },
       "Branches": {
         "name": "Branches",
-        "entrances": [
-          {
-            "name": "Path to Conflate -> Branches",
-            "parent_region": "Path to Conflate",
-            "connected_region": "Branches"
-          }
-        ],
         "exits": [
           {
             "name": "Branches -> Path to Daybreak",
@@ -1938,13 +1783,6 @@
       },
       "Path to Daybreak": {
         "name": "Path to Daybreak",
-        "entrances": [
-          {
-            "name": "Branches -> Path to Daybreak",
-            "parent_region": "Branches",
-            "connected_region": "Path to Daybreak"
-          }
-        ],
         "exits": [
           {
             "name": "Path to Daybreak -> Daybreak",
@@ -2047,13 +1885,6 @@
       },
       "Daybreak": {
         "name": "Daybreak",
-        "entrances": [
-          {
-            "name": "Path to Daybreak -> Daybreak",
-            "parent_region": "Path to Daybreak",
-            "connected_region": "Daybreak"
-          }
-        ],
         "exits": [
           {
             "name": "Daybreak -> Dartmoor Castle",
@@ -2142,13 +1973,6 @@
       },
       "Dartmoor Castle": {
         "name": "Dartmoor Castle",
-        "entrances": [
-          {
-            "name": "Daybreak -> Dartmoor Castle",
-            "parent_region": "Daybreak",
-            "connected_region": "Dartmoor Castle"
-          }
-        ],
         "exits": [
           {
             "name": "Dartmoor Castle -> Dartmoor",
@@ -2235,13 +2059,6 @@
       },
       "Dartmoor": {
         "name": "Dartmoor",
-        "entrances": [
-          {
-            "name": "Dartmoor Castle -> Dartmoor",
-            "parent_region": "Dartmoor Castle",
-            "connected_region": "Dartmoor"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2290,13 +2107,6 @@
       },
       "Fraternal Castle": {
         "name": "Fraternal Castle",
-        "entrances": [
-          {
-            "name": "Dartmoor Castle -> Fraternal Castle",
-            "parent_region": "Dartmoor Castle",
-            "connected_region": "Fraternal Castle"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2443,13 +2253,6 @@
       },
       "Evil Fortress": {
         "name": "Evil Fortress",
-        "entrances": [
-          {
-            "name": "Dartmoor Castle -> Evil Fortress",
-            "parent_region": "Dartmoor Castle",
-            "connected_region": "Evil Fortress"
-          }
-        ],
         "exits": [],
         "locations": [
           {

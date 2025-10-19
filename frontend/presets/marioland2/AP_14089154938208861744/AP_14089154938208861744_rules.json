@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Menu -> Mushroom Zone",
@@ -151,13 +150,6 @@
       },
       "Mushroom Zone": {
         "name": "Mushroom Zone",
-        "entrances": [
-          {
-            "name": "Menu -> Mushroom Zone",
-            "parent_region": "Menu",
-            "connected_region": "Mushroom Zone"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -192,13 +184,6 @@
       },
       "Scenic Course": {
         "name": "Scenic Course",
-        "entrances": [
-          {
-            "name": "Menu -> Scenic Course",
-            "parent_region": "Menu",
-            "connected_region": "Scenic Course"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -219,13 +204,6 @@
       },
       "Tree Zone 1": {
         "name": "Tree Zone 1",
-        "entrances": [
-          {
-            "name": "Menu -> Tree Zone 1",
-            "parent_region": "Menu",
-            "connected_region": "Tree Zone 1"
-          }
-        ],
         "exits": [
           {
             "name": "Tree Zone 1 -> Tree Zone 2",
@@ -271,13 +249,6 @@
       },
       "Tree Zone 2": {
         "name": "Tree Zone 2",
-        "entrances": [
-          {
-            "name": "Tree Zone 1 -> Tree Zone 2",
-            "parent_region": "Tree Zone 1",
-            "connected_region": "Tree Zone 2"
-          }
-        ],
         "exits": [
           {
             "name": "Tree Zone 2 -> Tree Zone 3",
@@ -351,13 +322,6 @@
       },
       "Tree Zone 3": {
         "name": "Tree Zone 3",
-        "entrances": [
-          {
-            "name": "Tree Zone 2 -> Tree Zone 3",
-            "parent_region": "Tree Zone 2",
-            "connected_region": "Tree Zone 3"
-          }
-        ],
         "exits": [
           {
             "name": "Tree Zone 3 -> Tree Zone 4",
@@ -388,13 +352,6 @@
       },
       "Tree Zone 4": {
         "name": "Tree Zone 4",
-        "entrances": [
-          {
-            "name": "Tree Zone 3 -> Tree Zone 4",
-            "parent_region": "Tree Zone 3",
-            "connected_region": "Tree Zone 4"
-          }
-        ],
         "exits": [
           {
             "name": "Tree Zone 4 -> Tree Zone 5",
@@ -442,13 +399,6 @@
       },
       "Tree Zone 5": {
         "name": "Tree Zone 5",
-        "entrances": [
-          {
-            "name": "Tree Zone 4 -> Tree Zone 5",
-            "parent_region": "Tree Zone 4",
-            "connected_region": "Tree Zone 5"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -484,13 +434,6 @@
       },
       "Tree Zone Secret Course": {
         "name": "Tree Zone Secret Course",
-        "entrances": [
-          {
-            "name": "Tree Zone 2 -> Tree Zone Secret Course",
-            "parent_region": "Tree Zone 2",
-            "connected_region": "Tree Zone Secret Course"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -511,13 +454,6 @@
       },
       "Hippo Zone": {
         "name": "Hippo Zone",
-        "entrances": [
-          {
-            "name": "Menu -> Hippo Zone",
-            "parent_region": "Menu",
-            "connected_region": "Hippo Zone"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -539,13 +475,6 @@
       },
       "Space Zone 1": {
         "name": "Space Zone 1",
-        "entrances": [
-          {
-            "name": "Menu -> Space Zone 1",
-            "parent_region": "Menu",
-            "connected_region": "Space Zone 1"
-          }
-        ],
         "exits": [
           {
             "name": "Space Zone 1 -> Space Zone Secret Course",
@@ -618,13 +547,6 @@
       },
       "Space Zone Secret Course": {
         "name": "Space Zone Secret Course",
-        "entrances": [
-          {
-            "name": "Space Zone 1 -> Space Zone Secret Course",
-            "parent_region": "Space Zone 1",
-            "connected_region": "Space Zone Secret Course"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -645,13 +567,6 @@
       },
       "Space Zone 2": {
         "name": "Space Zone 2",
-        "entrances": [
-          {
-            "name": "Space Zone 1 -> Space Zone 2",
-            "parent_region": "Space Zone 1",
-            "connected_region": "Space Zone 2"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -688,13 +603,6 @@
       },
       "Macro Zone 1": {
         "name": "Macro Zone 1",
-        "entrances": [
-          {
-            "name": "Menu -> Macro Zone 1",
-            "parent_region": "Menu",
-            "connected_region": "Macro Zone 1"
-          }
-        ],
         "exits": [
           {
             "name": "Macro Zone 1 -> Macro Zone 2",
@@ -768,13 +676,6 @@
       },
       "Macro Zone 2": {
         "name": "Macro Zone 2",
-        "entrances": [
-          {
-            "name": "Macro Zone 1 -> Macro Zone 2",
-            "parent_region": "Macro Zone 1",
-            "connected_region": "Macro Zone 2"
-          }
-        ],
         "exits": [
           {
             "name": "Macro Zone 2 -> Macro Zone 3",
@@ -822,13 +723,6 @@
       },
       "Macro Zone 3": {
         "name": "Macro Zone 3",
-        "entrances": [
-          {
-            "name": "Macro Zone 2 -> Macro Zone 3",
-            "parent_region": "Macro Zone 2",
-            "connected_region": "Macro Zone 3"
-          }
-        ],
         "exits": [
           {
             "name": "Macro Zone 3 -> Macro Zone 4",
@@ -876,18 +770,6 @@
       },
       "Macro Zone 4": {
         "name": "Macro Zone 4",
-        "entrances": [
-          {
-            "name": "Macro Zone 3 -> Macro Zone 4",
-            "parent_region": "Macro Zone 3",
-            "connected_region": "Macro Zone 4"
-          },
-          {
-            "name": "Macro Zone Secret Course -> Macro Zone 4",
-            "parent_region": "Macro Zone Secret Course",
-            "connected_region": "Macro Zone 4"
-          }
-        ],
         "exits": [
           {
             "name": "Macro Zone 4 -> Macro Zone Secret Course",
@@ -935,18 +817,6 @@
       },
       "Macro Zone Secret Course": {
         "name": "Macro Zone Secret Course",
-        "entrances": [
-          {
-            "name": "Macro Zone 1 -> Macro Zone Secret Course",
-            "parent_region": "Macro Zone 1",
-            "connected_region": "Macro Zone Secret Course"
-          },
-          {
-            "name": "Macro Zone 4 -> Macro Zone Secret Course",
-            "parent_region": "Macro Zone 4",
-            "connected_region": "Macro Zone Secret Course"
-          }
-        ],
         "exits": [
           {
             "name": "Macro Zone Secret Course -> Macro Zone 4",
@@ -979,13 +849,6 @@
       },
       "Pumpkin Zone 1": {
         "name": "Pumpkin Zone 1",
-        "entrances": [
-          {
-            "name": "Menu -> Pumpkin Zone 1",
-            "parent_region": "Menu",
-            "connected_region": "Pumpkin Zone 1"
-          }
-        ],
         "exits": [
           {
             "name": "Pumpkin Zone 1 -> Pumpkin Zone 2",
@@ -1033,13 +896,6 @@
       },
       "Pumpkin Zone 2": {
         "name": "Pumpkin Zone 2",
-        "entrances": [
-          {
-            "name": "Pumpkin Zone 1 -> Pumpkin Zone 2",
-            "parent_region": "Pumpkin Zone 1",
-            "connected_region": "Pumpkin Zone 2"
-          }
-        ],
         "exits": [
           {
             "name": "Pumpkin Zone 2 -> Pumpkin Zone 3",
@@ -1112,13 +968,6 @@
       },
       "Pumpkin Zone 3": {
         "name": "Pumpkin Zone 3",
-        "entrances": [
-          {
-            "name": "Pumpkin Zone 2 -> Pumpkin Zone 3",
-            "parent_region": "Pumpkin Zone 2",
-            "connected_region": "Pumpkin Zone 3"
-          }
-        ],
         "exits": [
           {
             "name": "Pumpkin Zone 3 -> Pumpkin Zone 4",
@@ -1190,13 +1039,6 @@
       },
       "Pumpkin Zone 4": {
         "name": "Pumpkin Zone 4",
-        "entrances": [
-          {
-            "name": "Pumpkin Zone 3 -> Pumpkin Zone 4",
-            "parent_region": "Pumpkin Zone 3",
-            "connected_region": "Pumpkin Zone 4"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1232,13 +1074,6 @@
       },
       "Pumpkin Zone Secret Course 1": {
         "name": "Pumpkin Zone Secret Course 1",
-        "entrances": [
-          {
-            "name": "Pumpkin Zone 2 -> Pumpkin Zone Secret Course 1",
-            "parent_region": "Pumpkin Zone 2",
-            "connected_region": "Pumpkin Zone Secret Course 1"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1259,13 +1094,6 @@
       },
       "Pumpkin Zone Secret Course 2": {
         "name": "Pumpkin Zone Secret Course 2",
-        "entrances": [
-          {
-            "name": "Pumpkin Zone 3 -> Pumpkin Zone Secret Course 2",
-            "parent_region": "Pumpkin Zone 3",
-            "connected_region": "Pumpkin Zone Secret Course 2"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1286,13 +1114,6 @@
       },
       "Mario Zone 1": {
         "name": "Mario Zone 1",
-        "entrances": [
-          {
-            "name": "Menu -> Mario Zone 1",
-            "parent_region": "Menu",
-            "connected_region": "Mario Zone 1"
-          }
-        ],
         "exits": [
           {
             "name": "Mario Zone 1 -> Mario Zone 2",
@@ -1340,13 +1161,6 @@
       },
       "Mario Zone 2": {
         "name": "Mario Zone 2",
-        "entrances": [
-          {
-            "name": "Mario Zone 1 -> Mario Zone 2",
-            "parent_region": "Mario Zone 1",
-            "connected_region": "Mario Zone 2"
-          }
-        ],
         "exits": [
           {
             "name": "Mario Zone 2 -> Mario Zone 3",
@@ -1392,13 +1206,6 @@
       },
       "Mario Zone 3": {
         "name": "Mario Zone 3",
-        "entrances": [
-          {
-            "name": "Mario Zone 2 -> Mario Zone 3",
-            "parent_region": "Mario Zone 2",
-            "connected_region": "Mario Zone 3"
-          }
-        ],
         "exits": [
           {
             "name": "Mario Zone 3 -> Mario Zone 4",
@@ -1444,13 +1251,6 @@
       },
       "Mario Zone 4": {
         "name": "Mario Zone 4",
-        "entrances": [
-          {
-            "name": "Mario Zone 3 -> Mario Zone 4",
-            "parent_region": "Mario Zone 3",
-            "connected_region": "Mario Zone 4"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1486,13 +1286,6 @@
       },
       "Turtle Zone 1": {
         "name": "Turtle Zone 1",
-        "entrances": [
-          {
-            "name": "Menu -> Turtle Zone 1",
-            "parent_region": "Menu",
-            "connected_region": "Turtle Zone 1"
-          }
-        ],
         "exits": [
           {
             "name": "Turtle Zone 1 -> Turtle Zone 2",
@@ -1539,13 +1332,6 @@
       },
       "Turtle Zone 2": {
         "name": "Turtle Zone 2",
-        "entrances": [
-          {
-            "name": "Turtle Zone 1 -> Turtle Zone 2",
-            "parent_region": "Turtle Zone 1",
-            "connected_region": "Turtle Zone 2"
-          }
-        ],
         "exits": [
           {
             "name": "Turtle Zone 2 -> Turtle Zone 3",
@@ -1619,13 +1405,6 @@
       },
       "Turtle Zone 3": {
         "name": "Turtle Zone 3",
-        "entrances": [
-          {
-            "name": "Turtle Zone 2 -> Turtle Zone 3",
-            "parent_region": "Turtle Zone 2",
-            "connected_region": "Turtle Zone 3"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1661,13 +1440,6 @@
       },
       "Turtle Zone Secret Course": {
         "name": "Turtle Zone Secret Course",
-        "entrances": [
-          {
-            "name": "Turtle Zone 2 -> Turtle Zone Secret Course",
-            "parent_region": "Turtle Zone 2",
-            "connected_region": "Turtle Zone Secret Course"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1689,13 +1461,6 @@
       },
       "Mario's Castle": {
         "name": "Mario's Castle",
-        "entrances": [
-          {
-            "name": "Menu -> Mario's Castle",
-            "parent_region": "Menu",
-            "connected_region": "Mario's Castle"
-          }
-        ],
         "exits": [],
         "locations": [
           {

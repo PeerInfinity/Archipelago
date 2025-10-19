@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "To Registry",
@@ -29,13 +28,6 @@
       },
       "Registry": {
         "name": "Registry",
-        "entrances": [
-          {
-            "name": "To Registry",
-            "parent_region": "Menu",
-            "connected_region": "Registry"
-          }
-        ],
         "exits": [
           {
             "name": "To Outside From Registry",
@@ -50,23 +42,6 @@
       },
       "Outside": {
         "name": "Outside",
-        "entrances": [
-          {
-            "name": "To Outside From Registry",
-            "parent_region": "Registry",
-            "connected_region": "Outside"
-          },
-          {
-            "name": "To Outside From Underground",
-            "parent_region": "Underground Tunnels",
-            "connected_region": "Outside"
-          },
-          {
-            "name": "To Outside From Lobby",
-            "parent_region": "Lobby",
-            "connected_region": "Outside"
-          }
-        ],
         "exits": [
           {
             "name": "To Underground Tunnels From Outside",
@@ -327,18 +302,6 @@
       },
       "Underground Tunnels": {
         "name": "Underground Tunnels",
-        "entrances": [
-          {
-            "name": "To Underground Tunnels From Outside",
-            "parent_region": "Outside",
-            "connected_region": "Underground Tunnels"
-          },
-          {
-            "name": "To Underground Tunnels From Underground Lake",
-            "parent_region": "Underground Lake",
-            "connected_region": "Underground Tunnels"
-          }
-        ],
         "exits": [
           {
             "name": "To Underground Lake From Underground Tunnels",
@@ -364,23 +327,6 @@
       },
       "Underground Lake": {
         "name": "Underground Lake",
-        "entrances": [
-          {
-            "name": "To Underground Lake From Underground Tunnels",
-            "parent_region": "Underground Tunnels",
-            "connected_region": "Underground Lake"
-          },
-          {
-            "name": "To Underground Lake From Windlenot's Body",
-            "parent_region": "Windlenot's Body",
-            "connected_region": "Underground Lake"
-          },
-          {
-            "name": "To Underground Lake From Underground Blue Tunnels",
-            "parent_region": "Underground Blue Tunnels",
-            "connected_region": "Underground Lake"
-          }
-        ],
         "exits": [
           {
             "name": "To Underground Tunnels From Underground Lake",
@@ -429,13 +375,6 @@
       },
       "Windlenot's Body": {
         "name": "Windlenot's Body",
-        "entrances": [
-          {
-            "name": "To Windlenot's Body From Underground Lake",
-            "parent_region": "Underground Lake",
-            "connected_region": "Windlenot's Body"
-          }
-        ],
         "exits": [
           {
             "name": "To Underground Lake From Windlenot's Body",
@@ -479,18 +418,6 @@
       },
       "Underground Blue Tunnels": {
         "name": "Underground Blue Tunnels",
-        "entrances": [
-          {
-            "name": "To Underground Blue Tunnels From Underground Lake",
-            "parent_region": "Underground Lake",
-            "connected_region": "Underground Blue Tunnels"
-          },
-          {
-            "name": "To Underground Blue Tunnels From Office Elevator",
-            "parent_region": "Office Elevator",
-            "connected_region": "Underground Blue Tunnels"
-          }
-        ],
         "exits": [
           {
             "name": "To Underground Lake From Underground Blue Tunnels",
@@ -516,18 +443,6 @@
       },
       "Office Elevator": {
         "name": "Office Elevator",
-        "entrances": [
-          {
-            "name": "To Office Elevator From Underground Blue Tunnels",
-            "parent_region": "Underground Blue Tunnels",
-            "connected_region": "Office Elevator"
-          },
-          {
-            "name": "To Office Elevator From Office",
-            "parent_region": "Office",
-            "connected_region": "Office Elevator"
-          }
-        ],
         "exits": [
           {
             "name": "To Underground Blue Tunnels From Office Elevator",
@@ -550,28 +465,6 @@
       },
       "Office": {
         "name": "Office",
-        "entrances": [
-          {
-            "name": "To Office From Office Elevator",
-            "parent_region": "Office Elevator",
-            "connected_region": "Office"
-          },
-          {
-            "name": "To Office From Workshop",
-            "parent_region": "Workshop",
-            "connected_region": "Office"
-          },
-          {
-            "name": "To Office From Bedroom Elevator",
-            "parent_region": "Bedroom Elevator",
-            "connected_region": "Office"
-          },
-          {
-            "name": "To Office From Lobby",
-            "parent_region": "Lobby",
-            "connected_region": "Office"
-          }
-        ],
         "exits": [
           {
             "name": "To Office Elevator From Office",
@@ -716,13 +609,6 @@
       },
       "Workshop": {
         "name": "Workshop",
-        "entrances": [
-          {
-            "name": "To Workshop",
-            "parent_region": "Office",
-            "connected_region": "Workshop"
-          }
-        ],
         "exits": [
           {
             "name": "To Office From Workshop",
@@ -788,18 +674,6 @@
       },
       "Bedroom Elevator": {
         "name": "Bedroom Elevator",
-        "entrances": [
-          {
-            "name": "To Bedroom Elevator From Office",
-            "parent_region": "Office",
-            "connected_region": "Bedroom Elevator"
-          },
-          {
-            "name": "To Bedroom Elevator From Bedroom",
-            "parent_region": "Bedroom",
-            "connected_region": "Bedroom Elevator"
-          }
-        ],
         "exits": [
           {
             "name": "To Office From Bedroom Elevator",
@@ -834,13 +708,6 @@
       },
       "Bedroom": {
         "name": "Bedroom",
-        "entrances": [
-          {
-            "name": "To Bedroom",
-            "parent_region": "Bedroom Elevator",
-            "connected_region": "Bedroom"
-          }
-        ],
         "exits": [
           {
             "name": "To Bedroom Elevator From Bedroom",
@@ -878,48 +745,6 @@
       },
       "Lobby": {
         "name": "Lobby",
-        "entrances": [
-          {
-            "name": "To Lobby From Office",
-            "parent_region": "Office",
-            "connected_region": "Lobby"
-          },
-          {
-            "name": "To Lobby From Library",
-            "parent_region": "Library",
-            "connected_region": "Lobby"
-          },
-          {
-            "name": "To Lobby From Tar River",
-            "parent_region": "Tar River",
-            "connected_region": "Lobby"
-          },
-          {
-            "name": "To Lobby From Slide Room",
-            "parent_region": "Slide Room",
-            "connected_region": "Lobby"
-          },
-          {
-            "name": "To Lobby From Egypt",
-            "parent_region": "Egypt",
-            "connected_region": "Lobby"
-          },
-          {
-            "name": "To Lobby From Theater",
-            "parent_region": "Theater",
-            "connected_region": "Lobby"
-          },
-          {
-            "name": "To Lobby From Prehistoric",
-            "parent_region": "Prehistoric",
-            "connected_region": "Lobby"
-          },
-          {
-            "name": "To Lobby From Outside",
-            "parent_region": "Outside",
-            "connected_region": "Lobby"
-          }
-        ],
         "exits": [
           {
             "name": "To Office From Lobby",
@@ -1227,18 +1052,6 @@
       },
       "Library": {
         "name": "Library",
-        "entrances": [
-          {
-            "name": "To Library From Lobby",
-            "parent_region": "Lobby",
-            "connected_region": "Library"
-          },
-          {
-            "name": "To Library From Maintenance Tunnels",
-            "parent_region": "Maintenance Tunnels",
-            "connected_region": "Library"
-          }
-        ],
         "exits": [
           {
             "name": "To Lobby From Library",
@@ -1371,28 +1184,6 @@
       },
       "Maintenance Tunnels": {
         "name": "Maintenance Tunnels",
-        "entrances": [
-          {
-            "name": "To Maintenance Tunnels From Generator",
-            "parent_region": "Generator",
-            "connected_region": "Maintenance Tunnels"
-          },
-          {
-            "name": "To Maintenance Tunnels From Three Floor Elevator",
-            "parent_region": "Three Floor Elevator",
-            "connected_region": "Maintenance Tunnels"
-          },
-          {
-            "name": "To Maintenance Tunnels From Library",
-            "parent_region": "Library",
-            "connected_region": "Maintenance Tunnels"
-          },
-          {
-            "name": "To Maintenance Tunnels From Theater Back Hallway",
-            "parent_region": "Theater Back Hallway",
-            "connected_region": "Maintenance Tunnels"
-          }
-        ],
         "exits": [
           {
             "name": "To Library From Maintenance Tunnels",
@@ -1444,18 +1235,6 @@
       },
       "Generator": {
         "name": "Generator",
-        "entrances": [
-          {
-            "name": "To Generator From Maintenance Tunnels",
-            "parent_region": "Maintenance Tunnels",
-            "connected_region": "Generator"
-          },
-          {
-            "name": "To Generator From Beth's Body",
-            "parent_region": "Beth's Body",
-            "connected_region": "Generator"
-          }
-        ],
         "exits": [
           {
             "name": "To Maintenance Tunnels From Generator",
@@ -1529,13 +1308,6 @@
       },
       "Beth's Body": {
         "name": "Beth's Body",
-        "entrances": [
-          {
-            "name": "To Beth's Body From Generator",
-            "parent_region": "Generator",
-            "connected_region": "Beth's Body"
-          }
-        ],
         "exits": [
           {
             "name": "To Generator From Beth's Body",
@@ -1579,18 +1351,6 @@
       },
       "Theater": {
         "name": "Theater",
-        "entrances": [
-          {
-            "name": "To Theater From Lobby",
-            "parent_region": "Lobby",
-            "connected_region": "Theater"
-          },
-          {
-            "name": "To Theater From Theater Back Hallway",
-            "parent_region": "Theater Back Hallway",
-            "connected_region": "Theater"
-          }
-        ],
         "exits": [
           {
             "name": "To Lobby From Theater",
@@ -1645,23 +1405,6 @@
       },
       "Theater Back Hallway": {
         "name": "Theater Back Hallway",
-        "entrances": [
-          {
-            "name": "To Theater Back Hallway From Theater",
-            "parent_region": "Theater",
-            "connected_region": "Theater Back Hallway"
-          },
-          {
-            "name": "To Theater Back Hallway From Clock Tower Staircase",
-            "parent_region": "Clock Tower Staircase",
-            "connected_region": "Theater Back Hallway"
-          },
-          {
-            "name": "To Theater Back Hallway From Projector Room",
-            "parent_region": "Projector Room",
-            "connected_region": "Theater Back Hallway"
-          }
-        ],
         "exits": [
           {
             "name": "To Theater From Theater Back Hallway",
@@ -1733,23 +1476,6 @@
       },
       "Clock Tower Staircase": {
         "name": "Clock Tower Staircase",
-        "entrances": [
-          {
-            "name": "To Clock Tower Staircase From Theater Back Hallway",
-            "parent_region": "Theater Back Hallway",
-            "connected_region": "Clock Tower Staircase"
-          },
-          {
-            "name": "To Clock Tower Staircase From Clock Chains",
-            "parent_region": "Clock Chains",
-            "connected_region": "Clock Tower Staircase"
-          },
-          {
-            "name": "To Clock Tower Staircase From Clock Tower",
-            "parent_region": "Clock Tower",
-            "connected_region": "Clock Tower Staircase"
-          }
-        ],
         "exits": [
           {
             "name": "To Theater Back Hallway From Clock Tower Staircase",
@@ -1809,13 +1535,6 @@
       },
       "Clock Chains": {
         "name": "Clock Chains",
-        "entrances": [
-          {
-            "name": "To Clock Chains From Clock Tower Staircase",
-            "parent_region": "Clock Tower Staircase",
-            "connected_region": "Clock Chains"
-          }
-        ],
         "exits": [
           {
             "name": "To Clock Tower Staircase From Clock Chains",
@@ -1859,13 +1578,6 @@
       },
       "Clock Tower": {
         "name": "Clock Tower",
-        "entrances": [
-          {
-            "name": "To Clock Tower",
-            "parent_region": "Clock Tower Staircase",
-            "connected_region": "Clock Tower"
-          }
-        ],
         "exits": [
           {
             "name": "To Clock Tower Staircase From Clock Tower",
@@ -1984,13 +1696,6 @@
       },
       "Projector Room": {
         "name": "Projector Room",
-        "entrances": [
-          {
-            "name": "To Projector Room",
-            "parent_region": "Theater Back Hallway",
-            "connected_region": "Projector Room"
-          }
-        ],
         "exits": [
           {
             "name": "To Theater Back Hallway From Projector Room",
@@ -2042,23 +1747,6 @@
       },
       "Prehistoric": {
         "name": "Prehistoric",
-        "entrances": [
-          {
-            "name": "To Prehistoric From Lobby",
-            "parent_region": "Lobby",
-            "connected_region": "Prehistoric"
-          },
-          {
-            "name": "To Prehistoric From Greenhouse",
-            "parent_region": "Greenhouse",
-            "connected_region": "Prehistoric"
-          },
-          {
-            "name": "To Prehistoric From Ocean",
-            "parent_region": "Ocean",
-            "connected_region": "Prehistoric"
-          }
-        ],
         "exits": [
           {
             "name": "To Lobby From Prehistoric",
@@ -2143,13 +1831,6 @@
       },
       "Greenhouse": {
         "name": "Greenhouse",
-        "entrances": [
-          {
-            "name": "To Greenhouse",
-            "parent_region": "Prehistoric",
-            "connected_region": "Greenhouse"
-          }
-        ],
         "exits": [
           {
             "name": "To Prehistoric From Greenhouse",
@@ -2187,18 +1868,6 @@
       },
       "Ocean": {
         "name": "Ocean",
-        "entrances": [
-          {
-            "name": "To Ocean From Prehistoric",
-            "parent_region": "Prehistoric",
-            "connected_region": "Ocean"
-          },
-          {
-            "name": "To Ocean From Maze Staircase",
-            "parent_region": "Maze Staircase",
-            "connected_region": "Ocean"
-          }
-        ],
         "exits": [
           {
             "name": "To Prehistoric From Ocean",
@@ -2317,18 +1986,6 @@
       },
       "Maze Staircase": {
         "name": "Maze Staircase",
-        "entrances": [
-          {
-            "name": "To Maze Staircase From Ocean",
-            "parent_region": "Ocean",
-            "connected_region": "Maze Staircase"
-          },
-          {
-            "name": "To Maze Staircase From Maze",
-            "parent_region": "Maze",
-            "connected_region": "Maze Staircase"
-          }
-        ],
         "exits": [
           {
             "name": "To Ocean From Maze Staircase",
@@ -2375,18 +2032,6 @@
       },
       "Maze": {
         "name": "Maze",
-        "entrances": [
-          {
-            "name": "To Maze From Maze Staircase",
-            "parent_region": "Maze Staircase",
-            "connected_region": "Maze"
-          },
-          {
-            "name": "To Maze From Tar River",
-            "parent_region": "Tar River",
-            "connected_region": "Maze"
-          }
-        ],
         "exits": [
           {
             "name": "To Maze Staircase From Maze",
@@ -2409,18 +2054,6 @@
       },
       "Tar River": {
         "name": "Tar River",
-        "entrances": [
-          {
-            "name": "To Tar River",
-            "parent_region": "Maze",
-            "connected_region": "Tar River"
-          },
-          {
-            "name": "To Tar River From Lobby",
-            "parent_region": "Lobby",
-            "connected_region": "Tar River"
-          }
-        ],
         "exits": [
           {
             "name": "To Maze From Tar River",
@@ -2494,23 +2127,6 @@
       },
       "Egypt": {
         "name": "Egypt",
-        "entrances": [
-          {
-            "name": "To Egypt From Lobby",
-            "parent_region": "Lobby",
-            "connected_region": "Egypt"
-          },
-          {
-            "name": "To Egypt From Burial",
-            "parent_region": "Burial",
-            "connected_region": "Egypt"
-          },
-          {
-            "name": "To Egypt From Blue Maze",
-            "parent_region": "Blue Maze",
-            "connected_region": "Egypt"
-          }
-        ],
         "exits": [
           {
             "name": "To Lobby From Egypt",
@@ -2635,18 +2251,6 @@
       },
       "Burial": {
         "name": "Burial",
-        "entrances": [
-          {
-            "name": "To Burial From Egypt",
-            "parent_region": "Egypt",
-            "connected_region": "Burial"
-          },
-          {
-            "name": "To Burial From Shaman",
-            "parent_region": "Shaman",
-            "connected_region": "Burial"
-          }
-        ],
         "exits": [
           {
             "name": "To Egypt From Burial",
@@ -2745,18 +2349,6 @@
       },
       "Shaman": {
         "name": "Shaman",
-        "entrances": [
-          {
-            "name": "To Shaman From Burial",
-            "parent_region": "Burial",
-            "connected_region": "Shaman"
-          },
-          {
-            "name": "To Shaman From Gods Room",
-            "parent_region": "Gods Room",
-            "connected_region": "Shaman"
-          }
-        ],
         "exits": [
           {
             "name": "To Burial From Shaman",
@@ -2831,23 +2423,6 @@
       },
       "Gods Room": {
         "name": "Gods Room",
-        "entrances": [
-          {
-            "name": "To Gods Room From Shaman",
-            "parent_region": "Shaman",
-            "connected_region": "Gods Room"
-          },
-          {
-            "name": "To Gods Room From Norse Stone",
-            "parent_region": "Norse Stone",
-            "connected_region": "Gods Room"
-          },
-          {
-            "name": "To Gods Room From Anansi",
-            "parent_region": "Anansi",
-            "connected_region": "Gods Room"
-          }
-        ],
         "exits": [
           {
             "name": "To Shaman From Gods Room",
@@ -2958,13 +2533,6 @@
       },
       "Norse Stone": {
         "name": "Norse Stone",
-        "entrances": [
-          {
-            "name": "To Norse Stone From Gods Room",
-            "parent_region": "Gods Room",
-            "connected_region": "Norse Stone"
-          }
-        ],
         "exits": [
           {
             "name": "To Gods Room From Norse Stone",
@@ -3008,18 +2576,6 @@
       },
       "Anansi": {
         "name": "Anansi",
-        "entrances": [
-          {
-            "name": "To Anansi From Gods Room",
-            "parent_region": "Gods Room",
-            "connected_region": "Anansi"
-          },
-          {
-            "name": "To Anansi From Pegasus",
-            "parent_region": "Pegasus",
-            "connected_region": "Anansi"
-          }
-        ],
         "exits": [
           {
             "name": "To Gods Room From Anansi",
@@ -3119,18 +2675,6 @@
       },
       "Pegasus": {
         "name": "Pegasus",
-        "entrances": [
-          {
-            "name": "To Pegasus From Anansi",
-            "parent_region": "Anansi",
-            "connected_region": "Pegasus"
-          },
-          {
-            "name": "To Pegasus From Werewolf",
-            "parent_region": "Werewolf",
-            "connected_region": "Pegasus"
-          }
-        ],
         "exits": [
           {
             "name": "To Anansi From Pegasus",
@@ -3161,18 +2705,6 @@
       },
       "Werewolf": {
         "name": "Werewolf",
-        "entrances": [
-          {
-            "name": "To Werewolf From Pegasus",
-            "parent_region": "Pegasus",
-            "connected_region": "Werewolf"
-          },
-          {
-            "name": "To Werewolf From Night Staircase",
-            "parent_region": "Night Staircase",
-            "connected_region": "Werewolf"
-          }
-        ],
         "exits": [
           {
             "name": "To Pegasus From Werewolf",
@@ -3210,23 +2742,6 @@
       },
       "Night Staircase": {
         "name": "Night Staircase",
-        "entrances": [
-          {
-            "name": "To Night Staircase From Werewolf",
-            "parent_region": "Werewolf",
-            "connected_region": "Night Staircase"
-          },
-          {
-            "name": "To Night Staircase From Janitor Closet",
-            "parent_region": "Janitor Closet",
-            "connected_region": "Night Staircase"
-          },
-          {
-            "name": "To Night Staircase From UFO",
-            "parent_region": "UFO",
-            "connected_region": "Night Staircase"
-          }
-        ],
         "exits": [
           {
             "name": "To Werewolf From Night Staircase",
@@ -3260,13 +2775,6 @@
       },
       "Janitor Closet": {
         "name": "Janitor Closet",
-        "entrances": [
-          {
-            "name": "To Janitor Closet",
-            "parent_region": "Night Staircase",
-            "connected_region": "Janitor Closet"
-          }
-        ],
         "exits": [
           {
             "name": "To Night Staircase From Janitor Closet",
@@ -3314,23 +2822,6 @@
       },
       "UFO": {
         "name": "UFO",
-        "entrances": [
-          {
-            "name": "To UFO From Night Staircase",
-            "parent_region": "Night Staircase",
-            "connected_region": "UFO"
-          },
-          {
-            "name": "To UFO From Orrery",
-            "parent_region": "Orrery",
-            "connected_region": "UFO"
-          },
-          {
-            "name": "To UFO From Inventions",
-            "parent_region": "Inventions",
-            "connected_region": "UFO"
-          }
-        ],
         "exits": [
           {
             "name": "To Night Staircase From UFO",
@@ -3408,13 +2899,6 @@
       },
       "Orrery": {
         "name": "Orrery",
-        "entrances": [
-          {
-            "name": "To Orrery From UFO",
-            "parent_region": "UFO",
-            "connected_region": "Orrery"
-          }
-        ],
         "exits": [
           {
             "name": "To UFO From Orrery",
@@ -3458,28 +2942,6 @@
       },
       "Blue Maze": {
         "name": "Blue Maze",
-        "entrances": [
-          {
-            "name": "To Blue Maze From Three Floor Elevator",
-            "parent_region": "Three Floor Elevator",
-            "connected_region": "Blue Maze"
-          },
-          {
-            "name": "To Blue Maze From Fortune Teller",
-            "parent_region": "Fortune Teller",
-            "connected_region": "Blue Maze"
-          },
-          {
-            "name": "To Blue Maze From Inventions",
-            "parent_region": "Inventions",
-            "connected_region": "Blue Maze"
-          },
-          {
-            "name": "To Blue Maze From Egypt",
-            "parent_region": "Egypt",
-            "connected_region": "Blue Maze"
-          }
-        ],
         "exits": [
           {
             "name": "To Egypt From Blue Maze",
@@ -3558,23 +3020,6 @@
       },
       "Three Floor Elevator": {
         "name": "Three Floor Elevator",
-        "entrances": [
-          {
-            "name": "To Three Floor Elevator From Maintenance Tunnels",
-            "parent_region": "Maintenance Tunnels",
-            "connected_region": "Three Floor Elevator"
-          },
-          {
-            "name": "To Three Floor Elevator From Blue Maze Bottom",
-            "parent_region": "Blue Maze",
-            "connected_region": "Three Floor Elevator"
-          },
-          {
-            "name": "To Three Floor Elevator From Blue Maze Top",
-            "parent_region": "Blue Maze",
-            "connected_region": "Three Floor Elevator"
-          }
-        ],
         "exits": [
           {
             "name": "To Maintenance Tunnels From Three Floor Elevator",
@@ -3612,13 +3057,6 @@
       },
       "Fortune Teller": {
         "name": "Fortune Teller",
-        "entrances": [
-          {
-            "name": "To Fortune Teller",
-            "parent_region": "Blue Maze",
-            "connected_region": "Fortune Teller"
-          }
-        ],
         "exits": [
           {
             "name": "To Blue Maze From Fortune Teller",
@@ -3676,23 +3114,6 @@
       },
       "Inventions": {
         "name": "Inventions",
-        "entrances": [
-          {
-            "name": "To Inventions From UFO",
-            "parent_region": "UFO",
-            "connected_region": "Inventions"
-          },
-          {
-            "name": "To Inventions From Blue Maze",
-            "parent_region": "Blue Maze",
-            "connected_region": "Inventions"
-          },
-          {
-            "name": "To Inventions From Torture",
-            "parent_region": "Torture",
-            "connected_region": "Inventions"
-          }
-        ],
         "exits": [
           {
             "name": "To Blue Maze From Inventions",
@@ -3758,23 +3179,6 @@
       },
       "Torture": {
         "name": "Torture",
-        "entrances": [
-          {
-            "name": "To Torture",
-            "parent_region": "Puzzle Room Mastermind",
-            "connected_region": "Torture"
-          },
-          {
-            "name": "To Torture From Guillotine",
-            "parent_region": "Guillotine",
-            "connected_region": "Torture"
-          },
-          {
-            "name": "To Torture From Inventions",
-            "parent_region": "Inventions",
-            "connected_region": "Torture"
-          }
-        ],
         "exits": [
           {
             "name": "To Inventions From Torture",
@@ -3892,13 +3296,6 @@
       },
       "Guillotine": {
         "name": "Guillotine",
-        "entrances": [
-          {
-            "name": "To Guillotine From Torture",
-            "parent_region": "Torture",
-            "connected_region": "Guillotine"
-          }
-        ],
         "exits": [
           {
             "name": "To Torture From Guillotine",
@@ -3942,18 +3339,6 @@
       },
       "Puzzle Room Mastermind": {
         "name": "Puzzle Room Mastermind",
-        "entrances": [
-          {
-            "name": "To Puzzle Room Mastermind From Torture",
-            "parent_region": "Torture",
-            "connected_region": "Puzzle Room Mastermind"
-          },
-          {
-            "name": "To Puzzle Room Mastermind From Puzzle Room Marbles",
-            "parent_region": "Puzzle Room Marbles",
-            "connected_region": "Puzzle Room Mastermind"
-          }
-        ],
         "exits": [
           {
             "name": "To Torture",
@@ -4008,18 +3393,6 @@
       },
       "Puzzle Room Marbles": {
         "name": "Puzzle Room Marbles",
-        "entrances": [
-          {
-            "name": "To Puzzle Room Marbles From Puzzle Room Mastermind",
-            "parent_region": "Puzzle Room Mastermind",
-            "connected_region": "Puzzle Room Marbles"
-          },
-          {
-            "name": "To Puzzle Room Marbles From Skull Bridge",
-            "parent_region": "Skull Bridge",
-            "connected_region": "Puzzle Room Marbles"
-          }
-        ],
         "exits": [
           {
             "name": "To Puzzle Room Mastermind From Puzzle Room Marbles",
@@ -4057,18 +3430,6 @@
       },
       "Skull Bridge": {
         "name": "Skull Bridge",
-        "entrances": [
-          {
-            "name": "To Skull Bridge From Puzzle Room Marbles",
-            "parent_region": "Puzzle Room Marbles",
-            "connected_region": "Skull Bridge"
-          },
-          {
-            "name": "To Skull Bridge From Slide Room",
-            "parent_region": "Slide Room",
-            "connected_region": "Skull Bridge"
-          }
-        ],
         "exits": [
           {
             "name": "To Puzzle Room Marbles From Skull Bridge",
@@ -4122,13 +3483,6 @@
       },
       "Slide Room": {
         "name": "Slide Room",
-        "entrances": [
-          {
-            "name": "To Slide Room",
-            "parent_region": "Skull Bridge",
-            "connected_region": "Slide Room"
-          }
-        ],
         "exits": [
           {
             "name": "To Skull Bridge From Slide Room",
@@ -4154,18 +3508,6 @@
       },
       "Water Capture": {
         "name": "Water Capture",
-        "entrances": [
-          {
-            "name": "To Water Capture From Lobby",
-            "parent_region": "Lobby",
-            "connected_region": "Water Capture"
-          },
-          {
-            "name": "To Water Capture From Janitor Closet",
-            "parent_region": "Janitor Closet",
-            "connected_region": "Water Capture"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4187,23 +3529,6 @@
       },
       "Wax Capture": {
         "name": "Wax Capture",
-        "entrances": [
-          {
-            "name": "To Wax Capture From Library",
-            "parent_region": "Library",
-            "connected_region": "Wax Capture"
-          },
-          {
-            "name": "To Wax Capture From Shaman",
-            "parent_region": "Shaman",
-            "connected_region": "Wax Capture"
-          },
-          {
-            "name": "To Wax Capture From Anansi",
-            "parent_region": "Anansi",
-            "connected_region": "Wax Capture"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4225,18 +3550,6 @@
       },
       "Ash Capture": {
         "name": "Ash Capture",
-        "entrances": [
-          {
-            "name": "To Ash Capture From Office",
-            "parent_region": "Office",
-            "connected_region": "Ash Capture"
-          },
-          {
-            "name": "To Ash Capture From Burial",
-            "parent_region": "Burial",
-            "connected_region": "Ash Capture"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4258,18 +3571,6 @@
       },
       "Oil Capture": {
         "name": "Oil Capture",
-        "entrances": [
-          {
-            "name": "To Oil Capture From Prehistoric",
-            "parent_region": "Prehistoric",
-            "connected_region": "Oil Capture"
-          },
-          {
-            "name": "To Oil Capture From Tar River",
-            "parent_region": "Tar River",
-            "connected_region": "Oil Capture"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4291,23 +3592,6 @@
       },
       "Cloth Capture": {
         "name": "Cloth Capture",
-        "entrances": [
-          {
-            "name": "To Cloth Capture From Egypt",
-            "parent_region": "Egypt",
-            "connected_region": "Cloth Capture"
-          },
-          {
-            "name": "To Cloth Capture From Burial",
-            "parent_region": "Burial",
-            "connected_region": "Cloth Capture"
-          },
-          {
-            "name": "To Cloth Capture From Janitor Closet",
-            "parent_region": "Janitor Closet",
-            "connected_region": "Cloth Capture"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4329,28 +3613,6 @@
       },
       "Wood Capture": {
         "name": "Wood Capture",
-        "entrances": [
-          {
-            "name": "To Wood Capture From Workshop",
-            "parent_region": "Workshop",
-            "connected_region": "Wood Capture"
-          },
-          {
-            "name": "To Wood Capture From Gods Room",
-            "parent_region": "Gods Room",
-            "connected_region": "Wood Capture"
-          },
-          {
-            "name": "To Wood Capture From Pegasus",
-            "parent_region": "Pegasus",
-            "connected_region": "Wood Capture"
-          },
-          {
-            "name": "To Wood Capture From Blue Maze",
-            "parent_region": "Blue Maze",
-            "connected_region": "Wood Capture"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4372,18 +3634,6 @@
       },
       "Crystal Capture": {
         "name": "Crystal Capture",
-        "entrances": [
-          {
-            "name": "To Crystal Capture From Lobby",
-            "parent_region": "Lobby",
-            "connected_region": "Crystal Capture"
-          },
-          {
-            "name": "To Crystal Capture From Ocean",
-            "parent_region": "Ocean",
-            "connected_region": "Crystal Capture"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4405,18 +3655,6 @@
       },
       "Sand Capture": {
         "name": "Sand Capture",
-        "entrances": [
-          {
-            "name": "To Sand Capture From Greenhouse",
-            "parent_region": "Greenhouse",
-            "connected_region": "Sand Capture"
-          },
-          {
-            "name": "To Sand Capture From Ocean",
-            "parent_region": "Ocean",
-            "connected_region": "Sand Capture"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4438,23 +3676,6 @@
       },
       "Metal Capture": {
         "name": "Metal Capture",
-        "entrances": [
-          {
-            "name": "To Metal Capture From Bedroom",
-            "parent_region": "Bedroom",
-            "connected_region": "Metal Capture"
-          },
-          {
-            "name": "To Metal Capture From Projector Room",
-            "parent_region": "Projector Room",
-            "connected_region": "Metal Capture"
-          },
-          {
-            "name": "To Metal Capture From Prehistoric",
-            "parent_region": "Prehistoric",
-            "connected_region": "Metal Capture"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4476,13 +3697,6 @@
       },
       "Victory": {
         "name": "Victory",
-        "entrances": [
-          {
-            "name": "To Victory",
-            "parent_region": "Lobby",
-            "connected_region": "Victory"
-          }
-        ],
         "exits": [],
         "locations": [
           {

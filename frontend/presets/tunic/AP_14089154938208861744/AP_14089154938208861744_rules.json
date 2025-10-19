@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Menu -> Overworld",
@@ -29,13 +28,6 @@
       },
       "Overworld": {
         "name": "Overworld",
-        "entrances": [
-          {
-            "name": "Menu -> Overworld",
-            "parent_region": "Menu",
-            "connected_region": "Overworld"
-          }
-        ],
         "exits": [
           {
             "name": "Overworld -> Overworld Holy Cross",
@@ -1760,13 +1752,6 @@
       },
       "Overworld Holy Cross": {
         "name": "Overworld Holy Cross",
-        "entrances": [
-          {
-            "name": "Overworld -> Overworld Holy Cross",
-            "parent_region": "Overworld",
-            "connected_region": "Overworld Holy Cross"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2227,13 +2212,6 @@
       },
       "East Forest": {
         "name": "East Forest",
-        "entrances": [
-          {
-            "name": "Overworld -> East Forest",
-            "parent_region": "Overworld",
-            "connected_region": "East Forest"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2733,13 +2711,6 @@
       },
       "Dark Tomb": {
         "name": "Dark Tomb",
-        "entrances": [
-          {
-            "name": "Overworld -> Dark Tomb",
-            "parent_region": "Overworld",
-            "connected_region": "Dark Tomb"
-          }
-        ],
         "exits": [
           {
             "name": "Dark Tomb -> West Garden",
@@ -2853,13 +2824,6 @@
       },
       "Beneath the Well": {
         "name": "Beneath the Well",
-        "entrances": [
-          {
-            "name": "Overworld -> Beneath the Well",
-            "parent_region": "Overworld",
-            "connected_region": "Beneath the Well"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3064,18 +3028,6 @@
       },
       "West Garden": {
         "name": "West Garden",
-        "entrances": [
-          {
-            "name": "Overworld -> West Garden",
-            "parent_region": "Overworld",
-            "connected_region": "West Garden"
-          },
-          {
-            "name": "Dark Tomb -> West Garden",
-            "parent_region": "Dark Tomb",
-            "connected_region": "West Garden"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3470,13 +3422,6 @@
       },
       "Ruined Atoll": {
         "name": "Ruined Atoll",
-        "entrances": [
-          {
-            "name": "Overworld -> Ruined Atoll",
-            "parent_region": "Overworld",
-            "connected_region": "Ruined Atoll"
-          }
-        ],
         "exits": [
           {
             "name": "Ruined Atoll -> Frog's Domain",
@@ -3855,13 +3800,6 @@
       },
       "Frog's Domain": {
         "name": "Frog's Domain",
-        "entrances": [
-          {
-            "name": "Ruined Atoll -> Frog's Domain",
-            "parent_region": "Ruined Atoll",
-            "connected_region": "Frog's Domain"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4049,13 +3987,6 @@
       },
       "Library": {
         "name": "Library",
-        "entrances": [
-          {
-            "name": "Ruined Atoll -> Library",
-            "parent_region": "Ruined Atoll",
-            "connected_region": "Library"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4280,18 +4211,6 @@
       },
       "Eastern Vault Fortress": {
         "name": "Eastern Vault Fortress",
-        "entrances": [
-          {
-            "name": "Overworld -> Eastern Vault Fortress",
-            "parent_region": "Overworld",
-            "connected_region": "Eastern Vault Fortress"
-          },
-          {
-            "name": "Beneath the Vault -> Eastern Vault Fortress",
-            "parent_region": "Beneath the Vault",
-            "connected_region": "Eastern Vault Fortress"
-          }
-        ],
         "exits": [
           {
             "name": "Eastern Vault Fortress -> Beneath the Vault",
@@ -4600,18 +4519,6 @@
       },
       "Beneath the Vault": {
         "name": "Beneath the Vault",
-        "entrances": [
-          {
-            "name": "Overworld -> Beneath the Vault",
-            "parent_region": "Overworld",
-            "connected_region": "Beneath the Vault"
-          },
-          {
-            "name": "Eastern Vault Fortress -> Beneath the Vault",
-            "parent_region": "Eastern Vault Fortress",
-            "connected_region": "Beneath the Vault"
-          }
-        ],
         "exits": [
           {
             "name": "Beneath the Vault -> Eastern Vault Fortress",
@@ -4743,13 +4650,6 @@
       },
       "Quarry Back": {
         "name": "Quarry Back",
-        "entrances": [
-          {
-            "name": "Overworld -> Quarry Back",
-            "parent_region": "Overworld",
-            "connected_region": "Quarry Back"
-          }
-        ],
         "exits": [
           {
             "name": "Quarry Back -> Quarry",
@@ -4910,18 +4810,6 @@
       },
       "Quarry": {
         "name": "Quarry",
-        "entrances": [
-          {
-            "name": "Overworld -> Quarry",
-            "parent_region": "Overworld",
-            "connected_region": "Quarry"
-          },
-          {
-            "name": "Quarry Back -> Quarry",
-            "parent_region": "Quarry Back",
-            "connected_region": "Quarry"
-          }
-        ],
         "exits": [
           {
             "name": "Quarry -> Monastery",
@@ -5108,18 +4996,6 @@
       },
       "Monastery": {
         "name": "Monastery",
-        "entrances": [
-          {
-            "name": "Quarry Back -> Monastery",
-            "parent_region": "Quarry Back",
-            "connected_region": "Monastery"
-          },
-          {
-            "name": "Quarry -> Monastery",
-            "parent_region": "Quarry",
-            "connected_region": "Monastery"
-          }
-        ],
         "exits": [
           {
             "name": "Monastery -> Monastery Back",
@@ -5185,13 +5061,6 @@
       },
       "Monastery Back": {
         "name": "Monastery Back",
-        "entrances": [
-          {
-            "name": "Monastery -> Monastery Back",
-            "parent_region": "Monastery",
-            "connected_region": "Monastery Back"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -5240,13 +5109,6 @@
       },
       "Lower Quarry": {
         "name": "Lower Quarry",
-        "entrances": [
-          {
-            "name": "Quarry -> Lower Quarry",
-            "parent_region": "Quarry",
-            "connected_region": "Lower Quarry"
-          }
-        ],
         "exits": [
           {
             "name": "Lower Quarry -> Rooted Ziggurat",
@@ -5416,18 +5278,6 @@
       },
       "Rooted Ziggurat": {
         "name": "Rooted Ziggurat",
-        "entrances": [
-          {
-            "name": "Lower Quarry -> Rooted Ziggurat",
-            "parent_region": "Lower Quarry",
-            "connected_region": "Rooted Ziggurat"
-          },
-          {
-            "name": "Quarry -> Rooted Ziggurat",
-            "parent_region": "Quarry",
-            "connected_region": "Rooted Ziggurat"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -5610,13 +5460,6 @@
       },
       "Swamp": {
         "name": "Swamp",
-        "entrances": [
-          {
-            "name": "Overworld -> Swamp",
-            "parent_region": "Overworld",
-            "connected_region": "Swamp"
-          }
-        ],
         "exits": [
           {
             "name": "Swamp -> Cathedral",
@@ -6077,13 +5920,6 @@
       },
       "Cathedral": {
         "name": "Cathedral",
-        "entrances": [
-          {
-            "name": "Swamp -> Cathedral",
-            "parent_region": "Swamp",
-            "connected_region": "Cathedral"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -6216,13 +6052,6 @@
       },
       "Spirit Arena": {
         "name": "Spirit Arena",
-        "entrances": [
-          {
-            "name": "Overworld -> Spirit Arena",
-            "parent_region": "Overworld",
-            "connected_region": "Spirit Arena"
-          }
-        ],
         "exits": [],
         "locations": [
           {

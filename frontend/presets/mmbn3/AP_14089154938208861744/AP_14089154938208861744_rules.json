@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Menu -> ACDC Overworld",
@@ -29,28 +28,6 @@
       },
       "ACDC Overworld": {
         "name": "ACDC Overworld",
-        "entrances": [
-          {
-            "name": "Menu -> ACDC Overworld",
-            "parent_region": "Menu",
-            "connected_region": "ACDC Overworld"
-          },
-          {
-            "name": "SciLab Overworld -> ACDC Overworld",
-            "parent_region": "SciLab Overworld",
-            "connected_region": "ACDC Overworld"
-          },
-          {
-            "name": "Yoka Overworld -> ACDC Overworld",
-            "parent_region": "Yoka Overworld",
-            "connected_region": "ACDC Overworld"
-          },
-          {
-            "name": "Beach Overworld -> ACDC Overworld",
-            "parent_region": "Beach Overworld",
-            "connected_region": "ACDC Overworld"
-          }
-        ],
         "exits": [
           {
             "name": "ACDC Overworld -> ACDC Cyberworld",
@@ -1400,28 +1377,6 @@
       },
       "ACDC Cyberworld": {
         "name": "ACDC Cyberworld",
-        "entrances": [
-          {
-            "name": "ACDC Overworld -> ACDC Cyberworld",
-            "parent_region": "ACDC Overworld",
-            "connected_region": "ACDC Cyberworld"
-          },
-          {
-            "name": "SciLab Cyberworld -> ACDC Cyberworld",
-            "parent_region": "SciLab Cyberworld",
-            "connected_region": "ACDC Cyberworld"
-          },
-          {
-            "name": "Yoka Cyberworld -> ACDC Cyberworld",
-            "parent_region": "Yoka Cyberworld",
-            "connected_region": "ACDC Cyberworld"
-          },
-          {
-            "name": "Beach Cyberworld -> ACDC Cyberworld",
-            "parent_region": "Beach Cyberworld",
-            "connected_region": "ACDC Cyberworld"
-          }
-        ],
         "exits": [
           {
             "name": "ACDC Cyberworld -> SciLab Cyberworld",
@@ -1671,23 +1626,6 @@
       },
       "SciLab Overworld": {
         "name": "SciLab Overworld",
-        "entrances": [
-          {
-            "name": "ACDC Overworld -> SciLab Overworld",
-            "parent_region": "ACDC Overworld",
-            "connected_region": "SciLab Overworld"
-          },
-          {
-            "name": "Yoka Overworld -> SciLab Overworld",
-            "parent_region": "Yoka Overworld",
-            "connected_region": "SciLab Overworld"
-          },
-          {
-            "name": "Beach Overworld -> SciLab Overworld",
-            "parent_region": "Beach Overworld",
-            "connected_region": "SciLab Overworld"
-          }
-        ],
         "exits": [
           {
             "name": "SciLab Overworld -> SciLab Cyberworld",
@@ -2721,28 +2659,6 @@
       },
       "SciLab Cyberworld": {
         "name": "SciLab Cyberworld",
-        "entrances": [
-          {
-            "name": "ACDC Cyberworld -> SciLab Cyberworld",
-            "parent_region": "ACDC Cyberworld",
-            "connected_region": "SciLab Cyberworld"
-          },
-          {
-            "name": "SciLab Overworld -> SciLab Cyberworld",
-            "parent_region": "SciLab Overworld",
-            "connected_region": "SciLab Cyberworld"
-          },
-          {
-            "name": "Yoka Cyberworld -> SciLab Cyberworld",
-            "parent_region": "Yoka Cyberworld",
-            "connected_region": "SciLab Cyberworld"
-          },
-          {
-            "name": "Beach Cyberworld -> SciLab Cyberworld",
-            "parent_region": "Beach Cyberworld",
-            "connected_region": "SciLab Cyberworld"
-          }
-        ],
         "exits": [
           {
             "name": "SciLab Cyberworld -> ACDC Cyberworld",
@@ -2889,23 +2805,6 @@
       },
       "Yoka Overworld": {
         "name": "Yoka Overworld",
-        "entrances": [
-          {
-            "name": "ACDC Overworld -> Yoka Overworld",
-            "parent_region": "ACDC Overworld",
-            "connected_region": "Yoka Overworld"
-          },
-          {
-            "name": "SciLab Overworld -> Yoka Overworld",
-            "parent_region": "SciLab Overworld",
-            "connected_region": "Yoka Overworld"
-          },
-          {
-            "name": "Beach Overworld -> Yoka Overworld",
-            "parent_region": "Beach Overworld",
-            "connected_region": "Yoka Overworld"
-          }
-        ],
         "exits": [
           {
             "name": "Yoka Overworld -> Yoka Cyberworld",
@@ -3947,28 +3846,6 @@
       },
       "Yoka Cyberworld": {
         "name": "Yoka Cyberworld",
-        "entrances": [
-          {
-            "name": "ACDC Cyberworld -> Yoka Cyberworld",
-            "parent_region": "ACDC Cyberworld",
-            "connected_region": "Yoka Cyberworld"
-          },
-          {
-            "name": "SciLab Cyberworld -> Yoka Cyberworld",
-            "parent_region": "SciLab Cyberworld",
-            "connected_region": "Yoka Cyberworld"
-          },
-          {
-            "name": "Yoka Overworld -> Yoka Cyberworld",
-            "parent_region": "Yoka Overworld",
-            "connected_region": "Yoka Cyberworld"
-          },
-          {
-            "name": "Beach Cyberworld -> Yoka Cyberworld",
-            "parent_region": "Beach Cyberworld",
-            "connected_region": "Yoka Cyberworld"
-          }
-        ],
         "exits": [
           {
             "name": "Yoka Cyberworld -> ACDC Cyberworld",
@@ -4166,23 +4043,6 @@
       },
       "Beach Overworld": {
         "name": "Beach Overworld",
-        "entrances": [
-          {
-            "name": "ACDC Overworld -> Beach Overworld",
-            "parent_region": "ACDC Overworld",
-            "connected_region": "Beach Overworld"
-          },
-          {
-            "name": "SciLab Overworld -> Beach Overworld",
-            "parent_region": "SciLab Overworld",
-            "connected_region": "Beach Overworld"
-          },
-          {
-            "name": "Yoka Overworld -> Beach Overworld",
-            "parent_region": "Yoka Overworld",
-            "connected_region": "Beach Overworld"
-          }
-        ],
         "exits": [
           {
             "name": "Beach Overworld -> ACDC Overworld",
@@ -4953,23 +4813,6 @@
       },
       "Beach Cyberworld": {
         "name": "Beach Cyberworld",
-        "entrances": [
-          {
-            "name": "ACDC Cyberworld -> Beach Cyberworld",
-            "parent_region": "ACDC Cyberworld",
-            "connected_region": "Beach Cyberworld"
-          },
-          {
-            "name": "SciLab Cyberworld -> Beach Cyberworld",
-            "parent_region": "SciLab Cyberworld",
-            "connected_region": "Beach Cyberworld"
-          },
-          {
-            "name": "Yoka Cyberworld -> Beach Cyberworld",
-            "parent_region": "Yoka Cyberworld",
-            "connected_region": "Beach Cyberworld"
-          }
-        ],
         "exits": [
           {
             "name": "Beach Cyberworld -> ACDC Cyberworld",
@@ -5203,13 +5046,6 @@
       },
       "Undernet": {
         "name": "Undernet",
-        "entrances": [
-          {
-            "name": "Beach Cyberworld -> Undernet",
-            "parent_region": "Beach Cyberworld",
-            "connected_region": "Undernet"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -5373,13 +5209,6 @@
       },
       "Deep Undernet": {
         "name": "Deep Undernet",
-        "entrances": [
-          {
-            "name": "SciLab Cyberworld -> Deep Undernet",
-            "parent_region": "SciLab Cyberworld",
-            "connected_region": "Deep Undernet"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -5540,13 +5369,6 @@
       },
       "WWW Island": {
         "name": "WWW Island",
-        "entrances": [
-          {
-            "name": "Beach Overworld -> WWW Island",
-            "parent_region": "Beach Overworld",
-            "connected_region": "WWW Island"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -5735,13 +5557,6 @@
       },
       "Secret Area": {
         "name": "Secret Area",
-        "entrances": [
-          {
-            "name": "Yoka Overworld -> Secret Area",
-            "parent_region": "Yoka Overworld",
-            "connected_region": "Secret Area"
-          }
-        ],
         "exits": [],
         "locations": [
           {

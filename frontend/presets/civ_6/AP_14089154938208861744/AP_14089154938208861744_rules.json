@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Menu -> ERA_ANCIENT",
@@ -29,13 +28,6 @@
       },
       "ERA_ANCIENT": {
         "name": "ERA_ANCIENT",
-        "entrances": [
-          {
-            "name": "Menu -> ERA_ANCIENT",
-            "parent_region": "Menu",
-            "connected_region": "ERA_ANCIENT"
-          }
-        ],
         "exits": [
           {
             "name": "ERA_ANCIENT -> ERA_CLASSICAL",
@@ -464,13 +456,6 @@
       },
       "ERA_CLASSICAL": {
         "name": "ERA_CLASSICAL",
-        "entrances": [
-          {
-            "name": "ERA_ANCIENT -> ERA_CLASSICAL",
-            "parent_region": "ERA_ANCIENT",
-            "connected_region": "ERA_CLASSICAL"
-          }
-        ],
         "exits": [
           {
             "name": "ERA_CLASSICAL -> ERA_MEDIEVAL",
@@ -717,13 +702,6 @@
       },
       "ERA_MEDIEVAL": {
         "name": "ERA_MEDIEVAL",
-        "entrances": [
-          {
-            "name": "ERA_CLASSICAL -> ERA_MEDIEVAL",
-            "parent_region": "ERA_CLASSICAL",
-            "connected_region": "ERA_MEDIEVAL"
-          }
-        ],
         "exits": [
           {
             "name": "ERA_MEDIEVAL -> ERA_RENAISSANCE",
@@ -970,13 +948,6 @@
       },
       "ERA_RENAISSANCE": {
         "name": "ERA_RENAISSANCE",
-        "entrances": [
-          {
-            "name": "ERA_MEDIEVAL -> ERA_RENAISSANCE",
-            "parent_region": "ERA_MEDIEVAL",
-            "connected_region": "ERA_RENAISSANCE"
-          }
-        ],
         "exits": [
           {
             "name": "ERA_RENAISSANCE -> ERA_INDUSTRIAL",
@@ -1223,13 +1194,6 @@
       },
       "ERA_INDUSTRIAL": {
         "name": "ERA_INDUSTRIAL",
-        "entrances": [
-          {
-            "name": "ERA_RENAISSANCE -> ERA_INDUSTRIAL",
-            "parent_region": "ERA_RENAISSANCE",
-            "connected_region": "ERA_INDUSTRIAL"
-          }
-        ],
         "exits": [
           {
             "name": "ERA_INDUSTRIAL -> ERA_MODERN",
@@ -1476,13 +1440,6 @@
       },
       "ERA_MODERN": {
         "name": "ERA_MODERN",
-        "entrances": [
-          {
-            "name": "ERA_INDUSTRIAL -> ERA_MODERN",
-            "parent_region": "ERA_INDUSTRIAL",
-            "connected_region": "ERA_MODERN"
-          }
-        ],
         "exits": [
           {
             "name": "ERA_MODERN -> ERA_ATOMIC",
@@ -1757,13 +1714,6 @@
       },
       "ERA_ATOMIC": {
         "name": "ERA_ATOMIC",
-        "entrances": [
-          {
-            "name": "ERA_MODERN -> ERA_ATOMIC",
-            "parent_region": "ERA_MODERN",
-            "connected_region": "ERA_ATOMIC"
-          }
-        ],
         "exits": [
           {
             "name": "ERA_ATOMIC -> ERA_INFORMATION",
@@ -1982,13 +1932,6 @@
       },
       "ERA_INFORMATION": {
         "name": "ERA_INFORMATION",
-        "entrances": [
-          {
-            "name": "ERA_ATOMIC -> ERA_INFORMATION",
-            "parent_region": "ERA_ATOMIC",
-            "connected_region": "ERA_INFORMATION"
-          }
-        ],
         "exits": [
           {
             "name": "ERA_INFORMATION -> ERA_FUTURE",
@@ -2249,13 +2192,6 @@
       },
       "ERA_FUTURE": {
         "name": "ERA_FUTURE",
-        "entrances": [
-          {
-            "name": "ERA_INFORMATION -> ERA_FUTURE",
-            "parent_region": "ERA_INFORMATION",
-            "connected_region": "ERA_FUTURE"
-          }
-        ],
         "exits": [],
         "locations": [
           {

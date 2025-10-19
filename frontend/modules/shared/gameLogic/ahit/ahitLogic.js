@@ -233,29 +233,28 @@ export function can_clear_required_act(snapshot, staticData, actEntrance) {
       actCompletionLocation.access_rule.value === true) {
     // For constant true access rules, we can be lenient about region reachability
     // because once the region is reachable, the act is immediately clearable
-    // Check if there's ANY way to reach this region (has entrances with constant true)
+    // Check if there's ANY way to reach this region (has exits with constant true from reachable regions)
     // staticData.regions is a Map (from Phase 3.2 refactoring)
     if (staticData && staticData.regions) {
-      const targetRegion = staticData.regions instanceof Map
-        ? staticData.regions.get(connectedRegion)
-        : staticData.regions[connectedRegion];
+      // Iterate through all regions to find exits that connect to the target region
+      const regionsIterator = staticData.regions instanceof Map
+        ? staticData.regions.entries()
+        : Object.entries(staticData.regions);
 
-      if (targetRegion && targetRegion.entrances) {
-        for (const entrance of targetRegion.entrances) {
-          // Find this entrance in the parent region's exits
-          const parentRegion = staticData.regions instanceof Map
-            ? staticData.regions.get(entrance.parent_region)
-            : staticData.regions[entrance.parent_region];
-
-          if (parentRegion && parentRegion.exits) {
-            const exitDef = parentRegion.exits.find(e => e.name === entrance.name);
-            if (exitDef && exitDef.access_rule) {
-              // If there's an entrance with constant true, check if parent region is reachable
-              if (exitDef.access_rule.type === 'constant' && exitDef.access_rule.value === true) {
+      for (const [parentRegionName, parentRegion] of regionsIterator) {
+        if (parentRegion && parentRegion.exits) {
+          // Check each exit in this region
+          for (const exit of parentRegion.exits) {
+            // Does this exit lead to our target region?
+            if (exit.connected_region === connectedRegion) {
+              // Is this exit accessible via constant true?
+              if (exit.access_rule &&
+                  exit.access_rule.type === 'constant' &&
+                  exit.access_rule.value === true) {
                 // Check if the parent region is actually reachable
                 const parentReachable = snapshot.regionReachability &&
-                  (snapshot.regionReachability[entrance.parent_region] === true ||
-                   snapshot.regionReachability[entrance.parent_region] === 'reachable');
+                  (snapshot.regionReachability[parentRegionName] === true ||
+                   snapshot.regionReachability[parentRegionName] === 'reachable');
                 if (parentReachable) {
                   return true;
                 }

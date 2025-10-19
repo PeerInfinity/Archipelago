@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "StartProof",
@@ -29,23 +28,6 @@
       },
       "Definitions": {
         "name": "Definitions",
-        "entrances": [
-          {
-            "name": "StartProof",
-            "parent_region": "Menu",
-            "connected_region": "Definitions"
-          },
-          {
-            "name": "BackToDefinitions",
-            "parent_region": "Axioms",
-            "connected_region": "Definitions"
-          },
-          {
-            "name": "BackToDefinitionsFromProperties",
-            "parent_region": "BasicProperties",
-            "connected_region": "Definitions"
-          }
-        ],
         "exits": [
           {
             "name": "ToAxioms",
@@ -134,13 +116,6 @@
       },
       "Axioms": {
         "name": "Axioms",
-        "entrances": [
-          {
-            "name": "ToAxioms",
-            "parent_region": "Definitions",
-            "connected_region": "Axioms"
-          }
-        ],
         "exits": [
           {
             "name": "BackToDefinitions",
@@ -170,13 +145,6 @@
       },
       "BasicProperties": {
         "name": "BasicProperties",
-        "entrances": [
-          {
-            "name": "ToBasicProperties",
-            "parent_region": "Definitions",
-            "connected_region": "BasicProperties"
-          }
-        ],
         "exits": [
           {
             "name": "BackToDefinitionsFromProperties",
@@ -206,13 +174,6 @@
       },
       "ArithmeticOperations": {
         "name": "ArithmeticOperations",
-        "entrances": [
-          {
-            "name": "ToOperations",
-            "parent_region": "Definitions",
-            "connected_region": "ArithmeticOperations"
-          }
-        ],
         "exits": [
           {
             "name": "ToProofCompletion",
@@ -306,13 +267,6 @@
       },
       "ProofCompletion": {
         "name": "ProofCompletion",
-        "entrances": [
-          {
-            "name": "ToProofCompletion",
-            "parent_region": "ArithmeticOperations",
-            "connected_region": "ProofCompletion"
-          }
-        ],
         "exits": [],
         "locations": [
           {

@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Menu -> Hub",
@@ -29,13 +28,6 @@
       },
       "Hub": {
         "name": "Hub",
-        "entrances": [
-          {
-            "name": "Menu -> Hub",
-            "parent_region": "Menu",
-            "connected_region": "Hub"
-          }
-        ],
         "exits": [
           {
             "name": "Hub -> Entryway (MAP01) Main",
@@ -1915,13 +1907,6 @@
       },
       "Entryway (MAP01) Main": {
         "name": "Entryway (MAP01) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Entryway (MAP01) Main",
-            "parent_region": "Hub",
-            "connected_region": "Entryway (MAP01) Main"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1998,18 +1983,6 @@
       },
       "Underhalls (MAP02) Main": {
         "name": "Underhalls (MAP02) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Underhalls (MAP02) Main",
-            "parent_region": "Hub",
-            "connected_region": "Underhalls (MAP02) Main"
-          },
-          {
-            "name": "Underhalls (MAP02) Red -> Underhalls (MAP02) Main",
-            "parent_region": "Underhalls (MAP02) Red",
-            "connected_region": "Underhalls (MAP02) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Underhalls (MAP02) Main -> Underhalls (MAP02) Red",
@@ -2074,13 +2047,6 @@
       },
       "Underhalls (MAP02) Blue": {
         "name": "Underhalls (MAP02) Blue",
-        "entrances": [
-          {
-            "name": "Underhalls (MAP02) Red -> Underhalls (MAP02) Blue",
-            "parent_region": "Underhalls (MAP02) Red",
-            "connected_region": "Underhalls (MAP02) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Underhalls (MAP02) Blue -> Underhalls (MAP02) Red",
@@ -2117,18 +2083,6 @@
       },
       "Underhalls (MAP02) Red": {
         "name": "Underhalls (MAP02) Red",
-        "entrances": [
-          {
-            "name": "Underhalls (MAP02) Main -> Underhalls (MAP02) Red",
-            "parent_region": "Underhalls (MAP02) Main",
-            "connected_region": "Underhalls (MAP02) Red"
-          },
-          {
-            "name": "Underhalls (MAP02) Blue -> Underhalls (MAP02) Red",
-            "parent_region": "Underhalls (MAP02) Blue",
-            "connected_region": "Underhalls (MAP02) Red"
-          }
-        ],
         "exits": [
           {
             "name": "Underhalls (MAP02) Red -> Underhalls (MAP02) Blue",
@@ -2173,18 +2127,6 @@
       },
       "The Gantlet (MAP03) Main": {
         "name": "The Gantlet (MAP03) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Gantlet (MAP03) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Gantlet (MAP03) Main"
-          },
-          {
-            "name": "The Gantlet (MAP03) Blue -> The Gantlet (MAP03) Main",
-            "parent_region": "The Gantlet (MAP03) Blue",
-            "connected_region": "The Gantlet (MAP03) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Gantlet (MAP03) Main -> The Gantlet (MAP03) Blue",
@@ -2319,18 +2261,6 @@
       },
       "The Gantlet (MAP03) Blue": {
         "name": "The Gantlet (MAP03) Blue",
-        "entrances": [
-          {
-            "name": "The Gantlet (MAP03) Main -> The Gantlet (MAP03) Blue",
-            "parent_region": "The Gantlet (MAP03) Main",
-            "connected_region": "The Gantlet (MAP03) Blue"
-          },
-          {
-            "name": "The Gantlet (MAP03) Blue Pro Jump -> The Gantlet (MAP03) Blue",
-            "parent_region": "The Gantlet (MAP03) Blue Pro Jump",
-            "connected_region": "The Gantlet (MAP03) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The Gantlet (MAP03) Blue -> The Gantlet (MAP03) Main",
@@ -2397,13 +2327,6 @@
       },
       "The Gantlet (MAP03) Red": {
         "name": "The Gantlet (MAP03) Red",
-        "entrances": [
-          {
-            "name": "The Gantlet (MAP03) Blue -> The Gantlet (MAP03) Red",
-            "parent_region": "The Gantlet (MAP03) Blue",
-            "connected_region": "The Gantlet (MAP03) Red"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2424,13 +2347,6 @@
       },
       "The Gantlet (MAP03) Blue Pro Jump": {
         "name": "The Gantlet (MAP03) Blue Pro Jump",
-        "entrances": [
-          {
-            "name": "The Gantlet (MAP03) Blue -> The Gantlet (MAP03) Blue Pro Jump",
-            "parent_region": "The Gantlet (MAP03) Blue",
-            "connected_region": "The Gantlet (MAP03) Blue Pro Jump"
-          }
-        ],
         "exits": [
           {
             "name": "The Gantlet (MAP03) Blue Pro Jump -> The Gantlet (MAP03) Blue",
@@ -2445,23 +2361,6 @@
       },
       "The Focus (MAP04) Main": {
         "name": "The Focus (MAP04) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Focus (MAP04) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Focus (MAP04) Main"
-          },
-          {
-            "name": "The Focus (MAP04) Blue -> The Focus (MAP04) Main",
-            "parent_region": "The Focus (MAP04) Blue",
-            "connected_region": "The Focus (MAP04) Main"
-          },
-          {
-            "name": "The Focus (MAP04) Red -> The Focus (MAP04) Main",
-            "parent_region": "The Focus (MAP04) Red",
-            "connected_region": "The Focus (MAP04) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Focus (MAP04) Main -> The Focus (MAP04) Red",
@@ -2527,13 +2426,6 @@
       },
       "The Focus (MAP04) Blue": {
         "name": "The Focus (MAP04) Blue",
-        "entrances": [
-          {
-            "name": "The Focus (MAP04) Main -> The Focus (MAP04) Blue",
-            "parent_region": "The Focus (MAP04) Main",
-            "connected_region": "The Focus (MAP04) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The Focus (MAP04) Blue -> The Focus (MAP04) Main",
@@ -2563,13 +2455,6 @@
       },
       "The Focus (MAP04) Yellow": {
         "name": "The Focus (MAP04) Yellow",
-        "entrances": [
-          {
-            "name": "The Focus (MAP04) Red -> The Focus (MAP04) Yellow",
-            "parent_region": "The Focus (MAP04) Red",
-            "connected_region": "The Focus (MAP04) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Focus (MAP04) Yellow -> The Focus (MAP04) Red",
@@ -2606,18 +2491,6 @@
       },
       "The Focus (MAP04) Red": {
         "name": "The Focus (MAP04) Red",
-        "entrances": [
-          {
-            "name": "The Focus (MAP04) Main -> The Focus (MAP04) Red",
-            "parent_region": "The Focus (MAP04) Main",
-            "connected_region": "The Focus (MAP04) Red"
-          },
-          {
-            "name": "The Focus (MAP04) Yellow -> The Focus (MAP04) Red",
-            "parent_region": "The Focus (MAP04) Yellow",
-            "connected_region": "The Focus (MAP04) Red"
-          }
-        ],
         "exits": [
           {
             "name": "The Focus (MAP04) Red -> The Focus (MAP04) Yellow",
@@ -2669,23 +2542,6 @@
       },
       "The Waste Tunnels (MAP05) Main": {
         "name": "The Waste Tunnels (MAP05) Main",
-        "entrances": [
-          {
-            "name": "The Waste Tunnels (MAP05) Blue -> The Waste Tunnels (MAP05) Main",
-            "parent_region": "The Waste Tunnels (MAP05) Blue",
-            "connected_region": "The Waste Tunnels (MAP05) Main"
-          },
-          {
-            "name": "The Waste Tunnels (MAP05) Red -> The Waste Tunnels (MAP05) Main",
-            "parent_region": "The Waste Tunnels (MAP05) Red",
-            "connected_region": "The Waste Tunnels (MAP05) Main"
-          },
-          {
-            "name": "The Waste Tunnels (MAP05) Start -> The Waste Tunnels (MAP05) Main",
-            "parent_region": "The Waste Tunnels (MAP05) Start",
-            "connected_region": "The Waste Tunnels (MAP05) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Waste Tunnels (MAP05) Main -> The Waste Tunnels (MAP05) Red",
@@ -2843,18 +2699,6 @@
       },
       "The Waste Tunnels (MAP05) Blue": {
         "name": "The Waste Tunnels (MAP05) Blue",
-        "entrances": [
-          {
-            "name": "The Waste Tunnels (MAP05) Main -> The Waste Tunnels (MAP05) Blue",
-            "parent_region": "The Waste Tunnels (MAP05) Main",
-            "connected_region": "The Waste Tunnels (MAP05) Blue"
-          },
-          {
-            "name": "The Waste Tunnels (MAP05) Yellow -> The Waste Tunnels (MAP05) Blue",
-            "parent_region": "The Waste Tunnels (MAP05) Yellow",
-            "connected_region": "The Waste Tunnels (MAP05) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The Waste Tunnels (MAP05) Blue -> The Waste Tunnels (MAP05) Yellow",
@@ -2906,13 +2750,6 @@
       },
       "The Waste Tunnels (MAP05) Yellow": {
         "name": "The Waste Tunnels (MAP05) Yellow",
-        "entrances": [
-          {
-            "name": "The Waste Tunnels (MAP05) Blue -> The Waste Tunnels (MAP05) Yellow",
-            "parent_region": "The Waste Tunnels (MAP05) Blue",
-            "connected_region": "The Waste Tunnels (MAP05) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Waste Tunnels (MAP05) Yellow -> The Waste Tunnels (MAP05) Blue",
@@ -2949,13 +2786,6 @@
       },
       "The Waste Tunnels (MAP05) Red": {
         "name": "The Waste Tunnels (MAP05) Red",
-        "entrances": [
-          {
-            "name": "The Waste Tunnels (MAP05) Main -> The Waste Tunnels (MAP05) Red",
-            "parent_region": "The Waste Tunnels (MAP05) Main",
-            "connected_region": "The Waste Tunnels (MAP05) Red"
-          }
-        ],
         "exits": [
           {
             "name": "The Waste Tunnels (MAP05) Red -> The Waste Tunnels (MAP05) Main",
@@ -2985,18 +2815,6 @@
       },
       "The Waste Tunnels (MAP05) Start": {
         "name": "The Waste Tunnels (MAP05) Start",
-        "entrances": [
-          {
-            "name": "Hub -> The Waste Tunnels (MAP05) Start",
-            "parent_region": "Hub",
-            "connected_region": "The Waste Tunnels (MAP05) Start"
-          },
-          {
-            "name": "The Waste Tunnels (MAP05) Main -> The Waste Tunnels (MAP05) Start",
-            "parent_region": "The Waste Tunnels (MAP05) Main",
-            "connected_region": "The Waste Tunnels (MAP05) Start"
-          }
-        ],
         "exits": [
           {
             "name": "The Waste Tunnels (MAP05) Start -> The Waste Tunnels (MAP05) Main",
@@ -3095,23 +2913,6 @@
       },
       "The Crusher (MAP06) Main": {
         "name": "The Crusher (MAP06) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Crusher (MAP06) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Crusher (MAP06) Main"
-          },
-          {
-            "name": "The Crusher (MAP06) Blue -> The Crusher (MAP06) Main",
-            "parent_region": "The Crusher (MAP06) Blue",
-            "connected_region": "The Crusher (MAP06) Main"
-          },
-          {
-            "name": "The Crusher (MAP06) Red -> The Crusher (MAP06) Main",
-            "parent_region": "The Crusher (MAP06) Red",
-            "connected_region": "The Crusher (MAP06) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Crusher (MAP06) Main -> The Crusher (MAP06) Blue",
@@ -3248,18 +3049,6 @@
       },
       "The Crusher (MAP06) Blue": {
         "name": "The Crusher (MAP06) Blue",
-        "entrances": [
-          {
-            "name": "The Crusher (MAP06) Main -> The Crusher (MAP06) Blue",
-            "parent_region": "The Crusher (MAP06) Main",
-            "connected_region": "The Crusher (MAP06) Blue"
-          },
-          {
-            "name": "The Crusher (MAP06) Red -> The Crusher (MAP06) Blue",
-            "parent_region": "The Crusher (MAP06) Red",
-            "connected_region": "The Crusher (MAP06) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The Crusher (MAP06) Blue -> The Crusher (MAP06) Red",
@@ -3381,13 +3170,6 @@
       },
       "The Crusher (MAP06) Yellow": {
         "name": "The Crusher (MAP06) Yellow",
-        "entrances": [
-          {
-            "name": "The Crusher (MAP06) Red -> The Crusher (MAP06) Yellow",
-            "parent_region": "The Crusher (MAP06) Red",
-            "connected_region": "The Crusher (MAP06) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Crusher (MAP06) Yellow -> The Crusher (MAP06) Red",
@@ -3424,18 +3206,6 @@
       },
       "The Crusher (MAP06) Red": {
         "name": "The Crusher (MAP06) Red",
-        "entrances": [
-          {
-            "name": "The Crusher (MAP06) Blue -> The Crusher (MAP06) Red",
-            "parent_region": "The Crusher (MAP06) Blue",
-            "connected_region": "The Crusher (MAP06) Red"
-          },
-          {
-            "name": "The Crusher (MAP06) Yellow -> The Crusher (MAP06) Red",
-            "parent_region": "The Crusher (MAP06) Yellow",
-            "connected_region": "The Crusher (MAP06) Red"
-          }
-        ],
         "exits": [
           {
             "name": "The Crusher (MAP06) Red -> The Crusher (MAP06) Yellow",
@@ -3495,13 +3265,6 @@
       },
       "Dead Simple (MAP07) Main": {
         "name": "Dead Simple (MAP07) Main",
-        "entrances": [
-          {
-            "name": "Dead Simple (MAP07) Start -> Dead Simple (MAP07) Main",
-            "parent_region": "Dead Simple (MAP07) Start",
-            "connected_region": "Dead Simple (MAP07) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Dead Simple (MAP07) Main -> Dead Simple (MAP07) Start",
@@ -3657,18 +3420,6 @@
       },
       "Dead Simple (MAP07) Start": {
         "name": "Dead Simple (MAP07) Start",
-        "entrances": [
-          {
-            "name": "Hub -> Dead Simple (MAP07) Start",
-            "parent_region": "Hub",
-            "connected_region": "Dead Simple (MAP07) Start"
-          },
-          {
-            "name": "Dead Simple (MAP07) Main -> Dead Simple (MAP07) Start",
-            "parent_region": "Dead Simple (MAP07) Main",
-            "connected_region": "Dead Simple (MAP07) Start"
-          }
-        ],
         "exits": [
           {
             "name": "Dead Simple (MAP07) Start -> Dead Simple (MAP07) Main",
@@ -3789,23 +3540,6 @@
       },
       "Tricks and Traps (MAP08) Main": {
         "name": "Tricks and Traps (MAP08) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Tricks and Traps (MAP08) Main",
-            "parent_region": "Hub",
-            "connected_region": "Tricks and Traps (MAP08) Main"
-          },
-          {
-            "name": "Tricks and Traps (MAP08) Yellow -> Tricks and Traps (MAP08) Main",
-            "parent_region": "Tricks and Traps (MAP08) Yellow",
-            "connected_region": "Tricks and Traps (MAP08) Main"
-          },
-          {
-            "name": "Tricks and Traps (MAP08) Red -> Tricks and Traps (MAP08) Main",
-            "parent_region": "Tricks and Traps (MAP08) Red",
-            "connected_region": "Tricks and Traps (MAP08) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Tricks and Traps (MAP08) Main -> Tricks and Traps (MAP08) Red",
@@ -4137,13 +3871,6 @@
       },
       "Tricks and Traps (MAP08) Yellow": {
         "name": "Tricks and Traps (MAP08) Yellow",
-        "entrances": [
-          {
-            "name": "Tricks and Traps (MAP08) Main -> Tricks and Traps (MAP08) Yellow",
-            "parent_region": "Tricks and Traps (MAP08) Main",
-            "connected_region": "Tricks and Traps (MAP08) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "Tricks and Traps (MAP08) Yellow -> Tricks and Traps (MAP08) Main",
@@ -4187,13 +3914,6 @@
       },
       "Tricks and Traps (MAP08) Red": {
         "name": "Tricks and Traps (MAP08) Red",
-        "entrances": [
-          {
-            "name": "Tricks and Traps (MAP08) Main -> Tricks and Traps (MAP08) Red",
-            "parent_region": "Tricks and Traps (MAP08) Main",
-            "connected_region": "Tricks and Traps (MAP08) Red"
-          }
-        ],
         "exits": [
           {
             "name": "Tricks and Traps (MAP08) Red -> Tricks and Traps (MAP08) Main",
@@ -4223,18 +3943,6 @@
       },
       "The Pit (MAP09) Main": {
         "name": "The Pit (MAP09) Main",
-        "entrances": [
-          {
-            "name": "The Pit (MAP09) Yellow -> The Pit (MAP09) Main",
-            "parent_region": "The Pit (MAP09) Yellow",
-            "connected_region": "The Pit (MAP09) Main"
-          },
-          {
-            "name": "The Pit (MAP09) Start -> The Pit (MAP09) Main",
-            "parent_region": "The Pit (MAP09) Start",
-            "connected_region": "The Pit (MAP09) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Pit (MAP09) Main -> The Pit (MAP09) Yellow",
@@ -4392,13 +4100,6 @@
       },
       "The Pit (MAP09) Blue": {
         "name": "The Pit (MAP09) Blue",
-        "entrances": [
-          {
-            "name": "The Pit (MAP09) Main -> The Pit (MAP09) Blue",
-            "parent_region": "The Pit (MAP09) Main",
-            "connected_region": "The Pit (MAP09) Blue"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4489,13 +4190,6 @@
       },
       "The Pit (MAP09) Yellow": {
         "name": "The Pit (MAP09) Yellow",
-        "entrances": [
-          {
-            "name": "The Pit (MAP09) Main -> The Pit (MAP09) Yellow",
-            "parent_region": "The Pit (MAP09) Main",
-            "connected_region": "The Pit (MAP09) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Pit (MAP09) Yellow -> The Pit (MAP09) Main",
@@ -4532,18 +4226,6 @@
       },
       "The Pit (MAP09) Start": {
         "name": "The Pit (MAP09) Start",
-        "entrances": [
-          {
-            "name": "Hub -> The Pit (MAP09) Start",
-            "parent_region": "Hub",
-            "connected_region": "The Pit (MAP09) Start"
-          },
-          {
-            "name": "The Pit (MAP09) Main -> The Pit (MAP09) Start",
-            "parent_region": "The Pit (MAP09) Main",
-            "connected_region": "The Pit (MAP09) Start"
-          }
-        ],
         "exits": [
           {
             "name": "The Pit (MAP09) Start -> The Pit (MAP09) Main",
@@ -4650,18 +4332,6 @@
       },
       "Refueling Base (MAP10) Main": {
         "name": "Refueling Base (MAP10) Main",
-        "entrances": [
-          {
-            "name": "Refueling Base (MAP10) Yellow -> Refueling Base (MAP10) Main",
-            "parent_region": "Refueling Base (MAP10) Yellow",
-            "connected_region": "Refueling Base (MAP10) Main"
-          },
-          {
-            "name": "Refueling Base (MAP10) Start -> Refueling Base (MAP10) Main",
-            "parent_region": "Refueling Base (MAP10) Start",
-            "connected_region": "Refueling Base (MAP10) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Refueling Base (MAP10) Main -> Refueling Base (MAP10) Yellow",
@@ -4958,18 +4628,6 @@
       },
       "Refueling Base (MAP10) Yellow": {
         "name": "Refueling Base (MAP10) Yellow",
-        "entrances": [
-          {
-            "name": "Refueling Base (MAP10) Main -> Refueling Base (MAP10) Yellow",
-            "parent_region": "Refueling Base (MAP10) Main",
-            "connected_region": "Refueling Base (MAP10) Yellow"
-          },
-          {
-            "name": "Refueling Base (MAP10) Yellow Blue -> Refueling Base (MAP10) Yellow",
-            "parent_region": "Refueling Base (MAP10) Yellow Blue",
-            "connected_region": "Refueling Base (MAP10) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "Refueling Base (MAP10) Yellow -> Refueling Base (MAP10) Main",
@@ -4999,13 +4657,6 @@
       },
       "Refueling Base (MAP10) Yellow Blue": {
         "name": "Refueling Base (MAP10) Yellow Blue",
-        "entrances": [
-          {
-            "name": "Refueling Base (MAP10) Yellow -> Refueling Base (MAP10) Yellow Blue",
-            "parent_region": "Refueling Base (MAP10) Yellow",
-            "connected_region": "Refueling Base (MAP10) Yellow Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Refueling Base (MAP10) Yellow Blue -> Refueling Base (MAP10) Yellow",
@@ -5035,18 +4686,6 @@
       },
       "Refueling Base (MAP10) Start": {
         "name": "Refueling Base (MAP10) Start",
-        "entrances": [
-          {
-            "name": "Hub -> Refueling Base (MAP10) Start",
-            "parent_region": "Hub",
-            "connected_region": "Refueling Base (MAP10) Start"
-          },
-          {
-            "name": "Refueling Base (MAP10) Main -> Refueling Base (MAP10) Start",
-            "parent_region": "Refueling Base (MAP10) Main",
-            "connected_region": "Refueling Base (MAP10) Start"
-          }
-        ],
         "exits": [
           {
             "name": "Refueling Base (MAP10) Start -> Refueling Base (MAP10) Main",
@@ -5153,28 +4792,6 @@
       },
       "Circle of Death (MAP11) Main": {
         "name": "Circle of Death (MAP11) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Circle of Death (MAP11) Main",
-            "parent_region": "Hub",
-            "connected_region": "Circle of Death (MAP11) Main"
-          },
-          {
-            "name": "Circle of Death (MAP11) Blue -> Circle of Death (MAP11) Main",
-            "parent_region": "Circle of Death (MAP11) Blue",
-            "connected_region": "Circle of Death (MAP11) Main"
-          },
-          {
-            "name": "Circle of Death (MAP11) Red -> Circle of Death (MAP11) Main",
-            "parent_region": "Circle of Death (MAP11) Red",
-            "connected_region": "Circle of Death (MAP11) Main"
-          },
-          {
-            "name": "Circle of Death (MAP11) Ending -> Circle of Death (MAP11) Main",
-            "parent_region": "Circle of Death (MAP11) Ending",
-            "connected_region": "Circle of Death (MAP11) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Circle of Death (MAP11) Main -> Circle of Death (MAP11) Blue",
@@ -5324,13 +4941,6 @@
       },
       "Circle of Death (MAP11) Blue": {
         "name": "Circle of Death (MAP11) Blue",
-        "entrances": [
-          {
-            "name": "Circle of Death (MAP11) Main -> Circle of Death (MAP11) Blue",
-            "parent_region": "Circle of Death (MAP11) Main",
-            "connected_region": "Circle of Death (MAP11) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Circle of Death (MAP11) Blue -> Circle of Death (MAP11) Main",
@@ -5360,13 +4970,6 @@
       },
       "Circle of Death (MAP11) Red": {
         "name": "Circle of Death (MAP11) Red",
-        "entrances": [
-          {
-            "name": "Circle of Death (MAP11) Main -> Circle of Death (MAP11) Red",
-            "parent_region": "Circle of Death (MAP11) Main",
-            "connected_region": "Circle of Death (MAP11) Red"
-          }
-        ],
         "exits": [
           {
             "name": "Circle of Death (MAP11) Red -> Circle of Death (MAP11) Main",
@@ -5418,13 +5021,6 @@
       },
       "Circle of Death (MAP11) Ending": {
         "name": "Circle of Death (MAP11) Ending",
-        "entrances": [
-          {
-            "name": "Circle of Death (MAP11) Red -> Circle of Death (MAP11) Ending",
-            "parent_region": "Circle of Death (MAP11) Red",
-            "connected_region": "Circle of Death (MAP11) Ending"
-          }
-        ],
         "exits": [
           {
             "name": "Circle of Death (MAP11) Ending -> Circle of Death (MAP11) Main",
@@ -5496,18 +5092,6 @@
       },
       "The Factory (MAP12) Indoors": {
         "name": "The Factory (MAP12) Indoors",
-        "entrances": [
-          {
-            "name": "The Factory (MAP12) Blue -> The Factory (MAP12) Indoors",
-            "parent_region": "The Factory (MAP12) Blue",
-            "connected_region": "The Factory (MAP12) Indoors"
-          },
-          {
-            "name": "The Factory (MAP12) Main -> The Factory (MAP12) Indoors",
-            "parent_region": "The Factory (MAP12) Main",
-            "connected_region": "The Factory (MAP12) Indoors"
-          }
-        ],
         "exits": [
           {
             "name": "The Factory (MAP12) Indoors -> The Factory (MAP12) Yellow",
@@ -5637,13 +5221,6 @@
       },
       "The Factory (MAP12) Blue": {
         "name": "The Factory (MAP12) Blue",
-        "entrances": [
-          {
-            "name": "The Factory (MAP12) Indoors -> The Factory (MAP12) Blue",
-            "parent_region": "The Factory (MAP12) Indoors",
-            "connected_region": "The Factory (MAP12) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The Factory (MAP12) Blue -> The Factory (MAP12) Indoors",
@@ -5701,13 +5278,6 @@
       },
       "The Factory (MAP12) Yellow": {
         "name": "The Factory (MAP12) Yellow",
-        "entrances": [
-          {
-            "name": "The Factory (MAP12) Indoors -> The Factory (MAP12) Yellow",
-            "parent_region": "The Factory (MAP12) Indoors",
-            "connected_region": "The Factory (MAP12) Yellow"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -5728,18 +5298,6 @@
       },
       "The Factory (MAP12) Outdoors": {
         "name": "The Factory (MAP12) Outdoors",
-        "entrances": [
-          {
-            "name": "Hub -> The Factory (MAP12) Outdoors",
-            "parent_region": "Hub",
-            "connected_region": "The Factory (MAP12) Outdoors"
-          },
-          {
-            "name": "The Factory (MAP12) Main -> The Factory (MAP12) Outdoors",
-            "parent_region": "The Factory (MAP12) Main",
-            "connected_region": "The Factory (MAP12) Outdoors"
-          }
-        ],
         "exits": [
           {
             "name": "The Factory (MAP12) Outdoors -> The Factory (MAP12) Main",
@@ -5820,18 +5378,6 @@
       },
       "The Factory (MAP12) Main": {
         "name": "The Factory (MAP12) Main",
-        "entrances": [
-          {
-            "name": "The Factory (MAP12) Indoors -> The Factory (MAP12) Main",
-            "parent_region": "The Factory (MAP12) Indoors",
-            "connected_region": "The Factory (MAP12) Main"
-          },
-          {
-            "name": "The Factory (MAP12) Outdoors -> The Factory (MAP12) Main",
-            "parent_region": "The Factory (MAP12) Outdoors",
-            "connected_region": "The Factory (MAP12) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Factory (MAP12) Main -> The Factory (MAP12) Indoors",
@@ -5952,28 +5498,6 @@
       },
       "Downtown (MAP13) Main": {
         "name": "Downtown (MAP13) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Downtown (MAP13) Main",
-            "parent_region": "Hub",
-            "connected_region": "Downtown (MAP13) Main"
-          },
-          {
-            "name": "Downtown (MAP13) Blue -> Downtown (MAP13) Main",
-            "parent_region": "Downtown (MAP13) Blue",
-            "connected_region": "Downtown (MAP13) Main"
-          },
-          {
-            "name": "Downtown (MAP13) Yellow -> Downtown (MAP13) Main",
-            "parent_region": "Downtown (MAP13) Yellow",
-            "connected_region": "Downtown (MAP13) Main"
-          },
-          {
-            "name": "Downtown (MAP13) Red -> Downtown (MAP13) Main",
-            "parent_region": "Downtown (MAP13) Red",
-            "connected_region": "Downtown (MAP13) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Downtown (MAP13) Main -> Downtown (MAP13) Yellow",
@@ -6236,13 +5760,6 @@
       },
       "Downtown (MAP13) Blue": {
         "name": "Downtown (MAP13) Blue",
-        "entrances": [
-          {
-            "name": "Downtown (MAP13) Main -> Downtown (MAP13) Blue",
-            "parent_region": "Downtown (MAP13) Main",
-            "connected_region": "Downtown (MAP13) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Downtown (MAP13) Blue -> Downtown (MAP13) Main",
@@ -6300,13 +5817,6 @@
       },
       "Downtown (MAP13) Yellow": {
         "name": "Downtown (MAP13) Yellow",
-        "entrances": [
-          {
-            "name": "Downtown (MAP13) Main -> Downtown (MAP13) Yellow",
-            "parent_region": "Downtown (MAP13) Main",
-            "connected_region": "Downtown (MAP13) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "Downtown (MAP13) Yellow -> Downtown (MAP13) Main",
@@ -6350,13 +5860,6 @@
       },
       "Downtown (MAP13) Red": {
         "name": "Downtown (MAP13) Red",
-        "entrances": [
-          {
-            "name": "Downtown (MAP13) Main -> Downtown (MAP13) Red",
-            "parent_region": "Downtown (MAP13) Main",
-            "connected_region": "Downtown (MAP13) Red"
-          }
-        ],
         "exits": [
           {
             "name": "Downtown (MAP13) Red -> Downtown (MAP13) Main",
@@ -6400,33 +5903,6 @@
       },
       "The Inmost Dens (MAP14) Main": {
         "name": "The Inmost Dens (MAP14) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Inmost Dens (MAP14) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Inmost Dens (MAP14) Main"
-          },
-          {
-            "name": "The Inmost Dens (MAP14) Blue -> The Inmost Dens (MAP14) Main",
-            "parent_region": "The Inmost Dens (MAP14) Blue",
-            "connected_region": "The Inmost Dens (MAP14) Main"
-          },
-          {
-            "name": "The Inmost Dens (MAP14) Red -> The Inmost Dens (MAP14) Main",
-            "parent_region": "The Inmost Dens (MAP14) Red",
-            "connected_region": "The Inmost Dens (MAP14) Main"
-          },
-          {
-            "name": "The Inmost Dens (MAP14) Red East -> The Inmost Dens (MAP14) Main",
-            "parent_region": "The Inmost Dens (MAP14) Red East",
-            "connected_region": "The Inmost Dens (MAP14) Main"
-          },
-          {
-            "name": "The Inmost Dens (MAP14) Red South -> The Inmost Dens (MAP14) Main",
-            "parent_region": "The Inmost Dens (MAP14) Red South",
-            "connected_region": "The Inmost Dens (MAP14) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Inmost Dens (MAP14) Main -> The Inmost Dens (MAP14) Red",
@@ -6561,13 +6037,6 @@
       },
       "The Inmost Dens (MAP14) Blue": {
         "name": "The Inmost Dens (MAP14) Blue",
-        "entrances": [
-          {
-            "name": "The Inmost Dens (MAP14) Red East -> The Inmost Dens (MAP14) Blue",
-            "parent_region": "The Inmost Dens (MAP14) Red East",
-            "connected_region": "The Inmost Dens (MAP14) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The Inmost Dens (MAP14) Blue -> The Inmost Dens (MAP14) Main",
@@ -6612,13 +6081,6 @@
       },
       "The Inmost Dens (MAP14) Red": {
         "name": "The Inmost Dens (MAP14) Red",
-        "entrances": [
-          {
-            "name": "The Inmost Dens (MAP14) Main -> The Inmost Dens (MAP14) Red",
-            "parent_region": "The Inmost Dens (MAP14) Main",
-            "connected_region": "The Inmost Dens (MAP14) Red"
-          }
-        ],
         "exits": [
           {
             "name": "The Inmost Dens (MAP14) Red -> The Inmost Dens (MAP14) Main",
@@ -6656,18 +6118,6 @@
       },
       "The Inmost Dens (MAP14) Red East": {
         "name": "The Inmost Dens (MAP14) Red East",
-        "entrances": [
-          {
-            "name": "The Inmost Dens (MAP14) Blue -> The Inmost Dens (MAP14) Red East",
-            "parent_region": "The Inmost Dens (MAP14) Blue",
-            "connected_region": "The Inmost Dens (MAP14) Red East"
-          },
-          {
-            "name": "The Inmost Dens (MAP14) Red -> The Inmost Dens (MAP14) Red East",
-            "parent_region": "The Inmost Dens (MAP14) Red",
-            "connected_region": "The Inmost Dens (MAP14) Red East"
-          }
-        ],
         "exits": [
           {
             "name": "The Inmost Dens (MAP14) Red East -> The Inmost Dens (MAP14) Blue",
@@ -6697,13 +6147,6 @@
       },
       "The Inmost Dens (MAP14) Red South": {
         "name": "The Inmost Dens (MAP14) Red South",
-        "entrances": [
-          {
-            "name": "The Inmost Dens (MAP14) Red -> The Inmost Dens (MAP14) Red South",
-            "parent_region": "The Inmost Dens (MAP14) Red",
-            "connected_region": "The Inmost Dens (MAP14) Red South"
-          }
-        ],
         "exits": [
           {
             "name": "The Inmost Dens (MAP14) Red South -> The Inmost Dens (MAP14) Main",
@@ -6747,23 +6190,6 @@
       },
       "Industrial Zone (MAP15) Main": {
         "name": "Industrial Zone (MAP15) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Industrial Zone (MAP15) Main",
-            "parent_region": "Hub",
-            "connected_region": "Industrial Zone (MAP15) Main"
-          },
-          {
-            "name": "Industrial Zone (MAP15) Yellow East -> Industrial Zone (MAP15) Main",
-            "parent_region": "Industrial Zone (MAP15) Yellow East",
-            "connected_region": "Industrial Zone (MAP15) Main"
-          },
-          {
-            "name": "Industrial Zone (MAP15) Yellow West -> Industrial Zone (MAP15) Main",
-            "parent_region": "Industrial Zone (MAP15) Yellow West",
-            "connected_region": "Industrial Zone (MAP15) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Industrial Zone (MAP15) Main -> Industrial Zone (MAP15) Yellow East",
@@ -6997,13 +6423,6 @@
       },
       "Industrial Zone (MAP15) Blue": {
         "name": "Industrial Zone (MAP15) Blue",
-        "entrances": [
-          {
-            "name": "Industrial Zone (MAP15) Yellow East -> Industrial Zone (MAP15) Blue",
-            "parent_region": "Industrial Zone (MAP15) Yellow East",
-            "connected_region": "Industrial Zone (MAP15) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Industrial Zone (MAP15) Blue -> Industrial Zone (MAP15) Yellow East",
@@ -7040,18 +6459,6 @@
       },
       "Industrial Zone (MAP15) Yellow East": {
         "name": "Industrial Zone (MAP15) Yellow East",
-        "entrances": [
-          {
-            "name": "Industrial Zone (MAP15) Main -> Industrial Zone (MAP15) Yellow East",
-            "parent_region": "Industrial Zone (MAP15) Main",
-            "connected_region": "Industrial Zone (MAP15) Yellow East"
-          },
-          {
-            "name": "Industrial Zone (MAP15) Blue -> Industrial Zone (MAP15) Yellow East",
-            "parent_region": "Industrial Zone (MAP15) Blue",
-            "connected_region": "Industrial Zone (MAP15) Yellow East"
-          }
-        ],
         "exits": [
           {
             "name": "Industrial Zone (MAP15) Yellow East -> Industrial Zone (MAP15) Blue",
@@ -7124,13 +6531,6 @@
       },
       "Industrial Zone (MAP15) Yellow West": {
         "name": "Industrial Zone (MAP15) Yellow West",
-        "entrances": [
-          {
-            "name": "Industrial Zone (MAP15) Main -> Industrial Zone (MAP15) Yellow West",
-            "parent_region": "Industrial Zone (MAP15) Main",
-            "connected_region": "Industrial Zone (MAP15) Yellow West"
-          }
-        ],
         "exits": [
           {
             "name": "Industrial Zone (MAP15) Yellow West -> Industrial Zone (MAP15) Main",
@@ -7216,23 +6616,6 @@
       },
       "Suburbs (MAP16) Main": {
         "name": "Suburbs (MAP16) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Suburbs (MAP16) Main",
-            "parent_region": "Hub",
-            "connected_region": "Suburbs (MAP16) Main"
-          },
-          {
-            "name": "Suburbs (MAP16) Blue -> Suburbs (MAP16) Main",
-            "parent_region": "Suburbs (MAP16) Blue",
-            "connected_region": "Suburbs (MAP16) Main"
-          },
-          {
-            "name": "Suburbs (MAP16) Red -> Suburbs (MAP16) Main",
-            "parent_region": "Suburbs (MAP16) Red",
-            "connected_region": "Suburbs (MAP16) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Suburbs (MAP16) Main -> Suburbs (MAP16) Red",
@@ -7438,13 +6821,6 @@
       },
       "Suburbs (MAP16) Blue": {
         "name": "Suburbs (MAP16) Blue",
-        "entrances": [
-          {
-            "name": "Suburbs (MAP16) Main -> Suburbs (MAP16) Blue",
-            "parent_region": "Suburbs (MAP16) Main",
-            "connected_region": "Suburbs (MAP16) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Suburbs (MAP16) Blue -> Suburbs (MAP16) Main",
@@ -7530,18 +6906,6 @@
       },
       "Suburbs (MAP16) Red": {
         "name": "Suburbs (MAP16) Red",
-        "entrances": [
-          {
-            "name": "Suburbs (MAP16) Main -> Suburbs (MAP16) Red",
-            "parent_region": "Suburbs (MAP16) Main",
-            "connected_region": "Suburbs (MAP16) Red"
-          },
-          {
-            "name": "Suburbs (MAP16) Pro Exit -> Suburbs (MAP16) Red",
-            "parent_region": "Suburbs (MAP16) Pro Exit",
-            "connected_region": "Suburbs (MAP16) Red"
-          }
-        ],
         "exits": [
           {
             "name": "Suburbs (MAP16) Red -> Suburbs (MAP16) Main",
@@ -7579,13 +6943,6 @@
       },
       "Suburbs (MAP16) Pro Exit": {
         "name": "Suburbs (MAP16) Pro Exit",
-        "entrances": [
-          {
-            "name": "Suburbs (MAP16) Red -> Suburbs (MAP16) Pro Exit",
-            "parent_region": "Suburbs (MAP16) Red",
-            "connected_region": "Suburbs (MAP16) Pro Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Suburbs (MAP16) Pro Exit -> Suburbs (MAP16) Red",
@@ -7600,18 +6957,6 @@
       },
       "Tenements (MAP17) Main": {
         "name": "Tenements (MAP17) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Tenements (MAP17) Main",
-            "parent_region": "Hub",
-            "connected_region": "Tenements (MAP17) Main"
-          },
-          {
-            "name": "Tenements (MAP17) Red -> Tenements (MAP17) Main",
-            "parent_region": "Tenements (MAP17) Red",
-            "connected_region": "Tenements (MAP17) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Tenements (MAP17) Main -> Tenements (MAP17) Red",
@@ -7662,18 +7007,6 @@
       },
       "Tenements (MAP17) Blue": {
         "name": "Tenements (MAP17) Blue",
-        "entrances": [
-          {
-            "name": "Tenements (MAP17) Yellow -> Tenements (MAP17) Blue",
-            "parent_region": "Tenements (MAP17) Yellow",
-            "connected_region": "Tenements (MAP17) Blue"
-          },
-          {
-            "name": "Tenements (MAP17) Red -> Tenements (MAP17) Blue",
-            "parent_region": "Tenements (MAP17) Red",
-            "connected_region": "Tenements (MAP17) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Tenements (MAP17) Blue -> Tenements (MAP17) Red",
@@ -7759,13 +7092,6 @@
       },
       "Tenements (MAP17) Yellow": {
         "name": "Tenements (MAP17) Yellow",
-        "entrances": [
-          {
-            "name": "Tenements (MAP17) Red -> Tenements (MAP17) Yellow",
-            "parent_region": "Tenements (MAP17) Red",
-            "connected_region": "Tenements (MAP17) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "Tenements (MAP17) Yellow -> Tenements (MAP17) Red",
@@ -7859,23 +7185,6 @@
       },
       "Tenements (MAP17) Red": {
         "name": "Tenements (MAP17) Red",
-        "entrances": [
-          {
-            "name": "Tenements (MAP17) Main -> Tenements (MAP17) Red",
-            "parent_region": "Tenements (MAP17) Main",
-            "connected_region": "Tenements (MAP17) Red"
-          },
-          {
-            "name": "Tenements (MAP17) Blue -> Tenements (MAP17) Red",
-            "parent_region": "Tenements (MAP17) Blue",
-            "connected_region": "Tenements (MAP17) Red"
-          },
-          {
-            "name": "Tenements (MAP17) Yellow -> Tenements (MAP17) Red",
-            "parent_region": "Tenements (MAP17) Yellow",
-            "connected_region": "Tenements (MAP17) Red"
-          }
-        ],
         "exits": [
           {
             "name": "Tenements (MAP17) Red -> Tenements (MAP17) Yellow",
@@ -8005,23 +7314,6 @@
       },
       "The Courtyard (MAP18) Main": {
         "name": "The Courtyard (MAP18) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Courtyard (MAP18) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Courtyard (MAP18) Main"
-          },
-          {
-            "name": "The Courtyard (MAP18) Blue -> The Courtyard (MAP18) Main",
-            "parent_region": "The Courtyard (MAP18) Blue",
-            "connected_region": "The Courtyard (MAP18) Main"
-          },
-          {
-            "name": "The Courtyard (MAP18) Yellow -> The Courtyard (MAP18) Main",
-            "parent_region": "The Courtyard (MAP18) Yellow",
-            "connected_region": "The Courtyard (MAP18) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Courtyard (MAP18) Main -> The Courtyard (MAP18) Yellow",
@@ -8283,13 +7575,6 @@
       },
       "The Courtyard (MAP18) Blue": {
         "name": "The Courtyard (MAP18) Blue",
-        "entrances": [
-          {
-            "name": "The Courtyard (MAP18) Main -> The Courtyard (MAP18) Blue",
-            "parent_region": "The Courtyard (MAP18) Main",
-            "connected_region": "The Courtyard (MAP18) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The Courtyard (MAP18) Blue -> The Courtyard (MAP18) Main",
@@ -8326,13 +7611,6 @@
       },
       "The Courtyard (MAP18) Yellow": {
         "name": "The Courtyard (MAP18) Yellow",
-        "entrances": [
-          {
-            "name": "The Courtyard (MAP18) Main -> The Courtyard (MAP18) Yellow",
-            "parent_region": "The Courtyard (MAP18) Main",
-            "connected_region": "The Courtyard (MAP18) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Courtyard (MAP18) Yellow -> The Courtyard (MAP18) Main",
@@ -8369,18 +7647,6 @@
       },
       "The Citadel (MAP19) Main": {
         "name": "The Citadel (MAP19) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Citadel (MAP19) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Citadel (MAP19) Main"
-          },
-          {
-            "name": "The Citadel (MAP19) Red -> The Citadel (MAP19) Main",
-            "parent_region": "The Citadel (MAP19) Red",
-            "connected_region": "The Citadel (MAP19) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Citadel (MAP19) Main -> The Citadel (MAP19) Red",
@@ -8645,13 +7911,6 @@
       },
       "The Citadel (MAP19) Red": {
         "name": "The Citadel (MAP19) Red",
-        "entrances": [
-          {
-            "name": "The Citadel (MAP19) Main -> The Citadel (MAP19) Red",
-            "parent_region": "The Citadel (MAP19) Main",
-            "connected_region": "The Citadel (MAP19) Red"
-          }
-        ],
         "exits": [
           {
             "name": "The Citadel (MAP19) Red -> The Citadel (MAP19) Main",
@@ -8720,13 +7979,6 @@
       },
       "Gotcha! (MAP20) Main": {
         "name": "Gotcha! (MAP20) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Gotcha! (MAP20) Main",
-            "parent_region": "Hub",
-            "connected_region": "Gotcha! (MAP20) Main"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8943,18 +8195,6 @@
       },
       "Nirvana (MAP21) Main": {
         "name": "Nirvana (MAP21) Main",
-        "entrances": [
-          {
-            "name": "Nirvana (MAP21) Yellow -> Nirvana (MAP21) Main",
-            "parent_region": "Nirvana (MAP21) Yellow",
-            "connected_region": "Nirvana (MAP21) Main"
-          },
-          {
-            "name": "Nirvana (MAP21) Start -> Nirvana (MAP21) Main",
-            "parent_region": "Nirvana (MAP21) Start",
-            "connected_region": "Nirvana (MAP21) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Nirvana (MAP21) Main -> Nirvana (MAP21) Yellow",
@@ -9092,18 +8332,6 @@
       },
       "Nirvana (MAP21) Yellow": {
         "name": "Nirvana (MAP21) Yellow",
-        "entrances": [
-          {
-            "name": "Nirvana (MAP21) Main -> Nirvana (MAP21) Yellow",
-            "parent_region": "Nirvana (MAP21) Main",
-            "connected_region": "Nirvana (MAP21) Yellow"
-          },
-          {
-            "name": "Nirvana (MAP21) Magenta -> Nirvana (MAP21) Yellow",
-            "parent_region": "Nirvana (MAP21) Magenta",
-            "connected_region": "Nirvana (MAP21) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "Nirvana (MAP21) Yellow -> Nirvana (MAP21) Main",
@@ -9199,18 +8427,6 @@
       },
       "Nirvana (MAP21) Magenta": {
         "name": "Nirvana (MAP21) Magenta",
-        "entrances": [
-          {
-            "name": "Nirvana (MAP21) Yellow -> Nirvana (MAP21) Magenta",
-            "parent_region": "Nirvana (MAP21) Yellow",
-            "connected_region": "Nirvana (MAP21) Magenta"
-          },
-          {
-            "name": "Nirvana (MAP21) Pro Magenta -> Nirvana (MAP21) Magenta",
-            "parent_region": "Nirvana (MAP21) Pro Magenta",
-            "connected_region": "Nirvana (MAP21) Magenta"
-          }
-        ],
         "exits": [
           {
             "name": "Nirvana (MAP21) Magenta -> Nirvana (MAP21) Yellow",
@@ -9248,13 +8464,6 @@
       },
       "Nirvana (MAP21) Start": {
         "name": "Nirvana (MAP21) Start",
-        "entrances": [
-          {
-            "name": "Hub -> Nirvana (MAP21) Start",
-            "parent_region": "Hub",
-            "connected_region": "Nirvana (MAP21) Start"
-          }
-        ],
         "exits": [
           {
             "name": "Nirvana (MAP21) Start -> Nirvana (MAP21) Main",
@@ -9307,13 +8516,6 @@
       },
       "Nirvana (MAP21) Pro Magenta": {
         "name": "Nirvana (MAP21) Pro Magenta",
-        "entrances": [
-          {
-            "name": "Nirvana (MAP21) Magenta -> Nirvana (MAP21) Pro Magenta",
-            "parent_region": "Nirvana (MAP21) Magenta",
-            "connected_region": "Nirvana (MAP21) Pro Magenta"
-          }
-        ],
         "exits": [
           {
             "name": "Nirvana (MAP21) Pro Magenta -> Nirvana (MAP21) Magenta",
@@ -9335,23 +8537,6 @@
       },
       "The Catacombs (MAP22) Main": {
         "name": "The Catacombs (MAP22) Main",
-        "entrances": [
-          {
-            "name": "The Catacombs (MAP22) Blue -> The Catacombs (MAP22) Main",
-            "parent_region": "The Catacombs (MAP22) Blue",
-            "connected_region": "The Catacombs (MAP22) Main"
-          },
-          {
-            "name": "The Catacombs (MAP22) Red -> The Catacombs (MAP22) Main",
-            "parent_region": "The Catacombs (MAP22) Red",
-            "connected_region": "The Catacombs (MAP22) Main"
-          },
-          {
-            "name": "The Catacombs (MAP22) Early -> The Catacombs (MAP22) Main",
-            "parent_region": "The Catacombs (MAP22) Early",
-            "connected_region": "The Catacombs (MAP22) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Catacombs (MAP22) Main -> The Catacombs (MAP22) Blue",
@@ -9439,13 +8624,6 @@
       },
       "The Catacombs (MAP22) Blue": {
         "name": "The Catacombs (MAP22) Blue",
-        "entrances": [
-          {
-            "name": "The Catacombs (MAP22) Main -> The Catacombs (MAP22) Blue",
-            "parent_region": "The Catacombs (MAP22) Main",
-            "connected_region": "The Catacombs (MAP22) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The Catacombs (MAP22) Blue -> The Catacombs (MAP22) Main",
@@ -9475,13 +8653,6 @@
       },
       "The Catacombs (MAP22) Red": {
         "name": "The Catacombs (MAP22) Red",
-        "entrances": [
-          {
-            "name": "The Catacombs (MAP22) Main -> The Catacombs (MAP22) Red",
-            "parent_region": "The Catacombs (MAP22) Main",
-            "connected_region": "The Catacombs (MAP22) Red"
-          }
-        ],
         "exits": [
           {
             "name": "The Catacombs (MAP22) Red -> The Catacombs (MAP22) Main",
@@ -9518,18 +8689,6 @@
       },
       "The Catacombs (MAP22) Early": {
         "name": "The Catacombs (MAP22) Early",
-        "entrances": [
-          {
-            "name": "Hub -> The Catacombs (MAP22) Early",
-            "parent_region": "Hub",
-            "connected_region": "The Catacombs (MAP22) Early"
-          },
-          {
-            "name": "The Catacombs (MAP22) Main -> The Catacombs (MAP22) Early",
-            "parent_region": "The Catacombs (MAP22) Main",
-            "connected_region": "The Catacombs (MAP22) Early"
-          }
-        ],
         "exits": [
           {
             "name": "The Catacombs (MAP22) Early -> The Catacombs (MAP22) Main",
@@ -9678,18 +8837,6 @@
       },
       "Barrels o' Fun (MAP23) Main": {
         "name": "Barrels o' Fun (MAP23) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Barrels o' Fun (MAP23) Main",
-            "parent_region": "Hub",
-            "connected_region": "Barrels o' Fun (MAP23) Main"
-          },
-          {
-            "name": "Barrels o' Fun (MAP23) Yellow -> Barrels o' Fun (MAP23) Main",
-            "parent_region": "Barrels o' Fun (MAP23) Yellow",
-            "connected_region": "Barrels o' Fun (MAP23) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Barrels o' Fun (MAP23) Main -> Barrels o' Fun (MAP23) Yellow",
@@ -9866,13 +9013,6 @@
       },
       "Barrels o' Fun (MAP23) Yellow": {
         "name": "Barrels o' Fun (MAP23) Yellow",
-        "entrances": [
-          {
-            "name": "Barrels o' Fun (MAP23) Main -> Barrels o' Fun (MAP23) Yellow",
-            "parent_region": "Barrels o' Fun (MAP23) Main",
-            "connected_region": "Barrels o' Fun (MAP23) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "Barrels o' Fun (MAP23) Yellow -> Barrels o' Fun (MAP23) Main",
@@ -9909,18 +9049,6 @@
       },
       "The Chasm (MAP24) Main": {
         "name": "The Chasm (MAP24) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Chasm (MAP24) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Chasm (MAP24) Main"
-          },
-          {
-            "name": "The Chasm (MAP24) Blue -> The Chasm (MAP24) Main",
-            "parent_region": "The Chasm (MAP24) Blue",
-            "connected_region": "The Chasm (MAP24) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Chasm (MAP24) Main -> The Chasm (MAP24) Blue",
@@ -10041,13 +9169,6 @@
       },
       "The Chasm (MAP24) Red": {
         "name": "The Chasm (MAP24) Red",
-        "entrances": [
-          {
-            "name": "The Chasm (MAP24) Blue -> The Chasm (MAP24) Red",
-            "parent_region": "The Chasm (MAP24) Blue",
-            "connected_region": "The Chasm (MAP24) Red"
-          }
-        ],
         "exits": [
           {
             "name": "The Chasm (MAP24) Red -> The Chasm (MAP24) Blue",
@@ -10084,23 +9205,6 @@
       },
       "The Chasm (MAP24) Blue": {
         "name": "The Chasm (MAP24) Blue",
-        "entrances": [
-          {
-            "name": "The Chasm (MAP24) Main -> The Chasm (MAP24) Blue",
-            "parent_region": "The Chasm (MAP24) Main",
-            "connected_region": "The Chasm (MAP24) Blue"
-          },
-          {
-            "name": "The Chasm (MAP24) Red -> The Chasm (MAP24) Blue",
-            "parent_region": "The Chasm (MAP24) Red",
-            "connected_region": "The Chasm (MAP24) Blue"
-          },
-          {
-            "name": "The Chasm (MAP24) Blue Pro -> The Chasm (MAP24) Blue",
-            "parent_region": "The Chasm (MAP24) Blue Pro",
-            "connected_region": "The Chasm (MAP24) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The Chasm (MAP24) Blue -> The Chasm (MAP24) Red",
@@ -10237,13 +9341,6 @@
       },
       "The Chasm (MAP24) Blue Pro": {
         "name": "The Chasm (MAP24) Blue Pro",
-        "entrances": [
-          {
-            "name": "The Chasm (MAP24) Blue -> The Chasm (MAP24) Blue Pro",
-            "parent_region": "The Chasm (MAP24) Blue",
-            "connected_region": "The Chasm (MAP24) Blue Pro"
-          }
-        ],
         "exits": [
           {
             "name": "The Chasm (MAP24) Blue Pro -> The Chasm (MAP24) Blue",
@@ -10258,18 +9355,6 @@
       },
       "Bloodfalls (MAP25) Main": {
         "name": "Bloodfalls (MAP25) Main",
-        "entrances": [
-          {
-            "name": "Bloodfalls (MAP25) Blue -> Bloodfalls (MAP25) Main",
-            "parent_region": "Bloodfalls (MAP25) Blue",
-            "connected_region": "Bloodfalls (MAP25) Main"
-          },
-          {
-            "name": "Bloodfalls (MAP25) Start -> Bloodfalls (MAP25) Main",
-            "parent_region": "Bloodfalls (MAP25) Start",
-            "connected_region": "Bloodfalls (MAP25) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Bloodfalls (MAP25) Main -> Bloodfalls (MAP25) Blue",
@@ -10455,13 +9540,6 @@
       },
       "Bloodfalls (MAP25) Blue": {
         "name": "Bloodfalls (MAP25) Blue",
-        "entrances": [
-          {
-            "name": "Bloodfalls (MAP25) Main -> Bloodfalls (MAP25) Blue",
-            "parent_region": "Bloodfalls (MAP25) Main",
-            "connected_region": "Bloodfalls (MAP25) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Bloodfalls (MAP25) Blue -> Bloodfalls (MAP25) Main",
@@ -10526,18 +9604,6 @@
       },
       "Bloodfalls (MAP25) Start": {
         "name": "Bloodfalls (MAP25) Start",
-        "entrances": [
-          {
-            "name": "Hub -> Bloodfalls (MAP25) Start",
-            "parent_region": "Hub",
-            "connected_region": "Bloodfalls (MAP25) Start"
-          },
-          {
-            "name": "Bloodfalls (MAP25) Main -> Bloodfalls (MAP25) Start",
-            "parent_region": "Bloodfalls (MAP25) Main",
-            "connected_region": "Bloodfalls (MAP25) Start"
-          }
-        ],
         "exits": [
           {
             "name": "Bloodfalls (MAP25) Start -> Bloodfalls (MAP25) Main",
@@ -10601,28 +9667,6 @@
       },
       "The Abandoned Mines (MAP26) Main": {
         "name": "The Abandoned Mines (MAP26) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Abandoned Mines (MAP26) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Abandoned Mines (MAP26) Main"
-          },
-          {
-            "name": "The Abandoned Mines (MAP26) Blue -> The Abandoned Mines (MAP26) Main",
-            "parent_region": "The Abandoned Mines (MAP26) Blue",
-            "connected_region": "The Abandoned Mines (MAP26) Main"
-          },
-          {
-            "name": "The Abandoned Mines (MAP26) Yellow -> The Abandoned Mines (MAP26) Main",
-            "parent_region": "The Abandoned Mines (MAP26) Yellow",
-            "connected_region": "The Abandoned Mines (MAP26) Main"
-          },
-          {
-            "name": "The Abandoned Mines (MAP26) Red -> The Abandoned Mines (MAP26) Main",
-            "parent_region": "The Abandoned Mines (MAP26) Red",
-            "connected_region": "The Abandoned Mines (MAP26) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Abandoned Mines (MAP26) Main -> The Abandoned Mines (MAP26) Yellow",
@@ -10787,13 +9831,6 @@
       },
       "The Abandoned Mines (MAP26) Blue": {
         "name": "The Abandoned Mines (MAP26) Blue",
-        "entrances": [
-          {
-            "name": "The Abandoned Mines (MAP26) Main -> The Abandoned Mines (MAP26) Blue",
-            "parent_region": "The Abandoned Mines (MAP26) Main",
-            "connected_region": "The Abandoned Mines (MAP26) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "The Abandoned Mines (MAP26) Blue -> The Abandoned Mines (MAP26) Main",
@@ -10830,13 +9867,6 @@
       },
       "The Abandoned Mines (MAP26) Yellow": {
         "name": "The Abandoned Mines (MAP26) Yellow",
-        "entrances": [
-          {
-            "name": "The Abandoned Mines (MAP26) Main -> The Abandoned Mines (MAP26) Yellow",
-            "parent_region": "The Abandoned Mines (MAP26) Main",
-            "connected_region": "The Abandoned Mines (MAP26) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Abandoned Mines (MAP26) Yellow -> The Abandoned Mines (MAP26) Main",
@@ -10873,13 +9903,6 @@
       },
       "The Abandoned Mines (MAP26) Red": {
         "name": "The Abandoned Mines (MAP26) Red",
-        "entrances": [
-          {
-            "name": "The Abandoned Mines (MAP26) Main -> The Abandoned Mines (MAP26) Red",
-            "parent_region": "The Abandoned Mines (MAP26) Main",
-            "connected_region": "The Abandoned Mines (MAP26) Red"
-          }
-        ],
         "exits": [
           {
             "name": "The Abandoned Mines (MAP26) Red -> The Abandoned Mines (MAP26) Main",
@@ -10937,28 +9960,6 @@
       },
       "Monster Condo (MAP27) Main": {
         "name": "Monster Condo (MAP27) Main",
-        "entrances": [
-          {
-            "name": "Hub -> Monster Condo (MAP27) Main",
-            "parent_region": "Hub",
-            "connected_region": "Monster Condo (MAP27) Main"
-          },
-          {
-            "name": "Monster Condo (MAP27) Blue -> Monster Condo (MAP27) Main",
-            "parent_region": "Monster Condo (MAP27) Blue",
-            "connected_region": "Monster Condo (MAP27) Main"
-          },
-          {
-            "name": "Monster Condo (MAP27) Yellow -> Monster Condo (MAP27) Main",
-            "parent_region": "Monster Condo (MAP27) Yellow",
-            "connected_region": "Monster Condo (MAP27) Main"
-          },
-          {
-            "name": "Monster Condo (MAP27) Red -> Monster Condo (MAP27) Main",
-            "parent_region": "Monster Condo (MAP27) Red",
-            "connected_region": "Monster Condo (MAP27) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Monster Condo (MAP27) Main -> Monster Condo (MAP27) Yellow",
@@ -11263,13 +10264,6 @@
       },
       "Monster Condo (MAP27) Blue": {
         "name": "Monster Condo (MAP27) Blue",
-        "entrances": [
-          {
-            "name": "Monster Condo (MAP27) Main -> Monster Condo (MAP27) Blue",
-            "parent_region": "Monster Condo (MAP27) Main",
-            "connected_region": "Monster Condo (MAP27) Blue"
-          }
-        ],
         "exits": [
           {
             "name": "Monster Condo (MAP27) Blue -> Monster Condo (MAP27) Main",
@@ -11313,13 +10307,6 @@
       },
       "Monster Condo (MAP27) Yellow": {
         "name": "Monster Condo (MAP27) Yellow",
-        "entrances": [
-          {
-            "name": "Monster Condo (MAP27) Main -> Monster Condo (MAP27) Yellow",
-            "parent_region": "Monster Condo (MAP27) Main",
-            "connected_region": "Monster Condo (MAP27) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "Monster Condo (MAP27) Yellow -> Monster Condo (MAP27) Main",
@@ -11475,13 +10462,6 @@
       },
       "Monster Condo (MAP27) Red": {
         "name": "Monster Condo (MAP27) Red",
-        "entrances": [
-          {
-            "name": "Monster Condo (MAP27) Main -> Monster Condo (MAP27) Red",
-            "parent_region": "Monster Condo (MAP27) Main",
-            "connected_region": "Monster Condo (MAP27) Red"
-          }
-        ],
         "exits": [
           {
             "name": "Monster Condo (MAP27) Red -> Monster Condo (MAP27) Main",
@@ -11518,23 +10498,6 @@
       },
       "The Spirit World (MAP28) Main": {
         "name": "The Spirit World (MAP28) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Spirit World (MAP28) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Spirit World (MAP28) Main"
-          },
-          {
-            "name": "The Spirit World (MAP28) Yellow -> The Spirit World (MAP28) Main",
-            "parent_region": "The Spirit World (MAP28) Yellow",
-            "connected_region": "The Spirit World (MAP28) Main"
-          },
-          {
-            "name": "The Spirit World (MAP28) Red -> The Spirit World (MAP28) Main",
-            "parent_region": "The Spirit World (MAP28) Red",
-            "connected_region": "The Spirit World (MAP28) Main"
-          }
-        ],
         "exits": [
           {
             "name": "The Spirit World (MAP28) Main -> The Spirit World (MAP28) Yellow",
@@ -11866,13 +10829,6 @@
       },
       "The Spirit World (MAP28) Yellow": {
         "name": "The Spirit World (MAP28) Yellow",
-        "entrances": [
-          {
-            "name": "The Spirit World (MAP28) Main -> The Spirit World (MAP28) Yellow",
-            "parent_region": "The Spirit World (MAP28) Main",
-            "connected_region": "The Spirit World (MAP28) Yellow"
-          }
-        ],
         "exits": [
           {
             "name": "The Spirit World (MAP28) Yellow -> The Spirit World (MAP28) Main",
@@ -11909,13 +10865,6 @@
       },
       "The Spirit World (MAP28) Red": {
         "name": "The Spirit World (MAP28) Red",
-        "entrances": [
-          {
-            "name": "The Spirit World (MAP28) Main -> The Spirit World (MAP28) Red",
-            "parent_region": "The Spirit World (MAP28) Main",
-            "connected_region": "The Spirit World (MAP28) Red"
-          }
-        ],
         "exits": [
           {
             "name": "The Spirit World (MAP28) Red -> The Spirit World (MAP28) Main",
@@ -11952,13 +10901,6 @@
       },
       "The Living End (MAP29) Main": {
         "name": "The Living End (MAP29) Main",
-        "entrances": [
-          {
-            "name": "Hub -> The Living End (MAP29) Main",
-            "parent_region": "Hub",
-            "connected_region": "The Living End (MAP29) Main"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -12119,13 +11061,6 @@
       },
       "Icon of Sin (MAP30) Main": {
         "name": "Icon of Sin (MAP30) Main",
-        "entrances": [
-          {
-            "name": "Icon of Sin (MAP30) Start -> Icon of Sin (MAP30) Main",
-            "parent_region": "Icon of Sin (MAP30) Start",
-            "connected_region": "Icon of Sin (MAP30) Main"
-          }
-        ],
         "exits": [
           {
             "name": "Icon of Sin (MAP30) Main -> Icon of Sin (MAP30) Start",
@@ -12281,18 +11216,6 @@
       },
       "Icon of Sin (MAP30) Start": {
         "name": "Icon of Sin (MAP30) Start",
-        "entrances": [
-          {
-            "name": "Hub -> Icon of Sin (MAP30) Start",
-            "parent_region": "Hub",
-            "connected_region": "Icon of Sin (MAP30) Start"
-          },
-          {
-            "name": "Icon of Sin (MAP30) Main -> Icon of Sin (MAP30) Start",
-            "parent_region": "Icon of Sin (MAP30) Main",
-            "connected_region": "Icon of Sin (MAP30) Start"
-          }
-        ],
         "exits": [
           {
             "name": "Icon of Sin (MAP30) Start -> Icon of Sin (MAP30) Main",

@@ -14,13 +14,6 @@
     "1": {
       "Raft": {
         "name": "Raft",
-        "entrances": [
-          {
-            "name": "MenuToRaft",
-            "parent_region": "Menu",
-            "connected_region": "Raft"
-          }
-        ],
         "exits": [
           {
             "name": "RaftToResearchTable",
@@ -99,13 +92,6 @@
       },
       "ResearchTable": {
         "name": "ResearchTable",
-        "entrances": [
-          {
-            "name": "RaftToResearchTable",
-            "parent_region": "Raft",
-            "connected_region": "ResearchTable"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1808,13 +1794,6 @@
       },
       "RadioTower": {
         "name": "RadioTower",
-        "entrances": [
-          {
-            "name": "RaftToRadioTower",
-            "parent_region": "Raft",
-            "connected_region": "RadioTower"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1941,13 +1920,6 @@
       },
       "Vasagatan": {
         "name": "Vasagatan",
-        "entrances": [
-          {
-            "name": "RaftToVasagatan",
-            "parent_region": "Raft",
-            "connected_region": "Vasagatan"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2149,13 +2121,6 @@
       },
       "BalboaIsland": {
         "name": "BalboaIsland",
-        "entrances": [
-          {
-            "name": "RaftToBalboaIsland",
-            "parent_region": "Raft",
-            "connected_region": "BalboaIsland"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2500,13 +2465,6 @@
       },
       "CaravanIsland": {
         "name": "CaravanIsland",
-        "entrances": [
-          {
-            "name": "RaftToCaravanIsland",
-            "parent_region": "Raft",
-            "connected_region": "CaravanIsland"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2772,13 +2730,6 @@
       },
       "Tangaroa": {
         "name": "Tangaroa",
-        "entrances": [
-          {
-            "name": "RaftToTangaroa",
-            "parent_region": "Raft",
-            "connected_region": "Tangaroa"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3010,13 +2961,6 @@
       },
       "Varuna Point": {
         "name": "Varuna Point",
-        "entrances": [
-          {
-            "name": "RaftToVaruna Point",
-            "parent_region": "Raft",
-            "connected_region": "Varuna Point"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3188,13 +3132,6 @@
       },
       "Temperance": {
         "name": "Temperance",
-        "entrances": [
-          {
-            "name": "RaftToTemperance",
-            "parent_region": "Raft",
-            "connected_region": "Temperance"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3441,13 +3378,6 @@
       },
       "Utopia": {
         "name": "Utopia",
-        "entrances": [
-          {
-            "name": "RaftToUtopia",
-            "parent_region": "Raft",
-            "connected_region": "Utopia"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3604,7 +3534,6 @@
       },
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "MenuToRaft",

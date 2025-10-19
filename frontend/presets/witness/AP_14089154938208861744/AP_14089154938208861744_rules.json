@@ -14,48 +14,6 @@
     "1": {
       "Entry": {
         "name": "Entry",
-        "entrances": [
-          {
-            "name": "Tutorial First Hallway to Entry",
-            "parent_region": "Tutorial First Hallway",
-            "connected_region": "Entry"
-          },
-          {
-            "name": "Desert Obelisk to Entry",
-            "parent_region": "Desert Obelisk",
-            "connected_region": "Entry"
-          },
-          {
-            "name": "Quarry Obelisk to Entry",
-            "parent_region": "Quarry Obelisk",
-            "connected_region": "Entry"
-          },
-          {
-            "name": "Monastery Obelisk to Entry",
-            "parent_region": "Monastery Obelisk",
-            "connected_region": "Entry"
-          },
-          {
-            "name": "Town Obelisk to Entry",
-            "parent_region": "Town Obelisk",
-            "connected_region": "Entry"
-          },
-          {
-            "name": "Treehouse Obelisk to Entry",
-            "parent_region": "Treehouse Obelisk",
-            "connected_region": "Entry"
-          },
-          {
-            "name": "Mountainside Obelisk to Entry",
-            "parent_region": "Mountainside Obelisk",
-            "connected_region": "Entry"
-          },
-          {
-            "name": "Easter Eggs to Entry",
-            "parent_region": "Easter Eggs",
-            "connected_region": "Entry"
-          }
-        ],
         "exits": [
           {
             "name": "Entry to Tutorial First Hallway",
@@ -544,13 +502,6 @@
       },
       "Tutorial First Hallway": {
         "name": "Tutorial First Hallway",
-        "entrances": [
-          {
-            "name": "Entry to Tutorial First Hallway",
-            "parent_region": "Entry",
-            "connected_region": "Tutorial First Hallway"
-          }
-        ],
         "exits": [
           {
             "name": "Tutorial First Hallway to Entry",
@@ -573,13 +524,6 @@
       },
       "Tutorial First Hallway Room": {
         "name": "Tutorial First Hallway Room",
-        "entrances": [
-          {
-            "name": "Tutorial First Hallway to Tutorial First Hallway Room",
-            "parent_region": "Tutorial First Hallway",
-            "connected_region": "Tutorial First Hallway Room"
-          }
-        ],
         "exits": [
           {
             "name": "Tutorial First Hallway Room to Tutorial",
@@ -594,13 +538,6 @@
       },
       "Tutorial": {
         "name": "Tutorial",
-        "entrances": [
-          {
-            "name": "Tutorial First Hallway Room to Tutorial",
-            "parent_region": "Tutorial First Hallway Room",
-            "connected_region": "Tutorial"
-          }
-        ],
         "exits": [
           {
             "name": "Tutorial to Outside Tutorial",
@@ -695,28 +632,6 @@
       },
       "Outside Tutorial": {
         "name": "Outside Tutorial",
-        "entrances": [
-          {
-            "name": "Tutorial to Outside Tutorial",
-            "parent_region": "Tutorial",
-            "connected_region": "Outside Tutorial"
-          },
-          {
-            "name": "Outside Tutorial Path To Outpost to Outside Tutorial",
-            "parent_region": "Outside Tutorial Path To Outpost",
-            "connected_region": "Outside Tutorial"
-          },
-          {
-            "name": "Outside Tutorial Outpost to Outside Tutorial",
-            "parent_region": "Outside Tutorial Outpost",
-            "connected_region": "Outside Tutorial"
-          },
-          {
-            "name": "Main Island to Outside Tutorial",
-            "parent_region": "Main Island",
-            "connected_region": "Outside Tutorial"
-          }
-        ],
         "exits": [
           {
             "name": "Outside Tutorial to Outside Tutorial Path To Outpost",
@@ -806,13 +721,6 @@
       },
       "Outside Tutorial Path To Outpost": {
         "name": "Outside Tutorial Path To Outpost",
-        "entrances": [
-          {
-            "name": "Outside Tutorial to Outside Tutorial Path To Outpost",
-            "parent_region": "Outside Tutorial",
-            "connected_region": "Outside Tutorial Path To Outpost"
-          }
-        ],
         "exits": [
           {
             "name": "Outside Tutorial Path To Outpost to Outside Tutorial Outpost",
@@ -888,13 +796,6 @@
       },
       "Outside Tutorial Outpost": {
         "name": "Outside Tutorial Outpost",
-        "entrances": [
-          {
-            "name": "Outside Tutorial Path To Outpost to Outside Tutorial Outpost",
-            "parent_region": "Outside Tutorial Path To Outpost",
-            "connected_region": "Outside Tutorial Outpost"
-          }
-        ],
         "exits": [
           {
             "name": "Outside Tutorial Outpost to Outside Tutorial",
@@ -942,13 +843,6 @@
       },
       "Orchard": {
         "name": "Orchard",
-        "entrances": [
-          {
-            "name": "Main Island to Orchard",
-            "parent_region": "Main Island",
-            "connected_region": "Orchard"
-          }
-        ],
         "exits": [
           {
             "name": "Orchard to Main Island",
@@ -971,13 +865,6 @@
       },
       "Orchard Beyond First Gate": {
         "name": "Orchard Beyond First Gate",
-        "entrances": [
-          {
-            "name": "Orchard to Orchard Beyond First Gate",
-            "parent_region": "Orchard",
-            "connected_region": "Orchard Beyond First Gate"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1022,103 +909,6 @@
       },
       "Main Island": {
         "name": "Main Island",
-        "entrances": [
-          {
-            "name": "Outside Tutorial to Main Island",
-            "parent_region": "Outside Tutorial",
-            "connected_region": "Main Island"
-          },
-          {
-            "name": "Orchard to Main Island",
-            "parent_region": "Orchard",
-            "connected_region": "Main Island"
-          },
-          {
-            "name": "Outside Glass Factory to Main Island",
-            "parent_region": "Outside Glass Factory",
-            "connected_region": "Main Island"
-          },
-          {
-            "name": "Outside Symmetry Island to Main Island",
-            "parent_region": "Outside Symmetry Island",
-            "connected_region": "Main Island"
-          },
-          {
-            "name": "Desert Outside to Main Island",
-            "parent_region": "Desert Outside",
-            "connected_region": "Main Island"
-          },
-          {
-            "name": "Outside Quarry to Main Island",
-            "parent_region": "Outside Quarry",
-            "connected_region": "Main Island"
-          },
-          {
-            "name": "Shadows to Main Island",
-            "parent_region": "Shadows",
-            "connected_region": "Main Island"
-          },
-          {
-            "name": "Outside Keep to Main Island",
-            "parent_region": "Outside Keep",
-            "connected_region": "Main Island"
-          },
-          {
-            "name": "Outside Monastery to Main Island",
-            "parent_region": "Outside Monastery",
-            "connected_region": "Main Island"
-          },
-          {
-            "name": "Town to Main Island",
-            "parent_region": "Town",
-            "connected_region": "Main Island"
-          },
-          {
-            "name": "Southern Peninsula to Main Island",
-            "parent_region": "Southern Peninsula",
-            "connected_region": "Main Island"
-          },
-          {
-            "name": "Jungle to Main Island",
-            "parent_region": "Jungle",
-            "connected_region": "Main Island"
-          },
-          {
-            "name": "Outside Jungle River to Main Island",
-            "parent_region": "Outside Jungle River",
-            "connected_region": "Main Island"
-          },
-          {
-            "name": "Outside Bunker to Main Island",
-            "parent_region": "Outside Bunker",
-            "connected_region": "Main Island"
-          },
-          {
-            "name": "Outside Swamp to Main Island",
-            "parent_region": "Outside Swamp",
-            "connected_region": "Main Island"
-          },
-          {
-            "name": "Treehouse Beach to Main Island",
-            "parent_region": "Treehouse Beach",
-            "connected_region": "Main Island"
-          },
-          {
-            "name": "Treehouse Drawbridge Platform to Main Island",
-            "parent_region": "Treehouse Drawbridge Platform",
-            "connected_region": "Main Island"
-          },
-          {
-            "name": "Mountainside to Main Island",
-            "parent_region": "Mountainside",
-            "connected_region": "Main Island"
-          },
-          {
-            "name": "The Ocean to Main Island",
-            "parent_region": "The Ocean",
-            "connected_region": "Main Island"
-          }
-        ],
         "exits": [
           {
             "name": "Main Island to Outside Tutorial",
@@ -1261,13 +1051,6 @@
       },
       "Outside Glass Factory": {
         "name": "Outside Glass Factory",
-        "entrances": [
-          {
-            "name": "Main Island to Outside Glass Factory",
-            "parent_region": "Main Island",
-            "connected_region": "Outside Glass Factory"
-          }
-        ],
         "exits": [
           {
             "name": "Outside Glass Factory to Main Island",
@@ -1319,13 +1102,6 @@
       },
       "Inside Glass Factory": {
         "name": "Inside Glass Factory",
-        "entrances": [
-          {
-            "name": "Outside Glass Factory to Inside Glass Factory",
-            "parent_region": "Outside Glass Factory",
-            "connected_region": "Inside Glass Factory"
-          }
-        ],
         "exits": [
           {
             "name": "Inside Glass Factory to Inside Glass Factory Behind Back Wall",
@@ -1411,18 +1187,6 @@
       },
       "Inside Glass Factory Behind Back Wall": {
         "name": "Inside Glass Factory Behind Back Wall",
-        "entrances": [
-          {
-            "name": "Inside Glass Factory to Inside Glass Factory Behind Back Wall",
-            "parent_region": "Inside Glass Factory",
-            "connected_region": "Inside Glass Factory Behind Back Wall"
-          },
-          {
-            "name": "The Ocean to Inside Glass Factory Behind Back Wall",
-            "parent_region": "The Ocean",
-            "connected_region": "Inside Glass Factory Behind Back Wall"
-          }
-        ],
         "exits": [
           {
             "name": "Inside Glass Factory Behind Back Wall to The Ocean",
@@ -1444,13 +1208,6 @@
       },
       "Outside Symmetry Island": {
         "name": "Outside Symmetry Island",
-        "entrances": [
-          {
-            "name": "Main Island to Outside Symmetry Island",
-            "parent_region": "Main Island",
-            "connected_region": "Outside Symmetry Island"
-          }
-        ],
         "exits": [
           {
             "name": "Outside Symmetry Island to Main Island",
@@ -1532,13 +1289,6 @@
       },
       "Symmetry Island Lower": {
         "name": "Symmetry Island Lower",
-        "entrances": [
-          {
-            "name": "Outside Symmetry Island to Symmetry Island Lower",
-            "parent_region": "Outside Symmetry Island",
-            "connected_region": "Symmetry Island Lower"
-          }
-        ],
         "exits": [
           {
             "name": "Symmetry Island Lower to Symmetry Island Upper",
@@ -1676,13 +1426,6 @@
       },
       "Symmetry Island Upper": {
         "name": "Symmetry Island Upper",
-        "entrances": [
-          {
-            "name": "Symmetry Island Lower to Symmetry Island Upper",
-            "parent_region": "Symmetry Island Lower",
-            "connected_region": "Symmetry Island Upper"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1752,13 +1495,6 @@
       },
       "Desert Obelisk": {
         "name": "Desert Obelisk",
-        "entrances": [
-          {
-            "name": "Entry to Desert Obelisk",
-            "parent_region": "Entry",
-            "connected_region": "Desert Obelisk"
-          }
-        ],
         "exits": [
           {
             "name": "Desert Obelisk to Entry",
@@ -1773,13 +1509,6 @@
       },
       "Desert Outside": {
         "name": "Desert Outside",
-        "entrances": [
-          {
-            "name": "Main Island to Desert Outside",
-            "parent_region": "Main Island",
-            "connected_region": "Desert Outside"
-          }
-        ],
         "exits": [
           {
             "name": "Desert Outside to Main Island",
@@ -1878,13 +1607,6 @@
       },
       "Desert Light Room": {
         "name": "Desert Light Room",
-        "entrances": [
-          {
-            "name": "Desert Outside to Desert Light Room",
-            "parent_region": "Desert Outside",
-            "connected_region": "Desert Light Room"
-          }
-        ],
         "exits": [
           {
             "name": "Desert Light Room to Desert Pond Room",
@@ -1914,13 +1636,6 @@
       },
       "Desert Pond Room": {
         "name": "Desert Pond Room",
-        "entrances": [
-          {
-            "name": "Desert Light Room to Desert Pond Room",
-            "parent_region": "Desert Light Room",
-            "connected_region": "Desert Pond Room"
-          }
-        ],
         "exits": [
           {
             "name": "Desert Pond Room to Desert Flood Room",
@@ -1950,13 +1665,6 @@
       },
       "Desert Flood Room": {
         "name": "Desert Flood Room",
-        "entrances": [
-          {
-            "name": "Desert Pond Room to Desert Flood Room",
-            "parent_region": "Desert Pond Room",
-            "connected_region": "Desert Flood Room"
-          }
-        ],
         "exits": [
           {
             "name": "Desert Flood Room to Desert Elevator Room",
@@ -1994,25 +1702,11 @@
       },
       "Desert Flood Room Underwater": {
         "name": "Desert Flood Room Underwater",
-        "entrances": [
-          {
-            "name": "Desert Flood Room to Desert Flood Room Underwater",
-            "parent_region": "Desert Flood Room",
-            "connected_region": "Desert Flood Room Underwater"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Desert Elevator Room": {
         "name": "Desert Elevator Room",
-        "entrances": [
-          {
-            "name": "Desert Flood Room to Desert Elevator Room",
-            "parent_region": "Desert Flood Room",
-            "connected_region": "Desert Elevator Room"
-          }
-        ],
         "exits": [
           {
             "name": "Desert Elevator Room to Desert Behind Elevator",
@@ -2080,25 +1774,11 @@
       },
       "Desert Behind Elevator": {
         "name": "Desert Behind Elevator",
-        "entrances": [
-          {
-            "name": "Desert Elevator Room to Desert Behind Elevator",
-            "parent_region": "Desert Elevator Room",
-            "connected_region": "Desert Behind Elevator"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Quarry Obelisk": {
         "name": "Quarry Obelisk",
-        "entrances": [
-          {
-            "name": "Entry to Quarry Obelisk",
-            "parent_region": "Entry",
-            "connected_region": "Quarry Obelisk"
-          }
-        ],
         "exits": [
           {
             "name": "Quarry Obelisk to Entry",
@@ -2113,23 +1793,6 @@
       },
       "Outside Quarry": {
         "name": "Outside Quarry",
-        "entrances": [
-          {
-            "name": "Main Island to Outside Quarry",
-            "parent_region": "Main Island",
-            "connected_region": "Outside Quarry"
-          },
-          {
-            "name": "Quarry Elevator to Outside Quarry",
-            "parent_region": "Quarry Elevator",
-            "connected_region": "Outside Quarry"
-          },
-          {
-            "name": "Quarry Stoneworks Ground Floor to Outside Quarry",
-            "parent_region": "Quarry Stoneworks Ground Floor",
-            "connected_region": "Outside Quarry"
-          }
-        ],
         "exits": [
           {
             "name": "Outside Quarry to Main Island",
@@ -2225,18 +1888,6 @@
       },
       "Quarry Elevator": {
         "name": "Quarry Elevator",
-        "entrances": [
-          {
-            "name": "Outside Quarry to Quarry Elevator",
-            "parent_region": "Outside Quarry",
-            "connected_region": "Quarry Elevator"
-          },
-          {
-            "name": "Quarry to Quarry Elevator",
-            "parent_region": "Quarry",
-            "connected_region": "Quarry Elevator"
-          }
-        ],
         "exits": [
           {
             "name": "Quarry Elevator to Outside Quarry",
@@ -2316,13 +1967,6 @@
       },
       "Quarry Between Entry Doors": {
         "name": "Quarry Between Entry Doors",
-        "entrances": [
-          {
-            "name": "Outside Quarry to Quarry Between Entry Doors",
-            "parent_region": "Outside Quarry",
-            "connected_region": "Quarry Between Entry Doors"
-          }
-        ],
         "exits": [
           {
             "name": "Quarry Between Entry Doors to Quarry",
@@ -2366,33 +2010,6 @@
       },
       "Quarry": {
         "name": "Quarry",
-        "entrances": [
-          {
-            "name": "Quarry Elevator to Quarry",
-            "parent_region": "Quarry Elevator",
-            "connected_region": "Quarry"
-          },
-          {
-            "name": "Quarry Between Entry Doors to Quarry",
-            "parent_region": "Quarry Between Entry Doors",
-            "connected_region": "Quarry"
-          },
-          {
-            "name": "Quarry Stoneworks Ground Floor to Quarry",
-            "parent_region": "Quarry Stoneworks Ground Floor",
-            "connected_region": "Quarry"
-          },
-          {
-            "name": "Quarry Boathouse to Quarry",
-            "parent_region": "Quarry Boathouse",
-            "connected_region": "Quarry"
-          },
-          {
-            "name": "Shadows Ledge to Quarry",
-            "parent_region": "Shadows Ledge",
-            "connected_region": "Quarry"
-          }
-        ],
         "exits": [
           {
             "name": "Quarry to Quarry Stoneworks Ground Floor",
@@ -2475,23 +2092,6 @@
       },
       "Quarry Stoneworks Ground Floor": {
         "name": "Quarry Stoneworks Ground Floor",
-        "entrances": [
-          {
-            "name": "Quarry to Quarry Stoneworks Ground Floor",
-            "parent_region": "Quarry",
-            "connected_region": "Quarry Stoneworks Ground Floor"
-          },
-          {
-            "name": "Quarry Stoneworks Lift to Quarry Stoneworks Ground Floor",
-            "parent_region": "Quarry Stoneworks Lift",
-            "connected_region": "Quarry Stoneworks Ground Floor"
-          },
-          {
-            "name": "Quarry Stoneworks Upper Floor to Quarry Stoneworks Ground Floor",
-            "parent_region": "Quarry Stoneworks Upper Floor",
-            "connected_region": "Quarry Stoneworks Ground Floor"
-          }
-        ],
         "exits": [
           {
             "name": "Quarry Stoneworks Ground Floor to Quarry",
@@ -2539,13 +2139,6 @@
       },
       "Quarry Stoneworks Middle Floor": {
         "name": "Quarry Stoneworks Middle Floor",
-        "entrances": [
-          {
-            "name": "Quarry Stoneworks Ground Floor to Quarry Stoneworks Middle Floor",
-            "parent_region": "Quarry Stoneworks Ground Floor",
-            "connected_region": "Quarry Stoneworks Middle Floor"
-          }
-        ],
         "exits": [
           {
             "name": "Quarry Stoneworks Middle Floor to Quarry Stoneworks Lift",
@@ -2584,23 +2177,6 @@
       },
       "Quarry Stoneworks Lift": {
         "name": "Quarry Stoneworks Lift",
-        "entrances": [
-          {
-            "name": "Quarry Stoneworks Ground Floor to Quarry Stoneworks Lift",
-            "parent_region": "Quarry Stoneworks Ground Floor",
-            "connected_region": "Quarry Stoneworks Lift"
-          },
-          {
-            "name": "Quarry Stoneworks Middle Floor to Quarry Stoneworks Lift",
-            "parent_region": "Quarry Stoneworks Middle Floor",
-            "connected_region": "Quarry Stoneworks Lift"
-          },
-          {
-            "name": "Quarry Stoneworks Upper Floor to Quarry Stoneworks Lift",
-            "parent_region": "Quarry Stoneworks Upper Floor",
-            "connected_region": "Quarry Stoneworks Lift"
-          }
-        ],
         "exits": [
           {
             "name": "Quarry Stoneworks Lift to Quarry Stoneworks Ground Floor",
@@ -2667,13 +2243,6 @@
       },
       "Quarry Stoneworks Upper Floor": {
         "name": "Quarry Stoneworks Upper Floor",
-        "entrances": [
-          {
-            "name": "Quarry Stoneworks Lift to Quarry Stoneworks Upper Floor",
-            "parent_region": "Quarry Stoneworks Lift",
-            "connected_region": "Quarry Stoneworks Upper Floor"
-          }
-        ],
         "exits": [
           {
             "name": "Quarry Stoneworks Upper Floor to Quarry Stoneworks Lift",
@@ -2810,13 +2379,6 @@
       },
       "Quarry Boathouse": {
         "name": "Quarry Boathouse",
-        "entrances": [
-          {
-            "name": "Quarry to Quarry Boathouse",
-            "parent_region": "Quarry",
-            "connected_region": "Quarry Boathouse"
-          }
-        ],
         "exits": [
           {
             "name": "Quarry Boathouse to Quarry",
@@ -2909,18 +2471,6 @@
       },
       "Quarry Boathouse Behind Staircase": {
         "name": "Quarry Boathouse Behind Staircase",
-        "entrances": [
-          {
-            "name": "Quarry Boathouse to Quarry Boathouse Behind Staircase",
-            "parent_region": "Quarry Boathouse",
-            "connected_region": "Quarry Boathouse Behind Staircase"
-          },
-          {
-            "name": "The Ocean to Quarry Boathouse Behind Staircase",
-            "parent_region": "The Ocean",
-            "connected_region": "Quarry Boathouse Behind Staircase"
-          }
-        ],
         "exits": [
           {
             "name": "Quarry Boathouse Behind Staircase to The Ocean",
@@ -2957,13 +2507,6 @@
       },
       "Quarry Boathouse Upper Front": {
         "name": "Quarry Boathouse Upper Front",
-        "entrances": [
-          {
-            "name": "Quarry Boathouse to Quarry Boathouse Upper Front",
-            "parent_region": "Quarry Boathouse",
-            "connected_region": "Quarry Boathouse Upper Front"
-          }
-        ],
         "exits": [
           {
             "name": "Quarry Boathouse Upper Front to Quarry Boathouse Upper Middle",
@@ -3011,18 +2554,6 @@
       },
       "Quarry Boathouse Upper Middle": {
         "name": "Quarry Boathouse Upper Middle",
-        "entrances": [
-          {
-            "name": "Quarry Boathouse Upper Front to Quarry Boathouse Upper Middle",
-            "parent_region": "Quarry Boathouse Upper Front",
-            "connected_region": "Quarry Boathouse Upper Middle"
-          },
-          {
-            "name": "Quarry Boathouse Upper Back to Quarry Boathouse Upper Middle",
-            "parent_region": "Quarry Boathouse Upper Back",
-            "connected_region": "Quarry Boathouse Upper Middle"
-          }
-        ],
         "exits": [
           {
             "name": "Quarry Boathouse Upper Middle to Quarry Boathouse Upper Back",
@@ -3046,13 +2577,6 @@
       },
       "Quarry Boathouse Upper Back": {
         "name": "Quarry Boathouse Upper Back",
-        "entrances": [
-          {
-            "name": "Quarry Boathouse Upper Middle to Quarry Boathouse Upper Back",
-            "parent_region": "Quarry Boathouse Upper Middle",
-            "connected_region": "Quarry Boathouse Upper Back"
-          }
-        ],
         "exits": [
           {
             "name": "Quarry Boathouse Upper Back to Quarry Boathouse Upper Middle",
@@ -3116,23 +2640,6 @@
       },
       "Shadows": {
         "name": "Shadows",
-        "entrances": [
-          {
-            "name": "Main Island to Shadows",
-            "parent_region": "Main Island",
-            "connected_region": "Shadows"
-          },
-          {
-            "name": "Shadows Ledge to Shadows",
-            "parent_region": "Shadows Ledge",
-            "connected_region": "Shadows"
-          },
-          {
-            "name": "Keep 4th Pressure Plate to Shadows",
-            "parent_region": "Keep 4th Pressure Plate",
-            "connected_region": "Shadows"
-          }
-        ],
         "exits": [
           {
             "name": "Shadows to Main Island",
@@ -3302,13 +2809,6 @@
       },
       "Shadows Ledge": {
         "name": "Shadows Ledge",
-        "entrances": [
-          {
-            "name": "Shadows to Shadows Ledge",
-            "parent_region": "Shadows",
-            "connected_region": "Shadows Ledge"
-          }
-        ],
         "exits": [
           {
             "name": "Shadows Ledge to Shadows",
@@ -3331,13 +2831,6 @@
       },
       "Shadows Laser Room": {
         "name": "Shadows Laser Room",
-        "entrances": [
-          {
-            "name": "Shadows to Shadows Laser Room",
-            "parent_region": "Shadows",
-            "connected_region": "Shadows Laser Room"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3380,18 +2873,6 @@
       },
       "Outside Keep": {
         "name": "Outside Keep",
-        "entrances": [
-          {
-            "name": "Main Island to Outside Keep",
-            "parent_region": "Main Island",
-            "connected_region": "Outside Keep"
-          },
-          {
-            "name": "Keep to Outside Keep",
-            "parent_region": "Keep",
-            "connected_region": "Outside Keep"
-          }
-        ],
         "exits": [
           {
             "name": "Outside Keep to Main Island",
@@ -3414,28 +2895,6 @@
       },
       "Keep": {
         "name": "Keep",
-        "entrances": [
-          {
-            "name": "Outside Keep to Keep",
-            "parent_region": "Outside Keep",
-            "connected_region": "Keep"
-          },
-          {
-            "name": "Keep 3rd Maze to Keep",
-            "parent_region": "Keep 3rd Maze",
-            "connected_region": "Keep"
-          },
-          {
-            "name": "Keep 4th Maze to Keep",
-            "parent_region": "Keep 4th Maze",
-            "connected_region": "Keep"
-          },
-          {
-            "name": "Keep Tower to Keep",
-            "parent_region": "Keep Tower",
-            "connected_region": "Keep"
-          }
-        ],
         "exits": [
           {
             "name": "Keep to Outside Keep",
@@ -3573,13 +3032,6 @@
       },
       "Keep 2nd Maze": {
         "name": "Keep 2nd Maze",
-        "entrances": [
-          {
-            "name": "Keep to Keep 2nd Maze",
-            "parent_region": "Keep",
-            "connected_region": "Keep 2nd Maze"
-          }
-        ],
         "exits": [
           {
             "name": "Keep 2nd Maze to Keep 3rd Maze",
@@ -3609,18 +3061,6 @@
       },
       "Keep 3rd Maze": {
         "name": "Keep 3rd Maze",
-        "entrances": [
-          {
-            "name": "Keep to Keep 3rd Maze",
-            "parent_region": "Keep",
-            "connected_region": "Keep 3rd Maze"
-          },
-          {
-            "name": "Keep 2nd Maze to Keep 3rd Maze",
-            "parent_region": "Keep 2nd Maze",
-            "connected_region": "Keep 3rd Maze"
-          }
-        ],
         "exits": [
           {
             "name": "Keep 3rd Maze to Keep",
@@ -3682,18 +3122,6 @@
       },
       "Keep 4th Maze": {
         "name": "Keep 4th Maze",
-        "entrances": [
-          {
-            "name": "Keep to Keep 4th Maze",
-            "parent_region": "Keep",
-            "connected_region": "Keep 4th Maze"
-          },
-          {
-            "name": "Keep 3rd Maze to Keep 4th Maze",
-            "parent_region": "Keep 3rd Maze",
-            "connected_region": "Keep 4th Maze"
-          }
-        ],
         "exits": [
           {
             "name": "Keep 4th Maze to Keep",
@@ -3755,18 +3183,6 @@
       },
       "Keep 2nd Pressure Plate": {
         "name": "Keep 2nd Pressure Plate",
-        "entrances": [
-          {
-            "name": "Keep to Keep 2nd Pressure Plate",
-            "parent_region": "Keep",
-            "connected_region": "Keep 2nd Pressure Plate"
-          },
-          {
-            "name": "Keep 3rd Pressure Plate to Keep 2nd Pressure Plate",
-            "parent_region": "Keep 3rd Pressure Plate",
-            "connected_region": "Keep 2nd Pressure Plate"
-          }
-        ],
         "exits": [
           {
             "name": "Keep 2nd Pressure Plate to Keep 3rd Pressure Plate",
@@ -3805,18 +3221,6 @@
       },
       "Keep 3rd Pressure Plate": {
         "name": "Keep 3rd Pressure Plate",
-        "entrances": [
-          {
-            "name": "Keep 2nd Pressure Plate to Keep 3rd Pressure Plate",
-            "parent_region": "Keep 2nd Pressure Plate",
-            "connected_region": "Keep 3rd Pressure Plate"
-          },
-          {
-            "name": "Shipwreck to Keep 3rd Pressure Plate",
-            "parent_region": "Shipwreck",
-            "connected_region": "Keep 3rd Pressure Plate"
-          }
-        ],
         "exits": [
           {
             "name": "Keep 3rd Pressure Plate to Keep 4th Pressure Plate",
@@ -3882,13 +3286,6 @@
       },
       "Keep 4th Pressure Plate": {
         "name": "Keep 4th Pressure Plate",
-        "entrances": [
-          {
-            "name": "Keep 3rd Pressure Plate to Keep 4th Pressure Plate",
-            "parent_region": "Keep 3rd Pressure Plate",
-            "connected_region": "Keep 4th Pressure Plate"
-          }
-        ],
         "exits": [
           {
             "name": "Keep 4th Pressure Plate to Shadows",
@@ -3946,18 +3343,6 @@
       },
       "Keep Tower": {
         "name": "Keep Tower",
-        "entrances": [
-          {
-            "name": "Keep 4th Maze to Keep Tower",
-            "parent_region": "Keep 4th Maze",
-            "connected_region": "Keep Tower"
-          },
-          {
-            "name": "Keep 4th Pressure Plate to Keep Tower",
-            "parent_region": "Keep 4th Pressure Plate",
-            "connected_region": "Keep Tower"
-          }
-        ],
         "exits": [
           {
             "name": "Keep Tower to Keep",
@@ -4045,13 +3430,6 @@
       },
       "Shipwreck": {
         "name": "Shipwreck",
-        "entrances": [
-          {
-            "name": "Keep 3rd Pressure Plate to Shipwreck",
-            "parent_region": "Keep 3rd Pressure Plate",
-            "connected_region": "Shipwreck"
-          }
-        ],
         "exits": [
           {
             "name": "Shipwreck to Keep 3rd Pressure Plate",
@@ -4066,13 +3444,6 @@
       },
       "Monastery Obelisk": {
         "name": "Monastery Obelisk",
-        "entrances": [
-          {
-            "name": "Entry to Monastery Obelisk",
-            "parent_region": "Entry",
-            "connected_region": "Monastery Obelisk"
-          }
-        ],
         "exits": [
           {
             "name": "Monastery Obelisk to Entry",
@@ -4087,13 +3458,6 @@
       },
       "Outside Monastery": {
         "name": "Outside Monastery",
-        "entrances": [
-          {
-            "name": "Main Island to Outside Monastery",
-            "parent_region": "Main Island",
-            "connected_region": "Outside Monastery"
-          }
-        ],
         "exits": [
           {
             "name": "Outside Monastery to Main Island",
@@ -4189,13 +3553,6 @@
       },
       "Inside Monastery": {
         "name": "Inside Monastery",
-        "entrances": [
-          {
-            "name": "Outside Monastery to Inside Monastery",
-            "parent_region": "Outside Monastery",
-            "connected_region": "Inside Monastery"
-          }
-        ],
         "exits": [
           {
             "name": "Inside Monastery to Monastery North Shutters",
@@ -4254,25 +3611,11 @@
       },
       "Monastery North Shutters": {
         "name": "Monastery North Shutters",
-        "entrances": [
-          {
-            "name": "Inside Monastery to Monastery North Shutters",
-            "parent_region": "Inside Monastery",
-            "connected_region": "Monastery North Shutters"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Town Obelisk": {
         "name": "Town Obelisk",
-        "entrances": [
-          {
-            "name": "Entry to Town Obelisk",
-            "parent_region": "Entry",
-            "connected_region": "Town Obelisk"
-          }
-        ],
         "exits": [
           {
             "name": "Town Obelisk to Entry",
@@ -4287,33 +3630,6 @@
       },
       "Town": {
         "name": "Town",
-        "entrances": [
-          {
-            "name": "Main Island to Town",
-            "parent_region": "Main Island",
-            "connected_region": "Town"
-          },
-          {
-            "name": "Town Church to Town",
-            "parent_region": "Town Church",
-            "connected_region": "Town"
-          },
-          {
-            "name": "Town Tower Bottom to Town",
-            "parent_region": "Town Tower Bottom",
-            "connected_region": "Town"
-          },
-          {
-            "name": "Outside Windmill to Town",
-            "parent_region": "Outside Windmill",
-            "connected_region": "Town"
-          },
-          {
-            "name": "Theater to Town",
-            "parent_region": "Theater",
-            "connected_region": "Town"
-          }
-        ],
         "exits": [
           {
             "name": "Town to Main Island",
@@ -4559,13 +3875,6 @@
       },
       "Town Maze Rooftop": {
         "name": "Town Maze Rooftop",
-        "entrances": [
-          {
-            "name": "Town to Town Maze Rooftop",
-            "parent_region": "Town",
-            "connected_region": "Town Maze Rooftop"
-          }
-        ],
         "exits": [
           {
             "name": "Town Maze Rooftop to Town Red Rooftop",
@@ -4587,13 +3896,6 @@
       },
       "Town Red Rooftop": {
         "name": "Town Red Rooftop",
-        "entrances": [
-          {
-            "name": "Town Maze Rooftop to Town Red Rooftop",
-            "parent_region": "Town Maze Rooftop",
-            "connected_region": "Town Red Rooftop"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4660,13 +3962,6 @@
       },
       "Town Wooden Rooftop": {
         "name": "Town Wooden Rooftop",
-        "entrances": [
-          {
-            "name": "Town to Town Wooden Rooftop",
-            "parent_region": "Town",
-            "connected_region": "Town Wooden Rooftop"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4709,13 +4004,6 @@
       },
       "Town Church": {
         "name": "Town Church",
-        "entrances": [
-          {
-            "name": "Town to Town Church",
-            "parent_region": "Town",
-            "connected_region": "Town Church"
-          }
-        ],
         "exits": [
           {
             "name": "Town Church to Town",
@@ -4767,13 +4055,6 @@
       },
       "Town RGB House": {
         "name": "Town RGB House",
-        "entrances": [
-          {
-            "name": "Town to Town RGB House",
-            "parent_region": "Town",
-            "connected_region": "Town RGB House"
-          }
-        ],
         "exits": [
           {
             "name": "Town RGB House to Town RGB House Upstairs",
@@ -4817,13 +4098,6 @@
       },
       "Town RGB House Upstairs": {
         "name": "Town RGB House Upstairs",
-        "entrances": [
-          {
-            "name": "Town RGB House to Town RGB House Upstairs",
-            "parent_region": "Town RGB House",
-            "connected_region": "Town RGB House Upstairs"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4878,18 +4152,6 @@
       },
       "Town Tower Bottom": {
         "name": "Town Tower Bottom",
-        "entrances": [
-          {
-            "name": "Town to Town Tower Bottom",
-            "parent_region": "Town",
-            "connected_region": "Town Tower Bottom"
-          },
-          {
-            "name": "Town Tower After First Door to Town Tower Bottom",
-            "parent_region": "Town Tower After First Door",
-            "connected_region": "Town Tower Bottom"
-          }
-        ],
         "exits": [
           {
             "name": "Town Tower Bottom to Town",
@@ -4934,18 +4196,6 @@
       },
       "Town Tower After First Door": {
         "name": "Town Tower After First Door",
-        "entrances": [
-          {
-            "name": "Town Tower Bottom to Town Tower After First Door",
-            "parent_region": "Town Tower Bottom",
-            "connected_region": "Town Tower After First Door"
-          },
-          {
-            "name": "Town Tower After Second Door to Town Tower After First Door",
-            "parent_region": "Town Tower After Second Door",
-            "connected_region": "Town Tower After First Door"
-          }
-        ],
         "exits": [
           {
             "name": "Town Tower After First Door to Town Tower After Second Door",
@@ -5012,18 +4262,6 @@
       },
       "Town Tower After Second Door": {
         "name": "Town Tower After Second Door",
-        "entrances": [
-          {
-            "name": "Town Tower After First Door to Town Tower After Second Door",
-            "parent_region": "Town Tower After First Door",
-            "connected_region": "Town Tower After Second Door"
-          },
-          {
-            "name": "Town Tower After Third Door to Town Tower After Second Door",
-            "parent_region": "Town Tower After Third Door",
-            "connected_region": "Town Tower After Second Door"
-          }
-        ],
         "exits": [
           {
             "name": "Town Tower After Second Door to Town Tower After Third Door",
@@ -5090,18 +4328,6 @@
       },
       "Town Tower After Third Door": {
         "name": "Town Tower After Third Door",
-        "entrances": [
-          {
-            "name": "Town Tower After Second Door to Town Tower After Third Door",
-            "parent_region": "Town Tower After Second Door",
-            "connected_region": "Town Tower After Third Door"
-          },
-          {
-            "name": "Town Tower Top to Town Tower After Third Door",
-            "parent_region": "Town Tower Top",
-            "connected_region": "Town Tower After Third Door"
-          }
-        ],
         "exits": [
           {
             "name": "Town Tower After Third Door to Town Tower Top",
@@ -5168,13 +4394,6 @@
       },
       "Town Tower Top": {
         "name": "Town Tower Top",
-        "entrances": [
-          {
-            "name": "Town Tower After Third Door to Town Tower Top",
-            "parent_region": "Town Tower After Third Door",
-            "connected_region": "Town Tower Top"
-          }
-        ],
         "exits": [
           {
             "name": "Town Tower Top to Town Tower After Third Door",
@@ -5226,13 +4445,6 @@
       },
       "Outside Windmill": {
         "name": "Outside Windmill",
-        "entrances": [
-          {
-            "name": "Town to Outside Windmill",
-            "parent_region": "Town",
-            "connected_region": "Outside Windmill"
-          }
-        ],
         "exits": [
           {
             "name": "Outside Windmill to Windmill Interior",
@@ -5284,13 +4496,6 @@
       },
       "Windmill Interior": {
         "name": "Windmill Interior",
-        "entrances": [
-          {
-            "name": "Outside Windmill to Windmill Interior",
-            "parent_region": "Outside Windmill",
-            "connected_region": "Windmill Interior"
-          }
-        ],
         "exits": [
           {
             "name": "Windmill Interior to Theater",
@@ -5334,13 +4539,6 @@
       },
       "Theater": {
         "name": "Theater",
-        "entrances": [
-          {
-            "name": "Windmill Interior to Theater",
-            "parent_region": "Windmill Interior",
-            "connected_region": "Theater"
-          }
-        ],
         "exits": [
           {
             "name": "Theater to Town",
@@ -5437,13 +4635,6 @@
       },
       "Southern Peninsula": {
         "name": "Southern Peninsula",
-        "entrances": [
-          {
-            "name": "Main Island to Southern Peninsula",
-            "parent_region": "Main Island",
-            "connected_region": "Southern Peninsula"
-          }
-        ],
         "exits": [
           {
             "name": "Southern Peninsula to Main Island",
@@ -5458,13 +4649,6 @@
       },
       "Jungle": {
         "name": "Jungle",
-        "entrances": [
-          {
-            "name": "Main Island to Jungle",
-            "parent_region": "Main Island",
-            "connected_region": "Jungle"
-          }
-        ],
         "exits": [
           {
             "name": "Jungle to Main Island",
@@ -5603,25 +4787,11 @@
       },
       "Jungle Under Popup Wall": {
         "name": "Jungle Under Popup Wall",
-        "entrances": [
-          {
-            "name": "Jungle to Jungle Under Popup Wall",
-            "parent_region": "Jungle",
-            "connected_region": "Jungle Under Popup Wall"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Outside Jungle River": {
         "name": "Outside Jungle River",
-        "entrances": [
-          {
-            "name": "Main Island to Outside Jungle River",
-            "parent_region": "Main Island",
-            "connected_region": "Outside Jungle River"
-          }
-        ],
         "exits": [
           {
             "name": "Outside Jungle River to Main Island",
@@ -5651,18 +4821,6 @@
       },
       "Outside Bunker": {
         "name": "Outside Bunker",
-        "entrances": [
-          {
-            "name": "Main Island to Outside Bunker",
-            "parent_region": "Main Island",
-            "connected_region": "Outside Bunker"
-          },
-          {
-            "name": "Bunker Elevator to Outside Bunker",
-            "parent_region": "Bunker Elevator",
-            "connected_region": "Outside Bunker"
-          }
-        ],
         "exits": [
           {
             "name": "Outside Bunker to Main Island",
@@ -5714,13 +4872,6 @@
       },
       "Bunker": {
         "name": "Bunker",
-        "entrances": [
-          {
-            "name": "Outside Bunker to Bunker",
-            "parent_region": "Outside Bunker",
-            "connected_region": "Bunker"
-          }
-        ],
         "exits": [
           {
             "name": "Bunker to Bunker Glass Room",
@@ -5791,13 +4942,6 @@
       },
       "Bunker Glass Room": {
         "name": "Bunker Glass Room",
-        "entrances": [
-          {
-            "name": "Bunker to Bunker Glass Room",
-            "parent_region": "Bunker",
-            "connected_region": "Bunker Glass Room"
-          }
-        ],
         "exits": [
           {
             "name": "Bunker Glass Room to Bunker Ultraviolet Room",
@@ -5871,13 +5015,6 @@
       },
       "Bunker Ultraviolet Room": {
         "name": "Bunker Ultraviolet Room",
-        "entrances": [
-          {
-            "name": "Bunker Glass Room to Bunker Ultraviolet Room",
-            "parent_region": "Bunker Glass Room",
-            "connected_region": "Bunker Ultraviolet Room"
-          }
-        ],
         "exits": [
           {
             "name": "Bunker Ultraviolet Room to Bunker Elevator Section",
@@ -5925,23 +5062,6 @@
       },
       "Bunker Elevator Section": {
         "name": "Bunker Elevator Section",
-        "entrances": [
-          {
-            "name": "Bunker Ultraviolet Room to Bunker Elevator Section",
-            "parent_region": "Bunker Ultraviolet Room",
-            "connected_region": "Bunker Elevator Section"
-          },
-          {
-            "name": "Bunker Under Elevator to Bunker Elevator Section",
-            "parent_region": "Bunker Under Elevator",
-            "connected_region": "Bunker Elevator Section"
-          },
-          {
-            "name": "Bunker Elevator to Bunker Elevator Section",
-            "parent_region": "Bunker Elevator",
-            "connected_region": "Bunker Elevator Section"
-          }
-        ],
         "exits": [
           {
             "name": "Bunker Elevator Section to Bunker Elevator",
@@ -5999,13 +5119,6 @@
       },
       "Bunker Under Elevator": {
         "name": "Bunker Under Elevator",
-        "entrances": [
-          {
-            "name": "Bunker Elevator Section to Bunker Under Elevator",
-            "parent_region": "Bunker Elevator Section",
-            "connected_region": "Bunker Under Elevator"
-          }
-        ],
         "exits": [
           {
             "name": "Bunker Under Elevator to Bunker Elevator Section",
@@ -6055,28 +5168,6 @@
       },
       "Bunker Elevator": {
         "name": "Bunker Elevator",
-        "entrances": [
-          {
-            "name": "Bunker Elevator Section to Bunker Elevator",
-            "parent_region": "Bunker Elevator Section",
-            "connected_region": "Bunker Elevator"
-          },
-          {
-            "name": "Bunker Cyan Room to Bunker Elevator",
-            "parent_region": "Bunker Cyan Room",
-            "connected_region": "Bunker Elevator"
-          },
-          {
-            "name": "Bunker Green Room to Bunker Elevator",
-            "parent_region": "Bunker Green Room",
-            "connected_region": "Bunker Elevator"
-          },
-          {
-            "name": "Bunker Laser Platform to Bunker Elevator",
-            "parent_region": "Bunker Laser Platform",
-            "connected_region": "Bunker Elevator"
-          }
-        ],
         "exits": [
           {
             "name": "Bunker Elevator to Bunker Elevator Section",
@@ -6168,13 +5259,6 @@
       },
       "Bunker Cyan Room": {
         "name": "Bunker Cyan Room",
-        "entrances": [
-          {
-            "name": "Bunker Elevator to Bunker Cyan Room",
-            "parent_region": "Bunker Elevator",
-            "connected_region": "Bunker Cyan Room"
-          }
-        ],
         "exits": [
           {
             "name": "Bunker Cyan Room to Bunker Elevator",
@@ -6189,13 +5273,6 @@
       },
       "Bunker Green Room": {
         "name": "Bunker Green Room",
-        "entrances": [
-          {
-            "name": "Bunker Elevator to Bunker Green Room",
-            "parent_region": "Bunker Elevator",
-            "connected_region": "Bunker Green Room"
-          }
-        ],
         "exits": [
           {
             "name": "Bunker Green Room to Bunker Elevator",
@@ -6210,13 +5287,6 @@
       },
       "Bunker Laser Platform": {
         "name": "Bunker Laser Platform",
-        "entrances": [
-          {
-            "name": "Bunker Elevator to Bunker Laser Platform",
-            "parent_region": "Bunker Elevator",
-            "connected_region": "Bunker Laser Platform"
-          }
-        ],
         "exits": [
           {
             "name": "Bunker Laser Platform to Bunker Elevator",
@@ -6246,18 +5316,6 @@
       },
       "Outside Swamp": {
         "name": "Outside Swamp",
-        "entrances": [
-          {
-            "name": "Main Island to Outside Swamp",
-            "parent_region": "Main Island",
-            "connected_region": "Outside Swamp"
-          },
-          {
-            "name": "Swamp Laser Area to Outside Swamp",
-            "parent_region": "Swamp Laser Area",
-            "connected_region": "Outside Swamp"
-          }
-        ],
         "exits": [
           {
             "name": "Outside Swamp to Swamp Entry Area",
@@ -6309,18 +5367,6 @@
       },
       "Swamp Entry Area": {
         "name": "Swamp Entry Area",
-        "entrances": [
-          {
-            "name": "Outside Swamp to Swamp Entry Area",
-            "parent_region": "Outside Swamp",
-            "connected_region": "Swamp Entry Area"
-          },
-          {
-            "name": "Swamp Sliding Bridge to Swamp Entry Area",
-            "parent_region": "Swamp Sliding Bridge",
-            "connected_region": "Swamp Entry Area"
-          }
-        ],
         "exits": [
           {
             "name": "Swamp Entry Area to Swamp Sliding Bridge",
@@ -6378,18 +5424,6 @@
       },
       "Swamp Sliding Bridge": {
         "name": "Swamp Sliding Bridge",
-        "entrances": [
-          {
-            "name": "Swamp Entry Area to Swamp Sliding Bridge",
-            "parent_region": "Swamp Entry Area",
-            "connected_region": "Swamp Sliding Bridge"
-          },
-          {
-            "name": "Swamp Platform to Swamp Sliding Bridge",
-            "parent_region": "Swamp Platform",
-            "connected_region": "Swamp Sliding Bridge"
-          }
-        ],
         "exits": [
           {
             "name": "Swamp Sliding Bridge to Swamp Entry Area",
@@ -6426,18 +5460,6 @@
       },
       "Swamp Platform": {
         "name": "Swamp Platform",
-        "entrances": [
-          {
-            "name": "Swamp Sliding Bridge to Swamp Platform",
-            "parent_region": "Swamp Sliding Bridge",
-            "connected_region": "Swamp Platform"
-          },
-          {
-            "name": "Swamp Cyan Underwater to Swamp Platform",
-            "parent_region": "Swamp Cyan Underwater",
-            "connected_region": "Swamp Platform"
-          }
-        ],
         "exits": [
           {
             "name": "Swamp Platform to Swamp Cyan Underwater",
@@ -6555,13 +5577,6 @@
       },
       "Swamp Cyan Underwater": {
         "name": "Swamp Cyan Underwater",
-        "entrances": [
-          {
-            "name": "Swamp Platform to Swamp Cyan Underwater",
-            "parent_region": "Swamp Platform",
-            "connected_region": "Swamp Cyan Underwater"
-          }
-        ],
         "exits": [
           {
             "name": "Swamp Cyan Underwater to Swamp Platform",
@@ -6622,13 +5637,6 @@
       },
       "Swamp Between Bridges Near": {
         "name": "Swamp Between Bridges Near",
-        "entrances": [
-          {
-            "name": "Swamp Platform to Swamp Between Bridges Near",
-            "parent_region": "Swamp Platform",
-            "connected_region": "Swamp Between Bridges Near"
-          }
-        ],
         "exits": [
           {
             "name": "Swamp Between Bridges Near to Swamp Between Bridges Far",
@@ -6702,23 +5710,6 @@
       },
       "Swamp Between Bridges Far": {
         "name": "Swamp Between Bridges Far",
-        "entrances": [
-          {
-            "name": "Swamp Between Bridges Near to Swamp Between Bridges Far",
-            "parent_region": "Swamp Between Bridges Near",
-            "connected_region": "Swamp Between Bridges Far"
-          },
-          {
-            "name": "Swamp Red Underwater to Swamp Between Bridges Far",
-            "parent_region": "Swamp Red Underwater",
-            "connected_region": "Swamp Between Bridges Far"
-          },
-          {
-            "name": "Swamp Rotating Bridge to Swamp Between Bridges Far",
-            "parent_region": "Swamp Rotating Bridge",
-            "connected_region": "Swamp Between Bridges Far"
-          }
-        ],
         "exits": [
           {
             "name": "Swamp Between Bridges Far to Swamp Red Underwater",
@@ -6800,13 +5791,6 @@
       },
       "Swamp Red Underwater": {
         "name": "Swamp Red Underwater",
-        "entrances": [
-          {
-            "name": "Swamp Between Bridges Far to Swamp Red Underwater",
-            "parent_region": "Swamp Between Bridges Far",
-            "connected_region": "Swamp Red Underwater"
-          }
-        ],
         "exits": [
           {
             "name": "Swamp Red Underwater to Swamp Maze",
@@ -6884,23 +5868,6 @@
       },
       "Swamp Rotating Bridge": {
         "name": "Swamp Rotating Bridge",
-        "entrances": [
-          {
-            "name": "Swamp Between Bridges Far to Swamp Rotating Bridge",
-            "parent_region": "Swamp Between Bridges Far",
-            "connected_region": "Swamp Rotating Bridge"
-          },
-          {
-            "name": "Swamp Near Boat to Swamp Rotating Bridge",
-            "parent_region": "Swamp Near Boat",
-            "connected_region": "Swamp Rotating Bridge"
-          },
-          {
-            "name": "Swamp Purple Area to Swamp Rotating Bridge",
-            "parent_region": "Swamp Purple Area",
-            "connected_region": "Swamp Rotating Bridge"
-          }
-        ],
         "exits": [
           {
             "name": "Swamp Rotating Bridge to Swamp Between Bridges Far",
@@ -6958,28 +5925,6 @@
       },
       "Swamp Near Boat": {
         "name": "Swamp Near Boat",
-        "entrances": [
-          {
-            "name": "Swamp Platform to Swamp Near Boat",
-            "parent_region": "Swamp Platform",
-            "connected_region": "Swamp Near Boat"
-          },
-          {
-            "name": "Swamp Rotating Bridge to Swamp Near Boat",
-            "parent_region": "Swamp Rotating Bridge",
-            "connected_region": "Swamp Near Boat"
-          },
-          {
-            "name": "Swamp Purple Area to Swamp Near Boat",
-            "parent_region": "Swamp Purple Area",
-            "connected_region": "Swamp Near Boat"
-          },
-          {
-            "name": "The Ocean to Swamp Near Boat",
-            "parent_region": "The Ocean",
-            "connected_region": "Swamp Near Boat"
-          }
-        ],
         "exits": [
           {
             "name": "Swamp Near Boat to Swamp Rotating Bridge",
@@ -7108,30 +6053,11 @@
       },
       "Swamp Long Bridge": {
         "name": "Swamp Long Bridge",
-        "entrances": [
-          {
-            "name": "Swamp Near Boat to Swamp Long Bridge",
-            "parent_region": "Swamp Near Boat",
-            "connected_region": "Swamp Long Bridge"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Swamp Purple Area": {
         "name": "Swamp Purple Area",
-        "entrances": [
-          {
-            "name": "Swamp Rotating Bridge to Swamp Purple Area",
-            "parent_region": "Swamp Rotating Bridge",
-            "connected_region": "Swamp Purple Area"
-          },
-          {
-            "name": "Swamp Purple Underwater to Swamp Purple Area",
-            "parent_region": "Swamp Purple Underwater",
-            "connected_region": "Swamp Purple Area"
-          }
-        ],
         "exits": [
           {
             "name": "Swamp Purple Area to Swamp Rotating Bridge",
@@ -7184,13 +6110,6 @@
       },
       "Swamp Purple Underwater": {
         "name": "Swamp Purple Underwater",
-        "entrances": [
-          {
-            "name": "Swamp Purple Area to Swamp Purple Underwater",
-            "parent_region": "Swamp Purple Area",
-            "connected_region": "Swamp Purple Underwater"
-          }
-        ],
         "exits": [
           {
             "name": "Swamp Purple Underwater to Swamp Purple Area",
@@ -7249,13 +6168,6 @@
       },
       "Swamp Blue Underwater": {
         "name": "Swamp Blue Underwater",
-        "entrances": [
-          {
-            "name": "Swamp Near Boat to Swamp Blue Underwater",
-            "parent_region": "Swamp Near Boat",
-            "connected_region": "Swamp Blue Underwater"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7285,13 +6197,6 @@
       },
       "Swamp Maze": {
         "name": "Swamp Maze",
-        "entrances": [
-          {
-            "name": "Swamp Red Underwater to Swamp Maze",
-            "parent_region": "Swamp Red Underwater",
-            "connected_region": "Swamp Maze"
-          }
-        ],
         "exits": [
           {
             "name": "Swamp Maze to Swamp Laser Area",
@@ -7316,13 +6221,6 @@
       },
       "Swamp Laser Area": {
         "name": "Swamp Laser Area",
-        "entrances": [
-          {
-            "name": "Swamp Maze to Swamp Laser Area",
-            "parent_region": "Swamp Maze",
-            "connected_region": "Swamp Laser Area"
-          }
-        ],
         "exits": [
           {
             "name": "Swamp Laser Area to Outside Swamp",
@@ -7386,13 +6284,6 @@
       },
       "Treehouse Obelisk": {
         "name": "Treehouse Obelisk",
-        "entrances": [
-          {
-            "name": "Entry to Treehouse Obelisk",
-            "parent_region": "Entry",
-            "connected_region": "Treehouse Obelisk"
-          }
-        ],
         "exits": [
           {
             "name": "Treehouse Obelisk to Entry",
@@ -7407,13 +6298,6 @@
       },
       "Treehouse Beach": {
         "name": "Treehouse Beach",
-        "entrances": [
-          {
-            "name": "Main Island to Treehouse Beach",
-            "parent_region": "Main Island",
-            "connected_region": "Treehouse Beach"
-          }
-        ],
         "exits": [
           {
             "name": "Treehouse Beach to Main Island",
@@ -7428,13 +6312,6 @@
       },
       "Treehouse Entry Area": {
         "name": "Treehouse Entry Area",
-        "entrances": [
-          {
-            "name": "The Ocean to Treehouse Entry Area",
-            "parent_region": "The Ocean",
-            "connected_region": "Treehouse Entry Area"
-          }
-        ],
         "exits": [
           {
             "name": "Treehouse Entry Area to Treehouse Between Entry Doors",
@@ -7493,13 +6370,6 @@
       },
       "Treehouse Between Entry Doors": {
         "name": "Treehouse Between Entry Doors",
-        "entrances": [
-          {
-            "name": "Treehouse Entry Area to Treehouse Between Entry Doors",
-            "parent_region": "Treehouse Entry Area",
-            "connected_region": "Treehouse Between Entry Doors"
-          }
-        ],
         "exits": [
           {
             "name": "Treehouse Between Entry Doors to Treehouse Yellow Bridge",
@@ -7543,13 +6413,6 @@
       },
       "Treehouse Yellow Bridge": {
         "name": "Treehouse Yellow Bridge",
-        "entrances": [
-          {
-            "name": "Treehouse Between Entry Doors to Treehouse Yellow Bridge",
-            "parent_region": "Treehouse Between Entry Doors",
-            "connected_region": "Treehouse Yellow Bridge"
-          }
-        ],
         "exits": [
           {
             "name": "Treehouse Yellow Bridge to Treehouse After Yellow Bridge",
@@ -7593,13 +6456,6 @@
       },
       "Treehouse After Yellow Bridge": {
         "name": "Treehouse After Yellow Bridge",
-        "entrances": [
-          {
-            "name": "Treehouse Yellow Bridge to Treehouse After Yellow Bridge",
-            "parent_region": "Treehouse Yellow Bridge",
-            "connected_region": "Treehouse After Yellow Bridge"
-          }
-        ],
         "exits": [
           {
             "name": "Treehouse After Yellow Bridge to Treehouse Junction",
@@ -7643,28 +6499,6 @@
       },
       "Treehouse Junction": {
         "name": "Treehouse Junction",
-        "entrances": [
-          {
-            "name": "Treehouse After Yellow Bridge to Treehouse Junction",
-            "parent_region": "Treehouse After Yellow Bridge",
-            "connected_region": "Treehouse Junction"
-          },
-          {
-            "name": "Treehouse First Purple Bridge to Treehouse Junction",
-            "parent_region": "Treehouse First Purple Bridge",
-            "connected_region": "Treehouse Junction"
-          },
-          {
-            "name": "Treehouse Right Orange Bridge to Treehouse Junction",
-            "parent_region": "Treehouse Right Orange Bridge",
-            "connected_region": "Treehouse Junction"
-          },
-          {
-            "name": "Treehouse Green Bridge to Treehouse Junction",
-            "parent_region": "Treehouse Green Bridge",
-            "connected_region": "Treehouse Junction"
-          }
-        ],
         "exits": [
           {
             "name": "Treehouse Junction to Treehouse Right Orange Bridge",
@@ -7695,13 +6529,6 @@
       },
       "Treehouse First Purple Bridge": {
         "name": "Treehouse First Purple Bridge",
-        "entrances": [
-          {
-            "name": "Treehouse Junction to Treehouse First Purple Bridge",
-            "parent_region": "Treehouse Junction",
-            "connected_region": "Treehouse First Purple Bridge"
-          }
-        ],
         "exits": [
           {
             "name": "Treehouse First Purple Bridge to Treehouse Second Purple Bridge",
@@ -7757,13 +6584,6 @@
       },
       "Treehouse Right Orange Bridge": {
         "name": "Treehouse Right Orange Bridge",
-        "entrances": [
-          {
-            "name": "Treehouse Junction to Treehouse Right Orange Bridge",
-            "parent_region": "Treehouse Junction",
-            "connected_region": "Treehouse Right Orange Bridge"
-          }
-        ],
         "exits": [
           {
             "name": "Treehouse Right Orange Bridge to Treehouse Drawbridge Platform",
@@ -7815,13 +6635,6 @@
       },
       "Treehouse Drawbridge Platform": {
         "name": "Treehouse Drawbridge Platform",
-        "entrances": [
-          {
-            "name": "Treehouse Right Orange Bridge to Treehouse Drawbridge Platform",
-            "parent_region": "Treehouse Right Orange Bridge",
-            "connected_region": "Treehouse Drawbridge Platform"
-          }
-        ],
         "exits": [
           {
             "name": "Treehouse Drawbridge Platform to Main Island",
@@ -7865,13 +6678,6 @@
       },
       "Treehouse Second Purple Bridge": {
         "name": "Treehouse Second Purple Bridge",
-        "entrances": [
-          {
-            "name": "Treehouse First Purple Bridge to Treehouse Second Purple Bridge",
-            "parent_region": "Treehouse First Purple Bridge",
-            "connected_region": "Treehouse Second Purple Bridge"
-          }
-        ],
         "exits": [
           {
             "name": "Treehouse Second Purple Bridge to Treehouse Left Orange Bridge",
@@ -7921,13 +6727,6 @@
       },
       "Treehouse Left Orange Bridge": {
         "name": "Treehouse Left Orange Bridge",
-        "entrances": [
-          {
-            "name": "Treehouse Second Purple Bridge to Treehouse Left Orange Bridge",
-            "parent_region": "Treehouse Second Purple Bridge",
-            "connected_region": "Treehouse Left Orange Bridge"
-          }
-        ],
         "exits": [
           {
             "name": "Treehouse Left Orange Bridge to Treehouse Laser Room Front Platform",
@@ -8013,13 +6812,6 @@
       },
       "Treehouse Green Bridge": {
         "name": "Treehouse Green Bridge",
-        "entrances": [
-          {
-            "name": "Treehouse Junction to Treehouse Green Bridge",
-            "parent_region": "Treehouse Junction",
-            "connected_region": "Treehouse Green Bridge"
-          }
-        ],
         "exits": [
           {
             "name": "Treehouse Green Bridge to Treehouse Green Bridge Front House",
@@ -8098,42 +6890,16 @@
       },
       "Treehouse Green Bridge Front House": {
         "name": "Treehouse Green Bridge Front House",
-        "entrances": [
-          {
-            "name": "Treehouse Green Bridge to Treehouse Green Bridge Front House",
-            "parent_region": "Treehouse Green Bridge",
-            "connected_region": "Treehouse Green Bridge Front House"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Treehouse Green Bridge Left House": {
         "name": "Treehouse Green Bridge Left House",
-        "entrances": [
-          {
-            "name": "Treehouse Green Bridge to Treehouse Green Bridge Left House",
-            "parent_region": "Treehouse Green Bridge",
-            "connected_region": "Treehouse Green Bridge Left House"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Treehouse Laser Room Front Platform": {
         "name": "Treehouse Laser Room Front Platform",
-        "entrances": [
-          {
-            "name": "Treehouse Left Orange Bridge to Treehouse Laser Room Front Platform",
-            "parent_region": "Treehouse Left Orange Bridge",
-            "connected_region": "Treehouse Laser Room Front Platform"
-          },
-          {
-            "name": "Treehouse Laser Room to Treehouse Laser Room Front Platform",
-            "parent_region": "Treehouse Laser Room",
-            "connected_region": "Treehouse Laser Room Front Platform"
-          }
-        ],
         "exits": [
           {
             "name": "Treehouse Laser Room Front Platform to Treehouse Laser Room",
@@ -8170,37 +6936,16 @@
       },
       "Treehouse Laser Room Back Platform": {
         "name": "Treehouse Laser Room Back Platform",
-        "entrances": [
-          {
-            "name": "Treehouse Left Orange Bridge to Treehouse Laser Room Back Platform",
-            "parent_region": "Treehouse Left Orange Bridge",
-            "connected_region": "Treehouse Laser Room Back Platform"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Treehouse Burned House": {
         "name": "Treehouse Burned House",
-        "entrances": [
-          {
-            "name": "Treehouse Left Orange Bridge to Treehouse Burned House",
-            "parent_region": "Treehouse Left Orange Bridge",
-            "connected_region": "Treehouse Burned House"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Treehouse Laser Room": {
         "name": "Treehouse Laser Room",
-        "entrances": [
-          {
-            "name": "Treehouse Laser Room Front Platform to Treehouse Laser Room",
-            "parent_region": "Treehouse Laser Room Front Platform",
-            "connected_region": "Treehouse Laser Room"
-          }
-        ],
         "exits": [
           {
             "name": "Treehouse Laser Room to Treehouse Laser Room Front Platform",
@@ -8230,13 +6975,6 @@
       },
       "Mountainside Obelisk": {
         "name": "Mountainside Obelisk",
-        "entrances": [
-          {
-            "name": "Entry to Mountainside Obelisk",
-            "parent_region": "Entry",
-            "connected_region": "Mountainside Obelisk"
-          }
-        ],
         "exits": [
           {
             "name": "Mountainside Obelisk to Entry",
@@ -8251,18 +6989,6 @@
       },
       "Mountainside": {
         "name": "Mountainside",
-        "entrances": [
-          {
-            "name": "Main Island to Mountainside",
-            "parent_region": "Main Island",
-            "connected_region": "Mountainside"
-          },
-          {
-            "name": "Mountaintop to Mountainside",
-            "parent_region": "Mountaintop",
-            "connected_region": "Mountainside"
-          }
-        ],
         "exits": [
           {
             "name": "Mountainside to Main Island",
@@ -8285,18 +7011,6 @@
       },
       "Mountaintop": {
         "name": "Mountaintop",
-        "entrances": [
-          {
-            "name": "Mountainside to Mountaintop",
-            "parent_region": "Mountainside",
-            "connected_region": "Mountaintop"
-          },
-          {
-            "name": "Mountain Floor 1 to Mountaintop",
-            "parent_region": "Mountain Floor 1",
-            "connected_region": "Mountaintop"
-          }
-        ],
         "exits": [
           {
             "name": "Mountaintop to Mountain Floor 1",
@@ -8413,13 +7127,6 @@
       },
       "Mountain Floor 1": {
         "name": "Mountain Floor 1",
-        "entrances": [
-          {
-            "name": "Mountaintop to Mountain Floor 1",
-            "parent_region": "Mountaintop",
-            "connected_region": "Mountain Floor 1"
-          }
-        ],
         "exits": [
           {
             "name": "Mountain Floor 1 to Mountain Floor 1 Bridge",
@@ -8484,13 +7191,6 @@
       },
       "Mountain Floor 1 Bridge": {
         "name": "Mountain Floor 1 Bridge",
-        "entrances": [
-          {
-            "name": "Mountain Floor 1 to Mountain Floor 1 Bridge",
-            "parent_region": "Mountain Floor 1",
-            "connected_region": "Mountain Floor 1 Bridge"
-          }
-        ],
         "exits": [
           {
             "name": "Mountain Floor 1 Bridge to Mountain Floor 1 At Door",
@@ -8595,25 +7295,11 @@
       },
       "Mountain Floor 1 Trash Pillar": {
         "name": "Mountain Floor 1 Trash Pillar",
-        "entrances": [
-          {
-            "name": "Mountain Floor 1 Bridge to Mountain Floor 1 Trash Pillar",
-            "parent_region": "Mountain Floor 1 Bridge",
-            "connected_region": "Mountain Floor 1 Trash Pillar"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Mountain Floor 1 Back Section": {
         "name": "Mountain Floor 1 Back Section",
-        "entrances": [
-          {
-            "name": "Mountain Floor 1 Bridge to Mountain Floor 1 Back Section",
-            "parent_region": "Mountain Floor 1 Bridge",
-            "connected_region": "Mountain Floor 1 Back Section"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8645,18 +7331,6 @@
       },
       "Mountain Floor 1 At Door": {
         "name": "Mountain Floor 1 At Door",
-        "entrances": [
-          {
-            "name": "Mountain Floor 1 Bridge to Mountain Floor 1 At Door",
-            "parent_region": "Mountain Floor 1 Bridge",
-            "connected_region": "Mountain Floor 1 At Door"
-          },
-          {
-            "name": "Mountain Floor 2 to Mountain Floor 1 At Door",
-            "parent_region": "Mountain Floor 2",
-            "connected_region": "Mountain Floor 1 At Door"
-          }
-        ],
         "exits": [
           {
             "name": "Mountain Floor 1 At Door to Mountain Floor 2",
@@ -8693,23 +7367,6 @@
       },
       "Mountain Floor 2": {
         "name": "Mountain Floor 2",
-        "entrances": [
-          {
-            "name": "Mountain Floor 1 At Door to Mountain Floor 2",
-            "parent_region": "Mountain Floor 1 At Door",
-            "connected_region": "Mountain Floor 2"
-          },
-          {
-            "name": "Mountain Floor 2 Above The Abyss to Mountain Floor 2",
-            "parent_region": "Mountain Floor 2 Above The Abyss",
-            "connected_region": "Mountain Floor 2"
-          },
-          {
-            "name": "Mountain Floor 2 Beyond Bridge to Mountain Floor 2",
-            "parent_region": "Mountain Floor 2 Beyond Bridge",
-            "connected_region": "Mountain Floor 2"
-          }
-        ],
         "exits": [
           {
             "name": "Mountain Floor 2 to Mountain Floor 2 Light Bridge Room Near",
@@ -8850,18 +7507,6 @@
       },
       "Mountain Floor 2 Above The Abyss": {
         "name": "Mountain Floor 2 Above The Abyss",
-        "entrances": [
-          {
-            "name": "Mountain Floor 2 to Mountain Floor 2 Above The Abyss",
-            "parent_region": "Mountain Floor 2",
-            "connected_region": "Mountain Floor 2 Above The Abyss"
-          },
-          {
-            "name": "Mountain Floor 2 Elevator Room to Mountain Floor 2 Above The Abyss",
-            "parent_region": "Mountain Floor 2 Elevator Room",
-            "connected_region": "Mountain Floor 2 Above The Abyss"
-          }
-        ],
         "exits": [
           {
             "name": "Mountain Floor 2 Above The Abyss to Mountain Floor 2 Elevator Room",
@@ -8906,13 +7551,6 @@
       },
       "Mountain Floor 2 Light Bridge Room Near": {
         "name": "Mountain Floor 2 Light Bridge Room Near",
-        "entrances": [
-          {
-            "name": "Mountain Floor 2 to Mountain Floor 2 Light Bridge Room Near",
-            "parent_region": "Mountain Floor 2",
-            "connected_region": "Mountain Floor 2 Light Bridge Room Near"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8943,13 +7581,6 @@
       },
       "Mountain Floor 2 Beyond Bridge": {
         "name": "Mountain Floor 2 Beyond Bridge",
-        "entrances": [
-          {
-            "name": "Mountain Floor 2 to Mountain Floor 2 Beyond Bridge",
-            "parent_region": "Mountain Floor 2",
-            "connected_region": "Mountain Floor 2 Beyond Bridge"
-          }
-        ],
         "exits": [
           {
             "name": "Mountain Floor 2 Beyond Bridge to Mountain Floor 2 Light Bridge Room Far",
@@ -9056,13 +7687,6 @@
       },
       "Mountain Floor 2 Light Bridge Room Far": {
         "name": "Mountain Floor 2 Light Bridge Room Far",
-        "entrances": [
-          {
-            "name": "Mountain Floor 2 Beyond Bridge to Mountain Floor 2 Light Bridge Room Far",
-            "parent_region": "Mountain Floor 2 Beyond Bridge",
-            "connected_region": "Mountain Floor 2 Light Bridge Room Far"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -9093,18 +7717,6 @@
       },
       "Mountain Floor 2 Elevator Room": {
         "name": "Mountain Floor 2 Elevator Room",
-        "entrances": [
-          {
-            "name": "Mountain Floor 2 Above The Abyss to Mountain Floor 2 Elevator Room",
-            "parent_region": "Mountain Floor 2 Above The Abyss",
-            "connected_region": "Mountain Floor 2 Elevator Room"
-          },
-          {
-            "name": "Mountain Floor 2 Elevator to Mountain Floor 2 Elevator Room",
-            "parent_region": "Mountain Floor 2 Elevator",
-            "connected_region": "Mountain Floor 2 Elevator Room"
-          }
-        ],
         "exits": [
           {
             "name": "Mountain Floor 2 Elevator Room to Mountain Floor 2 Elevator",
@@ -9149,18 +7761,6 @@
       },
       "Mountain Floor 2 Elevator": {
         "name": "Mountain Floor 2 Elevator",
-        "entrances": [
-          {
-            "name": "Mountain Floor 2 Elevator Room to Mountain Floor 2 Elevator",
-            "parent_region": "Mountain Floor 2 Elevator Room",
-            "connected_region": "Mountain Floor 2 Elevator"
-          },
-          {
-            "name": "Mountain Floor 3 to Mountain Floor 2 Elevator",
-            "parent_region": "Mountain Floor 3",
-            "connected_region": "Mountain Floor 2 Elevator"
-          }
-        ],
         "exits": [
           {
             "name": "Mountain Floor 2 Elevator to Mountain Floor 2 Elevator Room",
@@ -9197,13 +7797,6 @@
       },
       "Mountain Floor 3": {
         "name": "Mountain Floor 3",
-        "entrances": [
-          {
-            "name": "Mountain Floor 2 Elevator to Mountain Floor 3",
-            "parent_region": "Mountain Floor 2 Elevator",
-            "connected_region": "Mountain Floor 3"
-          }
-        ],
         "exits": [
           {
             "name": "Mountain Floor 3 to Mountain Floor 2 Elevator",
@@ -9271,13 +7864,6 @@
       },
       "Mountain Bottom Floor": {
         "name": "Mountain Bottom Floor",
-        "entrances": [
-          {
-            "name": "Mountain Floor 3 to Mountain Bottom Floor",
-            "parent_region": "Mountain Floor 3",
-            "connected_region": "Mountain Bottom Floor"
-          }
-        ],
         "exits": [
           {
             "name": "Mountain Bottom Floor to Mountain Bottom Floor Pillars Room",
@@ -9350,13 +7936,6 @@
       },
       "Mountain Bottom Floor Pillars Room": {
         "name": "Mountain Bottom Floor Pillars Room",
-        "entrances": [
-          {
-            "name": "Mountain Bottom Floor to Mountain Bottom Floor Pillars Room",
-            "parent_region": "Mountain Bottom Floor",
-            "connected_region": "Mountain Bottom Floor Pillars Room"
-          }
-        ],
         "exits": [
           {
             "name": "Mountain Bottom Floor Pillars Room to Elevator",
@@ -9434,13 +8013,6 @@
       },
       "Elevator": {
         "name": "Elevator",
-        "entrances": [
-          {
-            "name": "Mountain Bottom Floor Pillars Room to Elevator",
-            "parent_region": "Mountain Bottom Floor Pillars Room",
-            "connected_region": "Elevator"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -9474,60 +8046,11 @@
       },
       "Mountain Pink Bridge EP": {
         "name": "Mountain Pink Bridge EP",
-        "entrances": [
-          {
-            "name": "Mountain Floor 2 to Mountain Pink Bridge EP",
-            "parent_region": "Mountain Floor 2",
-            "connected_region": "Mountain Pink Bridge EP"
-          },
-          {
-            "name": "Mountain Floor 2 Beyond Bridge to Mountain Pink Bridge EP",
-            "parent_region": "Mountain Floor 2 Beyond Bridge",
-            "connected_region": "Mountain Pink Bridge EP"
-          },
-          {
-            "name": "Mountain Floor 3 to Mountain Pink Bridge EP",
-            "parent_region": "Mountain Floor 3",
-            "connected_region": "Mountain Pink Bridge EP"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "The Ocean": {
         "name": "The Ocean",
-        "entrances": [
-          {
-            "name": "Inside Glass Factory Behind Back Wall to The Ocean",
-            "parent_region": "Inside Glass Factory Behind Back Wall",
-            "connected_region": "The Ocean"
-          },
-          {
-            "name": "Quarry Boathouse Behind Staircase to The Ocean",
-            "parent_region": "Quarry Boathouse Behind Staircase",
-            "connected_region": "The Ocean"
-          },
-          {
-            "name": "Town to The Ocean",
-            "parent_region": "Town",
-            "connected_region": "The Ocean"
-          },
-          {
-            "name": "Jungle to The Ocean",
-            "parent_region": "Jungle",
-            "connected_region": "The Ocean"
-          },
-          {
-            "name": "Swamp Near Boat to The Ocean",
-            "parent_region": "Swamp Near Boat",
-            "connected_region": "The Ocean"
-          },
-          {
-            "name": "Treehouse Entry Area to The Ocean",
-            "parent_region": "Treehouse Entry Area",
-            "connected_region": "The Ocean"
-          }
-        ],
         "exits": [
           {
             "name": "The Ocean to Main Island",
@@ -9574,13 +8097,6 @@
       },
       "Easter Eggs": {
         "name": "Easter Eggs",
-        "entrances": [
-          {
-            "name": "Entry to Easter Eggs",
-            "parent_region": "Entry",
-            "connected_region": "Easter Eggs"
-          }
-        ],
         "exits": [
           {
             "name": "Easter Eggs to Entry",

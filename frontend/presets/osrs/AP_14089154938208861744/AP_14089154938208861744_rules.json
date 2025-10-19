@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Start->Lumbridge",
@@ -251,48 +250,6 @@
       },
       "Lumbridge": {
         "name": "Lumbridge",
-        "entrances": [
-          {
-            "name": "Start->Lumbridge",
-            "parent_region": "Menu",
-            "connected_region": "Lumbridge"
-          },
-          {
-            "name": "Lumbridge Swamp->Lumbridge",
-            "parent_region": "Lumbridge Swamp",
-            "connected_region": "Lumbridge"
-          },
-          {
-            "name": "HAM Hideout->Lumbridge",
-            "parent_region": "HAM Hideout",
-            "connected_region": "Lumbridge"
-          },
-          {
-            "name": "Lumbridge Farms East->Lumbridge",
-            "parent_region": "Lumbridge Farms East",
-            "connected_region": "Lumbridge"
-          },
-          {
-            "name": "South of Varrock->Lumbridge",
-            "parent_region": "South of Varrock",
-            "connected_region": "Lumbridge"
-          },
-          {
-            "name": "Edgeville->Lumbridge",
-            "parent_region": "Edgeville",
-            "connected_region": "Lumbridge"
-          },
-          {
-            "name": "Al Kharid->Lumbridge",
-            "parent_region": "Al Kharid",
-            "connected_region": "Lumbridge"
-          },
-          {
-            "name": "Wilderness->Lumbridge",
-            "parent_region": "Wilderness",
-            "connected_region": "Lumbridge"
-          }
-        ],
         "exits": [
           {
             "name": "Lumbridge->Lumbridge Farms East",
@@ -1060,18 +1017,6 @@
       },
       "Lumbridge Swamp": {
         "name": "Lumbridge Swamp",
-        "entrances": [
-          {
-            "name": "Lumbridge->Lumbridge Swamp",
-            "parent_region": "Lumbridge",
-            "connected_region": "Lumbridge Swamp"
-          },
-          {
-            "name": "HAM Hideout->Lumbridge Swamp",
-            "parent_region": "HAM Hideout",
-            "connected_region": "Lumbridge Swamp"
-          }
-        ],
         "exits": [
           {
             "name": "Lumbridge Swamp->Lumbridge",
@@ -1244,28 +1189,6 @@
       },
       "HAM Hideout": {
         "name": "HAM Hideout",
-        "entrances": [
-          {
-            "name": "Lumbridge->HAM Hideout",
-            "parent_region": "Lumbridge",
-            "connected_region": "HAM Hideout"
-          },
-          {
-            "name": "Lumbridge Swamp->HAM Hideout",
-            "parent_region": "Lumbridge Swamp",
-            "connected_region": "HAM Hideout"
-          },
-          {
-            "name": "Lumbridge Farms West->HAM Hideout",
-            "parent_region": "Lumbridge Farms West",
-            "connected_region": "HAM Hideout"
-          },
-          {
-            "name": "Draynor Village->HAM Hideout",
-            "parent_region": "Draynor Village",
-            "connected_region": "HAM Hideout"
-          }
-        ],
         "exits": [
           {
             "name": "HAM Hideout->Lumbridge Farms West",
@@ -1324,28 +1247,6 @@
       },
       "Lumbridge Farms West": {
         "name": "Lumbridge Farms West",
-        "entrances": [
-          {
-            "name": "Lumbridge->Lumbridge Farms West",
-            "parent_region": "Lumbridge",
-            "connected_region": "Lumbridge Farms West"
-          },
-          {
-            "name": "HAM Hideout->Lumbridge Farms West",
-            "parent_region": "HAM Hideout",
-            "connected_region": "Lumbridge Farms West"
-          },
-          {
-            "name": "Sourhog's Lair->Lumbridge Farms West",
-            "parent_region": "Sourhog's Lair",
-            "connected_region": "Lumbridge Farms West"
-          },
-          {
-            "name": "Draynor Village->Lumbridge Farms West",
-            "parent_region": "Draynor Village",
-            "connected_region": "Lumbridge Farms West"
-          }
-        ],
         "exits": [
           {
             "name": "Lumbridge Farms West->Sourhog's Lair",
@@ -1531,18 +1432,6 @@
       },
       "Lumbridge Farms East": {
         "name": "Lumbridge Farms East",
-        "entrances": [
-          {
-            "name": "Lumbridge->Lumbridge Farms East",
-            "parent_region": "Lumbridge",
-            "connected_region": "Lumbridge Farms East"
-          },
-          {
-            "name": "South of Varrock->Lumbridge Farms East",
-            "parent_region": "South of Varrock",
-            "connected_region": "Lumbridge Farms East"
-          }
-        ],
         "exits": [
           {
             "name": "Lumbridge Farms East->South of Varrock",
@@ -1627,18 +1516,6 @@
       },
       "Sourhog's Lair": {
         "name": "Sourhog's Lair",
-        "entrances": [
-          {
-            "name": "Lumbridge Farms West->Sourhog's Lair",
-            "parent_region": "Lumbridge Farms West",
-            "connected_region": "Sourhog's Lair"
-          },
-          {
-            "name": "Draynor Manor Outskirts->Sourhog's Lair",
-            "parent_region": "Draynor Manor Outskirts",
-            "connected_region": "Sourhog's Lair"
-          }
-        ],
         "exits": [
           {
             "name": "Sourhog's Lair->Lumbridge Farms West",
@@ -1667,48 +1544,6 @@
       },
       "South of Varrock": {
         "name": "South of Varrock",
-        "entrances": [
-          {
-            "name": "Lumbridge->South of Varrock",
-            "parent_region": "Lumbridge",
-            "connected_region": "South of Varrock"
-          },
-          {
-            "name": "Lumbridge Farms East->South of Varrock",
-            "parent_region": "Lumbridge Farms East",
-            "connected_region": "South of Varrock"
-          },
-          {
-            "name": "Lumberyard->South of Varrock",
-            "parent_region": "Lumberyard",
-            "connected_region": "South of Varrock"
-          },
-          {
-            "name": "Central Varrock->South of Varrock",
-            "parent_region": "Central Varrock",
-            "connected_region": "South of Varrock"
-          },
-          {
-            "name": "West Varrock->South of Varrock",
-            "parent_region": "West Varrock",
-            "connected_region": "South of Varrock"
-          },
-          {
-            "name": "Edgeville->South of Varrock",
-            "parent_region": "Edgeville",
-            "connected_region": "South of Varrock"
-          },
-          {
-            "name": "Al Kharid->South of Varrock",
-            "parent_region": "Al Kharid",
-            "connected_region": "South of Varrock"
-          },
-          {
-            "name": "Wilderness->South of Varrock",
-            "parent_region": "Wilderness",
-            "connected_region": "South of Varrock"
-          }
-        ],
         "exits": [
           {
             "name": "South of Varrock->Al Kharid",
@@ -2087,28 +1922,6 @@
       },
       "Lumberyard": {
         "name": "Lumberyard",
-        "entrances": [
-          {
-            "name": "South of Varrock->Lumberyard",
-            "parent_region": "South of Varrock",
-            "connected_region": "Lumberyard"
-          },
-          {
-            "name": "Central Varrock->Lumberyard",
-            "parent_region": "Central Varrock",
-            "connected_region": "Lumberyard"
-          },
-          {
-            "name": "Varrock Palace->Lumberyard",
-            "parent_region": "Varrock Palace",
-            "connected_region": "Lumberyard"
-          },
-          {
-            "name": "Wilderness->Lumberyard",
-            "parent_region": "Wilderness",
-            "connected_region": "Lumberyard"
-          }
-        ],
         "exits": [
           {
             "name": "Lumberyard->Wilderness",
@@ -2175,23 +1988,6 @@
       },
       "Central Varrock": {
         "name": "Central Varrock",
-        "entrances": [
-          {
-            "name": "South of Varrock->Central Varrock",
-            "parent_region": "South of Varrock",
-            "connected_region": "Central Varrock"
-          },
-          {
-            "name": "Lumberyard->Central Varrock",
-            "parent_region": "Lumberyard",
-            "connected_region": "Central Varrock"
-          },
-          {
-            "name": "Varrock Palace->Central Varrock",
-            "parent_region": "Varrock Palace",
-            "connected_region": "Central Varrock"
-          }
-        ],
         "exits": [
           {
             "name": "Central Varrock->Varrock Palace",
@@ -2710,28 +2506,6 @@
       },
       "Varrock Palace": {
         "name": "Varrock Palace",
-        "entrances": [
-          {
-            "name": "Lumberyard->Varrock Palace",
-            "parent_region": "Lumberyard",
-            "connected_region": "Varrock Palace"
-          },
-          {
-            "name": "Central Varrock->Varrock Palace",
-            "parent_region": "Central Varrock",
-            "connected_region": "Varrock Palace"
-          },
-          {
-            "name": "West Varrock->Varrock Palace",
-            "parent_region": "West Varrock",
-            "connected_region": "Varrock Palace"
-          },
-          {
-            "name": "Wilderness->Varrock Palace",
-            "parent_region": "Wilderness",
-            "connected_region": "Varrock Palace"
-          }
-        ],
         "exits": [
           {
             "name": "Varrock Palace->Wilderness",
@@ -2870,43 +2644,6 @@
       },
       "West Varrock": {
         "name": "West Varrock",
-        "entrances": [
-          {
-            "name": "South of Varrock->West Varrock",
-            "parent_region": "South of Varrock",
-            "connected_region": "West Varrock"
-          },
-          {
-            "name": "Central Varrock->West Varrock",
-            "parent_region": "Central Varrock",
-            "connected_region": "West Varrock"
-          },
-          {
-            "name": "Varrock Palace->West Varrock",
-            "parent_region": "Varrock Palace",
-            "connected_region": "West Varrock"
-          },
-          {
-            "name": "Cook's Guild->West Varrock",
-            "parent_region": "Cook's Guild",
-            "connected_region": "West Varrock"
-          },
-          {
-            "name": "Edgeville->West Varrock",
-            "parent_region": "Edgeville",
-            "connected_region": "West Varrock"
-          },
-          {
-            "name": "Barbarian Village->West Varrock",
-            "parent_region": "Barbarian Village",
-            "connected_region": "West Varrock"
-          },
-          {
-            "name": "Wilderness->West Varrock",
-            "parent_region": "Wilderness",
-            "connected_region": "West Varrock"
-          }
-        ],
         "exits": [
           {
             "name": "West Varrock->Wilderness",
@@ -3162,13 +2899,6 @@
       },
       "Cook's Guild": {
         "name": "Cook's Guild",
-        "entrances": [
-          {
-            "name": "West Varrock->Cook's Guild",
-            "parent_region": "West Varrock",
-            "connected_region": "Cook's Guild"
-          }
-        ],
         "exits": [
           {
             "name": "Cook's Guild->West Varrock",
@@ -3386,33 +3116,6 @@
       },
       "Edgeville": {
         "name": "Edgeville",
-        "entrances": [
-          {
-            "name": "Lumbridge->Edgeville",
-            "parent_region": "Lumbridge",
-            "connected_region": "Edgeville"
-          },
-          {
-            "name": "South of Varrock->Edgeville",
-            "parent_region": "South of Varrock",
-            "connected_region": "Edgeville"
-          },
-          {
-            "name": "West Varrock->Edgeville",
-            "parent_region": "West Varrock",
-            "connected_region": "Edgeville"
-          },
-          {
-            "name": "Barbarian Village->Edgeville",
-            "parent_region": "Barbarian Village",
-            "connected_region": "Edgeville"
-          },
-          {
-            "name": "Wilderness->Edgeville",
-            "parent_region": "Wilderness",
-            "connected_region": "Edgeville"
-          }
-        ],
         "exits": [
           {
             "name": "Edgeville->Wilderness",
@@ -3775,38 +3478,6 @@
       },
       "Barbarian Village": {
         "name": "Barbarian Village",
-        "entrances": [
-          {
-            "name": "Lumbridge->Barbarian Village",
-            "parent_region": "Lumbridge",
-            "connected_region": "Barbarian Village"
-          },
-          {
-            "name": "South of Varrock->Barbarian Village",
-            "parent_region": "South of Varrock",
-            "connected_region": "Barbarian Village"
-          },
-          {
-            "name": "West Varrock->Barbarian Village",
-            "parent_region": "West Varrock",
-            "connected_region": "Barbarian Village"
-          },
-          {
-            "name": "Edgeville->Barbarian Village",
-            "parent_region": "Edgeville",
-            "connected_region": "Barbarian Village"
-          },
-          {
-            "name": "Draynor Manor Outskirts->Barbarian Village",
-            "parent_region": "Draynor Manor Outskirts",
-            "connected_region": "Barbarian Village"
-          },
-          {
-            "name": "Dwarven Mountain Pass->Barbarian Village",
-            "parent_region": "Dwarven Mountain Pass",
-            "connected_region": "Barbarian Village"
-          }
-        ],
         "exits": [
           {
             "name": "Barbarian Village->Edgeville",
@@ -4018,23 +3689,6 @@
       },
       "Draynor Manor Outskirts": {
         "name": "Draynor Manor Outskirts",
-        "entrances": [
-          {
-            "name": "Sourhog's Lair->Draynor Manor Outskirts",
-            "parent_region": "Sourhog's Lair",
-            "connected_region": "Draynor Manor Outskirts"
-          },
-          {
-            "name": "Barbarian Village->Draynor Manor Outskirts",
-            "parent_region": "Barbarian Village",
-            "connected_region": "Draynor Manor Outskirts"
-          },
-          {
-            "name": "Falador East Outskirts->Draynor Manor Outskirts",
-            "parent_region": "Falador East Outskirts",
-            "connected_region": "Draynor Manor Outskirts"
-          }
-        ],
         "exits": [
           {
             "name": "Draynor Manor Outskirts->Barbarian Village",
@@ -4093,13 +3747,6 @@
       },
       "Draynor Manor": {
         "name": "Draynor Manor",
-        "entrances": [
-          {
-            "name": "Draynor Village->Draynor Manor",
-            "parent_region": "Draynor Village",
-            "connected_region": "Draynor Manor"
-          }
-        ],
         "exits": [
           {
             "name": "Draynor Manor->Draynor Village",
@@ -4164,23 +3811,6 @@
       },
       "Falador East Outskirts": {
         "name": "Falador East Outskirts",
-        "entrances": [
-          {
-            "name": "Draynor Manor Outskirts->Falador East Outskirts",
-            "parent_region": "Draynor Manor Outskirts",
-            "connected_region": "Falador East Outskirts"
-          },
-          {
-            "name": "Dwarven Mountain Pass->Falador East Outskirts",
-            "parent_region": "Dwarven Mountain Pass",
-            "connected_region": "Falador East Outskirts"
-          },
-          {
-            "name": "Falador Farms->Falador East Outskirts",
-            "parent_region": "Falador Farms",
-            "connected_region": "Falador East Outskirts"
-          }
-        ],
         "exits": [
           {
             "name": "Falador East Outskirts->Dwarven Mountain Pass",
@@ -4220,33 +3850,6 @@
       },
       "Dwarven Mountain Pass": {
         "name": "Dwarven Mountain Pass",
-        "entrances": [
-          {
-            "name": "Barbarian Village->Dwarven Mountain Pass",
-            "parent_region": "Barbarian Village",
-            "connected_region": "Dwarven Mountain Pass"
-          },
-          {
-            "name": "Falador East Outskirts->Dwarven Mountain Pass",
-            "parent_region": "Falador East Outskirts",
-            "connected_region": "Dwarven Mountain Pass"
-          },
-          {
-            "name": "Goblin Village->Dwarven Mountain Pass",
-            "parent_region": "Goblin Village",
-            "connected_region": "Dwarven Mountain Pass"
-          },
-          {
-            "name": "Monastery->Dwarven Mountain Pass",
-            "parent_region": "Monastery",
-            "connected_region": "Dwarven Mountain Pass"
-          },
-          {
-            "name": "Falador->Dwarven Mountain Pass",
-            "parent_region": "Falador",
-            "connected_region": "Dwarven Mountain Pass"
-          }
-        ],
         "exits": [
           {
             "name": "Dwarven Mountain Pass->Goblin Village",
@@ -4476,23 +4079,6 @@
       },
       "Dwarven Mines": {
         "name": "Dwarven Mines",
-        "entrances": [
-          {
-            "name": "Ice Mountain->Dwarven Mines",
-            "parent_region": "Ice Mountain",
-            "connected_region": "Dwarven Mines"
-          },
-          {
-            "name": "Monastery->Dwarven Mines",
-            "parent_region": "Monastery",
-            "connected_region": "Dwarven Mines"
-          },
-          {
-            "name": "Falador->Dwarven Mines",
-            "parent_region": "Falador",
-            "connected_region": "Dwarven Mines"
-          }
-        ],
         "exits": [
           {
             "name": "Dwarven Mines->Monastery",
@@ -4949,18 +4535,6 @@
       },
       "Goblin Village": {
         "name": "Goblin Village",
-        "entrances": [
-          {
-            "name": "Dwarven Mountain Pass->Goblin Village",
-            "parent_region": "Dwarven Mountain Pass",
-            "connected_region": "Goblin Village"
-          },
-          {
-            "name": "Wilderness->Goblin Village",
-            "parent_region": "Wilderness",
-            "connected_region": "Goblin Village"
-          }
-        ],
         "exits": [
           {
             "name": "Goblin Village->Wilderness",
@@ -5120,28 +4694,6 @@
       },
       "Ice Mountain": {
         "name": "Ice Mountain",
-        "entrances": [
-          {
-            "name": "Dwarven Mines->Ice Mountain",
-            "parent_region": "Dwarven Mines",
-            "connected_region": "Ice Mountain"
-          },
-          {
-            "name": "Camdozaal->Ice Mountain",
-            "parent_region": "Camdozaal",
-            "connected_region": "Ice Mountain"
-          },
-          {
-            "name": "Monastery->Ice Mountain",
-            "parent_region": "Monastery",
-            "connected_region": "Ice Mountain"
-          },
-          {
-            "name": "Wilderness->Ice Mountain",
-            "parent_region": "Wilderness",
-            "connected_region": "Ice Mountain"
-          }
-        ],
         "exits": [
           {
             "name": "Ice Mountain->Wilderness",
@@ -5204,13 +4756,6 @@
       },
       "Camdozaal": {
         "name": "Camdozaal",
-        "entrances": [
-          {
-            "name": "Ice Mountain->Camdozaal",
-            "parent_region": "Ice Mountain",
-            "connected_region": "Camdozaal"
-          }
-        ],
         "exits": [
           {
             "name": "Camdozaal->Ice Mountain",
@@ -5261,28 +4806,6 @@
       },
       "Monastery": {
         "name": "Monastery",
-        "entrances": [
-          {
-            "name": "Dwarven Mountain Pass->Monastery",
-            "parent_region": "Dwarven Mountain Pass",
-            "connected_region": "Monastery"
-          },
-          {
-            "name": "Dwarven Mines->Monastery",
-            "parent_region": "Dwarven Mines",
-            "connected_region": "Monastery"
-          },
-          {
-            "name": "Ice Mountain->Monastery",
-            "parent_region": "Ice Mountain",
-            "connected_region": "Monastery"
-          },
-          {
-            "name": "Wilderness->Monastery",
-            "parent_region": "Wilderness",
-            "connected_region": "Monastery"
-          }
-        ],
         "exits": [
           {
             "name": "Monastery->Wilderness",
@@ -5341,23 +4864,6 @@
       },
       "Falador": {
         "name": "Falador",
-        "entrances": [
-          {
-            "name": "Dwarven Mountain Pass->Falador",
-            "parent_region": "Dwarven Mountain Pass",
-            "connected_region": "Falador"
-          },
-          {
-            "name": "Dwarven Mines->Falador",
-            "parent_region": "Dwarven Mines",
-            "connected_region": "Falador"
-          },
-          {
-            "name": "Falador Farms->Falador",
-            "parent_region": "Falador Farms",
-            "connected_region": "Falador"
-          }
-        ],
         "exits": [
           {
             "name": "Falador->Dwarven Mountain Pass",
@@ -5733,38 +5239,6 @@
       },
       "Falador Farms": {
         "name": "Falador Farms",
-        "entrances": [
-          {
-            "name": "Falador East Outskirts->Falador Farms",
-            "parent_region": "Falador East Outskirts",
-            "connected_region": "Falador Farms"
-          },
-          {
-            "name": "Falador->Falador Farms",
-            "parent_region": "Falador",
-            "connected_region": "Falador Farms"
-          },
-          {
-            "name": "Port Sarim->Falador Farms",
-            "parent_region": "Port Sarim",
-            "connected_region": "Falador Farms"
-          },
-          {
-            "name": "Rimmington->Falador Farms",
-            "parent_region": "Rimmington",
-            "connected_region": "Falador Farms"
-          },
-          {
-            "name": "Crafting Guild Peninsula->Falador Farms",
-            "parent_region": "Crafting Guild Peninsula",
-            "connected_region": "Falador Farms"
-          },
-          {
-            "name": "Crafting Guild Outskirts->Falador Farms",
-            "parent_region": "Crafting Guild Outskirts",
-            "connected_region": "Falador Farms"
-          }
-        ],
         "exits": [
           {
             "name": "Falador Farms->Falador",
@@ -5893,38 +5367,6 @@
       },
       "Port Sarim": {
         "name": "Port Sarim",
-        "entrances": [
-          {
-            "name": "Falador Farms->Port Sarim",
-            "parent_region": "Falador Farms",
-            "connected_region": "Port Sarim"
-          },
-          {
-            "name": "Karamja Docks->Port Sarim",
-            "parent_region": "Karamja Docks",
-            "connected_region": "Port Sarim"
-          },
-          {
-            "name": "Mudskipper Point->Port Sarim",
-            "parent_region": "Mudskipper Point",
-            "connected_region": "Port Sarim"
-          },
-          {
-            "name": "Crandor->Port Sarim",
-            "parent_region": "Crandor",
-            "connected_region": "Port Sarim"
-          },
-          {
-            "name": "Rimmington->Port Sarim",
-            "parent_region": "Rimmington",
-            "connected_region": "Port Sarim"
-          },
-          {
-            "name": "Al Kharid->Port Sarim",
-            "parent_region": "Al Kharid",
-            "connected_region": "Port Sarim"
-          }
-        ],
         "exits": [
           {
             "name": "Port Sarim->Falador Farms",
@@ -6307,18 +5749,6 @@
       },
       "Karamja Docks": {
         "name": "Karamja Docks",
-        "entrances": [
-          {
-            "name": "Port Sarim->Karamja Docks",
-            "parent_region": "Port Sarim",
-            "connected_region": "Karamja Docks"
-          },
-          {
-            "name": "Karamja->Karamja Docks",
-            "parent_region": "Karamja",
-            "connected_region": "Karamja Docks"
-          }
-        ],
         "exits": [
           {
             "name": "Karamja Docks->Port Sarim",
@@ -6347,18 +5777,6 @@
       },
       "Mudskipper Point": {
         "name": "Mudskipper Point",
-        "entrances": [
-          {
-            "name": "Port Sarim->Mudskipper Point",
-            "parent_region": "Port Sarim",
-            "connected_region": "Mudskipper Point"
-          },
-          {
-            "name": "Rimmington->Mudskipper Point",
-            "parent_region": "Rimmington",
-            "connected_region": "Mudskipper Point"
-          }
-        ],
         "exits": [
           {
             "name": "Mudskipper Point->Rimmington",
@@ -6435,18 +5853,6 @@
       },
       "Karamja": {
         "name": "Karamja",
-        "entrances": [
-          {
-            "name": "Karamja Docks->Karamja",
-            "parent_region": "Karamja Docks",
-            "connected_region": "Karamja"
-          },
-          {
-            "name": "Crandor->Karamja",
-            "parent_region": "Crandor",
-            "connected_region": "Karamja"
-          }
-        ],
         "exits": [
           {
             "name": "Karamja->Karamja Docks",
@@ -6676,18 +6082,6 @@
       },
       "Crandor": {
         "name": "Crandor",
-        "entrances": [
-          {
-            "name": "Port Sarim->Crandor",
-            "parent_region": "Port Sarim",
-            "connected_region": "Crandor"
-          },
-          {
-            "name": "Karamja->Crandor",
-            "parent_region": "Karamja",
-            "connected_region": "Crandor"
-          }
-        ],
         "exits": [
           {
             "name": "Crandor->Karamja",
@@ -6986,33 +6380,6 @@
       },
       "Rimmington": {
         "name": "Rimmington",
-        "entrances": [
-          {
-            "name": "Falador Farms->Rimmington",
-            "parent_region": "Falador Farms",
-            "connected_region": "Rimmington"
-          },
-          {
-            "name": "Port Sarim->Rimmington",
-            "parent_region": "Port Sarim",
-            "connected_region": "Rimmington"
-          },
-          {
-            "name": "Mudskipper Point->Rimmington",
-            "parent_region": "Mudskipper Point",
-            "connected_region": "Rimmington"
-          },
-          {
-            "name": "Crafting Guild Peninsula->Rimmington",
-            "parent_region": "Crafting Guild Peninsula",
-            "connected_region": "Rimmington"
-          },
-          {
-            "name": "Corsair Cove->Rimmington",
-            "parent_region": "Corsair Cove",
-            "connected_region": "Rimmington"
-          }
-        ],
         "exits": [
           {
             "name": "Rimmington->Falador Farms",
@@ -7347,13 +6714,6 @@
       },
       "Crafting Guild Peninsula": {
         "name": "Crafting Guild Peninsula",
-        "entrances": [
-          {
-            "name": "Rimmington->Crafting Guild Peninsula",
-            "parent_region": "Rimmington",
-            "connected_region": "Crafting Guild Peninsula"
-          }
-        ],
         "exits": [
           {
             "name": "Crafting Guild Peninsula->Falador Farms",
@@ -7390,13 +6750,6 @@
       },
       "Crafting Guild Outskirts": {
         "name": "Crafting Guild Outskirts",
-        "entrances": [
-          {
-            "name": "Falador Farms->Crafting Guild Outskirts",
-            "parent_region": "Falador Farms",
-            "connected_region": "Crafting Guild Outskirts"
-          }
-        ],
         "exits": [
           {
             "name": "Crafting Guild Outskirts->Falador Farms",
@@ -7717,18 +7070,6 @@
       },
       "Crafting Guild": {
         "name": "Crafting Guild",
-        "entrances": [
-          {
-            "name": "Crafting Guild Outskirts->Crafting Guild",
-            "parent_region": "Crafting Guild Outskirts",
-            "connected_region": "Crafting Guild"
-          },
-          {
-            "name": "Crafting Guild->Crafting Guild",
-            "parent_region": "Crafting Guild",
-            "connected_region": "Crafting Guild"
-          }
-        ],
         "exits": [
           {
             "name": "Crafting Guild->Crafting Guild",
@@ -8062,38 +7403,6 @@
       },
       "Draynor Village": {
         "name": "Draynor Village",
-        "entrances": [
-          {
-            "name": "HAM Hideout->Draynor Village",
-            "parent_region": "HAM Hideout",
-            "connected_region": "Draynor Village"
-          },
-          {
-            "name": "Lumbridge Farms West->Draynor Village",
-            "parent_region": "Lumbridge Farms West",
-            "connected_region": "Draynor Village"
-          },
-          {
-            "name": "Draynor Manor Outskirts->Draynor Village",
-            "parent_region": "Draynor Manor Outskirts",
-            "connected_region": "Draynor Village"
-          },
-          {
-            "name": "Draynor Manor->Draynor Village",
-            "parent_region": "Draynor Manor",
-            "connected_region": "Draynor Village"
-          },
-          {
-            "name": "Falador Farms->Draynor Village",
-            "parent_region": "Falador Farms",
-            "connected_region": "Draynor Village"
-          },
-          {
-            "name": "Wizard Tower->Draynor Village",
-            "parent_region": "Wizard Tower",
-            "connected_region": "Draynor Village"
-          }
-        ],
         "exits": [
           {
             "name": "Draynor Village->Draynor Manor",
@@ -8341,13 +7650,6 @@
       },
       "Wizard Tower": {
         "name": "Wizard Tower",
-        "entrances": [
-          {
-            "name": "Draynor Village->Wizard Tower",
-            "parent_region": "Draynor Village",
-            "connected_region": "Wizard Tower"
-          }
-        ],
         "exits": [
           {
             "name": "Wizard Tower->Draynor Village",
@@ -8447,13 +7749,6 @@
       },
       "Corsair Cove": {
         "name": "Corsair Cove",
-        "entrances": [
-          {
-            "name": "Rimmington->Corsair Cove",
-            "parent_region": "Rimmington",
-            "connected_region": "Corsair Cove"
-          }
-        ],
         "exits": [
           {
             "name": "Corsair Cove->Rimmington",
@@ -8495,23 +7790,6 @@
       },
       "Al Kharid": {
         "name": "Al Kharid",
-        "entrances": [
-          {
-            "name": "Lumbridge->Al Kharid",
-            "parent_region": "Lumbridge",
-            "connected_region": "Al Kharid"
-          },
-          {
-            "name": "South of Varrock->Al Kharid",
-            "parent_region": "South of Varrock",
-            "connected_region": "Al Kharid"
-          },
-          {
-            "name": "Citharede Abbey->Al Kharid",
-            "parent_region": "Citharede Abbey",
-            "connected_region": "Al Kharid"
-          }
-        ],
         "exits": [
           {
             "name": "Al Kharid->South of Varrock",
@@ -8870,13 +8148,6 @@
       },
       "Citharede Abbey": {
         "name": "Citharede Abbey",
-        "entrances": [
-          {
-            "name": "Al Kharid->Citharede Abbey",
-            "parent_region": "Al Kharid",
-            "connected_region": "Citharede Abbey"
-          }
-        ],
         "exits": [
           {
             "name": "Citharede Abbey->Al Kharid",
@@ -8958,53 +8229,6 @@
       },
       "Wilderness": {
         "name": "Wilderness",
-        "entrances": [
-          {
-            "name": "Lumbridge->Wilderness",
-            "parent_region": "Lumbridge",
-            "connected_region": "Wilderness"
-          },
-          {
-            "name": "South of Varrock->Wilderness",
-            "parent_region": "South of Varrock",
-            "connected_region": "Wilderness"
-          },
-          {
-            "name": "Lumberyard->Wilderness",
-            "parent_region": "Lumberyard",
-            "connected_region": "Wilderness"
-          },
-          {
-            "name": "Varrock Palace->Wilderness",
-            "parent_region": "Varrock Palace",
-            "connected_region": "Wilderness"
-          },
-          {
-            "name": "West Varrock->Wilderness",
-            "parent_region": "West Varrock",
-            "connected_region": "Wilderness"
-          },
-          {
-            "name": "Edgeville->Wilderness",
-            "parent_region": "Edgeville",
-            "connected_region": "Wilderness"
-          },
-          {
-            "name": "Goblin Village->Wilderness",
-            "parent_region": "Goblin Village",
-            "connected_region": "Wilderness"
-          },
-          {
-            "name": "Ice Mountain->Wilderness",
-            "parent_region": "Ice Mountain",
-            "connected_region": "Wilderness"
-          },
-          {
-            "name": "Monastery->Wilderness",
-            "parent_region": "Monastery",
-            "connected_region": "Wilderness"
-          }
-        ],
         "exits": [
           {
             "name": "Wilderness->Lumberyard",
@@ -9429,161 +8653,26 @@
       },
       "Mind Runes": {
         "name": "Mind Runes",
-        "entrances": [
-          {
-            "name": "Lumbridge->Mind Runes",
-            "parent_region": "Lumbridge",
-            "connected_region": "Mind Runes"
-          },
-          {
-            "name": "Central Varrock->Mind Runes",
-            "parent_region": "Central Varrock",
-            "connected_region": "Mind Runes"
-          },
-          {
-            "name": "Port Sarim->Mind Runes",
-            "parent_region": "Port Sarim",
-            "connected_region": "Mind Runes"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Spinning Wheel": {
         "name": "Spinning Wheel",
-        "entrances": [
-          {
-            "name": "Lumbridge->Spinning Wheel",
-            "parent_region": "Lumbridge",
-            "connected_region": "Spinning Wheel"
-          },
-          {
-            "name": "Barbarian Village->Spinning Wheel",
-            "parent_region": "Barbarian Village",
-            "connected_region": "Spinning Wheel"
-          },
-          {
-            "name": "Falador Farms->Spinning Wheel",
-            "parent_region": "Falador Farms",
-            "connected_region": "Spinning Wheel"
-          },
-          {
-            "name": "Crafting Guild->Spinning Wheel",
-            "parent_region": "Crafting Guild",
-            "connected_region": "Spinning Wheel"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Sheep": {
         "name": "Sheep",
-        "entrances": [
-          {
-            "name": "Lumbridge Farms West->Sheep",
-            "parent_region": "Lumbridge Farms West",
-            "connected_region": "Sheep"
-          },
-          {
-            "name": "South of Varrock->Sheep",
-            "parent_region": "South of Varrock",
-            "connected_region": "Sheep"
-          },
-          {
-            "name": "Monastery->Sheep",
-            "parent_region": "Monastery",
-            "connected_region": "Sheep"
-          },
-          {
-            "name": "Crafting Guild Outskirts->Sheep",
-            "parent_region": "Crafting Guild Outskirts",
-            "connected_region": "Sheep"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Furnace": {
         "name": "Furnace",
-        "entrances": [
-          {
-            "name": "Lumbridge->Furnace",
-            "parent_region": "Lumbridge",
-            "connected_region": "Furnace"
-          },
-          {
-            "name": "Edgeville->Furnace",
-            "parent_region": "Edgeville",
-            "connected_region": "Furnace"
-          },
-          {
-            "name": "Falador->Furnace",
-            "parent_region": "Falador",
-            "connected_region": "Furnace"
-          },
-          {
-            "name": "Al Kharid->Furnace",
-            "parent_region": "Al Kharid",
-            "connected_region": "Furnace"
-          },
-          {
-            "name": "Wilderness->Furnace",
-            "parent_region": "Wilderness",
-            "connected_region": "Furnace"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Chisel": {
         "name": "Chisel",
-        "entrances": [
-          {
-            "name": "Lumbridge->Chisel",
-            "parent_region": "Lumbridge",
-            "connected_region": "Chisel"
-          },
-          {
-            "name": "Central Varrock->Chisel",
-            "parent_region": "Central Varrock",
-            "connected_region": "Chisel"
-          },
-          {
-            "name": "Edgeville->Chisel",
-            "parent_region": "Edgeville",
-            "connected_region": "Chisel"
-          },
-          {
-            "name": "Dwarven Mines->Chisel",
-            "parent_region": "Dwarven Mines",
-            "connected_region": "Chisel"
-          },
-          {
-            "name": "Falador->Chisel",
-            "parent_region": "Falador",
-            "connected_region": "Chisel"
-          },
-          {
-            "name": "Rimmington->Chisel",
-            "parent_region": "Rimmington",
-            "connected_region": "Chisel"
-          },
-          {
-            "name": "Crafting Guild->Chisel",
-            "parent_region": "Crafting Guild",
-            "connected_region": "Chisel"
-          },
-          {
-            "name": "Al Kharid->Chisel",
-            "parent_region": "Al Kharid",
-            "connected_region": "Chisel"
-          },
-          {
-            "name": "Wilderness->Chisel",
-            "parent_region": "Wilderness",
-            "connected_region": "Chisel"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -10186,80 +9275,11 @@
       },
       "Bronze Ores": {
         "name": "Bronze Ores",
-        "entrances": [
-          {
-            "name": "Lumbridge Swamp->Bronze Ores",
-            "parent_region": "Lumbridge Swamp",
-            "connected_region": "Bronze Ores"
-          },
-          {
-            "name": "South of Varrock->Bronze Ores",
-            "parent_region": "South of Varrock",
-            "connected_region": "Bronze Ores"
-          },
-          {
-            "name": "Edgeville->Bronze Ores",
-            "parent_region": "Edgeville",
-            "connected_region": "Bronze Ores"
-          },
-          {
-            "name": "Dwarven Mines->Bronze Ores",
-            "parent_region": "Dwarven Mines",
-            "connected_region": "Bronze Ores"
-          },
-          {
-            "name": "Rimmington->Bronze Ores",
-            "parent_region": "Rimmington",
-            "connected_region": "Bronze Ores"
-          },
-          {
-            "name": "Al Kharid->Bronze Ores",
-            "parent_region": "Al Kharid",
-            "connected_region": "Bronze Ores"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Iron Ore": {
         "name": "Iron Ore",
-        "entrances": [
-          {
-            "name": "South of Varrock->Iron Ore",
-            "parent_region": "South of Varrock",
-            "connected_region": "Iron Ore"
-          },
-          {
-            "name": "Edgeville->Iron Ore",
-            "parent_region": "Edgeville",
-            "connected_region": "Iron Ore"
-          },
-          {
-            "name": "Dwarven Mines->Iron Ore",
-            "parent_region": "Dwarven Mines",
-            "connected_region": "Iron Ore"
-          },
-          {
-            "name": "Rimmington->Iron Ore",
-            "parent_region": "Rimmington",
-            "connected_region": "Iron Ore"
-          },
-          {
-            "name": "Al Kharid->Iron Ore",
-            "parent_region": "Al Kharid",
-            "connected_region": "Iron Ore"
-          },
-          {
-            "name": "Citharede Abbey->Iron Ore",
-            "parent_region": "Citharede Abbey",
-            "connected_region": "Iron Ore"
-          },
-          {
-            "name": "Wilderness->Iron Ore",
-            "parent_region": "Wilderness",
-            "connected_region": "Iron Ore"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -10404,23 +9424,6 @@
       },
       "Silver Ore": {
         "name": "Silver Ore",
-        "entrances": [
-          {
-            "name": "South of Varrock->Silver Ore",
-            "parent_region": "South of Varrock",
-            "connected_region": "Silver Ore"
-          },
-          {
-            "name": "Crafting Guild->Silver Ore",
-            "parent_region": "Crafting Guild",
-            "connected_region": "Silver Ore"
-          },
-          {
-            "name": "Al Kharid->Silver Ore",
-            "parent_region": "Al Kharid",
-            "connected_region": "Silver Ore"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -10496,85 +9499,11 @@
       },
       "Coal Ore": {
         "name": "Coal Ore",
-        "entrances": [
-          {
-            "name": "Lumbridge Swamp->Coal Ore",
-            "parent_region": "Lumbridge Swamp",
-            "connected_region": "Coal Ore"
-          },
-          {
-            "name": "Edgeville->Coal Ore",
-            "parent_region": "Edgeville",
-            "connected_region": "Coal Ore"
-          },
-          {
-            "name": "Barbarian Village->Coal Ore",
-            "parent_region": "Barbarian Village",
-            "connected_region": "Coal Ore"
-          },
-          {
-            "name": "Dwarven Mines->Coal Ore",
-            "parent_region": "Dwarven Mines",
-            "connected_region": "Coal Ore"
-          },
-          {
-            "name": "Crandor->Coal Ore",
-            "parent_region": "Crandor",
-            "connected_region": "Coal Ore"
-          },
-          {
-            "name": "Al Kharid->Coal Ore",
-            "parent_region": "Al Kharid",
-            "connected_region": "Coal Ore"
-          },
-          {
-            "name": "Citharede Abbey->Coal Ore",
-            "parent_region": "Citharede Abbey",
-            "connected_region": "Coal Ore"
-          },
-          {
-            "name": "Wilderness->Coal Ore",
-            "parent_region": "Wilderness",
-            "connected_region": "Coal Ore"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Gold Ore": {
         "name": "Gold Ore",
-        "entrances": [
-          {
-            "name": "Dwarven Mines->Gold Ore",
-            "parent_region": "Dwarven Mines",
-            "connected_region": "Gold Ore"
-          },
-          {
-            "name": "Karamja->Gold Ore",
-            "parent_region": "Karamja",
-            "connected_region": "Gold Ore"
-          },
-          {
-            "name": "Crandor->Gold Ore",
-            "parent_region": "Crandor",
-            "connected_region": "Gold Ore"
-          },
-          {
-            "name": "Rimmington->Gold Ore",
-            "parent_region": "Rimmington",
-            "connected_region": "Gold Ore"
-          },
-          {
-            "name": "Crafting Guild->Gold Ore",
-            "parent_region": "Crafting Guild",
-            "connected_region": "Gold Ore"
-          },
-          {
-            "name": "Al Kharid->Gold Ore",
-            "parent_region": "Al Kharid",
-            "connected_region": "Gold Ore"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -10758,114 +9687,21 @@
       },
       "Bronze Anvil": {
         "name": "Bronze Anvil",
-        "entrances": [
-          {
-            "name": "Lumbridge->Bronze Anvil",
-            "parent_region": "Lumbridge",
-            "connected_region": "Bronze Anvil"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Anvil": {
         "name": "Anvil",
-        "entrances": [
-          {
-            "name": "Central Varrock->Anvil",
-            "parent_region": "Central Varrock",
-            "connected_region": "Anvil"
-          },
-          {
-            "name": "West Varrock->Anvil",
-            "parent_region": "West Varrock",
-            "connected_region": "Anvil"
-          },
-          {
-            "name": "Barbarian Village->Anvil",
-            "parent_region": "Barbarian Village",
-            "connected_region": "Anvil"
-          },
-          {
-            "name": "Dwarven Mountain Pass->Anvil",
-            "parent_region": "Dwarven Mountain Pass",
-            "connected_region": "Anvil"
-          },
-          {
-            "name": "Dwarven Mines->Anvil",
-            "parent_region": "Dwarven Mines",
-            "connected_region": "Anvil"
-          },
-          {
-            "name": "Mudskipper Point->Anvil",
-            "parent_region": "Mudskipper Point",
-            "connected_region": "Anvil"
-          },
-          {
-            "name": "Draynor Village->Anvil",
-            "parent_region": "Draynor Village",
-            "connected_region": "Anvil"
-          },
-          {
-            "name": "Corsair Cove->Anvil",
-            "parent_region": "Corsair Cove",
-            "connected_region": "Anvil"
-          },
-          {
-            "name": "Citharede Abbey->Anvil",
-            "parent_region": "Citharede Abbey",
-            "connected_region": "Anvil"
-          },
-          {
-            "name": "Wilderness->Anvil",
-            "parent_region": "Wilderness",
-            "connected_region": "Anvil"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Shrimp Spot": {
         "name": "Shrimp Spot",
-        "entrances": [
-          {
-            "name": "Lumbridge Swamp->Shrimp Spot",
-            "parent_region": "Lumbridge Swamp",
-            "connected_region": "Shrimp Spot"
-          },
-          {
-            "name": "Port Sarim->Shrimp Spot",
-            "parent_region": "Port Sarim",
-            "connected_region": "Shrimp Spot"
-          },
-          {
-            "name": "Draynor Village->Shrimp Spot",
-            "parent_region": "Draynor Village",
-            "connected_region": "Shrimp Spot"
-          },
-          {
-            "name": "Al Kharid->Shrimp Spot",
-            "parent_region": "Al Kharid",
-            "connected_region": "Shrimp Spot"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Fly Fishing Spot": {
         "name": "Fly Fishing Spot",
-        "entrances": [
-          {
-            "name": "Lumbridge->Fly Fishing Spot",
-            "parent_region": "Lumbridge",
-            "connected_region": "Fly Fishing Spot"
-          },
-          {
-            "name": "Barbarian Village->Fly Fishing Spot",
-            "parent_region": "Barbarian Village",
-            "connected_region": "Fly Fishing Spot"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -10936,13 +9772,6 @@
       },
       "Lobster Spot": {
         "name": "Lobster Spot",
-        "entrances": [
-          {
-            "name": "Karamja->Lobster Spot",
-            "parent_region": "Karamja",
-            "connected_region": "Lobster Spot"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -11042,13 +9871,6 @@
       },
       "Redberry Bush": {
         "name": "Redberry Bush",
-        "entrances": [
-          {
-            "name": "South of Varrock->Redberry Bush",
-            "parent_region": "South of Varrock",
-            "connected_region": "Redberry Bush"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -11201,238 +10023,31 @@
       },
       "Bowl": {
         "name": "Bowl",
-        "entrances": [
-          {
-            "name": "Lumbridge->Bowl",
-            "parent_region": "Lumbridge",
-            "connected_region": "Bowl"
-          },
-          {
-            "name": "Central Varrock->Bowl",
-            "parent_region": "Central Varrock",
-            "connected_region": "Bowl"
-          },
-          {
-            "name": "Cook's Guild->Bowl",
-            "parent_region": "Cook's Guild",
-            "connected_region": "Bowl"
-          },
-          {
-            "name": "Edgeville->Bowl",
-            "parent_region": "Edgeville",
-            "connected_region": "Bowl"
-          },
-          {
-            "name": "Falador->Bowl",
-            "parent_region": "Falador",
-            "connected_region": "Bowl"
-          },
-          {
-            "name": "Karamja->Bowl",
-            "parent_region": "Karamja",
-            "connected_region": "Bowl"
-          },
-          {
-            "name": "Rimmington->Bowl",
-            "parent_region": "Rimmington",
-            "connected_region": "Bowl"
-          },
-          {
-            "name": "Al Kharid->Bowl",
-            "parent_region": "Al Kharid",
-            "connected_region": "Bowl"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Meat": {
         "name": "Meat",
-        "entrances": [
-          {
-            "name": "Lumbridge Swamp->Meat",
-            "parent_region": "Lumbridge Swamp",
-            "connected_region": "Meat"
-          },
-          {
-            "name": "Lumbridge Farms West->Meat",
-            "parent_region": "Lumbridge Farms West",
-            "connected_region": "Meat"
-          },
-          {
-            "name": "Lumbridge Farms East->Meat",
-            "parent_region": "Lumbridge Farms East",
-            "connected_region": "Meat"
-          },
-          {
-            "name": "South of Varrock->Meat",
-            "parent_region": "South of Varrock",
-            "connected_region": "Meat"
-          },
-          {
-            "name": "Edgeville->Meat",
-            "parent_region": "Edgeville",
-            "connected_region": "Meat"
-          },
-          {
-            "name": "Barbarian Village->Meat",
-            "parent_region": "Barbarian Village",
-            "connected_region": "Meat"
-          },
-          {
-            "name": "Goblin Village->Meat",
-            "parent_region": "Goblin Village",
-            "connected_region": "Meat"
-          },
-          {
-            "name": "Falador Farms->Meat",
-            "parent_region": "Falador Farms",
-            "connected_region": "Meat"
-          },
-          {
-            "name": "Port Sarim->Meat",
-            "parent_region": "Port Sarim",
-            "connected_region": "Meat"
-          },
-          {
-            "name": "Crafting Guild->Meat",
-            "parent_region": "Crafting Guild",
-            "connected_region": "Meat"
-          },
-          {
-            "name": "Corsair Cove->Meat",
-            "parent_region": "Corsair Cove",
-            "connected_region": "Meat"
-          },
-          {
-            "name": "Wilderness->Meat",
-            "parent_region": "Wilderness",
-            "connected_region": "Meat"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Cooking Apple": {
         "name": "Cooking Apple",
-        "entrances": [
-          {
-            "name": "Cook's Guild->Cooking Apple",
-            "parent_region": "Cook's Guild",
-            "connected_region": "Cooking Apple"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Pie Dish": {
         "name": "Pie Dish",
-        "entrances": [
-          {
-            "name": "Varrock Palace->Pie Dish",
-            "parent_region": "Varrock Palace",
-            "connected_region": "Pie Dish"
-          },
-          {
-            "name": "Cook's Guild->Pie Dish",
-            "parent_region": "Cook's Guild",
-            "connected_region": "Pie Dish"
-          },
-          {
-            "name": "Dwarven Mines->Pie Dish",
-            "parent_region": "Dwarven Mines",
-            "connected_region": "Pie Dish"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Cake Tin": {
         "name": "Cake Tin",
-        "entrances": [
-          {
-            "name": "Lumbridge->Cake Tin",
-            "parent_region": "Lumbridge",
-            "connected_region": "Cake Tin"
-          },
-          {
-            "name": "Central Varrock->Cake Tin",
-            "parent_region": "Central Varrock",
-            "connected_region": "Cake Tin"
-          },
-          {
-            "name": "Cook's Guild->Cake Tin",
-            "parent_region": "Cook's Guild",
-            "connected_region": "Cake Tin"
-          },
-          {
-            "name": "Edgeville->Cake Tin",
-            "parent_region": "Edgeville",
-            "connected_region": "Cake Tin"
-          },
-          {
-            "name": "Falador->Cake Tin",
-            "parent_region": "Falador",
-            "connected_region": "Cake Tin"
-          },
-          {
-            "name": "Karamja->Cake Tin",
-            "parent_region": "Karamja",
-            "connected_region": "Cake Tin"
-          },
-          {
-            "name": "Rimmington->Cake Tin",
-            "parent_region": "Rimmington",
-            "connected_region": "Cake Tin"
-          },
-          {
-            "name": "Al Kharid->Cake Tin",
-            "parent_region": "Al Kharid",
-            "connected_region": "Cake Tin"
-          },
-          {
-            "name": "Wilderness->Cake Tin",
-            "parent_region": "Wilderness",
-            "connected_region": "Cake Tin"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Wheat": {
         "name": "Wheat",
-        "entrances": [
-          {
-            "name": "Lumbridge Farms West->Wheat",
-            "parent_region": "Lumbridge Farms West",
-            "connected_region": "Wheat"
-          },
-          {
-            "name": "South of Varrock->Wheat",
-            "parent_region": "South of Varrock",
-            "connected_region": "Wheat"
-          },
-          {
-            "name": "West Varrock->Wheat",
-            "parent_region": "West Varrock",
-            "connected_region": "Wheat"
-          },
-          {
-            "name": "Dwarven Mountain Pass->Wheat",
-            "parent_region": "Dwarven Mountain Pass",
-            "connected_region": "Wheat"
-          },
-          {
-            "name": "Rimmington->Wheat",
-            "parent_region": "Rimmington",
-            "connected_region": "Wheat"
-          },
-          {
-            "name": "Draynor Village->Wheat",
-            "parent_region": "Draynor Village",
-            "connected_region": "Wheat"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -11703,178 +10318,31 @@
       },
       "Windmill": {
         "name": "Windmill",
-        "entrances": [
-          {
-            "name": "Lumbridge Farms West->Windmill",
-            "parent_region": "Lumbridge Farms West",
-            "connected_region": "Windmill"
-          },
-          {
-            "name": "Cook's Guild->Windmill",
-            "parent_region": "Cook's Guild",
-            "connected_region": "Windmill"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Egg": {
         "name": "Egg",
-        "entrances": [
-          {
-            "name": "Lumbridge Farms West->Egg",
-            "parent_region": "Lumbridge Farms West",
-            "connected_region": "Egg"
-          },
-          {
-            "name": "Lumbridge Farms East->Egg",
-            "parent_region": "Lumbridge Farms East",
-            "connected_region": "Egg"
-          },
-          {
-            "name": "Falador Farms->Egg",
-            "parent_region": "Falador Farms",
-            "connected_region": "Egg"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Milk": {
         "name": "Milk",
-        "entrances": [
-          {
-            "name": "Lumbridge Farms West->Milk",
-            "parent_region": "Lumbridge Farms West",
-            "connected_region": "Milk"
-          },
-          {
-            "name": "Lumbridge Farms East->Milk",
-            "parent_region": "Lumbridge Farms East",
-            "connected_region": "Milk"
-          },
-          {
-            "name": "Falador Farms->Milk",
-            "parent_region": "Falador Farms",
-            "connected_region": "Milk"
-          },
-          {
-            "name": "Crafting Guild->Milk",
-            "parent_region": "Crafting Guild",
-            "connected_region": "Milk"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Cheese": {
         "name": "Cheese",
-        "entrances": [
-          {
-            "name": "Port Sarim->Cheese",
-            "parent_region": "Port Sarim",
-            "connected_region": "Cheese"
-          },
-          {
-            "name": "Draynor Village->Cheese",
-            "parent_region": "Draynor Village",
-            "connected_region": "Cheese"
-          },
-          {
-            "name": "Al Kharid->Cheese",
-            "parent_region": "Al Kharid",
-            "connected_region": "Cheese"
-          },
-          {
-            "name": "Wilderness->Cheese",
-            "parent_region": "Wilderness",
-            "connected_region": "Cheese"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Tomato": {
         "name": "Tomato",
-        "entrances": [
-          {
-            "name": "Port Sarim->Tomato",
-            "parent_region": "Port Sarim",
-            "connected_region": "Tomato"
-          },
-          {
-            "name": "Draynor Village->Tomato",
-            "parent_region": "Draynor Village",
-            "connected_region": "Tomato"
-          },
-          {
-            "name": "Wilderness->Tomato",
-            "parent_region": "Wilderness",
-            "connected_region": "Tomato"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Oak Tree": {
         "name": "Oak Tree",
-        "entrances": [
-          {
-            "name": "Lumbridge->Oak Tree",
-            "parent_region": "Lumbridge",
-            "connected_region": "Oak Tree"
-          },
-          {
-            "name": "South of Varrock->Oak Tree",
-            "parent_region": "South of Varrock",
-            "connected_region": "Oak Tree"
-          },
-          {
-            "name": "Central Varrock->Oak Tree",
-            "parent_region": "Central Varrock",
-            "connected_region": "Oak Tree"
-          },
-          {
-            "name": "Varrock Palace->Oak Tree",
-            "parent_region": "Varrock Palace",
-            "connected_region": "Oak Tree"
-          },
-          {
-            "name": "West Varrock->Oak Tree",
-            "parent_region": "West Varrock",
-            "connected_region": "Oak Tree"
-          },
-          {
-            "name": "Falador->Oak Tree",
-            "parent_region": "Falador",
-            "connected_region": "Oak Tree"
-          },
-          {
-            "name": "Falador Farms->Oak Tree",
-            "parent_region": "Falador Farms",
-            "connected_region": "Oak Tree"
-          },
-          {
-            "name": "Port Sarim->Oak Tree",
-            "parent_region": "Port Sarim",
-            "connected_region": "Oak Tree"
-          },
-          {
-            "name": "Rimmington->Oak Tree",
-            "parent_region": "Rimmington",
-            "connected_region": "Oak Tree"
-          },
-          {
-            "name": "Crafting Guild Outskirts->Oak Tree",
-            "parent_region": "Crafting Guild Outskirts",
-            "connected_region": "Oak Tree"
-          },
-          {
-            "name": "Wilderness->Oak Tree",
-            "parent_region": "Wilderness",
-            "connected_region": "Oak Tree"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -11950,53 +10418,6 @@
       },
       "Willow Tree": {
         "name": "Willow Tree",
-        "entrances": [
-          {
-            "name": "Lumbridge->Willow Tree",
-            "parent_region": "Lumbridge",
-            "connected_region": "Willow Tree"
-          },
-          {
-            "name": "Lumbridge Farms West->Willow Tree",
-            "parent_region": "Lumbridge Farms West",
-            "connected_region": "Willow Tree"
-          },
-          {
-            "name": "Lumbridge Farms East->Willow Tree",
-            "parent_region": "Lumbridge Farms East",
-            "connected_region": "Willow Tree"
-          },
-          {
-            "name": "South of Varrock->Willow Tree",
-            "parent_region": "South of Varrock",
-            "connected_region": "Willow Tree"
-          },
-          {
-            "name": "Edgeville->Willow Tree",
-            "parent_region": "Edgeville",
-            "connected_region": "Willow Tree"
-          },
-          {
-            "name": "Port Sarim->Willow Tree",
-            "parent_region": "Port Sarim",
-            "connected_region": "Willow Tree"
-          },
-          {
-            "name": "Rimmington->Willow Tree",
-            "parent_region": "Rimmington",
-            "connected_region": "Willow Tree"
-          },
-          {
-            "name": "Crafting Guild Outskirts->Willow Tree",
-            "parent_region": "Crafting Guild Outskirts",
-            "connected_region": "Willow Tree"
-          },
-          {
-            "name": "Draynor Village->Willow Tree",
-            "parent_region": "Draynor Village",
-            "connected_region": "Willow Tree"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -12102,97 +10523,16 @@
       },
       "Canoe Tree": {
         "name": "Canoe Tree",
-        "entrances": [
-          {
-            "name": "Lumbridge->Canoe Tree",
-            "parent_region": "Lumbridge",
-            "connected_region": "Canoe Tree"
-          },
-          {
-            "name": "South of Varrock->Canoe Tree",
-            "parent_region": "South of Varrock",
-            "connected_region": "Canoe Tree"
-          },
-          {
-            "name": "Edgeville->Canoe Tree",
-            "parent_region": "Edgeville",
-            "connected_region": "Canoe Tree"
-          },
-          {
-            "name": "Barbarian Village->Canoe Tree",
-            "parent_region": "Barbarian Village",
-            "connected_region": "Canoe Tree"
-          },
-          {
-            "name": "Wilderness->Canoe Tree",
-            "parent_region": "Wilderness",
-            "connected_region": "Canoe Tree"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Goblin": {
         "name": "Goblin",
-        "entrances": [
-          {
-            "name": "Lumbridge->Goblin",
-            "parent_region": "Lumbridge",
-            "connected_region": "Goblin"
-          },
-          {
-            "name": "Lumbridge Swamp->Goblin",
-            "parent_region": "Lumbridge Swamp",
-            "connected_region": "Goblin"
-          },
-          {
-            "name": "HAM Hideout->Goblin",
-            "parent_region": "HAM Hideout",
-            "connected_region": "Goblin"
-          },
-          {
-            "name": "Lumbridge Farms East->Goblin",
-            "parent_region": "Lumbridge Farms East",
-            "connected_region": "Goblin"
-          },
-          {
-            "name": "West Varrock->Goblin",
-            "parent_region": "West Varrock",
-            "connected_region": "Goblin"
-          },
-          {
-            "name": "Draynor Manor Outskirts->Goblin",
-            "parent_region": "Draynor Manor Outskirts",
-            "connected_region": "Goblin"
-          },
-          {
-            "name": "Port Sarim->Goblin",
-            "parent_region": "Port Sarim",
-            "connected_region": "Goblin"
-          },
-          {
-            "name": "Draynor Village->Goblin",
-            "parent_region": "Draynor Village",
-            "connected_region": "Goblin"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Barbarian": {
         "name": "Barbarian",
-        "entrances": [
-          {
-            "name": "Central Varrock->Barbarian",
-            "parent_region": "Central Varrock",
-            "connected_region": "Barbarian"
-          },
-          {
-            "name": "Barbarian Village->Barbarian",
-            "parent_region": "Barbarian Village",
-            "connected_region": "Barbarian"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -12232,33 +10572,6 @@
       },
       "Zombie": {
         "name": "Zombie",
-        "entrances": [
-          {
-            "name": "Varrock Palace->Zombie",
-            "parent_region": "Varrock Palace",
-            "connected_region": "Zombie"
-          },
-          {
-            "name": "Edgeville->Zombie",
-            "parent_region": "Edgeville",
-            "connected_region": "Zombie"
-          },
-          {
-            "name": "Barbarian Village->Zombie",
-            "parent_region": "Barbarian Village",
-            "connected_region": "Zombie"
-          },
-          {
-            "name": "Draynor Village->Zombie",
-            "parent_region": "Draynor Village",
-            "connected_region": "Zombie"
-          },
-          {
-            "name": "Wilderness->Zombie",
-            "parent_region": "Wilderness",
-            "connected_region": "Zombie"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -12298,65 +10611,11 @@
       },
       "Guard": {
         "name": "Guard",
-        "entrances": [
-          {
-            "name": "South of Varrock->Guard",
-            "parent_region": "South of Varrock",
-            "connected_region": "Guard"
-          },
-          {
-            "name": "Lumberyard->Guard",
-            "parent_region": "Lumberyard",
-            "connected_region": "Guard"
-          },
-          {
-            "name": "Central Varrock->Guard",
-            "parent_region": "Central Varrock",
-            "connected_region": "Guard"
-          },
-          {
-            "name": "Varrock Palace->Guard",
-            "parent_region": "Varrock Palace",
-            "connected_region": "Guard"
-          },
-          {
-            "name": "West Varrock->Guard",
-            "parent_region": "West Varrock",
-            "connected_region": "Guard"
-          },
-          {
-            "name": "Edgeville->Guard",
-            "parent_region": "Edgeville",
-            "connected_region": "Guard"
-          },
-          {
-            "name": "Falador->Guard",
-            "parent_region": "Falador",
-            "connected_region": "Guard"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Hill Giant": {
         "name": "Hill Giant",
-        "entrances": [
-          {
-            "name": "Edgeville->Hill Giant",
-            "parent_region": "Edgeville",
-            "connected_region": "Hill Giant"
-          },
-          {
-            "name": "Citharede Abbey->Hill Giant",
-            "parent_region": "Citharede Abbey",
-            "connected_region": "Hill Giant"
-          },
-          {
-            "name": "Wilderness->Hill Giant",
-            "parent_region": "Wilderness",
-            "connected_region": "Hill Giant"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -12425,160 +10684,36 @@
       },
       "Deadly Red Spider": {
         "name": "Deadly Red Spider",
-        "entrances": [
-          {
-            "name": "Varrock Palace->Deadly Red Spider",
-            "parent_region": "Varrock Palace",
-            "connected_region": "Deadly Red Spider"
-          },
-          {
-            "name": "Karamja->Deadly Red Spider",
-            "parent_region": "Karamja",
-            "connected_region": "Deadly Red Spider"
-          },
-          {
-            "name": "Wilderness->Deadly Red Spider",
-            "parent_region": "Wilderness",
-            "connected_region": "Deadly Red Spider"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Moss Giant": {
         "name": "Moss Giant",
-        "entrances": [
-          {
-            "name": "Varrock Palace->Moss Giant",
-            "parent_region": "Varrock Palace",
-            "connected_region": "Moss Giant"
-          },
-          {
-            "name": "Crandor->Moss Giant",
-            "parent_region": "Crandor",
-            "connected_region": "Moss Giant"
-          },
-          {
-            "name": "Wilderness->Moss Giant",
-            "parent_region": "Wilderness",
-            "connected_region": "Moss Giant"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Ice Giant": {
         "name": "Ice Giant",
-        "entrances": [
-          {
-            "name": "Mudskipper Point->Ice Giant",
-            "parent_region": "Mudskipper Point",
-            "connected_region": "Ice Giant"
-          },
-          {
-            "name": "Wilderness->Ice Giant",
-            "parent_region": "Wilderness",
-            "connected_region": "Ice Giant"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Lesser Demon": {
         "name": "Lesser Demon",
-        "entrances": [
-          {
-            "name": "Crandor->Lesser Demon",
-            "parent_region": "Crandor",
-            "connected_region": "Lesser Demon"
-          },
-          {
-            "name": "Wizard Tower->Lesser Demon",
-            "parent_region": "Wizard Tower",
-            "connected_region": "Lesser Demon"
-          },
-          {
-            "name": "Wilderness->Lesser Demon",
-            "parent_region": "Wilderness",
-            "connected_region": "Lesser Demon"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Rune Essence": {
         "name": "Rune Essence",
-        "entrances": [
-          {
-            "name": "Central Varrock->Rune Essence",
-            "parent_region": "Central Varrock",
-            "connected_region": "Rune Essence"
-          },
-          {
-            "name": "Wizard Tower->Rune Essence",
-            "parent_region": "Wizard Tower",
-            "connected_region": "Rune Essence"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Crafting Moulds": {
         "name": "Crafting Moulds",
-        "entrances": [
-          {
-            "name": "Rimmington->Crafting Moulds",
-            "parent_region": "Rimmington",
-            "connected_region": "Crafting Moulds"
-          },
-          {
-            "name": "Al Kharid->Crafting Moulds",
-            "parent_region": "Al Kharid",
-            "connected_region": "Crafting Moulds"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Nature Runes": {
         "name": "Nature Runes",
-        "entrances": [
-          {
-            "name": "Varrock Palace->Nature Runes",
-            "parent_region": "Varrock Palace",
-            "connected_region": "Nature Runes"
-          },
-          {
-            "name": "Edgeville->Nature Runes",
-            "parent_region": "Edgeville",
-            "connected_region": "Nature Runes"
-          },
-          {
-            "name": "Mudskipper Point->Nature Runes",
-            "parent_region": "Mudskipper Point",
-            "connected_region": "Nature Runes"
-          },
-          {
-            "name": "Crandor->Nature Runes",
-            "parent_region": "Crandor",
-            "connected_region": "Nature Runes"
-          },
-          {
-            "name": "Draynor Village->Nature Runes",
-            "parent_region": "Draynor Village",
-            "connected_region": "Nature Runes"
-          },
-          {
-            "name": "Citharede Abbey->Nature Runes",
-            "parent_region": "Citharede Abbey",
-            "connected_region": "Nature Runes"
-          },
-          {
-            "name": "Wilderness->Nature Runes",
-            "parent_region": "Wilderness",
-            "connected_region": "Nature Runes"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -12624,265 +10759,36 @@
       },
       "Law Runes": {
         "name": "Law Runes",
-        "entrances": [
-          {
-            "name": "Varrock Palace->Law Runes",
-            "parent_region": "Varrock Palace",
-            "connected_region": "Law Runes"
-          },
-          {
-            "name": "Edgeville->Law Runes",
-            "parent_region": "Edgeville",
-            "connected_region": "Law Runes"
-          },
-          {
-            "name": "Barbarian Village->Law Runes",
-            "parent_region": "Barbarian Village",
-            "connected_region": "Law Runes"
-          },
-          {
-            "name": "Mudskipper Point->Law Runes",
-            "parent_region": "Mudskipper Point",
-            "connected_region": "Law Runes"
-          },
-          {
-            "name": "Crandor->Law Runes",
-            "parent_region": "Crandor",
-            "connected_region": "Law Runes"
-          },
-          {
-            "name": "Draynor Village->Law Runes",
-            "parent_region": "Draynor Village",
-            "connected_region": "Law Runes"
-          },
-          {
-            "name": "Citharede Abbey->Law Runes",
-            "parent_region": "Citharede Abbey",
-            "connected_region": "Law Runes"
-          },
-          {
-            "name": "Wilderness->Law Runes",
-            "parent_region": "Wilderness",
-            "connected_region": "Law Runes"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Imps": {
         "name": "Imps",
-        "entrances": [
-          {
-            "name": "Lumbridge->Imps",
-            "parent_region": "Lumbridge",
-            "connected_region": "Imps"
-          },
-          {
-            "name": "Lumbridge Swamp->Imps",
-            "parent_region": "Lumbridge Swamp",
-            "connected_region": "Imps"
-          },
-          {
-            "name": "Lumbridge Farms West->Imps",
-            "parent_region": "Lumbridge Farms West",
-            "connected_region": "Imps"
-          },
-          {
-            "name": "Lumbridge Farms East->Imps",
-            "parent_region": "Lumbridge Farms East",
-            "connected_region": "Imps"
-          },
-          {
-            "name": "South of Varrock->Imps",
-            "parent_region": "South of Varrock",
-            "connected_region": "Imps"
-          },
-          {
-            "name": "Central Varrock->Imps",
-            "parent_region": "Central Varrock",
-            "connected_region": "Imps"
-          },
-          {
-            "name": "Edgeville->Imps",
-            "parent_region": "Edgeville",
-            "connected_region": "Imps"
-          },
-          {
-            "name": "Falador->Imps",
-            "parent_region": "Falador",
-            "connected_region": "Imps"
-          },
-          {
-            "name": "Falador Farms->Imps",
-            "parent_region": "Falador Farms",
-            "connected_region": "Imps"
-          },
-          {
-            "name": "Karamja->Imps",
-            "parent_region": "Karamja",
-            "connected_region": "Imps"
-          },
-          {
-            "name": "Rimmington->Imps",
-            "parent_region": "Rimmington",
-            "connected_region": "Imps"
-          },
-          {
-            "name": "Draynor Village->Imps",
-            "parent_region": "Draynor Village",
-            "connected_region": "Imps"
-          },
-          {
-            "name": "Al Kharid->Imps",
-            "parent_region": "Al Kharid",
-            "connected_region": "Imps"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Clay Ore": {
         "name": "Clay Ore",
-        "entrances": [
-          {
-            "name": "South of Varrock->Clay Ore",
-            "parent_region": "South of Varrock",
-            "connected_region": "Clay Ore"
-          },
-          {
-            "name": "Dwarven Mines->Clay Ore",
-            "parent_region": "Dwarven Mines",
-            "connected_region": "Clay Ore"
-          },
-          {
-            "name": "Camdozaal->Clay Ore",
-            "parent_region": "Camdozaal",
-            "connected_region": "Clay Ore"
-          },
-          {
-            "name": "Rimmington->Clay Ore",
-            "parent_region": "Rimmington",
-            "connected_region": "Clay Ore"
-          },
-          {
-            "name": "Crafting Guild->Clay Ore",
-            "parent_region": "Crafting Guild",
-            "connected_region": "Clay Ore"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Onion": {
         "name": "Onion",
-        "entrances": [
-          {
-            "name": "West Varrock->Onion",
-            "parent_region": "West Varrock",
-            "connected_region": "Onion"
-          },
-          {
-            "name": "Rimmington->Onion",
-            "parent_region": "Rimmington",
-            "connected_region": "Onion"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Potato": {
         "name": "Potato",
-        "entrances": [
-          {
-            "name": "Lumbridge Farms West->Potato",
-            "parent_region": "Lumbridge Farms West",
-            "connected_region": "Potato"
-          },
-          {
-            "name": "Lumbridge Farms East->Potato",
-            "parent_region": "Lumbridge Farms East",
-            "connected_region": "Potato"
-          },
-          {
-            "name": "Port Sarim->Potato",
-            "parent_region": "Port Sarim",
-            "connected_region": "Potato"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Big Bones": {
         "name": "Big Bones",
-        "entrances": [
-          {
-            "name": "Lumbridge Swamp->Big Bones",
-            "parent_region": "Lumbridge Swamp",
-            "connected_region": "Big Bones"
-          },
-          {
-            "name": "Varrock Palace->Big Bones",
-            "parent_region": "Varrock Palace",
-            "connected_region": "Big Bones"
-          },
-          {
-            "name": "Edgeville->Big Bones",
-            "parent_region": "Edgeville",
-            "connected_region": "Big Bones"
-          },
-          {
-            "name": "Mudskipper Point->Big Bones",
-            "parent_region": "Mudskipper Point",
-            "connected_region": "Big Bones"
-          },
-          {
-            "name": "Crandor->Big Bones",
-            "parent_region": "Crandor",
-            "connected_region": "Big Bones"
-          },
-          {
-            "name": "Citharede Abbey->Big Bones",
-            "parent_region": "Citharede Abbey",
-            "connected_region": "Big Bones"
-          },
-          {
-            "name": "Wilderness->Big Bones",
-            "parent_region": "Wilderness",
-            "connected_region": "Big Bones"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Duck": {
         "name": "Duck",
-        "entrances": [
-          {
-            "name": "Lumbridge->Duck",
-            "parent_region": "Lumbridge",
-            "connected_region": "Duck"
-          },
-          {
-            "name": "Lumbridge Swamp->Duck",
-            "parent_region": "Lumbridge Swamp",
-            "connected_region": "Duck"
-          },
-          {
-            "name": "South of Varrock->Duck",
-            "parent_region": "South of Varrock",
-            "connected_region": "Duck"
-          },
-          {
-            "name": "Falador->Duck",
-            "parent_region": "Falador",
-            "connected_region": "Duck"
-          },
-          {
-            "name": "Falador Farms->Duck",
-            "parent_region": "Falador Farms",
-            "connected_region": "Duck"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -12922,119 +10828,21 @@
       },
       "Makeover": {
         "name": "Makeover",
-        "entrances": [
-          {
-            "name": "Central Varrock->Makeover",
-            "parent_region": "Central Varrock",
-            "connected_region": "Makeover"
-          },
-          {
-            "name": "Varrock Palace->Makeover",
-            "parent_region": "Varrock Palace",
-            "connected_region": "Makeover"
-          },
-          {
-            "name": "Falador->Makeover",
-            "parent_region": "Falador",
-            "connected_region": "Makeover"
-          },
-          {
-            "name": "Crafting Guild Outskirts->Makeover",
-            "parent_region": "Crafting Guild Outskirts",
-            "connected_region": "Makeover"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Limpwurt Root": {
         "name": "Limpwurt Root",
-        "entrances": [
-          {
-            "name": "Edgeville->Limpwurt Root",
-            "parent_region": "Edgeville",
-            "connected_region": "Limpwurt Root"
-          },
-          {
-            "name": "Mudskipper Point->Limpwurt Root",
-            "parent_region": "Mudskipper Point",
-            "connected_region": "Limpwurt Root"
-          },
-          {
-            "name": "Crandor->Limpwurt Root",
-            "parent_region": "Crandor",
-            "connected_region": "Limpwurt Root"
-          },
-          {
-            "name": "Crafting Guild Peninsula->Limpwurt Root",
-            "parent_region": "Crafting Guild Peninsula",
-            "connected_region": "Limpwurt Root"
-          },
-          {
-            "name": "Corsair Cove->Limpwurt Root",
-            "parent_region": "Corsair Cove",
-            "connected_region": "Limpwurt Root"
-          },
-          {
-            "name": "Citharede Abbey->Limpwurt Root",
-            "parent_region": "Citharede Abbey",
-            "connected_region": "Limpwurt Root"
-          },
-          {
-            "name": "Wilderness->Limpwurt Root",
-            "parent_region": "Wilderness",
-            "connected_region": "Limpwurt Root"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Bar": {
         "name": "Bar",
-        "entrances": [
-          {
-            "name": "Lumbridge->Bar",
-            "parent_region": "Lumbridge",
-            "connected_region": "Bar"
-          },
-          {
-            "name": "Lumberyard->Bar",
-            "parent_region": "Lumberyard",
-            "connected_region": "Bar"
-          },
-          {
-            "name": "Central Varrock->Bar",
-            "parent_region": "Central Varrock",
-            "connected_region": "Bar"
-          },
-          {
-            "name": "Falador->Bar",
-            "parent_region": "Falador",
-            "connected_region": "Bar"
-          },
-          {
-            "name": "Wilderness->Bar",
-            "parent_region": "Wilderness",
-            "connected_region": "Bar"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Haystack": {
         "name": "Haystack",
-        "entrances": [
-          {
-            "name": "Lumbridge Farms West->Haystack",
-            "parent_region": "Lumbridge Farms West",
-            "connected_region": "Haystack"
-          },
-          {
-            "name": "Edgeville->Haystack",
-            "parent_region": "Edgeville",
-            "connected_region": "Haystack"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -13065,18 +10873,6 @@
       },
       "Red Spider Eggs": {
         "name": "Red Spider Eggs",
-        "entrances": [
-          {
-            "name": "Varrock Palace->Red Spider Eggs",
-            "parent_region": "Varrock Palace",
-            "connected_region": "Red Spider Eggs"
-          },
-          {
-            "name": "Karamja->Red Spider Eggs",
-            "parent_region": "Karamja",
-            "connected_region": "Red Spider Eggs"
-          }
-        ],
         "exits": [],
         "locations": []
       }

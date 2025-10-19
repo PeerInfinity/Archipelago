@@ -16,7 +16,6 @@
     "2": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "GameStart",
@@ -31,33 +30,6 @@
       },
       "Overworld": {
         "name": "Overworld",
-        "entrances": [
-          {
-            "name": "GameStart",
-            "parent_region": "Menu",
-            "connected_region": "Overworld"
-          },
-          {
-            "name": "YellowCastleExit",
-            "parent_region": "YellowCastle",
-            "connected_region": "Overworld"
-          },
-          {
-            "name": "WhiteCastleExit",
-            "parent_region": "WhiteCastle",
-            "connected_region": "Overworld"
-          },
-          {
-            "name": "BlackCastleExit",
-            "parent_region": "BlackCastle",
-            "connected_region": "Overworld"
-          },
-          {
-            "name": "CreditsExit",
-            "parent_region": "CreditsRoom",
-            "connected_region": "Overworld"
-          }
-        ],
         "exits": [
           {
             "name": "YellowCastlePort",
@@ -290,13 +262,6 @@
       },
       "YellowCastle": {
         "name": "YellowCastle",
-        "entrances": [
-          {
-            "name": "YellowCastlePort",
-            "parent_region": "Overworld",
-            "connected_region": "YellowCastle"
-          }
-        ],
         "exits": [
           {
             "name": "YellowCastleExit",
@@ -355,23 +320,6 @@
       },
       "WhiteCastle": {
         "name": "WhiteCastle",
-        "entrances": [
-          {
-            "name": "WhiteCastlePort",
-            "parent_region": "Overworld",
-            "connected_region": "WhiteCastle"
-          },
-          {
-            "name": "WhiteCastleReturnPassage",
-            "parent_region": "WhiteCastleVault",
-            "connected_region": "WhiteCastle"
-          },
-          {
-            "name": "WhiteCastleFromPeek",
-            "parent_region": "WhiteCastlePreVaultPeek",
-            "connected_region": "WhiteCastle"
-          }
-        ],
         "exits": [
           {
             "name": "WhiteCastleExit",
@@ -449,13 +397,6 @@
       },
       "WhiteCastlePreVaultPeek": {
         "name": "WhiteCastlePreVaultPeek",
-        "entrances": [
-          {
-            "name": "WhiteCastlePeekPassage",
-            "parent_region": "WhiteCastle",
-            "connected_region": "WhiteCastlePreVaultPeek"
-          }
-        ],
         "exits": [
           {
             "name": "WhiteCastleFromPeek",
@@ -485,13 +426,6 @@
       },
       "WhiteCastleVault": {
         "name": "WhiteCastleVault",
-        "entrances": [
-          {
-            "name": "WhiteCastleSecretPassage",
-            "parent_region": "WhiteCastle",
-            "connected_region": "WhiteCastleVault"
-          }
-        ],
         "exits": [
           {
             "name": "WhiteCastleReturnPassage",
@@ -550,18 +484,6 @@
       },
       "BlackCastle": {
         "name": "BlackCastle",
-        "entrances": [
-          {
-            "name": "BlackCastlePort",
-            "parent_region": "Overworld",
-            "connected_region": "BlackCastle"
-          },
-          {
-            "name": "BlackCastleReturnPassage",
-            "parent_region": "BlackCastleVault",
-            "connected_region": "BlackCastle"
-          }
-        ],
         "exits": [
           {
             "name": "BlackCastleExit",
@@ -671,13 +593,6 @@
       },
       "BlackCastleVault": {
         "name": "BlackCastleVault",
-        "entrances": [
-          {
-            "name": "BlackCastleVaultEntrance",
-            "parent_region": "BlackCastle",
-            "connected_region": "BlackCastleVault"
-          }
-        ],
         "exits": [
           {
             "name": "BlackCastleReturnPassage",
@@ -707,18 +622,6 @@
       },
       "CreditsRoom": {
         "name": "CreditsRoom",
-        "entrances": [
-          {
-            "name": "CreditsWall",
-            "parent_region": "Overworld",
-            "connected_region": "CreditsRoom"
-          },
-          {
-            "name": "CreditsFromFarSide",
-            "parent_region": "CreditsRoomFarSide",
-            "connected_region": "CreditsRoom"
-          }
-        ],
         "exits": [
           {
             "name": "CreditsExit",
@@ -759,13 +662,6 @@
       },
       "CreditsRoomFarSide": {
         "name": "CreditsRoomFarSide",
-        "entrances": [
-          {
-            "name": "CreditsToFarSide",
-            "parent_region": "CreditsRoom",
-            "connected_region": "CreditsRoomFarSide"
-          }
-        ],
         "exits": [
           {
             "name": "CreditsFromFarSide",

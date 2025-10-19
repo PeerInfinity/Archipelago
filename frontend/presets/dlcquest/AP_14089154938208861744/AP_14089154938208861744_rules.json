@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "DLC Quest Basic",
@@ -29,13 +28,6 @@
       },
       "Move Right": {
         "name": "Move Right",
-        "entrances": [
-          {
-            "name": "DLC Quest Basic",
-            "parent_region": "Menu",
-            "connected_region": "Move Right"
-          }
-        ],
         "exits": [
           {
             "name": "Moving",
@@ -228,13 +220,6 @@
       },
       "Movement Pack": {
         "name": "Movement Pack",
-        "entrances": [
-          {
-            "name": "Moving",
-            "parent_region": "Move Right",
-            "connected_region": "Movement Pack"
-          }
-        ],
         "exits": [
           {
             "name": "Tree",
@@ -415,13 +400,6 @@
       },
       "Behind Tree": {
         "name": "Behind Tree",
-        "entrances": [
-          {
-            "name": "Tree",
-            "parent_region": "Movement Pack",
-            "connected_region": "Behind Tree"
-          }
-        ],
         "exits": [
           {
             "name": "Behind Tree Double Jump",
@@ -573,13 +551,6 @@
       },
       "Psychological Warfare": {
         "name": "Psychological Warfare",
-        "entrances": [
-          {
-            "name": "Cloud",
-            "parent_region": "Movement Pack",
-            "connected_region": "Psychological Warfare"
-          }
-        ],
         "exits": [
           {
             "name": "Cloud Double Jump",
@@ -629,13 +600,6 @@
       },
       "Double Jump Total Left": {
         "name": "Double Jump Total Left",
-        "entrances": [
-          {
-            "name": "Cloud Double Jump",
-            "parent_region": "Psychological Warfare",
-            "connected_region": "Double Jump Total Left"
-          }
-        ],
         "exits": [
           {
             "name": "Cave Tree",
@@ -776,13 +740,6 @@
       },
       "Double Jump Total Left Cave": {
         "name": "Double Jump Total Left Cave",
-        "entrances": [
-          {
-            "name": "Cave Tree",
-            "parent_region": "Double Jump Total Left",
-            "connected_region": "Double Jump Total Left Cave"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -817,13 +774,6 @@
       },
       "Double Jump Total Left Roof": {
         "name": "Double Jump Total Left Roof",
-        "entrances": [
-          {
-            "name": "Cave Roof",
-            "parent_region": "Double Jump Total Left",
-            "connected_region": "Double Jump Total Left Roof"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -861,13 +811,6 @@
       },
       "Double Jump Behind Tree": {
         "name": "Double Jump Behind Tree",
-        "entrances": [
-          {
-            "name": "Behind Tree Double Jump",
-            "parent_region": "Behind Tree",
-            "connected_region": "Double Jump Behind Tree"
-          }
-        ],
         "exits": [
           {
             "name": "True Double Jump",
@@ -965,13 +908,6 @@
       },
       "True Double Jump Behind Tree": {
         "name": "True Double Jump Behind Tree",
-        "entrances": [
-          {
-            "name": "True Double Jump",
-            "parent_region": "Double Jump Behind Tree",
-            "connected_region": "True Double Jump Behind Tree"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1020,13 +956,6 @@
       },
       "The Forest": {
         "name": "The Forest",
-        "entrances": [
-          {
-            "name": "Forest Entrance",
-            "parent_region": "Behind Tree",
-            "connected_region": "The Forest"
-          }
-        ],
         "exits": [
           {
             "name": "Behind Ogre",
@@ -1150,13 +1079,6 @@
       },
       "The Forest with double Jump": {
         "name": "The Forest with double Jump",
-        "entrances": [
-          {
-            "name": "Forest Double Jump",
-            "parent_region": "The Forest",
-            "connected_region": "The Forest with double Jump"
-          }
-        ],
         "exits": [
           {
             "name": "Forest True Double Jump",
@@ -1243,13 +1165,6 @@
       },
       "The Forest with double Jump Part 2": {
         "name": "The Forest with double Jump Part 2",
-        "entrances": [
-          {
-            "name": "Forest True Double Jump",
-            "parent_region": "The Forest with double Jump",
-            "connected_region": "The Forest with double Jump Part 2"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1284,13 +1199,6 @@
       },
       "The Final Boss Room": {
         "name": "The Final Boss Room",
-        "entrances": [
-          {
-            "name": "Behind Ogre",
-            "parent_region": "The Forest",
-            "connected_region": "The Final Boss Room"
-          }
-        ],
         "exits": [],
         "locations": [
           {

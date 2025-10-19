@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Start stage",
@@ -134,13 +133,6 @@
       },
       "Forest of Silence: first half": {
         "name": "Forest of Silence: first half",
-        "entrances": [
-          {
-            "name": "Start stage",
-            "parent_region": "Menu",
-            "connected_region": "Forest of Silence: first half"
-          }
-        ],
         "exits": [
           {
             "name": "Descending bridge gate",
@@ -352,13 +344,6 @@
       },
       "Forest of Silence: second half": {
         "name": "Forest of Silence: second half",
-        "entrances": [
-          {
-            "name": "Descending bridge gate",
-            "parent_region": "Forest of Silence: first half",
-            "connected_region": "Forest of Silence: second half"
-          }
-        ],
         "exits": [
           {
             "name": "Werewolf gate",
@@ -500,13 +485,6 @@
       },
       "Forest of Silence: end area": {
         "name": "Forest of Silence: end area",
-        "entrances": [
-          {
-            "name": "Werewolf gate",
-            "parent_region": "Forest of Silence: second half",
-            "connected_region": "Forest of Silence: end area"
-          }
-        ],
         "exits": [
           {
             "name": "Dracula's drawbridge",
@@ -521,18 +499,6 @@
       },
       "Castle Wall: main area": {
         "name": "Castle Wall: main area",
-        "entrances": [
-          {
-            "name": "Warp 1",
-            "parent_region": "Menu",
-            "connected_region": "Castle Wall: main area"
-          },
-          {
-            "name": "Dracula's drawbridge",
-            "parent_region": "Forest of Silence: end area",
-            "connected_region": "Castle Wall: main area"
-          }
-        ],
         "exits": [
           {
             "name": "Central portcullis",
@@ -643,13 +609,6 @@
       },
       "Castle Wall: exit room": {
         "name": "Castle Wall: exit room",
-        "entrances": [
-          {
-            "name": "Central portcullis",
-            "parent_region": "Castle Wall: main area",
-            "connected_region": "Castle Wall: exit room"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -670,13 +629,6 @@
       },
       "Castle Wall: left tower": {
         "name": "Castle Wall: left tower",
-        "entrances": [
-          {
-            "name": "Left Tower door",
-            "parent_region": "Castle Wall: main area",
-            "connected_region": "Castle Wall: left tower"
-          }
-        ],
         "exits": [
           {
             "name": "End portcullis",
@@ -734,13 +686,6 @@
       },
       "Villa: dog gates": {
         "name": "Villa: dog gates",
-        "entrances": [
-          {
-            "name": "End portcullis",
-            "parent_region": "Castle Wall: left tower",
-            "connected_region": "Villa: dog gates"
-          }
-        ],
         "exits": [
           {
             "name": "Front dog gates",
@@ -812,23 +757,6 @@
       },
       "Villa: main interior": {
         "name": "Villa: main interior",
-        "entrances": [
-          {
-            "name": "Front dog gates",
-            "parent_region": "Villa: dog gates",
-            "connected_region": "Villa: main interior"
-          },
-          {
-            "name": "From Storeroom door",
-            "parent_region": "Villa: storeroom",
-            "connected_region": "Villa: main interior"
-          },
-          {
-            "name": "Servants' door",
-            "parent_region": "Villa: servants entrance",
-            "connected_region": "Villa: main interior"
-          }
-        ],
         "exits": [
           {
             "name": "To Storeroom door",
@@ -1435,13 +1363,6 @@
       },
       "Villa: storeroom": {
         "name": "Villa: storeroom",
-        "entrances": [
-          {
-            "name": "To Storeroom door",
-            "parent_region": "Villa: main interior",
-            "connected_region": "Villa: storeroom"
-          }
-        ],
         "exits": [
           {
             "name": "From Storeroom door",
@@ -1502,13 +1423,6 @@
       },
       "Villa: archives": {
         "name": "Villa: archives",
-        "entrances": [
-          {
-            "name": "To Archives door",
-            "parent_region": "Villa: main interior",
-            "connected_region": "Villa: archives"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1543,18 +1457,6 @@
       },
       "Villa: maze": {
         "name": "Villa: maze",
-        "entrances": [
-          {
-            "name": "To maze gate",
-            "parent_region": "Villa: main interior",
-            "connected_region": "Villa: maze"
-          },
-          {
-            "name": "From bridge door",
-            "parent_region": "Villa: crypt",
-            "connected_region": "Villa: maze"
-          }
-        ],
         "exits": [
           {
             "name": "From maze gate",
@@ -1738,13 +1640,6 @@
       },
       "Villa: servants entrance": {
         "name": "Villa: servants entrance",
-        "entrances": [
-          {
-            "name": "From maze gate",
-            "parent_region": "Villa: maze",
-            "connected_region": "Villa: servants entrance"
-          }
-        ],
         "exits": [
           {
             "name": "Servants' door",
@@ -1774,13 +1669,6 @@
       },
       "Villa: crypt": {
         "name": "Villa: crypt",
-        "entrances": [
-          {
-            "name": "Copper door",
-            "parent_region": "Villa: maze",
-            "connected_region": "Villa: crypt"
-          }
-        ],
         "exits": [
           {
             "name": "From bridge door",
@@ -1910,13 +1798,6 @@
       },
       "Tunnel: first half": {
         "name": "Tunnel: first half",
-        "entrances": [
-          {
-            "name": "Villa Reinhardt (daytime) exit",
-            "parent_region": "Villa: crypt",
-            "connected_region": "Tunnel: first half"
-          }
-        ],
         "exits": [
           {
             "name": "Gondola ride",
@@ -2128,18 +2009,6 @@
       },
       "Tunnel: second half": {
         "name": "Tunnel: second half",
-        "entrances": [
-          {
-            "name": "Warp 2",
-            "parent_region": "Menu",
-            "connected_region": "Tunnel: second half"
-          },
-          {
-            "name": "Gondola ride",
-            "parent_region": "Tunnel: first half",
-            "connected_region": "Tunnel: second half"
-          }
-        ],
         "exits": [
           {
             "name": "End Tunnel door",
@@ -2309,18 +2178,6 @@
       },
       "Underground Waterway: main area": {
         "name": "Underground Waterway: main area",
-        "entrances": [
-          {
-            "name": "Warp 3",
-            "parent_region": "Menu",
-            "connected_region": "Underground Waterway: main area"
-          },
-          {
-            "name": "Villa Carrie (nighttime) exit",
-            "parent_region": "Villa: crypt",
-            "connected_region": "Underground Waterway: main area"
-          }
-        ],
         "exits": [
           {
             "name": "Final waterfall",
@@ -2420,13 +2277,6 @@
       },
       "Underground Waterway: end": {
         "name": "Underground Waterway: end",
-        "entrances": [
-          {
-            "name": "Final waterfall",
-            "parent_region": "Underground Waterway: main area",
-            "connected_region": "Underground Waterway: end"
-          }
-        ],
         "exits": [
           {
             "name": "End Waterway door",
@@ -2441,18 +2291,6 @@
       },
       "Castle Center: main area": {
         "name": "Castle Center: main area",
-        "entrances": [
-          {
-            "name": "End Tunnel door",
-            "parent_region": "Tunnel: second half",
-            "connected_region": "Castle Center: main area"
-          },
-          {
-            "name": "End Waterway door",
-            "parent_region": "Underground Waterway: end",
-            "connected_region": "Castle Center: main area"
-          }
-        ],
         "exits": [
           {
             "name": "Torture Chamber door",
@@ -3305,13 +3143,6 @@
       },
       "Castle Center: torture chamber": {
         "name": "Castle Center: torture chamber",
-        "entrances": [
-          {
-            "name": "Torture Chamber door",
-            "parent_region": "Castle Center: main area",
-            "connected_region": "Castle Center: torture chamber"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3374,13 +3205,6 @@
       },
       "Castle Center: library": {
         "name": "Castle Center: library",
-        "entrances": [
-          {
-            "name": "Upper cracked wall",
-            "parent_region": "Castle Center: main area",
-            "connected_region": "Castle Center: library"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3415,13 +3239,6 @@
       },
       "Castle Center: big crystal": {
         "name": "Castle Center: big crystal",
-        "entrances": [
-          {
-            "name": "Lower sealed cracked wall",
-            "parent_region": "Castle Center: main area",
-            "connected_region": "Castle Center: big crystal"
-          }
-        ],
         "exits": [
           {
             "name": "Activate crystal and ride elevator",
@@ -3451,23 +3268,6 @@
       },
       "Castle Center: elevator top": {
         "name": "Castle Center: elevator top",
-        "entrances": [
-          {
-            "name": "Activate crystal and ride elevator",
-            "parent_region": "Castle Center: big crystal",
-            "connected_region": "Castle Center: elevator top"
-          },
-          {
-            "name": "Duel Tower start passage",
-            "parent_region": "Duel Tower",
-            "connected_region": "Castle Center: elevator top"
-          },
-          {
-            "name": "Tower of Science start passage",
-            "parent_region": "Tower of Science: turret lab",
-            "connected_region": "Castle Center: elevator top"
-          }
-        ],
         "exits": [
           {
             "name": "Castle Center Reinhardt (Medusa Head) exit",
@@ -3490,23 +3290,6 @@
       },
       "Duel Tower": {
         "name": "Duel Tower",
-        "entrances": [
-          {
-            "name": "Warp 4",
-            "parent_region": "Menu",
-            "connected_region": "Duel Tower"
-          },
-          {
-            "name": "Castle Center Reinhardt (Medusa Head) exit",
-            "parent_region": "Castle Center: elevator top",
-            "connected_region": "Duel Tower"
-          },
-          {
-            "name": "Tower of Execution start passage",
-            "parent_region": "Tower of Execution: main area",
-            "connected_region": "Duel Tower"
-          }
-        ],
         "exits": [
           {
             "name": "Duel Tower start passage",
@@ -3586,13 +3369,6 @@
       },
       "Tower of Execution: main area": {
         "name": "Tower of Execution: main area",
-        "entrances": [
-          {
-            "name": "Duel Tower end passage",
-            "parent_region": "Duel Tower",
-            "connected_region": "Tower of Execution: main area"
-          }
-        ],
         "exits": [
           {
             "name": "Tower of Execution start passage",
@@ -3697,13 +3473,6 @@
       },
       "Tower of Execution: gated ledge": {
         "name": "Tower of Execution: gated ledge",
-        "entrances": [
-          {
-            "name": "Execution gate",
-            "parent_region": "Tower of Execution: main area",
-            "connected_region": "Tower of Execution: gated ledge"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3724,18 +3493,6 @@
       },
       "Tower of Science: turret lab": {
         "name": "Tower of Science: turret lab",
-        "entrances": [
-          {
-            "name": "Castle Center Carrie (Ghost) exit",
-            "parent_region": "Castle Center: elevator top",
-            "connected_region": "Tower of Science: turret lab"
-          },
-          {
-            "name": "From Science Door 2",
-            "parent_region": "Tower of Science: spiky conveyors",
-            "connected_region": "Tower of Science: turret lab"
-          }
-        ],
         "exits": [
           {
             "name": "Tower of Science start passage",
@@ -3847,13 +3604,6 @@
       },
       "Tower of Science: locked key1 room": {
         "name": "Tower of Science: locked key1 room",
-        "entrances": [
-          {
-            "name": "Science Door 1",
-            "parent_region": "Tower of Science: turret lab",
-            "connected_region": "Tower of Science: locked key1 room"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3874,18 +3624,6 @@
       },
       "Tower of Science: spiky conveyors": {
         "name": "Tower of Science: spiky conveyors",
-        "entrances": [
-          {
-            "name": "To Science Door 2",
-            "parent_region": "Tower of Science: turret lab",
-            "connected_region": "Tower of Science: spiky conveyors"
-          },
-          {
-            "name": "Tower of Sorcery start passage",
-            "parent_region": "Tower of Sorcery",
-            "connected_region": "Tower of Science: spiky conveyors"
-          }
-        ],
         "exits": [
           {
             "name": "From Science Door 2",
@@ -4029,13 +3767,6 @@
       },
       "Tower of Science: locked key3 room": {
         "name": "Tower of Science: locked key3 room",
-        "entrances": [
-          {
-            "name": "Science Door 3",
-            "parent_region": "Tower of Science: spiky conveyors",
-            "connected_region": "Tower of Science: locked key3 room"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4070,13 +3801,6 @@
       },
       "Tower of Sorcery": {
         "name": "Tower of Sorcery",
-        "entrances": [
-          {
-            "name": "Tower of Science end passage",
-            "parent_region": "Tower of Science: spiky conveyors",
-            "connected_region": "Tower of Sorcery"
-          }
-        ],
         "exits": [
           {
             "name": "Tower of Sorcery start passage",
@@ -4198,23 +3922,6 @@
       },
       "Room of Clocks": {
         "name": "Room of Clocks",
-        "entrances": [
-          {
-            "name": "Warp 5",
-            "parent_region": "Menu",
-            "connected_region": "Room of Clocks"
-          },
-          {
-            "name": "Tower of Execution end staircase",
-            "parent_region": "Tower of Execution: main area",
-            "connected_region": "Room of Clocks"
-          },
-          {
-            "name": "Tower of Sorcery end passage",
-            "parent_region": "Tower of Sorcery",
-            "connected_region": "Room of Clocks"
-          }
-        ],
         "exits": [
           {
             "name": "Defeat boss gate",
@@ -4272,18 +3979,6 @@
       },
       "Clock Tower: start": {
         "name": "Clock Tower: start",
-        "entrances": [
-          {
-            "name": "Defeat boss gate",
-            "parent_region": "Room of Clocks",
-            "connected_region": "Clock Tower: start"
-          },
-          {
-            "name": "From Clocktower Door 1",
-            "parent_region": "Clock Tower: middle",
-            "connected_region": "Clock Tower: start"
-          }
-        ],
         "exits": [
           {
             "name": "To Clocktower Door 1",
@@ -4330,23 +4025,6 @@
       },
       "Clock Tower: middle": {
         "name": "Clock Tower: middle",
-        "entrances": [
-          {
-            "name": "Warp 6",
-            "parent_region": "Menu",
-            "connected_region": "Clock Tower: middle"
-          },
-          {
-            "name": "To Clocktower Door 1",
-            "parent_region": "Clock Tower: start",
-            "connected_region": "Clock Tower: middle"
-          },
-          {
-            "name": "From Clocktower Door 2",
-            "parent_region": "Clock Tower: end",
-            "connected_region": "Clock Tower: middle"
-          }
-        ],
         "exits": [
           {
             "name": "From Clocktower Door 1",
@@ -4418,13 +4096,6 @@
       },
       "Clock Tower: end": {
         "name": "Clock Tower: end",
-        "entrances": [
-          {
-            "name": "To Clocktower Door 2",
-            "parent_region": "Clock Tower: middle",
-            "connected_region": "Clock Tower: end"
-          }
-        ],
         "exits": [
           {
             "name": "From Clocktower Door 2",
@@ -4468,18 +4139,6 @@
       },
       "Castle Keep: exterior": {
         "name": "Castle Keep: exterior",
-        "entrances": [
-          {
-            "name": "Warp 7",
-            "parent_region": "Menu",
-            "connected_region": "Castle Keep: exterior"
-          },
-          {
-            "name": "Clocktower Door 3",
-            "parent_region": "Clock Tower: end",
-            "connected_region": "Castle Keep: exterior"
-          }
-        ],
         "exits": [
           {
             "name": "Dracula's door",
@@ -4551,13 +4210,6 @@
       },
       "Castle Keep: Dracula's chamber": {
         "name": "Castle Keep: Dracula's chamber",
-        "entrances": [
-          {
-            "name": "Dracula's door",
-            "parent_region": "Castle Keep: exterior",
-            "connected_region": "Castle Keep: Dracula's chamber"
-          }
-        ],
         "exits": [],
         "locations": [
           {

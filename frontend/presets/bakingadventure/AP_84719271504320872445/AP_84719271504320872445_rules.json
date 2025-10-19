@@ -14,13 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [
-          {
-            "name": "BackToMenu",
-            "parent_region": "Kitchen",
-            "connected_region": "Menu"
-          }
-        ],
         "exits": [
           {
             "name": "StartBaking",
@@ -35,28 +28,6 @@
       },
       "Kitchen": {
         "name": "Kitchen",
-        "entrances": [
-          {
-            "name": "StartBaking",
-            "parent_region": "Menu",
-            "connected_region": "Kitchen"
-          },
-          {
-            "name": "BackToKitchenFromPrep",
-            "parent_region": "Preparation",
-            "connected_region": "Kitchen"
-          },
-          {
-            "name": "BackToKitchenFromWet",
-            "parent_region": "WetIngredients",
-            "connected_region": "Kitchen"
-          },
-          {
-            "name": "BackToKitchenFromDry",
-            "parent_region": "DryIngredients",
-            "connected_region": "Kitchen"
-          }
-        ],
         "exits": [
           {
             "name": "BackToMenu",
@@ -138,13 +109,6 @@
       },
       "Preparation": {
         "name": "Preparation",
-        "entrances": [
-          {
-            "name": "ToPreparation",
-            "parent_region": "Kitchen",
-            "connected_region": "Preparation"
-          }
-        ],
         "exits": [
           {
             "name": "BackToKitchenFromPrep",
@@ -202,18 +166,6 @@
       },
       "WetIngredients": {
         "name": "WetIngredients",
-        "entrances": [
-          {
-            "name": "ToWetIngredients",
-            "parent_region": "Kitchen",
-            "connected_region": "WetIngredients"
-          },
-          {
-            "name": "BackToWetIngredients",
-            "parent_region": "Combining",
-            "connected_region": "WetIngredients"
-          }
-        ],
         "exits": [
           {
             "name": "BackToKitchenFromWet",
@@ -322,13 +274,6 @@
       },
       "DryIngredients": {
         "name": "DryIngredients",
-        "entrances": [
-          {
-            "name": "ToDryIngredients",
-            "parent_region": "Kitchen",
-            "connected_region": "DryIngredients"
-          }
-        ],
         "exits": [
           {
             "name": "BackToKitchenFromDry",
@@ -378,18 +323,6 @@
       },
       "Combining": {
         "name": "Combining",
-        "entrances": [
-          {
-            "name": "ToCombining",
-            "parent_region": "WetIngredients",
-            "connected_region": "Combining"
-          },
-          {
-            "name": "BackToCombining",
-            "parent_region": "Finishing",
-            "connected_region": "Combining"
-          }
-        ],
         "exits": [
           {
             "name": "BackToWetIngredients",
@@ -447,18 +380,6 @@
       },
       "Finishing": {
         "name": "Finishing",
-        "entrances": [
-          {
-            "name": "ToFinishing",
-            "parent_region": "Combining",
-            "connected_region": "Finishing"
-          },
-          {
-            "name": "BackToFinishing",
-            "parent_region": "Baking",
-            "connected_region": "Finishing"
-          }
-        ],
         "exits": [
           {
             "name": "BackToCombining",
@@ -514,13 +435,6 @@
       },
       "Baking": {
         "name": "Baking",
-        "entrances": [
-          {
-            "name": "ToBaking",
-            "parent_region": "Finishing",
-            "connected_region": "Baking"
-          }
-        ],
         "exits": [
           {
             "name": "BackToFinishing",

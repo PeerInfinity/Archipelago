@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "To Stardew Valley",
@@ -29,13 +28,6 @@
       },
       "Stardew Valley": {
         "name": "Stardew Valley",
-        "entrances": [
-          {
-            "name": "To Stardew Valley",
-            "parent_region": "Menu",
-            "connected_region": "Stardew Valley"
-          }
-        ],
         "exits": [
           {
             "name": "To Farmhouse",
@@ -50,13 +42,6 @@
       },
       "Farmhouse": {
         "name": "Farmhouse",
-        "entrances": [
-          {
-            "name": "To Farmhouse",
-            "parent_region": "Stardew Valley",
-            "connected_region": "Farmhouse"
-          }
-        ],
         "exits": [
           {
             "name": "Farmhouse to Farm",
@@ -86,30 +71,11 @@
       },
       "Cellar": {
         "name": "Cellar",
-        "entrances": [
-          {
-            "name": "Farmhouse to Cellar",
-            "parent_region": "Farmhouse",
-            "connected_region": "Cellar"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Farm": {
         "name": "Farm",
-        "entrances": [
-          {
-            "name": "Farmhouse to Farm",
-            "parent_region": "Farmhouse",
-            "connected_region": "Farm"
-          },
-          {
-            "name": "Use Farm Obelisk",
-            "parent_region": "Island West",
-            "connected_region": "Farm"
-          }
-        ],
         "exits": [
           {
             "name": "Farm to Backwoods",
@@ -746,13 +712,6 @@
       },
       "Backwoods": {
         "name": "Backwoods",
-        "entrances": [
-          {
-            "name": "Farm to Backwoods",
-            "parent_region": "Farm",
-            "connected_region": "Backwoods"
-          }
-        ],
         "exits": [
           {
             "name": "Backwoods to Mountain",
@@ -767,13 +726,6 @@
       },
       "Bus Stop": {
         "name": "Bus Stop",
-        "entrances": [
-          {
-            "name": "Farm to Bus Stop",
-            "parent_region": "Farm",
-            "connected_region": "Bus Stop"
-          }
-        ],
         "exits": [
           {
             "name": "Bus Stop to Town",
@@ -801,13 +753,6 @@
       },
       "Forest": {
         "name": "Forest",
-        "entrances": [
-          {
-            "name": "Farm to Forest",
-            "parent_region": "Farm",
-            "connected_region": "Forest"
-          }
-        ],
         "exits": [
           {
             "name": "Forest to Town",
@@ -988,37 +933,16 @@
       },
       "Waterfall": {
         "name": "Waterfall",
-        "entrances": [
-          {
-            "name": "Fish In Waterfall",
-            "parent_region": "Forest",
-            "connected_region": "Waterfall"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Farmcave": {
         "name": "Farmcave",
-        "entrances": [
-          {
-            "name": "Farm to Farmcave",
-            "parent_region": "Farm",
-            "connected_region": "Farmcave"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Greenhouse": {
         "name": "Greenhouse",
-        "entrances": [
-          {
-            "name": "Farm to Greenhouse",
-            "parent_region": "Farm",
-            "connected_region": "Greenhouse"
-          }
-        ],
         "exits": [
           {
             "name": "Grow Spring Crops in Greenhouse",
@@ -1053,13 +977,6 @@
       },
       "Mountain": {
         "name": "Mountain",
-        "entrances": [
-          {
-            "name": "Backwoods to Mountain",
-            "parent_region": "Backwoods",
-            "connected_region": "Mountain"
-          }
-        ],
         "exits": [
           {
             "name": "Mountain to Railroad",
@@ -1193,25 +1110,11 @@
       },
       "Maru's Room": {
         "name": "Maru's Room",
-        "entrances": [
-          {
-            "name": "Mountain to Maru's Room",
-            "parent_region": "Mountain",
-            "connected_region": "Maru's Room"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Tunnel Entrance": {
         "name": "Tunnel Entrance",
-        "entrances": [
-          {
-            "name": "Bus Stop to Tunnel Entrance",
-            "parent_region": "Bus Stop",
-            "connected_region": "Tunnel Entrance"
-          }
-        ],
         "exits": [
           {
             "name": "Tunnel Entrance to Bus Tunnel",
@@ -1226,35 +1129,11 @@
       },
       "Bus Tunnel": {
         "name": "Bus Tunnel",
-        "entrances": [
-          {
-            "name": "Tunnel Entrance to Bus Tunnel",
-            "parent_region": "Tunnel Entrance",
-            "connected_region": "Bus Tunnel"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Town": {
         "name": "Town",
-        "entrances": [
-          {
-            "name": "Bus Stop to Town",
-            "parent_region": "Bus Stop",
-            "connected_region": "Town"
-          },
-          {
-            "name": "Forest to Town",
-            "parent_region": "Forest",
-            "connected_region": "Town"
-          },
-          {
-            "name": "Mountain to Town",
-            "parent_region": "Mountain",
-            "connected_region": "Town"
-          }
-        ],
         "exits": [
           {
             "name": "Town to Community Center",
@@ -1610,13 +1489,6 @@
       },
       "Beach": {
         "name": "Beach",
-        "entrances": [
-          {
-            "name": "Town to Beach",
-            "parent_region": "Town",
-            "connected_region": "Beach"
-          }
-        ],
         "exits": [
           {
             "name": "Beach to Willy's Fish Shop",
@@ -1712,13 +1584,6 @@
       },
       "Railroad": {
         "name": "Railroad",
-        "entrances": [
-          {
-            "name": "Mountain to Railroad",
-            "parent_region": "Mountain",
-            "connected_region": "Railroad"
-          }
-        ],
         "exits": [
           {
             "name": "Railroad to Bathhouse Entrance",
@@ -1750,13 +1615,6 @@
       },
       "Marnie's Ranch": {
         "name": "Marnie's Ranch",
-        "entrances": [
-          {
-            "name": "Forest to Marnie's Ranch",
-            "parent_region": "Forest",
-            "connected_region": "Marnie's Ranch"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1774,25 +1632,11 @@
       },
       "Leah's Cottage": {
         "name": "Leah's Cottage",
-        "entrances": [
-          {
-            "name": "Forest to Leah's Cottage",
-            "parent_region": "Forest",
-            "connected_region": "Leah's Cottage"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Mastery Cave": {
         "name": "Mastery Cave",
-        "entrances": [
-          {
-            "name": "Forest to Mastery Cave",
-            "parent_region": "Forest",
-            "connected_region": "Mastery Cave"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1854,18 +1698,6 @@
       },
       "Sewer": {
         "name": "Sewer",
-        "entrances": [
-          {
-            "name": "Forest to Sewer",
-            "parent_region": "Forest",
-            "connected_region": "Sewer"
-          },
-          {
-            "name": "Town to Sewer",
-            "parent_region": "Town",
-            "connected_region": "Sewer"
-          }
-        ],
         "exits": [
           {
             "name": "Sewer to Mutant Bug Lair",
@@ -1889,13 +1721,6 @@
       },
       "Mutant Bug Lair": {
         "name": "Mutant Bug Lair",
-        "entrances": [
-          {
-            "name": "Sewer to Mutant Bug Lair",
-            "parent_region": "Sewer",
-            "connected_region": "Mutant Bug Lair"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1913,13 +1738,6 @@
       },
       "Wizard Tower": {
         "name": "Wizard Tower",
-        "entrances": [
-          {
-            "name": "Forest to Wizard Tower",
-            "parent_region": "Forest",
-            "connected_region": "Wizard Tower"
-          }
-        ],
         "exits": [
           {
             "name": "Wizard Tower to Wizard Basement",
@@ -1975,42 +1793,16 @@
       },
       "Wizard Basement": {
         "name": "Wizard Basement",
-        "entrances": [
-          {
-            "name": "Wizard Tower to Wizard Basement",
-            "parent_region": "Wizard Tower",
-            "connected_region": "Wizard Basement"
-          },
-          {
-            "name": "Witch's Hut to Wizard Basement",
-            "parent_region": "Witch's Hut",
-            "connected_region": "Wizard Basement"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Tent": {
         "name": "Tent",
-        "entrances": [
-          {
-            "name": "Mountain to Tent",
-            "parent_region": "Mountain",
-            "connected_region": "Tent"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Carpenter Shop": {
         "name": "Carpenter Shop",
-        "entrances": [
-          {
-            "name": "Mountain to Carpenter Shop",
-            "parent_region": "Mountain",
-            "connected_region": "Carpenter Shop"
-          }
-        ],
         "exits": [
           {
             "name": "Carpenter Shop to Sebastian's Room",
@@ -2243,25 +2035,11 @@
       },
       "Sebastian's Room": {
         "name": "Sebastian's Room",
-        "entrances": [
-          {
-            "name": "Carpenter Shop to Sebastian's Room",
-            "parent_region": "Carpenter Shop",
-            "connected_region": "Sebastian's Room"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Adventurer's Guild": {
         "name": "Adventurer's Guild",
-        "entrances": [
-          {
-            "name": "Mountain to Adventurer's Guild",
-            "parent_region": "Mountain",
-            "connected_region": "Adventurer's Guild"
-          }
-        ],
         "exits": [
           {
             "name": "Adventurer's Guild to Marlon's Bedroom",
@@ -2406,25 +2184,11 @@
       },
       "Marlon's bedroom": {
         "name": "Marlon's bedroom",
-        "entrances": [
-          {
-            "name": "Adventurer's Guild to Marlon's Bedroom",
-            "parent_region": "Adventurer's Guild",
-            "connected_region": "Marlon's bedroom"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Community Center": {
         "name": "Community Center",
-        "entrances": [
-          {
-            "name": "Town to Community Center",
-            "parent_region": "Town",
-            "connected_region": "Community Center"
-          }
-        ],
         "exits": [
           {
             "name": "Access Crafts Room",
@@ -2491,13 +2255,6 @@
       },
       "Crafts Room": {
         "name": "Crafts Room",
-        "entrances": [
-          {
-            "name": "Access Crafts Room",
-            "parent_region": "Community Center",
-            "connected_region": "Crafts Room"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2581,13 +2338,6 @@
       },
       "Pantry": {
         "name": "Pantry",
-        "entrances": [
-          {
-            "name": "Access Pantry",
-            "parent_region": "Community Center",
-            "connected_region": "Pantry"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2671,13 +2421,6 @@
       },
       "Fish Tank": {
         "name": "Fish Tank",
-        "entrances": [
-          {
-            "name": "Access Fish Tank",
-            "parent_region": "Community Center",
-            "connected_region": "Fish Tank"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2761,13 +2504,6 @@
       },
       "Boiler Room": {
         "name": "Boiler Room",
-        "entrances": [
-          {
-            "name": "Access Boiler Room",
-            "parent_region": "Community Center",
-            "connected_region": "Boiler Room"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2818,13 +2554,6 @@
       },
       "Bulletin Board": {
         "name": "Bulletin Board",
-        "entrances": [
-          {
-            "name": "Access Bulletin Board",
-            "parent_region": "Community Center",
-            "connected_region": "Bulletin Board"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2897,13 +2626,6 @@
       },
       "Vault": {
         "name": "Vault",
-        "entrances": [
-          {
-            "name": "Access Vault",
-            "parent_region": "Community Center",
-            "connected_region": "Vault"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2965,13 +2687,6 @@
       },
       "Hospital": {
         "name": "Hospital",
-        "entrances": [
-          {
-            "name": "Town to Hospital",
-            "parent_region": "Town",
-            "connected_region": "Hospital"
-          }
-        ],
         "exits": [
           {
             "name": "Hospital to Harvey's Room",
@@ -2983,25 +2698,11 @@
       },
       "Harvey's Room": {
         "name": "Harvey's Room",
-        "entrances": [
-          {
-            "name": "Hospital to Harvey's Room",
-            "parent_region": "Hospital",
-            "connected_region": "Harvey's Room"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Pierre's General Store": {
         "name": "Pierre's General Store",
-        "entrances": [
-          {
-            "name": "Town to Pierre's General Store",
-            "parent_region": "Town",
-            "connected_region": "Pierre's General Store"
-          }
-        ],
         "exits": [
           {
             "name": "Pierre's General Store to Sunroom",
@@ -3058,25 +2759,11 @@
       },
       "Sunroom": {
         "name": "Sunroom",
-        "entrances": [
-          {
-            "name": "Pierre's General Store to Sunroom",
-            "parent_region": "Pierre's General Store",
-            "connected_region": "Sunroom"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Saloon": {
         "name": "Saloon",
-        "entrances": [
-          {
-            "name": "Town to Saloon",
-            "parent_region": "Town",
-            "connected_region": "Saloon"
-          }
-        ],
         "exits": [
           {
             "name": "Play Journey of the Prairie King",
@@ -3127,13 +2814,6 @@
       },
       "JotPK World 1": {
         "name": "JotPK World 1",
-        "entrances": [
-          {
-            "name": "Play Journey of the Prairie King",
-            "parent_region": "Saloon",
-            "connected_region": "JotPK World 1"
-          }
-        ],
         "exits": [
           {
             "name": "Reach JotPK World 2",
@@ -3216,13 +2896,6 @@
       },
       "JotPK World 2": {
         "name": "JotPK World 2",
-        "entrances": [
-          {
-            "name": "Reach JotPK World 2",
-            "parent_region": "JotPK World 1",
-            "connected_region": "JotPK World 2"
-          }
-        ],
         "exits": [
           {
             "name": "Reach JotPK World 3",
@@ -3291,13 +2964,6 @@
       },
       "JotPK World 3": {
         "name": "JotPK World 3",
-        "entrances": [
-          {
-            "name": "Reach JotPK World 3",
-            "parent_region": "JotPK World 2",
-            "connected_region": "JotPK World 3"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3343,13 +3009,6 @@
       },
       "Junimo Kart 1": {
         "name": "Junimo Kart 1",
-        "entrances": [
-          {
-            "name": "Play Junimo Kart",
-            "parent_region": "Saloon",
-            "connected_region": "Junimo Kart 1"
-          }
-        ],
         "exits": [
           {
             "name": "Reach Junimo Kart 2",
@@ -3390,13 +3049,6 @@
       },
       "Junimo Kart 2": {
         "name": "Junimo Kart 2",
-        "entrances": [
-          {
-            "name": "Reach Junimo Kart 2",
-            "parent_region": "Junimo Kart 1",
-            "connected_region": "Junimo Kart 2"
-          }
-        ],
         "exits": [
           {
             "name": "Reach Junimo Kart 3",
@@ -3451,13 +3103,6 @@
       },
       "Junimo Kart 3": {
         "name": "Junimo Kart 3",
-        "entrances": [
-          {
-            "name": "Reach Junimo Kart 3",
-            "parent_region": "Junimo Kart 2",
-            "connected_region": "Junimo Kart 3"
-          }
-        ],
         "exits": [
           {
             "name": "Reach Junimo Kart 4",
@@ -3498,13 +3143,6 @@
       },
       "Junimo Kart 4": {
         "name": "Junimo Kart 4",
-        "entrances": [
-          {
-            "name": "Reach Junimo Kart 4",
-            "parent_region": "Junimo Kart 3",
-            "connected_region": "Junimo Kart 4"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3539,13 +3177,6 @@
       },
       "Alex's House": {
         "name": "Alex's House",
-        "entrances": [
-          {
-            "name": "Town to Alex's House",
-            "parent_region": "Town",
-            "connected_region": "Alex's House"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3574,13 +3205,6 @@
       },
       "Trailer": {
         "name": "Trailer",
-        "entrances": [
-          {
-            "name": "Town to Trailer",
-            "parent_region": "Town",
-            "connected_region": "Trailer"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3598,25 +3222,11 @@
       },
       "Mayor's Manor": {
         "name": "Mayor's Manor",
-        "entrances": [
-          {
-            "name": "Town to Mayor's Manor",
-            "parent_region": "Town",
-            "connected_region": "Mayor's Manor"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Sam's House": {
         "name": "Sam's House",
-        "entrances": [
-          {
-            "name": "Town to Sam's House",
-            "parent_region": "Town",
-            "connected_region": "Sam's House"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3634,13 +3244,6 @@
       },
       "Haley's House": {
         "name": "Haley's House",
-        "entrances": [
-          {
-            "name": "Town to Haley's House",
-            "parent_region": "Town",
-            "connected_region": "Haley's House"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3658,13 +3261,6 @@
       },
       "Clint's Blacksmith": {
         "name": "Clint's Blacksmith",
-        "entrances": [
-          {
-            "name": "Town to Clint's Blacksmith",
-            "parent_region": "Town",
-            "connected_region": "Clint's Blacksmith"
-          }
-        ],
         "exits": [
           {
             "name": "Upgrade Copper Tools",
@@ -3688,13 +3284,6 @@
       },
       "Museum": {
         "name": "Museum",
-        "entrances": [
-          {
-            "name": "Town to Museum",
-            "parent_region": "Town",
-            "connected_region": "Museum"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4053,13 +3642,6 @@
       },
       "JojaMart": {
         "name": "JojaMart",
-        "entrances": [
-          {
-            "name": "Town to JojaMart",
-            "parent_region": "Town",
-            "connected_region": "JojaMart"
-          }
-        ],
         "exits": [
           {
             "name": "Enter Abandoned Joja Mart",
@@ -4071,13 +3653,6 @@
       },
       "Abandoned JojaMart": {
         "name": "Abandoned JojaMart",
-        "entrances": [
-          {
-            "name": "Enter Abandoned Joja Mart",
-            "parent_region": "JojaMart",
-            "connected_region": "Abandoned JojaMart"
-          }
-        ],
         "exits": [
           {
             "name": "Enter Movie Theater",
@@ -4101,37 +3676,16 @@
       },
       "Ticket Stand": {
         "name": "Ticket Stand",
-        "entrances": [
-          {
-            "name": "Purchase Movie Ticket",
-            "parent_region": "Town",
-            "connected_region": "Ticket Stand"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Movie Theater": {
         "name": "Movie Theater",
-        "entrances": [
-          {
-            "name": "Enter Movie Theater",
-            "parent_region": "Abandoned JojaMart",
-            "connected_region": "Movie Theater"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Willy's Fish Shop": {
         "name": "Willy's Fish Shop",
-        "entrances": [
-          {
-            "name": "Beach to Willy's Fish Shop",
-            "parent_region": "Beach",
-            "connected_region": "Willy's Fish Shop"
-          }
-        ],
         "exits": [
           {
             "name": "Fish Shop to Boat Tunnel",
@@ -4180,37 +3734,16 @@
       },
       "Elliott's House": {
         "name": "Elliott's House",
-        "entrances": [
-          {
-            "name": "Beach to Elliott's House",
-            "parent_region": "Beach",
-            "connected_region": "Elliott's House"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Tide Pools": {
         "name": "Tide Pools",
-        "entrances": [
-          {
-            "name": "Beach to Tide Pools",
-            "parent_region": "Beach",
-            "connected_region": "Tide Pools"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Bathhouse Entrance": {
         "name": "Bathhouse Entrance",
-        "entrances": [
-          {
-            "name": "Railroad to Bathhouse Entrance",
-            "parent_region": "Railroad",
-            "connected_region": "Bathhouse Entrance"
-          }
-        ],
         "exits": [
           {
             "name": "Bathhouse Entrance to Locker Room",
@@ -4225,13 +3758,6 @@
       },
       "Locker Room": {
         "name": "Locker Room",
-        "entrances": [
-          {
-            "name": "Bathhouse Entrance to Locker Room",
-            "parent_region": "Bathhouse Entrance",
-            "connected_region": "Locker Room"
-          }
-        ],
         "exits": [
           {
             "name": "Locker Room to Public Bath",
@@ -4246,25 +3772,11 @@
       },
       "Public Bath": {
         "name": "Public Bath",
-        "entrances": [
-          {
-            "name": "Locker Room to Public Bath",
-            "parent_region": "Locker Room",
-            "connected_region": "Public Bath"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Witch Warp Cave": {
         "name": "Witch Warp Cave",
-        "entrances": [
-          {
-            "name": "Railroad to Witch Warp Cave",
-            "parent_region": "Railroad",
-            "connected_region": "Witch Warp Cave"
-          }
-        ],
         "exits": [
           {
             "name": "Witch Warp Cave to Witch's Swamp",
@@ -4279,13 +3791,6 @@
       },
       "Witch's Swamp": {
         "name": "Witch's Swamp",
-        "entrances": [
-          {
-            "name": "Witch Warp Cave to Witch's Swamp",
-            "parent_region": "Witch Warp Cave",
-            "connected_region": "Witch's Swamp"
-          }
-        ],
         "exits": [
           {
             "name": "Witch's Swamp to Witch's Hut",
@@ -4309,13 +3814,6 @@
       },
       "Witch's Hut": {
         "name": "Witch's Hut",
-        "entrances": [
-          {
-            "name": "Witch's Swamp to Witch's Hut",
-            "parent_region": "Witch's Swamp",
-            "connected_region": "Witch's Hut"
-          }
-        ],
         "exits": [
           {
             "name": "Witch's Hut to Wizard Basement",
@@ -4342,13 +3840,6 @@
       },
       "Quarry": {
         "name": "Quarry",
-        "entrances": [
-          {
-            "name": "Mountain to Quarry",
-            "parent_region": "Mountain",
-            "connected_region": "Quarry"
-          }
-        ],
         "exits": [
           {
             "name": "Quarry to Quarry Mine Entrance",
@@ -4363,13 +3854,6 @@
       },
       "Quarry Mine Entrance": {
         "name": "Quarry Mine Entrance",
-        "entrances": [
-          {
-            "name": "Quarry to Quarry Mine Entrance",
-            "parent_region": "Quarry",
-            "connected_region": "Quarry Mine Entrance"
-          }
-        ],
         "exits": [
           {
             "name": "Quarry Mine Entrance to Quarry Mine",
@@ -4384,13 +3868,6 @@
       },
       "Quarry Mine": {
         "name": "Quarry Mine",
-        "entrances": [
-          {
-            "name": "Quarry Mine Entrance to Quarry Mine",
-            "parent_region": "Quarry Mine Entrance",
-            "connected_region": "Quarry Mine"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4411,13 +3888,6 @@
       },
       "Secret Woods": {
         "name": "Secret Woods",
-        "entrances": [
-          {
-            "name": "Forest to Secret Woods",
-            "parent_region": "Forest",
-            "connected_region": "Secret Woods"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4501,18 +3971,6 @@
       },
       "Desert": {
         "name": "Desert",
-        "entrances": [
-          {
-            "name": "Bus Stop to Desert",
-            "parent_region": "Bus Stop",
-            "connected_region": "Desert"
-          },
-          {
-            "name": "Use Desert Obelisk",
-            "parent_region": "Wizard Tower",
-            "connected_region": "Desert"
-          }
-        ],
         "exits": [
           {
             "name": "Desert to Skull Cavern Entrance",
@@ -4574,13 +4032,6 @@
       },
       "Oasis": {
         "name": "Oasis",
-        "entrances": [
-          {
-            "name": "Desert to Oasis",
-            "parent_region": "Desert",
-            "connected_region": "Oasis"
-          }
-        ],
         "exits": [
           {
             "name": "Oasis to Casino",
@@ -4592,13 +4043,6 @@
       },
       "Casino": {
         "name": "Casino",
-        "entrances": [
-          {
-            "name": "Oasis to Casino",
-            "parent_region": "Oasis",
-            "connected_region": "Casino"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4616,13 +4060,6 @@
       },
       "Skull Cavern Entrance": {
         "name": "Skull Cavern Entrance",
-        "entrances": [
-          {
-            "name": "Desert to Skull Cavern Entrance",
-            "parent_region": "Desert",
-            "connected_region": "Skull Cavern Entrance"
-          }
-        ],
         "exits": [
           {
             "name": "Skull Cavern Entrance to Skull Cavern",
@@ -4646,13 +4083,6 @@
       },
       "Skull Cavern": {
         "name": "Skull Cavern",
-        "entrances": [
-          {
-            "name": "Skull Cavern Entrance to Skull Cavern",
-            "parent_region": "Skull Cavern Entrance",
-            "connected_region": "Skull Cavern"
-          }
-        ],
         "exits": [
           {
             "name": "Mine to Skull Cavern Floor 25",
@@ -4664,13 +4094,6 @@
       },
       "Skull Cavern Floor 25": {
         "name": "Skull Cavern Floor 25",
-        "entrances": [
-          {
-            "name": "Mine to Skull Cavern Floor 25",
-            "parent_region": "Skull Cavern",
-            "connected_region": "Skull Cavern Floor 25"
-          }
-        ],
         "exits": [
           {
             "name": "Mine to Skull Cavern Floor 50",
@@ -4694,13 +4117,6 @@
       },
       "Skull Cavern Floor 50": {
         "name": "Skull Cavern Floor 50",
-        "entrances": [
-          {
-            "name": "Mine to Skull Cavern Floor 50",
-            "parent_region": "Skull Cavern Floor 25",
-            "connected_region": "Skull Cavern Floor 50"
-          }
-        ],
         "exits": [
           {
             "name": "Mine to Skull Cavern Floor 75",
@@ -4712,13 +4128,6 @@
       },
       "Skull Cavern Floor 75": {
         "name": "Skull Cavern Floor 75",
-        "entrances": [
-          {
-            "name": "Mine to Skull Cavern Floor 75",
-            "parent_region": "Skull Cavern Floor 50",
-            "connected_region": "Skull Cavern Floor 75"
-          }
-        ],
         "exits": [
           {
             "name": "Mine to Skull Cavern Floor 100",
@@ -4730,13 +4139,6 @@
       },
       "Skull Cavern Floor 100": {
         "name": "Skull Cavern Floor 100",
-        "entrances": [
-          {
-            "name": "Mine to Skull Cavern Floor 100",
-            "parent_region": "Skull Cavern Floor 75",
-            "connected_region": "Skull Cavern Floor 100"
-          }
-        ],
         "exits": [
           {
             "name": "Mine to Skull Cavern Floor 125",
@@ -4760,13 +4162,6 @@
       },
       "Skull Cavern Floor 125": {
         "name": "Skull Cavern Floor 125",
-        "entrances": [
-          {
-            "name": "Mine to Skull Cavern Floor 125",
-            "parent_region": "Skull Cavern Floor 100",
-            "connected_region": "Skull Cavern Floor 125"
-          }
-        ],
         "exits": [
           {
             "name": "Mine to Skull Cavern Floor 150",
@@ -4778,13 +4173,6 @@
       },
       "Skull Cavern Floor 150": {
         "name": "Skull Cavern Floor 150",
-        "entrances": [
-          {
-            "name": "Mine to Skull Cavern Floor 150",
-            "parent_region": "Skull Cavern Floor 125",
-            "connected_region": "Skull Cavern Floor 150"
-          }
-        ],
         "exits": [
           {
             "name": "Mine to Skull Cavern Floor 175",
@@ -4796,13 +4184,6 @@
       },
       "Skull Cavern Floor 175": {
         "name": "Skull Cavern Floor 175",
-        "entrances": [
-          {
-            "name": "Mine to Skull Cavern Floor 175",
-            "parent_region": "Skull Cavern Floor 150",
-            "connected_region": "Skull Cavern Floor 175"
-          }
-        ],
         "exits": [
           {
             "name": "Mine to Skull Cavern Floor 200",
@@ -4814,13 +4195,6 @@
       },
       "Skull Cavern Floor 200": {
         "name": "Skull Cavern Floor 200",
-        "entrances": [
-          {
-            "name": "Mine to Skull Cavern Floor 200",
-            "parent_region": "Skull Cavern Floor 175",
-            "connected_region": "Skull Cavern Floor 200"
-          }
-        ],
         "exits": [
           {
             "name": "Enter the Dangerous Skull Cavern",
@@ -4832,61 +4206,26 @@
       },
       "Coop": {
         "name": "Coop",
-        "entrances": [
-          {
-            "name": "Farm to Coop",
-            "parent_region": "Farm",
-            "connected_region": "Coop"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Barn": {
         "name": "Barn",
-        "entrances": [
-          {
-            "name": "Farm to Barn",
-            "parent_region": "Farm",
-            "connected_region": "Barn"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Shed": {
         "name": "Shed",
-        "entrances": [
-          {
-            "name": "Farm to Shed",
-            "parent_region": "Farm",
-            "connected_region": "Shed"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Slime Hutch": {
         "name": "Slime Hutch",
-        "entrances": [
-          {
-            "name": "Farm to Slime Hutch",
-            "parent_region": "Farm",
-            "connected_region": "Slime Hutch"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "The Mines": {
         "name": "The Mines",
-        "entrances": [
-          {
-            "name": "Mountain to The Mines",
-            "parent_region": "Mountain",
-            "connected_region": "The Mines"
-          }
-        ],
         "exits": [
           {
             "name": "Talk to Mines Dwarf",
@@ -4918,13 +4257,6 @@
       },
       "The Mines - Floor 5": {
         "name": "The Mines - Floor 5",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 5",
-            "parent_region": "The Mines",
-            "connected_region": "The Mines - Floor 5"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 10",
@@ -4973,13 +4305,6 @@
       },
       "The Mines - Floor 10": {
         "name": "The Mines - Floor 10",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 10",
-            "parent_region": "The Mines - Floor 5",
-            "connected_region": "The Mines - Floor 10"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 15",
@@ -5031,13 +4356,6 @@
       },
       "The Mines - Floor 15": {
         "name": "The Mines - Floor 15",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 15",
-            "parent_region": "The Mines - Floor 10",
-            "connected_region": "The Mines - Floor 15"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 20",
@@ -5075,13 +4393,6 @@
       },
       "The Mines - Floor 20": {
         "name": "The Mines - Floor 20",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 20",
-            "parent_region": "The Mines - Floor 15",
-            "connected_region": "The Mines - Floor 20"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 25",
@@ -5144,13 +4455,6 @@
       },
       "The Mines - Floor 25": {
         "name": "The Mines - Floor 25",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 25",
-            "parent_region": "The Mines - Floor 20",
-            "connected_region": "The Mines - Floor 25"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 30",
@@ -5177,13 +4481,6 @@
       },
       "The Mines - Floor 30": {
         "name": "The Mines - Floor 30",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 30",
-            "parent_region": "The Mines - Floor 25",
-            "connected_region": "The Mines - Floor 30"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 35",
@@ -5232,13 +4529,6 @@
       },
       "The Mines - Floor 35": {
         "name": "The Mines - Floor 35",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 35",
-            "parent_region": "The Mines - Floor 30",
-            "connected_region": "The Mines - Floor 35"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 40",
@@ -5276,13 +4566,6 @@
       },
       "The Mines - Floor 40": {
         "name": "The Mines - Floor 40",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 40",
-            "parent_region": "The Mines - Floor 35",
-            "connected_region": "The Mines - Floor 40"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 45",
@@ -5345,13 +4628,6 @@
       },
       "The Mines - Floor 45": {
         "name": "The Mines - Floor 45",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 45",
-            "parent_region": "The Mines - Floor 40",
-            "connected_region": "The Mines - Floor 45"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 50",
@@ -5378,13 +4654,6 @@
       },
       "The Mines - Floor 50": {
         "name": "The Mines - Floor 50",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 50",
-            "parent_region": "The Mines - Floor 45",
-            "connected_region": "The Mines - Floor 50"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 55",
@@ -5447,13 +4716,6 @@
       },
       "The Mines - Floor 55": {
         "name": "The Mines - Floor 55",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 55",
-            "parent_region": "The Mines - Floor 50",
-            "connected_region": "The Mines - Floor 55"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 60",
@@ -5480,13 +4742,6 @@
       },
       "The Mines - Floor 60": {
         "name": "The Mines - Floor 60",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 60",
-            "parent_region": "The Mines - Floor 55",
-            "connected_region": "The Mines - Floor 60"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 65",
@@ -5549,13 +4804,6 @@
       },
       "The Mines - Floor 65": {
         "name": "The Mines - Floor 65",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 65",
-            "parent_region": "The Mines - Floor 60",
-            "connected_region": "The Mines - Floor 65"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 70",
@@ -5582,13 +4830,6 @@
       },
       "The Mines - Floor 70": {
         "name": "The Mines - Floor 70",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 70",
-            "parent_region": "The Mines - Floor 65",
-            "connected_region": "The Mines - Floor 70"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 75",
@@ -5651,13 +4892,6 @@
       },
       "The Mines - Floor 75": {
         "name": "The Mines - Floor 75",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 75",
-            "parent_region": "The Mines - Floor 70",
-            "connected_region": "The Mines - Floor 75"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 80",
@@ -5706,13 +4940,6 @@
       },
       "The Mines - Floor 80": {
         "name": "The Mines - Floor 80",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 80",
-            "parent_region": "The Mines - Floor 75",
-            "connected_region": "The Mines - Floor 80"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 85",
@@ -5775,13 +5002,6 @@
       },
       "The Mines - Floor 85": {
         "name": "The Mines - Floor 85",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 85",
-            "parent_region": "The Mines - Floor 80",
-            "connected_region": "The Mines - Floor 85"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 90",
@@ -5808,13 +5028,6 @@
       },
       "The Mines - Floor 90": {
         "name": "The Mines - Floor 90",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 90",
-            "parent_region": "The Mines - Floor 85",
-            "connected_region": "The Mines - Floor 90"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 95",
@@ -5877,13 +5090,6 @@
       },
       "The Mines - Floor 95": {
         "name": "The Mines - Floor 95",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 95",
-            "parent_region": "The Mines - Floor 90",
-            "connected_region": "The Mines - Floor 95"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 100",
@@ -5910,13 +5116,6 @@
       },
       "The Mines - Floor 100": {
         "name": "The Mines - Floor 100",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 100",
-            "parent_region": "The Mines - Floor 95",
-            "connected_region": "The Mines - Floor 100"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 105",
@@ -5979,13 +5178,6 @@
       },
       "The Mines - Floor 105": {
         "name": "The Mines - Floor 105",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 105",
-            "parent_region": "The Mines - Floor 100",
-            "connected_region": "The Mines - Floor 105"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 110",
@@ -6012,13 +5204,6 @@
       },
       "The Mines - Floor 110": {
         "name": "The Mines - Floor 110",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 110",
-            "parent_region": "The Mines - Floor 105",
-            "connected_region": "The Mines - Floor 110"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 115",
@@ -6081,13 +5266,6 @@
       },
       "The Mines - Floor 115": {
         "name": "The Mines - Floor 115",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 115",
-            "parent_region": "The Mines - Floor 110",
-            "connected_region": "The Mines - Floor 115"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to The Mines - Floor 120",
@@ -6114,13 +5292,6 @@
       },
       "The Mines - Floor 120": {
         "name": "The Mines - Floor 120",
-        "entrances": [
-          {
-            "name": "Dig to The Mines - Floor 120",
-            "parent_region": "The Mines - Floor 115",
-            "connected_region": "The Mines - Floor 120"
-          }
-        ],
         "exits": [
           {
             "name": "Dig to the Dangerous Mines - Floor 20",
@@ -6171,25 +5342,11 @@
       },
       "Mines Dwarf Shop": {
         "name": "Mines Dwarf Shop",
-        "entrances": [
-          {
-            "name": "Talk to Mines Dwarf",
-            "parent_region": "The Mines",
-            "connected_region": "Mines Dwarf Shop"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Blacksmith Copper Upgrades": {
         "name": "Blacksmith Copper Upgrades",
-        "entrances": [
-          {
-            "name": "Upgrade Copper Tools",
-            "parent_region": "Clint's Blacksmith",
-            "connected_region": "Blacksmith Copper Upgrades"
-          }
-        ],
         "exits": [
           {
             "name": "Upgrade Iron Tools",
@@ -6272,13 +5429,6 @@
       },
       "Blacksmith Iron Upgrades": {
         "name": "Blacksmith Iron Upgrades",
-        "entrances": [
-          {
-            "name": "Upgrade Iron Tools",
-            "parent_region": "Blacksmith Copper Upgrades",
-            "connected_region": "Blacksmith Iron Upgrades"
-          }
-        ],
         "exits": [
           {
             "name": "Upgrade Gold Tools",
@@ -6357,13 +5507,6 @@
       },
       "Blacksmith Gold Upgrades": {
         "name": "Blacksmith Gold Upgrades",
-        "entrances": [
-          {
-            "name": "Upgrade Gold Tools",
-            "parent_region": "Blacksmith Iron Upgrades",
-            "connected_region": "Blacksmith Gold Upgrades"
-          }
-        ],
         "exits": [
           {
             "name": "Upgrade Iridium Tools",
@@ -6442,13 +5585,6 @@
       },
       "Blacksmith Iridium Upgrades": {
         "name": "Blacksmith Iridium Upgrades",
-        "entrances": [
-          {
-            "name": "Upgrade Iridium Tools",
-            "parent_region": "Blacksmith Gold Upgrades",
-            "connected_region": "Blacksmith Iridium Upgrades"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -6521,42 +5657,16 @@
       },
       "Kitchen": {
         "name": "Kitchen",
-        "entrances": [
-          {
-            "name": "Farmhouse Cooking",
-            "parent_region": "Farmhouse",
-            "connected_region": "Kitchen"
-          },
-          {
-            "name": "Island Cooking",
-            "parent_region": "Island Farmhouse",
-            "connected_region": "Kitchen"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "The Queen of Sauce": {
         "name": "The Queen of Sauce",
-        "entrances": [
-          {
-            "name": "Watch Queen of Sauce",
-            "parent_region": "Farmhouse",
-            "connected_region": "The Queen of Sauce"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Fishing": {
         "name": "Fishing",
-        "entrances": [
-          {
-            "name": "Start Fishing",
-            "parent_region": "Farm",
-            "connected_region": "Fishing"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -6717,23 +5827,6 @@
       },
       "Spring Farming": {
         "name": "Spring Farming",
-        "entrances": [
-          {
-            "name": "Grow Spring Crops",
-            "parent_region": "Farm",
-            "connected_region": "Spring Farming"
-          },
-          {
-            "name": "Grow Spring Crops in Greenhouse",
-            "parent_region": "Greenhouse",
-            "connected_region": "Spring Farming"
-          },
-          {
-            "name": "Grow Spring Crops on Island",
-            "parent_region": "Island West",
-            "connected_region": "Spring Farming"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -6894,23 +5987,6 @@
       },
       "Summer Farming": {
         "name": "Summer Farming",
-        "entrances": [
-          {
-            "name": "Grow Summer Crops",
-            "parent_region": "Farm",
-            "connected_region": "Summer Farming"
-          },
-          {
-            "name": "Grow Summer Crops in Greenhouse",
-            "parent_region": "Greenhouse",
-            "connected_region": "Summer Farming"
-          },
-          {
-            "name": "Grow Summer Crops on Island",
-            "parent_region": "Island West",
-            "connected_region": "Summer Farming"
-          }
-        ],
         "exits": [
           {
             "name": "Grow Summer Fall Crops in Summer",
@@ -7121,23 +6197,6 @@
       },
       "Fall Farming": {
         "name": "Fall Farming",
-        "entrances": [
-          {
-            "name": "Grow Fall Crops",
-            "parent_region": "Farm",
-            "connected_region": "Fall Farming"
-          },
-          {
-            "name": "Grow Fall Crops in Greenhouse",
-            "parent_region": "Greenhouse",
-            "connected_region": "Fall Farming"
-          },
-          {
-            "name": "Grow Fall Crops on Island",
-            "parent_region": "Island West",
-            "connected_region": "Fall Farming"
-          }
-        ],
         "exits": [
           {
             "name": "Grow Summer Fall Crops in Fall",
@@ -7304,40 +6363,11 @@
       },
       "Winter Farming": {
         "name": "Winter Farming",
-        "entrances": [
-          {
-            "name": "Grow Winter Crops",
-            "parent_region": "Farm",
-            "connected_region": "Winter Farming"
-          },
-          {
-            "name": "Grow Winter Crops in Greenhouse",
-            "parent_region": "Greenhouse",
-            "connected_region": "Winter Farming"
-          },
-          {
-            "name": "Grow Winter Crops on Island",
-            "parent_region": "Island West",
-            "connected_region": "Winter Farming"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Summer or Fall Farming": {
         "name": "Summer or Fall Farming",
-        "entrances": [
-          {
-            "name": "Grow Summer Fall Crops in Summer",
-            "parent_region": "Summer Farming",
-            "connected_region": "Summer or Fall Farming"
-          },
-          {
-            "name": "Grow Summer Fall Crops in Fall",
-            "parent_region": "Fall Farming",
-            "connected_region": "Summer or Fall Farming"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7377,18 +6407,6 @@
       },
       "Indoor Farming": {
         "name": "Indoor Farming",
-        "entrances": [
-          {
-            "name": "Grow Indoor Crops in Greenhouse",
-            "parent_region": "Greenhouse",
-            "connected_region": "Indoor Farming"
-          },
-          {
-            "name": "Grow Indoor Crops on Island",
-            "parent_region": "Island West",
-            "connected_region": "Indoor Farming"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7428,13 +6446,6 @@
       },
       "Shipping": {
         "name": "Shipping",
-        "entrances": [
-          {
-            "name": "Use Shipping Bin",
-            "parent_region": "Farm",
-            "connected_region": "Shipping"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7452,13 +6463,6 @@
       },
       "Traveling Cart": {
         "name": "Traveling Cart",
-        "entrances": [
-          {
-            "name": "Buy from Traveling Merchant",
-            "parent_region": "Forest",
-            "connected_region": "Traveling Cart"
-          }
-        ],
         "exits": [
           {
             "name": "Buy from Traveling Merchant Sunday",
@@ -7500,13 +6504,6 @@
       },
       "Traveling Cart Sunday": {
         "name": "Traveling Cart Sunday",
-        "entrances": [
-          {
-            "name": "Buy from Traveling Merchant Sunday",
-            "parent_region": "Traveling Cart",
-            "connected_region": "Traveling Cart Sunday"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7555,13 +6552,6 @@
       },
       "Traveling Cart Monday": {
         "name": "Traveling Cart Monday",
-        "entrances": [
-          {
-            "name": "Buy from Traveling Merchant Monday",
-            "parent_region": "Traveling Cart",
-            "connected_region": "Traveling Cart Monday"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7610,13 +6600,6 @@
       },
       "Traveling Cart Tuesday": {
         "name": "Traveling Cart Tuesday",
-        "entrances": [
-          {
-            "name": "Buy from Traveling Merchant Tuesday",
-            "parent_region": "Traveling Cart",
-            "connected_region": "Traveling Cart Tuesday"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7665,13 +6648,6 @@
       },
       "Traveling Cart Wednesday": {
         "name": "Traveling Cart Wednesday",
-        "entrances": [
-          {
-            "name": "Buy from Traveling Merchant Wednesday",
-            "parent_region": "Traveling Cart",
-            "connected_region": "Traveling Cart Wednesday"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7720,13 +6696,6 @@
       },
       "Traveling Cart Thursday": {
         "name": "Traveling Cart Thursday",
-        "entrances": [
-          {
-            "name": "Buy from Traveling Merchant Thursday",
-            "parent_region": "Traveling Cart",
-            "connected_region": "Traveling Cart Thursday"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7775,13 +6744,6 @@
       },
       "Traveling Cart Friday": {
         "name": "Traveling Cart Friday",
-        "entrances": [
-          {
-            "name": "Buy from Traveling Merchant Friday",
-            "parent_region": "Traveling Cart",
-            "connected_region": "Traveling Cart Friday"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7830,13 +6792,6 @@
       },
       "Traveling Cart Saturday": {
         "name": "Traveling Cart Saturday",
-        "entrances": [
-          {
-            "name": "Buy from Traveling Merchant Saturday",
-            "parent_region": "Traveling Cart",
-            "connected_region": "Traveling Cart Saturday"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7885,13 +6840,6 @@
       },
       "Raccoon Bundles": {
         "name": "Raccoon Bundles",
-        "entrances": [
-          {
-            "name": "Complete Raccoon Requests",
-            "parent_region": "Forest",
-            "connected_region": "Raccoon Bundles"
-          }
-        ],
         "exits": [
           {
             "name": "Buy From Raccoon",
@@ -7992,25 +6940,11 @@
       },
       "Raccoon Shop": {
         "name": "Raccoon Shop",
-        "entrances": [
-          {
-            "name": "Buy From Raccoon",
-            "parent_region": "Raccoon Bundles",
-            "connected_region": "Raccoon Shop"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Egg Festival": {
         "name": "Egg Festival",
-        "entrances": [
-          {
-            "name": "Attend Egg Festival",
-            "parent_region": "Town",
-            "connected_region": "Egg Festival"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8039,13 +6973,6 @@
       },
       "Desert Festival": {
         "name": "Desert Festival",
-        "entrances": [
-          {
-            "name": "Attend Desert Festival",
-            "parent_region": "Desert",
-            "connected_region": "Desert Festival"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8199,13 +7126,6 @@
       },
       "Flower Dance": {
         "name": "Flower Dance",
-        "entrances": [
-          {
-            "name": "Attend Flower Dance",
-            "parent_region": "Forest",
-            "connected_region": "Flower Dance"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8245,13 +7165,6 @@
       },
       "Luau": {
         "name": "Luau",
-        "entrances": [
-          {
-            "name": "Attend Luau",
-            "parent_region": "Beach",
-            "connected_region": "Luau"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8269,13 +7182,6 @@
       },
       "Trout Derby": {
         "name": "Trout Derby",
-        "entrances": [
-          {
-            "name": "Attend Trout Derby",
-            "parent_region": "Forest",
-            "connected_region": "Trout Derby"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8315,13 +7221,6 @@
       },
       "Dance of the Moonlight Jellies": {
         "name": "Dance of the Moonlight Jellies",
-        "entrances": [
-          {
-            "name": "Attend Dance of the Moonlight Jellies",
-            "parent_region": "Beach",
-            "connected_region": "Dance of the Moonlight Jellies"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8361,13 +7260,6 @@
       },
       "Stardew Valley Fair": {
         "name": "Stardew Valley Fair",
-        "entrances": [
-          {
-            "name": "Attend Stardew Valley Fair",
-            "parent_region": "Town",
-            "connected_region": "Stardew Valley Fair"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8418,13 +7310,6 @@
       },
       "Spirit's Eve": {
         "name": "Spirit's Eve",
-        "entrances": [
-          {
-            "name": "Attend Spirit's Eve",
-            "parent_region": "Town",
-            "connected_region": "Spirit's Eve"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8464,13 +7349,6 @@
       },
       "Festival of Ice": {
         "name": "Festival of Ice",
-        "entrances": [
-          {
-            "name": "Attend Festival of Ice",
-            "parent_region": "Forest",
-            "connected_region": "Festival of Ice"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8499,13 +7377,6 @@
       },
       "Night Market": {
         "name": "Night Market",
-        "entrances": [
-          {
-            "name": "Attend Night Market",
-            "parent_region": "Beach",
-            "connected_region": "Night Market"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8578,13 +7449,6 @@
       },
       "Feast of the Winter Star": {
         "name": "Feast of the Winter Star",
-        "entrances": [
-          {
-            "name": "Attend Feast of the Winter Star",
-            "parent_region": "Town",
-            "connected_region": "Feast of the Winter Star"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8613,13 +7477,6 @@
       },
       "SquidFest": {
         "name": "SquidFest",
-        "entrances": [
-          {
-            "name": "Attend SquidFest",
-            "parent_region": "Beach",
-            "connected_region": "SquidFest"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8670,13 +7527,6 @@
       },
       "Bookseller Experience Books": {
         "name": "Bookseller Experience Books",
-        "entrances": [
-          {
-            "name": "Buy Experience Books from the bookseller",
-            "parent_region": "Town",
-            "connected_region": "Bookseller Experience Books"
-          }
-        ],
         "exits": [
           {
             "name": "Buy Year 1 Books from the Bookseller",
@@ -8688,13 +7538,6 @@
       },
       "Bookseller Year 1 Books": {
         "name": "Bookseller Year 1 Books",
-        "entrances": [
-          {
-            "name": "Buy Year 1 Books from the Bookseller",
-            "parent_region": "Bookseller Experience Books",
-            "connected_region": "Bookseller Year 1 Books"
-          }
-        ],
         "exits": [
           {
             "name": "Buy Year 3 Books from the Bookseller",
@@ -8706,37 +7549,16 @@
       },
       "Bookseller Year 3 Books": {
         "name": "Bookseller Year 3 Books",
-        "entrances": [
-          {
-            "name": "Buy Year 3 Books from the Bookseller",
-            "parent_region": "Bookseller Year 1 Books",
-            "connected_region": "Bookseller Year 3 Books"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Leo's TreeHouse": {
         "name": "Leo's TreeHouse",
-        "entrances": [
-          {
-            "name": "Mountain to Leo TreeHouse",
-            "parent_region": "Mountain",
-            "connected_region": "Leo's TreeHouse"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Boat Tunnel": {
         "name": "Boat Tunnel",
-        "entrances": [
-          {
-            "name": "Fish Shop to Boat Tunnel",
-            "parent_region": "Willy's Fish Shop",
-            "connected_region": "Boat Tunnel"
-          }
-        ],
         "exits": [
           {
             "name": "Take the Boat to Ginger Island",
@@ -8782,45 +7604,11 @@
       },
       "Dangerous Skull Cavern": {
         "name": "Dangerous Skull Cavern",
-        "entrances": [
-          {
-            "name": "Enter the Dangerous Skull Cavern",
-            "parent_region": "Skull Cavern Floor 200",
-            "connected_region": "Dangerous Skull Cavern"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Island South": {
         "name": "Island South",
-        "entrances": [
-          {
-            "name": "Use Island Obelisk",
-            "parent_region": "Wizard Tower",
-            "connected_region": "Island South"
-          },
-          {
-            "name": "Take the Boat to Ginger Island",
-            "parent_region": "Boat Tunnel",
-            "connected_region": "Island South"
-          },
-          {
-            "name": "Parrot Express Jungle to Docks",
-            "parent_region": "Island West",
-            "connected_region": "Island South"
-          },
-          {
-            "name": "Parrot Express Volcano to Docks",
-            "parent_region": "Island North",
-            "connected_region": "Island South"
-          },
-          {
-            "name": "Parrot Express Dig Site to Docks",
-            "parent_region": "Dig Site",
-            "connected_region": "Island South"
-          }
-        ],
         "exits": [
           {
             "name": "Island South to West",
@@ -8893,40 +7681,11 @@
       },
       "Island Resort": {
         "name": "Island Resort",
-        "entrances": [
-          {
-            "name": "Use Island Resort",
-            "parent_region": "Island South",
-            "connected_region": "Island Resort"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Island West": {
         "name": "Island West",
-        "entrances": [
-          {
-            "name": "Island South to West",
-            "parent_region": "Island South",
-            "connected_region": "Island West"
-          },
-          {
-            "name": "Parrot Express Docks to Jungle",
-            "parent_region": "Island South",
-            "connected_region": "Island West"
-          },
-          {
-            "name": "Parrot Express Volcano to Jungle",
-            "parent_region": "Island North",
-            "connected_region": "Island West"
-          },
-          {
-            "name": "Parrot Express Dig Site to Jungle",
-            "parent_region": "Dig Site",
-            "connected_region": "Island West"
-          }
-        ],
         "exits": [
           {
             "name": "Island West to Island Farmhouse",
@@ -9068,13 +7827,6 @@
       },
       "Island East": {
         "name": "Island East",
-        "entrances": [
-          {
-            "name": "Island South to East",
-            "parent_region": "Island South",
-            "connected_region": "Island East"
-          }
-        ],
         "exits": [
           {
             "name": "Island East to Leo Hut",
@@ -9097,25 +7849,11 @@
       },
       "Island Shrine": {
         "name": "Island Shrine",
-        "entrances": [
-          {
-            "name": "Island East to Island Shrine",
-            "parent_region": "Island East",
-            "connected_region": "Island Shrine"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Island Southeast": {
         "name": "Island Southeast",
-        "entrances": [
-          {
-            "name": "Island South to Southeast",
-            "parent_region": "Island South",
-            "connected_region": "Island Southeast"
-          }
-        ],
         "exits": [
           {
             "name": "Island Southeast to Pirate Cove",
@@ -9130,28 +7868,6 @@
       },
       "Island North": {
         "name": "Island North",
-        "entrances": [
-          {
-            "name": "Island South to North",
-            "parent_region": "Island South",
-            "connected_region": "Island North"
-          },
-          {
-            "name": "Parrot Express Docks to Volcano",
-            "parent_region": "Island South",
-            "connected_region": "Island North"
-          },
-          {
-            "name": "Parrot Express Jungle to Volcano",
-            "parent_region": "Island West",
-            "connected_region": "Island North"
-          },
-          {
-            "name": "Parrot Express Dig Site to Volcano",
-            "parent_region": "Dig Site",
-            "connected_region": "Island North"
-          }
-        ],
         "exits": [
           {
             "name": "Talk to Island Trader",
@@ -9219,13 +7935,6 @@
       },
       "Volcano Entrance": {
         "name": "Volcano Entrance",
-        "entrances": [
-          {
-            "name": "Island North to Volcano Entrance",
-            "parent_region": "Island North",
-            "connected_region": "Volcano Entrance"
-          }
-        ],
         "exits": [
           {
             "name": "Climb to Volcano Floor 5",
@@ -9254,25 +7963,11 @@
       },
       "Volcano Secret Beach": {
         "name": "Volcano Secret Beach",
-        "entrances": [
-          {
-            "name": "Volcano River to Secret Beach",
-            "parent_region": "Volcano Entrance",
-            "connected_region": "Volcano Secret Beach"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Volcano - Floor 5": {
         "name": "Volcano - Floor 5",
-        "entrances": [
-          {
-            "name": "Climb to Volcano Floor 5",
-            "parent_region": "Volcano Entrance",
-            "connected_region": "Volcano - Floor 5"
-          }
-        ],
         "exits": [
           {
             "name": "Talk to Volcano Dwarf",
@@ -9301,25 +7996,11 @@
       },
       "Volcano Dwarf Shop": {
         "name": "Volcano Dwarf Shop",
-        "entrances": [
-          {
-            "name": "Talk to Volcano Dwarf",
-            "parent_region": "Volcano - Floor 5",
-            "connected_region": "Volcano Dwarf Shop"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Volcano - Floor 10": {
         "name": "Volcano - Floor 10",
-        "entrances": [
-          {
-            "name": "Climb to Volcano Floor 10",
-            "parent_region": "Volcano - Floor 5",
-            "connected_region": "Volcano - Floor 10"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -9340,25 +8021,11 @@
       },
       "Island Trader": {
         "name": "Island Trader",
-        "entrances": [
-          {
-            "name": "Talk to Island Trader",
-            "parent_region": "Island North",
-            "connected_region": "Island Trader"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Island Farmhouse": {
         "name": "Island Farmhouse",
-        "entrances": [
-          {
-            "name": "Island West to Island Farmhouse",
-            "parent_region": "Island West",
-            "connected_region": "Island Farmhouse"
-          }
-        ],
         "exits": [
           {
             "name": "Island Cooking",
@@ -9370,61 +8037,26 @@
       },
       "Gourmand Frog Cave": {
         "name": "Gourmand Frog Cave",
-        "entrances": [
-          {
-            "name": "Island West to Gourmand Cave",
-            "parent_region": "Island West",
-            "connected_region": "Gourmand Frog Cave"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Colored Crystals Cave": {
         "name": "Colored Crystals Cave",
-        "entrances": [
-          {
-            "name": "Island West to Crystal Cave",
-            "parent_region": "Island West",
-            "connected_region": "Colored Crystals Cave"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Shipwreck": {
         "name": "Shipwreck",
-        "entrances": [
-          {
-            "name": "Island West to Shipwreck",
-            "parent_region": "Island West",
-            "connected_region": "Shipwreck"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Qi's Walnut Room": {
         "name": "Qi's Walnut Room",
-        "entrances": [
-          {
-            "name": "Island West to Qi Walnut Room",
-            "parent_region": "Island West",
-            "connected_region": "Qi's Walnut Room"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Leo's Hut": {
         "name": "Leo's Hut",
-        "entrances": [
-          {
-            "name": "Island East to Leo Hut",
-            "parent_region": "Island East",
-            "connected_region": "Leo's Hut"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -9442,25 +8074,11 @@
       },
       "Pirate Cove": {
         "name": "Pirate Cove",
-        "entrances": [
-          {
-            "name": "Island Southeast to Pirate Cove",
-            "parent_region": "Island Southeast",
-            "connected_region": "Pirate Cove"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Field Office": {
         "name": "Field Office",
-        "entrances": [
-          {
-            "name": "Island North to Field Office",
-            "parent_region": "Island North",
-            "connected_region": "Field Office"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -9478,28 +8096,6 @@
       },
       "Dig Site": {
         "name": "Dig Site",
-        "entrances": [
-          {
-            "name": "Parrot Express Docks to Dig Site",
-            "parent_region": "Island South",
-            "connected_region": "Dig Site"
-          },
-          {
-            "name": "Parrot Express Jungle to Dig Site",
-            "parent_region": "Island West",
-            "connected_region": "Dig Site"
-          },
-          {
-            "name": "Island North to Dig Site",
-            "parent_region": "Island North",
-            "connected_region": "Dig Site"
-          },
-          {
-            "name": "Parrot Express Volcano to Dig Site",
-            "parent_region": "Island North",
-            "connected_region": "Dig Site"
-          }
-        ],
         "exits": [
           {
             "name": "Dig Site to Professor Snail Cave",
@@ -9538,49 +8134,21 @@
       },
       "Professor Snail Cave": {
         "name": "Professor Snail Cave",
-        "entrances": [
-          {
-            "name": "Dig Site to Professor Snail Cave",
-            "parent_region": "Dig Site",
-            "connected_region": "Professor Snail Cave"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Dangerous Mines - Floor 20": {
         "name": "Dangerous Mines - Floor 20",
-        "entrances": [
-          {
-            "name": "Dig to the Dangerous Mines - Floor 20",
-            "parent_region": "The Mines - Floor 120",
-            "connected_region": "Dangerous Mines - Floor 20"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Dangerous Mines - Floor 60": {
         "name": "Dangerous Mines - Floor 60",
-        "entrances": [
-          {
-            "name": "Dig to the Dangerous Mines - Floor 60",
-            "parent_region": "The Mines - Floor 120",
-            "connected_region": "Dangerous Mines - Floor 60"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Dangerous Mines - Floor 100": {
         "name": "Dangerous Mines - Floor 100",
-        "entrances": [
-          {
-            "name": "Dig to the Dangerous Mines - Floor 100",
-            "parent_region": "The Mines - Floor 120",
-            "connected_region": "Dangerous Mines - Floor 100"
-          }
-        ],
         "exits": [],
         "locations": []
       }

@@ -303,10 +303,6 @@
       "type": "object",
       "properties": {
         "name": { "type": "string" },
-        "entrances": {
-          "type": "array",
-          "items": { "$ref": "#/$defs/entrance" }
-        },
         "exits": { "type": "array", "items": { "$ref": "#/$defs/exit" } },
         "locations": {
           "type": "array",
@@ -319,27 +315,10 @@
       },
       "required": [
         "name",
-        "entrances",
         "exits",
         "locations"
       ],
       "additionalProperties": true
-    },
-    "entrance": {
-      "type": "object",
-      "properties": {
-        "name": { "type": "string" },
-        "parent_region": { "type": "string" },
-        "access_rule": {
-          "oneOf": [{ "$ref": "#/$defs/rule" }, { "type": "null" }]
-        },
-        "connected_region": { "type": "string" }
-      },
-      "required": [
-        "name",
-        "parent_region",
-        "connected_region"
-      ]
     },
     "exit": {
       "type": "object",

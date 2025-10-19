@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Menu -> Yoshi's Island",
@@ -29,13 +28,6 @@
       },
       "Yoshi's Island": {
         "name": "Yoshi's Island",
-        "entrances": [
-          {
-            "name": "Menu -> Yoshi's Island",
-            "parent_region": "Menu",
-            "connected_region": "Yoshi's Island"
-          }
-        ],
         "exits": [
           {
             "name": "Yoshi's Island -> Yoshi's House - Tile",
@@ -66,13 +58,6 @@
       },
       "Yoshi's House - Tile": {
         "name": "Yoshi's House - Tile",
-        "entrances": [
-          {
-            "name": "Yoshi's Island -> Yoshi's House - Tile",
-            "parent_region": "Yoshi's Island",
-            "connected_region": "Yoshi's House - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Yoshi's House - Tile -> Top Secret Area",
@@ -87,25 +72,11 @@
       },
       "Yoshi's House": {
         "name": "Yoshi's House",
-        "entrances": [
-          {
-            "name": "Top Secret Area - Tile -> Yoshi's House",
-            "parent_region": "Top Secret Area - Tile",
-            "connected_region": "Yoshi's House"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Yoshi's Island 1 - Tile": {
         "name": "Yoshi's Island 1 - Tile",
-        "entrances": [
-          {
-            "name": "Yoshi's Island -> Yoshi's Island 1 - Tile",
-            "parent_region": "Yoshi's Island",
-            "connected_region": "Yoshi's Island 1 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Yoshi's Island 1 - Tile -> Yoshi's Island 1",
@@ -120,13 +91,6 @@
       },
       "Yoshi's Island 1": {
         "name": "Yoshi's Island 1",
-        "entrances": [
-          {
-            "name": "Yoshi's Island 1 - Tile -> Yoshi's Island 1",
-            "parent_region": "Yoshi's Island 1 - Tile",
-            "connected_region": "Yoshi's Island 1"
-          }
-        ],
         "exits": [
           {
             "name": "Yoshi's Island 1 -> Yoshi's Island 1 - Normal Exit",
@@ -141,13 +105,6 @@
       },
       "Yoshi's Island 1 - Normal Exit": {
         "name": "Yoshi's Island 1 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Yoshi's Island 1 -> Yoshi's Island 1 - Normal Exit",
-            "parent_region": "Yoshi's Island 1",
-            "connected_region": "Yoshi's Island 1 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Yoshi's Island 1 - Normal Exit -> Yellow Switch Palace - Tile",
@@ -177,13 +134,6 @@
       },
       "Yoshi's Island 2 - Tile": {
         "name": "Yoshi's Island 2 - Tile",
-        "entrances": [
-          {
-            "name": "Yoshi's Island -> Yoshi's Island 2 - Tile",
-            "parent_region": "Yoshi's Island",
-            "connected_region": "Yoshi's Island 2 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Yoshi's Island 2 - Tile -> Yoshi's Island 2",
@@ -198,13 +148,6 @@
       },
       "Yoshi's Island 2": {
         "name": "Yoshi's Island 2",
-        "entrances": [
-          {
-            "name": "Yoshi's Island 2 - Tile -> Yoshi's Island 2",
-            "parent_region": "Yoshi's Island 2 - Tile",
-            "connected_region": "Yoshi's Island 2"
-          }
-        ],
         "exits": [
           {
             "name": "Yoshi's Island 2 -> Yoshi's Island 2 - Normal Exit",
@@ -219,13 +162,6 @@
       },
       "Yoshi's Island 2 - Normal Exit": {
         "name": "Yoshi's Island 2 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Yoshi's Island 2 -> Yoshi's Island 2 - Normal Exit",
-            "parent_region": "Yoshi's Island 2",
-            "connected_region": "Yoshi's Island 2 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Yoshi's Island 2 - Normal Exit -> Yoshi's Island 3 - Tile",
@@ -255,13 +191,6 @@
       },
       "Yoshi's Island 3 - Tile": {
         "name": "Yoshi's Island 3 - Tile",
-        "entrances": [
-          {
-            "name": "Yoshi's Island 2 - Normal Exit -> Yoshi's Island 3 - Tile",
-            "parent_region": "Yoshi's Island 2 - Normal Exit",
-            "connected_region": "Yoshi's Island 3 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Yoshi's Island 3 - Tile -> Yoshi's Island 3",
@@ -276,13 +205,6 @@
       },
       "Yoshi's Island 3": {
         "name": "Yoshi's Island 3",
-        "entrances": [
-          {
-            "name": "Yoshi's Island 3 - Tile -> Yoshi's Island 3",
-            "parent_region": "Yoshi's Island 3 - Tile",
-            "connected_region": "Yoshi's Island 3"
-          }
-        ],
         "exits": [
           {
             "name": "Yoshi's Island 3 -> Yoshi's Island 3 - Normal Exit",
@@ -297,13 +219,6 @@
       },
       "Yoshi's Island 3 - Normal Exit": {
         "name": "Yoshi's Island 3 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Yoshi's Island 3 -> Yoshi's Island 3 - Normal Exit",
-            "parent_region": "Yoshi's Island 3",
-            "connected_region": "Yoshi's Island 3 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Yoshi's Island 3 - Normal Exit -> Yoshi's Island 4 - Tile",
@@ -333,13 +248,6 @@
       },
       "Yoshi's Island 4 - Tile": {
         "name": "Yoshi's Island 4 - Tile",
-        "entrances": [
-          {
-            "name": "Yoshi's Island 3 - Normal Exit -> Yoshi's Island 4 - Tile",
-            "parent_region": "Yoshi's Island 3 - Normal Exit",
-            "connected_region": "Yoshi's Island 4 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Yoshi's Island 4 - Tile -> Yoshi's Island 4",
@@ -354,13 +262,6 @@
       },
       "Yoshi's Island 4": {
         "name": "Yoshi's Island 4",
-        "entrances": [
-          {
-            "name": "Yoshi's Island 4 - Tile -> Yoshi's Island 4",
-            "parent_region": "Yoshi's Island 4 - Tile",
-            "connected_region": "Yoshi's Island 4"
-          }
-        ],
         "exits": [
           {
             "name": "Yoshi's Island 4 -> Yoshi's Island 4 - Normal Exit",
@@ -375,13 +276,6 @@
       },
       "Yoshi's Island 4 - Normal Exit": {
         "name": "Yoshi's Island 4 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Yoshi's Island 4 -> Yoshi's Island 4 - Normal Exit",
-            "parent_region": "Yoshi's Island 4",
-            "connected_region": "Yoshi's Island 4 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Yoshi's Island 4 - Normal Exit -> #1 Iggy's Castle - Tile",
@@ -411,13 +305,6 @@
       },
       "#1 Iggy's Castle - Tile": {
         "name": "#1 Iggy's Castle - Tile",
-        "entrances": [
-          {
-            "name": "Yoshi's Island 4 - Normal Exit -> #1 Iggy's Castle - Tile",
-            "parent_region": "Yoshi's Island 4 - Normal Exit",
-            "connected_region": "#1 Iggy's Castle - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "#1 Iggy's Castle - Tile -> #1 Iggy's Castle",
@@ -432,13 +319,6 @@
       },
       "#1 Iggy's Castle": {
         "name": "#1 Iggy's Castle",
-        "entrances": [
-          {
-            "name": "#1 Iggy's Castle - Tile -> #1 Iggy's Castle",
-            "parent_region": "#1 Iggy's Castle - Tile",
-            "connected_region": "#1 Iggy's Castle"
-          }
-        ],
         "exits": [
           {
             "name": "#1 Iggy's Castle -> #1 Iggy's Castle - Normal Exit",
@@ -456,13 +336,6 @@
       },
       "#1 Iggy's Castle - Normal Exit": {
         "name": "#1 Iggy's Castle - Normal Exit",
-        "entrances": [
-          {
-            "name": "#1 Iggy's Castle -> #1 Iggy's Castle - Normal Exit",
-            "parent_region": "#1 Iggy's Castle",
-            "connected_region": "#1 Iggy's Castle - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "#1 Iggy's Castle - Normal Exit -> Donut Plains 1 - Tile",
@@ -513,13 +386,6 @@
       },
       "Yellow Switch Palace - Tile": {
         "name": "Yellow Switch Palace - Tile",
-        "entrances": [
-          {
-            "name": "Yoshi's Island 1 - Normal Exit -> Yellow Switch Palace - Tile",
-            "parent_region": "Yoshi's Island 1 - Normal Exit",
-            "connected_region": "Yellow Switch Palace - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Yellow Switch Palace - Tile -> Yellow Switch Palace",
@@ -534,13 +400,6 @@
       },
       "Yellow Switch Palace": {
         "name": "Yellow Switch Palace",
-        "entrances": [
-          {
-            "name": "Yellow Switch Palace - Tile -> Yellow Switch Palace",
-            "parent_region": "Yellow Switch Palace - Tile",
-            "connected_region": "Yellow Switch Palace"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -561,13 +420,6 @@
       },
       "Donut Plains 1 - Tile": {
         "name": "Donut Plains 1 - Tile",
-        "entrances": [
-          {
-            "name": "#1 Iggy's Castle - Normal Exit -> Donut Plains 1 - Tile",
-            "parent_region": "#1 Iggy's Castle - Normal Exit",
-            "connected_region": "Donut Plains 1 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Plains 1 - Tile -> Donut Plains 1",
@@ -582,13 +434,6 @@
       },
       "Donut Plains 1": {
         "name": "Donut Plains 1",
-        "entrances": [
-          {
-            "name": "Donut Plains 1 - Tile -> Donut Plains 1",
-            "parent_region": "Donut Plains 1 - Tile",
-            "connected_region": "Donut Plains 1"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Plains 1 -> Donut Plains 1 - Normal Exit",
@@ -661,13 +506,6 @@
       },
       "Donut Plains 1 - Normal Exit": {
         "name": "Donut Plains 1 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Donut Plains 1 -> Donut Plains 1 - Normal Exit",
-            "parent_region": "Donut Plains 1",
-            "connected_region": "Donut Plains 1 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Plains 1 - Normal Exit -> Donut Plains 2 - Tile",
@@ -697,13 +535,6 @@
       },
       "Donut Plains 1 - Secret Exit": {
         "name": "Donut Plains 1 - Secret Exit",
-        "entrances": [
-          {
-            "name": "Donut Plains 1 -> Donut Plains 1 - Secret Exit",
-            "parent_region": "Donut Plains 1",
-            "connected_region": "Donut Plains 1 - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Plains 1 - Secret Exit -> Donut Secret 1 - Tile",
@@ -733,13 +564,6 @@
       },
       "Donut Plains 2 - Tile": {
         "name": "Donut Plains 2 - Tile",
-        "entrances": [
-          {
-            "name": "Donut Plains 1 - Normal Exit -> Donut Plains 2 - Tile",
-            "parent_region": "Donut Plains 1 - Normal Exit",
-            "connected_region": "Donut Plains 2 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Plains 2 - Tile -> Donut Plains 2",
@@ -754,13 +578,6 @@
       },
       "Donut Plains 2": {
         "name": "Donut Plains 2",
-        "entrances": [
-          {
-            "name": "Donut Plains 2 - Tile -> Donut Plains 2",
-            "parent_region": "Donut Plains 2 - Tile",
-            "connected_region": "Donut Plains 2"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Plains 2 -> Donut Plains 2 - Normal Exit",
@@ -833,13 +650,6 @@
       },
       "Donut Plains 2 - Normal Exit": {
         "name": "Donut Plains 2 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Donut Plains 2 -> Donut Plains 2 - Normal Exit",
-            "parent_region": "Donut Plains 2",
-            "connected_region": "Donut Plains 2 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Plains 2 - Normal Exit -> Donut Ghost House - Tile",
@@ -869,13 +679,6 @@
       },
       "Donut Plains 2 - Secret Exit": {
         "name": "Donut Plains 2 - Secret Exit",
-        "entrances": [
-          {
-            "name": "Donut Plains 2 -> Donut Plains 2 - Secret Exit",
-            "parent_region": "Donut Plains 2",
-            "connected_region": "Donut Plains 2 - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Plains 2 - Secret Exit -> Green Switch Palace - Tile",
@@ -905,18 +708,6 @@
       },
       "Donut Plains 3 - Tile": {
         "name": "Donut Plains 3 - Tile",
-        "entrances": [
-          {
-            "name": "Donut Ghost House - Secret Exit -> Donut Plains 3 - Tile",
-            "parent_region": "Donut Ghost House - Secret Exit",
-            "connected_region": "Donut Plains 3 - Tile"
-          },
-          {
-            "name": "Donut Secret 2 - Normal Exit -> Donut Plains 3 - Tile",
-            "parent_region": "Donut Secret 2 - Normal Exit",
-            "connected_region": "Donut Plains 3 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Plains 3 - Tile -> Donut Plains 3",
@@ -931,13 +722,6 @@
       },
       "Donut Plains 3": {
         "name": "Donut Plains 3",
-        "entrances": [
-          {
-            "name": "Donut Plains 3 - Tile -> Donut Plains 3",
-            "parent_region": "Donut Plains 3 - Tile",
-            "connected_region": "Donut Plains 3"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Plains 3 -> Donut Plains 3 - Normal Exit",
@@ -952,13 +736,6 @@
       },
       "Donut Plains 3 - Normal Exit": {
         "name": "Donut Plains 3 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Donut Plains 3 -> Donut Plains 3 - Normal Exit",
-            "parent_region": "Donut Plains 3",
-            "connected_region": "Donut Plains 3 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Plains 3 - Normal Exit -> Donut Plains 4 - Tile",
@@ -988,13 +765,6 @@
       },
       "Donut Plains 4 - Tile": {
         "name": "Donut Plains 4 - Tile",
-        "entrances": [
-          {
-            "name": "Donut Plains 3 - Normal Exit -> Donut Plains 4 - Tile",
-            "parent_region": "Donut Plains 3 - Normal Exit",
-            "connected_region": "Donut Plains 4 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Plains 4 - Tile -> Donut Plains 4",
@@ -1009,13 +779,6 @@
       },
       "Donut Plains 4": {
         "name": "Donut Plains 4",
-        "entrances": [
-          {
-            "name": "Donut Plains 4 - Tile -> Donut Plains 4",
-            "parent_region": "Donut Plains 4 - Tile",
-            "connected_region": "Donut Plains 4"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Plains 4 -> Donut Plains 4 - Normal Exit",
@@ -1030,13 +793,6 @@
       },
       "Donut Plains 4 - Normal Exit": {
         "name": "Donut Plains 4 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Donut Plains 4 -> Donut Plains 4 - Normal Exit",
-            "parent_region": "Donut Plains 4",
-            "connected_region": "Donut Plains 4 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Plains 4 - Normal Exit -> #2 Morton's Castle - Tile",
@@ -1066,13 +822,6 @@
       },
       "Donut Secret 1 - Tile": {
         "name": "Donut Secret 1 - Tile",
-        "entrances": [
-          {
-            "name": "Donut Plains 1 - Secret Exit -> Donut Secret 1 - Tile",
-            "parent_region": "Donut Plains 1 - Secret Exit",
-            "connected_region": "Donut Secret 1 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Secret 1 - Tile -> Donut Secret 1",
@@ -1087,13 +836,6 @@
       },
       "Donut Secret 1": {
         "name": "Donut Secret 1",
-        "entrances": [
-          {
-            "name": "Donut Secret 1 - Tile -> Donut Secret 1",
-            "parent_region": "Donut Secret 1 - Tile",
-            "connected_region": "Donut Secret 1"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Secret 1 -> Donut Secret 1 - Normal Exit",
@@ -1141,13 +883,6 @@
       },
       "Donut Secret 1 - Normal Exit": {
         "name": "Donut Secret 1 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Donut Secret 1 -> Donut Secret 1 - Normal Exit",
-            "parent_region": "Donut Secret 1",
-            "connected_region": "Donut Secret 1 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Secret 1 - Normal Exit -> Donut Ghost House - Tile",
@@ -1177,13 +912,6 @@
       },
       "Donut Secret 1 - Secret Exit": {
         "name": "Donut Secret 1 - Secret Exit",
-        "entrances": [
-          {
-            "name": "Donut Secret 1 -> Donut Secret 1 - Secret Exit",
-            "parent_region": "Donut Secret 1",
-            "connected_region": "Donut Secret 1 - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Secret 1 - Secret Exit -> Donut Secret House - Tile",
@@ -1213,13 +941,6 @@
       },
       "Donut Secret 2 - Tile": {
         "name": "Donut Secret 2 - Tile",
-        "entrances": [
-          {
-            "name": "Donut Secret House - Normal Exit -> Donut Secret 2 - Tile",
-            "parent_region": "Donut Secret House - Normal Exit",
-            "connected_region": "Donut Secret 2 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Secret 2 - Tile -> Donut Secret 2",
@@ -1234,13 +955,6 @@
       },
       "Donut Secret 2": {
         "name": "Donut Secret 2",
-        "entrances": [
-          {
-            "name": "Donut Secret 2 - Tile -> Donut Secret 2",
-            "parent_region": "Donut Secret 2 - Tile",
-            "connected_region": "Donut Secret 2"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Secret 2 -> Donut Secret 2 - Normal Exit",
@@ -1255,13 +969,6 @@
       },
       "Donut Secret 2 - Normal Exit": {
         "name": "Donut Secret 2 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Donut Secret 2 -> Donut Secret 2 - Normal Exit",
-            "parent_region": "Donut Secret 2",
-            "connected_region": "Donut Secret 2 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Secret 2 - Normal Exit -> Donut Plains 3 - Tile",
@@ -1291,18 +998,6 @@
       },
       "Donut Ghost House - Tile": {
         "name": "Donut Ghost House - Tile",
-        "entrances": [
-          {
-            "name": "Donut Plains 2 - Normal Exit -> Donut Ghost House - Tile",
-            "parent_region": "Donut Plains 2 - Normal Exit",
-            "connected_region": "Donut Ghost House - Tile"
-          },
-          {
-            "name": "Donut Secret 1 - Normal Exit -> Donut Ghost House - Tile",
-            "parent_region": "Donut Secret 1 - Normal Exit",
-            "connected_region": "Donut Ghost House - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Ghost House - Tile -> Donut Ghost House",
@@ -1317,13 +1012,6 @@
       },
       "Donut Ghost House": {
         "name": "Donut Ghost House",
-        "entrances": [
-          {
-            "name": "Donut Ghost House - Tile -> Donut Ghost House",
-            "parent_region": "Donut Ghost House - Tile",
-            "connected_region": "Donut Ghost House"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Ghost House -> Donut Ghost House - Normal Exit",
@@ -1396,13 +1084,6 @@
       },
       "Donut Ghost House - Normal Exit": {
         "name": "Donut Ghost House - Normal Exit",
-        "entrances": [
-          {
-            "name": "Donut Ghost House -> Donut Ghost House - Normal Exit",
-            "parent_region": "Donut Ghost House",
-            "connected_region": "Donut Ghost House - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Ghost House - Normal Exit -> Top Secret Area - Tile",
@@ -1432,13 +1113,6 @@
       },
       "Donut Ghost House - Secret Exit": {
         "name": "Donut Ghost House - Secret Exit",
-        "entrances": [
-          {
-            "name": "Donut Ghost House -> Donut Ghost House - Secret Exit",
-            "parent_region": "Donut Ghost House",
-            "connected_region": "Donut Ghost House - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Ghost House - Secret Exit -> Donut Plains 3 - Tile",
@@ -1468,13 +1142,6 @@
       },
       "Donut Secret House - Tile": {
         "name": "Donut Secret House - Tile",
-        "entrances": [
-          {
-            "name": "Donut Secret 1 - Secret Exit -> Donut Secret House - Tile",
-            "parent_region": "Donut Secret 1 - Secret Exit",
-            "connected_region": "Donut Secret House - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Secret House - Tile -> Donut Secret House",
@@ -1489,13 +1156,6 @@
       },
       "Donut Secret House": {
         "name": "Donut Secret House",
-        "entrances": [
-          {
-            "name": "Donut Secret House - Tile -> Donut Secret House",
-            "parent_region": "Donut Secret House - Tile",
-            "connected_region": "Donut Secret House"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Secret House -> Donut Secret House - Normal Exit",
@@ -1571,13 +1231,6 @@
       },
       "Donut Secret House - Normal Exit": {
         "name": "Donut Secret House - Normal Exit",
-        "entrances": [
-          {
-            "name": "Donut Secret House -> Donut Secret House - Normal Exit",
-            "parent_region": "Donut Secret House",
-            "connected_region": "Donut Secret House - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Secret House - Normal Exit -> Donut Secret 2 - Tile",
@@ -1607,13 +1260,6 @@
       },
       "Donut Secret House - Secret Exit": {
         "name": "Donut Secret House - Secret Exit",
-        "entrances": [
-          {
-            "name": "Donut Secret House -> Donut Secret House - Secret Exit",
-            "parent_region": "Donut Secret House",
-            "connected_region": "Donut Secret House - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Secret House - Secret Exit -> Donut Plains - Star Road",
@@ -1643,13 +1289,6 @@
       },
       "#2 Morton's Castle - Tile": {
         "name": "#2 Morton's Castle - Tile",
-        "entrances": [
-          {
-            "name": "Donut Plains 4 - Normal Exit -> #2 Morton's Castle - Tile",
-            "parent_region": "Donut Plains 4 - Normal Exit",
-            "connected_region": "#2 Morton's Castle - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "#2 Morton's Castle - Tile -> #2 Morton's Castle",
@@ -1664,13 +1303,6 @@
       },
       "#2 Morton's Castle": {
         "name": "#2 Morton's Castle",
-        "entrances": [
-          {
-            "name": "#2 Morton's Castle - Tile -> #2 Morton's Castle",
-            "parent_region": "#2 Morton's Castle - Tile",
-            "connected_region": "#2 Morton's Castle"
-          }
-        ],
         "exits": [
           {
             "name": "#2 Morton's Castle -> #2 Morton's Castle - Normal Exit",
@@ -1685,13 +1317,6 @@
       },
       "#2 Morton's Castle - Normal Exit": {
         "name": "#2 Morton's Castle - Normal Exit",
-        "entrances": [
-          {
-            "name": "#2 Morton's Castle -> #2 Morton's Castle - Normal Exit",
-            "parent_region": "#2 Morton's Castle",
-            "connected_region": "#2 Morton's Castle - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "#2 Morton's Castle - Normal Exit -> Vanilla Dome 1 - Tile",
@@ -1742,13 +1367,6 @@
       },
       "Green Switch Palace - Tile": {
         "name": "Green Switch Palace - Tile",
-        "entrances": [
-          {
-            "name": "Donut Plains 2 - Secret Exit -> Green Switch Palace - Tile",
-            "parent_region": "Donut Plains 2 - Secret Exit",
-            "connected_region": "Green Switch Palace - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Green Switch Palace - Tile -> Green Switch Palace",
@@ -1763,13 +1381,6 @@
       },
       "Green Switch Palace": {
         "name": "Green Switch Palace",
-        "entrances": [
-          {
-            "name": "Green Switch Palace - Tile -> Green Switch Palace",
-            "parent_region": "Green Switch Palace - Tile",
-            "connected_region": "Green Switch Palace"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1790,13 +1401,6 @@
       },
       "Top Secret Area - Tile": {
         "name": "Top Secret Area - Tile",
-        "entrances": [
-          {
-            "name": "Donut Ghost House - Normal Exit -> Top Secret Area - Tile",
-            "parent_region": "Donut Ghost House - Normal Exit",
-            "connected_region": "Top Secret Area - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Top Secret Area - Tile -> Yoshi's House",
@@ -1811,25 +1415,11 @@
       },
       "Top Secret Area": {
         "name": "Top Secret Area",
-        "entrances": [
-          {
-            "name": "Yoshi's House - Tile -> Top Secret Area",
-            "parent_region": "Yoshi's House - Tile",
-            "connected_region": "Top Secret Area"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Vanilla Dome 1 - Tile": {
         "name": "Vanilla Dome 1 - Tile",
-        "entrances": [
-          {
-            "name": "#2 Morton's Castle - Normal Exit -> Vanilla Dome 1 - Tile",
-            "parent_region": "#2 Morton's Castle - Normal Exit",
-            "connected_region": "Vanilla Dome 1 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Dome 1 - Tile -> Vanilla Dome 1",
@@ -1844,13 +1434,6 @@
       },
       "Vanilla Dome 1": {
         "name": "Vanilla Dome 1",
-        "entrances": [
-          {
-            "name": "Vanilla Dome 1 - Tile -> Vanilla Dome 1",
-            "parent_region": "Vanilla Dome 1 - Tile",
-            "connected_region": "Vanilla Dome 1"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Dome 1 -> Vanilla Dome 1 - Normal Exit",
@@ -1974,13 +1557,6 @@
       },
       "Vanilla Dome 1 - Normal Exit": {
         "name": "Vanilla Dome 1 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Vanilla Dome 1 -> Vanilla Dome 1 - Normal Exit",
-            "parent_region": "Vanilla Dome 1",
-            "connected_region": "Vanilla Dome 1 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Dome 1 - Normal Exit -> Vanilla Dome 2 - Tile",
@@ -2010,13 +1586,6 @@
       },
       "Vanilla Dome 1 - Secret Exit": {
         "name": "Vanilla Dome 1 - Secret Exit",
-        "entrances": [
-          {
-            "name": "Vanilla Dome 1 -> Vanilla Dome 1 - Secret Exit",
-            "parent_region": "Vanilla Dome 1",
-            "connected_region": "Vanilla Dome 1 - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Dome 1 - Secret Exit -> Vanilla Secret 1 - Tile",
@@ -2046,13 +1615,6 @@
       },
       "Vanilla Dome 2 - Tile": {
         "name": "Vanilla Dome 2 - Tile",
-        "entrances": [
-          {
-            "name": "Vanilla Dome 1 - Normal Exit -> Vanilla Dome 2 - Tile",
-            "parent_region": "Vanilla Dome 1 - Normal Exit",
-            "connected_region": "Vanilla Dome 2 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Dome 2 - Tile -> Vanilla Dome 2",
@@ -2067,13 +1629,6 @@
       },
       "Vanilla Dome 2": {
         "name": "Vanilla Dome 2",
-        "entrances": [
-          {
-            "name": "Vanilla Dome 2 - Tile -> Vanilla Dome 2",
-            "parent_region": "Vanilla Dome 2 - Tile",
-            "connected_region": "Vanilla Dome 2"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Dome 2 -> Vanilla Dome 2 - Normal Exit",
@@ -2164,13 +1719,6 @@
       },
       "Vanilla Dome 2 - Normal Exit": {
         "name": "Vanilla Dome 2 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Vanilla Dome 2 -> Vanilla Dome 2 - Normal Exit",
-            "parent_region": "Vanilla Dome 2",
-            "connected_region": "Vanilla Dome 2 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Dome 2 - Normal Exit -> Vanilla Ghost House - Tile",
@@ -2200,13 +1748,6 @@
       },
       "Vanilla Dome 2 - Secret Exit": {
         "name": "Vanilla Dome 2 - Secret Exit",
-        "entrances": [
-          {
-            "name": "Vanilla Dome 2 -> Vanilla Dome 2 - Secret Exit",
-            "parent_region": "Vanilla Dome 2",
-            "connected_region": "Vanilla Dome 2 - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Dome 2 - Secret Exit -> Red Switch Palace - Tile",
@@ -2236,13 +1777,6 @@
       },
       "Vanilla Dome 3 - Tile": {
         "name": "Vanilla Dome 3 - Tile",
-        "entrances": [
-          {
-            "name": "Vanilla Ghost House - Normal Exit -> Vanilla Dome 3 - Tile",
-            "parent_region": "Vanilla Ghost House - Normal Exit",
-            "connected_region": "Vanilla Dome 3 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Dome 3 - Tile -> Vanilla Dome 3",
@@ -2257,13 +1791,6 @@
       },
       "Vanilla Dome 3": {
         "name": "Vanilla Dome 3",
-        "entrances": [
-          {
-            "name": "Vanilla Dome 3 - Tile -> Vanilla Dome 3",
-            "parent_region": "Vanilla Dome 3 - Tile",
-            "connected_region": "Vanilla Dome 3"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Dome 3 -> Vanilla Dome 3 - Normal Exit",
@@ -2278,13 +1805,6 @@
       },
       "Vanilla Dome 3 - Normal Exit": {
         "name": "Vanilla Dome 3 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Vanilla Dome 3 -> Vanilla Dome 3 - Normal Exit",
-            "parent_region": "Vanilla Dome 3",
-            "connected_region": "Vanilla Dome 3 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Dome 3 - Normal Exit -> Vanilla Dome 4 - Tile",
@@ -2314,13 +1834,6 @@
       },
       "Vanilla Dome 4 - Tile": {
         "name": "Vanilla Dome 4 - Tile",
-        "entrances": [
-          {
-            "name": "Vanilla Dome 3 - Normal Exit -> Vanilla Dome 4 - Tile",
-            "parent_region": "Vanilla Dome 3 - Normal Exit",
-            "connected_region": "Vanilla Dome 4 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Dome 4 - Tile -> Vanilla Dome 4",
@@ -2335,13 +1848,6 @@
       },
       "Vanilla Dome 4": {
         "name": "Vanilla Dome 4",
-        "entrances": [
-          {
-            "name": "Vanilla Dome 4 - Tile -> Vanilla Dome 4",
-            "parent_region": "Vanilla Dome 4 - Tile",
-            "connected_region": "Vanilla Dome 4"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Dome 4 -> Vanilla Dome 4 - Normal Exit",
@@ -2356,13 +1862,6 @@
       },
       "Vanilla Dome 4 - Normal Exit": {
         "name": "Vanilla Dome 4 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Vanilla Dome 4 -> Vanilla Dome 4 - Normal Exit",
-            "parent_region": "Vanilla Dome 4",
-            "connected_region": "Vanilla Dome 4 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Dome 4 - Normal Exit -> #3 Lemmy's Castle - Tile",
@@ -2392,13 +1891,6 @@
       },
       "Vanilla Secret 1 - Tile": {
         "name": "Vanilla Secret 1 - Tile",
-        "entrances": [
-          {
-            "name": "Vanilla Dome 1 - Secret Exit -> Vanilla Secret 1 - Tile",
-            "parent_region": "Vanilla Dome 1 - Secret Exit",
-            "connected_region": "Vanilla Secret 1 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Secret 1 - Tile -> Vanilla Secret 1",
@@ -2413,13 +1905,6 @@
       },
       "Vanilla Secret 1": {
         "name": "Vanilla Secret 1",
-        "entrances": [
-          {
-            "name": "Vanilla Secret 1 - Tile -> Vanilla Secret 1",
-            "parent_region": "Vanilla Secret 1 - Tile",
-            "connected_region": "Vanilla Secret 1"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Secret 1 -> Vanilla Secret 1 - Normal Exit",
@@ -2472,13 +1957,6 @@
       },
       "Vanilla Secret 1 - Normal Exit": {
         "name": "Vanilla Secret 1 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Vanilla Secret 1 -> Vanilla Secret 1 - Normal Exit",
-            "parent_region": "Vanilla Secret 1",
-            "connected_region": "Vanilla Secret 1 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Secret 1 - Normal Exit -> Vanilla Secret 2 - Tile",
@@ -2508,13 +1986,6 @@
       },
       "Vanilla Secret 1 - Secret Exit": {
         "name": "Vanilla Secret 1 - Secret Exit",
-        "entrances": [
-          {
-            "name": "Vanilla Secret 1 -> Vanilla Secret 1 - Secret Exit",
-            "parent_region": "Vanilla Secret 1",
-            "connected_region": "Vanilla Secret 1 - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Secret 1 - Secret Exit -> Vanilla Dome - Star Road",
@@ -2544,13 +2015,6 @@
       },
       "Vanilla Secret 2 - Tile": {
         "name": "Vanilla Secret 2 - Tile",
-        "entrances": [
-          {
-            "name": "Vanilla Secret 1 - Normal Exit -> Vanilla Secret 2 - Tile",
-            "parent_region": "Vanilla Secret 1 - Normal Exit",
-            "connected_region": "Vanilla Secret 2 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Secret 2 - Tile -> Vanilla Secret 2",
@@ -2565,13 +2029,6 @@
       },
       "Vanilla Secret 2": {
         "name": "Vanilla Secret 2",
-        "entrances": [
-          {
-            "name": "Vanilla Secret 2 - Tile -> Vanilla Secret 2",
-            "parent_region": "Vanilla Secret 2 - Tile",
-            "connected_region": "Vanilla Secret 2"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Secret 2 -> Vanilla Secret 2 - Normal Exit",
@@ -2586,13 +2043,6 @@
       },
       "Vanilla Secret 2 - Normal Exit": {
         "name": "Vanilla Secret 2 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Vanilla Secret 2 -> Vanilla Secret 2 - Normal Exit",
-            "parent_region": "Vanilla Secret 2",
-            "connected_region": "Vanilla Secret 2 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Secret 2 - Normal Exit -> Vanilla Secret 3 - Tile",
@@ -2622,13 +2072,6 @@
       },
       "Vanilla Secret 3 - Tile": {
         "name": "Vanilla Secret 3 - Tile",
-        "entrances": [
-          {
-            "name": "Vanilla Secret 2 - Normal Exit -> Vanilla Secret 3 - Tile",
-            "parent_region": "Vanilla Secret 2 - Normal Exit",
-            "connected_region": "Vanilla Secret 3 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Secret 3 - Tile -> Vanilla Secret 3",
@@ -2643,13 +2086,6 @@
       },
       "Vanilla Secret 3": {
         "name": "Vanilla Secret 3",
-        "entrances": [
-          {
-            "name": "Vanilla Secret 3 - Tile -> Vanilla Secret 3",
-            "parent_region": "Vanilla Secret 3 - Tile",
-            "connected_region": "Vanilla Secret 3"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Secret 3 -> Vanilla Secret 3 - Normal Exit",
@@ -2667,13 +2103,6 @@
       },
       "Vanilla Secret 3 - Normal Exit": {
         "name": "Vanilla Secret 3 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Vanilla Secret 3 -> Vanilla Secret 3 - Normal Exit",
-            "parent_region": "Vanilla Secret 3",
-            "connected_region": "Vanilla Secret 3 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Secret 3 - Normal Exit -> Vanilla Fortress - Tile",
@@ -2703,13 +2132,6 @@
       },
       "Vanilla Ghost House - Tile": {
         "name": "Vanilla Ghost House - Tile",
-        "entrances": [
-          {
-            "name": "Vanilla Dome 2 - Normal Exit -> Vanilla Ghost House - Tile",
-            "parent_region": "Vanilla Dome 2 - Normal Exit",
-            "connected_region": "Vanilla Ghost House - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Ghost House - Tile -> Vanilla Ghost House",
@@ -2724,13 +2146,6 @@
       },
       "Vanilla Ghost House": {
         "name": "Vanilla Ghost House",
-        "entrances": [
-          {
-            "name": "Vanilla Ghost House - Tile -> Vanilla Ghost House",
-            "parent_region": "Vanilla Ghost House - Tile",
-            "connected_region": "Vanilla Ghost House"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Ghost House -> Vanilla Ghost House - Normal Exit",
@@ -2748,13 +2163,6 @@
       },
       "Vanilla Ghost House - Normal Exit": {
         "name": "Vanilla Ghost House - Normal Exit",
-        "entrances": [
-          {
-            "name": "Vanilla Ghost House -> Vanilla Ghost House - Normal Exit",
-            "parent_region": "Vanilla Ghost House",
-            "connected_region": "Vanilla Ghost House - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Ghost House - Normal Exit -> Vanilla Dome 3 - Tile",
@@ -2784,13 +2192,6 @@
       },
       "Vanilla Fortress - Tile": {
         "name": "Vanilla Fortress - Tile",
-        "entrances": [
-          {
-            "name": "Vanilla Secret 3 - Normal Exit -> Vanilla Fortress - Tile",
-            "parent_region": "Vanilla Secret 3 - Normal Exit",
-            "connected_region": "Vanilla Fortress - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Fortress - Tile -> Vanilla Fortress",
@@ -2805,13 +2206,6 @@
       },
       "Vanilla Fortress": {
         "name": "Vanilla Fortress",
-        "entrances": [
-          {
-            "name": "Vanilla Fortress - Tile -> Vanilla Fortress",
-            "parent_region": "Vanilla Fortress - Tile",
-            "connected_region": "Vanilla Fortress"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Fortress -> Vanilla Fortress - Normal Exit",
@@ -2829,13 +2223,6 @@
       },
       "Vanilla Fortress - Normal Exit": {
         "name": "Vanilla Fortress - Normal Exit",
-        "entrances": [
-          {
-            "name": "Vanilla Fortress -> Vanilla Fortress - Normal Exit",
-            "parent_region": "Vanilla Fortress",
-            "connected_region": "Vanilla Fortress - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Fortress - Normal Exit -> Butter Bridge 1 - Tile",
@@ -2879,13 +2266,6 @@
       },
       "#3 Lemmy's Castle - Tile": {
         "name": "#3 Lemmy's Castle - Tile",
-        "entrances": [
-          {
-            "name": "Vanilla Dome 4 - Normal Exit -> #3 Lemmy's Castle - Tile",
-            "parent_region": "Vanilla Dome 4 - Normal Exit",
-            "connected_region": "#3 Lemmy's Castle - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "#3 Lemmy's Castle - Tile -> #3 Lemmy's Castle",
@@ -2900,13 +2280,6 @@
       },
       "#3 Lemmy's Castle": {
         "name": "#3 Lemmy's Castle",
-        "entrances": [
-          {
-            "name": "#3 Lemmy's Castle - Tile -> #3 Lemmy's Castle",
-            "parent_region": "#3 Lemmy's Castle - Tile",
-            "connected_region": "#3 Lemmy's Castle"
-          }
-        ],
         "exits": [
           {
             "name": "#3 Lemmy's Castle -> #3 Lemmy's Castle - Normal Exit",
@@ -2921,13 +2294,6 @@
       },
       "#3 Lemmy's Castle - Normal Exit": {
         "name": "#3 Lemmy's Castle - Normal Exit",
-        "entrances": [
-          {
-            "name": "#3 Lemmy's Castle -> #3 Lemmy's Castle - Normal Exit",
-            "parent_region": "#3 Lemmy's Castle",
-            "connected_region": "#3 Lemmy's Castle - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "#3 Lemmy's Castle - Normal Exit -> Cheese Bridge - Tile",
@@ -2971,13 +2337,6 @@
       },
       "Red Switch Palace - Tile": {
         "name": "Red Switch Palace - Tile",
-        "entrances": [
-          {
-            "name": "Vanilla Dome 2 - Secret Exit -> Red Switch Palace - Tile",
-            "parent_region": "Vanilla Dome 2 - Secret Exit",
-            "connected_region": "Red Switch Palace - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Red Switch Palace - Tile -> Red Switch Palace",
@@ -2992,13 +2351,6 @@
       },
       "Red Switch Palace": {
         "name": "Red Switch Palace",
-        "entrances": [
-          {
-            "name": "Red Switch Palace - Tile -> Red Switch Palace",
-            "parent_region": "Red Switch Palace - Tile",
-            "connected_region": "Red Switch Palace"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3019,13 +2371,6 @@
       },
       "Butter Bridge 1 - Tile": {
         "name": "Butter Bridge 1 - Tile",
-        "entrances": [
-          {
-            "name": "Vanilla Fortress - Normal Exit -> Butter Bridge 1 - Tile",
-            "parent_region": "Vanilla Fortress - Normal Exit",
-            "connected_region": "Butter Bridge 1 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Butter Bridge 1 - Tile -> Butter Bridge 1",
@@ -3040,13 +2385,6 @@
       },
       "Butter Bridge 1": {
         "name": "Butter Bridge 1",
-        "entrances": [
-          {
-            "name": "Butter Bridge 1 - Tile -> Butter Bridge 1",
-            "parent_region": "Butter Bridge 1 - Tile",
-            "connected_region": "Butter Bridge 1"
-          }
-        ],
         "exits": [
           {
             "name": "Butter Bridge 1 -> Butter Bridge 1 - Normal Exit",
@@ -3061,13 +2399,6 @@
       },
       "Butter Bridge 1 - Normal Exit": {
         "name": "Butter Bridge 1 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Butter Bridge 1 -> Butter Bridge 1 - Normal Exit",
-            "parent_region": "Butter Bridge 1",
-            "connected_region": "Butter Bridge 1 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Butter Bridge 1 - Normal Exit -> Butter Bridge 2 - Tile",
@@ -3097,13 +2428,6 @@
       },
       "Butter Bridge 2 - Tile": {
         "name": "Butter Bridge 2 - Tile",
-        "entrances": [
-          {
-            "name": "Butter Bridge 1 - Normal Exit -> Butter Bridge 2 - Tile",
-            "parent_region": "Butter Bridge 1 - Normal Exit",
-            "connected_region": "Butter Bridge 2 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Butter Bridge 2 - Tile -> Butter Bridge 2",
@@ -3118,13 +2442,6 @@
       },
       "Butter Bridge 2": {
         "name": "Butter Bridge 2",
-        "entrances": [
-          {
-            "name": "Butter Bridge 2 - Tile -> Butter Bridge 2",
-            "parent_region": "Butter Bridge 2 - Tile",
-            "connected_region": "Butter Bridge 2"
-          }
-        ],
         "exits": [
           {
             "name": "Butter Bridge 2 -> Butter Bridge 2 - Normal Exit",
@@ -3139,13 +2456,6 @@
       },
       "Butter Bridge 2 - Normal Exit": {
         "name": "Butter Bridge 2 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Butter Bridge 2 -> Butter Bridge 2 - Normal Exit",
-            "parent_region": "Butter Bridge 2",
-            "connected_region": "Butter Bridge 2 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Butter Bridge 2 - Normal Exit -> #4 Ludwig's Castle - Tile",
@@ -3175,13 +2485,6 @@
       },
       "Cheese Bridge - Tile": {
         "name": "Cheese Bridge - Tile",
-        "entrances": [
-          {
-            "name": "#3 Lemmy's Castle - Normal Exit -> Cheese Bridge - Tile",
-            "parent_region": "#3 Lemmy's Castle - Normal Exit",
-            "connected_region": "Cheese Bridge - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Cheese Bridge - Tile -> Cheese Bridge",
@@ -3196,13 +2499,6 @@
       },
       "Cheese Bridge": {
         "name": "Cheese Bridge",
-        "entrances": [
-          {
-            "name": "Cheese Bridge - Tile -> Cheese Bridge",
-            "parent_region": "Cheese Bridge - Tile",
-            "connected_region": "Cheese Bridge"
-          }
-        ],
         "exits": [
           {
             "name": "Cheese Bridge -> Cheese Bridge - Normal Exit",
@@ -3259,13 +2555,6 @@
       },
       "Cheese Bridge - Normal Exit": {
         "name": "Cheese Bridge - Normal Exit",
-        "entrances": [
-          {
-            "name": "Cheese Bridge -> Cheese Bridge - Normal Exit",
-            "parent_region": "Cheese Bridge",
-            "connected_region": "Cheese Bridge - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Cheese Bridge - Normal Exit -> Cookie Mountain - Tile",
@@ -3295,13 +2584,6 @@
       },
       "Cheese Bridge - Secret Exit": {
         "name": "Cheese Bridge - Secret Exit",
-        "entrances": [
-          {
-            "name": "Cheese Bridge -> Cheese Bridge - Secret Exit",
-            "parent_region": "Cheese Bridge",
-            "connected_region": "Cheese Bridge - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Cheese Bridge - Secret Exit -> Soda Lake - Tile",
@@ -3331,13 +2613,6 @@
       },
       "Cookie Mountain - Tile": {
         "name": "Cookie Mountain - Tile",
-        "entrances": [
-          {
-            "name": "Cheese Bridge - Normal Exit -> Cookie Mountain - Tile",
-            "parent_region": "Cheese Bridge - Normal Exit",
-            "connected_region": "Cookie Mountain - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Cookie Mountain - Tile -> Cookie Mountain",
@@ -3352,13 +2627,6 @@
       },
       "Cookie Mountain": {
         "name": "Cookie Mountain",
-        "entrances": [
-          {
-            "name": "Cookie Mountain - Tile -> Cookie Mountain",
-            "parent_region": "Cookie Mountain - Tile",
-            "connected_region": "Cookie Mountain"
-          }
-        ],
         "exits": [
           {
             "name": "Cookie Mountain -> Cookie Mountain - Normal Exit",
@@ -3373,13 +2641,6 @@
       },
       "Cookie Mountain - Normal Exit": {
         "name": "Cookie Mountain - Normal Exit",
-        "entrances": [
-          {
-            "name": "Cookie Mountain -> Cookie Mountain - Normal Exit",
-            "parent_region": "Cookie Mountain",
-            "connected_region": "Cookie Mountain - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Cookie Mountain - Normal Exit -> #4 Ludwig's Castle - Tile",
@@ -3409,13 +2670,6 @@
       },
       "Soda Lake - Tile": {
         "name": "Soda Lake - Tile",
-        "entrances": [
-          {
-            "name": "Cheese Bridge - Secret Exit -> Soda Lake - Tile",
-            "parent_region": "Cheese Bridge - Secret Exit",
-            "connected_region": "Soda Lake - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Soda Lake - Tile -> Soda Lake",
@@ -3430,13 +2684,6 @@
       },
       "Soda Lake": {
         "name": "Soda Lake",
-        "entrances": [
-          {
-            "name": "Soda Lake - Tile -> Soda Lake",
-            "parent_region": "Soda Lake - Tile",
-            "connected_region": "Soda Lake"
-          }
-        ],
         "exits": [
           {
             "name": "Soda Lake -> Soda Lake - Normal Exit",
@@ -3454,13 +2701,6 @@
       },
       "Soda Lake - Normal Exit": {
         "name": "Soda Lake - Normal Exit",
-        "entrances": [
-          {
-            "name": "Soda Lake -> Soda Lake - Normal Exit",
-            "parent_region": "Soda Lake",
-            "connected_region": "Soda Lake - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Soda Lake - Normal Exit -> Twin Bridges - Star Road",
@@ -3490,18 +2730,6 @@
       },
       "#4 Ludwig's Castle - Tile": {
         "name": "#4 Ludwig's Castle - Tile",
-        "entrances": [
-          {
-            "name": "Butter Bridge 2 - Normal Exit -> #4 Ludwig's Castle - Tile",
-            "parent_region": "Butter Bridge 2 - Normal Exit",
-            "connected_region": "#4 Ludwig's Castle - Tile"
-          },
-          {
-            "name": "Cookie Mountain - Normal Exit -> #4 Ludwig's Castle - Tile",
-            "parent_region": "Cookie Mountain - Normal Exit",
-            "connected_region": "#4 Ludwig's Castle - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "#4 Ludwig's Castle - Tile -> #4 Ludwig's Castle",
@@ -3516,13 +2744,6 @@
       },
       "#4 Ludwig's Castle": {
         "name": "#4 Ludwig's Castle",
-        "entrances": [
-          {
-            "name": "#4 Ludwig's Castle - Tile -> #4 Ludwig's Castle",
-            "parent_region": "#4 Ludwig's Castle - Tile",
-            "connected_region": "#4 Ludwig's Castle"
-          }
-        ],
         "exits": [
           {
             "name": "#4 Ludwig's Castle -> #4 Ludwig's Castle - Normal Exit",
@@ -3552,13 +2773,6 @@
       },
       "#4 Ludwig's Castle - Normal Exit": {
         "name": "#4 Ludwig's Castle - Normal Exit",
-        "entrances": [
-          {
-            "name": "#4 Ludwig's Castle -> #4 Ludwig's Castle - Normal Exit",
-            "parent_region": "#4 Ludwig's Castle",
-            "connected_region": "#4 Ludwig's Castle - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "#4 Ludwig's Castle - Normal Exit -> Forest of Illusion 1 - Tile",
@@ -3609,18 +2823,6 @@
       },
       "Forest of Illusion 1 - Tile": {
         "name": "Forest of Illusion 1 - Tile",
-        "entrances": [
-          {
-            "name": "#4 Ludwig's Castle - Normal Exit -> Forest of Illusion 1 - Tile",
-            "parent_region": "#4 Ludwig's Castle - Normal Exit",
-            "connected_region": "Forest of Illusion 1 - Tile"
-          },
-          {
-            "name": "Forest Ghost House - Normal Exit -> Forest of Illusion 1 - Tile",
-            "parent_region": "Forest Ghost House - Normal Exit",
-            "connected_region": "Forest of Illusion 1 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Forest of Illusion 1 - Tile -> Forest of Illusion 1",
@@ -3635,13 +2837,6 @@
       },
       "Forest of Illusion 1": {
         "name": "Forest of Illusion 1",
-        "entrances": [
-          {
-            "name": "Forest of Illusion 1 - Tile -> Forest of Illusion 1",
-            "parent_region": "Forest of Illusion 1 - Tile",
-            "connected_region": "Forest of Illusion 1"
-          }
-        ],
         "exits": [
           {
             "name": "Forest of Illusion 1 -> Forest of Illusion 1 - Normal Exit",
@@ -3679,13 +2874,6 @@
       },
       "Forest of Illusion 1 - Normal Exit": {
         "name": "Forest of Illusion 1 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Forest of Illusion 1 -> Forest of Illusion 1 - Normal Exit",
-            "parent_region": "Forest of Illusion 1",
-            "connected_region": "Forest of Illusion 1 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Forest of Illusion 1 - Normal Exit -> Forest of Illusion 2 - Tile",
@@ -3715,13 +2903,6 @@
       },
       "Forest of Illusion 1 - Secret Exit": {
         "name": "Forest of Illusion 1 - Secret Exit",
-        "entrances": [
-          {
-            "name": "Forest of Illusion 1 -> Forest of Illusion 1 - Secret Exit",
-            "parent_region": "Forest of Illusion 1",
-            "connected_region": "Forest of Illusion 1 - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Forest of Illusion 1 - Secret Exit -> Forest Ghost House - Tile",
@@ -3751,18 +2932,6 @@
       },
       "Forest of Illusion 2 - Tile": {
         "name": "Forest of Illusion 2 - Tile",
-        "entrances": [
-          {
-            "name": "Forest of Illusion 1 - Normal Exit -> Forest of Illusion 2 - Tile",
-            "parent_region": "Forest of Illusion 1 - Normal Exit",
-            "connected_region": "Forest of Illusion 2 - Tile"
-          },
-          {
-            "name": "Forest of Illusion 4 - Normal Exit -> Forest of Illusion 2 - Tile",
-            "parent_region": "Forest of Illusion 4 - Normal Exit",
-            "connected_region": "Forest of Illusion 2 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Forest of Illusion 2 - Tile -> Forest of Illusion 2",
@@ -3777,13 +2946,6 @@
       },
       "Forest of Illusion 2": {
         "name": "Forest of Illusion 2",
-        "entrances": [
-          {
-            "name": "Forest of Illusion 2 - Tile -> Forest of Illusion 2",
-            "parent_region": "Forest of Illusion 2 - Tile",
-            "connected_region": "Forest of Illusion 2"
-          }
-        ],
         "exits": [
           {
             "name": "Forest of Illusion 2 -> Forest of Illusion 2 - Normal Exit",
@@ -3824,13 +2986,6 @@
       },
       "Forest of Illusion 2 - Normal Exit": {
         "name": "Forest of Illusion 2 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Forest of Illusion 2 -> Forest of Illusion 2 - Normal Exit",
-            "parent_region": "Forest of Illusion 2",
-            "connected_region": "Forest of Illusion 2 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Forest of Illusion 2 - Normal Exit -> Forest of Illusion 3 - Tile",
@@ -3860,13 +3015,6 @@
       },
       "Forest of Illusion 2 - Secret Exit": {
         "name": "Forest of Illusion 2 - Secret Exit",
-        "entrances": [
-          {
-            "name": "Forest of Illusion 2 -> Forest of Illusion 2 - Secret Exit",
-            "parent_region": "Forest of Illusion 2",
-            "connected_region": "Forest of Illusion 2 - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Forest of Illusion 2 - Secret Exit -> Blue Switch Palace - Tile",
@@ -3896,13 +3044,6 @@
       },
       "Forest of Illusion 3 - Tile": {
         "name": "Forest of Illusion 3 - Tile",
-        "entrances": [
-          {
-            "name": "Forest of Illusion 2 - Normal Exit -> Forest of Illusion 3 - Tile",
-            "parent_region": "Forest of Illusion 2 - Normal Exit",
-            "connected_region": "Forest of Illusion 3 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Forest of Illusion 3 - Tile -> Forest of Illusion 3",
@@ -3917,13 +3058,6 @@
       },
       "Forest of Illusion 3": {
         "name": "Forest of Illusion 3",
-        "entrances": [
-          {
-            "name": "Forest of Illusion 3 - Tile -> Forest of Illusion 3",
-            "parent_region": "Forest of Illusion 3 - Tile",
-            "connected_region": "Forest of Illusion 3"
-          }
-        ],
         "exits": [
           {
             "name": "Forest of Illusion 3 -> Forest of Illusion 3 - Normal Exit",
@@ -3987,13 +3121,6 @@
       },
       "Forest of Illusion 3 - Normal Exit": {
         "name": "Forest of Illusion 3 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Forest of Illusion 3 -> Forest of Illusion 3 - Normal Exit",
-            "parent_region": "Forest of Illusion 3",
-            "connected_region": "Forest of Illusion 3 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Forest of Illusion 3 - Normal Exit -> Forest Ghost House - Tile",
@@ -4023,13 +3150,6 @@
       },
       "Forest of Illusion 3 - Secret Exit": {
         "name": "Forest of Illusion 3 - Secret Exit",
-        "entrances": [
-          {
-            "name": "Forest of Illusion 3 -> Forest of Illusion 3 - Secret Exit",
-            "parent_region": "Forest of Illusion 3",
-            "connected_region": "Forest of Illusion 3 - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Forest of Illusion 3 - Secret Exit -> #5 Roy's Castle - Tile",
@@ -4059,13 +3179,6 @@
       },
       "Forest of Illusion 4 - Tile": {
         "name": "Forest of Illusion 4 - Tile",
-        "entrances": [
-          {
-            "name": "Forest Ghost House - Secret Exit -> Forest of Illusion 4 - Tile",
-            "parent_region": "Forest Ghost House - Secret Exit",
-            "connected_region": "Forest of Illusion 4 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Forest of Illusion 4 - Tile -> Forest of Illusion 4",
@@ -4080,13 +3193,6 @@
       },
       "Forest of Illusion 4": {
         "name": "Forest of Illusion 4",
-        "entrances": [
-          {
-            "name": "Forest of Illusion 4 - Tile -> Forest of Illusion 4",
-            "parent_region": "Forest of Illusion 4 - Tile",
-            "connected_region": "Forest of Illusion 4"
-          }
-        ],
         "exits": [
           {
             "name": "Forest of Illusion 4 -> Forest of Illusion 4 - Normal Exit",
@@ -4112,13 +3218,6 @@
       },
       "Forest of Illusion 4 - Normal Exit": {
         "name": "Forest of Illusion 4 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Forest of Illusion 4 -> Forest of Illusion 4 - Normal Exit",
-            "parent_region": "Forest of Illusion 4",
-            "connected_region": "Forest of Illusion 4 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Forest of Illusion 4 - Normal Exit -> Forest of Illusion 2 - Tile",
@@ -4148,13 +3247,6 @@
       },
       "Forest of Illusion 4 - Secret Exit": {
         "name": "Forest of Illusion 4 - Secret Exit",
-        "entrances": [
-          {
-            "name": "Forest of Illusion 4 -> Forest of Illusion 4 - Secret Exit",
-            "parent_region": "Forest of Illusion 4",
-            "connected_region": "Forest of Illusion 4 - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Forest of Illusion 4 - Secret Exit -> Forest Secret - Tile",
@@ -4184,18 +3276,6 @@
       },
       "Forest Ghost House - Tile": {
         "name": "Forest Ghost House - Tile",
-        "entrances": [
-          {
-            "name": "Forest of Illusion 1 - Secret Exit -> Forest Ghost House - Tile",
-            "parent_region": "Forest of Illusion 1 - Secret Exit",
-            "connected_region": "Forest Ghost House - Tile"
-          },
-          {
-            "name": "Forest of Illusion 3 - Normal Exit -> Forest Ghost House - Tile",
-            "parent_region": "Forest of Illusion 3 - Normal Exit",
-            "connected_region": "Forest Ghost House - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Forest Ghost House - Tile -> Forest Ghost House",
@@ -4210,13 +3290,6 @@
       },
       "Forest Ghost House": {
         "name": "Forest Ghost House",
-        "entrances": [
-          {
-            "name": "Forest Ghost House - Tile -> Forest Ghost House",
-            "parent_region": "Forest Ghost House - Tile",
-            "connected_region": "Forest Ghost House"
-          }
-        ],
         "exits": [
           {
             "name": "Forest Ghost House -> Forest Ghost House - Normal Exit",
@@ -4245,13 +3318,6 @@
       },
       "Forest Ghost House - Normal Exit": {
         "name": "Forest Ghost House - Normal Exit",
-        "entrances": [
-          {
-            "name": "Forest Ghost House -> Forest Ghost House - Normal Exit",
-            "parent_region": "Forest Ghost House",
-            "connected_region": "Forest Ghost House - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Forest Ghost House - Normal Exit -> Forest of Illusion 1 - Tile",
@@ -4281,13 +3347,6 @@
       },
       "Forest Ghost House - Secret Exit": {
         "name": "Forest Ghost House - Secret Exit",
-        "entrances": [
-          {
-            "name": "Forest Ghost House -> Forest Ghost House - Secret Exit",
-            "parent_region": "Forest Ghost House",
-            "connected_region": "Forest Ghost House - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Forest Ghost House - Secret Exit -> Forest of Illusion 4 - Tile",
@@ -4317,13 +3376,6 @@
       },
       "Forest Secret - Tile": {
         "name": "Forest Secret - Tile",
-        "entrances": [
-          {
-            "name": "Forest of Illusion 4 - Secret Exit -> Forest Secret - Tile",
-            "parent_region": "Forest of Illusion 4 - Secret Exit",
-            "connected_region": "Forest Secret - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Forest Secret - Tile -> Forest Secret",
@@ -4338,13 +3390,6 @@
       },
       "Forest Secret": {
         "name": "Forest Secret",
-        "entrances": [
-          {
-            "name": "Forest Secret - Tile -> Forest Secret",
-            "parent_region": "Forest Secret - Tile",
-            "connected_region": "Forest Secret"
-          }
-        ],
         "exits": [
           {
             "name": "Forest Secret -> Forest Secret - Normal Exit",
@@ -4359,13 +3404,6 @@
       },
       "Forest Secret - Normal Exit": {
         "name": "Forest Secret - Normal Exit",
-        "entrances": [
-          {
-            "name": "Forest Secret -> Forest Secret - Normal Exit",
-            "parent_region": "Forest Secret",
-            "connected_region": "Forest Secret - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Forest Secret - Normal Exit -> Forest Fortress - Tile",
@@ -4395,13 +3433,6 @@
       },
       "Forest Fortress - Tile": {
         "name": "Forest Fortress - Tile",
-        "entrances": [
-          {
-            "name": "Forest Secret - Normal Exit -> Forest Fortress - Tile",
-            "parent_region": "Forest Secret - Normal Exit",
-            "connected_region": "Forest Fortress - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Forest Fortress - Tile -> Forest Fortress",
@@ -4416,13 +3447,6 @@
       },
       "Forest Fortress": {
         "name": "Forest Fortress",
-        "entrances": [
-          {
-            "name": "Forest Fortress - Tile -> Forest Fortress",
-            "parent_region": "Forest Fortress - Tile",
-            "connected_region": "Forest Fortress"
-          }
-        ],
         "exits": [
           {
             "name": "Forest Fortress -> Forest Fortress - Normal Exit",
@@ -4437,13 +3461,6 @@
       },
       "Forest Fortress - Normal Exit": {
         "name": "Forest Fortress - Normal Exit",
-        "entrances": [
-          {
-            "name": "Forest Fortress -> Forest Fortress - Normal Exit",
-            "parent_region": "Forest Fortress",
-            "connected_region": "Forest Fortress - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Forest Fortress - Normal Exit -> Forest of Illusion - Star Road",
@@ -4487,13 +3504,6 @@
       },
       "#5 Roy's Castle - Tile": {
         "name": "#5 Roy's Castle - Tile",
-        "entrances": [
-          {
-            "name": "Forest of Illusion 3 - Secret Exit -> #5 Roy's Castle - Tile",
-            "parent_region": "Forest of Illusion 3 - Secret Exit",
-            "connected_region": "#5 Roy's Castle - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "#5 Roy's Castle - Tile -> #5 Roy's Castle",
@@ -4508,13 +3518,6 @@
       },
       "#5 Roy's Castle": {
         "name": "#5 Roy's Castle",
-        "entrances": [
-          {
-            "name": "#5 Roy's Castle - Tile -> #5 Roy's Castle",
-            "parent_region": "#5 Roy's Castle - Tile",
-            "connected_region": "#5 Roy's Castle"
-          }
-        ],
         "exits": [
           {
             "name": "#5 Roy's Castle -> #5 Roy's Castle - Normal Exit",
@@ -4529,13 +3532,6 @@
       },
       "#5 Roy's Castle - Normal Exit": {
         "name": "#5 Roy's Castle - Normal Exit",
-        "entrances": [
-          {
-            "name": "#5 Roy's Castle -> #5 Roy's Castle - Normal Exit",
-            "parent_region": "#5 Roy's Castle",
-            "connected_region": "#5 Roy's Castle - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "#5 Roy's Castle - Normal Exit -> Chocolate Island 1 - Tile",
@@ -4586,13 +3582,6 @@
       },
       "Blue Switch Palace - Tile": {
         "name": "Blue Switch Palace - Tile",
-        "entrances": [
-          {
-            "name": "Forest of Illusion 2 - Secret Exit -> Blue Switch Palace - Tile",
-            "parent_region": "Forest of Illusion 2 - Secret Exit",
-            "connected_region": "Blue Switch Palace - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Blue Switch Palace - Tile -> Blue Switch Palace",
@@ -4607,13 +3596,6 @@
       },
       "Blue Switch Palace": {
         "name": "Blue Switch Palace",
-        "entrances": [
-          {
-            "name": "Blue Switch Palace - Tile -> Blue Switch Palace",
-            "parent_region": "Blue Switch Palace - Tile",
-            "connected_region": "Blue Switch Palace"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4634,13 +3616,6 @@
       },
       "Chocolate Island 1 - Tile": {
         "name": "Chocolate Island 1 - Tile",
-        "entrances": [
-          {
-            "name": "#5 Roy's Castle - Normal Exit -> Chocolate Island 1 - Tile",
-            "parent_region": "#5 Roy's Castle - Normal Exit",
-            "connected_region": "Chocolate Island 1 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Island 1 - Tile -> Chocolate Island 1",
@@ -4655,13 +3630,6 @@
       },
       "Chocolate Island 1": {
         "name": "Chocolate Island 1",
-        "entrances": [
-          {
-            "name": "Chocolate Island 1 - Tile -> Chocolate Island 1",
-            "parent_region": "Chocolate Island 1 - Tile",
-            "connected_region": "Chocolate Island 1"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Island 1 -> Chocolate Island 1 - Normal Exit",
@@ -4679,13 +3647,6 @@
       },
       "Chocolate Island 1 - Normal Exit": {
         "name": "Chocolate Island 1 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Chocolate Island 1 -> Chocolate Island 1 - Normal Exit",
-            "parent_region": "Chocolate Island 1",
-            "connected_region": "Chocolate Island 1 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Island 1 - Normal Exit -> Choco-Ghost House - Tile",
@@ -4715,13 +3676,6 @@
       },
       "Chocolate Island 2 - Tile": {
         "name": "Chocolate Island 2 - Tile",
-        "entrances": [
-          {
-            "name": "Choco-Ghost House - Normal Exit -> Chocolate Island 2 - Tile",
-            "parent_region": "Choco-Ghost House - Normal Exit",
-            "connected_region": "Chocolate Island 2 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Island 2 - Tile -> Chocolate Island 2",
@@ -4736,13 +3690,6 @@
       },
       "Chocolate Island 2": {
         "name": "Chocolate Island 2",
-        "entrances": [
-          {
-            "name": "Chocolate Island 2 - Tile -> Chocolate Island 2",
-            "parent_region": "Chocolate Island 2 - Tile",
-            "connected_region": "Chocolate Island 2"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Island 2 -> Chocolate Island 2 - Normal Exit",
@@ -4768,13 +3715,6 @@
       },
       "Chocolate Island 2 - Normal Exit": {
         "name": "Chocolate Island 2 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Chocolate Island 2 -> Chocolate Island 2 - Normal Exit",
-            "parent_region": "Chocolate Island 2",
-            "connected_region": "Chocolate Island 2 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Island 2 - Normal Exit -> Chocolate Island 3 - Tile",
@@ -4804,13 +3744,6 @@
       },
       "Chocolate Island 2 - Secret Exit": {
         "name": "Chocolate Island 2 - Secret Exit",
-        "entrances": [
-          {
-            "name": "Chocolate Island 2 -> Chocolate Island 2 - Secret Exit",
-            "parent_region": "Chocolate Island 2",
-            "connected_region": "Chocolate Island 2 - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Island 2 - Secret Exit -> Chocolate Secret - Tile",
@@ -4840,18 +3773,6 @@
       },
       "Chocolate Island 3 - Tile": {
         "name": "Chocolate Island 3 - Tile",
-        "entrances": [
-          {
-            "name": "Chocolate Island 2 - Normal Exit -> Chocolate Island 3 - Tile",
-            "parent_region": "Chocolate Island 2 - Normal Exit",
-            "connected_region": "Chocolate Island 3 - Tile"
-          },
-          {
-            "name": "Chocolate Island 3 - Normal Exit -> Chocolate Island 3 - Tile",
-            "parent_region": "Chocolate Island 3 - Normal Exit",
-            "connected_region": "Chocolate Island 3 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Island 3 - Tile -> Chocolate Island 3",
@@ -4866,13 +3787,6 @@
       },
       "Chocolate Island 3": {
         "name": "Chocolate Island 3",
-        "entrances": [
-          {
-            "name": "Chocolate Island 3 - Tile -> Chocolate Island 3",
-            "parent_region": "Chocolate Island 3 - Tile",
-            "connected_region": "Chocolate Island 3"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Island 3 -> Chocolate Island 3 - Normal Exit",
@@ -4945,13 +3859,6 @@
       },
       "Chocolate Island 3 - Normal Exit": {
         "name": "Chocolate Island 3 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Chocolate Island 3 -> Chocolate Island 3 - Normal Exit",
-            "parent_region": "Chocolate Island 3",
-            "connected_region": "Chocolate Island 3 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Island 3 - Normal Exit -> Chocolate Island 3 - Tile",
@@ -4981,13 +3888,6 @@
       },
       "Chocolate Island 3 - Secret Exit": {
         "name": "Chocolate Island 3 - Secret Exit",
-        "entrances": [
-          {
-            "name": "Chocolate Island 3 -> Chocolate Island 3 - Secret Exit",
-            "parent_region": "Chocolate Island 3",
-            "connected_region": "Chocolate Island 3 - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Island 3 - Secret Exit -> Chocolate Fortress - Tile",
@@ -5017,13 +3917,6 @@
       },
       "Chocolate Island 4 - Tile": {
         "name": "Chocolate Island 4 - Tile",
-        "entrances": [
-          {
-            "name": "Chocolate Fortress - Normal Exit -> Chocolate Island 4 - Tile",
-            "parent_region": "Chocolate Fortress - Normal Exit",
-            "connected_region": "Chocolate Island 4 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Island 4 - Tile -> Chocolate Island 4",
@@ -5038,13 +3931,6 @@
       },
       "Chocolate Island 4": {
         "name": "Chocolate Island 4",
-        "entrances": [
-          {
-            "name": "Chocolate Island 4 - Tile -> Chocolate Island 4",
-            "parent_region": "Chocolate Island 4 - Tile",
-            "connected_region": "Chocolate Island 4"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Island 4 -> Chocolate Island 4 - Normal Exit",
@@ -5059,13 +3945,6 @@
       },
       "Chocolate Island 4 - Normal Exit": {
         "name": "Chocolate Island 4 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Chocolate Island 4 -> Chocolate Island 4 - Normal Exit",
-            "parent_region": "Chocolate Island 4",
-            "connected_region": "Chocolate Island 4 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Island 4 - Normal Exit -> Chocolate Island 5 - Tile",
@@ -5095,13 +3974,6 @@
       },
       "Chocolate Island 5 - Tile": {
         "name": "Chocolate Island 5 - Tile",
-        "entrances": [
-          {
-            "name": "Chocolate Island 4 - Normal Exit -> Chocolate Island 5 - Tile",
-            "parent_region": "Chocolate Island 4 - Normal Exit",
-            "connected_region": "Chocolate Island 5 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Island 5 - Tile -> Chocolate Island 5",
@@ -5116,13 +3988,6 @@
       },
       "Chocolate Island 5": {
         "name": "Chocolate Island 5",
-        "entrances": [
-          {
-            "name": "Chocolate Island 5 - Tile -> Chocolate Island 5",
-            "parent_region": "Chocolate Island 5 - Tile",
-            "connected_region": "Chocolate Island 5"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Island 5 -> Chocolate Island 5 - Normal Exit",
@@ -5137,13 +4002,6 @@
       },
       "Chocolate Island 5 - Normal Exit": {
         "name": "Chocolate Island 5 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Chocolate Island 5 -> Chocolate Island 5 - Normal Exit",
-            "parent_region": "Chocolate Island 5",
-            "connected_region": "Chocolate Island 5 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Island 5 - Normal Exit -> #6 Wendy's Castle - Tile",
@@ -5173,13 +4031,6 @@
       },
       "Choco-Ghost House - Tile": {
         "name": "Choco-Ghost House - Tile",
-        "entrances": [
-          {
-            "name": "Chocolate Island 1 - Normal Exit -> Choco-Ghost House - Tile",
-            "parent_region": "Chocolate Island 1 - Normal Exit",
-            "connected_region": "Choco-Ghost House - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Choco-Ghost House - Tile -> Choco-Ghost House",
@@ -5194,13 +4045,6 @@
       },
       "Choco-Ghost House": {
         "name": "Choco-Ghost House",
-        "entrances": [
-          {
-            "name": "Choco-Ghost House - Tile -> Choco-Ghost House",
-            "parent_region": "Choco-Ghost House - Tile",
-            "connected_region": "Choco-Ghost House"
-          }
-        ],
         "exits": [
           {
             "name": "Choco-Ghost House -> Choco-Ghost House - Normal Exit",
@@ -5215,13 +4059,6 @@
       },
       "Choco-Ghost House - Normal Exit": {
         "name": "Choco-Ghost House - Normal Exit",
-        "entrances": [
-          {
-            "name": "Choco-Ghost House -> Choco-Ghost House - Normal Exit",
-            "parent_region": "Choco-Ghost House",
-            "connected_region": "Choco-Ghost House - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Choco-Ghost House - Normal Exit -> Chocolate Island 2 - Tile",
@@ -5251,13 +4088,6 @@
       },
       "Chocolate Secret - Tile": {
         "name": "Chocolate Secret - Tile",
-        "entrances": [
-          {
-            "name": "Chocolate Island 2 - Secret Exit -> Chocolate Secret - Tile",
-            "parent_region": "Chocolate Island 2 - Secret Exit",
-            "connected_region": "Chocolate Secret - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Secret - Tile -> Chocolate Secret",
@@ -5272,13 +4102,6 @@
       },
       "Chocolate Secret": {
         "name": "Chocolate Secret",
-        "entrances": [
-          {
-            "name": "Chocolate Secret - Tile -> Chocolate Secret",
-            "parent_region": "Chocolate Secret - Tile",
-            "connected_region": "Chocolate Secret"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Secret -> Chocolate Secret - Normal Exit",
@@ -5296,13 +4119,6 @@
       },
       "Chocolate Secret - Normal Exit": {
         "name": "Chocolate Secret - Normal Exit",
-        "entrances": [
-          {
-            "name": "Chocolate Secret -> Chocolate Secret - Normal Exit",
-            "parent_region": "Chocolate Secret",
-            "connected_region": "Chocolate Secret - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Secret - Normal Exit -> #6 Wendy's Castle - Tile",
@@ -5332,13 +4148,6 @@
       },
       "Chocolate Fortress - Tile": {
         "name": "Chocolate Fortress - Tile",
-        "entrances": [
-          {
-            "name": "Chocolate Island 3 - Secret Exit -> Chocolate Fortress - Tile",
-            "parent_region": "Chocolate Island 3 - Secret Exit",
-            "connected_region": "Chocolate Fortress - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Fortress - Tile -> Chocolate Fortress",
@@ -5353,13 +4162,6 @@
       },
       "Chocolate Fortress": {
         "name": "Chocolate Fortress",
-        "entrances": [
-          {
-            "name": "Chocolate Fortress - Tile -> Chocolate Fortress",
-            "parent_region": "Chocolate Fortress - Tile",
-            "connected_region": "Chocolate Fortress"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Fortress -> Chocolate Fortress - Normal Exit",
@@ -5374,13 +4176,6 @@
       },
       "Chocolate Fortress - Normal Exit": {
         "name": "Chocolate Fortress - Normal Exit",
-        "entrances": [
-          {
-            "name": "Chocolate Fortress -> Chocolate Fortress - Normal Exit",
-            "parent_region": "Chocolate Fortress",
-            "connected_region": "Chocolate Fortress - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Chocolate Fortress - Normal Exit -> Chocolate Island 4 - Tile",
@@ -5424,18 +4219,6 @@
       },
       "#6 Wendy's Castle - Tile": {
         "name": "#6 Wendy's Castle - Tile",
-        "entrances": [
-          {
-            "name": "Chocolate Island 5 - Normal Exit -> #6 Wendy's Castle - Tile",
-            "parent_region": "Chocolate Island 5 - Normal Exit",
-            "connected_region": "#6 Wendy's Castle - Tile"
-          },
-          {
-            "name": "Chocolate Secret - Normal Exit -> #6 Wendy's Castle - Tile",
-            "parent_region": "Chocolate Secret - Normal Exit",
-            "connected_region": "#6 Wendy's Castle - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "#6 Wendy's Castle - Tile -> #6 Wendy's Castle",
@@ -5450,13 +4233,6 @@
       },
       "#6 Wendy's Castle": {
         "name": "#6 Wendy's Castle",
-        "entrances": [
-          {
-            "name": "#6 Wendy's Castle - Tile -> #6 Wendy's Castle",
-            "parent_region": "#6 Wendy's Castle - Tile",
-            "connected_region": "#6 Wendy's Castle"
-          }
-        ],
         "exits": [
           {
             "name": "#6 Wendy's Castle -> #6 Wendy's Castle - Normal Exit",
@@ -5478,13 +4254,6 @@
       },
       "#6 Wendy's Castle - Normal Exit": {
         "name": "#6 Wendy's Castle - Normal Exit",
-        "entrances": [
-          {
-            "name": "#6 Wendy's Castle -> #6 Wendy's Castle - Normal Exit",
-            "parent_region": "#6 Wendy's Castle",
-            "connected_region": "#6 Wendy's Castle - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "#6 Wendy's Castle - Normal Exit -> Sunken Ghost Ship - Tile",
@@ -5528,13 +4297,6 @@
       },
       "Sunken Ghost Ship - Tile": {
         "name": "Sunken Ghost Ship - Tile",
-        "entrances": [
-          {
-            "name": "#6 Wendy's Castle - Normal Exit -> Sunken Ghost Ship - Tile",
-            "parent_region": "#6 Wendy's Castle - Normal Exit",
-            "connected_region": "Sunken Ghost Ship - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Sunken Ghost Ship - Tile -> Sunken Ghost Ship",
@@ -5549,13 +4311,6 @@
       },
       "Sunken Ghost Ship": {
         "name": "Sunken Ghost Ship",
-        "entrances": [
-          {
-            "name": "Sunken Ghost Ship - Tile -> Sunken Ghost Ship",
-            "parent_region": "Sunken Ghost Ship - Tile",
-            "connected_region": "Sunken Ghost Ship"
-          }
-        ],
         "exits": [
           {
             "name": "Sunken Ghost Ship -> Sunken Ghost Ship - Normal Exit",
@@ -5573,13 +4328,6 @@
       },
       "Sunken Ghost Ship - Normal Exit": {
         "name": "Sunken Ghost Ship - Normal Exit",
-        "entrances": [
-          {
-            "name": "Sunken Ghost Ship -> Sunken Ghost Ship - Normal Exit",
-            "parent_region": "Sunken Ghost Ship",
-            "connected_region": "Sunken Ghost Ship - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Sunken Ghost Ship - Normal Exit -> Valley of Bowser 1 - Tile",
@@ -5616,13 +4364,6 @@
       },
       "Valley of Bowser 1 - Tile": {
         "name": "Valley of Bowser 1 - Tile",
-        "entrances": [
-          {
-            "name": "Sunken Ghost Ship - Normal Exit -> Valley of Bowser 1 - Tile",
-            "parent_region": "Sunken Ghost Ship - Normal Exit",
-            "connected_region": "Valley of Bowser 1 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Valley of Bowser 1 - Tile -> Valley of Bowser 1",
@@ -5637,13 +4378,6 @@
       },
       "Valley of Bowser 1": {
         "name": "Valley of Bowser 1",
-        "entrances": [
-          {
-            "name": "Valley of Bowser 1 - Tile -> Valley of Bowser 1",
-            "parent_region": "Valley of Bowser 1 - Tile",
-            "connected_region": "Valley of Bowser 1"
-          }
-        ],
         "exits": [
           {
             "name": "Valley of Bowser 1 -> Valley of Bowser 1 - Normal Exit",
@@ -5658,13 +4392,6 @@
       },
       "Valley of Bowser 1 - Normal Exit": {
         "name": "Valley of Bowser 1 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Valley of Bowser 1 -> Valley of Bowser 1 - Normal Exit",
-            "parent_region": "Valley of Bowser 1",
-            "connected_region": "Valley of Bowser 1 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Valley of Bowser 1 - Normal Exit -> Valley of Bowser 2 - Tile",
@@ -5694,13 +4421,6 @@
       },
       "Valley of Bowser 2 - Tile": {
         "name": "Valley of Bowser 2 - Tile",
-        "entrances": [
-          {
-            "name": "Valley of Bowser 1 - Normal Exit -> Valley of Bowser 2 - Tile",
-            "parent_region": "Valley of Bowser 1 - Normal Exit",
-            "connected_region": "Valley of Bowser 2 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Valley of Bowser 2 - Tile -> Valley of Bowser 2",
@@ -5715,13 +4435,6 @@
       },
       "Valley of Bowser 2": {
         "name": "Valley of Bowser 2",
-        "entrances": [
-          {
-            "name": "Valley of Bowser 2 - Tile -> Valley of Bowser 2",
-            "parent_region": "Valley of Bowser 2 - Tile",
-            "connected_region": "Valley of Bowser 2"
-          }
-        ],
         "exits": [
           {
             "name": "Valley of Bowser 2 -> Valley of Bowser 2 - Normal Exit",
@@ -5747,13 +4460,6 @@
       },
       "Valley of Bowser 2 - Normal Exit": {
         "name": "Valley of Bowser 2 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Valley of Bowser 2 -> Valley of Bowser 2 - Normal Exit",
-            "parent_region": "Valley of Bowser 2",
-            "connected_region": "Valley of Bowser 2 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Valley of Bowser 2 - Normal Exit -> Valley Ghost House - Tile",
@@ -5783,13 +4489,6 @@
       },
       "Valley of Bowser 2 - Secret Exit": {
         "name": "Valley of Bowser 2 - Secret Exit",
-        "entrances": [
-          {
-            "name": "Valley of Bowser 2 -> Valley of Bowser 2 - Secret Exit",
-            "parent_region": "Valley of Bowser 2",
-            "connected_region": "Valley of Bowser 2 - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Valley of Bowser 2 - Secret Exit -> Valley Fortress - Tile",
@@ -5819,13 +4518,6 @@
       },
       "Valley of Bowser 3 - Tile": {
         "name": "Valley of Bowser 3 - Tile",
-        "entrances": [
-          {
-            "name": "Valley Ghost House - Normal Exit -> Valley of Bowser 3 - Tile",
-            "parent_region": "Valley Ghost House - Normal Exit",
-            "connected_region": "Valley of Bowser 3 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Valley of Bowser 3 - Tile -> Valley of Bowser 3",
@@ -5840,13 +4532,6 @@
       },
       "Valley of Bowser 3": {
         "name": "Valley of Bowser 3",
-        "entrances": [
-          {
-            "name": "Valley of Bowser 3 - Tile -> Valley of Bowser 3",
-            "parent_region": "Valley of Bowser 3 - Tile",
-            "connected_region": "Valley of Bowser 3"
-          }
-        ],
         "exits": [
           {
             "name": "Valley of Bowser 3 -> Valley of Bowser 3 - Normal Exit",
@@ -5861,13 +4546,6 @@
       },
       "Valley of Bowser 3 - Normal Exit": {
         "name": "Valley of Bowser 3 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Valley of Bowser 3 -> Valley of Bowser 3 - Normal Exit",
-            "parent_region": "Valley of Bowser 3",
-            "connected_region": "Valley of Bowser 3 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Valley of Bowser 3 - Normal Exit -> Valley of Bowser 4 - Tile",
@@ -5897,13 +4575,6 @@
       },
       "Valley of Bowser 4 - Tile": {
         "name": "Valley of Bowser 4 - Tile",
-        "entrances": [
-          {
-            "name": "Valley of Bowser 3 - Normal Exit -> Valley of Bowser 4 - Tile",
-            "parent_region": "Valley of Bowser 3 - Normal Exit",
-            "connected_region": "Valley of Bowser 4 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Valley of Bowser 4 - Tile -> Valley of Bowser 4",
@@ -5918,13 +4589,6 @@
       },
       "Valley of Bowser 4": {
         "name": "Valley of Bowser 4",
-        "entrances": [
-          {
-            "name": "Valley of Bowser 4 - Tile -> Valley of Bowser 4",
-            "parent_region": "Valley of Bowser 4 - Tile",
-            "connected_region": "Valley of Bowser 4"
-          }
-        ],
         "exits": [
           {
             "name": "Valley of Bowser 4 -> Valley of Bowser 4 - Normal Exit",
@@ -5972,13 +4636,6 @@
       },
       "Valley of Bowser 4 - Normal Exit": {
         "name": "Valley of Bowser 4 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Valley of Bowser 4 -> Valley of Bowser 4 - Normal Exit",
-            "parent_region": "Valley of Bowser 4",
-            "connected_region": "Valley of Bowser 4 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Valley of Bowser 4 - Normal Exit -> #7 Larry's Castle - Tile",
@@ -6008,13 +4665,6 @@
       },
       "Valley of Bowser 4 - Secret Exit": {
         "name": "Valley of Bowser 4 - Secret Exit",
-        "entrances": [
-          {
-            "name": "Valley of Bowser 4 -> Valley of Bowser 4 - Secret Exit",
-            "parent_region": "Valley of Bowser 4",
-            "connected_region": "Valley of Bowser 4 - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Valley of Bowser 4 - Secret Exit -> Valley of Bowser - Star Road",
@@ -6044,13 +4694,6 @@
       },
       "Valley Ghost House - Tile": {
         "name": "Valley Ghost House - Tile",
-        "entrances": [
-          {
-            "name": "Valley of Bowser 2 - Normal Exit -> Valley Ghost House - Tile",
-            "parent_region": "Valley of Bowser 2 - Normal Exit",
-            "connected_region": "Valley Ghost House - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Valley Ghost House - Tile -> Valley Ghost House",
@@ -6065,13 +4708,6 @@
       },
       "Valley Ghost House": {
         "name": "Valley Ghost House",
-        "entrances": [
-          {
-            "name": "Valley Ghost House - Tile -> Valley Ghost House",
-            "parent_region": "Valley Ghost House - Tile",
-            "connected_region": "Valley Ghost House"
-          }
-        ],
         "exits": [
           {
             "name": "Valley Ghost House -> Valley Ghost House - Normal Exit",
@@ -6119,13 +4755,6 @@
       },
       "Valley Ghost House - Normal Exit": {
         "name": "Valley Ghost House - Normal Exit",
-        "entrances": [
-          {
-            "name": "Valley Ghost House -> Valley Ghost House - Normal Exit",
-            "parent_region": "Valley Ghost House",
-            "connected_region": "Valley Ghost House - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Valley Ghost House - Normal Exit -> Valley of Bowser 3 - Tile",
@@ -6155,13 +4784,6 @@
       },
       "Valley Ghost House - Secret Exit": {
         "name": "Valley Ghost House - Secret Exit",
-        "entrances": [
-          {
-            "name": "Valley Ghost House -> Valley Ghost House - Secret Exit",
-            "parent_region": "Valley Ghost House",
-            "connected_region": "Valley Ghost House - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Valley Ghost House - Secret Exit -> #7 Larry's Castle - Tile",
@@ -6191,13 +4813,6 @@
       },
       "Valley Fortress - Tile": {
         "name": "Valley Fortress - Tile",
-        "entrances": [
-          {
-            "name": "Valley of Bowser 2 - Secret Exit -> Valley Fortress - Tile",
-            "parent_region": "Valley of Bowser 2 - Secret Exit",
-            "connected_region": "Valley Fortress - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Valley Fortress - Tile -> Valley Fortress",
@@ -6212,13 +4827,6 @@
       },
       "Valley Fortress": {
         "name": "Valley Fortress",
-        "entrances": [
-          {
-            "name": "Valley Fortress - Tile -> Valley Fortress",
-            "parent_region": "Valley Fortress - Tile",
-            "connected_region": "Valley Fortress"
-          }
-        ],
         "exits": [
           {
             "name": "Valley Fortress -> Valley Fortress - Normal Exit",
@@ -6240,13 +4848,6 @@
       },
       "Valley Fortress - Normal Exit": {
         "name": "Valley Fortress - Normal Exit",
-        "entrances": [
-          {
-            "name": "Valley Fortress -> Valley Fortress - Normal Exit",
-            "parent_region": "Valley Fortress",
-            "connected_region": "Valley Fortress - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Valley Fortress - Normal Exit -> Back Door - Tile",
@@ -6290,18 +4891,6 @@
       },
       "#7 Larry's Castle - Tile": {
         "name": "#7 Larry's Castle - Tile",
-        "entrances": [
-          {
-            "name": "Valley of Bowser 4 - Normal Exit -> #7 Larry's Castle - Tile",
-            "parent_region": "Valley of Bowser 4 - Normal Exit",
-            "connected_region": "#7 Larry's Castle - Tile"
-          },
-          {
-            "name": "Valley Ghost House - Secret Exit -> #7 Larry's Castle - Tile",
-            "parent_region": "Valley Ghost House - Secret Exit",
-            "connected_region": "#7 Larry's Castle - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "#7 Larry's Castle - Tile -> #7 Larry's Castle",
@@ -6316,13 +4905,6 @@
       },
       "#7 Larry's Castle": {
         "name": "#7 Larry's Castle",
-        "entrances": [
-          {
-            "name": "#7 Larry's Castle - Tile -> #7 Larry's Castle",
-            "parent_region": "#7 Larry's Castle - Tile",
-            "connected_region": "#7 Larry's Castle"
-          }
-        ],
         "exits": [
           {
             "name": "#7 Larry's Castle -> #7 Larry's Castle - Normal Exit",
@@ -6337,13 +4919,6 @@
       },
       "#7 Larry's Castle - Normal Exit": {
         "name": "#7 Larry's Castle - Normal Exit",
-        "entrances": [
-          {
-            "name": "#7 Larry's Castle -> #7 Larry's Castle - Normal Exit",
-            "parent_region": "#7 Larry's Castle",
-            "connected_region": "#7 Larry's Castle - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "#7 Larry's Castle - Normal Exit -> Front Door - Tile",
@@ -6387,18 +4962,6 @@
       },
       "Front Door - Tile": {
         "name": "Front Door - Tile",
-        "entrances": [
-          {
-            "name": "#7 Larry's Castle - Normal Exit -> Front Door - Tile",
-            "parent_region": "#7 Larry's Castle - Normal Exit",
-            "connected_region": "Front Door - Tile"
-          },
-          {
-            "name": "Star Road - Valley of Bowser -> Front Door - Tile",
-            "parent_region": "Star Road - Valley of Bowser",
-            "connected_region": "Front Door - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Front Door - Tile -> Front Door",
@@ -6413,13 +4976,6 @@
       },
       "Front Door": {
         "name": "Front Door",
-        "entrances": [
-          {
-            "name": "Front Door - Tile -> Front Door",
-            "parent_region": "Front Door - Tile",
-            "connected_region": "Front Door"
-          }
-        ],
         "exits": [
           {
             "name": "Front Door -> Bowser - Region",
@@ -6478,13 +5034,6 @@
       },
       "Back Door - Tile": {
         "name": "Back Door - Tile",
-        "entrances": [
-          {
-            "name": "Valley Fortress - Normal Exit -> Back Door - Tile",
-            "parent_region": "Valley Fortress - Normal Exit",
-            "connected_region": "Back Door - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Back Door - Tile -> Back Door",
@@ -6499,13 +5048,6 @@
       },
       "Back Door": {
         "name": "Back Door",
-        "entrances": [
-          {
-            "name": "Back Door - Tile -> Back Door",
-            "parent_region": "Back Door - Tile",
-            "connected_region": "Back Door"
-          }
-        ],
         "exits": [
           {
             "name": "Back Door -> Bowser - Region",
@@ -6527,18 +5069,6 @@
       },
       "Bowser - Region": {
         "name": "Bowser - Region",
-        "entrances": [
-          {
-            "name": "Front Door -> Bowser - Region",
-            "parent_region": "Front Door",
-            "connected_region": "Bowser - Region"
-          },
-          {
-            "name": "Back Door -> Bowser - Region",
-            "parent_region": "Back Door",
-            "connected_region": "Bowser - Region"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -6562,18 +5092,6 @@
       },
       "Donut Plains - Star Road": {
         "name": "Donut Plains - Star Road",
-        "entrances": [
-          {
-            "name": "Donut Secret House - Secret Exit -> Donut Plains - Star Road",
-            "parent_region": "Donut Secret House - Secret Exit",
-            "connected_region": "Donut Plains - Star Road"
-          },
-          {
-            "name": "Star Road - Donut Plains -> Donut Plains - Star Road",
-            "parent_region": "Star Road - Donut Plains",
-            "connected_region": "Donut Plains - Star Road"
-          }
-        ],
         "exits": [
           {
             "name": "Donut Plains - Star Road -> Star Road - Donut Plains",
@@ -6588,18 +5106,6 @@
       },
       "Vanilla Dome - Star Road": {
         "name": "Vanilla Dome - Star Road",
-        "entrances": [
-          {
-            "name": "Vanilla Secret 1 - Secret Exit -> Vanilla Dome - Star Road",
-            "parent_region": "Vanilla Secret 1 - Secret Exit",
-            "connected_region": "Vanilla Dome - Star Road"
-          },
-          {
-            "name": "Star Road - Vanilla Dome -> Vanilla Dome - Star Road",
-            "parent_region": "Star Road - Vanilla Dome",
-            "connected_region": "Vanilla Dome - Star Road"
-          }
-        ],
         "exits": [
           {
             "name": "Vanilla Dome - Star Road -> Star Road - Vanilla Dome",
@@ -6614,18 +5120,6 @@
       },
       "Twin Bridges - Star Road": {
         "name": "Twin Bridges - Star Road",
-        "entrances": [
-          {
-            "name": "Soda Lake - Normal Exit -> Twin Bridges - Star Road",
-            "parent_region": "Soda Lake - Normal Exit",
-            "connected_region": "Twin Bridges - Star Road"
-          },
-          {
-            "name": "Star Road - Twin Bridges -> Twin Bridges - Star Road",
-            "parent_region": "Star Road - Twin Bridges",
-            "connected_region": "Twin Bridges - Star Road"
-          }
-        ],
         "exits": [
           {
             "name": "Twin Bridges - Star Road -> Star Road - Twin Bridges",
@@ -6640,18 +5134,6 @@
       },
       "Forest of Illusion - Star Road": {
         "name": "Forest of Illusion - Star Road",
-        "entrances": [
-          {
-            "name": "Forest Fortress - Normal Exit -> Forest of Illusion - Star Road",
-            "parent_region": "Forest Fortress - Normal Exit",
-            "connected_region": "Forest of Illusion - Star Road"
-          },
-          {
-            "name": "Star Road - Forest of Illusion -> Forest of Illusion - Star Road",
-            "parent_region": "Star Road - Forest of Illusion",
-            "connected_region": "Forest of Illusion - Star Road"
-          }
-        ],
         "exits": [
           {
             "name": "Forest of Illusion - Star Road -> Star Road - Forest of Illusion",
@@ -6666,18 +5148,6 @@
       },
       "Valley of Bowser - Star Road": {
         "name": "Valley of Bowser - Star Road",
-        "entrances": [
-          {
-            "name": "Valley of Bowser 4 - Secret Exit -> Valley of Bowser - Star Road",
-            "parent_region": "Valley of Bowser 4 - Secret Exit",
-            "connected_region": "Valley of Bowser - Star Road"
-          },
-          {
-            "name": "Star Road - Valley of Bowser -> Valley of Bowser - Star Road",
-            "parent_region": "Star Road - Valley of Bowser",
-            "connected_region": "Valley of Bowser - Star Road"
-          }
-        ],
         "exits": [
           {
             "name": "Valley of Bowser - Star Road -> Star Road - Valley of Bowser",
@@ -6692,18 +5162,6 @@
       },
       "Star Road - Donut Plains": {
         "name": "Star Road - Donut Plains",
-        "entrances": [
-          {
-            "name": "Star Road 5 - Normal Exit -> Star Road - Donut Plains",
-            "parent_region": "Star Road 5 - Normal Exit",
-            "connected_region": "Star Road - Donut Plains"
-          },
-          {
-            "name": "Donut Plains - Star Road -> Star Road - Donut Plains",
-            "parent_region": "Donut Plains - Star Road",
-            "connected_region": "Star Road - Donut Plains"
-          }
-        ],
         "exits": [
           {
             "name": "Star Road - Donut Plains -> Donut Plains - Star Road",
@@ -6726,18 +5184,6 @@
       },
       "Star Road - Vanilla Dome": {
         "name": "Star Road - Vanilla Dome",
-        "entrances": [
-          {
-            "name": "Star Road 1 - Secret Exit -> Star Road - Vanilla Dome",
-            "parent_region": "Star Road 1 - Secret Exit",
-            "connected_region": "Star Road - Vanilla Dome"
-          },
-          {
-            "name": "Vanilla Dome - Star Road -> Star Road - Vanilla Dome",
-            "parent_region": "Vanilla Dome - Star Road",
-            "connected_region": "Star Road - Vanilla Dome"
-          }
-        ],
         "exits": [
           {
             "name": "Star Road - Vanilla Dome -> Vanilla Dome - Star Road",
@@ -6760,18 +5206,6 @@
       },
       "Star Road - Twin Bridges": {
         "name": "Star Road - Twin Bridges",
-        "entrances": [
-          {
-            "name": "Star Road 2 - Secret Exit -> Star Road - Twin Bridges",
-            "parent_region": "Star Road 2 - Secret Exit",
-            "connected_region": "Star Road - Twin Bridges"
-          },
-          {
-            "name": "Twin Bridges - Star Road -> Star Road - Twin Bridges",
-            "parent_region": "Twin Bridges - Star Road",
-            "connected_region": "Star Road - Twin Bridges"
-          }
-        ],
         "exits": [
           {
             "name": "Star Road - Twin Bridges -> Twin Bridges - Star Road",
@@ -6794,18 +5228,6 @@
       },
       "Star Road - Forest of Illusion": {
         "name": "Star Road - Forest of Illusion",
-        "entrances": [
-          {
-            "name": "Star Road 3 - Secret Exit -> Star Road - Forest of Illusion",
-            "parent_region": "Star Road 3 - Secret Exit",
-            "connected_region": "Star Road - Forest of Illusion"
-          },
-          {
-            "name": "Forest of Illusion - Star Road -> Star Road - Forest of Illusion",
-            "parent_region": "Forest of Illusion - Star Road",
-            "connected_region": "Star Road - Forest of Illusion"
-          }
-        ],
         "exits": [
           {
             "name": "Star Road - Forest of Illusion -> Forest of Illusion - Star Road",
@@ -6828,18 +5250,6 @@
       },
       "Star Road - Valley of Bowser": {
         "name": "Star Road - Valley of Bowser",
-        "entrances": [
-          {
-            "name": "Star Road 4 - Secret Exit -> Star Road - Valley of Bowser",
-            "parent_region": "Star Road 4 - Secret Exit",
-            "connected_region": "Star Road - Valley of Bowser"
-          },
-          {
-            "name": "Valley of Bowser - Star Road -> Star Road - Valley of Bowser",
-            "parent_region": "Valley of Bowser - Star Road",
-            "connected_region": "Star Road - Valley of Bowser"
-          }
-        ],
         "exits": [
           {
             "name": "Star Road - Valley of Bowser -> Valley of Bowser - Star Road",
@@ -6870,18 +5280,6 @@
       },
       "Star Road - Special Zone": {
         "name": "Star Road - Special Zone",
-        "entrances": [
-          {
-            "name": "Star Road 5 - Secret Exit -> Star Road - Special Zone",
-            "parent_region": "Star Road 5 - Secret Exit",
-            "connected_region": "Star Road - Special Zone"
-          },
-          {
-            "name": "Special Zone - Star Road -> Star Road - Special Zone",
-            "parent_region": "Special Zone - Star Road",
-            "connected_region": "Star Road - Special Zone"
-          }
-        ],
         "exits": [
           {
             "name": "Star Road - Special Zone -> Special Zone - Star Road",
@@ -6896,13 +5294,6 @@
       },
       "Special Zone - Star Road": {
         "name": "Special Zone - Star Road",
-        "entrances": [
-          {
-            "name": "Star Road - Special Zone -> Special Zone - Star Road",
-            "parent_region": "Star Road - Special Zone",
-            "connected_region": "Special Zone - Star Road"
-          }
-        ],
         "exits": [
           {
             "name": "Special Zone - Star Road -> Star Road - Special Zone",
@@ -6925,13 +5316,6 @@
       },
       "Star Road 1 - Tile": {
         "name": "Star Road 1 - Tile",
-        "entrances": [
-          {
-            "name": "Star Road - Donut Plains -> Star Road 1 - Tile",
-            "parent_region": "Star Road - Donut Plains",
-            "connected_region": "Star Road 1 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Star Road 1 - Tile -> Star Road 1",
@@ -6946,13 +5330,6 @@
       },
       "Star Road 1": {
         "name": "Star Road 1",
-        "entrances": [
-          {
-            "name": "Star Road 1 - Tile -> Star Road 1",
-            "parent_region": "Star Road 1 - Tile",
-            "connected_region": "Star Road 1"
-          }
-        ],
         "exits": [
           {
             "name": "Star Road 1 -> Star Road 1 - Normal Exit",
@@ -7020,13 +5397,6 @@
       },
       "Star Road 1 - Normal Exit": {
         "name": "Star Road 1 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Star Road 1 -> Star Road 1 - Normal Exit",
-            "parent_region": "Star Road 1",
-            "connected_region": "Star Road 1 - Normal Exit"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7047,13 +5417,6 @@
       },
       "Star Road 1 - Secret Exit": {
         "name": "Star Road 1 - Secret Exit",
-        "entrances": [
-          {
-            "name": "Star Road 1 -> Star Road 1 - Secret Exit",
-            "parent_region": "Star Road 1",
-            "connected_region": "Star Road 1 - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Star Road 1 - Secret Exit -> Star Road - Vanilla Dome",
@@ -7083,13 +5446,6 @@
       },
       "Star Road 2 - Tile": {
         "name": "Star Road 2 - Tile",
-        "entrances": [
-          {
-            "name": "Star Road - Vanilla Dome -> Star Road 2 - Tile",
-            "parent_region": "Star Road - Vanilla Dome",
-            "connected_region": "Star Road 2 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Star Road 2 - Tile -> Star Road 2",
@@ -7104,13 +5460,6 @@
       },
       "Star Road 2": {
         "name": "Star Road 2",
-        "entrances": [
-          {
-            "name": "Star Road 2 - Tile -> Star Road 2",
-            "parent_region": "Star Road 2 - Tile",
-            "connected_region": "Star Road 2"
-          }
-        ],
         "exits": [
           {
             "name": "Star Road 2 -> Star Road 2 - Normal Exit",
@@ -7151,13 +5500,6 @@
       },
       "Star Road 2 - Normal Exit": {
         "name": "Star Road 2 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Star Road 2 -> Star Road 2 - Normal Exit",
-            "parent_region": "Star Road 2",
-            "connected_region": "Star Road 2 - Normal Exit"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7178,13 +5520,6 @@
       },
       "Star Road 2 - Secret Exit": {
         "name": "Star Road 2 - Secret Exit",
-        "entrances": [
-          {
-            "name": "Star Road 2 -> Star Road 2 - Secret Exit",
-            "parent_region": "Star Road 2",
-            "connected_region": "Star Road 2 - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Star Road 2 - Secret Exit -> Star Road - Twin Bridges",
@@ -7214,13 +5549,6 @@
       },
       "Star Road 3 - Tile": {
         "name": "Star Road 3 - Tile",
-        "entrances": [
-          {
-            "name": "Star Road - Twin Bridges -> Star Road 3 - Tile",
-            "parent_region": "Star Road - Twin Bridges",
-            "connected_region": "Star Road 3 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Star Road 3 - Tile -> Star Road 3",
@@ -7235,13 +5563,6 @@
       },
       "Star Road 3": {
         "name": "Star Road 3",
-        "entrances": [
-          {
-            "name": "Star Road 3 - Tile -> Star Road 3",
-            "parent_region": "Star Road 3 - Tile",
-            "connected_region": "Star Road 3"
-          }
-        ],
         "exits": [
           {
             "name": "Star Road 3 -> Star Road 3 - Normal Exit",
@@ -7267,13 +5588,6 @@
       },
       "Star Road 3 - Normal Exit": {
         "name": "Star Road 3 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Star Road 3 -> Star Road 3 - Normal Exit",
-            "parent_region": "Star Road 3",
-            "connected_region": "Star Road 3 - Normal Exit"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7294,13 +5608,6 @@
       },
       "Star Road 3 - Secret Exit": {
         "name": "Star Road 3 - Secret Exit",
-        "entrances": [
-          {
-            "name": "Star Road 3 -> Star Road 3 - Secret Exit",
-            "parent_region": "Star Road 3",
-            "connected_region": "Star Road 3 - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Star Road 3 - Secret Exit -> Star Road - Forest of Illusion",
@@ -7330,13 +5637,6 @@
       },
       "Star Road 4 - Tile": {
         "name": "Star Road 4 - Tile",
-        "entrances": [
-          {
-            "name": "Star Road - Forest of Illusion -> Star Road 4 - Tile",
-            "parent_region": "Star Road - Forest of Illusion",
-            "connected_region": "Star Road 4 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Star Road 4 - Tile -> Star Road 4",
@@ -7351,13 +5651,6 @@
       },
       "Star Road 4": {
         "name": "Star Road 4",
-        "entrances": [
-          {
-            "name": "Star Road 4 - Tile -> Star Road 4",
-            "parent_region": "Star Road 4 - Tile",
-            "connected_region": "Star Road 4"
-          }
-        ],
         "exits": [
           {
             "name": "Star Road 4 -> Star Road 4 - Normal Exit",
@@ -7419,13 +5712,6 @@
       },
       "Star Road 4 - Normal Exit": {
         "name": "Star Road 4 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Star Road 4 -> Star Road 4 - Normal Exit",
-            "parent_region": "Star Road 4",
-            "connected_region": "Star Road 4 - Normal Exit"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7446,13 +5732,6 @@
       },
       "Star Road 4 - Secret Exit": {
         "name": "Star Road 4 - Secret Exit",
-        "entrances": [
-          {
-            "name": "Star Road 4 -> Star Road 4 - Secret Exit",
-            "parent_region": "Star Road 4",
-            "connected_region": "Star Road 4 - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Star Road 4 - Secret Exit -> Star Road - Valley of Bowser",
@@ -7482,13 +5761,6 @@
       },
       "Star Road 5 - Tile": {
         "name": "Star Road 5 - Tile",
-        "entrances": [
-          {
-            "name": "Star Road - Valley of Bowser -> Star Road 5 - Tile",
-            "parent_region": "Star Road - Valley of Bowser",
-            "connected_region": "Star Road 5 - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Star Road 5 - Tile -> Star Road 5",
@@ -7503,13 +5775,6 @@
       },
       "Star Road 5": {
         "name": "Star Road 5",
-        "entrances": [
-          {
-            "name": "Star Road 5 - Tile -> Star Road 5",
-            "parent_region": "Star Road 5 - Tile",
-            "connected_region": "Star Road 5"
-          }
-        ],
         "exits": [
           {
             "name": "Star Road 5 -> Star Road 5 - Normal Exit",
@@ -7585,13 +5850,6 @@
       },
       "Star Road 5 - Normal Exit": {
         "name": "Star Road 5 - Normal Exit",
-        "entrances": [
-          {
-            "name": "Star Road 5 -> Star Road 5 - Normal Exit",
-            "parent_region": "Star Road 5",
-            "connected_region": "Star Road 5 - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Star Road 5 - Normal Exit -> Star Road - Donut Plains",
@@ -7621,13 +5879,6 @@
       },
       "Star Road 5 - Secret Exit": {
         "name": "Star Road 5 - Secret Exit",
-        "entrances": [
-          {
-            "name": "Star Road 5 -> Star Road 5 - Secret Exit",
-            "parent_region": "Star Road 5",
-            "connected_region": "Star Road 5 - Secret Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Star Road 5 - Secret Exit -> Star Road - Special Zone",
@@ -7657,13 +5908,6 @@
       },
       "Gnarly - Tile": {
         "name": "Gnarly - Tile",
-        "entrances": [
-          {
-            "name": "Special Zone - Star Road -> Gnarly - Tile",
-            "parent_region": "Special Zone - Star Road",
-            "connected_region": "Gnarly - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Gnarly - Tile -> Gnarly",
@@ -7678,13 +5922,6 @@
       },
       "Gnarly": {
         "name": "Gnarly",
-        "entrances": [
-          {
-            "name": "Gnarly - Tile -> Gnarly",
-            "parent_region": "Gnarly - Tile",
-            "connected_region": "Gnarly"
-          }
-        ],
         "exits": [
           {
             "name": "Gnarly -> Gnarly - Normal Exit",
@@ -7742,13 +5979,6 @@
       },
       "Gnarly - Normal Exit": {
         "name": "Gnarly - Normal Exit",
-        "entrances": [
-          {
-            "name": "Gnarly -> Gnarly - Normal Exit",
-            "parent_region": "Gnarly",
-            "connected_region": "Gnarly - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Gnarly - Normal Exit -> Tubular - Tile",
@@ -7778,13 +6008,6 @@
       },
       "Tubular - Tile": {
         "name": "Tubular - Tile",
-        "entrances": [
-          {
-            "name": "Gnarly - Normal Exit -> Tubular - Tile",
-            "parent_region": "Gnarly - Normal Exit",
-            "connected_region": "Tubular - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Tubular - Tile -> Tubular",
@@ -7799,13 +6022,6 @@
       },
       "Tubular": {
         "name": "Tubular",
-        "entrances": [
-          {
-            "name": "Tubular - Tile -> Tubular",
-            "parent_region": "Tubular - Tile",
-            "connected_region": "Tubular"
-          }
-        ],
         "exits": [
           {
             "name": "Tubular -> Tubular - Normal Exit",
@@ -7823,13 +6039,6 @@
       },
       "Tubular - Normal Exit": {
         "name": "Tubular - Normal Exit",
-        "entrances": [
-          {
-            "name": "Tubular -> Tubular - Normal Exit",
-            "parent_region": "Tubular",
-            "connected_region": "Tubular - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Tubular - Normal Exit -> Way Cool - Tile",
@@ -7859,13 +6068,6 @@
       },
       "Way Cool - Tile": {
         "name": "Way Cool - Tile",
-        "entrances": [
-          {
-            "name": "Tubular - Normal Exit -> Way Cool - Tile",
-            "parent_region": "Tubular - Normal Exit",
-            "connected_region": "Way Cool - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Way Cool - Tile -> Way Cool",
@@ -7880,13 +6082,6 @@
       },
       "Way Cool": {
         "name": "Way Cool",
-        "entrances": [
-          {
-            "name": "Way Cool - Tile -> Way Cool",
-            "parent_region": "Way Cool - Tile",
-            "connected_region": "Way Cool"
-          }
-        ],
         "exits": [
           {
             "name": "Way Cool -> Way Cool - Normal Exit",
@@ -7916,13 +6111,6 @@
       },
       "Way Cool - Normal Exit": {
         "name": "Way Cool - Normal Exit",
-        "entrances": [
-          {
-            "name": "Way Cool -> Way Cool - Normal Exit",
-            "parent_region": "Way Cool",
-            "connected_region": "Way Cool - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Way Cool - Normal Exit -> Awesome - Tile",
@@ -7952,13 +6140,6 @@
       },
       "Awesome - Tile": {
         "name": "Awesome - Tile",
-        "entrances": [
-          {
-            "name": "Way Cool - Normal Exit -> Awesome - Tile",
-            "parent_region": "Way Cool - Normal Exit",
-            "connected_region": "Awesome - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Awesome - Tile -> Awesome",
@@ -7973,13 +6154,6 @@
       },
       "Awesome": {
         "name": "Awesome",
-        "entrances": [
-          {
-            "name": "Awesome - Tile -> Awesome",
-            "parent_region": "Awesome - Tile",
-            "connected_region": "Awesome"
-          }
-        ],
         "exits": [
           {
             "name": "Awesome -> Awesome - Normal Exit",
@@ -8013,13 +6187,6 @@
       },
       "Awesome - Normal Exit": {
         "name": "Awesome - Normal Exit",
-        "entrances": [
-          {
-            "name": "Awesome -> Awesome - Normal Exit",
-            "parent_region": "Awesome",
-            "connected_region": "Awesome - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Awesome - Normal Exit -> Groovy - Tile",
@@ -8049,13 +6216,6 @@
       },
       "Groovy - Tile": {
         "name": "Groovy - Tile",
-        "entrances": [
-          {
-            "name": "Awesome - Normal Exit -> Groovy - Tile",
-            "parent_region": "Awesome - Normal Exit",
-            "connected_region": "Groovy - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Groovy - Tile -> Groovy",
@@ -8070,13 +6230,6 @@
       },
       "Groovy": {
         "name": "Groovy",
-        "entrances": [
-          {
-            "name": "Groovy - Tile -> Groovy",
-            "parent_region": "Groovy - Tile",
-            "connected_region": "Groovy"
-          }
-        ],
         "exits": [
           {
             "name": "Groovy -> Groovy - Normal Exit",
@@ -8098,13 +6251,6 @@
       },
       "Groovy - Normal Exit": {
         "name": "Groovy - Normal Exit",
-        "entrances": [
-          {
-            "name": "Groovy -> Groovy - Normal Exit",
-            "parent_region": "Groovy",
-            "connected_region": "Groovy - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Groovy - Normal Exit -> Mondo - Tile",
@@ -8134,13 +6280,6 @@
       },
       "Mondo - Tile": {
         "name": "Mondo - Tile",
-        "entrances": [
-          {
-            "name": "Groovy - Normal Exit -> Mondo - Tile",
-            "parent_region": "Groovy - Normal Exit",
-            "connected_region": "Mondo - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Mondo - Tile -> Mondo",
@@ -8155,13 +6294,6 @@
       },
       "Mondo": {
         "name": "Mondo",
-        "entrances": [
-          {
-            "name": "Mondo - Tile -> Mondo",
-            "parent_region": "Mondo - Tile",
-            "connected_region": "Mondo"
-          }
-        ],
         "exits": [
           {
             "name": "Mondo -> Mondo - Normal Exit",
@@ -8179,13 +6311,6 @@
       },
       "Mondo - Normal Exit": {
         "name": "Mondo - Normal Exit",
-        "entrances": [
-          {
-            "name": "Mondo -> Mondo - Normal Exit",
-            "parent_region": "Mondo",
-            "connected_region": "Mondo - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Mondo - Normal Exit -> Outrageous - Tile",
@@ -8215,13 +6340,6 @@
       },
       "Outrageous - Tile": {
         "name": "Outrageous - Tile",
-        "entrances": [
-          {
-            "name": "Mondo - Normal Exit -> Outrageous - Tile",
-            "parent_region": "Mondo - Normal Exit",
-            "connected_region": "Outrageous - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Outrageous - Tile -> Outrageous",
@@ -8236,13 +6354,6 @@
       },
       "Outrageous": {
         "name": "Outrageous",
-        "entrances": [
-          {
-            "name": "Outrageous - Tile -> Outrageous",
-            "parent_region": "Outrageous - Tile",
-            "connected_region": "Outrageous"
-          }
-        ],
         "exits": [
           {
             "name": "Outrageous -> Outrageous - Normal Exit",
@@ -8264,13 +6375,6 @@
       },
       "Outrageous - Normal Exit": {
         "name": "Outrageous - Normal Exit",
-        "entrances": [
-          {
-            "name": "Outrageous -> Outrageous - Normal Exit",
-            "parent_region": "Outrageous",
-            "connected_region": "Outrageous - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Outrageous - Normal Exit -> Funky - Tile",
@@ -8300,13 +6404,6 @@
       },
       "Funky - Tile": {
         "name": "Funky - Tile",
-        "entrances": [
-          {
-            "name": "Outrageous - Normal Exit -> Funky - Tile",
-            "parent_region": "Outrageous - Normal Exit",
-            "connected_region": "Funky - Tile"
-          }
-        ],
         "exits": [
           {
             "name": "Funky - Tile -> Funky",
@@ -8321,13 +6418,6 @@
       },
       "Funky": {
         "name": "Funky",
-        "entrances": [
-          {
-            "name": "Funky - Tile -> Funky",
-            "parent_region": "Funky - Tile",
-            "connected_region": "Funky"
-          }
-        ],
         "exits": [
           {
             "name": "Funky -> Funky - Normal Exit",
@@ -8391,13 +6481,6 @@
       },
       "Funky - Normal Exit": {
         "name": "Funky - Normal Exit",
-        "entrances": [
-          {
-            "name": "Funky -> Funky - Normal Exit",
-            "parent_region": "Funky",
-            "connected_region": "Funky - Normal Exit"
-          }
-        ],
         "exits": [
           {
             "name": "Funky - Normal Exit -> Special Zone - Star Road - Complete",
@@ -8427,13 +6510,6 @@
       },
       "Special Zone - Star Road - Complete": {
         "name": "Special Zone - Star Road - Complete",
-        "entrances": [
-          {
-            "name": "Funky - Normal Exit -> Special Zone - Star Road - Complete",
-            "parent_region": "Funky - Normal Exit",
-            "connected_region": "Special Zone - Star Road - Complete"
-          }
-        ],
         "exits": [],
         "locations": []
       }

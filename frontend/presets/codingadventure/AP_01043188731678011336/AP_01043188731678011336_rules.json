@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "StartLearning",
@@ -29,13 +28,6 @@
       },
       "LearningHub": {
         "name": "LearningHub",
-        "entrances": [
-          {
-            "name": "StartLearning",
-            "parent_region": "Menu",
-            "connected_region": "LearningHub"
-          }
-        ],
         "exits": [
           {
             "name": "ToVisualPath",
@@ -123,13 +115,6 @@
       },
       "VisualPath": {
         "name": "VisualPath",
-        "entrances": [
-          {
-            "name": "ToVisualPath",
-            "parent_region": "LearningHub",
-            "connected_region": "VisualPath"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -184,13 +169,6 @@
       },
       "LogicPath": {
         "name": "LogicPath",
-        "entrances": [
-          {
-            "name": "ToLogicPath",
-            "parent_region": "LearningHub",
-            "connected_region": "LogicPath"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -245,13 +223,6 @@
       },
       "ServerPath": {
         "name": "ServerPath",
-        "entrances": [
-          {
-            "name": "ToServerPath",
-            "parent_region": "LearningHub",
-            "connected_region": "ServerPath"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -306,13 +277,6 @@
       },
       "ToolsPath": {
         "name": "ToolsPath",
-        "entrances": [
-          {
-            "name": "ToToolsPath",
-            "parent_region": "LearningHub",
-            "connected_region": "ToolsPath"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -364,13 +328,6 @@
       },
       "StaticWebsiteHub": {
         "name": "StaticWebsiteHub",
-        "entrances": [
-          {
-            "name": "ToStaticWebsite",
-            "parent_region": "LearningHub",
-            "connected_region": "StaticWebsiteHub"
-          }
-        ],
         "exits": [
           {
             "name": "ToFrontendTrack",
@@ -471,13 +428,6 @@
       },
       "FrontendTrack": {
         "name": "FrontendTrack",
-        "entrances": [
-          {
-            "name": "ToFrontendTrack",
-            "parent_region": "StaticWebsiteHub",
-            "connected_region": "FrontendTrack"
-          }
-        ],
         "exits": [
           {
             "name": "ToReactRoute",
@@ -514,13 +464,6 @@
       },
       "ReactRoute": {
         "name": "ReactRoute",
-        "entrances": [
-          {
-            "name": "ToReactRoute",
-            "parent_region": "FrontendTrack",
-            "connected_region": "ReactRoute"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -575,13 +518,6 @@
       },
       "VueRoute": {
         "name": "VueRoute",
-        "entrances": [
-          {
-            "name": "ToVueRoute",
-            "parent_region": "FrontendTrack",
-            "connected_region": "VueRoute"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -636,13 +572,6 @@
       },
       "VanillaRoute": {
         "name": "VanillaRoute",
-        "entrances": [
-          {
-            "name": "ToVanillaRoute",
-            "parent_region": "FrontendTrack",
-            "connected_region": "VanillaRoute"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -680,13 +609,6 @@
       },
       "BackendTrack": {
         "name": "BackendTrack",
-        "entrances": [
-          {
-            "name": "ToBackendTrack",
-            "parent_region": "StaticWebsiteHub",
-            "connected_region": "BackendTrack"
-          }
-        ],
         "exits": [
           {
             "name": "ToExpressRoute",
@@ -726,13 +648,6 @@
       },
       "ExpressRoute": {
         "name": "ExpressRoute",
-        "entrances": [
-          {
-            "name": "ToExpressRoute",
-            "parent_region": "BackendTrack",
-            "connected_region": "ExpressRoute"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -787,13 +702,6 @@
       },
       "DjangoRoute": {
         "name": "DjangoRoute",
-        "entrances": [
-          {
-            "name": "ToDjangoRoute",
-            "parent_region": "BackendTrack",
-            "connected_region": "DjangoRoute"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -848,13 +756,6 @@
       },
       "FlaskRoute": {
         "name": "FlaskRoute",
-        "entrances": [
-          {
-            "name": "ToFlaskRoute",
-            "parent_region": "BackendTrack",
-            "connected_region": "FlaskRoute"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -909,13 +810,6 @@
       },
       "DesignTrack": {
         "name": "DesignTrack",
-        "entrances": [
-          {
-            "name": "ToDesignTrack",
-            "parent_region": "StaticWebsiteHub",
-            "connected_region": "DesignTrack"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -973,13 +867,6 @@
       },
       "DataTrack": {
         "name": "DataTrack",
-        "entrances": [
-          {
-            "name": "ToDataTrack",
-            "parent_region": "StaticWebsiteHub",
-            "connected_region": "DataTrack"
-          }
-        ],
         "exits": [
           {
             "name": "ToSQLRoute",
@@ -1002,13 +889,6 @@
       },
       "SQLRoute": {
         "name": "SQLRoute",
-        "entrances": [
-          {
-            "name": "ToSQLRoute",
-            "parent_region": "DataTrack",
-            "connected_region": "SQLRoute"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1063,13 +943,6 @@
       },
       "NoSQLRoute": {
         "name": "NoSQLRoute",
-        "entrances": [
-          {
-            "name": "ToNoSQLRoute",
-            "parent_region": "DataTrack",
-            "connected_region": "NoSQLRoute"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1124,13 +997,6 @@
       },
       "InteractiveAppHub": {
         "name": "InteractiveAppHub",
-        "entrances": [
-          {
-            "name": "ToInteractiveApp",
-            "parent_region": "StaticWebsiteHub",
-            "connected_region": "InteractiveAppHub"
-          }
-        ],
         "exits": [
           {
             "name": "ToAuthPath",
@@ -1262,13 +1128,6 @@
       },
       "AuthPath": {
         "name": "AuthPath",
-        "entrances": [
-          {
-            "name": "ToAuthPath",
-            "parent_region": "InteractiveAppHub",
-            "connected_region": "AuthPath"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1326,13 +1185,6 @@
       },
       "PerfPath": {
         "name": "PerfPath",
-        "entrances": [
-          {
-            "name": "ToPerfPath",
-            "parent_region": "InteractiveAppHub",
-            "connected_region": "PerfPath"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1402,13 +1254,6 @@
       },
       "TestPath": {
         "name": "TestPath",
-        "entrances": [
-          {
-            "name": "ToTestPath",
-            "parent_region": "InteractiveAppHub",
-            "connected_region": "TestPath"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1463,13 +1308,6 @@
       },
       "DevOpsPath": {
         "name": "DevOpsPath",
-        "entrances": [
-          {
-            "name": "ToDevOpsPath",
-            "parent_region": "InteractiveAppHub",
-            "connected_region": "DevOpsPath"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1539,13 +1377,6 @@
       },
       "FullStackHub": {
         "name": "FullStackHub",
-        "entrances": [
-          {
-            "name": "ToFullStackHub",
-            "parent_region": "InteractiveAppHub",
-            "connected_region": "FullStackHub"
-          }
-        ],
         "exits": [
           {
             "name": "ToSecurityBranch",
@@ -1621,13 +1452,6 @@
       },
       "SecurityBranch": {
         "name": "SecurityBranch",
-        "entrances": [
-          {
-            "name": "ToSecurityBranch",
-            "parent_region": "FullStackHub",
-            "connected_region": "SecurityBranch"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1682,13 +1506,6 @@
       },
       "ScalingBranch": {
         "name": "ScalingBranch",
-        "entrances": [
-          {
-            "name": "ToScalingBranch",
-            "parent_region": "FullStackHub",
-            "connected_region": "ScalingBranch"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1729,13 +1546,6 @@
       },
       "DeploymentBranch": {
         "name": "DeploymentBranch",
-        "entrances": [
-          {
-            "name": "ToDeploymentBranch",
-            "parent_region": "FullStackHub",
-            "connected_region": "DeploymentBranch"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1805,13 +1615,6 @@
       },
       "ProductionHub": {
         "name": "ProductionHub",
-        "entrances": [
-          {
-            "name": "ToProduction",
-            "parent_region": "FullStackHub",
-            "connected_region": "ProductionHub"
-          }
-        ],
         "exits": [],
         "locations": [
           {

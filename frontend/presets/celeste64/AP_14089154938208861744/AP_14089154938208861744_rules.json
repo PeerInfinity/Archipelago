@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Menu -> Forsaken City",
@@ -38,13 +37,6 @@
       },
       "Forsaken City": {
         "name": "Forsaken City",
-        "entrances": [
-          {
-            "name": "Menu -> Forsaken City",
-            "parent_region": "Menu",
-            "connected_region": "Forsaken City"
-          }
-        ],
         "exits": [
           {
             "name": "Forsaken City -> Intro Islands",
@@ -170,13 +162,6 @@
       },
       "Intro Islands": {
         "name": "Intro Islands",
-        "entrances": [
-          {
-            "name": "Forsaken City -> Intro Islands",
-            "parent_region": "Forsaken City",
-            "connected_region": "Intro Islands"
-          }
-        ],
         "exits": [
           {
             "name": "Intro Islands -> Granny Island",
@@ -241,43 +226,6 @@
       },
       "Granny Island": {
         "name": "Granny Island",
-        "entrances": [
-          {
-            "name": "Forsaken City -> Granny Island",
-            "parent_region": "Forsaken City",
-            "connected_region": "Granny Island"
-          },
-          {
-            "name": "Intro Islands -> Granny Island",
-            "parent_region": "Intro Islands",
-            "connected_region": "Granny Island"
-          },
-          {
-            "name": "Freeway Island -> Granny Island",
-            "parent_region": "Freeway Island",
-            "connected_region": "Granny Island"
-          },
-          {
-            "name": "South-East House Island -> Granny Island",
-            "parent_region": "South-East House Island",
-            "connected_region": "Granny Island"
-          },
-          {
-            "name": "Badeline Tower Lower -> Granny Island",
-            "parent_region": "Badeline Tower Lower",
-            "connected_region": "Granny Island"
-          },
-          {
-            "name": "Badeline Tower Upper -> Granny Island",
-            "parent_region": "Badeline Tower Upper",
-            "connected_region": "Granny Island"
-          },
-          {
-            "name": "Badeline Island -> Granny Island",
-            "parent_region": "Badeline Island",
-            "connected_region": "Granny Island"
-          }
-        ],
         "exits": [
           {
             "name": "Granny Island -> Freeway Island",
@@ -613,33 +561,6 @@
       },
       "Freeway Island": {
         "name": "Freeway Island",
-        "entrances": [
-          {
-            "name": "Forsaken City -> Freeway Island",
-            "parent_region": "Forsaken City",
-            "connected_region": "Freeway Island"
-          },
-          {
-            "name": "Granny Island -> Freeway Island",
-            "parent_region": "Granny Island",
-            "connected_region": "Freeway Island"
-          },
-          {
-            "name": "North-West Girders Island -> Freeway Island",
-            "parent_region": "North-West Girders Island",
-            "connected_region": "Freeway Island"
-          },
-          {
-            "name": "North-East Feathers Island -> Freeway Island",
-            "parent_region": "North-East Feathers Island",
-            "connected_region": "Freeway Island"
-          },
-          {
-            "name": "Badeline Island -> Freeway Island",
-            "parent_region": "Badeline Island",
-            "connected_region": "Freeway Island"
-          }
-        ],
         "exits": [
           {
             "name": "Freeway Island -> Granny Island",
@@ -838,18 +759,6 @@
       },
       "North-West Girders Island": {
         "name": "North-West Girders Island",
-        "entrances": [
-          {
-            "name": "Granny Island -> North-West Girders Island",
-            "parent_region": "Granny Island",
-            "connected_region": "North-West Girders Island"
-          },
-          {
-            "name": "Freeway Island -> North-West Girders Island",
-            "parent_region": "Freeway Island",
-            "connected_region": "North-West Girders Island"
-          }
-        ],
         "exits": [
           {
             "name": "North-West Girders Island -> Freeway Island",
@@ -894,33 +803,6 @@
       },
       "North-East Feathers Island": {
         "name": "North-East Feathers Island",
-        "entrances": [
-          {
-            "name": "Forsaken City -> North-East Feathers Island",
-            "parent_region": "Forsaken City",
-            "connected_region": "North-East Feathers Island"
-          },
-          {
-            "name": "Freeway Island -> North-East Feathers Island",
-            "parent_region": "Freeway Island",
-            "connected_region": "North-East Feathers Island"
-          },
-          {
-            "name": "South-East House Island -> North-East Feathers Island",
-            "parent_region": "South-East House Island",
-            "connected_region": "North-East Feathers Island"
-          },
-          {
-            "name": "Badeline Tower Lower -> North-East Feathers Island",
-            "parent_region": "Badeline Tower Lower",
-            "connected_region": "North-East Feathers Island"
-          },
-          {
-            "name": "Badeline Tower Upper -> North-East Feathers Island",
-            "parent_region": "Badeline Tower Upper",
-            "connected_region": "North-East Feathers Island"
-          }
-        ],
         "exits": [
           {
             "name": "North-East Feathers Island -> South-East House Island",
@@ -1116,33 +998,6 @@
       },
       "South-East House Island": {
         "name": "South-East House Island",
-        "entrances": [
-          {
-            "name": "Forsaken City -> South-East House Island",
-            "parent_region": "Forsaken City",
-            "connected_region": "South-East House Island"
-          },
-          {
-            "name": "Granny Island -> South-East House Island",
-            "parent_region": "Granny Island",
-            "connected_region": "South-East House Island"
-          },
-          {
-            "name": "North-East Feathers Island -> South-East House Island",
-            "parent_region": "North-East Feathers Island",
-            "connected_region": "South-East House Island"
-          },
-          {
-            "name": "Badeline Tower Lower -> South-East House Island",
-            "parent_region": "Badeline Tower Lower",
-            "connected_region": "South-East House Island"
-          },
-          {
-            "name": "Badeline Tower Upper -> South-East House Island",
-            "parent_region": "Badeline Tower Upper",
-            "connected_region": "South-East House Island"
-          }
-        ],
         "exits": [
           {
             "name": "South-East House Island -> North-East Feathers Island",
@@ -1301,28 +1156,6 @@
       },
       "Badeline Tower Lower": {
         "name": "Badeline Tower Lower",
-        "entrances": [
-          {
-            "name": "Granny Island -> Badeline Tower Lower",
-            "parent_region": "Granny Island",
-            "connected_region": "Badeline Tower Lower"
-          },
-          {
-            "name": "North-East Feathers Island -> Badeline Tower Lower",
-            "parent_region": "North-East Feathers Island",
-            "connected_region": "Badeline Tower Lower"
-          },
-          {
-            "name": "South-East House Island -> Badeline Tower Lower",
-            "parent_region": "South-East House Island",
-            "connected_region": "Badeline Tower Lower"
-          },
-          {
-            "name": "Badeline Tower Upper -> Badeline Tower Lower",
-            "parent_region": "Badeline Tower Upper",
-            "connected_region": "Badeline Tower Lower"
-          }
-        ],
         "exits": [
           {
             "name": "Badeline Tower Lower -> South-East House Island",
@@ -1438,28 +1271,6 @@
       },
       "Badeline Tower Upper": {
         "name": "Badeline Tower Upper",
-        "entrances": [
-          {
-            "name": "Forsaken City -> Badeline Tower Upper",
-            "parent_region": "Forsaken City",
-            "connected_region": "Badeline Tower Upper"
-          },
-          {
-            "name": "North-East Feathers Island -> Badeline Tower Upper",
-            "parent_region": "North-East Feathers Island",
-            "connected_region": "Badeline Tower Upper"
-          },
-          {
-            "name": "Badeline Tower Lower -> Badeline Tower Upper",
-            "parent_region": "Badeline Tower Lower",
-            "connected_region": "Badeline Tower Upper"
-          },
-          {
-            "name": "Badeline Island -> Badeline Tower Upper",
-            "parent_region": "Badeline Island",
-            "connected_region": "Badeline Tower Upper"
-          }
-        ],
         "exits": [
           {
             "name": "Badeline Tower Upper -> Badeline Island",
@@ -1592,18 +1403,6 @@
       },
       "Badeline Island": {
         "name": "Badeline Island",
-        "entrances": [
-          {
-            "name": "Forsaken City -> Badeline Island",
-            "parent_region": "Forsaken City",
-            "connected_region": "Badeline Island"
-          },
-          {
-            "name": "Badeline Tower Upper -> Badeline Island",
-            "parent_region": "Badeline Tower Upper",
-            "connected_region": "Badeline Island"
-          }
-        ],
         "exits": [
           {
             "name": "Badeline Island -> Badeline Tower Upper",

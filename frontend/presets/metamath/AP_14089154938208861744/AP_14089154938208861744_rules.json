@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "To Statement 1",
@@ -61,13 +60,6 @@
       },
       "Prove Statement 1": {
         "name": "Prove Statement 1",
-        "entrances": [
-          {
-            "name": "To Statement 1",
-            "parent_region": "Menu",
-            "connected_region": "Prove Statement 1"
-          }
-        ],
         "exits": [
           {
             "name": "From Statement 1 to Statement 3",
@@ -107,13 +99,6 @@
       },
       "Prove Statement 2": {
         "name": "Prove Statement 2",
-        "entrances": [
-          {
-            "name": "To Statement 2",
-            "parent_region": "Menu",
-            "connected_region": "Prove Statement 2"
-          }
-        ],
         "exits": [
           {
             "name": "From Statement 2 to Statement 3",
@@ -171,18 +156,6 @@
       },
       "Prove Statement 3": {
         "name": "Prove Statement 3",
-        "entrances": [
-          {
-            "name": "From Statement 1 to Statement 3",
-            "parent_region": "Prove Statement 1",
-            "connected_region": "Prove Statement 3"
-          },
-          {
-            "name": "From Statement 2 to Statement 3",
-            "parent_region": "Prove Statement 2",
-            "connected_region": "Prove Statement 3"
-          }
-        ],
         "exits": [
           {
             "name": "From Statement 3 to Statement 8",
@@ -278,13 +251,6 @@
       },
       "Prove Statement 4": {
         "name": "Prove Statement 4",
-        "entrances": [
-          {
-            "name": "To Statement 4",
-            "parent_region": "Menu",
-            "connected_region": "Prove Statement 4"
-          }
-        ],
         "exits": [
           {
             "name": "From Statement 4 to Statement 9",
@@ -326,13 +292,6 @@
       },
       "Prove Statement 5": {
         "name": "Prove Statement 5",
-        "entrances": [
-          {
-            "name": "To Statement 5",
-            "parent_region": "Menu",
-            "connected_region": "Prove Statement 5"
-          }
-        ],
         "exits": [
           {
             "name": "From Statement 5 to Statement 7",
@@ -374,13 +333,6 @@
       },
       "Prove Statement 6": {
         "name": "Prove Statement 6",
-        "entrances": [
-          {
-            "name": "To Statement 6",
-            "parent_region": "Menu",
-            "connected_region": "Prove Statement 6"
-          }
-        ],
         "exits": [
           {
             "name": "From Statement 6 to Statement 8",
@@ -449,13 +401,6 @@
       },
       "Prove Statement 7": {
         "name": "Prove Statement 7",
-        "entrances": [
-          {
-            "name": "From Statement 5 to Statement 7",
-            "parent_region": "Prove Statement 5",
-            "connected_region": "Prove Statement 7"
-          }
-        ],
         "exits": [
           {
             "name": "From Statement 7 to Statement 8",
@@ -534,23 +479,6 @@
       },
       "Prove Statement 8": {
         "name": "Prove Statement 8",
-        "entrances": [
-          {
-            "name": "From Statement 3 to Statement 8",
-            "parent_region": "Prove Statement 3",
-            "connected_region": "Prove Statement 8"
-          },
-          {
-            "name": "From Statement 6 to Statement 8",
-            "parent_region": "Prove Statement 6",
-            "connected_region": "Prove Statement 8"
-          },
-          {
-            "name": "From Statement 7 to Statement 8",
-            "parent_region": "Prove Statement 7",
-            "connected_region": "Prove Statement 8"
-          }
-        ],
         "exits": [
           {
             "name": "From Statement 8 to Statement 10",
@@ -647,13 +575,6 @@
       },
       "Prove Statement 9": {
         "name": "Prove Statement 9",
-        "entrances": [
-          {
-            "name": "From Statement 4 to Statement 9",
-            "parent_region": "Prove Statement 4",
-            "connected_region": "Prove Statement 9"
-          }
-        ],
         "exits": [
           {
             "name": "From Statement 9 to Statement 10",
@@ -721,18 +642,6 @@
       },
       "Prove Statement 10": {
         "name": "Prove Statement 10",
-        "entrances": [
-          {
-            "name": "From Statement 8 to Statement 10",
-            "parent_region": "Prove Statement 8",
-            "connected_region": "Prove Statement 10"
-          },
-          {
-            "name": "From Statement 9 to Statement 10",
-            "parent_region": "Prove Statement 9",
-            "connected_region": "Prove Statement 10"
-          }
-        ],
         "exits": [],
         "locations": [
           {
