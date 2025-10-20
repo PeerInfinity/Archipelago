@@ -272,6 +272,19 @@ export const testLogic = {
       );
     }
 
+    // Check for testOrderSeed parameter in URL (overrides any loaded state)
+    const urlParams = new URLSearchParams(window.location.search);
+    const seedParam = urlParams.get('testOrderSeed');
+    if (seedParam !== null) {
+      const parsedSeed = parseInt(seedParam, 10);
+      if (!isNaN(parsedSeed)) {
+        TestState.testLogicState.randomSeed = parsedSeed;
+        log('info', `[TestLogic applyLoadedState] Using test order seed from URL parameter: ${parsedSeed}`);
+      } else {
+        log('warn', `[TestLogic applyLoadedState] Invalid testOrderSeed parameter in URL: ${seedParam}`);
+      }
+    }
+
     // Ensure discovery is complete before applying loaded state
     await initializeTestDiscovery();
 

@@ -16,6 +16,8 @@ const MAX_WAIT_TIME = 10000; // 10 seconds
 export async function testLibraryRegionAccessibilityShowAll(testController) {
   let overallResult = true;
   const testRunId = `library-region-test-${Date.now()}`;
+  let showAllRegionsCheckbox = null;
+  let originalShowAllState = false;
 
   try {
     testController.log(`[${testRunId}] Starting Library region accessibility test...`);
@@ -44,12 +46,12 @@ export async function testLibraryRegionAccessibilityShowAll(testController) {
       () => {
         const regionsContainer = regionsPanelElement.querySelector('#region-details-container');
         if (!regionsContainer) return false;
-        
+
         // Check if container has content - might be in different layouts
         const hasAccessibilitySections = regionsContainer.querySelector('#accessibility-sorted-sections');
         const hasGeneralSections = regionsContainer.querySelector('#general-sorted-list-section');
         const hasDirectChildren = regionsContainer.children.length > 0;
-        
+
         return hasAccessibilitySections || hasGeneralSections || hasDirectChildren;
       },
       'Regions container populated with regions',
@@ -63,11 +65,15 @@ export async function testLibraryRegionAccessibilityShowAll(testController) {
     const regionsContainer = regionsPanelElement.querySelector('#region-details-container');
 
     // 3.5. Enable "Show All Regions" mode to see all regions
-    const showAllRegionsCheckbox = regionsPanelElement.querySelector('#show-all-regions');
+    showAllRegionsCheckbox = regionsPanelElement.querySelector('#show-all-regions');
     if (!showAllRegionsCheckbox) {
       throw new Error('"Show All Regions" checkbox not found');
     }
-    
+
+    // Save the original state to restore later
+    originalShowAllState = showAllRegionsCheckbox.checked;
+    testController.log(`[${testRunId}] Original "Show All Regions" state: ${originalShowAllState}`);
+
     if (!showAllRegionsCheckbox.checked) {
       testController.log(`[${testRunId}] Enabling "Show All Regions" mode...`);
       showAllRegionsCheckbox.click();
@@ -241,6 +247,19 @@ export async function testLibraryRegionAccessibilityShowAll(testController) {
     testController.log(`[${testRunId}] ERROR: ${error.message}`);
     testController.reportCondition('Library region accessibility test error-free', false);
     overallResult = false;
+  } finally {
+    // Restore the original "Show All Regions" checkbox state
+    if (showAllRegionsCheckbox && showAllRegionsCheckbox.checked !== originalShowAllState) {
+      testController.log(`[${testRunId}] Restoring "Show All Regions" to original state: ${originalShowAllState}`);
+      showAllRegionsCheckbox.click();
+      // Wait for UI to update
+      await testController.pollForCondition(
+        () => showAllRegionsCheckbox.checked === originalShowAllState,
+        '"Show All Regions" restored to original state',
+        3000,
+        50
+      );
+    }
   }
 
   return overallResult;
@@ -852,89 +871,108 @@ export async function testRegionMoveEventDispatch(testController) {
     // We'll monitor the dispatcher's publish method to see if it's called
     testController.log(`[${testRunId}] eventDispatcher methods:`, Object.keys(eventDispatcher || {}));
 
-    if (eventDispatcher && typeof eventDispatcher.publish === 'function') {
-      originalPublish = eventDispatcher.publish;
-      eventDispatcher.publish = function(eventName, data, direction) {
-        testController.log(`[${testRunId}] publish called:`, {eventName, data, direction});
-        if (eventName === 'user:regionMove') {
-          eventReceived = true;
-          eventData = data;
-        }
-        return originalPublish.call(this, eventName, data, direction);
-      };
-    } else {
-      testController.log(`[${testRunId}] eventDispatcher.publish not available`);
-    }
+    try {
+      if (eventDispatcher && typeof eventDispatcher.publish === 'function') {
+        originalPublish = eventDispatcher.publish;
+        eventDispatcher.publish = function(eventName, data, direction) {
+          testController.log(`[${testRunId}] publish called:`, {eventName, data, direction});
+          if (eventName === 'user:regionMove') {
+            eventReceived = true;
+            eventData = data;
+          }
+          return originalPublish.call(this, eventName, data, direction);
+        };
+      } else {
+        testController.log(`[${testRunId}] eventDispatcher.publish not available`);
+      }
 
-    // Log moduleDispatcher availability
-    testController.log(`[${testRunId}] moduleDispatcher available:`, !!regionsModule.moduleDispatcher);
+      // Log moduleDispatcher availability
+      testController.log(`[${testRunId}] moduleDispatcher available:`, !!regionsModule.moduleDispatcher);
 
-    // Activate Regions panel
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
-    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
+      // Activate Regions panel
+      const eventBusModule = await import('../../../app/core/eventBus.js');
+      const eventBus = eventBusModule.default;
+      eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
 
-    const regionsPanelElement = await testController.pollForValue(
-      () => document.querySelector('.regions-panel-container'),
-      'Regions panel found',
-      5000,
-      50
-    );
-    if (!regionsPanelElement) {
-      throw new Error('Regions panel not found');
-    }
-
-    // Wait for exit wrappers to appear (no more move buttons, entire exit is clickable)
-    const exitWrappersFound = await testController.pollForCondition(
-      () => {
-        const wrappers = regionsPanelElement.querySelectorAll('.exit-wrapper');
-        return wrappers.length > 0;
-      },
-      'Exit wrappers loaded',
-      MAX_WAIT_TIME,
-      50
-    );
-
-    const exitWrappers = regionsPanelElement.querySelectorAll('.exit-wrapper');
-    testController.reportCondition('Exit wrappers exist', exitWrappers.length > 0);
-
-    if (exitWrappers.length > 0) {
-      // Log exit info for debugging
-      const firstExitWrapper = exitWrappers[0];
-      testController.log(`[${testRunId}] First exit wrapper text:`, firstExitWrapper.textContent.trim().substring(0, 50));
-
-      // Click the first exit wrapper
-      firstExitWrapper.click();
-      testController.log(`[${testRunId}] Exit wrapper clicked`);
-      
-      // Wait for event to be dispatched using polling
-      await testController.pollForCondition(
-        () => eventReceived,
-        'Event dispatched after button click',
-        3000,
+      const regionsPanelElement = await testController.pollForValue(
+        () => document.querySelector('.regions-panel-container'),
+        'Regions panel found',
+        5000,
         50
       );
-      
-      testController.reportCondition('user:regionMove event dispatched', eventReceived);
-      testController.reportCondition(
-        'Event contains required data',
-        eventData && eventData.sourceRegion && eventData.targetRegion && eventData.exitName,
-        `Event data: ${JSON.stringify(eventData)}`
+      if (!regionsPanelElement) {
+        throw new Error('Regions panel not found');
+      }
+
+      // Wait for regions container to be populated
+      const regionsContainer = await testController.pollForValue(
+        () => {
+          const container = regionsPanelElement.querySelector('#region-details-container');
+          if (container && container.children.length > 0) {
+            return container;
+          }
+          return null;
+        },
+        'Regions container populated',
+        MAX_WAIT_TIME,
+        50
       );
-    }
-    
-    // Complete test with appropriate status
-    if (!eventReceived || !eventData || !eventData.sourceRegion || !eventData.targetRegion || !eventData.exitName) {
-      overallResult = false;
-    }
-    
-    // Cleanup
-    if (originalPublish && eventDispatcher) {
-      eventDispatcher.publish = originalPublish;
-    }
-    
-    if (overallResult) {
-      testController.completeTest();
+      if (!regionsContainer) {
+        throw new Error('Regions container not populated');
+      }
+
+      // Wait for exit wrappers to appear (no more move buttons, entire exit is clickable)
+      const exitWrappersFound = await testController.pollForCondition(
+        () => {
+          const wrappers = regionsPanelElement.querySelectorAll('.exit-wrapper');
+          return wrappers.length > 0;
+        },
+        'Exit wrappers loaded',
+        MAX_WAIT_TIME,
+        50
+      );
+
+      const exitWrappers = regionsPanelElement.querySelectorAll('.exit-wrapper');
+      testController.reportCondition('Exit wrappers exist', exitWrappers.length > 0);
+
+      if (exitWrappers.length > 0) {
+        // Log exit info for debugging
+        const firstExitWrapper = exitWrappers[0];
+        testController.log(`[${testRunId}] First exit wrapper text:`, firstExitWrapper.textContent.trim().substring(0, 50));
+
+        // Click the first exit wrapper
+        firstExitWrapper.click();
+        testController.log(`[${testRunId}] Exit wrapper clicked`);
+
+        // Wait for event to be dispatched using polling
+        await testController.pollForCondition(
+          () => eventReceived,
+          'Event dispatched after button click',
+          3000,
+          50
+        );
+
+        testController.reportCondition('user:regionMove event dispatched', eventReceived);
+        testController.reportCondition(
+          'Event contains required data',
+          eventData && eventData.sourceRegion && eventData.targetRegion && eventData.exitName,
+          `Event data: ${JSON.stringify(eventData)}`
+        );
+      }
+
+      // Complete test with appropriate status
+      if (!eventReceived || !eventData || !eventData.sourceRegion || !eventData.targetRegion || !eventData.exitName) {
+        overallResult = false;
+      }
+
+      if (overallResult) {
+        testController.completeTest();
+      }
+    } finally {
+      // Cleanup - ALWAYS restore, even if test fails
+      if (originalPublish && eventDispatcher) {
+        eventDispatcher.publish = originalPublish;
+      }
     }
   } catch (error) {
     testController.log(`[${testRunId}] ERROR: ${error.message}`);
@@ -963,7 +1001,7 @@ export async function testEntranceDisplay(testController) {
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
     eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
-    
+
     const regionsPanelElement = await testController.pollForValue(
       () => document.querySelector('.regions-panel-container'),
       'Regions panel found',
@@ -972,6 +1010,19 @@ export async function testEntranceDisplay(testController) {
     );
     if (!regionsPanelElement) {
       throw new Error('Regions panel not found');
+    }
+
+    // Ensure "Show All Regions" is unchecked for this test
+    const showAllCheckbox = regionsPanelElement.querySelector('#show-all-regions');
+    if (showAllCheckbox && showAllCheckbox.checked) {
+      testController.log(`[${testRunId}] Unchecking "Show All Regions" for entrance display test...`);
+      showAllCheckbox.click();
+      await testController.pollForCondition(
+        () => !showAllCheckbox.checked,
+        'Show All Regions unchecked',
+        3000,
+        50
+      );
     }
     
     // Wait for expanded region blocks to appear
@@ -1120,15 +1171,18 @@ registerTest({
 export async function testRegionMoveComplete(testController) {
   let overallResult = true;
   const testRunId = `region-move-complete-${Date.now()}`;
-  
+  let linksHouseRegionBlock = null; // Declare at function scope for use throughout test
+  let regionsReceiverCheckbox = null; // Declare at function scope for cleanup access
+  let regionsSubscriberCheckbox = null; // Declare at function scope for cleanup access
+
   try {
     testController.log(`[${testRunId}] Starting comprehensive region move test...`);
-    
+
     // Reset state by loading default rules
     testController.log(`[${testRunId}] Loading default rules to reset state...`);
     await testController.loadALTTPRules();
     testController.log(`[${testRunId}] Default rules loaded successfully`);
-    
+
     // Import modules we'll need
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
@@ -1159,15 +1213,38 @@ export async function testRegionMoveComplete(testController) {
     const currentRegion = playerState.getCurrentRegion();
     testController.log(`[${testRunId}] Initial current region: ${currentRegion}`);
     testController.reportCondition('Menu is current region', currentRegion === 'Menu');
-    
-    // 3. Check checkbox states
+
+    // 3. Ensure checkbox states are correct for this test
     const showAllCheckbox = regionsPanelElement.querySelector('#show-all-regions');
     const showPathsCheckbox = regionsPanelElement.querySelector('#show-paths');
-    
+
     testController.log(`[${testRunId}] Show All Regions checked: ${showAllCheckbox?.checked}`);
     testController.log(`[${testRunId}] Show Paths checked: ${showPathsCheckbox?.checked}`);
-    
+
+    // Ensure Show All Regions is unchecked (uncheck it if needed)
+    if (showAllCheckbox && showAllCheckbox.checked) {
+      testController.log(`[${testRunId}] Unchecking Show All Regions for this test...`);
+      showAllCheckbox.click();
+      await testController.pollForCondition(
+        () => !showAllCheckbox.checked,
+        'Show All Regions unchecked',
+        3000,
+        50
+      );
+    }
     testController.reportCondition('Show All Regions is unchecked', !showAllCheckbox?.checked);
+
+    // Ensure Show Paths is checked (check it if needed)
+    if (showPathsCheckbox && !showPathsCheckbox.checked) {
+      testController.log(`[${testRunId}] Checking Show Paths for this test...`);
+      showPathsCheckbox.click();
+      await testController.pollForCondition(
+        () => showPathsCheckbox.checked,
+        'Show Paths checked',
+        3000,
+        50
+      );
+    }
     testController.reportCondition('Show Paths is checked', showPathsCheckbox?.checked);
     
     // 4. Wait for regions to be loaded
@@ -1216,97 +1293,99 @@ export async function testRegionMoveComplete(testController) {
     let userRegionMoveDispatched = false;
     let dispatchedEventData = null;
     let regionsModuleReceived = false;
-    
+
     // Monitor dispatcher publish calls
     const moduleDispatcher = regionsModule.moduleDispatcher;
     let originalPublish = null;
-    if (moduleDispatcher && typeof moduleDispatcher.publish === 'function') {
-      originalPublish = moduleDispatcher.publish;
-      moduleDispatcher.publish = function(eventName, data, direction) {
-        testController.log(`[${testRunId}] Dispatcher publish called: ${eventName}, direction: ${direction}`, data);
-        if (eventName === 'user:regionMove' && direction === 'bottom') {
-          userRegionMoveDispatched = true;
-          dispatchedEventData = data;
-        }
-        return originalPublish.call(this, eventName, data, direction);
-      };
-    }
-    
-    // Monitor publishToNextModule calls for regions module
     let originalPublishToNext = null;
-    if (moduleDispatcher && typeof moduleDispatcher.publishToNextModule === 'function') {
-      originalPublishToNext = moduleDispatcher.publishToNextModule;
-      moduleDispatcher.publishToNextModule = function(moduleId, eventName, data, options) {
-        testController.log(`[${testRunId}] publishToNextModule called by ${moduleId}: ${eventName}`, data);
-        if (eventName === 'user:regionMove' && moduleId === 'regions') {
-          regionsModuleReceived = true;
-        }
-        return originalPublishToNext.call(this, moduleId, eventName, data, options);
-      };
-    }
-    
-    // 7. Click the Move button
-    testController.log(`[${testRunId}] Clicking Move button...`);
-    targetMoveButton.click();
-    
-    // Wait for playerState to be updated
-    if (!(await testController.pollForCondition(
-      () => {
-        const newCurrentRegion = playerState.getCurrentRegion();
-        return newCurrentRegion === 'Links House';
-      },
-      'PlayerState updated to Links House',
-      5000,
-      50
-    ))) {
-      throw new Error('PlayerState was not updated to Links House');
-    }
-    
-    // 8. Verify event was dispatched
-    testController.reportCondition('user:regionMove event dispatched to bottom', userRegionMoveDispatched);
-    testController.reportCondition('Event contains target region', dispatchedEventData?.targetRegion === 'Links House');
-    
-    // 9. Verify playerState was updated
-    const newCurrentRegion = playerState.getCurrentRegion();
-    testController.log(`[${testRunId}] New current region: ${newCurrentRegion}`);
-    testController.reportCondition('playerState updated to Links House', newCurrentRegion === 'Links House');
-    
-    // 10. Verify regions module received and processed the event
-    testController.reportCondition('regions module received event', regionsModuleReceived);
-    
-    // 11. Verify Links House region now appears in the Regions panel
-    let linksHouseRegionBlock = null;
-    if (!(await testController.pollForCondition(
-      () => {
-        linksHouseRegionBlock = regionsContainer.querySelector('.region-block[data-region="Links House"]');
-        return linksHouseRegionBlock !== null;
-      },
-      'Links House region appears in panel',
-      5000,
-      50
-    ))) {
-      throw new Error('Links House region block did not appear in panel');
-    }
-    testController.reportCondition('Links House region appears in panel', true);
-    
-    // 12. Verify playerState panel shows Links House as current location
-    const playerStatePanelElement = document.querySelector('.player-state-panel-container');
-    if (playerStatePanelElement) {
-      const currentRegionDisplay = playerStatePanelElement.querySelector('.current-region');
-      const displayedRegion = currentRegionDisplay?.textContent || '';
-      testController.log(`[${testRunId}] PlayerState panel displays: ${displayedRegion}`);
-      testController.reportCondition('PlayerState panel shows Links House', displayedRegion.includes('Links House'));
-    } else {
-      testController.log(`[${testRunId}] PlayerState panel not found - this is expected if not activated`);
-      testController.reportCondition('PlayerState panel shows Links House', true); // Skip this check
-    }
-    
-    // Restore original methods
-    if (originalPublish) {
-      moduleDispatcher.publish = originalPublish;
-    }
-    if (originalPublishToNext) {
-      moduleDispatcher.publishToNextModule = originalPublishToNext;
+
+    try {
+      if (moduleDispatcher && typeof moduleDispatcher.publish === 'function') {
+        originalPublish = moduleDispatcher.publish;
+        moduleDispatcher.publish = function(eventName, data, direction) {
+          testController.log(`[${testRunId}] Dispatcher publish called: ${eventName}, direction: ${direction}`, data);
+          if (eventName === 'user:regionMove' && direction === 'bottom') {
+            userRegionMoveDispatched = true;
+            dispatchedEventData = data;
+          }
+          return originalPublish.call(this, eventName, data, direction);
+        };
+      }
+
+      // Monitor publishToNextModule calls for regions module
+      if (moduleDispatcher && typeof moduleDispatcher.publishToNextModule === 'function') {
+        originalPublishToNext = moduleDispatcher.publishToNextModule;
+        moduleDispatcher.publishToNextModule = function(moduleId, eventName, data, options) {
+          testController.log(`[${testRunId}] publishToNextModule called by ${moduleId}: ${eventName}`, data);
+          if (eventName === 'user:regionMove' && moduleId === 'regions') {
+            regionsModuleReceived = true;
+          }
+          return originalPublishToNext.call(this, moduleId, eventName, data, options);
+        };
+      }
+
+      // 7. Click the Move button
+      testController.log(`[${testRunId}] Clicking Move button...`);
+      targetMoveButton.click();
+
+      // Wait for playerState to be updated
+      if (!(await testController.pollForCondition(
+        () => {
+          const newCurrentRegion = playerState.getCurrentRegion();
+          return newCurrentRegion === 'Links House';
+        },
+        'PlayerState updated to Links House',
+        5000,
+        50
+      ))) {
+        throw new Error('PlayerState was not updated to Links House');
+      }
+
+      // 8. Verify event was dispatched
+      testController.reportCondition('user:regionMove event dispatched to bottom', userRegionMoveDispatched);
+      testController.reportCondition('Event contains target region', dispatchedEventData?.targetRegion === 'Links House');
+
+      // 9. Verify playerState was updated
+      const newCurrentRegion = playerState.getCurrentRegion();
+      testController.log(`[${testRunId}] New current region: ${newCurrentRegion}`);
+      testController.reportCondition('playerState updated to Links House', newCurrentRegion === 'Links House');
+
+      // 10. Verify regions module received and processed the event
+      testController.reportCondition('regions module received event', regionsModuleReceived);
+
+      // 11. Verify Links House region now appears in the Regions panel
+      if (!(await testController.pollForCondition(
+        () => {
+          linksHouseRegionBlock = regionsContainer.querySelector('.region-block[data-region="Links House"]');
+          return linksHouseRegionBlock !== null;
+        },
+        'Links House region appears in panel',
+        5000,
+        50
+      ))) {
+        throw new Error('Links House region block did not appear in panel');
+      }
+      testController.reportCondition('Links House region appears in panel', true);
+
+      // 12. Verify playerState panel shows Links House as current location
+      const playerStatePanelElement = document.querySelector('.player-state-panel-container');
+      if (playerStatePanelElement) {
+        const currentRegionDisplay = playerStatePanelElement.querySelector('.current-region');
+        const displayedRegion = currentRegionDisplay?.textContent || '';
+        testController.log(`[${testRunId}] PlayerState panel displays: ${displayedRegion}`);
+        testController.reportCondition('PlayerState panel shows Links House', displayedRegion.includes('Links House'));
+      } else {
+        testController.log(`[${testRunId}] PlayerState panel not found - this is expected if not activated`);
+        testController.reportCondition('PlayerState panel shows Links House', true); // Skip this check
+      }
+    } finally {
+      // Restore original methods - ALWAYS restore, even if test fails
+      if (originalPublish && moduleDispatcher) {
+        moduleDispatcher.publish = originalPublish;
+      }
+      if (originalPublishToNext && moduleDispatcher) {
+        moduleDispatcher.publishToNextModule = originalPublishToNext;
+      }
     }
     
     // === EVENTS PANEL TESTING ===
@@ -1395,8 +1474,7 @@ export async function testRegionMoveComplete(testController) {
     
     // 18. Find regions module sender checkbox
     let regionsSenderCheckbox = null;
-    let regionsReceiverCheckbox = null;
-    
+
     const moduleBlocks = regionMoveEvent.querySelectorAll('.module-block');
     for (const block of moduleBlocks) {
       const moduleName = block.querySelector('.module-name');
@@ -1503,7 +1581,6 @@ export async function testRegionMoveComplete(testController) {
     testController.log(`[${testRunId}] Found playerState:pathUpdated event`);
 
     // Find regions module subscriber checkbox
-    let regionsSubscriberCheckbox = null;
     const pathUpdatedModuleBlocks = pathUpdatedEvent.querySelectorAll('.module-block');
     for (const block of pathUpdatedModuleBlocks) {
       const moduleName = block.querySelector('.module-name');
@@ -1528,7 +1605,7 @@ export async function testRegionMoveComplete(testController) {
     regionsSubscriberCheckbox.checked = false;
     regionsSubscriberCheckbox.dispatchEvent(new Event('change'));
     await new Promise(resolve => setTimeout(resolve, 100));
-    
+
     // Reset event monitoring
     userRegionMoveDispatched = false;
     dispatchedEventData = null;
@@ -1592,16 +1669,47 @@ export async function testRegionMoveComplete(testController) {
     // Verify player state still shows Light World
     const regionAfterBothEnabled = playerState.getCurrentRegion();
     testController.reportCondition('Player state shows Light World (after re-enable)', regionAfterBothEnabled === 'Light World');
-    
-    testController.log(`[${testRunId}] Comprehensive region move test with Events panel testing completed successfully`);
-    testController.completeTest();
-    
+
+    testController.log(`[${testRunId}] Comprehensive region move test main logic completed successfully`);
+
   } catch (error) {
     testController.log(`[${testRunId}] ERROR: ${error.message}`);
     testController.reportCondition('Region move test error-free', false);
     overallResult = false;
+  } finally {
+    // ALWAYS re-enable both checkboxes, whether test passed or failed
+    testController.log(`[${testRunId}] Re-enabling checkboxes in finally block...`);
+
+    if (regionsReceiverCheckbox) {
+      try {
+        regionsReceiverCheckbox.checked = true;
+        regionsReceiverCheckbox.dispatchEvent(new Event('change'));
+        testController.log(`[${testRunId}] Regions receiver checkbox re-enabled in finally`);
+      } catch (cleanupError) {
+        testController.log(`[${testRunId}] Failed to re-enable receiver checkbox in finally: ${cleanupError.message}`);
+      }
+    }
+
+    if (regionsSubscriberCheckbox) {
+      try {
+        regionsSubscriberCheckbox.checked = true;
+        regionsSubscriberCheckbox.dispatchEvent(new Event('change'));
+        testController.log(`[${testRunId}] Regions subscriber checkbox re-enabled in finally`);
+      } catch (cleanupError) {
+        testController.log(`[${testRunId}] Failed to re-enable subscriber checkbox in finally: ${cleanupError.message}`);
+      }
+    }
+
+    // Add a delay to ensure event handlers are properly restored
+    await new Promise(resolve => setTimeout(resolve, 200));
+    testController.log(`[${testRunId}] Checkbox restoration complete in finally`);
+
+    // Complete the test after cleanup
+    if (overallResult) {
+      testController.completeTest();
+    }
   }
-  
+
   return overallResult;
 }
 
@@ -1613,15 +1721,17 @@ export async function testRegionMoveComplete(testController) {
 export async function testRegionMoveEventHandlerToggle(testController) {
   let overallResult = true;
   const testRunId = `region-move-handler-toggle-${Date.now()}`;
-  
+  let regionsReceiverCheckbox = null; // Declare at function scope for cleanup access
+  let regionsSubscriberCheckbox = null; // Declare at function scope for cleanup access
+
   try {
     testController.log(`[${testRunId}] Starting region move event handler toggle test...`);
-    
+
     // Reset state by loading default rules
     testController.log(`[${testRunId}] Loading default rules to reset state...`);
     await testController.loadALTTPRules();
     testController.log(`[${testRunId}] Default rules loaded successfully`);
-    
+
     // Import modules we'll need
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
@@ -1644,16 +1754,39 @@ export async function testRegionMoveEventHandlerToggle(testController) {
     testController.log(`[${testRunId}] Comparison result: ${currentRegion === 'Menu'} (expected: true)`);
     testController.reportCondition('Menu is current region', currentRegion === 'Menu');
     
-    // 3. Check checkbox states
+    // 3. Ensure checkbox states are correct for this test
     const showAllCheckbox = regionsPanelElement.querySelector('#show-all-regions');
     const showPathsCheckbox = regionsPanelElement.querySelector('#show-paths');
-    
+
     testController.log(`[${testRunId}] Show All Regions checked: ${showAllCheckbox?.checked}`);
     testController.log(`[${testRunId}] Show Paths checked: ${showPathsCheckbox?.checked}`);
-    
+
+    // Ensure Show All Regions is unchecked (uncheck it if needed)
+    if (showAllCheckbox && showAllCheckbox.checked) {
+      testController.log(`[${testRunId}] Unchecking Show All Regions for this test...`);
+      showAllCheckbox.click();
+      await testController.pollForCondition(
+        () => !showAllCheckbox.checked,
+        'Show All Regions unchecked',
+        3000,
+        50
+      );
+    }
     testController.reportCondition('Show All Regions is unchecked', !showAllCheckbox?.checked);
+
+    // Ensure Show Paths is checked (check it if needed)
+    if (showPathsCheckbox && !showPathsCheckbox.checked) {
+      testController.log(`[${testRunId}] Checking Show Paths for this test...`);
+      showPathsCheckbox.click();
+      await testController.pollForCondition(
+        () => showPathsCheckbox.checked,
+        'Show Paths checked',
+        3000,
+        50
+      );
+    }
     testController.reportCondition('Show Paths is checked', showPathsCheckbox?.checked);
-    
+
     // 4. Wait for regions to be loaded
     let regionsContainer = null;
     if (!(await testController.pollForCondition(
@@ -1751,14 +1884,12 @@ export async function testRegionMoveEventHandlerToggle(testController) {
     }
     
     // 10. Find regions module receiver checkbox
-    let regionsReceiverCheckbox = null;
-    
     const moduleBlocks = regionMoveEvent.querySelectorAll('.module-block');
     for (const block of moduleBlocks) {
       const moduleName = block.querySelector('.module-name');
       if (moduleName && moduleName.textContent.trim() === 'regions') {
         const handlerColumn = block.querySelector('.handler-symbol');
-        
+
         if (handlerColumn) {
           const handlerCheckbox = handlerColumn.querySelector('input[type="checkbox"]');
           if (handlerCheckbox) {
@@ -1767,7 +1898,7 @@ export async function testRegionMoveEventHandlerToggle(testController) {
         }
       }
     }
-    
+
     if (!regionsReceiverCheckbox) {
       throw new Error('Regions module receiver checkbox not found');
     }
@@ -1804,7 +1935,6 @@ export async function testRegionMoveEventHandlerToggle(testController) {
     testController.log(`[${testRunId}] Found playerState:pathUpdated event`);
 
     // Find regions module subscriber checkbox
-    let regionsSubscriberCheckbox = null;
     const pathUpdatedModuleBlocks = pathUpdatedEvent.querySelectorAll('.module-block');
     for (const block of pathUpdatedModuleBlocks) {
       const moduleName = block.querySelector('.module-name');
@@ -1846,59 +1976,51 @@ export async function testRegionMoveEventHandlerToggle(testController) {
     const newCurrentRegion = playerState.getCurrentRegion();
     testController.log(`[${testRunId}] Current region after move: ${newCurrentRegion}`);
     testController.reportCondition('Player State shows Links House', newCurrentRegion === 'Links House');
-    
-    // 16. Re-enable both checkboxes before completing
-    testController.log(`[${testRunId}] Re-enabling checkboxes before completing test...`);
+
+    testController.log(`[${testRunId}] Region move event handler toggle test main logic completed successfully`);
+
+  } catch (error) {
+    testController.log(`[${testRunId}] ERROR: ${error.message}`);
+    testController.reportCondition('Region move event handler toggle test error-free', false);
+    overallResult = false;
+  } finally {
+    // ALWAYS re-enable both checkboxes, whether test passed or failed
+    testController.log(`[${testRunId}] Re-enabling checkboxes in finally block...`);
 
     if (regionsReceiverCheckbox) {
-      regionsReceiverCheckbox.checked = true;
-      regionsReceiverCheckbox.dispatchEvent(new Event('change'));
-      testController.log(`[${testRunId}] Regions receiver checkbox re-enabled`);
+      try {
+        regionsReceiverCheckbox.checked = true;
+        regionsReceiverCheckbox.dispatchEvent(new Event('change'));
+        testController.log(`[${testRunId}] Regions receiver checkbox re-enabled`);
+      } catch (cleanupError) {
+        testController.log(`[${testRunId}] Failed to re-enable receiver checkbox: ${cleanupError.message}`);
+      }
     } else {
       testController.log(`[${testRunId}] WARNING: regionsReceiverCheckbox not available for re-enabling`);
     }
 
     if (regionsSubscriberCheckbox) {
-      regionsSubscriberCheckbox.checked = true;
-      regionsSubscriberCheckbox.dispatchEvent(new Event('change'));
-      testController.log(`[${testRunId}] Regions subscriber checkbox re-enabled`);
+      try {
+        regionsSubscriberCheckbox.checked = true;
+        regionsSubscriberCheckbox.dispatchEvent(new Event('change'));
+        testController.log(`[${testRunId}] Regions subscriber checkbox re-enabled`);
+      } catch (cleanupError) {
+        testController.log(`[${testRunId}] Failed to re-enable subscriber checkbox: ${cleanupError.message}`);
+      }
     } else {
       testController.log(`[${testRunId}] WARNING: regionsSubscriberCheckbox not available for re-enabling`);
     }
 
-    await new Promise(resolve => setTimeout(resolve, 100));
-    testController.log(`[${testRunId}] Region move event handler toggle test completed successfully`);
-    testController.completeTest();
-    
-  } catch (error) {
-    testController.log(`[${testRunId}] ERROR: ${error.message}`);
-    testController.reportCondition('Region move event handler toggle test error-free', false);
-    overallResult = false;
+    // Add a delay to ensure event handlers are properly restored
+    await new Promise(resolve => setTimeout(resolve, 200));
+    testController.log(`[${testRunId}] Checkbox restoration complete`);
 
-    // Attempt to re-enable both checkboxes even if test failed
-    if (typeof regionsReceiverCheckbox !== 'undefined' && regionsReceiverCheckbox) {
-      try {
-        testController.log(`[${testRunId}] Re-enabling regions receiver checkbox after error...`);
-        regionsReceiverCheckbox.checked = true;
-        regionsReceiverCheckbox.dispatchEvent(new Event('change'));
-        testController.log(`[${testRunId}] Regions receiver checkbox re-enabled after error`);
-      } catch (cleanupError) {
-        testController.log(`[${testRunId}] Failed to re-enable receiver checkbox: ${cleanupError.message}`);
-      }
-    }
-
-    if (typeof regionsSubscriberCheckbox !== 'undefined' && regionsSubscriberCheckbox) {
-      try {
-        testController.log(`[${testRunId}] Re-enabling regions subscriber checkbox after error...`);
-        regionsSubscriberCheckbox.checked = true;
-        regionsSubscriberCheckbox.dispatchEvent(new Event('change'));
-        testController.log(`[${testRunId}] Regions subscriber checkbox re-enabled after error`);
-      } catch (cleanupError) {
-        testController.log(`[${testRunId}] Failed to re-enable subscriber checkbox: ${cleanupError.message}`);
-      }
+    // Complete the test after cleanup
+    if (overallResult) {
+      testController.completeTest();
     }
   }
-  
+
   return overallResult;
 }
 

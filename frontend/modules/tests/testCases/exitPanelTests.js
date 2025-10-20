@@ -19,6 +19,11 @@ export async function testLibraryExitAccessibility(testController) {
     testController.log(`[${testRunId}] Starting Library exit accessibility test...`);
     testController.reportCondition('Test started', true);
 
+    // 0. Load ALTTP rules to ensure game state is initialized
+    testController.log(`[${testRunId}] Loading ALTTP rules to ensure exits are loaded...`);
+    await testController.loadALTTPRules();
+    testController.log(`[${testRunId}] ALTTP rules loaded successfully`);
+
     // 1. Activate the Exits panel
     testController.log(`[${testRunId}] Activating ${PANEL_ID} panel...`);
     const eventBusModule = await import('../../../app/core/eventBus.js');

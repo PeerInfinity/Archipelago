@@ -64,20 +64,24 @@ export async function testColorblindModeToggleInRegionsViaSettings(testControlle
 
     // Step 2: Enable colorblind mode for regions
     testController.log(`[${testRunId}] Enabling colorblind mode for regions...`);
-    
+
     let settingsText = textAreaElement.value;
-    if (!settingsText.includes('colorblindMode')) {
+    let settingsObj;
+
+    try {
+      settingsObj = JSON.parse(settingsText);
+    } catch (e) {
+      throw new Error(`Settings text is not valid JSON: ${e.message}`);
+    }
+
+    if (!settingsObj.colorblindMode) {
       throw new Error('colorblindMode settings not found in settings JSON');
     }
-    
+
     // Enable colorblind mode for regions only (simplify test)
-    let updatedSettings = settingsText.replace(/"regions":\s*false/g, '"regions": true');
-    
-    if (updatedSettings === settingsText) {
-      throw new Error('Failed to update colorblind regions setting to true');
-    }
-    
-    textAreaElement.value = updatedSettings;
+    settingsObj.colorblindMode.regions = true;
+
+    textAreaElement.value = JSON.stringify(settingsObj, null, 2);
     testController.reportCondition('Colorblind regions setting updated to true', true);
     
     // Apply the settings
@@ -143,13 +147,17 @@ export async function testColorblindModeToggleInRegionsViaSettings(testControlle
     testController.log(`[${testRunId}] Disabling colorblind mode for regions...`);
     eventBus.publish('ui:activatePanel', { panelId: 'settingsPanel' }, 'tests');
 
-    const disabledSettings = textAreaElement.value.replace(/"regions":\s*true/g, '"regions": false');
-    
-    if (disabledSettings === textAreaElement.value) {
-      throw new Error('Failed to update colorblind regions setting to false');
+    // Parse the settings again to ensure we're working with current state
+    try {
+      settingsObj = JSON.parse(textAreaElement.value);
+    } catch (e) {
+      throw new Error(`Settings text is not valid JSON after apply: ${e.message}`);
     }
-    
-    textAreaElement.value = disabledSettings;
+
+    // Disable colorblind mode for regions
+    settingsObj.colorblindMode.regions = false;
+
+    textAreaElement.value = JSON.stringify(settingsObj, null, 2);
     testController.reportCondition('Colorblind regions setting updated to false', true);
     
     applyButton.click();

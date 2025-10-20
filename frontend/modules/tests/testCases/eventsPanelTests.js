@@ -227,6 +227,7 @@ export async function testEventsPanelSenderReceiverDisplay(testController) {
  */
 export async function testEventsPanelModuleNameTracking(testController) {
   const testRunId = `events-panel-module-names-${Date.now()}`;
+  let showAllRegionsCheckbox = null; // Declare at function scope for cleanup
 
   try {
     testController.log(`[${testRunId}] Starting Events panel module name tracking test...`);
@@ -397,7 +398,7 @@ export async function testEventsPanelModuleNameTracking(testController) {
     
     // Verify that the navigation did not happen (Show All Regions should still be unchecked)
     // Look specifically for the "Show All Regions" checkbox with correct ID
-    const showAllRegionsCheckbox = regionsPanel.querySelector('#show-all-regions');
+    showAllRegionsCheckbox = regionsPanel.querySelector('#show-all-regions');
     if (!showAllRegionsCheckbox) {
       throw new Error('Show All Regions checkbox not found');
     }
@@ -458,6 +459,18 @@ export async function testEventsPanelModuleNameTracking(testController) {
     testController.log(`[${testRunId}] Test failed: ${error.message}`);
     testController.reportCondition(`Test failed: ${error.message}`, false);
     return false;
+  } finally {
+    // Restore "Show All Regions" checkbox to unchecked state
+    if (showAllRegionsCheckbox && showAllRegionsCheckbox.checked) {
+      testController.log(`[${testRunId}] Unchecking "Show All Regions" checkbox in cleanup...`);
+      showAllRegionsCheckbox.click();
+      await testController.pollForCondition(
+        () => !showAllRegionsCheckbox.checked,
+        'Show All Regions unchecked in cleanup',
+        3000,
+        50
+      );
+    }
   }
 }
 

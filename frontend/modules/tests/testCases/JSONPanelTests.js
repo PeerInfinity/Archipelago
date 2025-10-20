@@ -24,7 +24,8 @@ function log(level, message, ...data) {
 export async function testJSONPanelImportFromText(testController) {
   log('info', 'Starting JSON panel Import from Text test');
   const testRunId = `json-import-test-${Date.now()}`;
-  
+  let settingsApplied = false; // Track if we need cleanup
+
   try {
     testController.log(`[${testRunId}] Starting JSON panel Import from Text test...`);
     testController.reportCondition('Test started', true);
@@ -103,6 +104,7 @@ export async function testJSONPanelImportFromText(testController) {
     ))) {
       throw new Error('Apply button feedback not received');
     }
+    settingsApplied = true; // Mark that we enabled colorblind mode
     testController.reportCondition('Settings applied successfully', true);
 
     // Step 3: Verify colorblind mode is active in Regions panel
@@ -417,12 +419,44 @@ export async function testJSONPanelImportFromText(testController) {
     
     testController.log(`[${testRunId}] JSON panel Import from Text test completed successfully`);
     await testController.completeTest(true);
-    
+
   } catch (error) {
     log('error', 'JSON panel Import from Text test failed:', error);
     testController.log(`[${testRunId}] Test failed: ${error.message}`, 'error');
     testController.reportCondition(`Test errored: ${error.message}`, false);
     await testController.completeTest(false);
+  } finally {
+    // Ensure colorblind mode is disabled even if test failed midway
+    if (settingsApplied) {
+      try {
+        testController.log(`[${testRunId}] Finally block: Ensuring colorblind mode is disabled...`);
+        const eventBusModule = await import('../../../app/core/eventBus.js');
+        const eventBus = eventBusModule.default;
+        eventBus.publish('ui:activatePanel', { panelId: 'settingsPanel' }, 'tests');
+
+        // Wait a moment for panel to be ready
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+        const settingsPanelElement = document.querySelector('.settings-panel');
+        if (settingsPanelElement) {
+          const textAreaElement = settingsPanelElement.querySelector('textarea');
+          const applyButton = settingsPanelElement.querySelector('button');
+
+          if (textAreaElement && applyButton) {
+            const currentSettings = textAreaElement.value;
+            const disabledSettings = currentSettings.replace(/"regions":\s*true/g, '"regions": false');
+
+            if (disabledSettings !== currentSettings) {
+              textAreaElement.value = disabledSettings;
+              applyButton.click();
+              testController.log(`[${testRunId}] Finally block: Colorblind mode disabled`);
+            }
+          }
+        }
+      } catch (cleanupError) {
+        testController.log(`[${testRunId}] Finally block: Error during cleanup: ${cleanupError.message}`);
+      }
+    }
   }
 }
 
