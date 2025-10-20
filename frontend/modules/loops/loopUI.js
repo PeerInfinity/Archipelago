@@ -14,7 +14,7 @@ import {
 import settingsManager from '../../app/core/settingsManager.js';
 import { centralRegistry } from '../../app/core/centralRegistry.js';
 import { LoopRegionBlockBuilder } from './loopRegionBlockBuilder.js';
-import { getPlayerStateAPI } from './index.js';
+import { getPlayerStateAPI, getLoopsModuleDispatcher } from './index.js';
 import { createStateSnapshotInterface } from '../shared/stateInterface.js';
 import { evaluateRule } from '../shared/ruleEngine.js';
 
@@ -1901,12 +1901,17 @@ export class LoopUI {
 
     // Make clickable to trigger region move
     exitEl.addEventListener('click', () => {
-      // Publish region move event - this will be handled by playerState
-      eventBus.publish('user:regionMove', {
-        from: regionName,
-        to: exit.connected_region,
-        exitUsed: exit.name
-      }, 'loops');
+      // Publish region move event via EventDispatcher (not EventBus)
+      const dispatcher = getLoopsModuleDispatcher();
+      if (dispatcher) {
+        dispatcher.publish('loops', 'user:regionMove', {
+          sourceRegion: regionName,
+          targetRegion: exit.connected_region,
+          exitName: exit.name
+        }, { initialTarget: 'bottom' });
+      } else {
+        log('error', 'Dispatcher not available for publishing user:regionMove');
+      }
       this.renderLoopPanel();
     });
     

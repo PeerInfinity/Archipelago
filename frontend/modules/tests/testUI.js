@@ -638,17 +638,30 @@ export class TestUI {
           enabledTests: tests.filter(t => t.isEnabled).length,
           disabledTests: tests.filter(t => !t.isEnabled).length
         },
-        testDetails: tests.map(test => ({
-          id: test.id,
-          name: test.name,
-          description: test.description,
-          category: test.category,
-          status: test.status,
-          isEnabled: test.isEnabled,
-          order: test.order,
-          conditions: test.conditions || [],
-          logs: test.logs || []
-        }))
+        testDetails: tests.map(test => {
+          // Calculate duration if start and end times are available
+          let durationMs = null;
+          if (test.startTime && test.endTime) {
+            const start = new Date(test.startTime);
+            const end = new Date(test.endTime);
+            durationMs = end - start;
+          }
+
+          return {
+            id: test.id,
+            name: test.name,
+            description: test.description,
+            category: test.category,
+            status: test.status,
+            isEnabled: test.isEnabled,
+            order: test.order,
+            startTime: test.startTime || null,
+            endTime: test.endTime || null,
+            durationMs: durationMs,
+            conditions: test.conditions || [],
+            logs: test.logs || []
+          };
+        })
       };
 
       // Create a downloadable JSON file

@@ -154,15 +154,25 @@ export function setTestStatus(testId, status, eventWaitingFor = null) {
     test.status = status;
     test.currentEventWaitingFor =
       status === 'waiting_for_event' ? eventWaitingFor : null;
-    
-    // Only clear conditions when starting fresh (transitioning from non-active or completed states to running)
+
+    // Track start time when test begins running
     if (status === 'running' && (previousStatus === 'pending' || previousStatus === 'disabled' || previousStatus === 'passed' || previousStatus === 'failed' || !previousStatus)) {
+      test.startTime = new Date().toISOString();
+      test.endTime = null; // Clear end time
       test.conditions = []; // Clear conditions
       test.logs = []; // Clear logs
     }
+
+    // Track end time when test completes
+    if ((status === 'passed' || status === 'failed') && test.startTime) {
+      test.endTime = new Date().toISOString();
+    }
+
     // Also clear when explicitly set to pending (test reset)
     if (status === 'pending') {
-      test.conditions = []; // Clear conditions  
+      test.startTime = null;
+      test.endTime = null;
+      test.conditions = []; // Clear conditions
       test.logs = []; // Clear logs
     }
   }

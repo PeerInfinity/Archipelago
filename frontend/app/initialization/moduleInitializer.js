@@ -326,7 +326,8 @@ function prepareStateManagerConfig(genericModuleSpecificConfig, combinedModeData
       combinedModeData.dataSources &&
       combinedModeData.dataSources.rulesConfig &&
       (combinedModeData.dataSources.rulesConfig.source === 'file' ||
-       combinedModeData.dataSources.rulesConfig.source === 'urlOverride') &&
+       combinedModeData.dataSources.rulesConfig.source === 'urlOverride' ||
+       combinedModeData.dataSources.rulesConfig.source === 'fallback') &&
       typeof combinedModeData.dataSources.rulesConfig.details === 'string'
     ) {
       let pathPrefix;
@@ -334,6 +335,8 @@ function prepareStateManagerConfig(genericModuleSpecificConfig, combinedModeData
         pathPrefix = 'Loaded from file: ';
       } else if (combinedModeData.dataSources.rulesConfig.source === 'urlOverride') {
         pathPrefix = 'Loaded from URL parameter override: ';
+      } else if (combinedModeData.dataSources.rulesConfig.source === 'fallback') {
+        pathPrefix = 'Loaded from "default" mode (fallback): ';
       }
 
       if (combinedModeData.dataSources.rulesConfig.details.startsWith(pathPrefix)) {
@@ -353,9 +356,12 @@ function prepareStateManagerConfig(genericModuleSpecificConfig, combinedModeData
         );
       }
     } else {
+      // Check if data was loaded from localStorage - this is expected behavior
+      const isFromLocalStorage = combinedModeData.dataSources?.rulesConfig?.source === 'localStorage';
       log(
-        'warn',
-        '[Init _postInitializeSingleModule] dataSources.rulesConfig not found or not in expected format for StateManager sourceName.'
+        isFromLocalStorage ? 'info' : 'warn',
+        '[Init _postInitializeSingleModule] dataSources.rulesConfig not found or not in expected format for StateManager sourceName.' +
+        (isFromLocalStorage ? ' (Data loaded from localStorage)' : '')
       );
     }
   } else {

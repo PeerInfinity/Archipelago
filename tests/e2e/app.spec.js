@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test';
+import * as fs from 'fs';
+import * as path from 'path';
 
 test.describe('Application End-to-End Tests', () => {
   const testMode = process.env.TEST_MODE || 'test'; // Default to 'test' if not specified
@@ -113,6 +115,22 @@ test.describe('Application End-to-End Tests', () => {
       'PW DEBUG: Full in-app test results:',
       JSON.stringify(results, null, 2)
     );
+
+    // Save the test results to a file
+    try {
+      const outputDir = path.join(process.cwd(), 'test-results', 'in-app-tests');
+      if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir, { recursive: true });
+      }
+
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+      const outputFile = path.join(outputDir, `test-results-${timestamp}.json`);
+
+      fs.writeFileSync(outputFile, JSON.stringify(results, null, 2));
+      console.log(`PW DEBUG: Test results saved to: ${outputFile}`);
+    } catch (error) {
+      console.error('PW DEBUG: Failed to save test results to file:', error);
+    }
 
     // The test system should complete successfully regardless of whether tests run
     expect(results.summary.failedCount).toBe(0);

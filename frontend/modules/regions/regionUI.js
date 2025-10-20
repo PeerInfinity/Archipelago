@@ -417,23 +417,9 @@ export class RegionUI {
     subscribe('ui:navigateToLocation', handleNavigateToLocation);
     log('info', '[RegionUI] SUCCESSFULLY SUBSCRIBED to ui:navigateToLocation');
 
-    // Subscribe to user:regionMove events
-    const handleRegionMove = (eventPayload) => {
-      if (eventPayload && eventPayload.sourceRegion && eventPayload.targetRegion) {
-        log(
-          'info',
-          `[RegionUI] Received user:regionMove from ${eventPayload.sourceRegion} to ${eventPayload.targetRegion}`
-        );
-        this.moveToRegion(eventPayload.sourceRegion, eventPayload.targetRegion, eventPayload.sourceUID);
-      } else {
-        log(
-          'warn',
-          '[RegionUI] Received user:regionMove with missing data.',
-          eventPayload
-        );
-      }
-    };
-    subscribe('user:regionMove', handleRegionMove);
+    // NOTE: user:regionMove is handled via EventDispatcher in index.js, not EventBus
+    // The handleRegionMove dispatcher handler calls moveToRegion() on this UI instance
+    // DO NOT subscribe to user:regionMove via EventBus - it should only use EventDispatcher
 
     log('info', '[RegionUI] Event subscriptions complete.');
   }

@@ -35,8 +35,7 @@ export async function testJSONPanelImportFromText(testController) {
     // Step 1: Activate the Settings panel
     testController.log(`[${testRunId}] Step 1: Activating Settings panel...`);
     eventBus.publish('ui:activatePanel', { panelId: 'settingsPanel' }, 'tests');
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
+
     // Wait for the settings panel to appear in DOM
     let settingsPanelElement = null;
     if (!(await testController.pollForCondition(
@@ -109,8 +108,7 @@ export async function testJSONPanelImportFromText(testController) {
     // Step 3: Verify colorblind mode is active in Regions panel
     testController.log(`[${testRunId}] Step 3: Verifying colorblind mode active in Regions panel...`);
     eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'tests');
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
+
     let regionsPanelElement = null;
     if (!(await testController.pollForCondition(
       () => {
@@ -148,8 +146,7 @@ export async function testJSONPanelImportFromText(testController) {
     // Step 4: Activate the JSON panel
     testController.log(`[${testRunId}] Step 4: Activating JSON panel...`);
     eventBus.publish('ui:activatePanel', { panelId: 'jsonPanel' }, 'tests');
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
+
     let jsonPanelElement = null;
     if (!(await testController.pollForCondition(
       () => {
@@ -189,7 +186,6 @@ export async function testJSONPanelImportFromText(testController) {
     }
     
     exportTextButton.click();
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     testController.reportCondition('Export to Text button clicked', true);
 
     // Step 7: Get contents from Editor panel
@@ -246,8 +242,7 @@ export async function testJSONPanelImportFromText(testController) {
     // Step 8: Disable colorblind mode via Settings panel
     testController.log(`[${testRunId}] Step 8: Disabling colorblind mode via Settings panel...`);
     eventBus.publish('ui:activatePanel', { panelId: 'settingsPanel' }, 'tests');
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    
+
     const disabledSettings = textAreaElement.value.replace(/"regions":\s*true/g, '"regions": false');
     
     if (disabledSettings === textAreaElement.value) {
@@ -275,8 +270,7 @@ export async function testJSONPanelImportFromText(testController) {
     // Step 9: Verify colorblind mode is disabled in Regions panel
     testController.log(`[${testRunId}] Step 9: Verifying colorblind mode disabled in Regions panel...`);
     eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'tests');
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    
+
     if (!(await testController.pollForCondition(
       () => {
         const regionBlocks = regionsPanelElement.querySelectorAll('.region-block');
@@ -300,7 +294,6 @@ export async function testJSONPanelImportFromText(testController) {
     // Step 10: Activate JSON panel again
     testController.log(`[${testRunId}] Step 10: Re-activating JSON panel...`);
     eventBus.publish('ui:activatePanel', { panelId: 'jsonPanel' }, 'tests');
-    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // Step 11: Configure checkboxes again (disable all except settings)
     testController.log(`[${testRunId}] Step 11: Re-configuring JSON panel checkboxes...`);
@@ -320,15 +313,27 @@ export async function testJSONPanelImportFromText(testController) {
     // Step 12: Activate Editor panel and verify content
     testController.log(`[${testRunId}] Step 12: Activating Editor panel to verify content...`);
     eventBus.publish('ui:activatePanel', { panelId: 'editorPanel' }, 'tests');
-    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // Step 13: Select "Data for Export" from dropdown
     testController.log(`[${testRunId}] Step 13: Selecting Data for Export from dropdown...`);
-    
+
     // Set dropdown to dataForExport
     editorDropdown.value = 'dataForExport';
     editorDropdown.dispatchEvent(new Event('change'));
-    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    // Poll to verify the textarea content has been updated with the correct source
+    if (!(await testController.pollForCondition(
+      () => {
+        // Check that the textarea has content and it looks like export data
+        return editorTextarea.value.trim().length > 0 &&
+               editorTextarea.value.includes('userSettings');
+      },
+      'Editor content updated after dropdown change',
+      2000,
+      100
+    ))) {
+      throw new Error('Editor content did not update after changing dropdown');
+    }
     testController.reportCondition('Editor dropdown set to Data for Export', true);
 
     // Step 14: Verify editor content matches saved content
@@ -342,31 +347,43 @@ export async function testJSONPanelImportFromText(testController) {
 
     // Step 15: Use Import from Text functionality
     testController.log(`[${testRunId}] Step 15: Using Import from Text functionality...`);
-    
+
     // Mock the confirm and alert dialogs BEFORE activating the panel
     const originalConfirm = window.confirm;
     const originalAlert = window.alert;
+    let importCompleted = false;
+
     window.confirm = () => {
       testController.log(`[${testRunId}] Confirm dialog intercepted, returning true`);
       return true;
     };
     window.alert = (message) => {
       testController.log(`[${testRunId}] Alert dialog intercepted: ${message}`);
+      importCompleted = true; // Mark import as completed when alert is shown
     };
-    
+
     try {
       // Activate JSON panel
       eventBus.publish('ui:activatePanel', { panelId: 'jsonPanel' }, 'tests');
-      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // Click Import from Text button
       const importTextButton = jsonPanelElement.querySelector('#json-btn-import-text');
       if (!importTextButton) {
         throw new Error('Import from Text button not found in JSON panel');
       }
-      
+
       importTextButton.click();
-      await new Promise((resolve) => setTimeout(resolve, 3000)); // Wait longer for import process
+
+      // Wait for import to complete (indicated by alert being called)
+      if (!(await testController.pollForCondition(
+        () => importCompleted,
+        'Import from Text process to complete',
+        5000,
+        100
+      ))) {
+        throw new Error('Import from Text did not complete in time');
+      }
+
       testController.reportCondition('Import from Text button clicked', true);
     } finally {
       // Restore original functions
@@ -377,8 +394,7 @@ export async function testJSONPanelImportFromText(testController) {
     // Step 16: Verify colorblind mode is restored in Regions panel
     testController.log(`[${testRunId}] Step 16: Verifying colorblind mode restored in Regions panel...`);
     eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'tests');
-    await new Promise((resolve) => setTimeout(resolve, 2000)); // Give more time for settings to propagate
-    
+
     if (!(await testController.pollForCondition(
       () => {
         const regionBlocks = regionsPanelElement.querySelectorAll('.region-block');
@@ -429,8 +445,7 @@ export async function testJSONPanelLayoutImportExport(testController) {
     // Step 1: Activate JSON panel and export layout
     testController.log(`[${testRunId}] Step 1: Activating JSON panel...`);
     eventBus.publish('ui:activatePanel', { panelId: 'jsonPanel' }, 'tests');
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
+
     let jsonPanelElement = null;
     if (!(await testController.pollForCondition(
       () => {
@@ -468,7 +483,6 @@ export async function testJSONPanelLayoutImportExport(testController) {
     }
     
     exportTextButton.click();
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     testController.reportCondition('Layout export initiated', true);
 
     // Step 4: Verify layout was exported to editor
@@ -507,29 +521,41 @@ export async function testJSONPanelLayoutImportExport(testController) {
     // Mock dialogs to prevent blocking
     const originalConfirm = window.confirm;
     const originalAlert = window.alert;
+    let importCompleted = false;
+
     window.confirm = () => {
       testController.log(`[${testRunId}] Confirm dialog intercepted for layout import`);
       return true;
     };
     window.alert = (message) => {
       testController.log(`[${testRunId}] Alert dialog intercepted: ${message}`);
+      importCompleted = true; // Mark import as completed when alert is shown
     };
-    
+
     try {
       // Activate JSON panel again
       eventBus.publish('ui:activatePanel', { panelId: 'jsonPanel' }, 'tests');
-      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // Click Import from Text button
       const importTextButton = jsonPanelElement.querySelector('#json-btn-import-text');
       if (!importTextButton) {
         throw new Error('Import from Text button not found in JSON panel');
       }
-      
+
       importTextButton.click();
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait for import process
+
+      // Wait for import to complete (indicated by alert being called)
+      if (!(await testController.pollForCondition(
+        () => importCompleted,
+        'Layout import process to complete',
+        5000,
+        100
+      ))) {
+        throw new Error('Layout import did not complete in time');
+      }
+
       testController.reportCondition('Layout import completed', true);
-      
+
     } finally {
       // Restore original functions
       window.confirm = originalConfirm;

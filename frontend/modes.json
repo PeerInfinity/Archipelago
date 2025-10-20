@@ -42,6 +42,10 @@
     }
   },
   "test-regression": {
+    "moduleConfig": {
+      "path": "./modules-nograph.json",
+      "enabled": true
+    },
     "testsConfig": {
       "path": "./playwright_tests_config-regression.json",
       "enabled": true

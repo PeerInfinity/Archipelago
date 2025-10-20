@@ -31,8 +31,7 @@ export async function testColorblindModeToggleInRegionsViaSettings(testControlle
     // Step 1: Activate the Settings panel first
     testController.log(`[${testRunId}] Activating Settings panel...`);
     eventBus.publish('ui:activatePanel', { panelId: 'settingsPanel' }, 'tests');
-    await new Promise((resolve) => setTimeout(resolve, 1500)); // wait for panel to fully init
-    
+
     // Wait for the settings panel to appear in DOM
     let settingsPanelElement = null;
     if (!(await testController.pollForCondition(
@@ -105,8 +104,7 @@ export async function testColorblindModeToggleInRegionsViaSettings(testControlle
     // Step 3: Test Regions panel colorblind mode
     testController.log(`[${testRunId}] Testing Regions panel colorblind mode...`);
     eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'tests');
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
+
     let regionsPanelElement = null;
     if (!(await testController.pollForCondition(
       () => {
@@ -144,8 +142,7 @@ export async function testColorblindModeToggleInRegionsViaSettings(testControlle
     // Step 4: Disable colorblind mode for regions
     testController.log(`[${testRunId}] Disabling colorblind mode for regions...`);
     eventBus.publish('ui:activatePanel', { panelId: 'settingsPanel' }, 'tests');
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    
+
     const disabledSettings = textAreaElement.value.replace(/"regions":\s*true/g, '"regions": false');
     
     if (disabledSettings === textAreaElement.value) {
@@ -173,8 +170,7 @@ export async function testColorblindModeToggleInRegionsViaSettings(testControlle
     // Step 5: Verify colorblind mode is disabled in Regions panel
     testController.log(`[${testRunId}] Verifying colorblind mode disabled in Regions panel...`);
     eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'tests');
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    
+
     if (!(await testController.pollForCondition(
       () => {
         const regionBlocks = regionsPanelElement.querySelectorAll('.region-block');

@@ -82,7 +82,7 @@ export function register(registrationApi) {
 // Handler for user:regionMove events
 function handleRegionMove(data, propagationOptions) {
   log('info', `[${moduleId} Module] Received user:regionMove event`, data);
-  
+
   // Handle the region move by calling moveToRegion on the UI instance
   if (data && data.sourceRegion && data.targetRegion && regionUIInstance) {
     log('info', `[${moduleId} Module] Processing region move from ${data.sourceRegion} to ${data.targetRegion}`);

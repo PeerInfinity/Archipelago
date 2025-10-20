@@ -182,7 +182,13 @@ function handleRulesLoaded(data, propagationOptions) {
   // Expected format: "./presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json"
   const match = sourceName.match(/presets\/([^/]+)\/([^/]+)\/\2_rules\.json$/);
   if (!match) {
-    log('warn', `Could not parse sourceName format: ${sourceName}`);
+    // If sourceName indicates data loaded from localStorage, this is expected
+    const isFromLocalStorage = sourceName === 'moduleSpecificConfigProvidedRules';
+    log(
+      isFromLocalStorage ? 'info' : 'warn',
+      `Could not parse sourceName format: ${sourceName}` +
+      (isFromLocalStorage ? ' (Rules loaded from localStorage without file path)' : '')
+    );
     return;
   }
 

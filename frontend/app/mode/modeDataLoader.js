@@ -556,6 +556,11 @@ function prepareStateManagerConfig(baseCombinedData, dataSources, log) {
       if (match) {
         sourcePath = match[1];
       }
+    } else if (dataSources.rulesConfig.source === 'fallback') {
+      const match = dataSources.rulesConfig.details.match(/^Loaded from "default" mode \(fallback\): (.+)$/);
+      if (match) {
+        sourcePath = match[1];
+      }
     }
 
     // Set up StateManager config if we have a valid source path

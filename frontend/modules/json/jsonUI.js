@@ -480,6 +480,22 @@ export class JsonUI {
       }
     }
 
+    // Preserve dataSources metadata if available
+    // This helps maintain the original file path information even when saving to localStorage
+    if (window.G_combinedModeData?.dataSources) {
+      // Only include dataSources entries for the data keys we're actually saving
+      const relevantDataSources = {};
+      for (const key of Object.keys(dataToSave)) {
+        if (window.G_combinedModeData.dataSources[key]) {
+          relevantDataSources[key] = window.G_combinedModeData.dataSources[key];
+        }
+      }
+      if (Object.keys(relevantDataSources).length > 0) {
+        dataToSave.dataSources = relevantDataSources;
+        log('info', '[JsonUI] Preserved dataSources metadata for keys:', Object.keys(relevantDataSources));
+      }
+    }
+
     log('info', '[JsonUI] Finished gathering data. Keys:', Object.keys(dataToSave));
     log('info', '[JsonUI] layoutConfig exists in result:', !!dataToSave.layoutConfig);
     if (dataToSave.layoutConfig) {
@@ -827,22 +843,32 @@ export class JsonUI {
     // Create a promise to wait for the editor response
     return new Promise((resolve) => {
       // Set up a one-time listener for the editor response
+      let timeoutId;
+      let responseReceived = false;
+
       const responseHandler = (eventData) => {
+        if (responseReceived) return; // Already handled
+        responseReceived = true;
+
         log('info', '[JsonUI] Received editor content response:', eventData);
+        clearTimeout(timeoutId); // Clear the timeout since we got a response
         eventBus.unsubscribe('editor:contentResponse', responseHandler);
         resolve(eventData);
       };
-      
+
       eventBus.subscribe('editor:contentResponse', responseHandler, 'json');
-      
+
       // Request content from the editor
       eventBus.publish('editor:requestContent', {
         requestId: 'json-import-request',
         requestedSource: 'dataForExport'
       }, 'json');
-      
+
       // Set a timeout in case no response comes
-      setTimeout(() => {
+      timeoutId = setTimeout(() => {
+        if (responseReceived) return; // Response already received, don't log warning
+        responseReceived = true;
+
         eventBus.unsubscribe('editor:contentResponse', responseHandler);
         log('warn', '[JsonUI] Timeout waiting for editor content response');
         resolve({ text: '', source: 'timeout' });

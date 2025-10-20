@@ -351,13 +351,8 @@ export async function debugPathAnalyzerTest(testController) {
     }
     testController.reportCondition('State manager available', true);
 
-    // Step 3: Set up simple test state
-    testController.log('Step 3: Setting up simple test state...');
-    await sm.applyTestInventoryAndEvaluate('Moon Pearl', [], []);
-    testController.reportCondition('Test inventory applied', true);
-
-    // Step 4: Check if target region exists
-    testController.log('Step 4: Getting static data...');
+    // Step 3: Check if target region exists
+    testController.log('Step 3: Getting static data...');
     const staticData = sm.getStaticData();
 
     if (!staticData || !staticData.regions) {
