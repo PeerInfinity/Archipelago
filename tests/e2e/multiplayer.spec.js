@@ -131,30 +131,25 @@ test.describe('Multiplayer Client Interaction Tests', () => {
     // Wait for test to complete
     await page1.waitForFunction(
       () => {
-        const flag = localStorage.getItem('__playwrightTestsComplete__');
-        const errorFlag = localStorage.getItem('__playwrightTestsError__');
-        const results = localStorage.getItem('__playwrightTestResults__');
+        const flag = window.__playwrightTestsComplete__;
+        const errorFlag = window.__playwrightTestsError__;
+        const results = window.__playwrightTestResults__;
 
         // Early exit on error
-        if (errorFlag === 'true') {
+        if (errorFlag === true) {
           console.log('Client 1: Early termination due to error');
           return true;
         }
 
         // Exit if all expected tests are done
-        if (results) {
-          try {
-            const parsed = JSON.parse(results);
-            if (parsed.summary && parsed.summary.totalExpected === (parsed.summary.totalRun + parsed.summary.skippedCount)) {
-              console.log('Client 1: All expected tests completed');
-              return true;
-            }
-          } catch (e) {
-            // Ignore parse errors
+        if (results && results.summary) {
+          if (results.summary.totalExpected === (results.summary.totalRun + results.summary.skippedCount)) {
+            console.log('Client 1: All expected tests completed');
+            return true;
           }
         }
 
-        return flag === 'true';
+        return flag === true;
       },
       null,
       { timeout: 600000, polling: 500 }
@@ -165,13 +160,9 @@ test.describe('Multiplayer Client Interaction Tests', () => {
     console.log('='.repeat(60));
 
     // Collect results
-    const results1String = await page1.evaluate(() =>
-      localStorage.getItem('__playwrightTestResults__')
-    );
+    const results1 = await page1.evaluate(() => window.__playwrightTestResults__);
 
-    expect(results1String).toBeTruthy();
-
-    const results1 = JSON.parse(results1String);
+    expect(results1).toBeTruthy();
 
     // Create output directory if it doesn't exist
     if (!fs.existsSync(outputDir)) {
@@ -275,60 +266,50 @@ test.describe('Multiplayer Client Interaction Tests', () => {
     await Promise.all([
       page1.waitForFunction(
         () => {
-          const flag = localStorage.getItem('__playwrightTestsComplete__');
-          const errorFlag = localStorage.getItem('__playwrightTestsError__');
-          const results = localStorage.getItem('__playwrightTestResults__');
+          const flag = window.__playwrightTestsComplete__;
+          const errorFlag = window.__playwrightTestsError__;
+          const results = window.__playwrightTestResults__;
 
           // Early exit on error
-          if (errorFlag === 'true') {
+          if (errorFlag === true) {
             console.log('Client 1: Early termination due to error');
             return true;
           }
 
           // Exit if all expected tests are done
-          if (results) {
-            try {
-              const parsed = JSON.parse(results);
-              if (parsed.summary && parsed.summary.totalExpected === (parsed.summary.totalRun + parsed.summary.skippedCount)) {
-                console.log('Client 1: All expected tests completed');
-                return true;
-              }
-            } catch (e) {
-              // Ignore parse errors
+          if (results && results.summary) {
+            if (results.summary.totalExpected === (results.summary.totalRun + results.summary.skippedCount)) {
+              console.log('Client 1: All expected tests completed');
+              return true;
             }
           }
 
-          return flag === 'true';
+          return flag === true;
         },
         null,
         { timeout: 600000, polling: 500 }
       ),
       page2.waitForFunction(
         () => {
-          const flag = localStorage.getItem('__playwrightTestsComplete__');
-          const errorFlag = localStorage.getItem('__playwrightTestsError__');
-          const results = localStorage.getItem('__playwrightTestResults__');
+          const flag = window.__playwrightTestsComplete__;
+          const errorFlag = window.__playwrightTestsError__;
+          const results = window.__playwrightTestResults__;
 
           // Early exit on error
-          if (errorFlag === 'true') {
+          if (errorFlag === true) {
             console.log('Client 2: Early termination due to error');
             return true;
           }
 
           // Exit if all expected tests are done
-          if (results) {
-            try {
-              const parsed = JSON.parse(results);
-              if (parsed.summary && parsed.summary.totalExpected === (parsed.summary.totalRun + parsed.summary.skippedCount)) {
-                console.log('Client 2: All expected tests completed');
-                return true;
-              }
-            } catch (e) {
-              // Ignore parse errors
+          if (results && results.summary) {
+            if (results.summary.totalExpected === (results.summary.totalRun + results.summary.skippedCount)) {
+              console.log('Client 2: All expected tests completed');
+              return true;
             }
           }
 
-          return flag === 'true';
+          return flag === true;
         },
         null,
         { timeout: 600000, polling: 500 }
@@ -340,18 +321,11 @@ test.describe('Multiplayer Client Interaction Tests', () => {
     console.log('='.repeat(60));
 
     // Collect results from both clients
-    const results1String = await page1.evaluate(() =>
-      localStorage.getItem('__playwrightTestResults__')
-    );
-    const results2String = await page2.evaluate(() =>
-      localStorage.getItem('__playwrightTestResults__')
-    );
+    const results1 = await page1.evaluate(() => window.__playwrightTestResults__);
+    const results2 = await page2.evaluate(() => window.__playwrightTestResults__);
 
-    expect(results1String).toBeTruthy();
-    expect(results2String).toBeTruthy();
-
-    const results1 = JSON.parse(results1String);
-    const results2 = JSON.parse(results2String);
+    expect(results1).toBeTruthy();
+    expect(results2).toBeTruthy();
 
     // Create output directory if it doesn't exist
     if (!fs.existsSync(outputDir)) {

@@ -25,7 +25,7 @@
     -   Simulate user actions (e.g., `SIMULATE_CLICK` on a DOM element).
     -   Dispatch events on the `eventBus`.
     -   Wait for specific application events to occur (`waitForEvent`), which is crucial for handling asynchronous operations and avoiding race conditions.
--   **Playwright Integration:** When the application runs in "test" mode (`?mode=test`), it automatically executes all enabled tests from a specific configuration file. Upon completion, it writes a detailed JSON summary of the results to `localStorage` and sets a completion flag. This allows the external Playwright test runner (`tests/e2e/app.spec.js`) to get the results and validate the application's overall health.
+-   **Playwright Integration:** When the application runs in "test" mode (`?mode=test`), it automatically executes all enabled tests from a specific configuration file. Upon completion, it writes a detailed JSON summary of the results to `window.__playwrightTestResults__` and sets a completion flag. This allows the external Playwright test runner (`tests/e2e/app.spec.js`) to get the results and validate the application's overall health.
 -   **UI Panel:** Provides a developer-focused UI for viewing all discovered tests, enabling or disabling them, running them individually or in batches, and seeing detailed results, conditions, and logs for each test run.
 
 #### Events Published
@@ -45,6 +45,6 @@
 
 #### Dependencies & Interactions
 
--   **Playwright (`tests/e2e/app.spec.js`):** The Playwright test script is the external consumer of this module's automated run. It launches the app in test mode and waits for the `localStorage` flags that this module sets upon completion.
+-   **Playwright (`tests/e2e/app.spec.js`):** The Playwright test script is the external consumer of this module's automated run. It launches the app in test mode and waits for the `window.__playwrightTestsComplete__` flag that this module sets upon completion.
 -   **StateManager**: The `TestController` interacts heavily with the `StateManager` to set up specific game states required for tests and to verify outcomes.
 -   **All Modules**: As an integration testing framework, tests written for this module can be designed to interact with any part of the application by simulating user events or calling public functions, making it a powerful tool for end-to-end validation.

@@ -934,47 +934,13 @@ export const testLogic = {
     }
   },
 
-  // Set localStorage flags for Playwright test completion detection
+  // Set window properties for Playwright test completion detection
   _setPlaywrightCompletionFlags(summary, allTests) {
     try {
-      // Limit the number of log entries per test to prevent localStorage quota issues
-      const MAX_LOGS_PER_TEST = 50;
-      const MAX_LOG_MESSAGE_LENGTH = 500;
-
-      // Determine if we should truncate logs - only truncate when multiple tests ran
-      const testsRun = summary.totalRun || 0;
-      const shouldTruncateLogs = testsRun > 1;
-
       // Prepare detailed test results for Playwright - only include enabled tests
       const testDetails = allTests
         .filter((test) => test.status !== 'disabled')
         .map((test) => {
-          let logs = test.logs || [];
-
-          // Only truncate if multiple tests are being run
-          if (shouldTruncateLogs) {
-            // If there are too many logs, keep only the most recent ones
-            if (logs.length > MAX_LOGS_PER_TEST) {
-              logs = [
-                ...logs.slice(0, 5), // Keep first 5 logs
-                {
-                  message: `... ${logs.length - MAX_LOGS_PER_TEST} log entries omitted ...`,
-                  type: 'info',
-                  timestamp: logs[Math.floor(logs.length / 2)].timestamp || new Date().toISOString()
-                },
-                ...logs.slice(-MAX_LOGS_PER_TEST + 5) // Keep last 45 logs
-              ];
-            }
-
-            // Truncate long log messages
-            logs = logs.map(log => ({
-              ...log,
-              message: log.message.length > MAX_LOG_MESSAGE_LENGTH
-                ? log.message.substring(0, MAX_LOG_MESSAGE_LENGTH) + '... [truncated]'
-                : log.message
-            }));
-          }
-
           // Calculate duration if start and end times are available
           let durationMs = null;
           if (test.startTime && test.endTime) {
@@ -992,7 +958,7 @@ export const testLogic = {
             endTime: test.endTime || null,
             durationMs: durationMs,
             conditions: test.conditions || [],
-            logs: logs,
+            logs: test.logs || [],
           };
         });
 
@@ -1002,54 +968,9 @@ export const testLogic = {
         completedAt: new Date().toISOString(),
       };
 
-      // Try to set the results, and if it fails due to quota, reduce the data
-      try {
-        localStorage.setItem(
-          '__playwrightTestResults__',
-          JSON.stringify(playwrightResults)
-        );
-      } catch (quotaError) {
-        // If we still exceed quota, remove logs entirely and just keep summary
-        log('warn', '[TestLogic] Full results too large for localStorage, storing summary only');
-
-        const minimalTestDetails = allTests
-          .filter((test) => test.status !== 'disabled')
-          .map((test) => {
-            // Calculate duration if start and end times are available
-            let durationMs = null;
-            if (test.startTime && test.endTime) {
-              const start = new Date(test.startTime);
-              const end = new Date(test.endTime);
-              durationMs = end - start;
-            }
-
-            return {
-              id: test.id,
-              name: test.name,
-              status: test.status,
-              category: test.category,
-              startTime: test.startTime || null,
-              endTime: test.endTime || null,
-              durationMs: durationMs,
-              conditions: test.conditions || [],
-              logs: [] // Remove all logs
-            };
-          });
-
-        const minimalResults = {
-          summary,
-          testDetails: minimalTestDetails,
-          completedAt: new Date().toISOString(),
-        };
-
-        localStorage.setItem(
-          '__playwrightTestResults__',
-          JSON.stringify(minimalResults)
-        );
-      }
-
-      // Set the completion flag
-      localStorage.setItem('__playwrightTestsComplete__', 'true');
+      // Set results on window object - no size limits, full logs preserved
+      window.__playwrightTestResults__ = playwrightResults;
+      window.__playwrightTestsComplete__ = true;
 
       log('info', '[TestLogic] Playwright completion flags set:', {
         summary,

@@ -25,6 +25,7 @@ export async function testJSONPanelImportFromText(testController) {
   log('info', 'Starting JSON panel Import from Text test');
   const testRunId = `json-import-test-${Date.now()}`;
   let settingsApplied = false; // Track if we need cleanup
+  let testPassed = false; // Track test result for finally block
 
   try {
     testController.log(`[${testRunId}] Starting JSON panel Import from Text test...`);
@@ -416,15 +417,15 @@ export async function testJSONPanelImportFromText(testController) {
       throw new Error('Colorblind symbol not restored in Menu region after import');
     }
     testController.reportCondition('Colorblind mode restored via Import from Text', true);
-    
+
     testController.log(`[${testRunId}] JSON panel Import from Text test completed successfully`);
-    await testController.completeTest(true);
+    testPassed = true;
 
   } catch (error) {
     log('error', 'JSON panel Import from Text test failed:', error);
     testController.log(`[${testRunId}] Test failed: ${error.message}`, 'error');
     testController.reportCondition(`Test errored: ${error.message}`, false);
-    await testController.completeTest(false);
+    testPassed = false;
   } finally {
     // Ensure colorblind mode is disabled even if test failed midway
     if (settingsApplied) {
@@ -450,6 +451,8 @@ export async function testJSONPanelImportFromText(testController) {
               textAreaElement.value = disabledSettings;
               applyButton.click();
               testController.log(`[${testRunId}] Finally block: Colorblind mode disabled`);
+              // Wait for settings to be applied
+              await new Promise(resolve => setTimeout(resolve, 100));
             }
           }
         }
@@ -457,6 +460,10 @@ export async function testJSONPanelImportFromText(testController) {
         testController.log(`[${testRunId}] Finally block: Error during cleanup: ${cleanupError.message}`);
       }
     }
+
+    // Call completeTest at the end of finally block, after cleanup
+    testController.log(`[${testRunId}] Calling completeTest(${testPassed}) from finally block`);
+    await testController.completeTest(testPassed);
   }
 }
 
@@ -468,7 +475,8 @@ export async function testJSONPanelImportFromText(testController) {
 export async function testJSONPanelLayoutImportExport(testController) {
   log('info', 'Starting JSON panel Layout Import/Export test');
   const testRunId = `json-layout-test-${Date.now()}`;
-  
+  let testPassed = false; // Track test result for finally block
+
   try {
     testController.log(`[${testRunId}] Starting JSON panel Layout Import/Export test...`);
     testController.reportCondition('Test started', true);
@@ -595,15 +603,19 @@ export async function testJSONPanelLayoutImportExport(testController) {
       window.confirm = originalConfirm;
       window.alert = originalAlert;
     }
-    
+
     testController.log(`[${testRunId}] JSON panel Layout Import/Export test completed successfully`);
-    await testController.completeTest(true);
-    
+    testPassed = true;
+
   } catch (error) {
     log('error', 'JSON panel Layout Import/Export test failed:', error);
     testController.log(`[${testRunId}] Test failed: ${error.message}`, 'error');
     testController.reportCondition(`Test errored: ${error.message}`, false);
-    await testController.completeTest(false);
+    testPassed = false;
+  } finally {
+    // Call completeTest at the end of finally block
+    testController.log(`[${testRunId}] Calling completeTest(${testPassed}) from finally block`);
+    await testController.completeTest(testPassed);
   }
 }
 
@@ -615,6 +627,7 @@ export async function testJSONPanelLayoutImportExport(testController) {
 export async function testJSONPanelGameStateImportExport(testController) {
   log('info', 'Starting JSON panel Game State Import/Export test');
   const testRunId = `json-gamestate-test-${Date.now()}`;
+  let testPassed = false; // Track test result for finally block
 
   try {
     testController.log(`[${testRunId}] Starting JSON panel Game State Import/Export test...`);
@@ -1109,15 +1122,19 @@ export async function testJSONPanelGameStateImportExport(testController) {
       throw new Error('Piece of Heart found in inventory after import (should have been removed by state restoration)');
     }
     testController.reportCondition('Piece of Heart correctly not in inventory after import', true);
-    
+
     testController.log(`[${testRunId}] JSON panel Game State Import/Export test completed successfully`);
-    await testController.completeTest(true);
-    
+    testPassed = true;
+
   } catch (error) {
     log('error', 'JSON panel Game State Import/Export test failed:', error);
     testController.log(`[${testRunId}] Test failed: ${error.message}`, 'error');
     testController.reportCondition(`Test errored: ${error.message}`, false);
-    await testController.completeTest(false);
+    testPassed = false;
+  } finally {
+    // Call completeTest at the end of finally block
+    testController.log(`[${testRunId}] Calling completeTest(${testPassed}) from finally block`);
+    await testController.completeTest(testPassed);
   }
 }
 

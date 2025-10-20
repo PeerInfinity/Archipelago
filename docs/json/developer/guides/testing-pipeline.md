@@ -67,8 +67,8 @@ The entire pipeline can be run automatically from the command line using Playwri
 
 -   **Test Mode:** Running `npm test` launches the web client with URL parameters. You can specify `--mode`, `--game`, `--seed`, and `--rules` parameters to customize the test configuration.
 -   **Auto-Execution:** In "test" mode, the application automatically loads a predefined test configuration (`playwright_tests_config.json`).
--   **`localStorage` Bridge:** Upon completion, the in-browser test writes a summary of the results to `localStorage`.
--   **Validation:** The Playwright script (`tests/e2e/app.spec.js`) waits for this `localStorage` flag, reads the results, and asserts that all tests passed, reporting the final outcome to the command line.
+-   **Window Property Bridge:** Upon completion, the in-browser test writes a summary of the results to `window.__playwrightTestResults__`.
+-   **Validation:** The Playwright script (`tests/e2e/app.spec.js`) waits for the `window.__playwrightTestsComplete__` flag, reads the results, and asserts that all tests passed, reporting the final outcome to the command line.
 
 This end-to-end pipeline ensures a high degree of confidence that the frontend client is a faithful and accurate implementation of Archipelago's game progression logic.
 

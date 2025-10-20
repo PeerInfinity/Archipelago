@@ -61,61 +61,54 @@ test.describe('Application End-to-End Tests', () => {
     await page.goto(APP_URL, { waitUntil: 'networkidle', timeout: 60000 });
     console.log('PW DEBUG: Page navigation complete (network idle).');
 
-    // Wait for the __playwrightTestsComplete__ flag to be set to 'true' in localStorage
+    // Wait for the __playwrightTestsComplete__ flag to be set on window object
     // Also check for early termination due to errors
     console.log(
-      'PW DEBUG: Starting to wait for __playwrightTestsComplete__ flag in localStorage...'
+      'PW DEBUG: Starting to wait for __playwrightTestsComplete__ flag on window...'
     );
     await page.waitForFunction(
       () => {
-        const flag = localStorage.getItem('__playwrightTestsComplete__');
-        const errorFlag = localStorage.getItem('__playwrightTestsError__');
-        const results = localStorage.getItem('__playwrightTestResults__');
-        
+        const flag = window.__playwrightTestsComplete__;
+        const errorFlag = window.__playwrightTestsError__;
+        const results = window.__playwrightTestResults__;
+
         // This console.log will appear in Playwright's output (from the browser context)
         // and will also be caught by page.on('console') above.
         //console.log(
-        //  `Polling localStorage __playwrightTestsComplete__: "${flag}" (type: ${typeof flag})`
+        //  `Polling window.__playwrightTestsComplete__: "${flag}" (type: ${typeof flag})`
         //);
-        
+
         // If there's an error flag, exit early
-        if (errorFlag === 'true') {
+        if (errorFlag === true) {
           console.log('PW DEBUG: Early termination due to test error detected');
           return true;
         }
-        
+
         // If we have results and they indicate all tests are done (even with failures), exit
-        if (results) {
-          try {
-            const parsed = JSON.parse(results);
-            if (parsed.summary && parsed.summary.totalExpected === (parsed.summary.totalRun + parsed.summary.skippedCount)) {
-              console.log('PW DEBUG: All expected tests completed (with possible failures)');
-              return true;
-            }
-          } catch (e) {
-            // Ignore parse errors
+        if (results && results.summary) {
+          if (results.summary.totalExpected === (results.summary.totalRun + results.summary.skippedCount)) {
+            console.log('PW DEBUG: All expected tests completed (with possible failures)');
+            return true;
           }
         }
-        
-        return flag === 'true';
+
+        return flag === true;
       },
       null,
       { timeout: 130000, polling: 500 }
     ); // Poll every 500ms
 
     console.log(
-      'PW DEBUG: __playwrightTestsComplete__ flag detected as "true".'
+      'PW DEBUG: __playwrightTestsComplete__ flag detected as true.'
     );
 
-    const resultsString = await page.evaluate(() =>
-      localStorage.getItem('__playwrightTestResults__')
-    );
-    expect(resultsString).toBeTruthy();
+    const results = await page.evaluate(() => window.__playwrightTestResults__);
+    expect(results).toBeTruthy();
     console.log(
-      'PW DEBUG: __playwrightTestResults__ string retrieved from localStorage.'
+      'PW DEBUG: __playwrightTestResults__ retrieved from window object.'
     );
 
-    const results = JSON.parse(resultsString);
+    // Results are already parsed from window object (no need for JSON.parse)
     // Log only summary to keep PW console cleaner, full log is in playwright-report.json
     // console.log('PW DEBUG: In-app test results summary:', results.summary);
     console.log(

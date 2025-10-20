@@ -23,13 +23,18 @@ export async function testLibraryRegionAccessibilityShowAll(testController) {
     testController.log(`[${testRunId}] Starting Library region accessibility test...`);
     testController.reportCondition('Test started', true);
 
-    // 1. Activate the Regions panel
+    // 1. Load ALTTP rules (required for Library region)
+    testController.log(`[${testRunId}] Loading ALTTP rules for test setup...`);
+    await testController.loadALTTPRules();
+    testController.reportCondition('ALTTP rules loaded for test', true);
+
+    // 2. Activate the Regions panel
     testController.log(`[${testRunId}] Activating ${PANEL_ID} panel...`);
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
     eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
 
-    // 2. Wait for the regions panel to appear in DOM
+    // 3. Wait for the regions panel to appear in DOM
     const regionsPanelElement = await testController.pollForValue(
       () => document.querySelector('.regions-panel-container'),
       'Regions panel DOM element',
@@ -41,7 +46,7 @@ export async function testLibraryRegionAccessibilityShowAll(testController) {
     }
     testController.reportCondition('Regions panel found in DOM', true);
 
-    // 3. Wait for regions to be loaded and displayed
+    // 4. Wait for regions to be loaded and displayed
     const regionsContainerFound = await testController.pollForCondition(
       () => {
         const regionsContainer = regionsPanelElement.querySelector('#region-details-container');
@@ -64,7 +69,7 @@ export async function testLibraryRegionAccessibilityShowAll(testController) {
     testController.reportCondition('Regions container populated', true);
     const regionsContainer = regionsPanelElement.querySelector('#region-details-container');
 
-    // 3.5. Enable "Show All Regions" mode to see all regions
+    // 5. Enable "Show All Regions" mode to see all regions
     showAllRegionsCheckbox = regionsPanelElement.querySelector('#show-all-regions');
     if (!showAllRegionsCheckbox) {
       throw new Error('"Show All Regions" checkbox not found');
@@ -90,7 +95,7 @@ export async function testLibraryRegionAccessibilityShowAll(testController) {
       testController.reportCondition('"Show All Regions" already enabled', true);
     }
 
-    // 4. Look for the Library region specifically
+    // 6. Look for the Library region specifically
     const libraryRegionFound = await testController.pollForCondition(
       () => {
         const regionBlocks = regionsContainer.querySelectorAll('.region-block');
@@ -122,7 +127,7 @@ export async function testLibraryRegionAccessibilityShowAll(testController) {
       }
     }
 
-    // 5. Get the current state snapshot to check region and location accessibility
+    // 7. Get the current state snapshot to check region and location accessibility
     const stateManager = testController.stateManager;
     const snapshot = stateManager.getSnapshot();
     
@@ -150,7 +155,7 @@ export async function testLibraryRegionAccessibilityShowAll(testController) {
       testController.log(`[${testRunId}] WARNING: Library region is not reachable. This may affect the test validity.`);
     }
 
-    // 6. Check the visual state of the Library region block
+    // 8. Check the visual state of the Library region block
     const regionHeader = libraryRegionBlock.querySelector('.region-header');
     const hasAccessibleClass = regionHeader ? regionHeader.classList.contains('accessible') : false;
     const hasInaccessibleClass = regionHeader ? regionHeader.classList.contains('inaccessible') : false;
@@ -158,7 +163,7 @@ export async function testLibraryRegionAccessibilityShowAll(testController) {
 
     testController.log(`[${testRunId}] Library region header classes: accessible=${hasAccessibleClass}, inaccessible=${hasInaccessibleClass}, completed=${hasCompletedClass}`);
 
-    // 7. Get the status text from the region block
+    // 9. Get the status text from the region block
     let statusText = 'unknown';
     const statusElement = libraryRegionBlock.querySelector('.region-status');
     if (statusElement) {
@@ -166,7 +171,7 @@ export async function testLibraryRegionAccessibilityShowAll(testController) {
     }
     testController.log(`[${testRunId}] Library region status text: "${statusText}"`);
 
-    // 8. Verify that the Library region shows as accessible
+    // 10. Verify that the Library region shows as accessible
     if (isLibraryRegionReachable) {
       if (hasAccessibleClass || hasCompletedClass) {
         testController.reportCondition('Library region shows as accessible', true);
@@ -182,7 +187,7 @@ export async function testLibraryRegionAccessibilityShowAll(testController) {
       testController.reportCondition('Library region accessibility noted', true);
     }
 
-    // 9. Look for the Library location within the Library region block
+    // 11. Look for the Library location within the Library region block
     let libraryLocationElement = null;
     const locationElements = libraryRegionBlock.querySelectorAll('.location-link, .location-wrapper');
     for (const locElement of locationElements) {
@@ -220,7 +225,7 @@ export async function testLibraryRegionAccessibilityShowAll(testController) {
       // This is not necessarily a failure, as the region panel might not show individual locations
     }
 
-    // 10. Confirm the fix: region and location accessibility are properly separated
+    // 12. Confirm the fix: region and location accessibility are properly separated
     const regionLocationSeparated = 
       (snapshot.regionReachability && snapshot.locationReachability) ||
       (isLibraryRegionReachable !== isLibraryLocationReachable);
@@ -233,7 +238,7 @@ export async function testLibraryRegionAccessibilityShowAll(testController) {
       overallResult = false;
     }
 
-    // 11. Additional diagnostic information
+    // 13. Additional diagnostic information
     testController.log(`[${testRunId}] Additional diagnostic info:`);
     testController.log(`[${testRunId}] - regionReachability exists: ${!!snapshot.regionReachability}`);
     testController.log(`[${testRunId}] - regionReachability entries: ${snapshot.regionReachability ? Object.keys(snapshot.regionReachability).length : 0}`);
