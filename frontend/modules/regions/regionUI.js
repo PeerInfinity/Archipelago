@@ -15,6 +15,11 @@ import {
   logAndGetUnknownEvaluationCounter,
 } from '../commonUI/index.js';
 import { RegionBlockBuilder } from './regionBlockBuilder.js';
+import { DisplaySettingsManager } from './displaySettingsManager.js';
+import { ExpansionStateManager } from './expansionStateManager.js';
+import { NavigationManager } from './navigationManager.js';
+import { RegionRenderer } from './regionRenderer.js';
+import { EventCoordinator } from './eventCoordinator.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -52,21 +57,34 @@ export class RegionUI {
     // If set to true, we'll show the full visited path. If false, only show last region
     this.showPaths = true;
     this.isInitialized = false; // Add flag
-    this.colorblindSettings = false; // Add colorblind settings cache
     this.navigationTarget = null; // Add navigation target state
     this.isDiscoveryModeActive = false; // Track discovery mode state
-    this.showName = true; // Cache showName setting
-    this.showLabel1 = false; // Cache showLabel1 setting
-    this.showLabel2 = false; // Cache showLabel2 setting
-    
-    // Separate tracking for "Show All" mode expansion states
-    // Map of regionName -> boolean (expanded state)
-    this.showAllExpansionState = new Map();
+
+    // Create root element first (needed for DisplaySettingsManager)
+    this.rootElement = this.createRootElement();
+
+    // Create the display settings manager
+    this.displaySettings = new DisplaySettingsManager(settingsManager, this.rootElement);
+
+    // Create the expansion state manager
+    this.expansionState = new ExpansionStateManager();
+
+    // Create the navigation manager
+    this.navigationManager = new NavigationManager(eventBus);
 
     // Create the path analyzer and block builder
     this.pathAnalyzer = new PathAnalyzerUI(this);
     this.regionBlockBuilder = new RegionBlockBuilder(this);
-    this.rootElement = this.createRootElement();
+
+    // Create the region renderer
+    this.regionRenderer = new RegionRenderer(this.regionBlockBuilder);
+
+    // Store reference to stateManager for event coordinator
+    this.stateManager = stateManager;
+
+    // Create the event coordinator (note: subscribeToEvents called in initialize())
+    this.eventCoordinator = new EventCoordinator(eventBus, this);
+
     this.regionsContainer = this.rootElement.querySelector(
       '#region-details-container' // Changed selector
     );
@@ -89,13 +107,15 @@ export class RegionUI {
       // Static data (like original orders) will be fetched on 'stateManager:rulesLoaded'.
       // Full render will occur on 'stateManager:ready'.
 
-      // Initialize settings cache and showAll state here as they don't depend on StateManager data
-      this.colorblindSettings = false; // Will be loaded async
-      this._loadColorblindSettings();
-      this._loadDisplaySettings();
-      const showAllCheckbox =
-        this.rootElement.querySelector('#show-all-regions');
-      this.showAll = showAllCheckbox ? showAllCheckbox.checked : false;
+      // Initialize display settings manager (loads persisted settings)
+      this.displaySettings.initialize().then(() => {
+        // Sync showAll from display settings
+        this.showAll = this.displaySettings.getSetting('showAll');
+        this.showPaths = this.displaySettings.getSetting('showPaths');
+        log('info', '[RegionUI] Display settings loaded and synced');
+      }).catch(error => {
+        log('error', '[RegionUI] Failed to initialize display settings:', error);
+      });
 
       this.isInitialized = true; // Mark that basic panel setup is done.
       log(
@@ -124,298 +144,8 @@ export class RegionUI {
 
   _subscribeToEvents() {
     log('info', '[RegionUI] Subscribing instance to EventBus events...');
-    // Ensure unsubscribed first
-    this.unsubscribeHandles.forEach((u) => u());
-    this.unsubscribeHandles = [];
-
-    if (!eventBus) {
-      log('error', '[RegionUI] EventBus not available for subscriptions.');
-      return;
-    }
-
-    const subscribe = (eventName, handler) => {
-      log('info', `[RegionUI] Subscribing to ${eventName}`);
-      const unsubscribe = eventBus.subscribe(eventName, handler, 'regions');
-      this.unsubscribeHandles.push(unsubscribe);
-    };
-
-    // --- ADDED: Handler for stateManager:ready --- Similar to LocationUI/ExitUI
-    const handleReady = () => {
-      log('info', '[RegionUI] Received stateManager:ready event.');
-      // This event confirms StateManager is fully ready (static data and initial snapshot).
-      // originalRegionOrder should have been populated by the 'stateManager:rulesLoaded' handler.
-      
-      // If rulesLoaded handler hasn't completed yet, defer this call
-      if (!this.rulesLoadedHandlerCompleted) {
-        log('info', '[RegionUI stateManager:ready] Deferring ready handler until rulesLoaded handler completes.');
-        // Use a short delay to allow rulesLoaded handler to complete
-        setTimeout(() => handleReady(), 10);
-        return;
-      }
-
-      if (!this.isInitialized) {
-        log(
-          'warn',
-          '[RegionUI stateManager:ready] Panel base not yet initialized by app:readyForUiDataLoad. This is unexpected. Proceeding with render attempt.'
-        );
-        // Initialize settings cache and showAll state if not done by app:readyForUiDataLoad handler
-        this.colorblindSettings = false; // Will be loaded async
-        this._loadColorblindSettings();
-        const showAllCheckbox =
-          this.rootElement.querySelector('#show-all-regions');
-        this.showAll = showAllCheckbox ? showAllCheckbox.checked : false;
-      }
-
-      // Ensure originalRegionOrder is available (it should be from rulesLoaded handler)
-      if (!this.originalRegionOrder || this.originalRegionOrder.length === 0) {
-        log(
-          'warn',
-          '[RegionUI stateManager:ready] Original region order not available. Attempting to fetch now.'
-        );
-        const currentStaticData = stateManager.getStaticData();
-        if (currentStaticData && currentStaticData.regions) {
-          this.originalRegionOrder = stateManager.getOriginalRegionOrder();
-          log(
-            'info',
-            `[RegionUI stateManager:ready] Fetched ${this.originalRegionOrder.length} region keys for original order.`
-          );
-        } else {
-          log(
-            'error',
-            '[RegionUI stateManager:ready] Failed to fetch static data/regions for original order. Region panel may not display correctly.'
-          );
-        }
-      }
-
-      // Initialize visitedRegions with Menu if showAll is false
-      // This needs to happen after staticData is confirmed (for region existence checks within showStartRegion)
-      // and originalRegionOrder is available.
-      if (!this.showAll && this.visitedRegions.length === 0) {
-        log(
-          'info',
-          "[RegionUI stateManager:ready] Show All is off and visitedRegions is empty, setting start region to 'Menu'."
-        );
-        this.showStartRegion('Menu');
-      } else if (this.showAll) {
-        log(
-          'info',
-          '[RegionUI stateManager:ready] Show All is on, visitedRegions will be based on all regions.'
-        );
-      }
-
-      log(
-        'info',
-        '[RegionUI stateManager:ready] Triggering initial full display update.'
-      );
-      this.update(); // This is now the primary trigger for the first full render.
-    };
-    subscribe('stateManager:ready', handleReady);
-    // --- END ADDED ---
-
-    // Debounced update function for subsequent changes
-    const debouncedUpdate = debounce(() => {
-      if (this.isInitialized) {
-        // Only update if initialized
-        log('info', '[RegionUI] Debounced update triggered.');
-        this.update();
-      } else {
-        // log('info', '[RegionUI] Debounced update skipped (not initialized).');
-      }
-    }, 50);
-
-    // --- Subscribe to snapshot updated for general state changes ---
-    subscribe('stateManager:snapshotUpdated', debouncedUpdate);
-
-    // REMOVE: old individual state subscriptions if covered by snapshot
-    /*
-    subscribe('stateManager:inventoryChanged', (data) => ... );
-    subscribe('stateManager:regionsComputed', (data) => ... );
-    subscribe('stateManager:locationChecked', (data) => ... );
-    subscribe('stateManager:checkedLocationsCleared', (data) => ... );
-    */
-
-    // Subscribe to loop state changes (still relevant)
-    subscribe('loop:stateChanged', debouncedUpdate);
-    subscribe('loop:actionCompleted', debouncedUpdate);
-    subscribe('discovery:changed', debouncedUpdate);
-
-    // Subscribe to discovery mode changes
-    subscribe('discovery:modeChanged', (data) => {
-      if (data && typeof data.active === 'boolean') {
-        this.isDiscoveryModeActive = data.active;
-        log('info', `[RegionUI] Discovery mode changed: ${this.isDiscoveryModeActive}`);
-        debouncedUpdate();
-      }
-    });
-
-    // Subscribe to settings changes
-    const settingsHandler = ({ key, value }) => {
-      if (key === '*' || key.startsWith('colorblindMode.regions')) {
-        log(
-          'info',
-          `[RegionUI] Settings changed (${key}), updating cache and triggering update.`
-        );
-        // Update local cache
-        this._loadColorblindSettings();
-        if (this.isInitialized) debouncedUpdate(); // Trigger redraw if initialized
-      }
-      if (key === '*' || key.startsWith('moduleSettings.regions.showName') ||
-          key.startsWith('moduleSettings.regions.showLabel1') ||
-          key.startsWith('moduleSettings.regions.showLabel2')) {
-        log(
-          'info',
-          `[RegionUI] Display settings changed (${key}), updating cache and triggering update.`
-        );
-        // Update local cache
-        this._loadDisplaySettings();
-        if (this.isInitialized) debouncedUpdate(); // Trigger redraw if initialized
-      }
-    };
-    subscribe('settings:changed', settingsHandler);
-
-    // --- BEGIN ADDED: Handler for stateManager:rulesLoaded ---
-    subscribe('stateManager:rulesLoaded', (event) => {
-      log(
-        'info',
-        '[RegionUI] Received stateManager:rulesLoaded event. Full refresh triggered with state reset.'
-      );
-
-      // Access snapshot from event (this is the new initial snapshot for the loaded rules)
-      const newSnapshot = event.snapshot;
-      if (!newSnapshot) {
-        log(
-          'warn',
-          '[RegionUI rulesLoaded] Snapshot missing from event payload. Aborting refresh.'
-        );
-        return;
-      }
-
-      // RESET UI STATE: Clear all panel-specific state that should reset when rules are reloaded
-      log('info', '[RegionUI rulesLoaded] Resetting panel state...');
-      this.visitedRegions = []; // Clear all visited regions
-      this.showAllExpansionState.clear(); // Clear expansion states for "Show All" mode
-      this.navigationTarget = null; // Clear any navigation target
-      this.nextUID = 1; // Reset UID counter
-      this.rulesLoadedHandlerCompleted = false; // Reset flag at start of handler
-      
-      // Force clear the UI display immediately to remove any stale DOM content
-      this.clear(); // This will clear the regions container and reset expansion states
-
-      // Fetch and store the NEW static data, including the original region order.
-      const currentStaticData = stateManager.getStaticData();
-      if (currentStaticData && currentStaticData.regions) {
-        this.originalRegionOrder = stateManager.getOriginalRegionOrder();
-        log(
-          'info',
-          `[RegionUI rulesLoaded] Stored ${
-            this.originalRegionOrder ? this.originalRegionOrder.length : 0
-          } region keys for original order.`
-        );
-      } else {
-        log(
-          'warn',
-          '[RegionUI rulesLoaded] Static data or regions not available from proxy when trying to refresh order. Panel may not sort correctly.'
-        );
-        this.originalRegionOrder = []; // Reset if not available
-      }
-
-      // After state reset, re-initialize with the start region if 'Show All' is off
-      // This ensures we always start fresh with the default region
-      if (!this.showAll) {
-        log(
-          'info',
-          "[RegionUI rulesLoaded] Show All is off, resetting to start region 'Menu'."
-        );
-        // showStartRegion internally calls this.update() if successful
-        this.showStartRegion('Menu');
-      } else {
-        // If 'Show All' is on, trigger a full display update directly.
-        log('info', '[RegionUI rulesLoaded] Triggering full display update after state reset.');
-        this.update(); // this.update() calls renderAllRegions()
-      }
-      
-      // Mark that rulesLoaded handler has completed
-      this.rulesLoadedHandlerCompleted = true;
-    });
-    // --- END ADDED ---
-
-    // Subscribe to playerState path updates
-    const handlePathUpdated = (eventPayload) => {
-      if (eventPayload && eventPayload.path) {
-        log(
-          'info',
-          `[RegionUI] Received playerState:pathUpdated with ${eventPayload.path.length} regions in path`
-        );
-        // Convert path data from playerState to visitedRegions format
-        this.updateFromPlayerStatePath(eventPayload.path, eventPayload.regionCounts);
-      }
-    };
-    subscribe('playerState:pathUpdated', handlePathUpdated);
-
-    // Subscribe to region navigation requests
-    const handleNavigateToRegion = (eventPayload) => {
-      if (eventPayload && eventPayload.regionName) {
-        log(
-          'info',
-          `[RegionUI] Received ui:navigateToRegion for ${eventPayload.regionName}. Calling this.navigateToRegion.`
-        );
-        this.navigateToRegion(eventPayload.regionName);
-      } else {
-        log(
-          'warn',
-          '[RegionUI] Received ui:navigateToRegion without regionName.',
-          eventPayload
-        );
-      }
-    };
-    subscribe('ui:navigateToRegion', handleNavigateToRegion);
-    log('info', '[RegionUI] SUCCESSFULLY SUBSCRIBED to ui:navigateToRegion'); // DEBUG LOG
-
-    // Subscribe to ui:navigateToLocation events
-    const handleNavigateToLocation = (eventPayload) => {
-      if (eventPayload && eventPayload.regionName && eventPayload.locationName) {
-        log(
-          'info',
-          `[RegionUI] Received ui:navigateToLocation for ${eventPayload.locationName} in ${eventPayload.regionName}.`
-        );
-        // Navigate to the region containing the location
-        // This will handle enabling Show All, expanding the region, and scrolling to it
-        this.navigateToRegion(eventPayload.regionName);
-
-        // After a brief delay to allow the region to expand and render,
-        // scroll to the specific location within the region
-        setTimeout(() => {
-          const locationElement = document.querySelector(
-            `li.location-item[data-location-name="${eventPayload.locationName}"]`
-          );
-          if (locationElement) {
-            locationElement.scrollIntoView({
-              behavior: 'smooth',
-              block: 'center',
-              inline: 'nearest'
-            });
-
-            // Add a temporary highlight effect
-            locationElement.style.transition = 'background-color 0.3s ease';
-            const originalBg = locationElement.style.backgroundColor;
-            locationElement.style.backgroundColor = 'rgba(255, 255, 100, 0.3)';
-            setTimeout(() => {
-              locationElement.style.backgroundColor = originalBg;
-            }, 2000);
-          } else {
-            log('warn', `[RegionUI] Could not find location element for ${eventPayload.locationName}`);
-          }
-        }, 300); // Wait 300ms for region expansion animation
-      } else {
-        log(
-          'warn',
-          '[RegionUI] Received ui:navigateToLocation with missing data.',
-          eventPayload
-        );
-      }
-    };
-    subscribe('ui:navigateToLocation', handleNavigateToLocation);
-    log('info', '[RegionUI] SUCCESSFULLY SUBSCRIBED to ui:navigateToLocation');
+    // Delegate to event coordinator
+    this.eventCoordinator.subscribeToEvents();
 
     // NOTE: user:regionMove is handled via EventDispatcher in index.js, not EventBus
     // The handleRegionMove dispatcher handler calls moveToRegion() on this UI instance
@@ -424,60 +154,15 @@ export class RegionUI {
     log('info', '[RegionUI] Event subscriptions complete.');
   }
 
-  async _loadColorblindSettings() {
-    try {
-      this.colorblindSettings = await settingsManager.getSetting('colorblindMode.regions', false);
-      log('debug', `[RegionUI] Loaded colorblind settings: ${this.colorblindSettings}`);
-    } catch (error) {
-      log('error', '[RegionUI] Failed to load colorblind settings:', error);
-      this.colorblindSettings = false;
-    }
-  }
-
-  async _loadDisplaySettings() {
-    try {
-      this.showName = await settingsManager.getSetting('moduleSettings.regions.showName', true);
-      this.showLabel1 = await settingsManager.getSetting('moduleSettings.regions.showLabel1', false);
-      this.showLabel2 = await settingsManager.getSetting('moduleSettings.regions.showLabel2', false);
-      log('debug', `[RegionUI] Loaded display settings: showName=${this.showName}, showLabel1=${this.showLabel1}, showLabel2=${this.showLabel2}`);
-    } catch (error) {
-      log('error', '[RegionUI] Failed to load display settings:', error);
-      this.showName = true;
-      this.showLabel1 = false;
-      this.showLabel2 = false;
-    }
-  }
-
   getRegionDisplayElements(regionData) {
-    // Build array of display elements based on enabled settings
-    const elements = [];
-
-    if (this.showName && (regionData.name || regionData)) {
-      const name = typeof regionData === 'string' ? regionData : regionData.name;
-      elements.push({ type: 'name', text: name });
-    }
-
-    if (this.showLabel1 && regionData.label1) {
-      elements.push({ type: 'label1', text: regionData.label1 });
-    }
-
-    if (this.showLabel2 && regionData.label2) {
-      elements.push({ type: 'label2', text: regionData.label2 });
-    }
-
-    // If nothing is enabled or no data available, default to name
-    if (elements.length === 0) {
-      const name = typeof regionData === 'string' ? regionData : (regionData.name || 'Unknown');
-      elements.push({ type: 'name', text: name });
-    }
-
-    return elements;
+    // Delegate to displaySettings
+    return this.displaySettings.getRegionDisplayElements(regionData);
   }
 
   onPanelDestroy() {
     log('info', '[RegionUI] Cleaning up subscriptions...');
-    this.unsubscribeHandles.forEach((unsubscribe) => unsubscribe());
-    this.unsubscribeHandles = []; // Clear handles
+    // Delegate to event coordinator for unsubscribing
+    this.eventCoordinator.unsubscribeAll();
     this.pathAnalyzer?.dispose?.();
     log('info', '[RegionUI] Cleanup complete.');
   }
@@ -568,16 +253,16 @@ export class RegionUI {
           <div id="accessibility-sorted-sections">
             <div id="available-regions-section" class="region-category">
                 <h3>Available</h3>
-                <div class="region-category-content"></div>
+                <div id="available-content" class="region-category-content"></div>
             </div>
             <div id="unavailable-regions-section" class="region-category">
                 <h3>Unavailable / Unknown</h3>
-                <div class="region-category-content"></div>
+                <div id="unavailable-content" class="region-category-content"></div>
             </div>
              <!-- Add other sections if needed (e.g., completed) -->
           </div>
           <div id="general-sorted-list-section" style="display: none;">
-              <div class="region-category-content"></div>
+              <div id="general-sorted-list-content" class="region-category-content"></div>
           </div>
       </div>
     `;
@@ -641,20 +326,22 @@ export class RegionUI {
     if (showAllRegionsCheckbox) {
       showAllRegionsCheckbox.addEventListener('change', (e) => {
         this.showAll = e.target.checked;
-        
+        // Persist setting
+        this.displaySettings.setSetting('showAll', this.showAll, true);
+
         // When switching from "Show All" to navigation mode, clean up the visitedRegions array
         if (!this.showAll) {
           // Remove all entries with UIDs starting with "all_" (these were added for "Show All" mode)
-          this.visitedRegions = this.visitedRegions.filter(region => 
+          this.visitedRegions = this.visitedRegions.filter(region =>
             !region.uid.toString().startsWith('all_')
           );
-          
+
           // If no navigation regions remain, show the start region
           if (this.visitedRegions.length === 0) {
             this.showStartRegion('Menu');
           }
         }
-        
+
         this.renderAllRegions();
       });
     }
@@ -664,6 +351,8 @@ export class RegionUI {
     if (showPathsCheckbox) {
       showPathsCheckbox.addEventListener('change', (e) => {
         this.showPaths = e.target.checked;
+        // Persist setting
+        this.displaySettings.setSetting('showPaths', this.showPaths, true);
         this.renderAllRegions();
       });
     }
@@ -715,12 +404,7 @@ export class RegionUI {
     log('info', '[RegionUI] Clearing visited regions state.');
     this.visitedRegions = [];
     this.nextUID = 1;
-    this.showAllExpansionState.clear(); // Clear "Show All" expansion state
-    // REMOVED: Direct DOM manipulation, renderAllRegions handles clearing content
-    /*
-    if (this.regionsContainer) { ... }
-    this._updateSectionVisibility(); 
-    */
+    this.expansionState.clearAll(); // Clear all expansion state (both modes)
   }
   
   /**
@@ -745,19 +429,27 @@ export class RegionUI {
     regionMoves.forEach((pathEntry, index) => {
       const uid = this.nextUID++;
       const isLastRegion = index === regionMoves.length - 1;
-      
+
       // Only the last region (current region) should be expanded
       const expanded = isLastRegion;
-      
+
       this.visitedRegions.push({
         name: pathEntry.region,
-        expanded: expanded,
+        expanded: expanded, // Note: This property is kept for backward compatibility but not used
         uid: uid,
         exitUsed: pathEntry.exitUsed,
         instanceNumber: pathEntry.instanceNumber
       });
+
+      // Update expansion state manager
+      this.expansionState.setExpanded(
+        pathEntry.region,
+        expanded,
+        'navigation',
+        pathEntry.instanceNumber || uid
+      );
     });
-    
+
     // Update the display
     this.renderAllRegions();
   }
@@ -797,13 +489,23 @@ export class RegionUI {
     }
 
     log('info', `[RegionUI] Setting start region: ${startRegionName}`);
+    const uid = this.nextUID++;
     this.visitedRegions = [
       {
         name: startRegionName,
-        expanded: true,
-        uid: this.nextUID++,
+        expanded: true, // Note: This property is kept for backward compatibility but not used
+        uid: uid,
       },
     ];
+
+    // Update expansion state manager
+    this.expansionState.setExpanded(
+      startRegionName,
+      true,
+      'navigation',
+      uid // Start region doesn't have instanceNumber, use uid
+    );
+
     this.update(); // Update display after setting start region
   }
 
@@ -857,20 +559,29 @@ export class RegionUI {
   }
 
   toggleRegionByUID(uid) {
-    const block = this.visitedRegions.find((r) => r.uid === uid);
-    if (block) {
-      block.expanded = !block.expanded;
-      // Also update showAllExpansionState if this is a "Show All" mode region
-      if (typeof uid === 'string' && uid.startsWith('all_')) {
-        const regionName = uid.substring(4);
-        this.showAllExpansionState.set(regionName, block.expanded);
+    // Determine mode and region info from UID
+    let mode, regionName, instanceNumber;
+
+    if (typeof uid === 'string' && uid.startsWith('all_')) {
+      // "Show All" mode region
+      mode = 'showAll';
+      regionName = uid.substring(4); // Extract region name from "all_RegionName"
+      instanceNumber = null;
+    } else {
+      // Navigation mode region
+      mode = 'navigation';
+      const block = this.visitedRegions.find((r) => r.uid === uid);
+      if (block) {
+        regionName = block.name;
+        instanceNumber = block.instanceNumber || uid; // Use instanceNumber if available, otherwise fall back to uid
+      } else {
+        log('warn', `toggleRegionByUID: Block with UID ${uid} not found`);
+        return;
       }
-    } else if (typeof uid === 'string' && uid.startsWith('all_')) {
-      // Handle regions in "Show All" mode using separate tracking
-      const regionName = uid.substring(4); // Extract region name from uid like "all_RegionName"
-      const currentState = this.showAllExpansionState.get(regionName) || false;
-      this.showAllExpansionState.set(regionName, !currentState);
     }
+
+    // Toggle via expansion state manager
+    this.expansionState.toggleExpanded(regionName, mode, instanceNumber);
     this.renderAllRegions();
   }
 
@@ -886,13 +597,18 @@ export class RegionUI {
         );
         return;
       }
-      // Phase 3.2: Use separate tracking for "Show All" mode - don't pollute visitedRegions
-      Array.from(staticData.regions.keys()).forEach((regionName) => {
-        this.showAllExpansionState.set(regionName, true);
-      });
+      // Use expansion state manager for "Show All" mode
+      const regionNames = Array.from(staticData.regions.keys());
+      this.expansionState.expandAll(regionNames, 'showAll');
     } else {
+      // Navigation mode - expand each instance individually to avoid duplicate name overwrites
       this.visitedRegions.forEach((region) => {
-        region.expanded = true;
+        this.expansionState.setExpanded(
+          region.name,
+          true,
+          'navigation',
+          region.instanceNumber || region.uid
+        );
       });
     }
     this.renderAllRegions();
@@ -910,13 +626,18 @@ export class RegionUI {
         );
         return;
       }
-      // Phase 3.2: Use separate tracking for "Show All" mode - don't pollute visitedRegions
-      Array.from(staticData.regions.keys()).forEach((regionName) => {
-        this.showAllExpansionState.set(regionName, false);
-      });
+      // Use expansion state manager for "Show All" mode
+      const regionNames = Array.from(staticData.regions.keys());
+      this.expansionState.collapseAll(regionNames, 'showAll');
     } else {
+      // Navigation mode - collapse each instance individually to avoid duplicate name overwrites
       this.visitedRegions.forEach((region) => {
-        region.expanded = false;
+        this.expansionState.setExpanded(
+          region.name,
+          false,
+          'navigation',
+          region.instanceNumber || region.uid
+        );
       });
     }
     this.renderAllRegions();
@@ -937,52 +658,7 @@ export class RegionUI {
     const snapshot = stateManager.getLatestStateSnapshot();
     const staticData = stateManager.getStaticData();
 
-    // Correctly define and query for section divs from this.regionsContainer
-    const accessibilitySortedSectionsDiv = this.regionsContainer.querySelector(
-      '#accessibility-sorted-sections'
-    );
-    const generalSortedListSectionDiv = this.regionsContainer.querySelector(
-      '#general-sorted-list-section'
-    );
-
-    // Declare content containers, will be assigned below
-    let availableContentContainer = null;
-    let unavailableContentContainer = null;
-    let generalSortedListContent = null;
-
-    // Get references to structural elements AND ASSIGN content containers
-    // Note: The console.warn messages remain, which is good for debugging if elements are still not found.
-    if (accessibilitySortedSectionsDiv) {
-      availableContentContainer = accessibilitySortedSectionsDiv.querySelector(
-        '#available-regions-section .region-category-content'
-      );
-      unavailableContentContainer =
-        accessibilitySortedSectionsDiv.querySelector(
-          '#unavailable-regions-section .region-category-content'
-        );
-    } else {
-      log(
-        'warn',
-        '[RegionUI renderAllRegions] #accessibility-sorted-sections div not found in this.regionsContainer.'
-      );
-    }
-
-    if (generalSortedListSectionDiv) {
-      generalSortedListContent = generalSortedListSectionDiv.querySelector(
-        '.region-category-content'
-      );
-    } else {
-      log(
-        'warn',
-        '[RegionUI renderAllRegions] #general-sorted-list-section div not found in this.regionsContainer.'
-      );
-    }
-
-    // Now log the status of all these correctly assigned (or null) variables
-    //log('info',
-    //  `[RegionUI renderAllRegions] Start State - Snapshot: ${!!snapshot} Static Data: ${!!staticData} accessibilitySortedSectionsDiv: ${!!accessibilitySortedSectionsDiv} generalSortedListSectionDiv: ${!!generalSortedListSectionDiv} availableContentContainer: ${!!availableContentContainer} unavailableContentContainer: ${!!unavailableContentContainer} generalSortedListContent: ${!!generalSortedListContent}`
-    //);
-
+    // Validate that required data is available
     if (!snapshot || !staticData || !staticData.regions || !staticData.items) {
       log(
         'warn',
@@ -994,8 +670,8 @@ export class RegionUI {
       return;
     }
 
+    // Ensure original region order is available (for sorting)
     if (!this.originalRegionOrder || this.originalRegionOrder.length === 0) {
-      // Fallback fetch, though ideally it's populated by stateManager:rulesLoaded
       const freshlyFetchedOrder = stateManager.getOriginalRegionOrder();
       if (freshlyFetchedOrder && freshlyFetchedOrder.length > 0) {
         this.originalRegionOrder = freshlyFetchedOrder;
@@ -1004,25 +680,22 @@ export class RegionUI {
           `[RegionUI renderAllRegions] Fallback fetch for originalRegionOrder succeeded: ${this.originalRegionOrder.length} items.`
         );
       } else {
-        // If still no order available, defer this render until ready (but only once)
+        // Defer render once if order not available yet
         if (!this.renderDeferralAttempted) {
           this.renderDeferralAttempted = true;
           log(
             'debug',
             '[RegionUI renderAllRegions] Original region order not yet available. Deferring render...'
           );
-          // Schedule a retry after a short delay to allow initialization to complete
           setTimeout(() => {
-            this.renderDeferralAttempted = false; // Reset flag for future deferrals
+            this.renderDeferralAttempted = false;
             if (!this.originalRegionOrder || this.originalRegionOrder.length === 0) {
-              // If still no order after delay, proceed anyway (will use default sorting)
               log('debug', '[RegionUI renderAllRegions] Proceeding with default sorting after delay.');
             }
             this.renderAllRegions();
           }, 50);
-          return; // Exit early to prevent rendering without proper order
+          return;
         }
-        // If we've already attempted deferral, proceed with default sorting
         log('debug', '[RegionUI renderAllRegions] Proceeding with default sorting (no deferral).');
       }
     }
@@ -1030,402 +703,110 @@ export class RegionUI {
     // Reset the unknown evaluation counter for this rendering cycle
     resetUnknownEvaluationCounter();
 
-    const useColorblind = this.colorblindSettings;
-
-    // Get references to structural elements within this.regionsContainer
-    // this.regionsContainer is this.rootElement.querySelector('#region-details-container') (set in constructor)
-    // availableContentContainer, unavailableContentContainer, and generalSortedListContent are now assigned above.
-
-    if (!staticData?.regions || !snapshot) {
-      log(
-        'warn',
-        '[RegionUI] Static region data or snapshot not ready. Displaying loading message.'
-      );
-      if (availableContentContainer) availableContentContainer.innerHTML = '';
-      if (unavailableContentContainer)
-        unavailableContentContainer.innerHTML = '';
-
-      if (generalSortedListContent) {
-        generalSortedListContent.innerHTML = '<p>Loading region data...</p>';
-      } else {
-        // Fallback if the structure is somehow missing, use the main container but this is not ideal
-        log(
-          'error',
-          '[RegionUI] generalSortedListContent not found! Cannot display loading message correctly.'
-        );
-        if (this.regionsContainer)
-          this.regionsContainer.innerHTML =
-            '<p>Loading region data... (structure fault)</p>';
-      }
-
-      if (accessibilitySortedSectionsDiv)
-        accessibilitySortedSectionsDiv.style.display = 'none';
-      if (generalSortedListSectionDiv)
-        generalSortedListSectionDiv.style.display = ''; // Ensure general section (with loading msg) is visible
-
-      // this._updateSectionVisibility(); // Not strictly needed here as we manually set display styles
+    // Create snapshot interface
+    const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
+    if (!snapshotInterface) {
+      log('error', '[RegionUI] Failed to create snapshot interface. Rendering may be incomplete.');
       return;
     }
 
-    // If data is ready, proceed with full rendering.
-    const snapshotInterface = createStateSnapshotInterface(
-      snapshot,
-      staticData
-    );
-    if (!snapshotInterface) {
-      log(
-        'error',
-        '[RegionUI] Failed to create snapshot interface. Rendering may be incomplete.'
-      );
-      // Potentially return or show error message
-    }
-
-    // Clear content areas before populating
-    if (availableContentContainer) availableContentContainer.innerHTML = '';
-    if (unavailableContentContainer) unavailableContentContainer.innerHTML = '';
-    if (generalSortedListContent) generalSortedListContent.innerHTML = '';
-
-    // --- Enhanced Diagnostic Logging (can be removed after fix is confirmed) ---
-    // log('info', '[RegionUI PRE-QUERY] About to query #region-sort-select.');
-    // ... (rest of the diagnostic block can be removed or commented out) ...
-    // --- End Enhanced Diagnostic Logging ---
-
-    const sortSelectElement = this.rootElement.querySelector(
-      '#region-sort-select'
-    );
+    // Get rendering options from UI controls
+    const useColorblind = this.displaySettings.getSetting('colorblindMode');
+    const sortSelectElement = this.rootElement.querySelector('#region-sort-select');
     if (!sortSelectElement) {
-      log(
-        'error',
-        '[RegionUI renderAllRegions] #region-sort-select NOT FOUND within this.rootElement!'
-      );
-      // Fallback or return if this critical control is missing
-      this._updateSectionVisibility();
+      log('error', '[RegionUI renderAllRegions] #region-sort-select NOT FOUND within this.rootElement!');
       return;
     }
     const sortMethod = sortSelectElement.value;
 
-    // Determine which sections to display based on sortMethod and showAll
-    const useAccessibilitySections =
-      this.showAll && sortMethod.startsWith('accessibility');
+    const searchTerm = this.rootElement.querySelector('#region-search').value.toLowerCase();
+    const showReachable = this.rootElement.querySelector('#region-show-reachable').checked;
+    const showUnreachable = this.rootElement.querySelector('#region-show-unreachable').checked;
 
-    if (useAccessibilitySections) {
-      if (accessibilitySortedSectionsDiv)
-        accessibilitySortedSectionsDiv.style.display = '';
-      if (generalSortedListSectionDiv)
-        generalSortedListSectionDiv.style.display = 'none';
-    } else {
-      if (accessibilitySortedSectionsDiv)
-        accessibilitySortedSectionsDiv.style.display = 'none';
-      if (generalSortedListSectionDiv)
-        generalSortedListSectionDiv.style.display = '';
-    }
+    // Use navigation manager to compute regions to render
+    let regionsToRender = this.navigationManager.computeRegionsToRender(
+      this.visitedRegions,
+      this.showAll,
+      this.showPaths,
+      staticData,
+      snapshot,
+      this.navigationTarget
+    );
 
-    // const regionContainer = this.rootElement.querySelector('#region-details-container'); // Already have this.regionsContainer
-    // No need to re-query if this.regionsContainer is used consistently
-
-    const searchTerm = this.rootElement
-      .querySelector('#region-search')
-      .value.toLowerCase();
-    const showReachable = this.rootElement.querySelector(
-      '#region-show-reachable'
-    ).checked;
-    const showUnreachable = this.rootElement.querySelector(
-      '#region-show-unreachable'
-    ).checked;
-
-    let regionsToRender = [];
-    if (this.showAll) {
-      // Phase 3.2: Use Map methods
-      regionsToRender = Array.from(staticData.regions.keys()).map((name) => ({
-        name,
-        isVisited: false,
-        uid: `all_${name}`,
-        expanded:
-          name === this.navigationTarget || // Expand if it's the navigation target
-          this.showAllExpansionState.get(name) || // Use separate tracking for "Show All" mode
-          false,
-        isReachable:
-          snapshot.regionReachability?.[name] === true ||
-          snapshot.regionReachability?.[name] === 'reachable' ||
-          snapshot.regionReachability?.[name] === 'checked',
-      }));
-    } else {
-      // Phase 3.2: Check if path is too long - show truncated view if path length > 2x total regions
-      const totalRegions = staticData.regions.size;
-      const pathTooLong = this.visitedRegions.length > (totalRegions * 2);
-      
-      // When showAll is false, check showPaths to determine what to render
-      if (this.showPaths) {
-        if (pathTooLong) {
-          // Show first n and last n regions with skip indicator
-          const n = totalRegions;
-          const firstN = this.visitedRegions.slice(0, n);
-          const lastN = this.visitedRegions.slice(-n);
-          
-          // Create regions to render array
-          regionsToRender = [];
-          
-          // Add first n regions
-          regionsToRender.push(...firstN.map((vr) => ({
-            name: vr.name,
-            isVisited: true,
-            uid: vr.uid,
-            expanded: vr.name === this.navigationTarget || vr.expanded,
-            isReachable:
-              snapshot.regionReachability?.[vr.name] === true ||
-              snapshot.regionReachability?.[vr.name] === 'reachable' ||
-              snapshot.regionReachability?.[vr.name] === 'checked',
-          })));
-          
-          // Add skip indicator if there are skipped regions
-          const skippedCount = this.visitedRegions.length - (2 * n);
-          if (skippedCount > 0) {
-            regionsToRender.push({
-              name: `... ${skippedCount} regions skipped ...`,
-              isVisited: true,
-              uid: 'skip_indicator',
-              expanded: false,
-              isReachable: true,
-              isSkipIndicator: true,
-            });
-          }
-          
-          // Add last n regions (avoid duplicates if path is short)
-          const lastNFiltered = lastN.filter(vr => 
-            !firstN.some(firstRegion => firstRegion.uid === vr.uid)
-          );
-          regionsToRender.push(...lastNFiltered.map((vr) => ({
-            name: vr.name,
-            isVisited: true,
-            uid: vr.uid,
-            expanded: vr.name === this.navigationTarget || vr.expanded,
-            isReachable:
-              snapshot.regionReachability?.[vr.name] === true ||
-              snapshot.regionReachability?.[vr.name] === 'reachable' ||
-              snapshot.regionReachability?.[vr.name] === 'checked',
-          })));
-        } else {
-          // Show full path
-          regionsToRender = this.visitedRegions.map((vr) => ({
-            name: vr.name,
-            isVisited: true,
-            uid: vr.uid,
-            expanded: vr.name === this.navigationTarget || vr.expanded,
-            isReachable:
-              snapshot.regionReachability?.[vr.name] === true ||
-              snapshot.regionReachability?.[vr.name] === 'reachable' ||
-              snapshot.regionReachability?.[vr.name] === 'checked',
-          }));
-        }
-      } else {
-        // Show only last region, always expanded
-        if (this.visitedRegions.length > 0) {
-          const lastRegion = this.visitedRegions[this.visitedRegions.length - 1];
-          regionsToRender = [{
-            name: lastRegion.name,
-            isVisited: true,
-            uid: lastRegion.uid,
-            expanded: true, // Always expanded when showing only last region
-            isReachable:
-              snapshot.regionReachability?.[lastRegion.name] === true ||
-              snapshot.regionReachability?.[lastRegion.name] === 'reachable' ||
-              snapshot.regionReachability?.[lastRegion.name] === 'checked',
-          }];
-        } else {
-          regionsToRender = [];
-        }
+    // Add expansion state to each region
+    regionsToRender = regionsToRender.map(region => {
+      if (region.isSkipIndicator) {
+        return { ...region, expanded: false };
       }
-      // log('info', '[RegionUI] "Show All" is OFF. Initial regionsToRender from visitedRegions:', JSON.parse(JSON.stringify(regionsToRender)));
-      if (regionsToRender.length === 0) {
-        // log('info', "[RegionUI] Show All is off and visited list is empty, attempting to show start region 'Menu'...");
-        const success = this.showStartRegion('Menu'); // showStartRegion adds to this.visitedRegions
-        if (success) {
-          // log('info', "[RegionUI] Successfully set start region 'Menu'. Visited regions now:", JSON.parse(JSON.stringify(this.visitedRegions)));
-          // Re-populate regionsToRender from the now updated this.visitedRegions
-          regionsToRender = this.visitedRegions.map((vr) => ({
-            name: vr.name,
-            isVisited: true,
-            uid: vr.uid,
-            expanded: vr.name === this.navigationTarget || vr.expanded, // Expand if it's the navigation target or already expanded
-            isReachable:
-              snapshot.regionReachability?.[vr.name] === true ||
-              snapshot.regionReachability?.[vr.name] === 'reachable' ||
-              snapshot.regionReachability?.[vr.name] === 'checked',
-          }));
-        } else {
-          log(
-            'warn',
-            "[RegionUI] Failed to set start region 'Menu'. Panel might remain empty."
-          );
-        }
-      }
-    }
 
-    if (searchTerm) {
-      regionsToRender = regionsToRender.filter((regionInfo) =>
-        regionInfo.name.toLowerCase().includes(searchTerm)
-      );
-    }
+      const mode = region.mode || (this.showAll ? 'showAll' : 'navigation');
+      const instanceNumber = region.instanceNumber || region.uid;
 
-    regionsToRender = regionsToRender.filter((regionInfo) => {
-      if (regionInfo.isReachable && !showReachable) return false;
-      if (!regionInfo.isReachable && !showUnreachable) return false;
-      return true;
+      return {
+        ...region,
+        expanded: region.name === this.navigationTarget ||
+                 (mode === 'showAll'
+                   ? this.expansionState.isExpanded(region.name, 'showAll')
+                   : this.expansionState.isExpanded(region.name, 'navigation', instanceNumber))
+      };
     });
 
-    // Only sort if 'Show All Regions' is checked.
-    // Otherwise, preserve the order from visitedRegions (navigation order).
-    if (this.showAll) {
-      regionsToRender.sort((a, b) => {
-        if (sortMethod === 'original') {
-          if (this.originalRegionOrder && this.originalRegionOrder.length > 0) {
-            const indexA = this.originalRegionOrder.indexOf(a.name);
-            const indexB = this.originalRegionOrder.indexOf(b.name);
-            if (indexA !== -1 && indexB !== -1) return indexA - indexB;
-            if (indexA === -1 && indexB !== -1) return 1;
-            if (indexA !== -1 && indexB === -1) return -1;
-          }
-          return a.name.localeCompare(b.name);
-        } else if (
-          sortMethod === 'accessibility' ||
-          sortMethod === 'accessibility_original'
-        ) {
-          const reachA = a.isReachable ? 1 : 0;
-          const reachB = b.isReachable ? 1 : 0;
-          if (reachB !== reachA) {
-            return reachB - reachA;
-          }
-          if (sortMethod === 'accessibility_original') {
-            if (
-              this.originalRegionOrder &&
-              this.originalRegionOrder.length > 0
-            ) {
-              const indexA = this.originalRegionOrder.indexOf(a.name);
-              const indexB = this.originalRegionOrder.indexOf(b.name);
-              if (indexA !== -1 && indexB !== -1) {
-                if (indexA !== indexB) return indexA - indexB;
-              }
-              if (indexA === -1 && indexB !== -1) return 1;
-              if (indexA !== -1 && indexB === -1) return -1;
-            }
-            return a.name.localeCompare(b.name);
-          }
-          return a.name.localeCompare(b.name);
-        } else {
-          return a.name.localeCompare(b.name);
-        }
-      });
-    }
-
-    const availableFragment = document.createDocumentFragment();
-    const unavailableFragment = document.createDocumentFragment();
-    const generalFragment = document.createDocumentFragment();
-
-    for (const regionInfo of regionsToRender) {
-      const regionName = regionInfo.name;
-      
-      // Handle skip indicator specially
-      if (regionInfo.isSkipIndicator) {
-        const sectionOrderSelect = this.rootElement.querySelector('#section-order-select');
-        const sectionOrder = sectionOrderSelect ? sectionOrderSelect.value : 'entrances-exits-locations';
-        
-        const regionBlock = this.regionBlockBuilder.buildRegionBlock(
-          regionName,
-          null, // No region data needed for skip indicator
-          snapshot,
-          snapshotInterface,
-          regionInfo.isReachable,
-          useColorblind,
-          regionInfo.uid,
-          regionInfo.expanded,
+    // Handle empty case - show Menu if needed
+    if (regionsToRender.length === 0) {
+      const success = this.showStartRegion('Menu'); // showStartRegion adds to this.visitedRegions
+      if (success) {
+        // Re-compute regionsToRender from the now updated this.visitedRegions
+        regionsToRender = this.navigationManager.computeRegionsToRender(
+          this.visitedRegions,
+          this.showAll,
+          this.showPaths,
           staticData,
-          regionInfo.isSkipIndicator,
-          sectionOrder
+          snapshot,
+          this.navigationTarget
         );
-        
-        if (useAccessibilitySections) {
-          if (regionInfo.isReachable && availableContentContainer) {
-            availableFragment.appendChild(regionBlock);
-          } else if (!regionInfo.isReachable && unavailableContentContainer) {
-            unavailableFragment.appendChild(regionBlock);
-          }
-        } else {
-          if (generalSortedListContent) {
-            generalFragment.appendChild(regionBlock);
-          }
-        }
-        continue;
-      }
-      
-      // Phase 3.2: Use Map methods
-      const regionData = staticData.regions.get(regionName);
-      if (!regionData) {
+
+        // Add expansion state
+        regionsToRender = regionsToRender.map(region => ({
+          ...region,
+          expanded: region.name === this.navigationTarget ||
+                   this.expansionState.isExpanded(region.name, 'navigation', region.instanceNumber || region.uid)
+        }));
+      } else {
         log(
           'warn',
-          `[RegionUI] Static data not found for region '${regionName}' during render.`
+          "[RegionUI] Failed to set start region 'Menu'. Panel might remain empty."
         );
-        continue;
       }
-      const isReachable = regionInfo.isReachable;
-      // Get the selected section order
-      const sectionOrderSelect = this.rootElement.querySelector('#section-order-select');
-      const sectionOrder = sectionOrderSelect ? sectionOrderSelect.value : 'entrances-exits-locations';
-      
-      const regionBlock = this.regionBlockBuilder.buildRegionBlock(
-        regionName,
-        regionData,
-        snapshot,
-        snapshotInterface,
-        isReachable,
+    }
+
+    // Get section order for rendering
+    const sectionOrderSelect = this.rootElement.querySelector('#section-order-select');
+    const sectionOrder = sectionOrderSelect ? sectionOrderSelect.value : 'entrances-exits-locations';
+
+    // Delegate rendering to RegionRenderer
+    this.regionRenderer.renderRegions(
+      this.regionsContainer,
+      regionsToRender,
+      staticData,
+      snapshot,
+      snapshotInterface,
+      {
+        searchTerm,
+        showReachable,
+        showUnreachable,
+        sortMethod,
+        originalRegionOrder: this.originalRegionOrder,
         useColorblind,
-        regionInfo.uid,
-        regionInfo.expanded,
-        staticData,
-        regionInfo.isSkipIndicator,
         sectionOrder
-      );
-      if (!regionBlock) {
-        if (regionName === 'Menu') {
-          // log('warn', '[RegionUI] buildRegionBlock returned null for Menu region. This might make the panel appear empty.');
-        }
-        continue;
       }
-
-      if (useAccessibilitySections) {
-        if (isReachable && availableContentContainer) {
-          availableFragment.appendChild(regionBlock);
-        } else if (!isReachable && unavailableContentContainer) {
-          unavailableFragment.appendChild(regionBlock);
-        }
-      } else {
-        if (generalSortedListContent) {
-          generalFragment.appendChild(regionBlock);
-        }
-      }
-    }
-
-    if (useAccessibilitySections) {
-      if (availableContentContainer)
-        availableContentContainer.appendChild(availableFragment);
-      if (unavailableContentContainer)
-        unavailableContentContainer.appendChild(unavailableFragment);
-    } else {
-      if (generalSortedListContent)
-        generalSortedListContent.appendChild(generalFragment);
-    }
-
-    this._updateSectionVisibility(); // Call this at the end to correctly hide/show sections based on content
-
-    log(
-      'info',
-      `[RegionUI] Finished rendering regions. Displayed: ${regionsToRender.length}`
     );
+
     logAndGetUnknownEvaluationCounter('RegionPanel update complete');
   }
 
   createRegionLink(regionName, snapshot) {
     // Just call commonUI directly, which now handles event publishing
-    return commonUI.createRegionLink(regionName, this.colorblindSettings, snapshot);
+    return commonUI.createRegionLink(regionName, this.displaySettings.getSetting('colorblindMode'), snapshot);
   }
 
   /**
@@ -1461,25 +842,10 @@ export class RegionUI {
     }
 
     // If Show All is now active (or was already active), ensure the target region is marked for expansion
-    // by adding/updating its entry in visitedRegions AND showAllExpansionState for consistent expansion handling.
     if (this.showAll) {
-      // Update the showAllExpansionState Map to ensure expansion persists across re-renders
-      this.showAllExpansionState.set(regionName, true);
+      // Use expansion state manager to ensure expansion persists across re-renders
+      this.expansionState.setExpanded(regionName, true, 'showAll');
       forceRender = true; // Always re-render when navigating to ensure expansion is shown
-      
-      const allUid = `all_${regionName}`;
-      const existingEntry = this.visitedRegions.find((r) => r.uid === allUid);
-      if (existingEntry) {
-        if (!existingEntry.expanded) {
-          existingEntry.expanded = true;
-        }
-      } else {
-        this.visitedRegions.push({
-          name: regionName,
-          expanded: true,
-          uid: allUid,
-        });
-      }
     }
 
     // Render with navigationTarget set. This should ensure the target region is rendered and expanded.
@@ -1585,7 +951,7 @@ export class RegionUI {
     return commonUI.createLocationLink(
       locationName,
       regionName,
-      this.colorblindSettings,
+      this.displaySettings.getSetting('colorblindMode'),
       snapshot
     );
   }
@@ -1608,14 +974,15 @@ export class RegionUI {
   /**
    * Toggles colorblind mode and updates the UI
    */
-  toggleColorblindMode() {
-    this.colorblindSettings = !this.colorblindSettings;
+  async toggleColorblindMode() {
+    const newValue = !this.displaySettings.getSetting('colorblindMode');
+    await this.displaySettings.setSetting('colorblindMode', newValue, true);
 
     // Update the path analyzer's colorblind mode as well
-    this.pathAnalyzer.setColorblindMode(this.colorblindSettings);
+    this.pathAnalyzer.setColorblindMode(newValue);
 
     // Sync with commonUI
-    commonUI.setColorblindMode(this.colorblindSettings);
+    commonUI.setColorblindMode(newValue);
 
     // Update colorblind indicators in the UI
     this._updateColorblindIndicators();
@@ -1642,7 +1009,7 @@ export class RegionUI {
 
       // Add new symbol if needed
       if (
-        this.colorblindSettings &&
+        this.displaySettings.getSetting('colorblindMode') &&
         (node.classList.contains('pass') || node.classList.contains('fail'))
       ) {
         const symbolSpan = document.createElement('span');
@@ -1727,27 +1094,6 @@ export class RegionUI {
     }
   }
 
-  // --- ADDED: Helper to show/hide region categories ---
-  _updateSectionVisibility() {
-    const sortSelect = this.rootElement.querySelector('#region-sort-select');
-    const sortValue = sortSelect ? sortSelect.value : 'original';
-
-    const accessibilitySections = this.rootElement.querySelector(
-      '#accessibility-sorted-sections'
-    );
-    const generalSection = this.rootElement.querySelector(
-      '#general-sorted-list-section'
-    );
-
-    if (sortValue.includes('accessibility')) {
-      accessibilitySections.style.display = 'block';
-      generalSection.style.display = 'none';
-    } else {
-      accessibilitySections.style.display = 'none';
-      generalSection.style.display = 'block';
-    }
-  }
-  // --- END ADDED ---
 }
 
 export default RegionUI;
