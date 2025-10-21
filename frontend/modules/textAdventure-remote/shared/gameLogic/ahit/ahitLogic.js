@@ -162,9 +162,8 @@ export function can_clear_required_act(snapshot, staticData, actEntrance) {
   let connectedRegion = null;
 
   // Search through all regions to find the entrance
-  // staticData.regions is {regionName: regionData}, not {playerId: {regionName: regionData}}
-  for (const regionName in staticData.regions) {
-    const region = staticData.regions[regionName];
+  // staticData.regions is a Map 
+  for (const [regionName, region] of staticData.regions) {
     if (region.exits) {
       for (const exit of region.exits) {
         if (exit.name === actEntrance) {
@@ -181,42 +180,20 @@ export function can_clear_required_act(snapshot, staticData, actEntrance) {
     return false;
   }
 
-  // Step 1: Check if the connected region is reachable
-  let regionReachable = false;
-  if (snapshot.regionReachability && snapshot.regionReachability[connectedRegion] !== undefined) {
-    regionReachable = snapshot.regionReachability[connectedRegion] === true ||
-                      snapshot.regionReachability[connectedRegion] === 'reachable';
-  }
-
-  if (!regionReachable) {
-    return false;
-  }
-
-  // Step 2: If it's a "Free Roam" region, return true
-  if (connectedRegion.includes("Free Roam")) {
-    return true;
-  }
-
-  // Step 3: For non-Free Roam regions, check if the Act Completion location is accessible
-  // This matches the Python logic: world.multiworld.get_location(name, world.player).access_rule(state)
+  // Step 1: Find the Act Completion location first
+  // This allows us to check if the act has trivial access (constant true)
   const actCompletionName = `Act Completion (${connectedRegion})`;
-
-  // Find the Act Completion location in staticData
   let actCompletionLocation = null;
+
   if (staticData && staticData.locations) {
-    // staticData.locations can be an object keyed by location name
-    if (!Array.isArray(staticData.locations)) {
-      actCompletionLocation = staticData.locations[actCompletionName];
-    } else {
-      // Or an array of locations
-      actCompletionLocation = staticData.locations.find(loc => loc.name === actCompletionName);
-    }
+    // staticData.locations is always a Map after initialization
+    actCompletionLocation = staticData.locations.get(actCompletionName);
   }
 
   // If we can't find the location, check in regions
   if (!actCompletionLocation && staticData && staticData.regions) {
-    for (const regionName in staticData.regions) {
-      const region = staticData.regions[regionName];
+    // staticData.regions is a Map 
+    for (const [regionName, region] of staticData.regions) {
       if (region && region.locations) {
         const loc = region.locations.find(l => l.name === actCompletionName);
         if (loc) {
@@ -227,16 +204,73 @@ export function can_clear_required_act(snapshot, staticData, actEntrance) {
     }
   }
 
+  // Step 2: Check region reachability
+  let regionReachable = false;
+  if (snapshot.regionReachability && snapshot.regionReachability[connectedRegion] !== undefined) {
+    regionReachable = snapshot.regionReachability[connectedRegion] === true ||
+                      snapshot.regionReachability[connectedRegion] === 'reachable';
+  }
+
+  // Step 3: Special case for "Free Roam" regions - always clearable if reachable
+  if (connectedRegion.includes("Free Roam")) {
+    return regionReachable;
+  }
+
+  // Step 4: If Act Completion has constant true access rule, then the act is clearable
+  // as soon as the region becomes reachable (which might be during this evaluation)
+  // This handles circular dependencies during initial region scanning
+  if (actCompletionLocation &&
+      actCompletionLocation.access_rule &&
+      actCompletionLocation.access_rule.type === 'constant' &&
+      actCompletionLocation.access_rule.value === true) {
+    // For constant true access rules, we can be lenient about region reachability
+    // because once the region is reachable, the act is immediately clearable
+    // Check if there's ANY way to reach this region (has exits with constant true from reachable regions)
+    // staticData.regions is a Map 
+    if (staticData && staticData.regions) {
+      // Iterate through all regions to find exits that connect to the target region
+      // staticData.regions is always a Map after initialization
+      for (const [parentRegionName, parentRegion] of staticData.regions.entries()) {
+        if (parentRegion && parentRegion.exits) {
+          // Check each exit in this region
+          for (const exit of parentRegion.exits) {
+            // Does this exit lead to our target region?
+            if (exit.connected_region === connectedRegion) {
+              // Is this exit accessible via constant true?
+              if (exit.access_rule &&
+                  exit.access_rule.type === 'constant' &&
+                  exit.access_rule.value === true) {
+                // Check if the parent region is actually reachable
+                const parentReachable = snapshot.regionReachability &&
+                  (snapshot.regionReachability[parentRegionName] === true ||
+                   snapshot.regionReachability[parentRegionName] === 'reachable');
+                if (parentReachable) {
+                  return true;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Step 5: Normal case - check if region is reachable
+  if (!regionReachable) {
+    return false;
+  }
+
+  // Step 6: If no Act Completion location found, can't clear the act
   if (!actCompletionLocation) {
     return false;
   }
 
-  // Check if the location has an access rule
+  // Step 7: Check if the location has an access rule
   if (!actCompletionLocation.access_rule) {
     return true;
   }
 
-  // Use the state's evaluateRule method if available to evaluate the location's access rule
+  // Step 8: Evaluate the access rule
   if (snapshot.evaluateRule) {
     const result = snapshot.evaluateRule(actCompletionLocation.access_rule);
     return result === true;

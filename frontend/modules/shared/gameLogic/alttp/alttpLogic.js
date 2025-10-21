@@ -813,27 +813,11 @@ export function location_item_name(snapshot, staticData, locationName) {
 
   // First check if we have location-item mapping in static data locations object
   if (staticData && staticData.locations) {
-    // Phase 3: Handle Map in addition to object/array
-    if (staticData.locations instanceof Map) {
-      const locationData = staticData.locations.get(locationName);
-      if (locationData && locationData.item) {
-        // Return array format: [item_name, player_number]
-        return [locationData.item.name, locationData.item.player || 1];
-      }
-    } else if (typeof staticData.locations === 'object' && !Array.isArray(staticData.locations)) {
-      // Check if locations is a direct mapping object
-      const locationData = staticData.locations[locationName];
-      if (locationData && locationData.item) {
-        // Return array format: [item_name, player_number]
-        return [locationData.item.name, locationData.item.player || 1];
-      }
-    } else if (Array.isArray(staticData.locations)) {
-      // If locations is an array, convert it to object mapping on-the-fly
-      for (const location of staticData.locations) {
-        if (location && location.name === locationName && location.item) {
-          return [location.item.name, location.item.player || 1];
-        }
-      }
+    // staticData.locations is always a Map after initialization
+    const locationData = staticData.locations.get(locationName);
+    if (locationData && locationData.item) {
+      // Return array format: [item_name, player_number]
+      return [locationData.item.name, locationData.item.player || 1];
     }
   }
 
@@ -841,24 +825,11 @@ export function location_item_name(snapshot, staticData, locationName) {
   if (staticData && staticData.regions) {
     const playerSlot = snapshot.player?.slot || '1';
 
-    // Phase 3: Handle Map in addition to object
-    let regionsToSearch;
-    if (staticData.regions instanceof Map) {
-      // regions is already a Map (Phase 3 format)
-      regionsToSearch = staticData.regions;
-    } else if (typeof staticData.regions === 'object') {
-      // Check if regions are nested by player or if it's a direct regions object
-      regionsToSearch = staticData.regions[playerSlot] || staticData.regions;
-    }
+    // staticData.regions is always a Map after initialization
+    if (!staticData.regions) return null;
 
-    if (!regionsToSearch) return null;
-
-    // Iterate through regions (support both Map and Object)
-    const regionsIterable = regionsToSearch instanceof Map
-      ? regionsToSearch.entries()
-      : Object.entries(regionsToSearch);
-
-    for (const [regionName, region] of regionsIterable) {
+    // Iterate through regions
+    for (const [regionName, region] of staticData.regions.entries()) {
       if (region && region.locations && Array.isArray(region.locations)) {
         const location = region.locations.find(loc => loc.name === locationName);
         if (location && location.item) {

@@ -224,8 +224,8 @@ export class TestController {
           let locData = staticData.locations[actionDetails.locationName];
           if (!locData && staticData.regions) {
             // Basic search in regions if not direct
-            for (const regionKey in staticData.regions) {
-              const region = staticData.regions[regionKey];
+            // staticData.regions is always a Map after initialization
+            for (const [regionKey, region] of staticData.regions.entries()) {
               if (region.locations && Array.isArray(region.locations)) {
                 const foundLoc = region.locations.find(
                   (l) => l.name === actionDetails.locationName

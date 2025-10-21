@@ -1,7 +1,216 @@
 /**
- * Centralized game logic registry
- * This module handles game detection and logic module selection to eliminate
- * duplicate code throughout the state manager
+ * Game Logic Registry - Thread-Agnostic Game Detection and Logic Selection
+ *
+ * This module provides centralized game detection and logic module selection that works
+ * identically in both the web worker thread (StateManager) and main thread (UI components).
+ * It eliminates duplicate game detection code and ensures consistent helper function usage.
+ *
+ * **THREAD-AGNOSTIC DESIGN**:
+ * This file runs in BOTH thread contexts without modification:
+ * - **Worker Thread**: Used by StateManager during initialization and rule evaluation
+ * - **Main Thread**: Used by stateInterface.js for helper function selection
+ *
+ * The key to thread-agnostic design:
+ * - Pure functional exports - no side effects
+ * - No DOM or Worker-specific APIs
+ * - Static registry - no runtime state
+ * - All imports resolved at load time
+ *
+ * **DATA FLOW - WORKER THREAD PATH**:
+ *
+ * StateManager Initialization [worker thread]:
+ *   Input: JSON rules loaded, need to initialize game logic
+ *   ↓
+ * initialization.js - loadFromJSON():
+ *   Processing:
+ *     ├─> Parses jsonData.settings[playerId] to get game name
+ *     ├─> Calls initializeGameLogic(sm, jsonData, selectedPlayerId)
+ *     │
+ *   Output: Need to select appropriate game logic module
+ *   ↓
+ * initialization.js - initializeGameLogic():
+ *   Processing:
+ *     ├─> Extract game name from settings or rules
+ *     │     └─> gameName = gameSettingsFromFile.game || sm.rules?.game_name || 'UnknownGame'
+ *     ├─> Call getGameLogic(gameName) [THIS FILE]
+ *     │
+ *   Output: Request game logic for detected game
+ *   ↓
+ * getGameLogic(gameName) [THIS FILE] (worker thread):
+ *   Input:
+ *     └─> gameName: 'A Link to the Past' (or other game name)
+ *
+ *   Processing:
+ *     ├─> Lookup in GAME_REGISTRY['A Link to the Past']
+ *     │     └─> Found: {
+ *     │           logicModule: alttpStateModule,
+ *     │           helperFunctions: alttpLogic.helperFunctions,
+ *     │           worldClasses: ['ALTTPWorld'],
+ *     │           aliases: ['A Link to the Past', 'ALTTP']
+ *     │         }
+ *     ├─> Return logic configuration
+ *     │
+ *   Output:
+ *     └─> { logicModule, helperFunctions }
+ *   ↓
+ * initialization.js:
+ *   Processing:
+ *     ├─> sm.logicModule = logic.logicModule
+ *     ├─> sm.helperFunctions = logic.helperFunctions
+ *     ├─> sm.gameStateModule = sm.logicModule.initializeState()
+ *     │
+ *   Output: StateManager configured with game-specific logic
+ *   ↓
+ * StateManager Runtime:
+ *   - Uses sm.helperFunctions for rule evaluation
+ *   - Helper functions called with signature: (snapshot, staticData, ...args)
+ *
+ * **DATA FLOW - MAIN THREAD PATH**:
+ *
+ * UI Component Initialization [main thread]:
+ *   Input: LocationUI needs to evaluate rules on cached snapshots
+ *   ↓
+ * LocationUI.updateLocationDisplay():
+ *   Processing:
+ *     ├─> Gets cached snapshot from proxy
+ *     ├─> Gets cached staticData from proxy
+ *     ├─> Calls createStateSnapshotInterface(snapshot, staticData)
+ *     │
+ *   Output: Need SnapshotInterface with helper execution capability
+ *   ↓
+ * stateInterface.js - createStateSnapshotInterface():
+ *   Processing:
+ *     ├─> Detects game name from staticData
+ *     │     └─> const gameName = staticData?.game_name || snapshot?.game
+ *     ├─> Calls getGameLogic(gameName) [THIS FILE]
+ *     │
+ *   Output: Request game logic for detected game
+ *   ↓
+ * getGameLogic(gameName) [THIS FILE] (main thread):
+ *   Input:
+ *     └─> gameName: 'A Link to the Past'
+ *
+ *   Processing:
+ *     ├─> Lookup in GAME_REGISTRY['A Link to the Past']
+ *     │     └─> SAME registry as worker thread!
+ *     ├─> Return logic configuration
+ *     │
+ *   Output:
+ *     └─> { logicModule, helperFunctions }
+ *           └─> SAME helper functions as worker thread!
+ *   ↓
+ * stateInterface.js:
+ *   Processing:
+ *     ├─> Creates interface with executeHelper() method
+ *     │     └─> executeHelper(name, ...args) {
+ *     │           const selectedHelpers = getHelperFunctions(gameName);
+ *     │           return selectedHelpers[name](snapshot, staticData, ...args);
+ *     │         }
+ *     ├─> Returns SnapshotInterface
+ *     │
+ *   Output: Interface ready for rule evaluation
+ *   ↓
+ * LocationUI:
+ *   Processing:
+ *     ├─> Calls evaluateRule(location.access_rule, snapshotInterface)
+ *     ├─> Rule engine calls snapshotInterface.executeHelper('has', 'Progressive Sword')
+ *     ├─> Interface calls helperFunctions.has(snapshot, staticData, 'Progressive Sword')
+ *     │     └─> Uses CACHED snapshot data from proxy
+ *     │
+ *   Output: boolean result used for UI rendering
+ *
+ * **KEY DIFFERENCE BETWEEN PATHS**:
+ *
+ * Worker Thread:
+ *   ├─> Called once during StateManager initialization
+ *   ├─> Stores helper functions on StateManager instance
+ *   ├─> Helper functions operate on live state data
+ *   └─> Used for state computation and updates
+ *
+ * Main Thread:
+ *   ├─> Called every time SnapshotInterface is created
+ *   ├─> Gets fresh reference to helper functions each time
+ *   ├─> Helper functions operate on cached snapshot data
+ *   └─> Used for read-only UI rendering
+ *
+ * IMPORTANT: Both paths use THE SAME helper function implementations!
+ *
+ * **GAME REGISTRY STRUCTURE**:
+ * ```javascript
+ * const GAME_REGISTRY = {
+ *   'Game Name': {
+ *     logicModule: gameStateModule,      // State management (worker only)
+ *     helperFunctions: { has, count, ... }, // Rule evaluation (both threads)
+ *     worldClasses: ['WorldClassName'],  // Archipelago world class names
+ *     aliases: ['Full Name', 'Abbrev']   // Alternative names for detection
+ *   }
+ * }
+ * ```
+ *
+ * **GAME DETECTION FLOW**:
+ *
+ * determineGameName({ gameName, settings, worldClass }):
+ *   Priority order:
+ *     1. Direct gameName from rules.json (most reliable)
+ *     2. settings.game field
+ *     3. Detection from worldClass via detectGameFromWorldClass()
+ *     4. Fallback to 'Generic'
+ *
+ * detectGameFromWorldClass(worldClass):
+ *   Input: 'ALTTPWorld' (from Archipelago data)
+ *   Processing:
+ *     ├─> Lookup in WORLD_CLASS_MAPPING['ALTTPWorld']
+ *     │     └─> Returns 'A Link to the Past'
+ *     ├─> If not found, check aliases for partial matches
+ *     │
+ *   Output: Detected game name or 'Generic'
+ *
+ * **SUPPORTED GAMES**:
+ * - A Link to the Past (ALTTP)
+ * - A Hat in Time (AHIT)
+ * - Aquaria
+ * - ArchipIDLE
+ * - Blasphemous
+ * - Bomb Rush Cyberfunk
+ * - Celeste 64
+ * - Civilization VI
+ * - Castlevania - Circle of the Moon
+ * - DLCQuest
+ * - Hollow Knight
+ * - Hylics 2
+ * - Inscryption
+ * - Kingdom Hearts
+ * - Pokemon Red and Blue
+ * - Generic (fallback)
+ *
+ * **HELPER FUNCTION SIGNATURE**:
+ * All helper functions follow the standardized signature:
+ *   helperFunction(snapshot, staticData, ...args)
+ *
+ * - snapshot: Current game state (inventory, flags, events, reachability)
+ * - staticData: Static game data (items, regions, locations, settings)
+ * - ...args: Rule-specific arguments from JSON
+ *
+ * Example:
+ *   has(snapshot, staticData, itemName) {
+ *     // Check flags
+ *     if (snapshot.flags?.includes(itemName)) return true;
+ *     // Check inventory
+ *     return (snapshot.inventory[itemName] || 0) > 0;
+ *   }
+ *
+ * **ARCHITECTURE NOTES**:
+ * - Static registry built at module load time
+ * - No runtime configuration or state changes
+ * - World class mapping auto-generated from registry
+ * - Fallback to Generic for unknown games
+ * - Helper functions are pure - no side effects
+ * - Thread-safe by design (no shared mutable state)
+ *
+ * @module shared/gameLogic/gameLogicRegistry
+ * @see stateInterface.js - Uses this for helper function selection (both threads)
+ * @see stateManager/core/initialization.js - Uses this for StateManager setup (worker)
+ * @see ruleEngine.js - Calls helpers returned by this registry
  */
 
 // Import all game logic modules

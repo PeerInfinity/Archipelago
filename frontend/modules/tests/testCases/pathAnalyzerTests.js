@@ -364,15 +364,12 @@ export async function debugPathAnalyzerTest(testController) {
 
     // Use a simple region that should definitely exist in ALTTP
     const testRegion = 'Light World';
-    const regionExists = staticData.regions instanceof Map
-      ? staticData.regions.has(testRegion)
-      : staticData.regions[testRegion];
+    // staticData.regions is always a Map after initialization
+    const regionExists = staticData.regions.has(testRegion);
     testController.log(`Checking for region "${testRegion}"...`);
 
     if (!regionExists) {
-      const regionNames = staticData.regions instanceof Map
-        ? Array.from(staticData.regions.keys()).slice(0, 10)
-        : Object.keys(staticData.regions).slice(0, 10);
+      const regionNames = Array.from(staticData.regions.keys()).slice(0, 10);
       testController.log(`Region "${testRegion}" not found. Available regions (first 10):`);
       regionNames.forEach((name) => testController.log(`  - ${name}`));
       testController.reportCondition('Target region exists', false);

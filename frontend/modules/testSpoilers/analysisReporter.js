@@ -122,16 +122,12 @@ export class AnalysisReporter {
     this.logCallback('info', ''); // Separator
 
     for (const locName of locationNames) {
-      // Phase 3: Use Map.get() or fallback to object access
-      const locDef = staticData.locations instanceof Map
-        ? staticData.locations.get(locName)
-        : staticData.locations[locName];
+      // staticData.locations is always a Map after initialization
+      const locDef = staticData.locations.get(locName);
 
       if (!locDef) {
         this.logCallback('error', `  ${locName}: Location definition not found in static data`);
-        const sampleKeys = staticData.locations instanceof Map
-          ? Array.from(staticData.locations.keys()).slice(0, 5).join(', ')
-          : Object.keys(staticData.locations).slice(0, 5).join(', ');
+        const sampleKeys = Array.from(staticData.locations.keys()).slice(0, 5).join(', ');
         this.logCallback('info', `    Available locations sample: ${sampleKeys}...`);
         continue;
       }
@@ -244,10 +240,8 @@ export class AnalysisReporter {
     const accessibleRegions = Object.entries(currentWorkerSnapshot.regionReachability || {})
       .filter(([region, status]) => {
         if (status !== 'reachable' && status !== 'checked') return false;
-        // Phase 3: Use Map.has() or fallback to object access
-        return staticData.regions instanceof Map
-          ? staticData.regions.has(region)
-          : !!staticData.regions[region];
+        // staticData.regions is always a Map after initialization
+        return staticData.regions.has(region);
       })
       .map(([region]) => region);
 
@@ -266,10 +260,8 @@ export class AnalysisReporter {
     this.logCallback('info', ''); // Separator
 
     for (const targetRegionName of regionNames) {
-      // Phase 3: Use Map.get() or fallback to object access
-      const targetRegionDef = staticData.regions instanceof Map
-        ? staticData.regions.get(targetRegionName)
-        : staticData.regions[targetRegionName];
+      // staticData.regions is always a Map after initialization
+      const targetRegionDef = staticData.regions.get(targetRegionName);
 
       if (!targetRegionDef) {
         this.logCallback('error', `  ${targetRegionName}: Region definition not found in static data`);
@@ -284,10 +276,8 @@ export class AnalysisReporter {
       const exitsToTarget = [];
 
       for (const sourceRegionName of accessibleRegions) {
-        // Phase 3: Use Map.get() or fallback to object access
-        const sourceRegionDef = staticData.regions instanceof Map
-          ? staticData.regions.get(sourceRegionName)
-          : staticData.regions[sourceRegionName];
+        // staticData.regions is always a Map after initialization
+        const sourceRegionDef = staticData.regions.get(sourceRegionName);
         if (!sourceRegionDef || !sourceRegionDef.exits) continue;
 
         for (const exitName in sourceRegionDef.exits) {
@@ -308,17 +298,13 @@ export class AnalysisReporter {
 
         // Check for exits from inaccessible regions to provide more helpful information
         const exitsFromInaccessibleRegions = [];
-        // Phase 3: Get region keys from Map or object
-        const allRegions = staticData.regions instanceof Map
-          ? Array.from(staticData.regions.keys())
-          : Object.keys(staticData.regions || {});
+        // staticData.regions is always a Map after initialization
+        const allRegions = Array.from(staticData.regions.keys());
         const inaccessibleRegions = allRegions.filter(region => !accessibleRegions.includes(region));
 
         for (const sourceRegionName of inaccessibleRegions) {
-          // Phase 3: Use Map.get() or fallback to object access
-          const sourceRegionDef = staticData.regions instanceof Map
-            ? staticData.regions.get(sourceRegionName)
-            : staticData.regions[sourceRegionName];
+          // staticData.regions is always a Map after initialization
+          const sourceRegionDef = staticData.regions.get(sourceRegionName);
           if (!sourceRegionDef || !sourceRegionDef.exits) continue;
 
           for (const exitName in sourceRegionDef.exits) {

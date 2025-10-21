@@ -187,12 +187,8 @@ export async function timerOfflineTest(testController) {
     let testPassed = false;
 
     if (staticData && staticData.locations) {
-      // Handle Map (Phase 3.2 format), Array, or Object (legacy)
-      const locationsArray = staticData.locations instanceof Map
-        ? Array.from(staticData.locations.values())
-        : (Array.isArray(staticData.locations)
-          ? staticData.locations
-          : Object.values(staticData.locations));
+      // staticData.locations is always a Map after initialization
+      const locationsArray = Array.from(staticData.locations.values());
 
       // Count manually-checkable locations (those with IDs > 0)
       // Locations with id=0 are events that get checked automatically, not by the timer

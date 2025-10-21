@@ -81,7 +81,7 @@ export class PathAnalyzerLogic {
       }
 
       // Get the region data using the passed staticData
-      // Phase 3.2: Use Map.get() for O(1) lookup
+      // Use Map.get() for O(1) lookup
       const regionData = regionsData.get(currentRegion);
       if (!regionData || !regionData.exits) {
         continue;
@@ -354,7 +354,7 @@ export class PathAnalyzerLogic {
     }
 
     // Get region data
-    // Phase 3.2: Use Map.get() for O(1) lookup
+    // Use Map.get() for O(1) lookup
     const regionData = regionsData.get(currentRegion);
     if (!regionData) return;
 
@@ -416,7 +416,7 @@ export class PathAnalyzerLogic {
       const fromRegion = path[i];
       const toRegion = path[i + 1];
 
-      // Phase 3.2: Use Map.get() for O(1) lookup
+      // Use Map.get() for O(1) lookup
       const fromRegionData = regionsData.get(fromRegion);
       if (!fromRegionData || !fromRegionData.exits) continue;
 
@@ -559,7 +559,7 @@ export class PathAnalyzerLogic {
       };
     }
 
-    // Phase 3.2: Use Map.get() for O(1) lookup
+    // Use Map.get() for O(1) lookup
     const regionData = regionsData.get(regionName);
     const analysisData = {
       entrances: [],
@@ -567,7 +567,7 @@ export class PathAnalyzerLogic {
     };
 
     // 1. Analyze entrances to this region
-    // Phase 3.2: Use Map.entries() to iterate over Map
+    // Use Map.entries() to iterate over Map
     for (const [otherRegionName, otherRegionData] of regionsData.entries()) {
       if (otherRegionName === regionName) continue;
 

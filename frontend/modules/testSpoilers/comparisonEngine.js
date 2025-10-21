@@ -130,12 +130,8 @@ export class ComparisonEngine {
       return false;
     }
 
-    // Phase 3: Support both Map and object formats
-    const locationsIterable = staticData.locations instanceof Map
-      ? staticData.locations.entries()
-      : Object.entries(staticData.locations);
-
-    for (const [locName, locDef] of locationsIterable) {
+    // staticData.locations is always a Map after initialization
+    for (const [locName, locDef] of staticData.locations.entries()) {
 
       // Check against the worker's snapshot flags
       const isChecked = currentWorkerSnapshot.flags?.includes(locName);
@@ -351,18 +347,8 @@ export class ComparisonEngine {
         if (logAccessibleSet.has(name)) return false;
 
         // Check if this region is marked as dynamically_added
-        // staticData.regions might be structured differently - check format
-        let regionData;
-        if (staticData.regions instanceof Map) {
-          // Phase 3: Map format - O(1) lookup
-          regionData = staticData.regions.get(name);
-        } else if (Array.isArray(staticData?.regions)) {
-          // It's an array - find by name
-          regionData = staticData.regions.find(r => r.name === name);
-        } else if (staticData?.regions) {
-          // It's an object - try both keying strategies
-          regionData = staticData.regions[playerId]?.[name] || staticData.regions[name];
-        }
+        // staticData.regions is always a Map after initialization
+        const regionData = staticData.regions?.get(name);
 
         if (regionData && regionData.dynamically_added === true) {
           logger.info(`Skipping dynamically-added region from comparison: ${name}`);

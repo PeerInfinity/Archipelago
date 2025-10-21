@@ -75,7 +75,7 @@ class CommonUI {
     }
 
     // Find all locations that have this item
-    // Phase 3.2: Use Map methods
+    // Use Map methods
     const locationInfos = [];
     for (const [locName, itemData] of staticData.locationItems.entries()) {
       if (itemData && itemData.name === itemName) {

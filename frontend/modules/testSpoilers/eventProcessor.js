@@ -201,13 +201,8 @@ export class EventProcessor {
 
             for (const locationName of locationsToCheck) {
               // Get location definition from static data to see what item we're about to receive (for logging)
-              // Phase 3.2: Handle Map format for locations
-              let locationDef;
-              if (staticData.locations instanceof Map) {
-                locationDef = staticData.locations.get(locationName);
-              } else {
-                locationDef = Object.values(staticData.locations || {}).find(loc => loc.name === locationName);
-              }
+              // staticData.locations is always a Map after initialization
+              const locationDef = staticData.locations.get(locationName);
               const itemName = locationDef?.item?.name;
 
               if (itemName) {

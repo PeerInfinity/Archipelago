@@ -478,7 +478,7 @@ export class RegionUI {
       return;
     }
 
-    // Phase 3.2: Check if the start region exists in the static data
+    // Check if the start region exists in the static data
     if (!staticData.regions.get(startRegionName)) {
       log(
         'warn',

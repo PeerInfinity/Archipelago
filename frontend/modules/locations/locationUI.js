@@ -712,7 +712,7 @@ export class LocationUI {
       if (
         (sortMethod === 'original' ||
           sortMethod === 'accessibility_original') &&
-        staticData.locations.size > 0 // Phase 3.2: Only warn if there should be locations
+        staticData.locations.size > 0 // Only warn if there should be locations
       ) {
         log(
           'warn',
@@ -764,7 +764,7 @@ export class LocationUI {
       .querySelector('#location-search')
       .value.toLowerCase();
 
-    // Phase 3.2: Filter locations using Map methods
+    // Filter locations using Map methods
     let filteredLocations = Array.from(staticData.locations.values()).filter(
       (loc) => {
         const name = loc.name;
@@ -1482,7 +1482,7 @@ export class LocationUI {
     if (location.label2) {
       detailsContent += `<p><strong>Expression:</strong> ${location.label2}</p>`;
     }
-    // Phase 3.2: Add more location details as needed (e.g., item if present in staticData.locations.get(location.name).item)
+    // Add more location details as needed (e.g., item if present in staticData.locations.get(location.name).item)
     const staticLocationData = staticData.locations.get(location.name);
     if (staticLocationData && staticLocationData.item) {
       detailsContent += `<p><strong>Item:</strong> ${staticLocationData.item.name || 'Unknown Item'

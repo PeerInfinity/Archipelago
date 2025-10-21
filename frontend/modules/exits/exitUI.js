@@ -512,7 +512,7 @@ export class ExitUI {
       .querySelector('#exit-search')
       .value.toLowerCase();
 
-    // Phase 3.2: Start with all exits from staticData using Map methods
+    // Start with all exits from staticData using Map methods
     let filteredExits = Array.from(staticData.exits.values());
 
     // Initial filtering logic (more to be added)

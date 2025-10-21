@@ -370,27 +370,30 @@ export class RegionBlockBuilder {
     
     // Find all entrances to this region
     const entrances = [];
-    for (const [sourceRegionName, sourceRegionData] of Object.entries(staticData.regions)) {
+    // staticData.regions is a Map, so use entries() or forEach()
+    for (const [sourceRegionName, sourceRegionData] of staticData.regions.entries()) {
       if (sourceRegionData.exits) {
         for (const exit of sourceRegionData.exits) {
           if (exit.connected_region === regionName) {
             // Check if there's a return path (bidirectional)
             let returnExit = null;
             let isBidirectional = assumeBidirectional;
-            
-            if (!assumeBidirectional && staticData.regions[regionName]?.exits) {
+
+            // Use Map.get() instead of bracket notation
+            const currentRegionData = staticData.regions.get(regionName);
+            if (!assumeBidirectional && currentRegionData?.exits) {
               // Look for an exit from current region back to source
-              returnExit = staticData.regions[regionName].exits.find(
+              returnExit = currentRegionData.exits.find(
                 e => e.connected_region === sourceRegionName
               );
               isBidirectional = !!returnExit;
-            } else if (assumeBidirectional && staticData.regions[regionName]?.exits) {
+            } else if (assumeBidirectional && currentRegionData?.exits) {
               // Even with assume_bidirectional, we need to find the return exit for move functionality
-              returnExit = staticData.regions[regionName].exits.find(
+              returnExit = currentRegionData.exits.find(
                 e => e.connected_region === sourceRegionName
               );
             }
-            
+
             entrances.push({
               sourceRegion: sourceRegionName,
               exitName: exit.name,

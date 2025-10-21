@@ -1,12 +1,155 @@
+/**
+ * Rule Engine - Thread-Agnostic Rule Evaluation
+ *
+ * This module provides the core rule evaluation engine that works identically in both
+ * the web worker thread (StateManager) and the main thread (UI components). It evaluates
+ * Archipelago JSON rule objects against game state snapshots.
+ *
+ * **THREAD-AGNOSTIC DESIGN**:
+ * This file is designed to run in BOTH thread contexts without modification:
+ * - **Worker Thread**: Used by StateManager for live state computation
+ * - **Main Thread**: Used by UI components for cached snapshot evaluation
+ *
+ * The key to thread-agnostic design:
+ * - No direct StateManager dependencies - uses context injection
+ * - Thread-aware logging (detects window object)
+ * - Pure computation - no DOM or Worker APIs
+ * - All state access through SnapshotInterface context object
+ *
+ * **DATA FLOW - WORKER THREAD PATH**:
+ *
+ * User Action (e.g., location click on main thread):
+ *   Input: User clicks location in UI
+ *   ↓
+ * StateManagerProxy (main thread):
+ *   Processing: Posts 'checkLocation' command to worker
+ *   ↓
+ * StateManagerWorker (worker thread):
+ *   Processing: Receives message, calls StateManager.checkLocation()
+ *   ↓
+ * StateManager.checkLocation():
+ *   Processing:
+ *     ├─> Needs to verify location is accessible
+ *     ├─> Creates SnapshotInterface via _createSelfSnapshotInterface()
+ *     │     └─> Calls createStateSnapshotInterface(snapshot, staticData)
+ *     ├─> Calls evaluateRule(location.access_rule, snapshotInterface)
+ *     │
+ *   Output: Worker evaluates rule, updates state, returns snapshot
+ *   ↓
+ * evaluateRule() [THIS FILE] (worker thread):
+ *   Input:
+ *     ├─> rule: { type: 'helper', name: 'has', args: ['Progressive Sword'] }
+ *     ├─> context: SnapshotInterface with executeHelper(), hasItem(), etc.
+ *     └─> depth: 0 (recursion counter)
+ *
+ *   Processing:
+ *     ├─> Detects rule type 'helper'
+ *     ├─> Evaluates args recursively (line 234)
+ *     ├─> Calls context.executeHelper('has', 'Progressive Sword')
+ *     │     └─> SnapshotInterface delegates to ruleEvaluator.executeHelper()
+ *     │           └─> Gets snapshot + staticData from StateManager
+ *     │                 └─> Calls helperFunctions.has(snapshot, staticData, 'Progressive Sword')
+ *     │                       └─> Game-specific helper from alttpLogic.js
+ *     │                             └─> Returns boolean result
+ *     │
+ *   Output: boolean (true/false) or undefined
+ *   ↓
+ * StateManager:
+ *   Processing: Uses result to update reachability
+ *   Output: Posts updated snapshot to main thread
+ *   ↓
+ * Main Thread UI:
+ *   Processing: Receives snapshot, re-renders
+ *
+ * **DATA FLOW - MAIN THREAD PATH**:
+ *
+ * UI Render (LocationUI.updateLocationDisplay):
+ *   Input: Need to render location accessibility
+ *   ↓
+ * LocationUI:
+ *   Processing:
+ *     ├─> Calls stateManager.getLatestStateSnapshot() (from proxy)
+ *     │     └─> Returns CACHED snapshot (no worker call)
+ *     ├─> Calls stateManager.getStaticData() (from proxy)
+ *     │     └─> Returns CACHED static data (no worker call)
+ *     ├─> Creates SnapshotInterface on main thread
+ *     │     └─> const snapshotInterface = createStateSnapshotInterface(snapshot, staticData)
+ *     │           └─> Same function used in worker!
+ *     │
+ *   Output: SnapshotInterface ready for evaluation
+ *   ↓
+ * evaluateRule() [THIS FILE] (main thread):
+ *   Input:
+ *     ├─> rule: { type: 'helper', name: 'has', args: ['Progressive Sword'] }
+ *     ├─> context: SnapshotInterface (created on main thread from cached data)
+ *     └─> depth: 0
+ *
+ *   Processing:
+ *     ├─> Detects rule type 'helper'
+ *     ├─> Evaluates args recursively
+ *     ├─> Calls context.executeHelper('has', 'Progressive Sword')
+ *     │     └─> SnapshotInterface delegates to getHelperFunctions()
+ *     │           └─> Gets game logic from gameLogicRegistry
+ *     │                 └─> Calls helperFunctions.has(snapshot, staticData, 'Progressive Sword')
+ *     │                       └─> SAME game-specific helper as worker!
+ *     │                             └─> Returns boolean result
+ *     │
+ *   Output: boolean (true/false) or undefined
+ *   ↓
+ * LocationUI:
+ *   Processing:
+ *     ├─> Uses result to set CSS class (reachable/unreachable)
+ *     └─> Renders DOM element with appropriate styling
+ *
+ * **KEY DIFFERENCE BETWEEN PATHS**:
+ *
+ * Worker Thread:
+ *   ├─> Live StateManager instance
+ *   ├─> Fresh computation of reachability
+ *   ├─> Updates global state
+ *   └─> Posts snapshot to main thread
+ *
+ * Main Thread:
+ *   ├─> Cached snapshot from proxy
+ *   ├─> No recomputation (uses existing values)
+ *   ├─> Read-only evaluation
+ *   └─> Immediate DOM updates
+ *
+ * **SUPPORTED RULE TYPES**:
+ * - helper: Calls game-specific helper functions
+ * - state_method: Calls StateManager methods (can_reach, etc.)
+ * - item_check: Checks if player has item
+ * - count_check: Checks item quantity
+ * - group_check: Checks item group count
+ * - location_check: Checks if location is accessible
+ * - locations_checked: Checks total locations checked
+ * - total_items_count: Checks total items collected
+ * - can_reach: Checks region reachability
+ * - and/or/not: Boolean logic operators
+ * - compare: Comparison operators (>, <, ==, !=, in, etc.)
+ * - attribute: Property access on objects
+ * - function_call: Call functions with arguments
+ * - subscript: Array/object indexing
+ * - conditional: Ternary operator (if_true/if_false)
+ * - binary_op: Arithmetic operators (+, -, *, /, //)
+ * - value/constant: Literal values
+ * - name: Variable name resolution
+ *
+ * **ARCHITECTURE NOTES**:
+ * - Context injection via SnapshotInterface - no global state
+ * - Recursive evaluation with depth limiting (max 100)
+ * - Thread-aware logging (lines 12-23)
+ * - Special handling for Python constructs (any/all, boss defeat, multiworld)
+ * - Progressive item mapping support
+ * - Dungeon and boss rule support
+ *
+ * @module shared/ruleEngine
+ * @see stateInterface.js - Creates SnapshotInterface context objects
+ * @see gameLogicRegistry.js - Selects game-specific helper functions
+ * @see stateManager/core/ruleEvaluator.js - Worker thread helper execution
+ */
+
 // frontend/modules/shared/ruleEngine.js
-
-// Remove stateManagerSingleton import and getter
-// import stateManagerSingleton from './stateManagerSingleton.js';
-// function getStateManager() {
-//   return stateManagerSingleton.instance;
-// }
-
-// Evaluation trace object for capturing debug info
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -426,7 +569,7 @@ export const evaluateRule = (rule, context, depth = 0) => {
             if (context.getStaticData && context.getStaticData().regions) {
               const regions = context.getStaticData().regions;
 
-              // Phase 3.2: Regions is always a Map
+              // Regions is always a Map
               const region = regions.get(baseObject.parent_region_name);
               if (region) {
                 return region;
@@ -459,7 +602,7 @@ export const evaluateRule = (rule, context, depth = 0) => {
                 const dungeons = context.dungeons || context.getAllDungeons?.() || context.getStaticData?.().dungeons;
 
                 if (dungeons) {
-                  // Phase 3.2: Dungeons is always a Map
+                  // Dungeons is always a Map
                   const dungeon = dungeons.get(dungeonName);
                   if (dungeon) {
                     return dungeon;
@@ -534,7 +677,7 @@ export const evaluateRule = (rule, context, depth = 0) => {
           if (context.getStaticData) {
             const staticData = context.getStaticData();
             // Search all regions for this location
-            // Phase 3.2: Regions is always a Map
+            // Regions is always a Map
             for (const [regionName, regionData] of staticData.regions.entries()) {
               if (regionData.locations) {
                 const location = regionData.locations.find(loc => loc.name === locationName);
@@ -576,7 +719,7 @@ export const evaluateRule = (rule, context, depth = 0) => {
           if (context.getStaticData) {
             const staticData = context.getStaticData();
             // Search all regions for this exit
-            // Phase 3.2: Regions is always a Map
+            // Regions is always a Map
             for (const [regionName, regionData] of staticData.regions.entries()) {
               if (regionData.exits) {
                 const exit = regionData.exits.find(ex => ex.name === exitName);

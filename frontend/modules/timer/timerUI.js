@@ -301,7 +301,7 @@ export class TimerUI {
       return;
     }
 
-    const allLocationDefinitions = staticData.locations; // This is a Map (Phase 3.2 format)
+    const allLocationDefinitions = staticData.locations; // This is a Map 
     const checkedLocations = new Set(currentSnapshot.checkedLocations || []);
 
     // Initialize counters
@@ -314,12 +314,9 @@ export class TimerUI {
     let checkedEventCount = 0;
     let totalEventCount = 0;
 
-    // Process each location - handle both Map (new format) and Object (legacy)
-    const locationsIterator = allLocationDefinitions instanceof Map
-      ? allLocationDefinitions.entries()
-      : Object.entries(allLocationDefinitions);
-
-    for (const [locName, loc] of locationsIterator) {
+    // Process each location
+    // allLocationDefinitions is always a Map after initialization
+    for (const [locName, loc] of allLocationDefinitions.entries()) {
       // Determine if this is an event location (no ID)
       const isEventLocation = loc.id === null || loc.id === undefined;
 

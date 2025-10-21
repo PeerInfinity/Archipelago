@@ -1,5 +1,186 @@
+/**
+ * State Snapshot Interface - Thread-Agnostic Context Creation
+ *
+ * This module creates SnapshotInterface objects that provide a unified API for rule
+ * evaluation regardless of thread context. The same interface works identically in
+ * both the web worker (StateManager) and main thread (UI components).
+ *
+ * **THREAD-AGNOSTIC DESIGN**:
+ * This file runs in BOTH thread contexts without modification:
+ * - **Worker Thread**: Called by StateManager to create context for rule evaluation
+ * - **Main Thread**: Called by UI components to evaluate rules on cached snapshots
+ *
+ * The key to thread-agnostic design:
+ * - No StateManager dependencies - works with pure data (snapshot + staticData)
+ * - Thread-aware logging (detects window object)
+ * - Pure functional approach - no side effects
+ * - Game logic selection via gameLogicRegistry (thread-agnostic)
+ *
+ * **DATA FLOW - WORKER THREAD PATH**:
+ *
+ * StateManager.checkLocation() [worker thread]:
+ *   Input: Location needs accessibility check
+ *   ↓
+ * StateManager._createSelfSnapshotInterface():
+ *   Processing:
+ *     ├─> Calls getSnapshot() to get current state
+ *     │     └─> Returns: { inventory, flags, events, regionReachability, player, ... }
+ *     ├─> Calls getStaticGameData() to get static data
+ *     │     └─> Returns: { items, regions, locations, settings, progressionMapping, ... }
+ *     ├─> Calls createStateSnapshotInterface(snapshot, staticData, contextVars)
+ *     │
+ *   Output: SnapshotInterface object
+ *   ↓
+ * createStateSnapshotInterface() [THIS FILE] (worker thread):
+ *   Input:
+ *     ├─> snapshot: Current game state from StateManager
+ *     │     └─> { inventory: Map, flags: [], events: [], regionReachability: {}, ... }
+ *     ├─> staticData: Static game data from StateManager
+ *     │     └─> { items: Map, regions: Map, locations: Map, settings: {}, ... }
+ *     ├─> contextVariables: Optional context (e.g., { location: currentLocation })
+ *     │
+ *   Processing:
+ *     ├─> Detects game from staticData.game_name or snapshot.game
+ *     ├─> Gets helper functions from gameLogicRegistry.getGameLogic(gameName)
+ *     │     └─> Returns: { logicModule, helperFunctions } for detected game
+ *     ├─> Creates interface object with methods:
+ *     │     ├─> executeHelper(name, ...args):
+ *     │     │     └─> helperFunctions[name](snapshot, staticData, ...args)
+ *     │     ├─> hasItem(itemName):
+ *     │     │     └─> Delegates to game-specific has() helper
+ *     │     ├─> countItem(itemName):
+ *     │     │     └─> Delegates to game-specific count() helper
+ *     │     ├─> isRegionReachable(regionName):
+ *     │     │     └─> Returns snapshot.regionReachability[regionName]
+ *     │     ├─> isLocationAccessible(locationName):
+ *     │     │     └─> Evaluates location.access_rule with evaluateRule()
+ *     │     ├─> getStaticData():
+ *     │     │     └─> Returns { items, groups, locations, regions, dungeons }
+ *     │     └─> resolveName(name):
+ *     │           └─> Resolves Python names (True/False/None/state/self/world/etc.)
+ *     │
+ *   Output: SnapshotInterface object
+ *     └─> { _isSnapshotInterface: true, executeHelper(), hasItem(), countItem(), ... }
+ *   ↓
+ * StateManager.evaluateRuleFromEngine(rule, snapshotInterface):
+ *   Processing: Passes interface to ruleEngine.evaluateRule()
+ *   ↓
+ * ruleEngine.evaluateRule(rule, snapshotInterface):
+ *   Processing:
+ *     ├─> Calls snapshotInterface.executeHelper('has', 'Progressive Sword')
+ *     │     └─> Interface calls helperFunctions.has(snapshot, staticData, 'Progressive Sword')
+ *     │           └─> Worker-side data (live StateManager instance data)
+ *     │
+ *   Output: boolean result
+ *
+ * **DATA FLOW - MAIN THREAD PATH**:
+ *
+ * LocationUI.updateLocationDisplay() [main thread]:
+ *   Input: Need to render location cards with accessibility
+ *   ↓
+ * LocationUI gets cached data:
+ *   Processing:
+ *     ├─> const snapshot = stateManager.getLatestStateSnapshot()
+ *     │     └─> Returns CACHED snapshot from proxy (no worker call)
+ *     ├─> const staticData = stateManager.getStaticData()
+ *     │     └─> Returns CACHED static data from proxy (no worker call)
+ *     ├─> const snapshotInterface = createStateSnapshotInterface(snapshot, staticData)
+ *     │
+ *   Output: SnapshotInterface object
+ *   ↓
+ * createStateSnapshotInterface() [THIS FILE] (main thread):
+ *   Input:
+ *     ├─> snapshot: Cached snapshot from proxy
+ *     │     └─> { inventory: {}, flags: [], events: [], regionReachability: {}, ... }
+ *     ├─> staticData: Cached static data from proxy
+ *     │     └─> { items: Map, regions: Map, locations: Map, settings: {}, ... }
+ *     ├─> contextVariables: Optional context (e.g., { location: locationObj })
+ *     │
+ *   Processing:
+ *     ├─> Detects game from staticData.game_name or snapshot.game
+ *     ├─> Gets helper functions from gameLogicRegistry.getGameLogic(gameName)
+ *     │     └─> SAME game logic as worker thread!
+ *     ├─> Creates interface object with methods:
+ *     │     ├─> executeHelper(name, ...args):
+ *     │     │     └─> helperFunctions[name](snapshot, staticData, ...args)
+ *     │     │           └─> Uses CACHED data, not live StateManager
+ *     │     ├─> hasItem(itemName):
+ *     │     │     └─> Delegates to game-specific has() helper
+ *     │     │           └─> Checks CACHED snapshot.inventory
+ *     │     ├─> isRegionReachable(regionName):
+ *     │     │     └─> Returns CACHED snapshot.regionReachability[regionName]
+ *     │     └─> ... (all other methods work the same way)
+ *     │
+ *   Output: SnapshotInterface object (identical structure to worker thread)
+ *   ↓
+ * LocationUI.evaluateRule(location.access_rule, snapshotInterface):
+ *   Processing: Passes interface to ruleEngine.evaluateRule()
+ *   ↓
+ * ruleEngine.evaluateRule(rule, snapshotInterface):
+ *   Processing:
+ *     ├─> Calls snapshotInterface.executeHelper('has', 'Progressive Sword')
+ *     │     └─> Interface calls helperFunctions.has(snapshot, staticData, 'Progressive Sword')
+ *     │           └─> Main-thread data (cached from proxy)
+ *     │
+ *   Output: boolean result
+ *   ↓
+ * LocationUI:
+ *   Processing: Uses result to set CSS class on location card
+ *   Output: DOM element rendered with correct styling
+ *
+ * **KEY DIFFERENCE BETWEEN PATHS**:
+ *
+ * Worker Thread:
+ *   ├─> Data source: Live StateManager instance
+ *   ├─> snapshot: Fresh from getSnapshot()
+ *   ├─> staticData: Direct from StateManager properties
+ *   └─> Evaluation triggers reachability computation
+ *
+ * Main Thread:
+ *   ├─> Data source: Cached from StateManagerProxy
+ *   ├─> snapshot: Last snapshot posted by worker
+ *   ├─> staticData: Cached when rules were loaded
+ *   └─> Evaluation is read-only (no state changes)
+ *
+ * **SNAPSHOT INTERFACE API**:
+ * The interface object provides these methods:
+ * - executeHelper(name, ...args): Execute game-specific helper function
+ * - hasItem(itemName): Check if player has item (calls game's has() helper)
+ * - countItem(itemName): Get item quantity (calls game's count() helper)
+ * - countGroup(groupName): Count items in group
+ * - getTotalItemCount(): Count all items in inventory
+ * - isRegionReachable(regionName): Check region reachability
+ * - isLocationAccessible(locationName): Check location accessibility
+ * - getStaticData(): Get static game data reference
+ * - resolveName(name): Resolve Python variable names
+ * - resolveAttribute(obj, attr): Resolve object attributes
+ * - getRegionData(regionName): Get region object
+ * - getLocationItem(locationName): Get item at location
+ * - executeStateManagerMethod(method, ...args): Execute StateManager methods
+ *
+ * **HELPER FUNCTION SIGNATURE**:
+ * All game-specific helper functions follow this signature:
+ *   helperFunction(snapshot, staticData, ...args)
+ *
+ * Example:
+ *   has(snapshot, staticData, itemName) {
+ *     return (snapshot.inventory[itemName] || 0) > 0;
+ *   }
+ *
+ * **ARCHITECTURE NOTES**:
+ * - Stateless functional design - no instance state
+ * - Game logic loaded dynamically via gameLogicRegistry
+ * - Context variables allow passing location/exit context for self-referential rules
+ * - Progressive item mapping support
+ * - Helper functions attached directly to interface for compatibility
+ *
+ * @module shared/stateInterface
+ * @see ruleEngine.js - Uses this interface for rule evaluation
+ * @see gameLogicRegistry.js - Provides game-specific helper functions
+ * @see stateManager/stateManager.js - Creates interface in worker thread
+ */
+
 // frontend/modules/shared/stateInterface.js
-// Stateless state snapshot interface creation - thread-agnostic
 
 import { evaluateRule } from './ruleEngine.js';
 import { getGameLogic } from './gameLogic/gameLogicRegistry.js';
@@ -48,65 +229,26 @@ export function createStateSnapshotInterface(
   function findLocationDataInStatic(locationName) {
     if (!staticData) return null;
 
-    // Phase 3: Use Map.get() for O(1) lookup (2x faster than object access)
-    if (staticData.locations instanceof Map) {
+    // staticData.locations is always a Map after initialization
+    if (staticData.locations) {
       const location = staticData.locations.get(locationName);
       if (location) return location;
-    } else if (
-      staticData.locations &&
-      typeof staticData.locations === 'object' &&
-      !Array.isArray(staticData.locations)
-    ) {
-      // Fallback for object-based locations (backward compatibility)
-      if (staticData.locations[locationName]) {
-        return staticData.locations[locationName];
-      }
     }
 
     // Search in regions if not found in flat locations
+    // staticData.regions is always a Map after initialization
     if (staticData.regions) {
-      // Check if regions is a Map (Phase 3 format)
-      if (staticData.regions instanceof Map) {
-        for (const [regionNameKey, region] of staticData.regions.entries()) {
-          if (region.locations && Array.isArray(region.locations)) {
-            const foundLoc = region.locations.find(
-              (l) => l.name === locationName
-            );
-            if (foundLoc) {
-              return {
-                ...foundLoc,
-                region: regionNameKey,
-                parent_region_name: regionNameKey,
-              };
-            }
-          }
-        }
-      } else {
-        // Fallback for object-based regions
-        for (const playerId in staticData.regions) {
-          if (
-            Object.prototype.hasOwnProperty.call(staticData.regions, playerId)
-          ) {
-            const playerRegions = staticData.regions[playerId];
-            for (const regionNameKey in playerRegions) {
-              if (
-                Object.prototype.hasOwnProperty.call(playerRegions, regionNameKey)
-              ) {
-                const region = playerRegions[regionNameKey];
-                if (region.locations && Array.isArray(region.locations)) {
-                  const foundLoc = region.locations.find(
-                    (l) => l.name === locationName
-                  );
-                  if (foundLoc) {
-                    return {
-                      ...foundLoc,
-                      region: regionNameKey,
-                      parent_region_name: regionNameKey,
-                    };
-                  }
-                }
-              }
-            }
+      for (const [regionNameKey, region] of staticData.regions.entries()) {
+        if (region.locations && Array.isArray(region.locations)) {
+          const foundLoc = region.locations.find(
+            (l) => l.name === locationName
+          );
+          if (foundLoc) {
+            return {
+              ...foundLoc,
+              region: regionNameKey,
+              parent_region_name: regionNameKey,
+            };
           }
         }
       }
@@ -151,7 +293,7 @@ export function createStateSnapshotInterface(
         case 'regions':
           return staticData?.regions;
         case 'locations':
-          // Phase 3: Return Map directly or fall back to object
+          // Return Map directly or fall back to object
           return staticData?.locations;
         case 'items':
           return staticData?.items;
@@ -307,22 +449,8 @@ export function createStateSnapshotInterface(
     getRegionData: (regionName) => {
       if (!staticData || !staticData.regions) return undefined;
 
-      // Phase 3: Use Map.get() for O(1) lookup
-      if (staticData.regions instanceof Map) {
-        return staticData.regions.get(regionName);
-      }
-
-      // Fallback for object-based regions
-      for (const playerId in staticData.regions) {
-        if (
-          staticData.regions[playerId] &&
-          staticData.regions[playerId][regionName]
-        ) {
-          return staticData.regions[playerId][regionName];
-        }
-      }
-      if (staticData.regions[regionName]) return staticData.regions[regionName];
-      return undefined;
+      // staticData.regions is always a Map after initialization
+      return staticData.regions.get(regionName);
     },
     getStaticData: () => ({
       items: staticData.itemData || staticData.items,
@@ -379,13 +507,8 @@ export function createStateSnapshotInterface(
             // Try to find the location in static data and get its region
             const locationName = baseObject.name;
             if (locationName) {
-              // Phase 3: Use Map.get() for O(1) lookup
-              let locationData = null;
-              if (staticData.locations instanceof Map) {
-                locationData = staticData.locations.get(locationName);
-              } else if (staticData.locations[locationName]) {
-                locationData = staticData.locations[locationName];
-              }
+              // staticData.locations is always a Map after initialization
+              const locationData = staticData.locations.get(locationName);
 
               if (locationData) {
                 regionName = locationData.region || locationData.parent_region;
@@ -395,28 +518,10 @@ export function createStateSnapshotInterface(
 
           if (regionName) {
             // Look up the actual region object from static data
+            // staticData.regions is always a Map after initialization
             if (staticData && staticData.regions) {
-              // Phase 3: Use Map.get() for O(1) lookup
-              if (staticData.regions instanceof Map) {
-                const regionObject = staticData.regions.get(regionName);
-                if (regionObject) return regionObject;
-              } else {
-                // Fallback: staticData.regions might be nested by player
-                for (const playerId in staticData.regions) {
-                  if (
-                    staticData.regions[playerId] &&
-                    staticData.regions[playerId][regionName]
-                  ) {
-                    const regionObject = staticData.regions[playerId][regionName];
-                    return regionObject;
-                  }
-                }
-                // If not nested by player, try direct lookup
-                if (staticData.regions[regionName]) {
-                  const regionObject = staticData.regions[regionName];
-                  return regionObject;
-                }
-              }
+              const regionObject = staticData.regions.get(regionName);
+              if (regionObject) return regionObject;
             }
             // Fallback: return the region name if we can't find the object
             return regionName;

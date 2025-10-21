@@ -162,7 +162,7 @@ export function can_clear_required_act(snapshot, staticData, actEntrance) {
   let connectedRegion = null;
 
   // Search through all regions to find the entrance
-  // staticData.regions is a Map (from Phase 3.2 refactoring)
+  // staticData.regions is a Map 
   for (const [regionName, region] of staticData.regions) {
     if (region.exits) {
       for (const exit of region.exits) {
@@ -186,21 +186,13 @@ export function can_clear_required_act(snapshot, staticData, actEntrance) {
   let actCompletionLocation = null;
 
   if (staticData && staticData.locations) {
-    // staticData.locations is a Map (from Phase 3.2 refactoring)
-    if (staticData.locations instanceof Map) {
-      actCompletionLocation = staticData.locations.get(actCompletionName);
-    } else if (!Array.isArray(staticData.locations)) {
-      // Fallback for object format (backward compatibility)
-      actCompletionLocation = staticData.locations[actCompletionName];
-    } else {
-      // Fallback for array format (backward compatibility)
-      actCompletionLocation = staticData.locations.find(loc => loc.name === actCompletionName);
-    }
+    // staticData.locations is always a Map after initialization
+    actCompletionLocation = staticData.locations.get(actCompletionName);
   }
 
   // If we can't find the location, check in regions
   if (!actCompletionLocation && staticData && staticData.regions) {
-    // staticData.regions is a Map (from Phase 3.2 refactoring)
+    // staticData.regions is a Map 
     for (const [regionName, region] of staticData.regions) {
       if (region && region.locations) {
         const loc = region.locations.find(l => l.name === actCompletionName);
@@ -234,14 +226,11 @@ export function can_clear_required_act(snapshot, staticData, actEntrance) {
     // For constant true access rules, we can be lenient about region reachability
     // because once the region is reachable, the act is immediately clearable
     // Check if there's ANY way to reach this region (has exits with constant true from reachable regions)
-    // staticData.regions is a Map (from Phase 3.2 refactoring)
+    // staticData.regions is a Map 
     if (staticData && staticData.regions) {
       // Iterate through all regions to find exits that connect to the target region
-      const regionsIterator = staticData.regions instanceof Map
-        ? staticData.regions.entries()
-        : Object.entries(staticData.regions);
-
-      for (const [parentRegionName, parentRegion] of regionsIterator) {
+      // staticData.regions is always a Map after initialization
+      for (const [parentRegionName, parentRegion] of staticData.regions.entries()) {
         if (parentRegion && parentRegion.exits) {
           // Check each exit in this region
           for (const exit of parentRegion.exits) {

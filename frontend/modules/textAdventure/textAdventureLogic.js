@@ -124,10 +124,10 @@ export class TextAdventureLogic {
             const currentRegion = playerState ? playerState.getCurrentRegion() : null;
             
             log('info', `Current player region: ${currentRegion}`);
-            // Phase 3.2: Use Map methods
+            // Use Map methods
             log('info', `Available regions in static data: ${Array.from(staticData.regions.keys()).join(', ')}`);
 
-            // Phase 3.2: Check if the current region exists in the loaded rules
+            // Check if the current region exists in the loaded rules
             if (currentRegion && staticData.regions.has(currentRegion)) {
                 log('info', `Player region '${currentRegion}' exists in rules, displaying it`);
                 this.displayCurrentRegion();
@@ -147,7 +147,7 @@ export class TextAdventureLogic {
                 }
             }
             
-            // Phase 3.2: If no start_regions, look for common starting regions
+            // If no start_regions, look for common starting regions
             if (!targetRegion) {
                 const commonStartRegions = ['Menu', 'Overworld', 'Start', 'Beginning'];
                 for (const regionName of commonStartRegions) {
@@ -159,7 +159,7 @@ export class TextAdventureLogic {
                 }
             }
             
-            // Phase 3.2: If still no target, use the first available region
+            // If still no target, use the first available region
             if (!targetRegion) {
                 const availableRegions = Array.from(staticData.regions.keys());
                 if (availableRegions.length > 0) {
@@ -253,7 +253,7 @@ export class TextAdventureLogic {
                 return null;
             }
 
-            // Phase 3.2: Use Map methods
+            // Use Map methods
             const regionData = staticData.regions.get(currentRegion);
             if (!regionData) {
                 return null;
@@ -327,7 +327,7 @@ export class TextAdventureLogic {
                 return false;
             }
             
-            // Phase 3.2: Find the location definition
+            // Find the location definition
             const locationDef = staticData.locations.get(locationName);
             if (!locationDef) {
                 return false;

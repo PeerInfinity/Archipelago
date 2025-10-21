@@ -395,8 +395,9 @@ export class PathAnalyzerUI {
 
       /* PERFORMANCE WARNING - DISABLED
       // Add warning for potentially complex regions
-      const regionData = stateManager.regions[regionName];
-      if (regionData && Object.keys(stateManager.regions).length > 100) {
+      const regionData = stateManager.regions.get(regionName);
+      const regionCount = stateManager.regions.size;
+      if (regionData && regionCount > 100) {
         const warningMessage = document.createElement('div');
         warningMessage.className = 'performance-warning';
         warningMessage.innerHTML = `
@@ -1373,7 +1374,7 @@ export class PathAnalyzerUI {
     );
 
     // Use the staticData parameter to get regionData, not the global stateManager
-    const regionData = staticData.regions[regionName];
+    const regionData = staticData.regions.get(regionName);
 
     // 1. Analyze entrances to this region
     const entrancesContainer = document.createElement('div');

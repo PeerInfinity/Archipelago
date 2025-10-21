@@ -1,15 +1,96 @@
 /**
  * Thread-agnostic ALTTP game logic functions
- * These pure functions operate on a canonical state object and return results
- * without modifying the state
+ *
+ * These pure functions operate on a canonical state snapshot and return results
+ * without modifying the state. All helper functions follow the standardized signature:
+ *
+ * `(snapshot, staticData, ...args) => boolean | number | any`
+ *
+ * @module gameLogic/alttp/alttpLogic
+ *
+ * DATA FLOW:
+ * Input: Canonical state snapshot + static game data
+ *   - snapshot: { inventory, flags, events, player, regionReachability, evaluateRule }
+ *   - staticData: { settings, progressionMapping, regions, locations, items }
+ *
+ * Processing: Pure functional logic evaluation
+ *   - No state mutation
+ *   - Thread-safe execution
+ *   - Deterministic results
+ *
+ * Output: Boolean, number, or structured data based on function purpose
  */
 
+// ============================================================================
+// ALTTP Goal Constants
+// ============================================================================
+// Goal values from worlds/alttp/Options.py (Goal class)
+
 /**
- * Check if player has an item, handling progressive items
- * @param {Object} snapshot - Canonical state snapshot
- * @param {Object} staticData - Static game data including progressionMapping
- * @param {string} itemName - Name of the item to check
- * @returns {boolean} True if player has the item
+ * Goal: Climb GT, defeat Agahnim 2, and then kill Ganon
+ */
+export const GOAL_GANON = 0;
+
+/**
+ * Goal: Only killing Ganon is required. Items may still be placed in GT.
+ */
+export const GOAL_CRYSTALS = 1;
+
+/**
+ * Goal: Defeat the boss of all dungeons, including Agahnim's tower and GT (Aga 2)
+ */
+export const GOAL_BOSSES = 2;
+
+/**
+ * Goal: Pull the Triforce from the Master Sword pedestal
+ */
+export const GOAL_PEDESTAL = 3;
+
+/**
+ * Goal: Pull the Master Sword pedestal, then kill Ganon
+ */
+export const GOAL_GANON_PEDESTAL = 4;
+
+/**
+ * Goal: Collect Triforce pieces spread throughout the worlds
+ */
+export const GOAL_TRIFORCE_HUNT = 5;
+
+/**
+ * Goal: Collect Triforce pieces spread throughout your world
+ */
+export const GOAL_LOCAL_TRIFORCE_HUNT = 6;
+
+/**
+ * Goal: Collect Triforce pieces, then kill Ganon
+ */
+export const GOAL_GANON_TRIFORCE_HUNT = 7;
+
+/**
+ * Goal: Collect Triforce pieces in your world, then kill Ganon
+ */
+export const GOAL_LOCAL_GANON_TRIFORCE_HUNT = 8;
+
+/**
+ * Check if player has an item, handling progressive items and events.
+ *
+ * This is the core item-checking function used throughout ALTTP logic.
+ * It checks inventory, flags, events, and progressive item upgrades.
+ *
+ * @param {Object} snapshot - Canonical state snapshot containing:
+ *   - inventory: Map of item names to counts
+ *   - flags: Array of flag names (settings, modes)
+ *   - events: Array of event names (boss defeats, etc.)
+ *   - player: { slot: string } - Player information
+ * @param {Object} staticData - Static game data containing:
+ *   - progressionMapping: Progressive item definitions by player slot
+ * @param {string} itemName - Name of the item to check (can be item, flag, or event)
+ * @returns {boolean} True if player has the item (count > 0), flag, or event
+ *
+ * @example
+ * has(snapshot, staticData, 'Progressive Sword') // true if count >= 1
+ * has(snapshot, staticData, 'Beat Agahnim 1')    // true if event triggered
+ * has(snapshot, staticData, 'bombless_start')    // true if flag set
  */
 export function has(snapshot, staticData, itemName) {
   // First check if it's in flags (events, checked locations, etc.)
@@ -38,7 +119,16 @@ export function has(snapshot, staticData, itemName) {
 
     // Check if this item is provided by any progressive item
     for (const [progressiveBase, progression] of Object.entries(playerProgressionMapping)) {
-      const baseCount = snapshot.inventory[progressiveBase] || 0;
+      let baseCount = snapshot.inventory[progressiveBase] || 0;
+
+      // Special case: Progressive Bow and Progressive Bow (Alt) should be combined
+      // This handles the server's runtime conversion of one bow to (Alt) in ItemPool.py
+      if (progressiveBase === 'Progressive Bow') {
+        baseCount += snapshot.inventory['Progressive Bow (Alt)'] || 0;
+      } else if (progressiveBase === 'Progressive Bow (Alt)') {
+        baseCount += snapshot.inventory['Progressive Bow'] || 0;
+      }
+
       if (baseCount > 0 && progression && progression.items) {
         // Check each upgrade in the progression
         for (const upgrade of progression.items) {
@@ -58,11 +148,20 @@ export function has(snapshot, staticData, itemName) {
 }
 
 /**
- * Count how many of an item the player has
+ * Count how many of an item the player has, handling progressive items.
+ *
+ * For progressive items, returns 1 if the player has reached the specified tier,
+ * otherwise returns 0. For non-progressive items, returns the direct count.
+ *
  * @param {Object} snapshot - Canonical state snapshot
- * @param {Object} staticData - Static game data
+ * @param {Object} staticData - Static game data with progressionMapping
  * @param {string} itemName - Name of the item to count
- * @returns {number} Count of the item
+ * @returns {number} Count of the item (or 1/0 for progressive item tiers)
+ *
+ * @example
+ * count(snapshot, staticData, 'Progressive Sword')  // Returns actual count: 0, 1, 2, 3, 4
+ * count(snapshot, staticData, 'Master Sword')       // Returns 1 if have 2+ Progressive Swords, else 0
+ * count(snapshot, staticData, 'Bomb Upgrade (+5)')  // Returns actual count of this upgrade
  */
 export function count(snapshot, staticData, itemName) {
   if (!snapshot.inventory) return 0;
@@ -79,7 +178,16 @@ export function count(snapshot, staticData, itemName) {
   // Check if itemName is a specific tier of any progressive item we hold
   if (playerProgressionMapping) {
     for (const [progressiveBase, progression] of Object.entries(playerProgressionMapping)) {
-      const baseCount = snapshot.inventory[progressiveBase] || 0;
+      let baseCount = snapshot.inventory[progressiveBase] || 0;
+
+      // Special case: Progressive Bow and Progressive Bow (Alt) should be combined
+      // This handles the server's runtime conversion of one bow to (Alt) in ItemPool.py
+      if (progressiveBase === 'Progressive Bow') {
+        baseCount += snapshot.inventory['Progressive Bow (Alt)'] || 0;
+      } else if (progressiveBase === 'Progressive Bow (Alt)') {
+        baseCount += snapshot.inventory['Progressive Bow'] || 0;
+      }
+
       if (baseCount > 0 && progression && progression.items) {
         // Check each upgrade in the progression
         for (const upgrade of progression.items) {
@@ -97,48 +205,95 @@ export function count(snapshot, staticData, itemName) {
   return snapshot.inventory[itemName] || 0;
 }
 
-// --- ALTTP-specific helper functions ---
+// ============================================================================
+// ALTTP-Specific Helper Functions
+// ============================================================================
 
-export function is_not_bunny(snapshot, staticData, itemName) {
+/**
+ * Check if player can traverse dark world without becoming a bunny.
+ *
+ * @param {Object} snapshot - State snapshot
+ * @param {Object} staticData - Static game data
+ * @returns {boolean} True if player has Moon Pearl
+ */
+export function is_not_bunny(snapshot, staticData) {
   return has(snapshot, staticData, 'Moon Pearl');
 }
 
-export function can_lift_rocks(snapshot, staticData, itemName) {
+/**
+ * Check if player can lift small rocks (requires Power Glove or higher).
+ *
+ * @param {Object} snapshot - State snapshot
+ * @param {Object} staticData - Static game data
+ * @returns {boolean} True if player has Power Glove or Titans Mitts
+ */
+export function can_lift_rocks(snapshot, staticData) {
   return has(snapshot, staticData, 'Power Glove') || has(snapshot, staticData, 'Titans Mitts');
 }
 
-export function can_lift_heavy_rocks(snapshot, staticData, itemName) {
+/**
+ * Check if player can lift heavy rocks (requires Titans Mitts).
+ *
+ * @param {Object} snapshot - State snapshot
+ * @param {Object} staticData - Static game data
+ * @returns {boolean} True if player has Titans Mitts
+ */
+export function can_lift_heavy_rocks(snapshot, staticData) {
   return has(snapshot, staticData, 'Titans Mitts');
 }
 
-export function can_light_torches(snapshot, staticData, itemName) {
+/**
+ * Check if player can light torches using Fire Rod or Lamp.
+ *
+ * @param {Object} snapshot - State snapshot
+ * @param {Object} staticData - Static game data
+ * @returns {boolean} True if player has Fire Rod or Lamp
+ */
+export function can_light_torches(snapshot, staticData) {
   return has(snapshot, staticData, 'Fire Rod') || has(snapshot, staticData, 'Lamp');
 }
 
-export function can_melt_things(snapshot, staticData, itemName) {
+export function can_melt_things(snapshot, staticData) {
   return has(snapshot, staticData, 'Fire Rod') ||
     (has(snapshot, staticData, 'Bombos') &&
-      (has_sword(snapshot, staticData, itemName) || staticData.settings?.['1']?.swordless));
+      (has_sword(snapshot, staticData) || staticData.settings?.['1']?.swordless));
 }
 
-export function can_fly(snapshot, staticData, itemName) {
+export function can_fly(snapshot, staticData) {
   return has(snapshot, staticData, 'Flute');
 }
 
-export function can_dash(snapshot, staticData, itemName) {
+export function can_dash(snapshot, staticData) {
   return has(snapshot, staticData, 'Pegasus Boots');
 }
 
-export function is_invincible(snapshot, staticData, itemName) {
+export function is_invincible(snapshot, staticData) {
   return has(snapshot, staticData, 'Cape') ||
     has(snapshot, staticData, 'Cane of Byrna') ||
-    staticData.settings?.['1']?.goal === 'triforce_hunt';
+    staticData.settings?.['1']?.goal === GOAL_TRIFORCE_HUNT;
 }
 
-export function can_block_lasers(snapshot, staticData, itemName) {
+export function can_block_lasers(snapshot, staticData) {
   return has(snapshot, staticData, 'Mirror Shield');
 }
 
+/**
+ * Check if player has enough magic capacity to cast a spell requiring specific magic points.
+ *
+ * Calculates total magic capacity including upgrades and potion refills.
+ * Takes into account difficulty settings that affect potion effectiveness.
+ *
+ * @param {Object} snapshot - State snapshot
+ * @param {Object} staticData - Static game data with settings
+ * @param {number} [smallmagic=16] - Magic points required (default: 16)
+ * @param {boolean} [fullrefill=false] - Whether full magic refill is needed
+ * @returns {boolean} True if player has sufficient magic capacity
+ *
+ * @example
+ * can_extend_magic(snapshot, staticData, 16)      // Can cast Fire Rod (16 MP)
+ * can_extend_magic(snapshot, staticData, 32)      // Can cast Bombos medallion (32 MP)
+ * can_extend_magic(snapshot, staticData, 16, true) // Needs full refill for 16 MP
+ */
 export function can_extend_magic(snapshot, staticData, smallmagic, fullrefill) {
   // Parameters match Python signature: can_extend_magic(state, player, smallmagic=16, fullrefill=False)
   // JavaScript signature: can_extend_magic(snapshot, staticData, smallmagic=16, fullrefill=false)
@@ -171,27 +326,45 @@ export function can_extend_magic(snapshot, staticData, smallmagic, fullrefill) {
   return basemagic >= magicNeeded;
 }
 
-export function can_kill_most_things(snapshot, staticData, itemName) {
-  const enemies = parseInt(itemName, 10) || 5;
+/**
+ * Check if player can defeat most standard enemies.
+ *
+ * This function handles two modes:
+ * - Normal mode: Any weapon works (sword, bow, bombs, rods, canes)
+ * - Enemizer mode: Requires all weapons (much stricter)
+ *
+ * Takes into account enemy health settings and enemy shuffle mode.
+ *
+ * @param {Object} snapshot - State snapshot
+ * @param {Object} staticData - Static game data with enemy_shuffle and enemy_health settings
+ * @param {string|number} [enemyCount="5"] - Number of enemies to defeat (default: 5)
+ * @returns {boolean} True if player can defeat the specified number of enemies
+ *
+ * @example
+ * can_kill_most_things(snapshot, staticData, "5")  // Can defeat 5 normal enemies
+ * can_kill_most_things(snapshot, staticData, "10") // Can defeat 10 enemies (harder)
+ */
+export function can_kill_most_things(snapshot, staticData, enemyCount) {
+  const enemies = parseInt(enemyCount, 10) || 5;
 
   // Check if enemy shuffle is enabled
   const enemyShuffle = staticData.settings?.['1']?.enemy_shuffle;
 
   if (enemyShuffle) {
     // Enemizer mode - need everything
-    return has_melee_weapon(snapshot, staticData, itemName) &&
+    return has_melee_weapon(snapshot, staticData) &&
       has(snapshot, staticData, 'Cane of Somaria') &&
       has(snapshot, staticData, 'Cane of Byrna') &&
-      can_extend_magic(snapshot, staticData, itemName) &&
+      can_extend_magic(snapshot, staticData) &&
       can_shoot_arrows(snapshot, staticData, '0') &&
       has(snapshot, staticData, 'Fire Rod') &&
       can_use_bombs(snapshot, staticData, (enemies * 4).toString());
   } else {
     // Normal enemy logic - any of these work
-    if (has_melee_weapon(snapshot, staticData, itemName)) return true;
+    if (has_melee_weapon(snapshot, staticData)) return true;
     if (has(snapshot, staticData, 'Cane of Somaria')) return true;
     if (has(snapshot, staticData, 'Cane of Byrna') &&
-      (enemies < 6 || can_extend_magic(snapshot, staticData, itemName))) return true;
+      (enemies < 6 || can_extend_magic(snapshot, staticData))) return true;
     if (can_shoot_arrows(snapshot, staticData, '0')) return true;
     if (has(snapshot, staticData, 'Fire Rod')) return true;
 
@@ -206,20 +379,20 @@ export function can_kill_most_things(snapshot, staticData, itemName) {
   }
 }
 
-export function can_shoot_silver_arrows(snapshot, staticData, itemName) {
+export function can_shoot_silver_arrows(snapshot, staticData) {
   return has(snapshot, staticData, 'Progressive Bow') &&
     has(snapshot, staticData, 'Silver Arrows');
 }
 
-export function can_defeat_ganon(snapshot, staticData, itemName) {
+export function can_defeat_ganon(snapshot, staticData) {
   if (has(snapshot, staticData, 'Triforce')) {
     return true;
   }
 
-  return can_shoot_silver_arrows(snapshot, staticData, itemName) &&
+  return can_shoot_silver_arrows(snapshot, staticData) &&
     (has(snapshot, staticData, 'Lamp') ||
-      (has(snapshot, staticData, 'Fire Rod') && can_extend_magic(snapshot, staticData, itemName))) &&
-    (has_beam_sword(snapshot, staticData, itemName) ||
+      (has(snapshot, staticData, 'Fire Rod') && can_extend_magic(snapshot, staticData))) &&
+    (has_beam_sword(snapshot, staticData) ||
       (has(snapshot, staticData, 'Hammer') &&
         (staticData.settings?.['1']?.game_mode === 'swordless' || staticData.settings?.['1']?.swordless)));
 }
@@ -231,7 +404,7 @@ export function can_defeat_boss(snapshot, staticData, locationName, bossType) {
   return can_kill_most_things(snapshot, staticData, "1");
 }
 
-export function can_take_damage(snapshot, staticData, itemName) {
+export function can_take_damage(snapshot, staticData) {
   // Check if the game settings allow taking damage
   // Default is true unless explicitly set to false in settings
   const canTakeDamage = staticData.settings?.['1']?.can_take_damage;
@@ -239,10 +412,31 @@ export function can_take_damage(snapshot, staticData, itemName) {
   return canTakeDamage !== false;
 }
 
-// Additional commonly used helpers
+// ============================================================================
+// Bomb and Capacity Management
+// ============================================================================
 
-export function can_use_bombs(snapshot, staticData, itemName) {
-  const quantity = parseInt(itemName, 10) || 1;
+/**
+ * Check if player has enough bomb capacity to use a specified number of bombs.
+ *
+ * Calculates total bomb capacity from:
+ * - Base bombs (10, or 0 for bombless start)
+ * - Bomb upgrades (+5, +10, +50)
+ * - Capacity Upgrade Shop (if applicable)
+ *
+ * Special rule: Bomb Upgrade (+5) beyond 6th upgrade gives +10 instead of +5.
+ *
+ * @param {Object} snapshot - State snapshot with inventory and flags
+ * @param {Object} staticData - Static game data with bombless_start and shuffle_capacity_upgrades settings
+ * @param {string|number} [quantity="1"] - Number of bombs needed (max 50)
+ * @returns {boolean} True if player has sufficient bomb capacity
+ *
+ * @example
+ * can_use_bombs(snapshot, staticData, "1")  // Can use 1 bomb
+ * can_use_bombs(snapshot, staticData, "20") // Can use 20 bombs (needs upgrades)
+ */
+export function can_use_bombs(snapshot, staticData, quantity) {
+  const bombsNeeded = parseInt(quantity, 10) || 1;
 
   // Start with base bombs (10 unless bombless start)
   let bombs = 0;
@@ -267,15 +461,15 @@ export function can_use_bombs(snapshot, staticData, itemName) {
     bombs += 40;
   }
 
-  return bombs >= Math.min(quantity, 50);
+  return bombs >= Math.min(bombsNeeded, 50);
 }
 
-export function can_bomb_or_bonk(snapshot, staticData, itemName) {
+export function can_bomb_or_bonk(snapshot, staticData) {
   return has(snapshot, staticData, 'Pegasus Boots') || can_use_bombs(snapshot, staticData, '1');
 }
 
-export function can_activate_crystal_switch(snapshot, staticData, itemName) {
-  return has_melee_weapon(snapshot, staticData, itemName) ||
+export function can_activate_crystal_switch(snapshot, staticData) {
+  return has_melee_weapon(snapshot, staticData) ||
     can_use_bombs(snapshot, staticData, '1') ||
     can_shoot_arrows(snapshot, staticData, '0') ||
     has(snapshot, staticData, 'Hookshot') ||
@@ -287,14 +481,14 @@ export function can_activate_crystal_switch(snapshot, staticData, itemName) {
     has(snapshot, staticData, 'Red Boomerang');
 }
 
-export function can_buy(snapshot, staticData, itemName) {
+export function can_buy(snapshot, staticData, shopItemName) {
   // TODO: Implement proper shop logic
   // Requires: staticData.shops array with shop inventory and region data
   // For now, assume basic purchases are always available
   return true;
 }
 
-export function can_buy_unlimited(snapshot, staticData, itemName) {
+export function can_buy_unlimited(snapshot, staticData, shopItemName) {
   // TODO: Implement proper unlimited shop logic
   // Requires: staticData.shops array with:
   //   - shop.region_name for reachability checks
@@ -303,7 +497,7 @@ export function can_buy_unlimited(snapshot, staticData, itemName) {
   // Current implementation assumes no unlimited shops available
 
   // ALTTP-specific fallback for potions - basic implementation
-  if (itemName === 'Green Potion' || itemName === 'Blue Potion') {
+  if (shopItemName === 'Green Potion' || shopItemName === 'Blue Potion') {
     const potionShopReachable = snapshot.regionReachability && snapshot.regionReachability['Potion Shop'];
     return potionShopReachable === 'reachable';
   }
@@ -311,8 +505,24 @@ export function can_buy_unlimited(snapshot, staticData, itemName) {
   return false;
 }
 
-export function can_hold_arrows(snapshot, staticData, itemName) {
-  const quantity = parseInt(itemName, 10) || 0;
+/**
+ * Check if player has enough arrow capacity to hold a specified number of arrows.
+ *
+ * Arrow capacity calculation depends on whether capacity upgrades are shuffled:
+ * - Shuffled: Start at 30, add upgrades (+5, +10, or +70), max 70
+ * - Non-shuffled: 30 base, or 70 if Capacity Upgrade Shop obtained
+ *
+ * @param {Object} snapshot - State snapshot with inventory
+ * @param {Object} staticData - Static game data with shuffle_capacity_upgrades setting
+ * @param {string|number} [arrowCount="0"] - Number of arrows needed
+ * @returns {boolean} True if player has sufficient arrow capacity
+ *
+ * @example
+ * can_hold_arrows(snapshot, staticData, "0")  // Always true (no arrows needed)
+ * can_hold_arrows(snapshot, staticData, "40") // Needs arrow upgrades
+ */
+export function can_hold_arrows(snapshot, staticData, arrowCount) {
+  const quantity = parseInt(arrowCount, 10) || 0;
 
   // Check if capacity upgrades are shuffled
   const shuffleUpgrades = staticData.settings?.['1']?.shuffle_capacity_upgrades;
@@ -341,53 +551,53 @@ export function can_hold_arrows(snapshot, staticData, itemName) {
   }
 }
 
-export function can_get_good_bee(snapshot, staticData, itemName) {
+export function can_get_good_bee(snapshot, staticData) {
   const bottleCount = count(snapshot, staticData, 'Bottle');
   return (has(snapshot, staticData, 'Bug Catching Net') &&
     bottleCount > 0 &&
     (has(snapshot, staticData, 'Pegasus Boots') ||
-      (has_sword(snapshot, staticData, itemName) && has(snapshot, staticData, 'Quake'))));
+      (has_sword(snapshot, staticData) && has(snapshot, staticData, 'Quake'))));
 }
 
-export function can_retrieve_tablet(snapshot, staticData, itemName) {
+export function can_retrieve_tablet(snapshot, staticData) {
   return has(snapshot, staticData, 'Book of Mudora') &&
-    (has_beam_sword(snapshot, staticData, itemName) ||
+    (has_beam_sword(snapshot, staticData) ||
       (staticData.settings?.['1']?.swordless && has(snapshot, staticData, 'Hammer')));
 }
 
-export function can_flute(snapshot, staticData, itemName) {
+export function can_flute(snapshot, staticData) {
   return has(snapshot, staticData, 'Flute');
 }
 
-export function can_flute_spot_5(snapshot, staticData, itemName) {
+export function can_flute_spot_5(snapshot, staticData) {
   return has(snapshot, staticData, 'Flute') && has(snapshot, staticData, 'Titans Mitts');
 }
 
-export function has_bottle(snapshot, staticData, itemName) {
+export function has_bottle(snapshot, staticData) {
   return count(snapshot, staticData, 'Bottle') > 0;
 }
 
-export function has_hearts(snapshot, staticData, itemName) {
+export function has_hearts(snapshot, staticData, heartCount) {
   // Get heart count from parameters
-  const heartCount = parseInt(itemName, 10) || 0;
-  if (heartCount === 0) return true;
+  const heartsRequired = parseInt(heartCount, 10) || 0;
+  if (heartsRequired === 0) return true;
 
   // Use heart_count function which applies difficulty limits
-  const actualHearts = heart_count(snapshot, staticData, itemName);
-  const result = actualHearts >= heartCount;
+  const actualHearts = heart_count(snapshot, staticData);
+  const result = actualHearts >= heartsRequired;
 
   return result;
 }
 
-export function can_heart_skip(snapshot, staticData, itemName) {
-  return is_invincible(snapshot, staticData, itemName);
+export function can_heart_skip(snapshot, staticData) {
+  return is_invincible(snapshot, staticData);
 }
 
-export function has_fire_source(snapshot, staticData, itemName) {
+export function has_fire_source(snapshot, staticData) {
   return has(snapshot, staticData, 'Lamp') || has(snapshot, staticData, 'Fire Rod');
 }
 
-export function can_anima_transfigure(snapshot, staticData, itemName) {
+export function can_anima_transfigure(snapshot, staticData) {
   const pendantCount =
     (has(snapshot, staticData, 'Green Pendant') ? 1 : 0) +
     (has(snapshot, staticData, 'Blue Pendant') ? 1 : 0) +
@@ -395,9 +605,9 @@ export function can_anima_transfigure(snapshot, staticData, itemName) {
   return pendantCount >= 2;
 }
 
-export function has_crystals(snapshot, staticData, itemName) {
-  const crystalCount = parseInt(itemName, 10) || 0;
-  if (crystalCount === 0) return true;
+export function has_crystals(snapshot, staticData, crystalCount) {
+  const crystalsRequired = parseInt(crystalCount, 10) || 0;
+  if (crystalsRequired === 0) return true;
 
   let totalCrystals = 0;
   for (let i = 1; i <= 7; i++) {
@@ -406,22 +616,22 @@ export function has_crystals(snapshot, staticData, itemName) {
     }
   }
 
-  return totalCrystals >= crystalCount;
+  return totalCrystals >= crystalsRequired;
 }
 
-export function has_beam_sword(snapshot, staticData, itemName) {
+export function has_beam_sword(snapshot, staticData) {
   return has(snapshot, staticData, 'Master Sword') ||
     has(snapshot, staticData, 'Tempered Sword') ||
     has(snapshot, staticData, 'Golden Sword') ||
     count(snapshot, staticData, 'Progressive Sword') >= 2;
 }
 
-export function has_melee_weapon(snapshot, staticData, itemName) {
-  return has_sword(snapshot, staticData, itemName) ||
+export function has_melee_weapon(snapshot, staticData) {
+  return has_sword(snapshot, staticData) ||
     has(snapshot, staticData, 'Hammer');
 }
 
-export function has_sword(snapshot, staticData, itemName) {
+export function has_sword(snapshot, staticData) {
   return has(snapshot, staticData, 'Fighter Sword') ||
     has(snapshot, staticData, 'Master Sword') ||
     has(snapshot, staticData, 'Tempered Sword') ||
@@ -429,14 +639,29 @@ export function has_sword(snapshot, staticData, itemName) {
     has(snapshot, staticData, 'Progressive Sword');
 }
 
-export function has_rod(snapshot, staticData, itemName) {
+export function has_rod(snapshot, staticData) {
   return has(snapshot, staticData, 'Fire Rod') ||
     has(snapshot, staticData, 'Ice Rod');
 }
 
-// Bottle-related helpers
+// ============================================================================
+// Bottle Management
+// ============================================================================
 
-export function bottle_count(snapshot, staticData, itemName) {
+/**
+ * Count the effective number of bottles the player has, respecting difficulty limits.
+ *
+ * The count is limited by the progressive_bottle_limit setting (default: 4).
+ * Uses countGroup to handle all bottle types (empty, with potions, etc.).
+ *
+ * @param {Object} snapshot - State snapshot with inventory
+ * @param {Object} staticData - Static game data with difficulty_requirements
+ * @returns {number} Effective bottle count (capped by difficulty limit)
+ *
+ * @example
+ * bottle_count(snapshot, staticData) // Returns 0-4 (depending on limit)
+ */
+export function bottle_count(snapshot, staticData) {
   // Get bottle limit from difficulty requirements in settings
   const diffReqs = staticData.settings?.['1']?.difficulty_requirements || {};
   const bottleLimit = diffReqs.progressive_bottle_limit || 4; // Default to 4
@@ -447,35 +672,39 @@ export function bottle_count(snapshot, staticData, itemName) {
   return Math.min(currentBottles, bottleLimit);
 }
 
-// Mode-specific helpers
+// ============================================================================
+// Glitch and Mode-Specific Logic
+// ============================================================================
 
-export function can_bomb_clip(snapshot, staticData, itemName) {
+export function can_bomb_clip(snapshot, staticData) {
   // Need bombs, boots, and to not be bunny
   return can_use_bombs(snapshot, staticData, '1') &&
     has(snapshot, staticData, 'Pegasus Boots') &&
-    is_not_bunny(snapshot, staticData, itemName);
+    is_not_bunny(snapshot, staticData);
 }
 
-export function can_spin_speed(snapshot, staticData, itemName) {
+export function can_spin_speed(snapshot, staticData) {
   return has(snapshot, staticData, 'Pegasus Boots') &&
-    has_sword(snapshot, staticData, itemName) &&
+    has_sword(snapshot, staticData) &&
     staticData.settings?.['1']?.mode === 'minor_glitches';
 }
 
-export function can_boots_clip_lw(snapshot, staticData, itemName) {
+export function can_boots_clip_lw(snapshot, staticData) {
   return has(snapshot, staticData, 'Pegasus Boots') &&
     staticData.settings?.['1']?.mode === 'minor_glitches';
 }
 
-export function can_boots_clip_dw(snapshot, staticData, itemName) {
+export function can_boots_clip_dw(snapshot, staticData) {
   return has(snapshot, staticData, 'Pegasus Boots') &&
     has(snapshot, staticData, 'Moon Pearl') &&
     staticData.settings?.['1']?.mode === 'minor_glitches';
 }
 
-// Dungeon-specific helpers
+// ============================================================================
+// Dungeon and Boss Logic
+// ============================================================================
 
-export function can_complete_gt_climb(snapshot, staticData, itemName) {
+export function can_complete_gt_climb(snapshot, staticData) {
   return (has(snapshot, staticData, 'Hammer') ||
     (has(snapshot, staticData, 'Hookshot') &&
       (has(snapshot, staticData, 'Lamp') || has(snapshot, staticData, 'Fire Rod')))) &&
@@ -483,22 +712,43 @@ export function can_complete_gt_climb(snapshot, staticData, itemName) {
     has(snapshot, staticData, 'Big Key (Ganons Tower)');
 }
 
-// Medallion helpers
+// ============================================================================
+// Medallion Requirements
+// ============================================================================
 
-export function has_misery_mire_medallion(snapshot, staticData, itemName) {
+export function has_misery_mire_medallion(snapshot, staticData) {
   const medallion = staticData.settings?.['1']?.misery_mire_medallion || 'Ether';
   return has(snapshot, staticData, medallion);
 }
 
-export function has_turtle_rock_medallion(snapshot, staticData, itemName) {
+export function has_turtle_rock_medallion(snapshot, staticData) {
   const medallion = staticData.settings?.['1']?.turtle_rock_medallion || 'Quake';
   return has(snapshot, staticData, medallion);
 }
 
-// Critical missing functions from Python StateHelpers.py
+// ============================================================================
+// Arrow and Bow Logic
+// ============================================================================
 
-export function can_shoot_arrows(snapshot, staticData, itemName) {
-  const count_param = parseInt(itemName, 10) || 0;
+/**
+ * Check if player can shoot arrows.
+ *
+ * Requirements:
+ * - Must have Bow or Silver Bow
+ * - Retro bow mode: Must be able to buy arrows
+ * - Normal mode: Must have sufficient arrow capacity
+ *
+ * @param {Object} snapshot - State snapshot with inventory and flags
+ * @param {Object} staticData - Static game data with retro_bow setting
+ * @param {string|number} [arrowCount="0"] - Number of arrows needed
+ * @returns {boolean} True if player can shoot the specified number of arrows
+ *
+ * @example
+ * can_shoot_arrows(snapshot, staticData, "0")  // Just needs bow
+ * can_shoot_arrows(snapshot, staticData, "40") // Needs bow + 40 arrow capacity
+ */
+export function can_shoot_arrows(snapshot, staticData, arrowCount) {
+  const count_param = parseInt(arrowCount, 10) || 0;
 
   // Must have bow first
   if (!has(snapshot, staticData, 'Bow') && !has(snapshot, staticData, 'Silver Bow')) {
@@ -518,7 +768,7 @@ export function can_shoot_arrows(snapshot, staticData, itemName) {
   }
 }
 
-export function has_triforce_pieces(snapshot, staticData, itemName) {
+export function has_triforce_pieces(snapshot, staticData) {
   // Get required count from world settings
   const requiredCount = staticData.settings?.['1']?.treasure_hunt_required ||
     snapshot.treasureHuntRequired || 0;
@@ -531,40 +781,43 @@ export function has_triforce_pieces(snapshot, staticData, itemName) {
 
 
 
-export function has_any(snapshot, staticData, itemName) {
-  // itemName should be an array of item names for this function
-  const items = Array.isArray(itemName) ? itemName : [itemName];
+export function has_any(snapshot, staticData, itemNames) {
+  // itemNames should be an array of item names for this function
+  const items = Array.isArray(itemNames) ? itemNames : [itemNames];
 
   return items.some(item => has(snapshot, staticData, item));
 }
 
-export function location_item_name(snapshot, staticData, itemName) {
+/**
+ * Look up what item is placed at a specific location.
+ *
+ * Searches through multiple data sources to find item placement:
+ * 1. staticData.locations (direct mapping or Map)
+ * 2. staticData.regions (searching through location arrays)
+ * 3. staticData.locationItems (fallback placement data)
+ *
+ * @param {Object} snapshot - State snapshot with player info
+ * @param {Object} staticData - Static game data with locations, regions, locationItems
+ * @param {string} locationName - Name of the location to query
+ * @returns {Array|null} [itemName, playerNumber] array, or null if not found
+ *
+ * @example
+ * location_item_name(snapshot, staticData, 'Uncle - Prize')
+ * // Returns: ['Progressive Sword', 1]
+ *
+ * location_item_name(snapshot, staticData, 'Turtle Rock - Big Key Chest')
+ * // Returns: ['Big Key (Turtle Rock)', 1]
+ */
+export function location_item_name(snapshot, staticData, locationName) {
   // Look up what item is placed at a specific location
-  const locationName = itemName;
 
   // First check if we have location-item mapping in static data locations object
   if (staticData && staticData.locations) {
-    // Phase 3: Handle Map in addition to object/array
-    if (staticData.locations instanceof Map) {
-      const locationData = staticData.locations.get(locationName);
-      if (locationData && locationData.item) {
-        // Return array format: [item_name, player_number]
-        return [locationData.item.name, locationData.item.player || 1];
-      }
-    } else if (typeof staticData.locations === 'object' && !Array.isArray(staticData.locations)) {
-      // Check if locations is a direct mapping object
-      const locationData = staticData.locations[locationName];
-      if (locationData && locationData.item) {
-        // Return array format: [item_name, player_number]
-        return [locationData.item.name, locationData.item.player || 1];
-      }
-    } else if (Array.isArray(staticData.locations)) {
-      // If locations is an array, convert it to object mapping on-the-fly
-      for (const location of staticData.locations) {
-        if (location && location.name === locationName && location.item) {
-          return [location.item.name, location.item.player || 1];
-        }
-      }
+    // staticData.locations is always a Map after initialization
+    const locationData = staticData.locations.get(locationName);
+    if (locationData && locationData.item) {
+      // Return array format: [item_name, player_number]
+      return [locationData.item.name, locationData.item.player || 1];
     }
   }
 
@@ -572,24 +825,11 @@ export function location_item_name(snapshot, staticData, itemName) {
   if (staticData && staticData.regions) {
     const playerSlot = snapshot.player?.slot || '1';
 
-    // Phase 3: Handle Map in addition to object
-    let regionsToSearch;
-    if (staticData.regions instanceof Map) {
-      // regions is already a Map (Phase 3 format)
-      regionsToSearch = staticData.regions;
-    } else if (typeof staticData.regions === 'object') {
-      // Check if regions are nested by player or if it's a direct regions object
-      regionsToSearch = staticData.regions[playerSlot] || staticData.regions;
-    }
+    // staticData.regions is always a Map after initialization
+    if (!staticData.regions) return null;
 
-    if (!regionsToSearch) return null;
-
-    // Iterate through regions (support both Map and Object)
-    const regionsIterable = regionsToSearch instanceof Map
-      ? regionsToSearch.entries()
-      : Object.entries(regionsToSearch);
-
-    for (const [regionName, region] of regionsIterable) {
+    // Iterate through regions
+    for (const [regionName, region] of staticData.regions.entries()) {
       if (region && region.locations && Array.isArray(region.locations)) {
         const location = region.locations.find(loc => loc.name === locationName);
         if (location && location.item) {
@@ -614,7 +854,7 @@ export function location_item_name(snapshot, staticData, itemName) {
   return null;
 }
 
-export function tr_big_key_chest_keys_needed(snapshot, staticData, itemName) {
+export function tr_big_key_chest_keys_needed(snapshot, staticData) {
   // This function handles the key requirements for the TR Big Chest
   // Based on the Python function in worlds/alttp/Rules.py
 
@@ -625,7 +865,7 @@ export function tr_big_key_chest_keys_needed(snapshot, staticData, itemName) {
     return 6;
   }
 
-  const [locationItemName, locationPlayer] = item;
+  const [itemAtLocation, locationPlayer] = item;
   const currentPlayer = snapshot.player?.slot || 1;
 
   // Only consider items for the current player
@@ -637,9 +877,9 @@ export function tr_big_key_chest_keys_needed(snapshot, staticData, itemName) {
   // - Small Key (Turtle Rock): 0 keys needed
   // - Big Key (Turtle Rock): 4 keys needed
   // - Anything else: 6 keys needed
-  if (locationItemName === 'Small Key (Turtle Rock)') {
+  if (itemAtLocation === 'Small Key (Turtle Rock)') {
     return 0;
-  } else if (locationItemName === 'Big Key (Turtle Rock)') {
+  } else if (itemAtLocation === 'Big Key (Turtle Rock)') {
     return 4;
   } else {
     return 6;
@@ -678,7 +918,7 @@ export function item_name_in_location_names(snapshot, staticData, searchItem, lo
 }
 
 
-export function has_crystals_for_ganon(snapshot, staticData, itemName) {
+export function has_crystals_for_ganon(snapshot, staticData) {
   // Check if player has required number of crystals for Ganon
   // The required number comes from settings
   const requiredCrystals = staticData.settings?.['1']?.crystals_needed_for_ganon || 7;
@@ -687,20 +927,20 @@ export function has_crystals_for_ganon(snapshot, staticData, itemName) {
   return has_crystals(snapshot, staticData, requiredCrystals.toString());
 }
 
-export function GanonDefeatRule(snapshot, staticData, itemName) {
+export function GanonDefeatRule(snapshot, staticData) {
   const isSwordless = staticData.settings?.['1']?.swordless ||
     (snapshot.flags && snapshot.flags.includes('swordless'));
 
   if (isSwordless) {
     // Swordless mode requirements
     return has(snapshot, staticData, 'Hammer') &&
-      has_fire_source(snapshot, staticData, itemName) &&
+      has_fire_source(snapshot, staticData) &&
       has(snapshot, staticData, 'Silver Bow') &&
       can_shoot_arrows(snapshot, staticData, '0');
   } else {
     // Normal mode requirements
-    const hasBeamSword = has_beam_sword(snapshot, staticData, itemName);
-    const hasFireSource = has_fire_source(snapshot, staticData, itemName);
+    const hasBeamSword = has_beam_sword(snapshot, staticData);
+    const hasFireSource = has_fire_source(snapshot, staticData);
 
     if (!hasBeamSword || !hasFireSource) {
       return false;
@@ -727,12 +967,12 @@ export function GanonDefeatRule(snapshot, staticData, itemName) {
   }
 }
 
-export function can_get_glitched_speed_dw(snapshot, staticData, itemName) {
+export function can_get_glitched_speed_dw(snapshot, staticData) {
   if (!has(snapshot, staticData, 'Pegasus Boots')) {
     return false;
   }
 
-  if (!has(snapshot, staticData, 'Hookshot') && !has_sword(snapshot, staticData, itemName)) {
+  if (!has(snapshot, staticData, 'Hookshot') && !has_sword(snapshot, staticData)) {
     return false;
   }
 
@@ -746,27 +986,27 @@ export function can_get_glitched_speed_dw(snapshot, staticData, itemName) {
   return true; // In inverted mode, no Moon Pearl needed
 }
 
-export function _has_specific_key_count(snapshot, staticData, itemName) {
-  const [keyName, requiredCountStr] = itemName.split(',');
+export function _has_specific_key_count(snapshot, staticData, keyCountSpec) {
+  const [keyName, requiredCountStr] = keyCountSpec.split(',');
   const requiredCount = parseInt(requiredCountStr, 10) || 1;
 
   return count(snapshot, staticData, keyName.trim()) >= requiredCount;
 }
 
-export function basement_key_rule(snapshot, staticData, itemName) {
+export function basement_key_rule(snapshot, staticData) {
   // This is a complex rule that checks if Key Rat has the key
   // For now, assume we need 3 keys (simplified)
   return count(snapshot, staticData, 'Small Key (Hyrule Castle)') >= 3;
 }
 
-export function cross_peg_bridge(snapshot, staticData, itemName) {
+export function cross_peg_bridge(snapshot, staticData) {
   return has(snapshot, staticData, 'Hammer') && has(snapshot, staticData, 'Moon Pearl');
 }
 
 // Update existing can_extend_magic to match Python implementation
-export function can_extend_magic_complex(snapshot, staticData, itemName) {
-  const smallmagic = parseInt(itemName, 10) || 16;
-  const fullrefill = itemName?.includes('fullrefill') || false;
+export function can_extend_magic_complex(snapshot, staticData, magicSpec) {
+  const smallmagic = parseInt(magicSpec, 10) || 16;
+  const fullrefill = magicSpec?.includes('fullrefill') || false;
 
   let basemagic = 8;
 
@@ -779,7 +1019,7 @@ export function can_extend_magic_complex(snapshot, staticData, itemName) {
   if (can_buy_unlimited(snapshot, staticData, 'Green Potion') ||
     can_buy_unlimited(snapshot, staticData, 'Blue Potion')) {
 
-    const bottles = bottle_count(snapshot, staticData, itemName);
+    const bottles = bottle_count(snapshot, staticData);
     const functionality = staticData.settings?.['1']?.item_functionality || 'normal';
 
     if (functionality === 'hard' && !fullrefill) {
@@ -794,9 +1034,27 @@ export function can_extend_magic_complex(snapshot, staticData, itemName) {
   return basemagic >= smallmagic;
 }
 
-// Additional helper functions from the analysis
+// ============================================================================
+// Health and Heart Management
+// ============================================================================
 
-export function heart_count(snapshot, staticData, itemName) {
+/**
+ * Calculate the total heart count respecting difficulty limits.
+ *
+ * Counts hearts from:
+ * - Boss Heart Containers (limited by boss_heart_container_limit)
+ * - Sanctuary Heart Container
+ * - Piece of Heart (4 pieces = 1 heart, limited by heart_piece_limit)
+ * - Base 3 starting hearts
+ *
+ * @param {Object} snapshot - State snapshot with inventory
+ * @param {Object} staticData - Static game data with difficulty_requirements
+ * @returns {number} Total heart count (minimum 3)
+ *
+ * @example
+ * heart_count(snapshot, staticData) // Returns 3-13+ depending on items and limits
+ */
+export function heart_count(snapshot, staticData) {
   // Get difficulty requirements from settings
   const diffReqs = staticData.settings?.['1']?.difficulty_requirements || {};
   const bossHeartLimit = diffReqs.boss_heart_container_limit || 10;
@@ -813,7 +1071,7 @@ export function heart_count(snapshot, staticData, itemName) {
   return total; // +3 for starting hearts
 }
 
-export function enhanceLocationsWithShopData(snapshot, staticData, itemName) {
+export function enhanceLocationsWithShopData(snapshot, staticData) {
   // TODO: Implement shop data enhancement for locations
   // This function appears to be a worker-specific utility for enhancing location data with shop information
   // Requires: Complex integration between location data and shop data
@@ -821,16 +1079,15 @@ export function enhanceLocationsWithShopData(snapshot, staticData, itemName) {
   return undefined;
 }
 
-export function can_revival_fairy_shop(snapshot, staticData, itemName) {
+export function can_revival_fairy_shop(snapshot, staticData) {
   const hasBottle = count(snapshot, staticData, 'Bottle') > 0;
   const minorGlitches = staticData.settings?.['1']?.mode === 'minor_glitches' ||
     staticData.settings?.['1']?.glitches_required === 'minor_glitches';
   return hasBottle && minorGlitches;
 }
 
-export function countGroup(snapshot, staticData, itemName) {
+export function countGroup(snapshot, staticData, groupName) {
   // Count items in a specific group (e.g., "Bottles", "Crystals")
-  const groupName = itemName;
 
   if (!snapshot?.inventory) return 0;
 
@@ -853,22 +1110,21 @@ export function countGroup(snapshot, staticData, itemName) {
   return totalCount;
 }
 
-export function has_crystals_count(snapshot, staticData, itemName) {
+export function has_crystals_count(snapshot, staticData, crystalCount) {
   // Alternative crystal counting that uses group data
-  const requiredCount = parseInt(itemName, 10) || 7;
-  const crystalCount = countGroup(snapshot, staticData, 'Crystals');
-  return crystalCount >= requiredCount;
+  const requiredCount = parseInt(crystalCount, 10) || 7;
+  const actualCrystalCount = countGroup(snapshot, staticData, 'Crystals');
+  return actualCrystalCount >= requiredCount;
 }
 
-export function can_reach_region(snapshot, staticData, itemName) {
+export function can_reach_region(snapshot, staticData, regionName) {
   // Check if a specific region is reachable
-  const regionName = itemName;
 
   if (!snapshot.regionReachability) return false;
   return snapshot.regionReachability?.[regionName] === 'reachable';
 }
 
-export function can_get_bottle(snapshot, staticData, itemName) {
+export function can_get_bottle(snapshot, staticData) {
   // Check if player can obtain any bottle
   // This is a simplified version - full implementation would check specific bottle locations
   return count(snapshot, staticData, 'Bottle') > 0 ||
@@ -876,17 +1132,16 @@ export function can_get_bottle(snapshot, staticData, itemName) {
     can_reach_region(snapshot, staticData, 'Magic Shop');
 }
 
-export function zip(snapshot, staticData, itemName) {
+export function zip(snapshot, staticData, arrays) {
   // Python's zip function - combines multiple iterables element-wise
   // Expected usage: zip([list1], [list2], ...) -> [[item1_from_list1, item1_from_list2], ...]
-  // When called from rule engine, itemName is an array of arguments: [arg1, arg2, ...]
+  // When called from rule engine, arrays is an array of arguments: [arg1, arg2, ...]
 
-  if (!Array.isArray(itemName) || itemName.length === 0) {
+  if (!Array.isArray(arrays) || arrays.length === 0) {
     return [];
   }
 
-  // itemName contains the arguments to zip together
-  const arrays = itemName;
+  // arrays contains the arguments to zip together
 
   // Ensure we have valid arrays to work with
   const validArrays = arrays.filter(arr => Array.isArray(arr));
@@ -908,52 +1163,56 @@ export function zip(snapshot, staticData, itemName) {
   return result;
 }
 
-export function len(snapshot, staticData, itemName) {
+export function len(snapshot, staticData, collection) {
   // Python's len function - returns the length of a collection
-  if (Array.isArray(itemName)) {
-    return itemName.length;
-  } else if (typeof itemName === 'string') {
-    return itemName.length;
-  } else if (itemName && typeof itemName === 'object') {
-    return Object.keys(itemName).length;
+  if (Array.isArray(collection)) {
+    return collection.length;
+  } else if (typeof collection === 'string') {
+    return collection.length;
+  } else if (collection && typeof collection === 'object') {
+    return Object.keys(collection).length;
   }
   return 0;
 }
 
-// Additional utility functions that may be referenced in rules
+// ============================================================================
+// Python Utility Functions (for rule compatibility)
+// ============================================================================
 
-export function can_bomb_things(snapshot, staticData, itemName) {
+// Additional utility functions that provide Python-like functionality for rules
+
+export function can_bomb_things(snapshot, staticData, quantity) {
   // Alias for can_use_bombs for rule compatibility
-  return can_use_bombs(snapshot, staticData, itemName);
+  return can_use_bombs(snapshot, staticData, quantity);
 }
 
-export function can_pass_curtains(snapshot, staticData, itemName) {
+export function can_pass_curtains(snapshot, staticData) {
   // Curtains can be passed with lantern or fire rod
   return has(snapshot, staticData, 'Lamp') || has(snapshot, staticData, 'Fire Rod');
 }
 
-export function can_see_in_dark(snapshot, staticData, itemName) {
+export function can_see_in_dark(snapshot, staticData) {
   // Alias for can_pass_curtains
-  return can_pass_curtains(snapshot, staticData, itemName);
+  return can_pass_curtains(snapshot, staticData);
 }
 
-export function can_pass_rocks(snapshot, staticData, itemName) {
+export function can_pass_rocks(snapshot, staticData) {
   // Rocks can be lifted or bombed
-  return can_lift_rocks(snapshot, staticData, itemName) ||
+  return can_lift_rocks(snapshot, staticData) ||
     can_use_bombs(snapshot, staticData, '1');
 }
 
-export function can_swim(snapshot, staticData, itemName) {
+export function can_swim(snapshot, staticData) {
   // Need flippers to swim
   return has(snapshot, staticData, 'Flippers');
 }
 
-export function can_waterwalk(snapshot, staticData, itemName) {
+export function can_waterwalk(snapshot, staticData) {
   // Water walking boots or hookshot for crossing water
   return has(snapshot, staticData, 'Flippers') || has(snapshot, staticData, 'Hookshot');
 }
 
-export function can_reach_light_world(snapshot, staticData, itemName) {
+export function can_reach_light_world(snapshot, staticData) {
   // Check if light world is accessible
   const gameMode = staticData.settings?.['1']?.mode || staticData.settings?.['1']?.game_mode || 'standard';
   if (gameMode === 'inverted') {
@@ -963,7 +1222,7 @@ export function can_reach_light_world(snapshot, staticData, itemName) {
   return true; // Always accessible in standard mode
 }
 
-export function can_reach_dark_world(snapshot, staticData, itemName) {
+export function can_reach_dark_world(snapshot, staticData) {
   // Check if dark world is accessible
   const gameMode = staticData.settings?.['1']?.mode || staticData.settings?.['1']?.game_mode || 'standard';
   if (gameMode === 'inverted') {
@@ -976,13 +1235,13 @@ export function can_reach_dark_world(snapshot, staticData, itemName) {
   }
 }
 
-export function open_mode(snapshot, staticData, itemName) {
+export function open_mode(snapshot, staticData) {
   // Check if this is open mode (affects certain accessibility rules)
   return staticData.settings?.['1']?.mode === 'open' ||
     staticData.settings?.['1']?.open_pyramid === true;
 }
 
-export function swordless_mode(snapshot, staticData, itemName) {
+export function swordless_mode(snapshot, staticData) {
   // Check if this is swordless mode
   return staticData.settings?.['1']?.swordless === true ||
     (snapshot.flags && snapshot.flags.includes('swordless'));

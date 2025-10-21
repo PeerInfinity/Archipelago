@@ -261,14 +261,9 @@ export async function timerSendTest(testController) {
     if (staticData && staticData.locations) {
       testController.log(`DEBUG: staticData.locations type: ${staticData.locations.constructor.name}`);
       testController.log(`DEBUG: staticData.locations is Map: ${staticData.locations instanceof Map}`);
-      testController.log(`DEBUG: staticData.locations is Array: ${Array.isArray(staticData.locations)}`);
 
-      // Handle Map (Phase 3.2 format), Array, or Object (legacy)
-      const locationsArray = staticData.locations instanceof Map
-        ? Array.from(staticData.locations.values())
-        : (Array.isArray(staticData.locations)
-          ? staticData.locations
-          : Object.values(staticData.locations));
+      // staticData.locations is always a Map after initialization
+      const locationsArray = Array.from(staticData.locations.values());
 
       testController.log(`DEBUG: locationsArray length: ${locationsArray.length}`);
 
@@ -386,12 +381,8 @@ export async function timerReceiveTest(testController) {
       throw new Error('Static data or locations not available');
     }
 
-    // Handle Map (Phase 3.2 format), Array, or Object (legacy)
-    const locationsArray = staticData.locations instanceof Map
-      ? Array.from(staticData.locations.values())
-      : (Array.isArray(staticData.locations)
-        ? staticData.locations
-        : Object.values(staticData.locations));
+    // staticData.locations is always a Map after initialization
+    const locationsArray = Array.from(staticData.locations.values());
 
     // Count ALL locations (Client 2 receives ALL checks from Client 1, including auto-checked events)
     const totalCheckable = locationsArray.length;

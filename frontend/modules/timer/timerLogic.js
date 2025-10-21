@@ -164,12 +164,8 @@ export class TimerLogic {
 
           // First check if all locations are already complete BEFORE dispatching
           if (staticData && staticData.locations) {
-            // Handle Map (Phase 3.2 format), Array, or Object (legacy)
-            const locationsArray = staticData.locations instanceof Map
-              ? Array.from(staticData.locations.values())
-              : (Array.isArray(staticData.locations)
-                ? staticData.locations
-                : Object.values(staticData.locations));
+            // staticData.locations is always a Map after initialization
+            const locationsArray = Array.from(staticData.locations.values());
 
             // Get list of manually-checkable locations (exclude event locations with id=0)
             const manuallyCheckableLocations = locationsArray.filter(
@@ -229,11 +225,8 @@ export class TimerLogic {
           if (snapshotInterface) {
             const { snapshot, staticData } = snapshotInterface;
             if (staticData && staticData.locations) {
-              const locationsArray = staticData.locations instanceof Map
-                ? Array.from(staticData.locations.values())
-                : (Array.isArray(staticData.locations)
-                  ? staticData.locations
-                  : Object.values(staticData.locations));
+              // staticData.locations is always a Map after initialization
+              const locationsArray = Array.from(staticData.locations.values());
 
               const manuallyCheckableLocations = locationsArray.filter(
                 loc => loc.id !== null && loc.id !== undefined && loc.id !== 0
@@ -401,12 +394,8 @@ export class TimerLogic {
       return false;
     }
 
-    // Handle Map (Phase 3.2 format), Array, or Object (legacy)
-    const locationsArray = staticData.locations instanceof Map
-      ? Array.from(staticData.locations.values())
-      : (Array.isArray(staticData.locations)
-        ? staticData.locations
-        : Object.values(staticData.locations));
+    // staticData.locations is always a Map after initialization
+    const locationsArray = Array.from(staticData.locations.values());
 
     let locationToCheck = null;
     let uncheckedCount = 0;
@@ -495,11 +484,8 @@ export class TimerLogic {
           const { snapshot: updatedSnapshot, staticData: updatedStaticData } = updatedSnapshotInterface;
 
           // Check again for accessible locations in the updated snapshot
-          const locationsArrayUpdated = updatedStaticData.locations instanceof Map
-            ? Array.from(updatedStaticData.locations.values())
-            : (Array.isArray(updatedStaticData.locations)
-              ? updatedStaticData.locations
-              : Object.values(updatedStaticData.locations));
+          // staticData.locations is always a Map after initialization
+          const locationsArrayUpdated = Array.from(updatedStaticData.locations.values());
 
           let newLocationToCheck = null;
           for (const loc of locationsArrayUpdated) {
@@ -586,12 +572,8 @@ export class TimerLogic {
     // For now, let's try to find any accessible, un-checked location.
     // If multiple, maybe prioritize based on region exploration, or just take the first.
 
-    // Handle Map (Phase 3.2 format), Array, or Object (legacy)
-    const locationsArray = staticData.locations instanceof Map
-      ? Array.from(staticData.locations.values())
-      : (Array.isArray(staticData.locations)
-        ? staticData.locations
-        : Object.values(staticData.locations));
+    // staticData.locations is always a Map after initialization
+    const locationsArray = Array.from(staticData.locations.values());
 
     let quickCheckTarget = null;
 

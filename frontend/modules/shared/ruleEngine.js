@@ -569,7 +569,7 @@ export const evaluateRule = (rule, context, depth = 0) => {
             if (context.getStaticData && context.getStaticData().regions) {
               const regions = context.getStaticData().regions;
 
-              // Phase 3.2: Regions is always a Map
+              // Regions is always a Map
               const region = regions.get(baseObject.parent_region_name);
               if (region) {
                 return region;
@@ -602,7 +602,7 @@ export const evaluateRule = (rule, context, depth = 0) => {
                 const dungeons = context.dungeons || context.getAllDungeons?.() || context.getStaticData?.().dungeons;
 
                 if (dungeons) {
-                  // Phase 3.2: Dungeons is always a Map
+                  // Dungeons is always a Map
                   const dungeon = dungeons.get(dungeonName);
                   if (dungeon) {
                     return dungeon;
@@ -677,7 +677,7 @@ export const evaluateRule = (rule, context, depth = 0) => {
           if (context.getStaticData) {
             const staticData = context.getStaticData();
             // Search all regions for this location
-            // Phase 3.2: Regions is always a Map
+            // Regions is always a Map
             for (const [regionName, regionData] of staticData.regions.entries()) {
               if (regionData.locations) {
                 const location = regionData.locations.find(loc => loc.name === locationName);
@@ -719,7 +719,7 @@ export const evaluateRule = (rule, context, depth = 0) => {
           if (context.getStaticData) {
             const staticData = context.getStaticData();
             // Search all regions for this exit
-            // Phase 3.2: Regions is always a Map
+            // Regions is always a Map
             for (const [regionName, regionData] of staticData.regions.entries()) {
               if (regionData.exits) {
                 const exit = regionData.exits.find(ex => ex.name === exitName);
