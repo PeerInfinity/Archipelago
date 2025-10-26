@@ -1,6 +1,6 @@
 # Archipelago Template Test Results Summary
 
-**Generated:** 2025-10-19 14:27:20
+**Generated:** 2025-10-22 13:44:32
 
 This summary combines results from three types of tests:
 - **Minimal Spoiler Test:** Tests with advancement items only - [View Details](./test-results-spoilers-minimal.md)
@@ -13,12 +13,12 @@ This summary combines results from three types of tests:
 
 - **Minimal Test:** 28/79 passed (35.4%)
 - **Full Test:** 18/79 passed (22.8%)
-- **Multiplayer Test:** 27/79 passed (34.2%)
+- **Multiplayer Test:** 28/79 passed (35.4%)
 
 ### Combined Test Results
 
-- **Templates passing all 3 tests:** 15/79 (19.0%)
-- **Templates passing 2 tests:** 12/79 (15.2%)
+- **Templates passing all 3 tests:** 16/79 (20.3%)
+- **Templates passing 2 tests:** 11/79 (13.9%)
 - **Templates passing 1 test:** 4/79 (5.1%)
 - **Templates passing 0 tests:** 48/79 (60.8%)
 
@@ -51,7 +51,7 @@ This summary combines results from three types of tests:
 | Final Fantasy Mystic Quest | ❌ Failed | ❌ Failed | ❌ Failed |
 | Heretic | ✅ Passed | ❌ Failed | ✅ Passed |
 | Hollow Knight | ❌ Failed | ❌ Failed | ❌ Failed |
-| Hylics 2 | ✅ Passed | ✅ Passed | ❌ Failed |
+| Hylics 2 | ✅ Passed | ✅ Passed | ✅ Passed |
 | Inscryption | ❌ Failed | ❌ Failed | ❌ Failed |
 | Jak and Daxter: The Precursor Legacy | ❌ Failed | ❌ Failed | ❌ Failed |
 | Kingdom Hearts | ❌ Failed | ❌ Failed | ❌ Failed |
