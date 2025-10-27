@@ -315,7 +315,7 @@ export class TestUI {
     const shouldHideDisabled = testLogic.shouldHideDisabledTests();
 
     // Filter tests if hiding disabled tests
-    const filteredTests = shouldHideDisabled ? tests.filter(test => test.isEnabled) : tests;
+    const filteredTests = shouldHideDisabled ? tests.filter(test => test.enabled) : tests;
 
     // Create tests list container
     const testsList = document.createElement('ul');
@@ -346,7 +346,7 @@ export class TestUI {
       const enableCheckbox = document.createElement('input');
       enableCheckbox.type = 'checkbox';
       enableCheckbox.className = 'test-enable-checkbox';
-      enableCheckbox.checked = test.isEnabled;
+      enableCheckbox.checked = test.enabled;
       enableCheckbox.title = 'Enable/Disable Test';
       enableCheckbox.addEventListener('change', (event) => {
         testLogic.toggleTestEnabled(test.id, event.target.checked);
@@ -574,23 +574,23 @@ export class TestUI {
     }
   }
 
-  updateAutoStartCheckbox(isEnabled) {
+  updateAutoStartCheckbox(enabled) {
     if (this.autoStartCheckbox) {
-      this.autoStartCheckbox.checked = isEnabled;
+      this.autoStartCheckbox.checked = enabled;
     }
   }
 
-  updateHideDisabledCheckbox(isEnabled) {
+  updateHideDisabledCheckbox(enabled) {
     if (this.hideDisabledCheckbox) {
-      this.hideDisabledCheckbox.checked = isEnabled;
+      this.hideDisabledCheckbox.checked = enabled;
     }
     // Trigger re-render to apply filtering
     this.renderTestList().catch(console.error);
   }
 
-  updateRandomizeOrderCheckbox(isEnabled) {
+  updateRandomizeOrderCheckbox(enabled) {
     if (this.randomizeOrderCheckbox) {
-      this.randomizeOrderCheckbox.checked = isEnabled;
+      this.randomizeOrderCheckbox.checked = enabled;
     }
   }
 
@@ -599,8 +599,8 @@ export class TestUI {
 
     try {
       const tests = await testLogic.getTests();
-      const allEnabled = tests.every(test => test.isEnabled);
-      const anyEnabled = tests.some(test => test.isEnabled);
+      const allEnabled = tests.every(test => test.enabled);
+      const anyEnabled = tests.some(test => test.enabled);
 
       this.enableAllCheckbox.checked = allEnabled;
       this.enableAllCheckbox.indeterminate = !allEnabled && anyEnabled;
@@ -635,8 +635,8 @@ export class TestUI {
           failedCount,
           failedConditionsCount,
           totalTests: tests.length,
-          enabledTests: tests.filter(t => t.isEnabled).length,
-          disabledTests: tests.filter(t => !t.isEnabled).length
+          enabledTests: tests.filter(t => t.enabled).length,
+          disabledTests: tests.filter(t => !t.enabled).length
         },
         testDetails: tests.map(test => {
           // Calculate duration if start and end times are available
@@ -653,7 +653,7 @@ export class TestUI {
             description: test.description,
             category: test.category,
             status: test.status,
-            isEnabled: test.isEnabled,
+            enabled: test.enabled,
             order: test.order,
             startTime: test.startTime || null,
             endTime: test.endTime || null,

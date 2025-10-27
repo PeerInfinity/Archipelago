@@ -221,7 +221,7 @@ export class TestController {
             snapshot,
             staticData
           );
-          let locData = staticData.locations[actionDetails.locationName];
+          let locData = staticData.locations.get(actionDetails.locationName);
           if (!locData && staticData.regions) {
             // Basic search in regions if not direct
             // staticData.regions is always a Map after initialization

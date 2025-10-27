@@ -775,8 +775,8 @@ class MainContentUI {
         const staticData = this.stateManager.getStaticData();
 
         // 1. Check Static Data ID
-        if (staticData?.locations && staticData.locations[trimmedName]) {
-          const staticLocation = staticData.locations[trimmedName];
+        if (staticData?.locations && staticData.locations.get(trimmedName)) {
+          const staticLocation = staticData.locations.get(trimmedName);
           this.appendConsoleMessage(`Static Data ID: ${staticLocation.id}`, 'info');
         } else {
           this.appendConsoleMessage('Not found in Static Data locations', 'warning');
@@ -844,12 +844,12 @@ class MainContentUI {
         const staticData = this.stateManager.getStaticData();
 
         // Check if location exists
-        if (!staticData?.locations || !staticData.locations[trimmedName]) {
+        if (!staticData?.locations || !staticData.locations.get(trimmedName)) {
           this.appendConsoleMessage(`Location "${trimmedName}" not found in static data.`, 'error');
-          
+
           // Show some similar location names as suggestions
           if (staticData?.locations) {
-            const locationNames = Object.keys(staticData.locations);
+            const locationNames = Array.from(staticData.locations.keys());
             const similar = locationNames.filter(name => 
               name.toLowerCase().includes(trimmedName.toLowerCase()) ||
               trimmedName.toLowerCase().includes(name.toLowerCase())
@@ -863,7 +863,7 @@ class MainContentUI {
           return;
         }
 
-        const location = staticData.locations[trimmedName];
+        const location = staticData.locations.get(trimmedName);
         this.appendConsoleMessage(`Found location: "${trimmedName}" (ID: ${location.id})`, 'info');
 
         // Check if already checked

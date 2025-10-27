@@ -267,7 +267,7 @@ async function timerOfflineTestGanonImmediateCheck(testController) {
     }
 
     // Check if Ganon location exists
-    const ganonLocation = staticData.locations['Ganon'];
+    const ganonLocation = staticData.locations.get('Ganon');
     if (!ganonLocation) {
       throw new Error('Ganon location not found in static data');
     }

@@ -602,8 +602,8 @@ export class ConsoleUI {
       }
 
       // Check location exists in static data locations
-      if (staticData.locations && staticData.locations[locationName]) {
-        const locationData = staticData.locations[locationName];
+      if (staticData.locations && staticData.locations.get(locationName)) {
+        const locationData = staticData.locations.get(locationName);
         consoleManager.print(`✓ Location Data Found:`);
         consoleManager.print(`  - Name: ${locationData.name}`);
         consoleManager.print(`  - ID: ${locationData.id}`);

@@ -370,7 +370,7 @@ export const testLogic = {
           // Apply loaded preferences to discovered test
           currentTests.push({
             ...discoveredTest,
-            isEnabled: loadedTest.isEnabled,
+            enabled: loadedTest.enabled,
             order:
               loadedTest.order !== undefined
                 ? loadedTest.order
@@ -380,13 +380,13 @@ export const testLogic = {
           });
         } else {
           // Use discovered test but only apply defaultEnabledState if test has no explicit enabled value
-          const finalEnabledState = discoveredTest.isEnabled !== undefined 
-            ? discoveredTest.isEnabled  // Use explicit value from registration
+          const finalEnabledState = discoveredTest.enabled !== undefined
+            ? discoveredTest.enabled  // Use explicit value from registration
             : TestState.testLogicState.defaultEnabledState;  // Use default only if no explicit value
-          
-          currentTests.push({ 
+
+          currentTests.push({
             ...discoveredTest,
-            isEnabled: finalEnabledState
+            enabled: finalEnabledState
           });
         }
       });
@@ -411,13 +411,13 @@ export const testLogic = {
     } else {
       // No loaded data, use discovered tests but only apply defaultEnabledState if test has no explicit enabled value
       discoveredTests.forEach((discoveredTest) => {
-        const finalEnabledState = discoveredTest.isEnabled !== undefined 
-          ? discoveredTest.isEnabled  // Use explicit value from registration
+        const finalEnabledState = discoveredTest.enabled !== undefined
+          ? discoveredTest.enabled  // Use explicit value from registration
           : TestState.testLogicState.defaultEnabledState;  // Use default only if no explicit value
-        
-        currentTests.push({ 
+
+        currentTests.push({
           ...discoveredTest,
-          isEnabled: finalEnabledState
+          enabled: finalEnabledState
         });
       });
     }
@@ -473,7 +473,7 @@ export const testLogic = {
       eventBusInstance.publish('tests:loadedStateApplied', {
         autoStartEnabled: TestState.shouldAutoStartTests(),
         testCount: currentTests.length,
-        enabledTestCount: currentTests.filter((t) => t.isEnabled).length,
+        enabledTestCount: currentTests.filter((t) => t.enabled).length,
       }, 'tests');
     }
 
@@ -571,9 +571,9 @@ export const testLogic = {
     }
   },
 
-  async toggleTestEnabled(testId, isEnabled) {
+  async toggleTestEnabled(testId, enabled) {
     await initializeTestDiscovery();
-    TestState.toggleTestEnabled(testId, isEnabled);
+    TestState.toggleTestEnabled(testId, enabled);
     if (eventBusInstance)
       eventBusInstance.publish('tests:listUpdated', {
         tests: await this.getTests(),
@@ -824,7 +824,7 @@ export const testLogic = {
     await initializeTestDiscovery();
 
     const tests = TestState.getTestsForExecution();
-    const enabledTests = tests.filter((t) => t.isEnabled);
+    const enabledTests = tests.filter((t) => t.enabled);
 
     if (enabledTests.length === 0) {
       log('info', '[TestLogic] No enabled tests to run.');
@@ -917,18 +917,18 @@ export const testLogic = {
     this._setPlaywrightCompletionFlags(summary, finalTests);
   },
 
-  async toggleAllTestsEnabled(isEnabled) {
+  async toggleAllTestsEnabled(enabled) {
     await initializeTestDiscovery();
     const tests = TestState.getTests();
 
     // Enable/disable all tests
     tests.forEach((test) => {
-      TestState.toggleTestEnabled(test.id, isEnabled);
+      TestState.toggleTestEnabled(test.id, enabled);
     });
 
     if (eventBusInstance) {
       eventBusInstance.publish('tests:allTestsChanged', {
-        isEnabled,
+        enabled,
         testCount: tests.length,
       }, 'tests');
     }

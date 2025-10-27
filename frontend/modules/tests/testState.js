@@ -45,7 +45,7 @@ export function getSavableTestConfig() {
       name: t.name,
       description: t.description,
       functionName: t.functionName,
-      isEnabled: t.isEnabled,
+      enabled: t.enabled,
       order: t.order,
       category: t.category,
     })),
@@ -127,17 +127,17 @@ export function getTestsForExecution() {
   return sortedTests;
 }
 
-export function toggleTestEnabled(testId, isEnabled) {
+export function toggleTestEnabled(testId, enabled) {
   const test = findTestById(testId);
   if (test) {
-    test.isEnabled = isEnabled;
+    test.enabled = enabled;
     // Update status based on enabled state, but preserve completed test results
     if (
       test.status !== 'passed' &&
       test.status !== 'failed' &&
       test.status !== 'running'
     ) {
-      test.status = isEnabled ? 'pending' : 'disabled';
+      test.status = enabled ? 'pending' : 'disabled';
     }
   }
 }

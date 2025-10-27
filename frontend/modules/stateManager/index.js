@@ -428,14 +428,14 @@ async function handleUserLocationCheckForStateManager(eventData) {
         const staticData = stateManagerProxySingleton.getStaticData();
         if (snapshot && staticData && staticData.locations) {
             const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
-            const allLocations = Object.values(staticData.locations);
+            const allLocations = Array.from(staticData.locations.values());
             let nextLocationToCheck = null;
 
             // Find the first accessible, unchecked location based on original order if available
             const originalOrder = stateManagerProxySingleton.getOriginalLocationOrder();
             if (originalOrder && originalOrder.length > 0) {
                 for (const locName of originalOrder) {
-                    const loc = staticData.locations[locName];
+                    const loc = staticData.locations.get(locName);
                     if (loc && !snapshot.checkedLocations.includes(loc.name)) {
                         const parentRegionName = loc.parent_region || loc.region;
                         const parentRegionReachable = snapshot.regionReachability?.[parentRegionName] === 'reachable' || snapshot.regionReachability?.[parentRegionName] === 'checked';
