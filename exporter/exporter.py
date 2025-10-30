@@ -3,12 +3,12 @@
 """Handles preparation and formatting of rule data for export."""
 
 import logging
-import collections
 import json
 import os
 import inspect
 import shutil
-from typing import Any, Dict, List, Set, Optional
+from functools import lru_cache
+from typing import Any, Dict, List, Set, Optional, Tuple
 from collections import defaultdict
 
 import Utils
@@ -17,11 +17,21 @@ from .games import get_game_export_handler
 
 logger = logging.getLogger(__name__)
 
+# Module-level cache for rule analysis results
+_rule_analysis_cache: Dict[Tuple[int, int, Optional[int]], Any] = {}
+
+def clear_rule_cache():
+    """Clear the rule analysis cache. Call between generations."""
+    _rule_analysis_cache.clear()
+
+@lru_cache(maxsize=128)
 def get_world_directory_name(game_name: str) -> str:
     """
     Get the world directory name for a given game name by scanning worlds directory.
     This replicates the logic from build-world-mapping.py but only returns the directory name.
     Falls back to the old naming logic if no matching world is found.
+
+    Results are cached to avoid repeated filesystem access.
     """
     try:
         # Get path to worlds directory relative to this file (exporter/exporter.py)
@@ -247,6 +257,15 @@ def prepare_export_data(multiworld) -> Dict[str, Any]:
     # Dungeons will only be added if there's data to include
     all_dungeons = {}
 
+    # Pre-compute location ID mappings for all players (optimization)
+    location_id_mappings = {}
+    for player in multiworld.player_ids:
+        world = multiworld.worlds[player]
+        if hasattr(world, 'location_id_to_name'):
+            location_id_mappings[player] = {
+                name: id for id, name in world.location_id_to_name.items()
+            }
+
     for player in multiworld.player_ids:
         player_str = str(player) # Use player_str consistently
         
@@ -261,7 +280,7 @@ def prepare_export_data(multiworld) -> Dict[str, Any]:
 
         # Process all regions and their connections
         # Also extract dungeons to separate structure
-        regions_data, dungeons_data = process_regions(multiworld, player, game_handler)
+        regions_data, dungeons_data = process_regions(multiworld, player, game_handler, location_id_mappings.get(player, {}))
         export_data['regions'][player_str] = regions_data
         
         # Only add dungeons if there's data
@@ -432,26 +451,45 @@ def prepare_export_data(multiworld) -> Dict[str, Any]:
 
     return export_data
 
-def process_regions(multiworld, player: int, game_handler=None) -> tuple:
+def process_regions(multiworld, player: int, game_handler=None, location_name_to_id: Dict[str, int] = None) -> tuple:
     """
     Process complete region data including all available backend data.
     Returns (regions_data, dungeons_data) tuple with separate structures.
+
+    Args:
+        location_name_to_id: Pre-computed mapping from location names to IDs (optimization)
     """
     
     def safe_expand_rule(game_handler, rule_func,
                          rule_target_name: Optional[str] = None,
                          target_type: Optional[str] = None,
                          world=None):
-        """Analyzes rule using runtime analysis (analyze_rule)."""
+        """
+        Analyzes rule using runtime analysis (analyze_rule).
+
+        Results are cached by (rule_func_id, game_handler_id, player) to avoid
+        repeated analysis of the same rule.
+        """
         try:
             if not rule_func:
                 return None
-            
+
             # Check if game handler has an override for rule analysis (e.g., Blasphemous)
             if game_handler and hasattr(game_handler, 'override_rule_analysis'):
                 override_result = game_handler.override_rule_analysis(rule_func, rule_target_name)
                 if override_result:
                     return override_result
+
+            # Create cache key from function identity and context
+            cache_key = (
+                id(rule_func),
+                id(game_handler),
+                player
+            )
+
+            # Check cache first
+            if cache_key in _rule_analysis_cache:
+                return _rule_analysis_cache[cache_key]
 
             # Extract closure variables from the rule function
             closure_vars = {}
@@ -486,12 +524,17 @@ def process_regions(multiworld, player: int, game_handler=None) -> tuple:
             analysis_result = analyze_rule(rule_func=rule_func, closure_vars=closure_vars, game_handler=game_handler, player_context=player)
             
             if analysis_result and analysis_result.get('type') != 'error':
-                
+
                 # Set context for A Hat In Time telescope rule processing
                 if hasattr(game_handler, 'apply_chapter_costs_to_rule') and rule_target_name and rule_target_name.startswith("Telescope -> "):
                     analysis_result = game_handler.apply_chapter_costs_to_rule(analysis_result, rule_target_name, world)
-                
+
                 expanded = game_handler.expand_rule(analysis_result)
+
+                # Cache the result before returning
+                if expanded:
+                    _rule_analysis_cache[cache_key] = expanded
+
                 return expanded
             else:
                 logger.warning(f"Failed to analyze or expand rule for {target_type} '{rule_target_name or 'unknown'}' using runtime analysis.")
@@ -538,15 +581,17 @@ def process_regions(multiworld, player: int, game_handler=None) -> tuple:
             game_handler.postprocess_regions(multiworld, player)
         
         player_regions = [
-            region for region in multiworld.get_regions() 
+            region for region in multiworld.get_regions()
             if region.player == player
         ]
 
-        # Create a location name to ID mapping for this player
-        location_name_to_id = {}
-        if player in multiworld.worlds:
-            world = multiworld.worlds[player]
-            if hasattr(world, 'location_id_to_name'):
+        # Get world object (needed for various operations below)
+        world = multiworld.worlds[player] if player in multiworld.worlds else None
+
+        # Use provided location name to ID mapping, or create if not provided
+        if location_name_to_id is None:
+            location_name_to_id = {}
+            if world and hasattr(world, 'location_id_to_name'):
                 # Create a reverse mapping from name to ID
                 location_name_to_id = {name: id for id, name in world.location_id_to_name.items()}
 
@@ -1086,9 +1131,9 @@ def export_game_rules(multiworld, output_dir: str, filename_base: str, save_pres
             player_id: If provided, extract only this player's data from player-specific fields
             
         Returns:
-            OrderedDict with fields in desired order
+            Dict with fields in desired order (Python 3.7+ maintains insertion order)
         """
-        ordered_data = collections.OrderedDict()
+        ordered_data = {}
         
         # Process each key in the desired order
         for key in desired_key_order:

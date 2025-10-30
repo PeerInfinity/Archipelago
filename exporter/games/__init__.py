@@ -1,6 +1,6 @@
 """Game-specific rule helper functions."""
 
-from typing import Dict, Type
+from typing import Dict, Type, Optional, Tuple
 from .base import BaseGameExportHandler
 from .generic import GenericGameExportHandler
 
@@ -76,10 +76,28 @@ GAME_HANDLERS: Dict[str, Type[BaseGameExportHandler]] = {
     'Saving Princess': SavingPrincessGameExportHandler,
 }
 
+# Module-level cache for handler instances
+_handler_cache: Dict[Tuple[str, Optional[int]], BaseGameExportHandler] = {}
+
 def get_game_export_handler(game_name: str, world=None) -> BaseGameExportHandler:
-    """Get the appropriate helper expander for the game."""
-    handler_class = GAME_HANDLERS.get(game_name, GenericGameExportHandler)
-    # Pass world to handlers that accept it
-    if game_name in ['Bomb Rush Cyberfunk', 'Blasphemous', 'Castlevania 64', 'Celeste 64', 'Dark Souls III', 'DLCQuest', 'Donkey Kong Country 3', 'DOOM 1993', 'DOOM II', 'Factorio', 'Faxanadu', 'Final Fantasy Mystic Quest', 'Inscryption', 'Kingdom Hearts', 'Kingdom Hearts 2', 'Pokemon Red and Blue']:
-        return handler_class(world)
-    return handler_class()
+    """
+    Get the appropriate helper expander for the game.
+
+    Handlers are cached per (game_name, world_id) to avoid repeated instantiation.
+    """
+    # Use world ID as cache key (objects aren't hashable, but their IDs are)
+    cache_key = (game_name, id(world) if world else None)
+
+    if cache_key not in _handler_cache:
+        handler_class = GAME_HANDLERS.get(game_name, GenericGameExportHandler)
+        # Pass world to handlers that accept it
+        if game_name in ['Bomb Rush Cyberfunk', 'Blasphemous', 'Castlevania 64', 'Celeste 64', 'Dark Souls III', 'DLCQuest', 'Donkey Kong Country 3', 'DOOM 1993', 'DOOM II', 'Factorio', 'Faxanadu', 'Final Fantasy Mystic Quest', 'Inscryption', 'Kingdom Hearts', 'Kingdom Hearts 2', 'Pokemon Red and Blue']:
+            _handler_cache[cache_key] = handler_class(world)
+        else:
+            _handler_cache[cache_key] = handler_class()
+
+    return _handler_cache[cache_key]
+
+def clear_handler_cache():
+    """Clear the handler cache. Call this between generations if needed."""
+    _handler_cache.clear()
