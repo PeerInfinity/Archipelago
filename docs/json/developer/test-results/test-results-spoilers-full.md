@@ -4,28 +4,28 @@
 
 [← Back to Test Results Summary](./test-results-summary.md)
 
-**Generated:** 2025-10-30 13:36:45
+**Generated:** 2025-10-30 14:04:35
 
 **Source Data Created:** 2025-10-14T13:23:48.314334
 
-**Source Data Last Updated:** 2025-10-30T13:36:45.203378
+**Source Data Last Updated:** 2025-10-30T14:04:35.121606
 
 ## Summary
 
 - **Total Games:** 79
-- **Passed:** 19 (24.1%)
-- **Failed:** 60 (75.9%)
+- **Passed:** 21 (26.6%)
+- **Failed:** 58 (73.4%)
 
 ## Test Results
 
 | Game Name | Test Result | Gen Errors | Sphere Reached | Max Spheres | Progress | Custom Exporter | Custom GameLogic |
 |-----------|-------------|------------|----------------|-------------|----------|-----------------|------------------|
-| A Hat in Time | ❌ Failed seed 6 | 0 | 5.3 | 6.9 | 🟡 76.8% | ✅ | ✅ |
+| A Hat in Time | ✅ Passed seeds 1-10 | 0 | 5.21 | 5.21 | 🟢 Complete | ✅ | ✅ |
 | A Link to the Past | ✅ Passed seeds 1-10 | 0 | 22.1 | 22.1 | 🟢 Complete | ✅ | ✅ |
 | A Short Hike | ✅ Passed seeds 1-10 | 0 | 3.1 | 3.1 | 🟢 Complete | ✅ | ⚫ |
 | Adventure | ✅ Passed seeds 1-10 | 0 | 6.1 | 6.1 | 🟢 Complete | ✅ | ⚫ |
-| Aquaria | ❌ Failed seed 2 | 0 | 3.15 | 4.16 | 🟡 75.7% | ✅ | ✅ |
-| ArchipIDLE | ❌ Failed seed 2 | 0 | 4.74 | 4.1 | 🟡 115.6% | ✅ | ✅ |
+| Aquaria | ✅ Passed seeds 1-10 | 0 | 5.19 | 5.19 | 🟢 Complete | ✅ | ✅ |
+| ArchipIDLE | ❌ Failed seed 7 | 0 | 4.68 | 4.1 | 🟡 114.1% | ✅ | ✅ |
 | Blasphemous | ❌ Failed seed 1 | 0 | 4.22 | 13.1 | 🟡 32.2% | ✅ | ✅ |
 | Bomb Rush Cyberfunk | ✅ Passed seeds 1-10 | 0 | 10.18 | 10.18 | 🟢 Complete | ✅ | ⚫ |
 | Bumper Stickers | ✅ Passed seeds 1-10 | 0 | 9.1 | 9.1 | 🟢 Complete | ✅ | ⚫ |

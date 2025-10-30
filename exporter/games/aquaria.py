@@ -2,6 +2,7 @@
 
 from typing import Dict, Any, List
 from .base import BaseGameExportHandler
+from BaseClasses import ItemClassification
 import logging
 
 logger = logging.getLogger(__name__)
@@ -203,3 +204,41 @@ class AquariaGameExportHandler(BaseGameExportHandler):
             'description': 'Aquaria-specific rule',
             'details': 'This rule could not be fully analyzed'
         }
+
+    def get_item_data(self, world) -> Dict[str, Dict[str, Any]]:
+        """
+        Return Aquaria-specific item table data including dynamically created event items.
+
+        Aquaria creates event items at runtime for boss defeats and secrets that are not
+        in the static item_table. These need to be discovered by scanning placed items.
+        """
+        aquaria_items_data = {}
+
+        # Handle dynamically created event items that are placed at locations
+        # In Aquaria, event items like "Drunian God beated", "Victory", etc. are created
+        # at runtime via create_event() but not in any static item_table
+        if hasattr(world, 'multiworld'):
+            multiworld = world.multiworld
+            player = world.player
+
+            for location in multiworld.get_locations(player):
+                if location.item and location.item.player == player:
+                    item_name = location.item.name
+                    # Check if this is an event item (no code/ID)
+                    if (location.item.code is None and
+                        item_name not in aquaria_items_data and
+                        hasattr(location.item, 'classification')):
+
+                        aquaria_items_data[item_name] = {
+                            'name': item_name,
+                            'id': None,
+                            'groups': ['Event'],
+                            'advancement': location.item.classification == ItemClassification.progression,
+                            'useful': location.item.classification == ItemClassification.useful,
+                            'trap': location.item.classification == ItemClassification.trap,
+                            'event': True,
+                            'type': 'Event',
+                            'max_count': 1
+                        }
+
+        return aquaria_items_data
