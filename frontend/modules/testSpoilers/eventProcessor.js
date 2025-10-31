@@ -191,51 +191,61 @@ export class EventProcessor {
           // Check locations from current sphere one-by-one, allowing natural item acquisition
           // NOTE: We now use addItems=true (default) to let checkLocation naturally add items.
           // Progressive items are automatically resolved by the has() function in game logic.
-          const locationsToCheck = sphereData.locations || [];
-          if (locationsToCheck.length > 0) {
-            this.logCallback('info', `Checking ${locationsToCheck.length} locations from sphere ${context.sphere_number}`);
 
-            // Get initial snapshot and static data once (for logging)
-            const initialSnapshot = await stateManager.getFullSnapshot();
-            const staticData = stateManager.getStaticData();
+          // Check if this is a multiworld event (has player_data with multiple players)
+          const isMultiworld = event.player_data && Object.keys(event.player_data).length > 1;
 
-            for (const locationName of locationsToCheck) {
-              // Get location definition from static data to see what item we're about to receive (for logging)
-              // staticData.locations is always a Map after initialization
-              const locationDef = staticData.locations.get(locationName);
-              const itemName = locationDef?.item?.name;
+          if (isMultiworld) {
+            // Multiworld processing: handle locations from all players
+            await this._processMultiworldLocations(event, context, stateManager);
+          } else {
+            // Single-player processing: check locations normally
+            const locationsToCheck = sphereData.locations || [];
+            if (locationsToCheck.length > 0) {
+              this.logCallback('info', `Checking ${locationsToCheck.length} locations from sphere ${context.sphere_number}`);
 
-              if (itemName) {
-                this.logCallback('debug', `  Checking "${locationName}" (contains: ${itemName})`);
-              } else {
-                this.logCallback('debug', `  Checking "${locationName}" (no item or event)`);
+              // Get initial snapshot and static data once (for logging)
+              const initialSnapshot = await stateManager.getFullSnapshot();
+              const staticData = stateManager.getStaticData();
+
+              for (const locationName of locationsToCheck) {
+                // Get location definition from static data to see what item we're about to receive (for logging)
+                // staticData.locations is always a Map after initialization
+                const locationDef = staticData.locations.get(locationName);
+                const itemName = locationDef?.item?.name;
+
+                if (itemName) {
+                  this.logCallback('debug', `  Checking "${locationName}" (contains: ${itemName})`);
+                } else {
+                  this.logCallback('debug', `  Checking "${locationName}" (no item or event)`);
+                }
+
+                // NEW: Check if location is accessible BEFORE attempting to check it
+                const currentSnapshot = await stateManager.getFullSnapshot();
+                const snapshotInterface = createStateSnapshotInterface(currentSnapshot, stateManager.getStaticData());
+                const isAccessible = snapshotInterface.isLocationAccessible(locationName);
+
+                if (!isAccessible) {
+                  this.logCallback('error', `  ⚠️ PRE-CHECK FAILED: "${locationName}" is NOT accessible per snapshot before check attempt!`);
+                  this.logCallback('error', `    Current inventory: ${JSON.stringify(currentSnapshot.inventory)}`);
+                  this.logCallback('error', `    Sphere log says this location should be accessible in sphere ${context.sphere_number}`);
+                  this.logCallback('error', `    But snapshot reports it as inaccessible - this is a bug!`);
+
+                  // Mark this as a failure and stop the test
+                  allChecksPassed = false;
+                  comparisonResult = false;
+                  throw new Error(`Pre-check accessibility mismatch for "${locationName}" in sphere ${context.sphere_number}`);
+                }
+
+                // Check location WITH items via event dispatcher instead of direct call
+                // This naturally adds the item (e.g., "Progressive Sword") to inventory
+                // Use event-based flow to match how timer and UI modules interact with stateManager
+                const locationRegion = locationDef?.parent_region_name || locationDef?.parent_region || locationDef?.region || null;
+                await this.checkLocationViaEvent(locationName, locationRegion);
               }
 
-              // NEW: Check if location is accessible BEFORE attempting to check it
-              const currentSnapshot = await stateManager.getFullSnapshot();
-              const snapshotInterface = createStateSnapshotInterface(currentSnapshot, stateManager.getStaticData());
-              const isAccessible = snapshotInterface.isLocationAccessible(locationName);
-
-              if (!isAccessible) {
-                this.logCallback('error', `  ⚠️ PRE-CHECK FAILED: "${locationName}" is NOT accessible per snapshot before check attempt!`);
-                this.logCallback('error', `    Current inventory: ${JSON.stringify(currentSnapshot.inventory)}`);
-                this.logCallback('error', `    Sphere log says this location should be accessible in sphere ${context.sphere_number}`);
-                this.logCallback('error', `    But snapshot reports it as inaccessible - this is a bug!`);
-
-                // Mark this as a failure and stop the test
-                allChecksPassed = false;
-                comparisonResult = false;
-                throw new Error(`Pre-check accessibility mismatch for "${locationName}" in sphere ${context.sphere_number}`);
-              }
-
-              // Check location WITH items via event dispatcher instead of direct call
-              // This naturally adds the item (e.g., "Progressive Sword") to inventory
-              // Use event-based flow to match how timer and UI modules interact with stateManager
-              const locationRegion = locationDef?.parent_region_name || locationDef?.parent_region || locationDef?.region || null;
-              await this.checkLocationViaEvent(locationName, locationRegion);
+              this.logCallback('info', `Completed checking ${locationsToCheck.length} locations for sphere ${context.sphere_number}`);
             }
-
-            this.logCallback('info', `Completed checking ${locationsToCheck.length} locations for sphere ${context.sphere_number}`);
           }
 
           // TODO: Add inventory comparison in the future
@@ -684,6 +694,106 @@ export class EventProcessor {
     }
 
     return newlyAdded;
+  }
+
+  /**
+   * Processes multiworld locations from a sphere event
+   *
+   * Multiworld Processing Logic:
+   * 1. Check the current player's sphere_locations (locations they own)
+   * 2. Add cross-player items (items from other players' locations that go to current player)
+   *
+   * @param {Object} event - The raw sphere event with player_data
+   * @param {Object} context - Context with sphere_number and player_id
+   * @param {Object} stateManager - State manager instance
+   * @private
+   */
+  async _processMultiworldLocations(event, context, stateManager) {
+    const staticData = stateManager.getStaticData();
+    const currentPlayerIdStr = String(this.playerId);
+
+    // Get current player's data from the event
+    const currentPlayerData = event.player_data[currentPlayerIdStr];
+
+    if (!currentPlayerData) {
+      this.logCallback('warn', `No player_data found for player ${this.playerId} in sphere ${context.sphere_number}`);
+      return;
+    }
+
+    const sphereLocations = currentPlayerData.sphere_locations || [];
+    const inventoryDelta = currentPlayerData.new_inventory_details || currentPlayerData.inventory_details || {};
+    const newItems = inventoryDelta.base_items || inventoryDelta.new_base_items || {};
+
+    this.logCallback('info', `Processing multiworld sphere ${context.sphere_number} for player ${this.playerId}: ${sphereLocations.length} locations, ${Object.keys(newItems).length} new items`);
+
+    // Step 1: Check the current player's locations
+    for (const locationName of sphereLocations) {
+      // Get location definition from static data
+      const locationDef = staticData.locations.get(locationName);
+
+      if (!locationDef) {
+        this.logCallback('warn', `  Location "${locationName}" not found in static data for player ${this.playerId}`);
+        continue;
+      }
+
+      const itemDef = locationDef.item;
+      const itemName = itemDef?.name;
+
+      this.logCallback('debug', `  [Player ${this.playerId}] Checking location: "${locationName}" (contains: ${itemName || 'no item'})`);
+
+      // Verify accessibility before checking
+      const currentSnapshot = await stateManager.getFullSnapshot();
+      const snapshotInterface = createStateSnapshotInterface(currentSnapshot, stateManager.getStaticData());
+      const isAccessible = snapshotInterface.isLocationAccessible(locationName);
+
+      if (!isAccessible) {
+        this.logCallback('error', `  ⚠️ PRE-CHECK FAILED: "${locationName}" is NOT accessible!`);
+        this.logCallback('error', `    Current inventory: ${JSON.stringify(currentSnapshot.inventory)}`);
+        throw new Error(`Pre-check accessibility mismatch for "${locationName}" in sphere ${context.sphere_number}`);
+      }
+
+      // Check the location (which adds the item to inventory)
+      const locationRegion = locationDef?.parent_region_name || locationDef?.parent_region || locationDef?.region || null;
+      await this.checkLocationViaEvent(locationName, locationRegion);
+    }
+
+    // Step 2: Add cross-player items (items we received from other players' locations)
+    // These are items in our new_inventory_details that we didn't get from checking our own locations
+    if (Object.keys(newItems).length > 0) {
+      // Get snapshot to see what we currently have
+      const beforeSnapshot = await stateManager.getFullSnapshot();
+      const beforeInventory = beforeSnapshot.inventory || {};
+
+      // Check each new item from the sphere log
+      for (const [itemName, count] of Object.entries(newItems)) {
+        const currentCount = beforeInventory[itemName] || 0;
+
+        // Calculate how many of this item we should have received in this sphere
+        const itemsToAdd = count;
+
+        if (itemsToAdd > 0) {
+          // Check if this item came from one of our own locations
+          let fromOwnLocation = false;
+          for (const locationName of sphereLocations) {
+            const locationDef = staticData.locations.get(locationName);
+            if (locationDef?.item?.name === itemName) {
+              fromOwnLocation = true;
+              break;
+            }
+          }
+
+          // If not from own location, it's a cross-player item - add it
+          if (!fromOwnLocation) {
+            this.logCallback('warn', `  [Player ${this.playerId}] Receiving ${itemsToAdd}x cross-player item: "${itemName}"`);
+            for (let i = 0; i < itemsToAdd; i++) {
+              await stateManager.addItemToInventory(itemName, 1);
+            }
+          }
+        }
+      }
+    }
+
+    this.logCallback('info', `Multiworld sphere ${context.sphere_number} complete: checked ${sphereLocations.length} locations`);
   }
 
   /**

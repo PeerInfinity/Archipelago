@@ -174,12 +174,15 @@ def log_sphere_details(file_handler, multiworld: "MultiWorld", sphere_index: Uni
                 # Integer sphere updates only integer tracker
                 _previous_integer_state = current_state_data.copy()
 
-        sphere_location_names = sorted([loc.name for loc in current_sphere_locations])
+        # Add sphere_locations to each player's data (only locations that belong to that player)
+        for player_id in player_specific_data:
+            # Filter locations to only include those belonging to this player
+            player_sphere_locations = sorted([loc.name for loc in current_sphere_locations if loc.player == player_id])
+            player_specific_data[player_id]["sphere_locations"] = player_sphere_locations
 
         log_entry = {
             "type": "state_update",
             "sphere_index": sphere_index,
-            "sphere_locations": sphere_location_names,
             "player_data": player_specific_data,
         }
 

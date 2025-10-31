@@ -1,6 +1,6 @@
 # Archipelago Template Test Results Summary
 
-**Generated:** 2025-10-30 14:04:35
+**Generated:** 2025-10-30 22:14:40
 
 This summary combines results from three types of tests:
 - **Minimal Spoiler Test:** Tests with advancement items only - [View Details](./test-results-spoilers-minimal.md)
@@ -11,16 +11,16 @@ This summary combines results from three types of tests:
 
 ### Individual Test Results
 
-- **Minimal Test:** 29/79 passed (36.7%)
+- **Minimal Test:** 27/79 passed (34.2%)
 - **Full Test:** 21/79 passed (26.6%)
 - **Multiplayer Test:** 28/79 passed (35.4%)
 
 ### Combined Test Results
 
 - **Templates passing all 3 tests:** 19/79 (24.1%)
-- **Templates passing 2 tests:** 9/79 (11.4%)
+- **Templates passing 2 tests:** 8/79 (10.1%)
 - **Templates passing 1 test:** 3/79 (3.8%)
-- **Templates passing 0 tests:** 48/79 (60.8%)
+- **Templates passing 0 tests:** 49/79 (62.0%)
 
 ## Test Results
 
@@ -32,8 +32,8 @@ This summary combines results from three types of tests:
 | Adventure | ✅ Passed | ✅ Passed | ✅ Passed |
 | Aquaria | ✅ Passed | ✅ Passed | ✅ Passed |
 | ArchipIDLE | ✅ Passed | ❌ Failed | ✅ Passed |
-| Blasphemous | ✅ Passed | ❌ Failed | ❌ Failed |
-| Bomb Rush Cyberfunk | ✅ Passed | ✅ Passed | ❌ Failed |
+| Blasphemous | ❌ Failed | ❌ Failed | ❌ Failed |
+| Bomb Rush Cyberfunk | ❌ Failed | ✅ Passed | ❌ Failed |
 | Bumper Stickers | ✅ Passed | ✅ Passed | ✅ Passed |
 | Castlevania - Circle of the Moon | ✅ Passed | ❌ Failed | ✅ Passed |
 | Castlevania 64 | ✅ Passed | ❌ Failed | ✅ Passed |

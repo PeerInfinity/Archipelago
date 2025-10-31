@@ -227,9 +227,12 @@ export class SphereState {
         log('warn', `No data for player ${this.currentPlayerId} in sphere ${parsed.sphereIndex}`);
       }
 
+      // sphere_locations can be in player_data (new format) or at top level (old format)
+      const sphereLocations = playerData?.sphere_locations || entry.sphere_locations || [];
+
       this.sphereData.push({
         ...parsed,
-        locations: entry.sphere_locations || [],
+        locations: sphereLocations,
         accessibleLocations: playerData?.accessible_locations || [],
         accessibleRegions: playerData?.accessible_regions || [],
         inventoryDetails: playerData?.inventory_details || { base_items: {}, resolved_items: {} }
@@ -307,10 +310,13 @@ export class SphereState {
         accumulated = integerAccumulated;
       }
 
+      // sphere_locations can be in player_data (new format) or at top level (old format)
+      const sphereLocations = playerData?.sphere_locations || entry.sphere_locations || [];
+
       // Store the accumulated state in sphereData
       this.sphereData.push({
         ...parsed,
-        locations: entry.sphere_locations || [],
+        locations: sphereLocations,
         accessibleLocations: Array.from(accumulated.accessibleLocations).sort(),
         accessibleRegions: Array.from(accumulated.accessibleRegions).sort(),
         inventoryDetails: { ...accumulated.inventoryDetails }

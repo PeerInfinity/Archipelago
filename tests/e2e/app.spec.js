@@ -6,6 +6,7 @@ test.describe('Application End-to-End Tests', () => {
   const testMode = process.env.TEST_MODE || 'test'; // Default to 'test' if not specified
   const testGame = process.env.TEST_GAME; // Optional game parameter
   const testSeed = process.env.TEST_SEED; // Optional seed parameter
+  const testPlayer = process.env.TEST_PLAYER; // Optional player parameter for multiworld
   const rulesOverride = process.env.RULES_OVERRIDE; // Optional rules file override
   const testLayout = process.env.TEST_LAYOUT; // Optional layout parameter (mobile/desktop)
   const testOrderSeed = process.env.TEST_ORDER_SEED; // Optional test order seed for reproducible randomization
@@ -17,6 +18,9 @@ test.describe('Application End-to-End Tests', () => {
   }
   if (testSeed) {
     APP_URL += `&seed=${encodeURIComponent(testSeed)}`;
+  }
+  if (testPlayer) {
+    APP_URL += `&player=${encodeURIComponent(testPlayer)}`;
   }
   if (rulesOverride) {
     APP_URL += `&rules=${encodeURIComponent(rulesOverride)}`;
@@ -46,6 +50,9 @@ test.describe('Application End-to-End Tests', () => {
     }
     if (testSeed) {
       console.log(`  - seed: ${testSeed}`);
+    }
+    if (testPlayer) {
+      console.log(`  - player: ${testPlayer}`);
     }
     if (rulesOverride) {
       console.log(`  - rules: ${rulesOverride}`);

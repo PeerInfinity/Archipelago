@@ -101,6 +101,17 @@ export class FileLoader {
           0,
           rulesFilename.length - '_rules.json'.length
         );
+
+        // Check if this is a multiworld player-specific rules file (contains _P{number})
+        // For example: "AP_14089154938208861744_P1_rules.json" should become "AP_14089154938208861744"
+        // Pattern: _P followed by digits
+        const multiworldPlayerPattern = /_P\d+$/;
+        if (multiworldPlayerPattern.test(baseNameForLog)) {
+          baseNameForLog = baseNameForLog.replace(multiworldPlayerPattern, '');
+          logger.info(
+            `Detected multiworld player-specific rules file. Base name for log: "${baseNameForLog}"`
+          );
+        }
       } else if (rulesFilename.endsWith('.json')) {
         baseNameForLog = rulesFilename.substring(
           0,

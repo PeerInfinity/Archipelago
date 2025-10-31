@@ -182,6 +182,7 @@ async function resolveRulesOverride(urlParams, fetchJson, logger) {
   // Check for game and seed parameters as an alternative way to specify rules
   const gameParam = urlParams.get('game');
   const seedParam = urlParams.get('seed') || '1'; // Default seed is 1
+  const playerParam = urlParams.get('player'); // Player number or name for multiworld
 
   // If game parameter is provided and no rules parameter, look up the rules file
   if (gameParam && !rulesOverride) {
@@ -192,12 +193,13 @@ async function resolveRulesOverride(urlParams, fetchJson, logger) {
       );
 
       if (presetFiles) {
-        const rulesFile = findRulesFileFromGameSeed(presetFiles, gameParam, seedParam, logger);
+        const rulesFile = findRulesFileFromGameSeed(presetFiles, gameParam, seedParam, playerParam, logger);
         if (rulesFile) {
           rulesOverride = rulesFile;
+          const playerInfo = playerParam ? ` player="${playerParam}"` : '';
           logger.info(
             'init',
-            `Rules file determined from game="${gameParam}" and seed="${seedParam}": ${rulesFile}`
+            `Rules file determined from game="${gameParam}" seed="${seedParam}"${playerInfo}: ${rulesFile}`
           );
         }
       }
@@ -224,8 +226,16 @@ async function resolveRulesOverride(urlParams, fetchJson, logger) {
 
 /**
  * Finds rules file from preset_files.json based on game and seed
+ *
+ * For multiworld games (game="multiworld"):
+ *   - If playerParam is provided: returns the player-specific rules file (e.g., AP_seed_P1_rules.json)
+ *   - If playerParam is not provided: returns the combined multiworld rules file (e.g., AP_seed_rules.json)
+ *
+ * For single-player games:
+ *   - Returns the standard rules file (e.g., AP_seed_rules.json)
+ *   - playerParam is ignored for non-multiworld games
  */
-function findRulesFileFromGameSeed(presetFiles, gameParam, seedParam, logger) {
+function findRulesFileFromGameSeed(presetFiles, gameParam, seedParam, playerParam, logger) {
   let gameEntry = null;
   let gameKey = null;
 
@@ -248,9 +258,50 @@ function findRulesFileFromGameSeed(presetFiles, gameParam, seedParam, logger) {
     // Find the folder with matching seed number
     for (const [folderName, folderData] of Object.entries(gameEntry.folders)) {
       if (folderData.seed && String(folderData.seed) === String(seedParam)) {
-        // Look for rules.json file in the files array
+        // Check if this is a multiworld seed (has games array)
+        const isMultiworld = folderData.games && Array.isArray(folderData.games) && folderData.games.length > 1;
+
         if (folderData.files && Array.isArray(folderData.files)) {
-          const rulesFileName = folderData.files.find(file => file.endsWith('_rules.json'));
+          let rulesFileName = null;
+
+          if (isMultiworld && playerParam) {
+            // For multiworld with player specified, find player-specific rules file
+            // playerParam can be player number (e.g., "1") or player name (e.g., "Player1")
+            const playerNumber = parseInt(playerParam);
+            const isPlayerNumber = !isNaN(playerNumber) && String(playerNumber) === playerParam;
+
+            if (isPlayerNumber) {
+              // Look for _P{number}_rules.json
+              rulesFileName = folderData.files.find(file =>
+                file.includes(`_P${playerParam}_rules.json`)
+              );
+            } else {
+              // Look for player by name in games array, then find their rules file
+              const playerInfo = folderData.games.find(g =>
+                g.name && g.name.toLowerCase() === playerParam.toLowerCase()
+              );
+              if (playerInfo && playerInfo.player) {
+                rulesFileName = folderData.files.find(file =>
+                  file.includes(`_P${playerInfo.player}_rules.json`)
+                );
+              }
+            }
+
+            if (!rulesFileName) {
+              logger.warn(
+                'init',
+                `No player-specific rules file found for game="${gameParam}" seed="${seedParam}" player="${playerParam}"`
+              );
+              return null;
+            }
+          } else {
+            // For non-multiworld or multiworld without player specified, find standard rules file
+            // Standard rules file ends with _rules.json but doesn't have _P{number}_ in the name
+            rulesFileName = folderData.files.find(file =>
+              file.endsWith('_rules.json') && !file.includes('_P')
+            );
+          }
+
           if (rulesFileName) {
             return `./presets/${gameKey}/${folderName}/${rulesFileName}`;
           }
@@ -258,9 +309,10 @@ function findRulesFileFromGameSeed(presetFiles, gameParam, seedParam, logger) {
       }
     }
 
+    const playerInfo = playerParam ? ` player="${playerParam}"` : '';
     logger.warn(
       'init',
-      `No rules file found for game="${gameParam}" with seed="${seedParam}"`
+      `No rules file found for game="${gameParam}" with seed="${seedParam}"${playerInfo}`
     );
   } else {
     logger.warn(
