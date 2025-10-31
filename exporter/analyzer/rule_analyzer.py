@@ -53,9 +53,9 @@ class RuleAnalyzer(ASTVisitorMixin, ast.NodeVisitor):
 
         # Initialize helper components
         self.expression_resolver = ExpressionResolver(
-            closure_vars, rule_func, player_context
+            self.closure_vars, self.rule_func, self.player_context
         )
-        self.binary_op_processor = BinaryOpProcessor(self.expression_resolver, game_handler)
+        self.binary_op_processor = BinaryOpProcessor(self.expression_resolver, self.game_handler)
 
     def log_debug(self, message: str):
         """

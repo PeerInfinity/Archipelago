@@ -10,7 +10,7 @@ import ast
 import logging
 from typing import Any, Dict, Optional, List
 
-from .utils import make_json_serializable
+from .utils import make_json_serializable, is_simple_value
 
 
 class ASTVisitorMixin:
@@ -154,7 +154,8 @@ class ASTVisitorMixin:
 
                     # Try to resolve the variable
                     resolved_value = self.expression_resolver.resolve_variable(arg['name'])
-                    if resolved_value is not None:
+                    if resolved_value is not None and is_simple_value(resolved_value):
+                        # Only create constant for simple values
                         # Handle enum values - extract the numeric value
                         if hasattr(resolved_value, 'value'):
                             final_value = resolved_value.value
@@ -165,12 +166,13 @@ class ASTVisitorMixin:
                         logging.debug(f"Resolved argument variable '{arg['name']}' to {final_value}")
                         resolved_args.append({'type': 'constant', 'value': final_value})
                     else:
-                        # Keep unresolved name as-is
+                        # Keep unresolved or complex objects as name references
                         resolved_args.append(arg)
                 elif arg and arg.get('type') == 'attribute':
                     # Try to resolve attribute expressions like HatType.BREWING
                     resolved_value = self.expression_resolver.resolve_expression(arg)
-                    if resolved_value is not None:
+                    if resolved_value is not None and is_simple_value(resolved_value):
+                        # Only create constant for simple values
                         # Handle enum values - extract the numeric value
                         if hasattr(resolved_value, 'value'):
                             final_value = resolved_value.value
@@ -181,7 +183,7 @@ class ASTVisitorMixin:
                         logging.debug(f"Resolved argument attribute to {final_value}")
                         resolved_args.append({'type': 'constant', 'value': final_value})
                     else:
-                        # Keep unresolved attribute as-is
+                        # Keep unresolved or complex objects as attribute references
                         resolved_args.append(arg)
                 else:
                     resolved_args.append(arg)
@@ -321,7 +323,8 @@ class ASTVisitorMixin:
                     if arg and arg.get('type') == 'name':
                         # Try to resolve the variable
                         resolved_value = self.expression_resolver.resolve_variable(arg['name'])
-                        if resolved_value is not None:
+                        if resolved_value is not None and is_simple_value(resolved_value):
+                            # Only create constant for simple values
                             # Handle enum values - extract the numeric value
                             if hasattr(resolved_value, 'value'):
                                 final_value = resolved_value.value
@@ -332,12 +335,13 @@ class ASTVisitorMixin:
                             logging.debug(f"Resolved state method argument variable '{arg['name']}' to {final_value}")
                             resolved_args.append({'type': 'constant', 'value': final_value})
                         else:
-                            # Keep unresolved name as-is
+                            # Keep unresolved or complex objects as name references
                             resolved_args.append(arg)
                     elif arg and arg.get('type') == 'binary_op':
                         # Try to resolve binary operations like i+1
                         resolved_value = self.expression_resolver.resolve_expression(arg)
-                        if resolved_value is not None:
+                        if resolved_value is not None and is_simple_value(resolved_value):
+                            # Only create constant for simple values
                             # Ensure the resolved value is JSON-serializable
                             resolved_value = make_json_serializable(resolved_value)
                             logging.debug(f"Resolved state method binary_op '{arg}' to {resolved_value}")
@@ -348,7 +352,8 @@ class ASTVisitorMixin:
                     elif arg and arg.get('type') == 'attribute':
                         # Try to resolve attribute expressions like HatType.BREWING
                         resolved_value = self.expression_resolver.resolve_expression(arg)
-                        if resolved_value is not None:
+                        if resolved_value is not None and is_simple_value(resolved_value):
+                            # Only create constant for simple values
                             # Handle enum values - extract the numeric value
                             if hasattr(resolved_value, 'value'):
                                 final_value = resolved_value.value
@@ -359,7 +364,7 @@ class ASTVisitorMixin:
                             logging.debug(f"Resolved state method argument attribute to {final_value}")
                             resolved_args.append({'type': 'constant', 'value': final_value})
                         else:
-                            # Keep unresolved attribute as-is
+                            # Keep unresolved or complex objects as attribute references
                             resolved_args.append(arg)
                     elif arg and arg.get('type') == 'list':
                         # Recursively resolve list elements (e.g., [iname.double, iname.roc_wing])
@@ -371,7 +376,8 @@ class ASTVisitorMixin:
                             if element and element.get('type') == 'attribute':
                                 # Try to resolve the attribute
                                 resolved_value = self.expression_resolver.resolve_expression(element)
-                                if resolved_value is not None:
+                                if resolved_value is not None and is_simple_value(resolved_value):
+                                    # Only add to list if it's a simple value
                                     # Handle enum values
                                     if hasattr(resolved_value, 'value'):
                                         final_value = resolved_value.value
@@ -381,7 +387,7 @@ class ASTVisitorMixin:
                                     final_value = make_json_serializable(final_value)
                                     resolved_list.append(final_value)
                                 else:
-                                    # Could not resolve this element
+                                    # Could not resolve or complex object
                                     all_resolved = False
                                     break
                             elif element and element.get('type') == 'constant':
@@ -390,7 +396,8 @@ class ASTVisitorMixin:
                             elif element and element.get('type') == 'name':
                                 # Try to resolve the name
                                 resolved_value = self.expression_resolver.resolve_variable(element.get('name'))
-                                if resolved_value is not None:
+                                if resolved_value is not None and is_simple_value(resolved_value):
+                                    # Only add to list if it's a simple value
                                     if hasattr(resolved_value, 'value'):
                                         final_value = resolved_value.value
                                     else:
@@ -398,6 +405,7 @@ class ASTVisitorMixin:
                                     final_value = make_json_serializable(final_value)
                                     resolved_list.append(final_value)
                                 else:
+                                    # Could not resolve or complex object
                                     all_resolved = False
                                     break
                             else:

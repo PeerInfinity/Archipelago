@@ -2,6 +2,7 @@
 
 from typing import Dict, Any, List, Callable, Optional
 from .base import BaseGameExportHandler
+from BaseClasses import ItemClassification
 import re
 import logging
 import inspect
@@ -297,33 +298,30 @@ class BlasphemousGameExportHandler(BaseGameExportHandler):
             'openedARLadder': {'type': 'helper', 'name': 'openedARLadder'},
             'brokeBotTCStatue': {'type': 'helper', 'name': 'brokeBotTCStatue'},
             'openedWotHPGate': {'type': 'helper', 'name': 'openedWotHPGate'},
-            
-            # Boss checks - map to has_boss_strength with specific boss names
-            'canBeatBrotherhoodBoss': {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'warden'}]},
-            'canBeatMercyBoss': {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'ten-piedad'}]},
-            'canBeatConventBoss': {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'charred-visage'}]},
-            'canBeatGrievanceBoss': {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'tres-angustias'}]},
-            'canBeatBridgeBoss': {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'esdras'}]},
-            'canBeatMothersBoss': {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'melquiades'}]},
-            'canBeatCanvasesBoss': {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'exposito'}]},
-            'canBeatPrisonBoss': {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'quirce'}]},
-            'canBeatRooftopsBoss': {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'crisanta'}]},
-            'canBeatOssuaryBoss': {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'isidora'}]},
-            'canBeatMourningBoss': {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'sierpes'}]},
-            'canBeatGraveyardBoss': {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'amanecida'}]},
-            'canBeatJondoBoss': {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'amanecida'}]},
-            'canBeatPatioBoss': {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'amanecida'}]},
-            'canBeatWallBoss': {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'amanecida'}]},
-            'canBeatHallBoss': {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'laudes'}]},
-            'canBeatPerpetua': {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'perpetua'}]},
-            'canBeatLegionary': {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'legionary'}]},
-            
+
+            # Boss checks - removed hardcoded mappings, let them fall through to method analysis
+            # The actual methods like can_beat_mercy_boss contain the full logic with region checks
+
             # Other items
             'masks': {'type': 'item_check', 'item': 'Mask'},
         }
         
         if rule_name in string_rule_expansions:
             return string_rule_expansions[rule_name]
+
+        # Try to find the method in the BlasRules string_rules mapping
+        if self.string_rules_map and rule_name in self.string_rules_map:
+            method = self.string_rules_map[rule_name]
+            if callable(method):
+                # Analyze the method to get its logic
+                from ..analyzer import analyze_rule
+                analyzed = analyze_rule(
+                    rule_func=method,
+                    game_handler=self,
+                    player_context=self.player
+                )
+                if analyzed and analyzed.get('type') != 'error':
+                    return analyzed
 
         # If not found, try the self.method pattern
         return self._expand_self_helper({'name': f'self.{rule_name}'})
@@ -761,3 +759,73 @@ class BlasphemousGameExportHandler(BaseGameExportHandler):
             'type': 'generic_rule',
             'description': 'Blasphemous-specific rule that needs manual implementation'
         }
+
+    def get_item_data(self, world) -> Dict[str, Dict[str, Any]]:
+        """
+        Return Blasphemous-specific item table data including dynamically created event items.
+
+        Blasphemous creates event items at runtime for various game events that are not
+        in the static item_table. These need to be discovered by scanning placed items.
+        """
+        from worlds.blasphemous.Items import item_table
+
+        blasphemous_items_data = {}
+
+        # Process regular items from item_table
+        for item_name, item_data in item_table.items():
+            # Get groups this item belongs to
+            groups = [
+                group_name for group_name, items in getattr(world, 'item_name_groups', {}).items()
+                if item_name in items
+            ]
+
+            try:
+                item_classification = getattr(item_data, 'classification', None)
+                is_advancement = item_classification == ItemClassification.progression if item_classification else False
+                is_useful = item_classification == ItemClassification.useful if item_classification else False
+                is_trap = item_classification == ItemClassification.trap if item_classification else False
+            except Exception as e:
+                logger.debug(f"Could not determine classification for {item_name}: {e}")
+                is_advancement = False
+                is_useful = False
+                is_trap = False
+
+            blasphemous_items_data[item_name] = {
+                'name': item_name,
+                'id': getattr(item_data, 'code', None),
+                'groups': sorted(groups),
+                'advancement': is_advancement,
+                'useful': is_useful,
+                'trap': is_trap,
+                'event': False,  # Regular items are not events
+                'type': None,
+                'max_count': 1
+            }
+
+        # Handle dynamically created event items that are placed at locations
+        # These are created at runtime via create_event() but not in any static item_table
+        if hasattr(world, 'multiworld'):
+            multiworld = world.multiworld
+            player = world.player
+
+            for location in multiworld.get_locations(player):
+                if location.item and location.item.player == player:
+                    item_name = location.item.name
+                    # Check if this is an event item (no code/ID)
+                    if (location.item.code is None and
+                        item_name not in blasphemous_items_data and
+                        hasattr(location.item, 'classification')):
+
+                        blasphemous_items_data[item_name] = {
+                            'name': item_name,
+                            'id': None,
+                            'groups': ['Event'],
+                            'advancement': location.item.classification == ItemClassification.progression,
+                            'useful': location.item.classification == ItemClassification.useful,
+                            'trap': location.item.classification == ItemClassification.trap,
+                            'event': True,
+                            'type': 'Event',
+                            'max_count': 1
+                        }
+
+        return blasphemous_items_data

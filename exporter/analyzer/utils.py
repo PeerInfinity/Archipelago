@@ -5,6 +5,28 @@ import logging
 from typing import Any, Optional, List
 
 
+def is_simple_value(value: Any) -> bool:
+    """
+    Check if a value is a simple, JSON-serializable type.
+
+    Args:
+        value: The value to check
+
+    Returns:
+        True if the value is simple (None, bool, int, float, str, or a collection of simple values)
+    """
+    if value is None or isinstance(value, (bool, int, float, str)):
+        return True
+    elif isinstance(value, (list, tuple)):
+        return all(is_simple_value(item) for item in value)
+    elif isinstance(value, dict):
+        return all(is_simple_value(k) and is_simple_value(v) for k, v in value.items())
+    elif isinstance(value, (set, frozenset)):
+        return all(is_simple_value(item) for item in value)
+    else:
+        return False
+
+
 def make_json_serializable(value: Any) -> Any:
     """
     Convert a value to a JSON-serializable format.
@@ -28,12 +50,11 @@ def make_json_serializable(value: Any) -> Any:
         return [make_json_serializable(item) for item in value]
     elif isinstance(value, dict):
         return {k: make_json_serializable(v) for k, v in value.items()}
-    elif hasattr(value, '__dict__'):
-        # For objects with attributes, try to convert to a dict representation
-        return str(value)
     else:
-        # For other types, convert to string
-        return str(value)
+        # For non-serializable objects, just return them as-is
+        # Don't convert to string - that loses information
+        # The caller should handle these appropriately
+        return value
 
 
 class LambdaFinder(ast.NodeVisitor):

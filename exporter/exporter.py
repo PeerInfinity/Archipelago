@@ -474,12 +474,6 @@ def process_regions(multiworld, player: int, game_handler=None, location_name_to
             if not rule_func:
                 return None
 
-            # Check if game handler has an override for rule analysis (e.g., Blasphemous)
-            if game_handler and hasattr(game_handler, 'override_rule_analysis'):
-                override_result = game_handler.override_rule_analysis(rule_func, rule_target_name)
-                if override_result:
-                    return override_result
-
             # Create cache key from function identity and context
             cache_key = (
                 id(rule_func),
@@ -487,9 +481,17 @@ def process_regions(multiworld, player: int, game_handler=None, location_name_to
                 player
             )
 
-            # Check cache first
+            # Check cache first (before override to avoid recursive loops)
             if cache_key in _rule_analysis_cache:
                 return _rule_analysis_cache[cache_key]
+
+            # Check if game handler has an override for rule analysis (e.g., Blasphemous)
+            if game_handler and hasattr(game_handler, 'override_rule_analysis'):
+                override_result = game_handler.override_rule_analysis(rule_func, rule_target_name)
+                if override_result:
+                    # Cache the override result before returning
+                    _rule_analysis_cache[cache_key] = override_result
+                    return override_result
 
             # Extract closure variables from the rule function
             closure_vars = {}
@@ -1430,6 +1432,11 @@ def export_game_rules(multiworld, output_dir: str, filename_base: str, save_pres
         # Log but don't fail if preset saving fails
         logger.error(f"Error during preset saving: {e}")
         logger.exception("Exception details during preset saving:")
+
+    # Clear caches to prevent memory leaks and allow MultiWorld de-allocation
+    clear_rule_cache()
+    from .games import clear_handler_cache
+    clear_handler_cache()
 
     return results
 
