@@ -540,6 +540,16 @@ export function getStaticGameData(sm) {
         locationItemsMap.set(loc.name, {
           name: loc.item.name,
           player: loc.item.player,
+          advancement: loc.item.advancement, // Include advancement flag
+          type: loc.item.type, // Include item type
+        });
+      } else if (loc.item && typeof loc.item.name === 'string') {
+        // Handle items without player field (single-player games)
+        locationItemsMap.set(loc.name, {
+          name: loc.item.name,
+          player: loc.item.player, // May be undefined for single-player
+          advancement: loc.item.advancement,
+          type: loc.item.type,
         });
       } else if (loc.item) {
         locationItemsMap.set(loc.name, null);

@@ -60,6 +60,7 @@ export class SphereState {
     this.currentSphere = null; // {integerSphere, fractionalSphere, isComplete}
     this.sphereLogPath = null;
     this.logFormat = null; // 'verbose' or 'incremental'
+    this.rawData = []; // Raw sphere log entries for multiworld support
   }
 
   /**
@@ -68,6 +69,7 @@ export class SphereState {
   reset() {
     log('info', 'Resetting sphere state');
     this.sphereData = [];
+    this.rawData = [];
     this.currentSphere = null;
     this.sphereLogPath = null;
     this.logFormat = null;
@@ -193,6 +195,9 @@ export class SphereState {
       log('warn', 'No valid entries found in sphere log');
       return;
     }
+
+    // Store raw data for multiworld support
+    this.rawData = entries;
 
     // Detect format
     this.logFormat = this._detectFormat(entries[0]);
@@ -444,6 +449,55 @@ export class SphereState {
    */
   getSphereData() {
     return this.sphereData;
+  }
+
+  /**
+   * Get multiworld sphere data with locations from all players
+   * Returns sphere data augmented with cross-player location information
+   * @returns {Array} Array of sphere objects with allPlayersLocations field
+   */
+  getMultiworldSphereData() {
+    if (!this.rawData || !this.rawData.length) {
+      return this.sphereData;
+    }
+
+    // Map to store locations by sphere index for all players
+    const sphereMap = new Map();
+
+    // Process raw data to extract all players' locations per sphere
+    for (const entry of this.rawData) {
+      if (!entry.sphere_index || !entry.player_data) {
+        continue;
+      }
+
+      const sphereIndex = entry.sphere_index;
+
+      if (!sphereMap.has(sphereIndex)) {
+        sphereMap.set(sphereIndex, {});
+      }
+
+      const sphereEntry = sphereMap.get(sphereIndex);
+
+      // Extract locations for each player
+      for (const [playerId, playerData] of Object.entries(entry.player_data)) {
+        const locations = playerData.sphere_locations || [];
+        if (locations.length > 0) {
+          if (!sphereEntry[playerId]) {
+            sphereEntry[playerId] = [];
+          }
+          sphereEntry[playerId].push(...locations);
+        }
+      }
+    }
+
+    // Augment existing sphere data with cross-player locations
+    return this.sphereData.map(sphere => {
+      const allPlayersLocations = sphereMap.get(sphere.sphereIndex) || {};
+      return {
+        ...sphere,
+        allPlayersLocations // Object keyed by playerId with arrays of location names
+      };
+    });
   }
 
   /**

@@ -784,11 +784,9 @@ export class EventProcessor {
       }
 
       // Check the location
-      // For multiworld: Only add items if they're in our inventory delta (meaning they're for us)
-      // Items for other players won't be in our newItems, so we skip adding them to avoid "unknown item" warnings
-      const shouldAddItem = !itemName || newItems.hasOwnProperty(itemName);
+      // StateManager now automatically handles cross-player items (skips adding them to inventory)
       const locationRegion = locationDef?.parent_region_name || locationDef?.parent_region || locationDef?.region || null;
-      await this.checkLocationViaEvent(locationName, locationRegion, shouldAddItem);
+      await this.checkLocationViaEvent(locationName, locationRegion);
     }
 
     // Step 2: Add cross-player items (items we received from other players' locations)

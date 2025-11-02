@@ -29,6 +29,7 @@ export class SpoilerChecklistUI {
     this.isInitialized = false;
     this.sphereState = null; // Will be injected via public function
     this.dispatcher = null; // Will get from locations module
+    this.currentPlayerId = null; // Current player ID for multiworld support
 
     // Create and append root element
     this.getRootElement();
@@ -119,8 +120,27 @@ export class SpoilerChecklistUI {
         .location-row.with-region {
           grid-template-columns: auto auto 1fr auto;
         }
+        .cross-player-location-row {
+          opacity: 0.7;
+          font-style: italic;
+        }
+        .cross-player-location {
+          cursor: default;
+          color: #888;
+        }
+        .cross-player-location:hover {
+          text-decoration: none;
+        }
+        .cross-player-region {
+          color: #9C27B0;
+          font-weight: bold;
+        }
         .location-checkbox {
           cursor: pointer;
+        }
+        .location-checkbox:disabled {
+          cursor: not-allowed;
+          opacity: 0.5;
         }
         .location-name {
           cursor: pointer;
@@ -139,6 +159,14 @@ export class SpoilerChecklistUI {
         .location-item {
           font-style: italic;
           color: #aaa;
+        }
+        .cross-player-item {
+          color: #9C27B0;
+          font-weight: bold;
+        }
+        .cross-player-item::after {
+          content: " ➜";
+          font-size: 0.9em;
         }
         .location-name-green {
           color: #4CAF50;
@@ -209,9 +237,11 @@ export class SpoilerChecklistUI {
       // Create a wrapper object that mimics the public API
       this.sphereState = {
         getSphereData: () => sphereStateInstance.getSphereData(),
+        getMultiworldSphereData: () => sphereStateInstance.getMultiworldSphereData(),
         getCurrentSphere: () => sphereStateInstance.getCurrentSphere(),
         getCurrentIntegerSphere: () => sphereStateInstance.getCurrentIntegerSphere(),
         getCurrentFractionalSphere: () => sphereStateInstance.getCurrentFractionalSphere(),
+        getCurrentPlayerId: () => sphereStateInstance.currentPlayerId,
       };
     } catch (error) {
       log('error', 'Failed to get sphereState:', error);
@@ -233,10 +263,17 @@ export class SpoilerChecklistUI {
       log('error', 'Error loading settings:', error);
     }
 
+    // Get current player ID from static data
+    this._updateCurrentPlayerId();
+
     // Subscribe to events
     eventBus.subscribe('stateManager:snapshotUpdated', debounce(() => this.updateDisplay(), 50), 'spoilerChecklist');
     eventBus.subscribe('sphereState:dataLoaded', () => this.updateDisplay(), 'spoilerChecklist');
     eventBus.subscribe('sphereState:currentSphereChanged', () => this.updateDisplay(), 'spoilerChecklist');
+    eventBus.subscribe('stateManager:rulesLoaded', () => {
+      this._updateCurrentPlayerId();
+      this.updateDisplay();
+    }, 'spoilerChecklist');
     eventBus.subscribe('settings:changed', async ({ key }) => {
       if (key === '*' || key.startsWith('moduleSettings.commonUI.showLocationItems')) {
         this.showLocationItems = await settingsManager.getSetting('moduleSettings.commonUI.showLocationItems', false);
@@ -256,6 +293,41 @@ export class SpoilerChecklistUI {
     // Event bus subscriptions are automatically cleaned up by panel destroy
   }
 
+  /**
+   * Update the current player ID from static data
+   * For multiworld games, this identifies which player's perspective we're viewing
+   * @private
+   */
+  _updateCurrentPlayerId() {
+    const staticData = stateManager.getStaticData();
+    if (!staticData) {
+      this.currentPlayerId = null;
+      return;
+    }
+
+    // Try to get player ID from game_info (multiworld format)
+    if (staticData.game_info) {
+      const gameInfoKeys = Object.keys(staticData.game_info);
+      if (gameInfoKeys.length === 1) {
+        this.currentPlayerId = gameInfoKeys[0];
+        log('info', `Detected multiworld player ID: ${this.currentPlayerId}`);
+        return;
+      }
+    }
+
+    // Fallback to player field or first player from player_names
+    if (staticData.player) {
+      this.currentPlayerId = String(staticData.player);
+    } else if (staticData.player_names) {
+      const playerIds = Object.keys(staticData.player_names);
+      if (playerIds.length > 0) {
+        this.currentPlayerId = playerIds[0];
+      }
+    }
+
+    log('info', `Current player ID: ${this.currentPlayerId || 'unknown'}`);
+  }
+
   updateDisplay() {
     if (!this.isInitialized || !this.sphereState) {
       return;
@@ -263,7 +335,7 @@ export class SpoilerChecklistUI {
 
     log('info', '[SpoilerChecklistUI] Updating display...');
 
-    const sphereData = this.sphereState.getSphereData();
+    const sphereData = this.sphereState.getMultiworldSphereData();
     const currentSphere = this.sphereState.getCurrentSphere();
     const snapshot = stateManager.getLatestStateSnapshot();
     const staticData = stateManager.getStaticData();
@@ -372,6 +444,7 @@ export class SpoilerChecklistUI {
   }
 
   renderLocations(container, sphere, checkedLocations, snapshot, staticData, snapshotInterface, indentLevel) {
+    // Render current player's locations
     for (const locationName of sphere.locations) {
       // Use Map.get() instead of Object.values().find()
       const locationData = staticData.locations?.get(locationName);
@@ -382,6 +455,22 @@ export class SpoilerChecklistUI {
 
       const row = this.renderLocationRow(locationName, locationData, checkedLocations, snapshot, staticData, snapshotInterface);
       container.appendChild(row);
+    }
+
+    // Render cross-player locations (from other players' worlds)
+    if (sphere.allPlayersLocations && this.currentPlayerId) {
+      for (const [playerId, locations] of Object.entries(sphere.allPlayersLocations)) {
+        // Skip current player's locations (already rendered above)
+        if (playerId === this.currentPlayerId) {
+          continue;
+        }
+
+        // Render each cross-player location
+        for (const locationName of locations) {
+          const row = this.renderCrossPlayerLocationRow(locationName, playerId, staticData);
+          container.appendChild(row);
+        }
+      }
     }
   }
 
@@ -446,7 +535,74 @@ export class SpoilerChecklistUI {
         const itemAtLocation = staticData.locationItems?.get(locationName);
         if (itemAtLocation && itemAtLocation.name) {
           itemSpan.textContent = itemAtLocation.name;
+
+          // Check if item is for a different player (multiworld)
+          if (this.currentPlayerId && itemAtLocation.player) {
+            const itemPlayerId = String(itemAtLocation.player);
+            if (itemPlayerId !== this.currentPlayerId) {
+              itemSpan.classList.add('cross-player-item');
+              itemSpan.title = `Item for Player ${itemPlayerId}`;
+            }
+          }
         }
+      }
+
+      row.appendChild(itemSpan);
+    }
+
+    return row;
+  }
+
+  /**
+   * Render a location row for a cross-player location (from another player's world)
+   * @param {string} locationName - Name of the location
+   * @param {string} playerId - ID of the player who owns this location
+   * @param {object} staticData - Static game data
+   * @returns {HTMLElement} The row element
+   */
+  renderCrossPlayerLocationRow(locationName, playerId, staticData) {
+    const row = document.createElement('div');
+    row.className = 'location-row cross-player-location-row';
+    if (this.showRegionColumn) {
+      row.classList.add('with-region');
+    }
+
+    // Checkbox (disabled for cross-player locations)
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.className = 'location-checkbox';
+    checkbox.disabled = true;
+    checkbox.checked = false;
+    row.appendChild(checkbox);
+
+    // Region/Player name column
+    if (this.showRegionColumn) {
+      const playerSpan = document.createElement('span');
+      playerSpan.className = 'region-link cross-player-region';
+      const playerName = staticData.player_names?.[playerId] || `Player ${playerId}`;
+      playerSpan.textContent = playerName;
+      playerSpan.title = `Location in ${playerName}'s world`;
+      row.appendChild(playerSpan);
+    }
+
+    // Location name (plain text, not interactive)
+    const locationSpan = document.createElement('span');
+    locationSpan.className = 'location-name cross-player-location';
+    locationSpan.textContent = locationName;
+    locationSpan.title = `Location in ${staticData.player_names?.[playerId] || `Player ${playerId}`}'s world`;
+    row.appendChild(locationSpan);
+
+    // Item name (if showing items)
+    if (this.showItemColumn) {
+      const itemSpan = document.createElement('span');
+      itemSpan.className = 'location-item';
+
+      // Try to get item info if available
+      // Note: We might not have this info since it's from another player's world
+      // But the sphere log might have told us what item is there
+      if (this.showLocationItems) {
+        // For now, leave empty since we don't have item data for other players' locations
+        itemSpan.textContent = '';
       }
 
       row.appendChild(itemSpan);
