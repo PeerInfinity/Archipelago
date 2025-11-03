@@ -452,7 +452,127 @@ def generate_multiworld_markdown(chart_data: List[Tuple[str, str, int, int, int,
     return md_content
 
 
-def generate_summary_chart(minimal_data, full_data, multiplayer_data, multiworld_data=None) -> str:
+def extract_multitemplate_chart_data(results: Dict[str, Any]) -> Dict[str, List[Tuple[str, str, int, float, float, bool, bool]]]:
+    """
+    Extract multitemplate test chart data from results.
+    Returns dict of {game_name: [(template_name, pass_fail, gen_error_count, sphere_reached, max_spheres, has_custom_exporter, has_custom_game_logic), ...]}
+    """
+    chart_data = {}
+
+    if 'results' not in results:
+        return chart_data
+
+    # In multitemplate mode, results are nested by game name → template filename
+    for game_name, templates in results['results'].items():
+        if not isinstance(templates, dict):
+            continue
+
+        game_templates = []
+        for template_name, template_data in templates.items():
+            # Handle single seed results
+            world_info = template_data.get('world_info', {})
+
+            original_pass_fail = template_data.get('spoiler_test', {}).get('pass_fail', 'unknown')
+            gen_error_count = template_data.get('generation', {}).get('error_count', 0)
+            sphere_reached = template_data.get('spoiler_test', {}).get('sphere_reached', 0)
+            max_spheres = template_data.get('spoiler_test', {}).get('total_spheres', 0)
+            has_custom_exporter = world_info.get('has_custom_exporter', False)
+            has_custom_game_logic = world_info.get('has_custom_game_logic', False)
+
+            # Determine pass/fail
+            if gen_error_count > 0:
+                pass_fail = 'Generation Failed'
+            elif max_spheres == 0:
+                pass_fail = 'No Spheres'
+            elif original_pass_fail.lower() == 'passed':
+                pass_fail = 'Passed'
+            else:
+                pass_fail = original_pass_fail.title()
+
+            game_templates.append((template_name, pass_fail, gen_error_count, sphere_reached, max_spheres,
+                                 has_custom_exporter, has_custom_game_logic))
+
+        if game_templates:
+            chart_data[game_name] = sorted(game_templates, key=lambda x: x[0])  # Sort by template name
+
+    return chart_data
+
+
+def generate_multitemplate_markdown(chart_data: Dict[str, List[Tuple[str, str, int, float, float, bool, bool]]],
+                                   metadata: Dict[str, Any], subtitle: str) -> str:
+    """Generate a markdown table for multitemplate test data."""
+    md_content = "# Archipelago Multi-Template Test Results\n\n"
+    md_content += f"## {subtitle}\n\n"
+
+    # Add link to summary document
+    md_content += "[← Back to Test Results Summary](./test-results-summary.md)\n\n"
+
+    # Add generated timestamp
+    md_content += f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
+
+    # Add metadata if available
+    if metadata and ('created' in metadata or 'last_updated' in metadata):
+        if 'created' in metadata:
+            md_content += f"**Source Data Created:** {metadata.get('created', 'Unknown')}\n\n"
+        if 'last_updated' in metadata:
+            md_content += f"**Source Data Last Updated:** {metadata.get('last_updated', 'Unknown')}\n\n"
+
+    # Calculate statistics
+    if chart_data:
+        total_templates = sum(len(templates) for templates in chart_data.values())
+        total_passed = sum(1 for templates in chart_data.values()
+                          for _, pf, *_ in templates if pf.lower() == 'passed')
+
+        md_content += "## Summary\n\n"
+        md_content += f"- **Total Games:** {len(chart_data)}\n"
+        md_content += f"- **Total Template Configurations:** {total_templates}\n"
+        md_content += f"- **Passed Configurations:** {total_passed} ({total_passed/total_templates*100:.1f}%)\n"
+        md_content += f"- **Failed Configurations:** {total_templates - total_passed} ({(total_templates-total_passed)/total_templates*100:.1f}%)\n\n"
+
+    # Generate tables for each game
+    for game_name in sorted(chart_data.keys()):
+        templates = chart_data[game_name]
+        passed = sum(1 for _, pf, *_ in templates if pf.lower() == 'passed')
+        total = len(templates)
+
+        md_content += f"## {game_name}\n\n"
+        md_content += f"**Results:** {passed}/{total} passed ({passed/total*100:.1f}%)\n\n"
+
+        md_content += "| Template | Test Result | Gen Errors | Sphere Reached | Max Spheres | Progress | Custom Exporter | Custom GameLogic |\n"
+        md_content += "|----------|-------------|------------|----------------|-------------|----------|-----------------|------------------|\n"
+
+        for (template_name, pass_fail, gen_error_count, sphere_reached, max_spheres,
+             has_custom_exporter, has_custom_game_logic) in templates:
+
+            if max_spheres > 0:
+                progress = f"{sphere_reached/max_spheres*100:.1f}%"
+            else:
+                progress = "N/A"
+
+            result_display = "✅ Passed" if pass_fail.lower() == 'passed' else "❌ " + pass_fail
+            exporter_indicator = "✅" if has_custom_exporter else "⚫"
+            game_logic_indicator = "✅" if has_custom_game_logic else "⚫"
+
+            md_content += f"| {template_name} | {result_display} | {gen_error_count} | {sphere_reached:g} | {max_spheres:g} | {progress} | {exporter_indicator} | {game_logic_indicator} |\n"
+
+        md_content += "\n"
+
+    if not chart_data:
+        md_content += "No multi-template test data available.\n\n"
+
+    md_content += "## Notes\n\n"
+    md_content += "- **Gen Errors:** Number of errors during world generation\n"
+    md_content += "- **Sphere Reached:** The logical sphere the test reached before completion/failure\n"
+    md_content += "- **Max Spheres:** Total logical spheres available in the game\n"
+    md_content += "- **Progress:** Percentage of logical spheres completed\n"
+    md_content += "- **Custom Exporter:** ✅ Has custom Python exporter script, ⚫ Uses generic exporter\n"
+    md_content += "- **Custom GameLogic:** ✅ Has custom JavaScript game logic, ⚫ Uses generic logic\n\n"
+    md_content += "**Pass Criteria:** Generation errors = 0, Max spheres > 0, Spoiler test completed successfully\n"
+
+    return md_content
+
+
+def generate_summary_chart(minimal_data, full_data, multiplayer_data, multiworld_data=None, multitemplate_minimal_data=None, multitemplate_full_data=None) -> str:
     """Generate a combined summary chart with all test results."""
     md_content = "# Archipelago Template Test Results Summary\n\n"
     md_content += f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
@@ -562,6 +682,40 @@ def generate_summary_chart(minimal_data, full_data, multiplayer_data, multiworld
         else:
             md_content += f"| {game} | {format_result(minimal_result)} | {format_result(full_result)} | {format_result(multiplayer_result)} |\n"
 
+    # Add Multi-Template Results section if data exists
+    if multitemplate_minimal_data or multitemplate_full_data:
+        md_content += "\n## Multi-Template Test Results\n\n"
+        md_content += "These tests check multiple template configurations for the same game.\n\n"
+
+        # Collect all games with multitemplate data
+        mt_games = set()
+        if multitemplate_minimal_data:
+            mt_games.update(multitemplate_minimal_data.keys())
+        if multitemplate_full_data:
+            mt_games.update(multitemplate_full_data.keys())
+
+        md_content += "| Game Name | Minimal Link (Templates Passed) | Full Link (Templates Passed) |\n"
+        md_content += "|-----------|----------------------------------|-------------------------------|\n"
+
+        for game in sorted(mt_games):
+            # Calculate stats for minimal
+            mtmin_link = "❓ N/A"
+            if multitemplate_minimal_data and game in multitemplate_minimal_data:
+                templates = multitemplate_minimal_data[game]
+                passed = sum(1 for _, pf, *_ in templates if pf.lower() == 'passed')
+                total = len(templates)
+                mtmin_link = f"[{passed}/{total} passed](./test-results-multitemplate-minimal.md#{game.lower().replace(' ', '-')})"
+
+            # Calculate stats for full
+            mtfull_link = "❓ N/A"
+            if multitemplate_full_data and game in multitemplate_full_data:
+                templates = multitemplate_full_data[game]
+                passed = sum(1 for _, pf, *_ in templates if pf.lower() == 'passed')
+                total = len(templates)
+                mtfull_link = f"[{passed}/{total} passed](./test-results-multitemplate-full.md#{game.lower().replace(' ', '-')})"
+
+            md_content += f"| {game} | {mtmin_link} | {mtfull_link} |\n"
+
     return md_content
 
 
@@ -569,7 +723,7 @@ def main():
     parser = argparse.ArgumentParser(description='Generate test results charts from template test results')
     parser.add_argument('--input-file', type=str, help='Input JSON file path (processes only this file)')
     parser.add_argument('--output-file', type=str, help='Output markdown file path')
-    parser.add_argument('--test-type', type=str, choices=['minimal', 'full', 'multiplayer', 'multiworld'],
+    parser.add_argument('--test-type', type=str, choices=['minimal', 'full', 'multiplayer', 'multiworld', 'multitemplate-minimal', 'multitemplate-full'],
                        help='Test type when using --input-file')
 
     args = parser.parse_args()
@@ -609,6 +763,10 @@ def main():
                 'seed': results.get('seed')
             }
             md_content = generate_multiplayer_markdown(chart_data, metadata, top_level)
+        elif args.test_type in ['multitemplate-minimal', 'multitemplate-full']:
+            chart_data = extract_multitemplate_chart_data(results)
+            subtitle = "Multi-Template Test - Advancement Items Only" if args.test_type == 'multitemplate-minimal' else "Multi-Template Test - All Locations"
+            md_content = generate_multitemplate_markdown(chart_data, metadata, subtitle)
         else:  # multiworld
             chart_data = extract_multiworld_chart_data(results)
             # Extract top-level metadata for multiworld
@@ -709,11 +867,47 @@ def main():
     else:
         print(f"Warning: Multiworld test results not found: {mw_input}")
 
+    # Load multitemplate minimal test results
+    mtmin_input = os.path.join(project_root, 'scripts/output-multitemplate-minimal/test-results-multitemplate-minimal.json')
+    mtmin_output = os.path.join(project_root, 'docs/json/developer/test-results/test-results-multitemplate-minimal.md')
+
+    mtmin_data = None
+    if os.path.exists(mtmin_input):
+        print(f"Processing multitemplate minimal test results...")
+        mtmin_results = load_test_results(mtmin_input)
+        mtmin_data = extract_multitemplate_chart_data(mtmin_results)
+        mtmin_md = generate_multitemplate_markdown(mtmin_data, mtmin_results.get('metadata', {}),
+                                                   "Multi-Template Test - Advancement Items Only")
+        os.makedirs(os.path.dirname(mtmin_output), exist_ok=True)
+        with open(mtmin_output, 'w') as f:
+            f.write(mtmin_md)
+        print(f"✓ Multitemplate minimal chart saved to: {mtmin_output}")
+    else:
+        print(f"Info: Multitemplate minimal test results not found: {mtmin_input}")
+
+    # Load multitemplate full test results
+    mtfull_input = os.path.join(project_root, 'scripts/output-multitemplate-full/test-results-multitemplate-full.json')
+    mtfull_output = os.path.join(project_root, 'docs/json/developer/test-results/test-results-multitemplate-full.md')
+
+    mtfull_data = None
+    if os.path.exists(mtfull_input):
+        print(f"Processing multitemplate full test results...")
+        mtfull_results = load_test_results(mtfull_input)
+        mtfull_data = extract_multitemplate_chart_data(mtfull_results)
+        mtfull_md = generate_multitemplate_markdown(mtfull_data, mtfull_results.get('metadata', {}),
+                                                    "Multi-Template Test - All Locations")
+        os.makedirs(os.path.dirname(mtfull_output), exist_ok=True)
+        with open(mtfull_output, 'w') as f:
+            f.write(mtfull_md)
+        print(f"✓ Multitemplate full chart saved to: {mtfull_output}")
+    else:
+        print(f"Info: Multitemplate full test results not found: {mtfull_input}")
+
     # Generate summary chart
-    if minimal_data or full_data or mp_data or mw_data:
+    if minimal_data or full_data or mp_data or mw_data or mtmin_data or mtfull_data:
         print(f"Generating summary chart...")
         summary_output = os.path.join(project_root, 'docs/json/developer/test-results/test-results-summary.md')
-        summary_md = generate_summary_chart(minimal_data, full_data, mp_data, mw_data)
+        summary_md = generate_summary_chart(minimal_data, full_data, mp_data, mw_data, mtmin_data, mtfull_data)
         with open(summary_output, 'w') as f:
             f.write(summary_md)
         print(f"✓ Summary chart saved to: {summary_output}")

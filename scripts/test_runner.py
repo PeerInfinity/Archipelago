@@ -111,13 +111,17 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
         print(f"Running Generate.py for {template_name}...")
         # Ensure template name has .yaml extension for the file path
         template_file = template_name if template_name.endswith(('.yaml', '.yml')) else f"{template_name}.yaml"
-        template_path = f"Templates/{template_file}"
+        # Use the provided templates_dir, which is relative to Players/ directory
+        template_path = os.path.join(templates_dir, template_file)
         generate_cmd = [
             "python", "Generate.py",
             "--weights_file_path", template_path,
             "--multi", "1",
             "--seed", seed
         ]
+
+        # Show the command being run
+        print(f"  Command: {' '.join(generate_cmd)}")
 
         # Time the generation process
         gen_start_time = time.time()
@@ -164,7 +168,10 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
         return result
 
     # Check if rules file exists (files are actually in frontend/presets/)
-    rules_path = f"./presets/{game_name}/{seed_id}/{seed_id}_rules.json"
+    # Use world_directory from world_info if available (for multitemplate mode),
+    # otherwise fall back to game_name
+    preset_dir = world_info.get('world_directory', game_name) if world_info else game_name
+    rules_path = f"./presets/{preset_dir}/{seed_id}/{seed_id}_rules.json"
     full_rules_path = os.path.join(project_root, 'frontend', rules_path.lstrip('./'))
     if not os.path.exists(full_rules_path):
         print(f"Rules file not found: {full_rules_path}")
@@ -202,8 +209,15 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
         if headed:
             multiplayer_cmd.append("--headed")
 
-        multiplayer_env['TEST_GAME'] = game_name
+        # Use world_directory for the test game parameter (same as rules file lookup)
+        test_game = preset_dir
+
+        multiplayer_env['TEST_GAME'] = test_game
         multiplayer_env['TEST_SEED'] = seed
+
+        # Show the command being run
+        print(f"  Command: {' '.join(multiplayer_cmd)}")
+        print(f"  Environment: TEST_GAME={test_game} TEST_SEED={seed}")
 
         # Time the multiplayer test process
         test_start_time = time.time()
@@ -249,11 +263,18 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
         # Spoiler test
         print("Running spoiler test...")
 
+        # Use world_directory for the test game parameter (same as rules file lookup)
+        test_game = preset_dir
+
         # Use npm run test:headed if --headed flag is set
         if headed:
-            spoiler_cmd = ["npm", "run", "test:headed", f"--mode=test-spoilers", f"--game={game_name}", f"--seed={seed}"]
+            spoiler_cmd = ["npm", "run", "test:headed", f"--mode=test-spoilers", f"--game={test_game}", f"--seed={seed}"]
         else:
-            spoiler_cmd = ["npm", "test", "--mode=test-spoilers", f"--game={game_name}", f"--seed={seed}"]
+            spoiler_cmd = ["npm", "test", "--mode=test-spoilers", f"--game={test_game}", f"--seed={seed}"]
+
+        # Show the command being run
+        print(f"  Command: {' '.join(spoiler_cmd)}")
+
         spoiler_env = os.environ.copy()
 
         # Time the spoiler test process
@@ -293,7 +314,8 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
             result['analysis']['first_error_line'] = "playwright-analysis.txt not found"
 
         # Read total spheres from spheres_log.jsonl file
-        spheres_log_path = os.path.join(project_root, 'frontend', 'presets', game_name, seed_id, f'{seed_id}_spheres_log.jsonl')
+        # Use preset_dir (world_directory) instead of game_name for correct path
+        spheres_log_path = os.path.join(project_root, 'frontend', 'presets', preset_dir, seed_id, f'{seed_id}_spheres_log.jsonl')
         total_spheres = count_total_spheres(spheres_log_path)
         result['spoiler_test']['total_spheres'] = total_spheres
 
@@ -302,26 +324,27 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
             result['spoiler_test']['sphere_reached'] = total_spheres
 
     # Get rules file size
-    rules_file_path = os.path.join(project_root, 'frontend', 'presets', game_name, seed_id, f'{seed_id}_rules.json')
+    # Use preset_dir (world_directory) instead of game_name for correct path
+    rules_file_path = os.path.join(project_root, 'frontend', 'presets', preset_dir, seed_id, f'{seed_id}_rules.json')
     try:
         if os.path.exists(rules_file_path):
             file_size_bytes = os.path.getsize(rules_file_path)
             file_size_mb = round(file_size_bytes / (1024 * 1024), 2)
             result['rules_file'] = {
-                'path': f'frontend/presets/{game_name}/{seed_id}/{seed_id}_rules.json',
+                'path': f'frontend/presets/{preset_dir}/{seed_id}/{seed_id}_rules.json',
                 'size_bytes': file_size_bytes,
                 'size_mb': file_size_mb
             }
         else:
             result['rules_file'] = {
-                'path': f'frontend/presets/{game_name}/{seed_id}/{seed_id}_rules.json',
+                'path': f'frontend/presets/{preset_dir}/{seed_id}/{seed_id}_rules.json',
                 'size_bytes': 0,
                 'size_mb': 0.0,
                 'note': 'File not found'
             }
     except OSError:
         result['rules_file'] = {
-            'path': f'frontend/presets/{game_name}/{seed_id}/{seed_id}_rules.json',
+            'path': f'frontend/presets/{preset_dir}/{seed_id}/{seed_id}_rules.json',
             'size_bytes': 0,
             'size_mb': 0.0,
             'note': 'Error reading file size'

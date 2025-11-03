@@ -42,7 +42,7 @@ from test_runner import (
 from seed_utils import get_seed_id as compute_seed_id
 
 
-def run_post_processing_scripts(project_root: str, results_file: str, multiplayer: bool = False, multiworld: bool = False):
+def run_post_processing_scripts(project_root: str, results_file: str, multiplayer: bool = False, multiworld: bool = False, multitemplate: bool = False):
     """Run post-processing scripts to update documentation and preset files."""
     print("\n=== Running Post-Processing Scripts ===")
 
@@ -192,6 +192,11 @@ def main():
         help='Test all players each time (not just the newly added player)'
     )
     parser.add_argument(
+        '--multitemplate',
+        action='store_true',
+        help='Run tests on multiple template configurations for the same game (requires --templates-dir)'
+    )
+    parser.add_argument(
         '--single-client',
         action='store_true',
         help='Use single-client mode for multiplayer tests (only valid with --multiplayer)'
@@ -234,6 +239,14 @@ def main():
 
     if args.multiworld_test_all_players and not args.multiworld:
         print("Error: --multiworld-test-all-players can only be used with --multiworld")
+        sys.exit(1)
+
+    if args.multitemplate and not args.templates_dir:
+        print("Error: --multitemplate requires --templates-dir to be specified")
+        sys.exit(1)
+
+    if args.multitemplate and (args.multiplayer or args.multiworld):
+        print("Error: --multitemplate cannot be used with --multiplayer or --multiworld")
         sys.exit(1)
 
     if args.retest and args.include_list is not None:
@@ -567,6 +580,15 @@ def main():
         elif args.multiplayer:
             # Use multiplayer-specific output directory and file name
             args.output_file = 'scripts/output-multiplayer/test-results-multiplayer.json'
+        elif args.multitemplate:
+            # Multitemplate mode - check extend_sphere_log_to_all_locations setting
+            host_config = read_host_yaml_config(project_root)
+            extend_sphere_log = host_config.get('general_options', {}).get('extend_sphere_log_to_all_locations', True)
+
+            if extend_sphere_log:
+                args.output_file = 'scripts/output-multitemplate-full/test-results-multitemplate-full.json'
+            else:
+                args.output_file = 'scripts/output-multitemplate-minimal/test-results-multitemplate-minimal.json'
         else:
             # Spoiler mode - check extend_sphere_log_to_all_locations setting
             host_config = read_host_yaml_config(project_root)
@@ -826,7 +848,22 @@ def main():
                     headed=args.headed
                 )
             
-            results['results'][yaml_file] = template_result
+            # Store results - in multitemplate mode, nest by game name → template filename
+            if args.multitemplate:
+                # Extract game name from template result
+                game_name = template_result.get('world_info', {}).get('game_name_from_yaml', 'Unknown')
+                # Remove .yaml extension from template filename for cleaner display
+                template_key = yaml_file.replace('.yaml', '')
+
+                # Initialize game entry if it doesn't exist
+                if game_name not in results['results']:
+                    results['results'][game_name] = {}
+
+                # Store template result under game → template
+                results['results'][game_name][template_key] = template_result
+            else:
+                # Normal mode - store by template filename
+                results['results'][yaml_file] = template_result
 
             # Save results after each template (incremental updates)
             # Merge with existing results and save
@@ -836,7 +873,7 @@ def main():
 
             # Run post-processing after each test if requested (do this BEFORE checking retest status)
             if args.post_process:
-                run_post_processing_scripts(project_root, results_file, args.multiplayer, args.multiworld)
+                run_post_processing_scripts(project_root, results_file, args.multiplayer, args.multiworld, args.multitemplate)
 
             # In retest mode, check if this test is now passing and stop if it still fails
             if args.retest:
@@ -995,11 +1032,28 @@ def main():
                 print(f"Single Seed Test Summary: {passed} passed, {failed} failed, 0 errors")
             else:
                 # Spoiler test summary
-                passed = sum(1 for r in results['results'].values()
-                            if r.get('spoiler_test', {}).get('pass_fail') == 'passed')
-                failed = sum(1 for r in results['results'].values()
-                            if r.get('spoiler_test', {}).get('pass_fail') == 'failed')
-                errors = len(yaml_files) - passed - failed
+                # In multitemplate mode, results are nested by game → template
+                # In normal mode, results are keyed by template filename
+                if args.multitemplate:
+                    # Flatten nested results for counting
+                    all_template_results = []
+                    for game_templates in results['results'].values():
+                        if isinstance(game_templates, dict):
+                            all_template_results.extend(game_templates.values())
+
+                    passed = sum(1 for r in all_template_results
+                                if r.get('spoiler_test', {}).get('pass_fail') == 'passed')
+                    failed = sum(1 for r in all_template_results
+                                if r.get('spoiler_test', {}).get('pass_fail') == 'failed')
+                    errors = len(yaml_files) - passed - failed
+                else:
+                    # Normal mode
+                    passed = sum(1 for r in results['results'].values()
+                                if r.get('spoiler_test', {}).get('pass_fail') == 'passed')
+                    failed = sum(1 for r in results['results'].values()
+                                if r.get('spoiler_test', {}).get('pass_fail') == 'failed')
+                    errors = len(yaml_files) - passed - failed
+
                 print(f"Single Seed Test Summary: {passed} passed, {failed} failed, {errors} errors")
     
     # Run post-processing scripts if requested (only if not already run after each test)
