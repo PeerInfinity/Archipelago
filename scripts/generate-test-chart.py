@@ -474,13 +474,17 @@ def extract_multitemplate_chart_data(results: Dict[str, Any]) -> Dict[str, List[
 
             original_pass_fail = template_data.get('spoiler_test', {}).get('pass_fail', 'unknown')
             gen_error_count = template_data.get('generation', {}).get('error_count', 0)
+            gen_error_type = template_data.get('generation', {}).get('error_type')
             sphere_reached = template_data.get('spoiler_test', {}).get('sphere_reached', 0)
             max_spheres = template_data.get('spoiler_test', {}).get('total_spheres', 0)
             has_custom_exporter = world_info.get('has_custom_exporter', False)
             has_custom_game_logic = world_info.get('has_custom_game_logic', False)
 
             # Determine pass/fail
-            if gen_error_count > 0:
+            # Check for FillError first - mark as invalid configuration
+            if gen_error_type == 'FillError':
+                pass_fail = 'Invalid'
+            elif gen_error_count > 0:
                 pass_fail = 'Generation Failed'
             elif max_spheres == 0:
                 pass_fail = 'No Spheres'
@@ -522,12 +526,16 @@ def generate_multitemplate_markdown(chart_data: Dict[str, List[Tuple[str, str, i
         total_templates = sum(len(templates) for templates in chart_data.values())
         total_passed = sum(1 for templates in chart_data.values()
                           for _, pf, *_ in templates if pf.lower() == 'passed')
+        total_invalid = sum(1 for templates in chart_data.values()
+                           for _, pf, *_ in templates if pf.lower() == 'invalid')
+        total_failed = total_templates - total_passed - total_invalid
 
         md_content += "## Summary\n\n"
         md_content += f"- **Total Games:** {len(chart_data)}\n"
         md_content += f"- **Total Template Configurations:** {total_templates}\n"
         md_content += f"- **Passed Configurations:** {total_passed} ({total_passed/total_templates*100:.1f}%)\n"
-        md_content += f"- **Failed Configurations:** {total_templates - total_passed} ({(total_templates-total_passed)/total_templates*100:.1f}%)\n\n"
+        md_content += f"- **Failed Configurations:** {total_failed} ({total_failed/total_templates*100:.1f}%)\n"
+        md_content += f"- **Invalid Configurations:** {total_invalid} ({total_invalid/total_templates*100:.1f}%)\n\n"
 
     # Generate tables for each game
     for game_name in sorted(chart_data.keys()):
@@ -535,11 +543,17 @@ def generate_multitemplate_markdown(chart_data: Dict[str, List[Tuple[str, str, i
         passed = sum(1 for _, pf, *_ in templates if pf.lower() == 'passed')
         total = len(templates)
 
-        md_content += f"## {game_name}\n\n"
-        md_content += f"**Results:** {passed}/{total} passed ({passed/total*100:.1f}%)\n\n"
+        # Get exporter/logic info from first template (all templates for a game share these)
+        _, _, _, _, _, has_custom_exporter, has_custom_game_logic = templates[0]
+        exporter_indicator = "✅ Yes" if has_custom_exporter else "⚫ No"
+        game_logic_indicator = "✅ Yes" if has_custom_game_logic else "⚫ No"
 
-        md_content += "| Template | Test Result | Gen Errors | Sphere Reached | Max Spheres | Progress | Custom Exporter | Custom GameLogic |\n"
-        md_content += "|----------|-------------|------------|----------------|-------------|----------|-----------------|------------------|\n"
+        md_content += f"## {game_name}\n\n"
+        md_content += f"**Results:** {passed}/{total} passed ({passed/total*100:.1f}%)  \n"
+        md_content += f"**Custom Exporter:** {exporter_indicator} | **Custom GameLogic:** {game_logic_indicator}\n\n"
+
+        md_content += "| Template | Test Result | Gen Errors | Sphere Reached | Max Spheres | Progress |\n"
+        md_content += "|----------|-------------|------------|----------------|-------------|----------|\n"
 
         for (template_name, pass_fail, gen_error_count, sphere_reached, max_spheres,
              has_custom_exporter, has_custom_game_logic) in templates:
@@ -549,11 +563,15 @@ def generate_multitemplate_markdown(chart_data: Dict[str, List[Tuple[str, str, i
             else:
                 progress = "N/A"
 
-            result_display = "✅ Passed" if pass_fail.lower() == 'passed' else "❌ " + pass_fail
-            exporter_indicator = "✅" if has_custom_exporter else "⚫"
-            game_logic_indicator = "✅" if has_custom_game_logic else "⚫"
+            # Format result display with appropriate emoji
+            if pass_fail.lower() == 'passed':
+                result_display = "✅ Passed"
+            elif pass_fail.lower() == 'invalid':
+                result_display = "⚫ Invalid"
+            else:
+                result_display = "❌ " + pass_fail
 
-            md_content += f"| {template_name} | {result_display} | {gen_error_count} | {sphere_reached:g} | {max_spheres:g} | {progress} | {exporter_indicator} | {game_logic_indicator} |\n"
+            md_content += f"| {template_name} | {result_display} | {gen_error_count} | {sphere_reached:g} | {max_spheres:g} | {progress} |\n"
 
         md_content += "\n"
 
@@ -561,13 +579,20 @@ def generate_multitemplate_markdown(chart_data: Dict[str, List[Tuple[str, str, i
         md_content += "No multi-template test data available.\n\n"
 
     md_content += "## Notes\n\n"
+    md_content += "### Test Result Meanings\n\n"
+    md_content += "- ✅ **Passed:** Configuration works correctly and test completed successfully\n"
+    md_content += "- ❌ **Failed:** Test ran but did not complete successfully\n"
+    md_content += "- ⚫ **Invalid:** Configuration cannot be generated due to FillError (impossible item placement)\n\n"
+    md_content += "### Column Descriptions\n\n"
     md_content += "- **Gen Errors:** Number of errors during world generation\n"
     md_content += "- **Sphere Reached:** The logical sphere the test reached before completion/failure\n"
     md_content += "- **Max Spheres:** Total logical spheres available in the game\n"
-    md_content += "- **Progress:** Percentage of logical spheres completed\n"
-    md_content += "- **Custom Exporter:** ✅ Has custom Python exporter script, ⚫ Uses generic exporter\n"
-    md_content += "- **Custom GameLogic:** ✅ Has custom JavaScript game logic, ⚫ Uses generic logic\n\n"
-    md_content += "**Pass Criteria:** Generation errors = 0, Max spheres > 0, Spoiler test completed successfully\n"
+    md_content += "- **Progress:** Percentage of logical spheres completed\n\n"
+    md_content += "### Game Information\n\n"
+    md_content += "- **Custom Exporter:** Whether the game has a custom Python exporter script (✅ Yes) or uses generic exporter (⚫ No)\n"
+    md_content += "- **Custom GameLogic:** Whether the game has custom JavaScript game logic (✅ Yes) or uses generic logic (⚫ No)\n\n"
+    md_content += "**Pass Criteria:** Generation errors = 0, Max spheres > 0, Spoiler test completed successfully\n\n"
+    md_content += "**Invalid Configurations:** Templates marked as Invalid have settings that cannot be satisfied by the game's logic (FillError). These represent impossible configurations, not bugs.\n"
 
     return md_content
 
@@ -589,11 +614,16 @@ def generate_summary_chart(minimal_data, full_data, multiplayer_data, multiworld
         md_content += "- **Full Spoiler Test:** Tests with all locations - [View Details](./test-results-spoilers-full.md)\n"
         md_content += "- **Multiplayer Test:** Tests in multiplayer mode - [View Details](./test-results-multiplayer.md)\n\n"
 
-    # Create a unified game list
+    # Create a unified game list with exporter/logic info
     games_minimal = {name: result for name, result, *_ in minimal_data}
     games_full = {name: result for name, result, *_ in full_data}
     games_multiplayer = {name: result for name, result, *_ in multiplayer_data}
     games_multiworld = {name: result for name, result, *_ in multiworld_data} if multiworld_data else {}
+
+    # Extract custom exporter/logic info (from minimal_data as it has all games)
+    games_exporter_logic = {}
+    for name, result, gen_errors, sphere, max_sphere, has_exporter, has_logic in minimal_data:
+        games_exporter_logic[name] = (has_exporter, has_logic)
 
     all_games = sorted(set(list(games_minimal.keys()) + list(games_full.keys()) + list(games_multiplayer.keys()) + list(games_multiworld.keys())))
 
@@ -655,17 +685,22 @@ def generate_summary_chart(minimal_data, full_data, multiplayer_data, multiworld
     # Add Test Results table
     md_content += "\n## Test Results\n\n"
     if multiworld_data is not None:
-        md_content += "| Game Name | Minimal Test | Full Test | Multiplayer Test | Multiworld Test |\n"
-        md_content += "|-----------|--------------|-----------|------------------|------------------|\n"
+        md_content += "| Game Name | Minimal Test | Full Test | Multiplayer Test | Multiworld Test | Custom Exporter | Custom GameLogic |\n"
+        md_content += "|-----------|--------------|-----------|------------------|-----------------|-----------------|------------------|\n"
     else:
-        md_content += "| Game Name | Minimal Test | Full Test | Multiplayer Test |\n"
-        md_content += "|-----------|--------------|-----------|------------------|\n"
+        md_content += "| Game Name | Minimal Test | Full Test | Multiplayer Test | Custom Exporter | Custom GameLogic |\n"
+        md_content += "|-----------|--------------|-----------|------------------|-----------------|------------------|\n"
 
     for game in all_games:
         minimal_result = games_minimal.get(game, "N/A")
         full_result = games_full.get(game, "N/A")
         multiplayer_result = games_multiplayer.get(game, "N/A")
         multiworld_result = games_multiworld.get(game, "N/A") if multiworld_data is not None else None
+
+        # Get exporter/logic info
+        has_exporter, has_logic = games_exporter_logic.get(game, (False, False))
+        exporter_indicator = "✅" if has_exporter else "⚫"
+        logic_indicator = "✅" if has_logic else "⚫"
 
         def format_result(result):
             if result == "N/A":
@@ -678,9 +713,9 @@ def generate_summary_chart(minimal_data, full_data, multiplayer_data, multiworld
                 return "❌ Failed"
 
         if multiworld_data is not None:
-            md_content += f"| {game} | {format_result(minimal_result)} | {format_result(full_result)} | {format_result(multiplayer_result)} | {format_result(multiworld_result)} |\n"
+            md_content += f"| {game} | {format_result(minimal_result)} | {format_result(full_result)} | {format_result(multiplayer_result)} | {format_result(multiworld_result)} | {exporter_indicator} | {logic_indicator} |\n"
         else:
-            md_content += f"| {game} | {format_result(minimal_result)} | {format_result(full_result)} | {format_result(multiplayer_result)} |\n"
+            md_content += f"| {game} | {format_result(minimal_result)} | {format_result(full_result)} | {format_result(multiplayer_result)} | {exporter_indicator} | {logic_indicator} |\n"
 
     # Add Multi-Template Results section if data exists
     if multitemplate_minimal_data or multitemplate_full_data:

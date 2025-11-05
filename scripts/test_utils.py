@@ -264,15 +264,45 @@ def count_errors_and_warnings(text: str) -> Tuple[int, int, Optional[str], Optio
     return error_count, warning_count, first_error_line, first_warning_line
 
 
+def classify_generation_error(output: str) -> Optional[str]:
+    """
+    Classify the type of generation error from the output.
+
+    Returns:
+        String indicating error type, or None if no recognized error
+    """
+    if 'Fill.FillError' in output:
+        return 'FillError'
+    elif 'OptionsError' in output:
+        return 'OptionsError'
+    elif 'KeyError' in output:
+        return 'KeyError'
+    elif 'ValueError' in output:
+        return 'ValueError'
+    elif 'AttributeError' in output:
+        return 'AttributeError'
+    elif 'ImportError' in output or 'ModuleNotFoundError' in output:
+        return 'ImportError'
+    elif 'FileNotFoundError' in output:
+        return 'FileNotFoundError'
+    elif 'PermissionError' in output:
+        return 'PermissionError'
+    elif 'TimeoutExpired' in output or 'Command timed out' in output:
+        return 'Timeout'
+    return None
+
+
 def run_command(cmd: List[str], cwd: str = None, timeout: int = 300, env: Dict = None) -> Tuple[int, str, str]:
     """
     Run a command and return (return_code, stdout, stderr).
+    Closes stdin to prevent the subprocess from waiting for user input.
     """
     try:
         result = subprocess.run(
             cmd,
             cwd=cwd,
             env=env,
+            stdin=subprocess.DEVNULL,
             capture_output=True,
             text=True,
             timeout=timeout

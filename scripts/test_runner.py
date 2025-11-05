@@ -24,6 +24,7 @@ from test_utils import (
     normalize_game_name,
     get_world_info,
     count_errors_and_warnings,
+    classify_generation_error,
     run_command,
     count_total_spheres,
     parse_multiplayer_test_results,
@@ -139,6 +140,7 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
         # Analyze generation output
         full_output = gen_stdout + "\n" + gen_stderr
         gen_error_count, gen_warning_count, gen_first_error, gen_first_warning = count_errors_and_warnings(full_output)
+        gen_error_type = classify_generation_error(full_output) if gen_return_code != 0 else None
 
         result['generation'].update({
             'success': gen_return_code == 0,
@@ -147,6 +149,7 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
             'warning_count': gen_warning_count,
             'first_error_line': gen_first_error,
             'first_warning_line': gen_first_warning,
+            'error_type': gen_error_type,
             'processing_time_seconds': gen_processing_time
         })
 
@@ -705,6 +708,7 @@ def test_template_multiworld(template_file: str, templates_dir: str, project_roo
         # Analyze generation output
         full_output = gen_stdout + "\n" + gen_stderr
         gen_error_count, gen_warning_count, gen_first_error, gen_first_warning = count_errors_and_warnings(full_output)
+        gen_error_type = classify_generation_error(full_output) if gen_return_code != 0 else None
 
         result['generation'] = {
             'success': gen_return_code == 0,
@@ -713,6 +717,7 @@ def test_template_multiworld(template_file: str, templates_dir: str, project_roo
             'warning_count': gen_warning_count,
             'first_error_line': gen_first_error,
             'first_warning_line': gen_first_warning,
+            'error_type': gen_error_type,
             'processing_time_seconds': gen_processing_time
         }
 
