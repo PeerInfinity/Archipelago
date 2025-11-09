@@ -237,32 +237,64 @@ This creates a `host.yaml` file in the project root. For testing purposes, you c
 
 **Option 1: Use the convenience script (recommended)**
 ```bash
-# Enable testing settings automatically
-python scripts/update_host_settings.py testing
+# Enable minimal spoiler testing (basic sphere validation)
+python scripts/update_host_settings.py minimal-spoilers
 
-# Later, disable testing settings
+# Enable full spoiler testing (includes all location tracking)
+python scripts/update_host_settings.py full-spoilers
+
+# Later, disable testing settings and return to normal operation
 python scripts/update_host_settings.py normal
 ```
 
 **Option 2: Manual editing**
-Edit the `host.yaml` file to set:
+Edit the `host.yaml` file's `general_options` section to match one of these configurations:
+
+**For normal operation (no testing features):**
+```yaml
+general_options:
+  skip_required_files: false
+  save_rules_json: false
+  skip_preset_copy_if_rules_identical: false
+  save_sphere_log: false
+  verbose_sphere_log: false
+  extend_sphere_log_to_all_locations: false
+  log_fractional_sphere_details: true
+  log_integer_sphere_details: false
+  update_frontend_presets: false
+```
+
+**For minimal spoiler testing (basic sphere validation):**
 ```yaml
 general_options:
   skip_required_files: true
   save_rules_json: true
+  skip_preset_copy_if_rules_identical: false
   save_sphere_log: true
+  verbose_sphere_log: false
+  extend_sphere_log_to_all_locations: false
   log_fractional_sphere_details: true
   log_integer_sphere_details: false
   update_frontend_presets: true
 ```
 
-These settings allow:
-- `skip_required_files: true` – Allows the generation process to run without requiring all optional game files to be present.
-- `save_rules_json: true` – Enables saving the rules logic as a JSON file for use by the frontend and for debugging.
-- `save_sphere_log: true` – Creates `spheres_log.jsonl` files needed for testing the JavaScript implementation against Python logic.
-- `log_fractional_sphere_details: true` – Logs detailed information about fractional spheres, which helps in analyzing complex progression logic.
-- `log_integer_sphere_details: false` – Disables logging of integer sphere details, reducing log verbosity unless needed.
-- `update_frontend_presets: true` – Automatically updates frontend preset files when the backend configuration changes.
+**For full spoiler testing (includes all location tracking):**
+```yaml
+general_options:
+  skip_required_files: true
+  save_rules_json: true
+  skip_preset_copy_if_rules_identical: false
+  save_sphere_log: true
+  verbose_sphere_log: false
+  extend_sphere_log_to_all_locations: true
+  log_fractional_sphere_details: true
+  log_integer_sphere_details: false
+  update_frontend_presets: true
+```
+
+**Key setting differences:**
+- `extend_sphere_log_to_all_locations: false` (minimal) – Only logs progression-critical spheres for faster testing
+- `extend_sphere_log_to_all_locations: true` (full) – Logs all locations including non-progression items for comprehensive validation
 
 ## Next Steps
 

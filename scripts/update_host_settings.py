@@ -37,30 +37,50 @@ def update_host_yaml(settings=None):
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage:")
-        print("  python update_host_settings.py testing    # Enable testing settings")
-        print("  python update_host_settings.py normal     # Enable normal settings")
+        print("  python update_host_settings.py normal            # Enable normal settings")
+        print("  python update_host_settings.py minimal-spoilers  # Enable minimal spoiler testing settings")
+        print("  python update_host_settings.py full-spoilers     # Enable full spoiler testing settings")
         sys.exit(1)
-    
-    if sys.argv[1] == "testing":
-        testing_settings = {
-            'skip_required_files': True,
-            'save_rules_json': True,
-            'save_sphere_log': True,
-            'log_fractional_sphere_details': True,
-            'log_integer_sphere_details': False,
-            'update_frontend_presets': True
-        }
-        update_host_yaml(testing_settings)
-    elif sys.argv[1] == "normal":
+
+    if sys.argv[1] == "normal":
         normal_settings = {
             'skip_required_files': False,
             'save_rules_json': False,
+            'skip_preset_copy_if_rules_identical': False,
             'save_sphere_log': False,
+            'verbose_sphere_log': False,
+            'extend_sphere_log_to_all_locations': False,
             'log_fractional_sphere_details': True,
             'log_integer_sphere_details': False,
             'update_frontend_presets': False
         }
         update_host_yaml(normal_settings)
+    elif sys.argv[1] == "minimal-spoilers":
+        minimal_spoilers_settings = {
+            'skip_required_files': True,
+            'save_rules_json': True,
+            'skip_preset_copy_if_rules_identical': False,
+            'save_sphere_log': True,
+            'verbose_sphere_log': False,
+            'extend_sphere_log_to_all_locations': False,
+            'log_fractional_sphere_details': True,
+            'log_integer_sphere_details': False,
+            'update_frontend_presets': True
+        }
+        update_host_yaml(minimal_spoilers_settings)
+    elif sys.argv[1] == "full-spoilers":
+        full_spoilers_settings = {
+            'skip_required_files': True,
+            'save_rules_json': True,
+            'skip_preset_copy_if_rules_identical': False,
+            'save_sphere_log': True,
+            'verbose_sphere_log': False,
+            'extend_sphere_log_to_all_locations': True,
+            'log_fractional_sphere_details': True,
+            'log_integer_sphere_details': False,
+            'update_frontend_presets': True
+        }
+        update_host_yaml(full_spoilers_settings)
     else:
-        print("Invalid arguments. Use 'testing' or 'normal'")
+        print("Invalid arguments. Use 'normal', 'minimal-spoilers', or 'full-spoilers'")
         sys.exit(1)

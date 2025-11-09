@@ -139,9 +139,9 @@ def main():
             return False
     
     # Configure for testing
-    print("Configuring host.yaml for testing...")
+    print("Configuring host.yaml for minimal spoiler testing...")
     update_script = project_root / "scripts" / "update_host_settings.py"
-    if not run_command([python_venv, str(update_script), "testing"], "Configure testing settings"):
+    if not run_command([python_venv, str(update_script), "minimal-spoilers"], "Configure testing settings"):
         print("⚠️  Failed to configure testing settings - you may need to edit host.yaml manually")
     
     # Step 6: Install Node.js Dependencies (if available)
