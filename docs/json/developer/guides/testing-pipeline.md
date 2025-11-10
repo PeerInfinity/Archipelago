@@ -182,6 +182,7 @@ python scripts/test-all-templates.py --start-from "Adventure.yaml"
 **Prerequisites:**
 - **Virtual Environment**: The script will detect and warn if not activated. Generation may freeze without proper dependencies.
 - **HTTP Server**: Required for spoiler tests (not needed for `--export-only`). The script will exit with a clear error if not running on `localhost:8000`.
+- **Playwright Setup**: If running spoiler tests, ensure you've installed Playwright browsers: `npx playwright install chromium` (see `../getting-started.md` for details).
 
 ### New Execution Modes
 
@@ -340,8 +341,10 @@ If you skip the getting-started setup, you may encounter dependency errors or ot
    - `AP_[seed]_spheres_log.jsonl` (the expected progression)
    - `AP_[seed]_Spoiler.txt`
 
-4. **Run the Test:** Execute the spoiler validation using URL parameters to specify your test configuration:
-   
+4. **Run the Test:** Execute the spoiler validation using URL parameters to specify your test configuration.
+
+   **Note:** If this is your first time running tests, make sure you've completed the test setup in `../getting-started.md` including `npm install` and `npx playwright install chromium`.
+
    **Basic Usage:**
    ```bash
    # Test with game parameter (recommended, seed defaults to 1)
