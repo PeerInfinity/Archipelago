@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Script to update frontend/presets/preset_files.json with test results data
-from template-test-results.json. This adds test result information to each
+from test-results.json. This adds test result information to each
 game entry so the frontend can display test status.
 """
 
@@ -295,13 +295,13 @@ def save_preset_files(preset_files: Dict[str, Any], output_path: str):
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Update preset_files.json with test results data from template-test-results.json'
+        description='Update preset_files.json with test results data from test-results.json'
     )
     parser.add_argument(
         '--test-results',
         type=str,
-        default='scripts/output/template-test-results.json',
-        help='Input test results JSON file (default: scripts/output/template-test-results.json)'
+        default='scripts/output/spoiler-full/test-results.json',
+        help='Input test results JSON file (default: scripts/output/spoiler-full/test-results.json)'
     )
     parser.add_argument(
         '--preset-files',

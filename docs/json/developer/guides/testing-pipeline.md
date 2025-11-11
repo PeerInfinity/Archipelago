@@ -148,40 +148,41 @@ python -m http.server 8000
 
 # 3. Run the automation script
 # Test all templates in the default Templates directory
-python scripts/test-all-templates.py
+python scripts/test/test-all-templates.py
 
 # Test templates from a custom directory
-python scripts/test-all-templates.py --templates-dir /path/to/templates
+python scripts/test/test-all-templates.py --templates-dir /path/to/templates
 
 # Custom output file location
-python scripts/test-all-templates.py --output-file custom-results.json
+python scripts/test/test-all-templates.py --output-file custom-results.json
 
 # Customize which files to skip (default skips non-game templates)
-python scripts/test-all-templates.py --skip-list "Archipelago.yaml" "Universal Tracker.yaml"
+python scripts/test/test-all-templates.py --skip-list "Archipelago.yaml" "Universal Tracker.yaml"
 
 # Test all files (including non-games) by providing an empty skip list
-python scripts/test-all-templates.py --skip-list
+python scripts/test/test-all-templates.py --skip-list
 
 # Test only specific templates (include list overrides skip list)
-python scripts/test-all-templates.py --include-list "Adventure.yaml" "A Short Hike.yaml"
+python scripts/test/test-all-templates.py --include-list "Adventure.yaml" "A Short Hike.yaml"
 
 # Test a single template
-python scripts/test-all-templates.py --include-list "Adventure.yaml"
+python scripts/test/test-all-templates.py --include-list "Adventure.yaml"
 
 # NEW: Partial execution modes
 # Only run generation (export) step, skip spoiler tests
-python scripts/test-all-templates.py --export-only
+python scripts/test/test-all-templates.py --export-only
 
 # Only run spoiler tests, skip generation (requires existing rules files)
-python scripts/test-all-templates.py --spoiler-only
+python scripts/test/test-all-templates.py --spoiler-only
 
 # Start processing from a specific template file (alphabetically ordered)
-python scripts/test-all-templates.py --start-from "Adventure.yaml"
+python scripts/test/test-all-templates.py --start-from "Adventure.yaml"
 ```
 
 **Prerequisites:**
 - **Virtual Environment**: The script will detect and warn if not activated. Generation may freeze without proper dependencies.
 - **HTTP Server**: Required for spoiler tests (not needed for `--export-only`). The script will exit with a clear error if not running on `localhost:8000`.
+- **Playwright Setup**: If running spoiler tests, ensure you've installed Playwright browsers: `npx playwright install chromium` (see `../getting-started.md` for details).
 
 ### New Execution Modes
 
@@ -202,7 +203,7 @@ The script now supports partial execution and resumption options for more flexib
 - **Alphabetical ordering**: Files are processed in sorted order, so you can predict the sequence
 - **Recovery**: Perfect for continuing long test runs that were interrupted
 
-The automation script (`scripts/test-all-templates.py`) provides:
+The automation script (`scripts/test/test-all-templates.py`) provides:
 
 - **Complete Pipeline Automation**: Runs Generate.py, spoiler tests, and analysis for each template
 - **Partial Execution Modes**: Use `--export-only` or `--spoiler-only` to run specific pipeline stages
@@ -228,13 +229,13 @@ After running the automation script, generate a visual chart of the test results
 
 ```bash
 # Generate chart with default settings (outputs to docs/json/developer/guides/test-results.md)
-python scripts/generate-test-chart.py
+python scripts/docs/generate-test-chart.py
 
 # Use custom input/output locations
-python scripts/generate-test-chart.py --input-file custom-results.json --output-file custom-chart.md
+python scripts/docs/generate-test-chart.py --input-file custom-results.json --output-file custom-chart.md
 ```
 
-The chart generation script (`scripts/generate-test-chart.py`) creates a comprehensive markdown table showing:
+The chart generation script (`scripts/docs/generate-test-chart.py`) creates a comprehensive markdown table showing:
 
 - **Game Name**: Human-readable game names
 - **Test Result**: Pass/fail status with visual indicators (✅ ❌ ❓)
@@ -272,21 +273,21 @@ If you skip the getting-started setup, you may encounter dependency errors or ot
    python -c "from Options import generate_yaml_templates; generate_yaml_templates('Players/Templates')"
    ```
 
-3. **Configure Settings:** In `host.yaml`, verify the appropriate testing settings are enabled. Use the `scripts/update_host_settings.py` script for easy configuration:
+3. **Configure Settings:** In `host.yaml`, verify the appropriate testing settings are enabled. Use the `scripts/setup/update_host_settings.py` script for easy configuration:
 
    **For minimal spoiler testing** (basic sphere validation):
    ```bash
-   python scripts/update_host_settings.py minimal-spoilers
+   python scripts/setup/update_host_settings.py minimal-spoilers
    ```
 
    **For full spoiler testing** (includes all location tracking):
    ```bash
-   python scripts/update_host_settings.py full-spoilers
+   python scripts/setup/update_host_settings.py full-spoilers
    ```
 
    **For normal operation** (disable testing features):
    ```bash
-   python scripts/update_host_settings.py normal
+   python scripts/setup/update_host_settings.py normal
    ```
 
 4. **Understand Spoiler Levels:** The `spheres_log.jsonl` file is only generated when spoiler level is 2 or higher. Since the default is level 3, sphere logs are generated by default. Command line options:
@@ -340,8 +341,10 @@ If you skip the getting-started setup, you may encounter dependency errors or ot
    - `AP_[seed]_spheres_log.jsonl` (the expected progression)
    - `AP_[seed]_Spoiler.txt`
 
-4. **Run the Test:** Execute the spoiler validation using URL parameters to specify your test configuration:
-   
+4. **Run the Test:** Execute the spoiler validation using URL parameters to specify your test configuration.
+
+   **Note:** If this is your first time running tests, make sure you've completed the test setup in `../getting-started.md` including `npm install` and `npx playwright install chromium`.
+
    **Basic Usage:**
    ```bash
    # Test with game parameter (recommended, seed defaults to 1)

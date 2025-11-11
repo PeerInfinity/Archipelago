@@ -821,7 +821,7 @@ def main():
     print("Processing all test types...")
 
     # Load minimal spoiler test results
-    minimal_input = os.path.join(project_root, 'scripts/output-spoiler-minimal/template-test-results.json')
+    minimal_input = os.path.join(project_root, 'scripts/output/spoiler-minimal/test-results.json')
     minimal_output = os.path.join(project_root, 'docs/json/developer/test-results/test-results-spoilers-minimal.md')
 
     if os.path.exists(minimal_input):
@@ -839,7 +839,7 @@ def main():
         minimal_data = []
 
     # Load full spoiler test results
-    full_input = os.path.join(project_root, 'scripts/output-spoiler-full/template-test-results.json')
+    full_input = os.path.join(project_root, 'scripts/output/spoiler-full/test-results.json')
     full_output = os.path.join(project_root, 'docs/json/developer/test-results/test-results-spoilers-full.md')
 
     if os.path.exists(full_input):
@@ -857,7 +857,7 @@ def main():
         full_data = []
 
     # Load multiplayer test results
-    mp_input = os.path.join(project_root, 'scripts/output-multiplayer/test-results-multiplayer.json')
+    mp_input = os.path.join(project_root, 'scripts/output/multiplayer/test-results.json')
     mp_output = os.path.join(project_root, 'docs/json/developer/test-results/test-results-multiplayer.md')
 
     if os.path.exists(mp_input):
@@ -881,7 +881,7 @@ def main():
         mp_data = []
 
     # Load multiworld test results
-    mw_input = os.path.join(project_root, 'scripts/output-multiworld/test-results-multiworld.json')
+    mw_input = os.path.join(project_root, 'scripts/output/multiworld/test-results.json')
     mw_output = os.path.join(project_root, 'docs/json/developer/test-results/test-results-multiworld.md')
 
     mw_data = None
@@ -903,7 +903,7 @@ def main():
         print(f"Warning: Multiworld test results not found: {mw_input}")
 
     # Load multitemplate minimal test results
-    mtmin_input = os.path.join(project_root, 'scripts/output-multitemplate-minimal/test-results-multitemplate-minimal.json')
+    mtmin_input = os.path.join(project_root, 'scripts/output/multitemplate-minimal/test-results.json')
     mtmin_output = os.path.join(project_root, 'docs/json/developer/test-results/test-results-multitemplate-minimal.md')
 
     mtmin_data = None
@@ -921,7 +921,7 @@ def main():
         print(f"Info: Multitemplate minimal test results not found: {mtmin_input}")
 
     # Load multitemplate full test results
-    mtfull_input = os.path.join(project_root, 'scripts/output-multitemplate-full/test-results-multitemplate-full.json')
+    mtfull_input = os.path.join(project_root, 'scripts/output/multitemplate-full/test-results.json')
     mtfull_output = os.path.join(project_root, 'docs/json/developer/test-results/test-results-multitemplate-full.md')
 
     mtfull_data = None

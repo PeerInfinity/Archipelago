@@ -35,6 +35,7 @@
 
 setups
 build
+!scripts/build/
 bundle/components.wxs
 dist
 /prof/
@@ -53,7 +54,7 @@ _persistent_storage.yaml
 mystery_result_*.yaml
 *-errors.txt
 success.txt
-output/
+/output/
 Output Logs/
 /factorio/
 /WebHostLib/static/generated
@@ -77,12 +78,14 @@ __pycache__/
 # Distribution / packaging
 .Python
 build/
+!scripts/build/
 develop-eggs/
 dist/
 downloads/
 eggs/
 .eggs/
 lib/
+!scripts/lib/
 lib64/
 parts/
 sdist/
@@ -235,12 +238,26 @@ trash/*
 node_modules/*
 test-results/*
 set.mm
-output-spoiler-minimal/
-output-spoiler-full/
-output-multiplayer/
-output-multiworld/
-output-multitemplate-minimal/
-output-multitemplate-full/
+
+# Ignore everything in output directories
+scripts/output/spoiler-minimal/*
+scripts/output/spoiler-full/*
+scripts/output/multiplayer/*
+scripts/output/multiworld/*
+scripts/output/multitemplate-minimal/*
+scripts/output/multitemplate-full/*
+
+# But keep test-results.json files
+!scripts/output/spoiler-minimal/test-results.json
+!scripts/output/spoiler-full/test-results.json
+!scripts/output/multiplayer/test-results.json
+!scripts/output/multiworld/test-results.json
+!scripts/output/multitemplate-minimal/test-results.json
+!scripts/output/multitemplate-full/test-results.json
+
+# Archipelago-CC fork-specific files
+CC/
+
 test1/
 test2/
 test3/

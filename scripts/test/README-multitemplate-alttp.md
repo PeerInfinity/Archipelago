@@ -4,7 +4,7 @@ This directory contains **175 test template configurations** for A Link to the P
 
 ## Generation
 
-These templates were generated using `scripts/generate-multitemplate-configs.py`.
+These templates were generated using `scripts/build/generate-multitemplate-configs.py`.
 
 ## Template Categories
 
@@ -68,17 +68,17 @@ python Generate.py --weights_file_path "presets/multitemplate/alttp/goal_triforc
 
 To test all templates with the test script:
 ```bash
-python scripts/test-all-templates.py --templates-dir Players/presets/multitemplate/alttp --multitemplate
+python scripts/test/test-all-templates.py --templates-dir Players/presets/multitemplate/alttp --multitemplate
 ```
 
 ## Regeneration
 
 To regenerate these templates:
 ```bash
-python scripts/generate-multitemplate-configs.py
+python scripts/build/generate-multitemplate-configs.py
 ```
 
 Or for a different game:
 ```bash
-python scripts/generate-multitemplate-configs.py --game "Game Name" --output-dir Players/presets/multitemplate/gamename
+python scripts/build/generate-multitemplate-configs.py --game "Game Name" --output-dir Players/presets/multitemplate/gamename
 ```

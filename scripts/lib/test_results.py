@@ -21,7 +21,7 @@ def is_test_passing(template_file: str, test_results: Dict, multiplayer: bool = 
 
     Args:
         template_file: Name of the template file
-        test_results: The results dictionary loaded from template-test-results.json
+        test_results: The results dictionary loaded from test-results.json
         multiplayer: If True, check multiplayer test results; otherwise check spoiler test results
 
     Returns:
@@ -53,7 +53,7 @@ def get_failed_templates(test_results: Dict, multiplayer: bool = False) -> List[
     Get a list of template files that have failing tests, sorted alphabetically.
 
     Args:
-        test_results: The results dictionary loaded from template-test-results.json
+        test_results: The results dictionary loaded from test-results.json
         multiplayer: If True, check multiplayer test results; otherwise check spoiler test results
 
     Returns:
@@ -74,7 +74,7 @@ def get_failing_seed_info(template_file: str, test_results: Dict, multiplayer: b
 
     Args:
         template_file: Name of the template file
-        test_results: The results dictionary loaded from template-test-results.json
+        test_results: The results dictionary loaded from test-results.json
         multiplayer: If True, check multiplayer test results; otherwise check spoiler test results
 
     Returns:

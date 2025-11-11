@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Simple script to pack a world directory into an .apworld file.
-Usage: python scripts/pack_apworld.py <world_name>
-Example: python scripts/pack_apworld.py metamath
+Usage: python scripts/build/pack_apworld.py <world_name>
+Example: python scripts/build/pack_apworld.py metamath
 """
 
 import os

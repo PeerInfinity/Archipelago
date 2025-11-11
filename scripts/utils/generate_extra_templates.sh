@@ -33,10 +33,10 @@ python Generate.py --player_files_path "Players/presets/Multiworld" --seed 1
 python Generate.py --player_files_path "Players/presets/Multiworld" --seed 2
 python Generate.py --player_files_path "Players/presets/Multiworld" --seed 3
 
-#python scripts/pack_apworld.py metamath
-#python scripts/pack_apworld.py mathadventure
-#python scripts/pack_apworld.py bakingadventure
-#python scripts/pack_apworld.py codingadventure
+#python scripts/build/pack_apworld.py metamath
+#python scripts/build/pack_apworld.py mathadventure
+#python scripts/build/pack_apworld.py bakingadventure
+#python scripts/build/pack_apworld.py codingadventure
 
 find frontend/presets -type d -empty -delete
 

@@ -190,7 +190,8 @@ def build_world_mapping(worlds_dir: str) -> Dict[str, Dict[str, any]]:
 
 
 def main():
-    project_root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+    # Script is now in scripts/build/, so go up two levels to reach project root
+    project_root = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
     worlds_dir = os.path.join(project_root, 'worlds')
     output_file = os.path.join(project_root, 'scripts', 'data', 'world-mapping.json')
     

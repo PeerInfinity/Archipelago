@@ -1,22 +1,22 @@
 /**
- * Thread-agnostic ALTTP game logic functions
+ * @module gameLogic/alttp/alttpLogic
+ * @description Thread-agnostic ALTTP game logic functions
  *
  * These pure functions operate on a canonical state snapshot and return results
  * without modifying the state. All helper functions follow the standardized signature:
  *
  * `(snapshot, staticData, ...args) => boolean | number | any`
  *
- * @module gameLogic/alttp/alttpLogic
+ * **DATA FLOW:**
  *
- * DATA FLOW:
  * Input: Canonical state snapshot + static game data
- *   - snapshot: { inventory, flags, events, player, regionReachability, evaluateRule }
- *   - staticData: { settings, progressionMapping, regions, locations, items }
+ * - snapshot: { inventory, flags, events, player, regionReachability, evaluateRule }
+ * - staticData: { settings, progressionMapping, regions, locations, items }
  *
  * Processing: Pure functional logic evaluation
- *   - No state mutation
- *   - Thread-safe execution
- *   - Deterministic results
+ * - No state mutation
+ * - Thread-safe execution
+ * - Deterministic results
  *
  * Output: Boolean, number, or structured data based on function purpose
  */

@@ -45,9 +45,15 @@ export default defineConfig({
     // viewport: { width: 1280, height: 720 },
 
     // headless: false, // Uncomment to run tests with a visible browser for debugging
-    // launchOptions: {
-    //   slowMo: 250, // Slows down Playwright operations by 250ms for easier debugging
-    // },
+    launchOptions: {
+      args: [
+        '--disable-dev-shm-usage',
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-gpu',
+        '--single-process', // May help in constrained environments
+      ],
+    },
   },
 
   /* Configure projects for major browsers - useful if you want to test across multiple browsers */

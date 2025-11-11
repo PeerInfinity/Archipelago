@@ -9,17 +9,17 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "TEST_MODE=${npm_config_mode:-test} TEST_GAME=${npm_config_game:-} TEST_SEED=${npm_config_seed:-} TEST_PLAYER=${npm_config_player:-} RULES_OVERRIDE=${npm_config_rules:-} TEST_LAYOUT=${npm_config_layout:-} TEST_ORDER_SEED=${npm_config_testOrderSeed:-${TEST_ORDER_SEED}} playwright test tests/e2e/app.spec.js",
-    "test:headed": "TEST_MODE=${npm_config_mode:-test} TEST_GAME=${npm_config_game:-} TEST_SEED=${npm_config_seed:-} TEST_PLAYER=${npm_config_player:-} RULES_OVERRIDE=${npm_config_rules:-} TEST_LAYOUT=${npm_config_layout:-} TEST_ORDER_SEED=${npm_config_testOrderSeed:-${TEST_ORDER_SEED}} playwright test tests/e2e/app.spec.js --headed",
-    "test:debug": "TEST_MODE=${npm_config_mode:-test} TEST_GAME=${npm_config_game:-} TEST_SEED=${npm_config_seed:-} TEST_PLAYER=${npm_config_player:-} RULES_OVERRIDE=${npm_config_rules:-} TEST_LAYOUT=${npm_config_layout:-} TEST_ORDER_SEED=${npm_config_testOrderSeed:-${TEST_ORDER_SEED}} playwright test tests/e2e/app.spec.js --debug",
-    "test:ui": "TEST_MODE=${npm_config_mode:-test} TEST_GAME=${npm_config_game:-} TEST_SEED=${npm_config_seed:-} TEST_PLAYER=${npm_config_player:-} RULES_OVERRIDE=${npm_config_rules:-} TEST_LAYOUT=${npm_config_layout:-} TEST_ORDER_SEED=${npm_config_testOrderSeed:-${TEST_ORDER_SEED}} playwright test tests/e2e/app.spec.js --ui",
+    "test": "node scripts/test/run-tests.js",
+    "test:headed": "node scripts/test/run-tests.js --headed",
+    "test:debug": "node scripts/test/run-tests.js --debug",
+    "test:ui": "node scripts/test/run-tests.js --ui",
     "test:multiplayer": "TEST_GAME=${npm_config_game:-} TEST_SEED=${npm_config_seed:-} TEST_OUTPUT_DIR=${npm_config_output:-test_results/multiplayer} playwright test tests/e2e/multiplayer.spec.js",
     "test:multiplayer:headed": "TEST_GAME=${npm_config_game:-} TEST_SEED=${npm_config_seed:-} TEST_OUTPUT_DIR=${npm_config_output:-test_results/multiplayer} playwright test tests/e2e/multiplayer.spec.js --headed",
     "test:multiplayer:debug": "TEST_GAME=${npm_config_game:-} TEST_SEED=${npm_config_seed:-} TEST_OUTPUT_DIR=${npm_config_output:-test_results/multiplayer} playwright test tests/e2e/multiplayer.spec.js --debug",
-    "test:health": "node scripts/test-health-check.js",
-    "test:analyze": "node scripts/analyze-test-results.js",
+    "test:health": "node scripts/test/test-health-check.js",
+    "test:analyze": "node scripts/test/analyze-test-results.js",
     "test:full-suite": "npm run test:health && npm test && npm run test:analyze",
-    "dev": "python3 scripts/dev-server-nocache.py",
+    "dev": "python3 scripts/utils/dev-server-nocache.py",
     "dev:cache": "python3 -m http.server 8000",
     "docs": "jsdoc -c jsdoc.json",
     "docs:watch": "jsdoc -c jsdoc.json --watch"
@@ -44,7 +44,6 @@
   "homepage": "https://github.com/PeerInfinity/Archipelago/tree/JSONExport#readme",
   "devDependencies": {
     "@playwright/test": "^1.52.0",
-    "better-docs": "^2.7.3",
     "jsdoc": "^4.0.5"
   }
 }

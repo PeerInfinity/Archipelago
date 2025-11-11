@@ -83,8 +83,8 @@ def get_world_directory_name_from_game_name(game_name: str) -> str:
     This replicates the logic from build-world-mapping.py and exporter.py.
     """
     try:
-        # Get path to worlds directory relative to this file (scripts/test_utils.py)
-        project_root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+        # Get path to worlds directory relative to this file (scripts/lib/test_utils.py)
+        project_root = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
         worlds_dir = os.path.join(project_root, 'worlds')
 
         if not os.path.exists(worlds_dir):

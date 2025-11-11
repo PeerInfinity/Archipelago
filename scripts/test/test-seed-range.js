@@ -4,8 +4,8 @@
  * Test Seed Range
  * Runs regression tests for a range of seeds and logs which ones fail
  *
- * Usage: node scripts/test-seed-range.js <start> <end>
- * Example: node scripts/test-seed-range.js 1 100
+ * Usage: node scripts/test/test-seed-range.js <start> <end>
+ * Example: node scripts/test/test-seed-range.js 1 100
  */
 
 import { exec } from 'child_process';
@@ -115,8 +115,8 @@ function printSummary(results, outputFile) {
 
 // Parse command line arguments
 if (process.argv.length < 4) {
-  console.error('Usage: node scripts/test-seed-range.js <start> <end>');
-  console.error('Example: node scripts/test-seed-range.js 1 100');
+  console.error('Usage: node scripts/test/test-seed-range.js <start> <end>');
+  console.error('Example: node scripts/test/test-seed-range.js 1 100');
   process.exit(1);
 }
 

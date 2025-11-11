@@ -17,10 +17,10 @@ import shutil
 import time
 from datetime import datetime
 from typing import Dict, List
-from seed_utils import get_seed_id as compute_seed_id
+from .seed_utils import get_seed_id as compute_seed_id
 
 # Import from the utility modules
-from test_utils import (
+from .test_utils import (
     normalize_game_name,
     get_world_info,
     count_errors_and_warnings,
@@ -32,7 +32,7 @@ from test_utils import (
 )
 
 
-def test_template_single_seed(template_file: str, templates_dir: str, project_root: str, world_mapping: Dict[str, Dict], seed: str = "1", export_only: bool = False, test_only: bool = False, multiplayer: bool = False, single_client: bool = False, headed: bool = False) -> Dict:
+def test_template_single_seed(template_file: str, templates_dir: str, project_root: str, world_mapping: Dict[str, Dict], seed: str = "1", export_only: bool = False, test_only: bool = False, multiplayer: bool = False, single_client: bool = False, headed: bool = False, include_error_details: bool = False) -> Dict:
     """Test a single template file and return results."""
     template_name = os.path.basename(template_file)
     game_name = normalize_game_name(template_name)
@@ -60,8 +60,8 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
             'success': False,
             'error_count': 0,
             'warning_count': 0,
-            'first_error_line': None,
-            'first_warning_line': None,
+            # 'first_error_line': None,  # Disabled by default, use --include-error-details to enable
+            # 'first_warning_line': None,  # Disabled by default, use --include-error-details to enable
             'return_code': None,
             'processing_time_seconds': 0
         },
@@ -72,6 +72,11 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
         }
     }
 
+    # Conditionally add error detail fields if requested
+    if include_error_details:
+        result['generation']['first_error_line'] = None
+        result['generation']['first_warning_line'] = None
+
     # Add appropriate test structure based on test type
     if multiplayer:
         result['multiplayer_test'] = {
@@ -81,11 +86,14 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
             'total_locations': 0,
             'error_count': 0,
             'warning_count': 0,
-            'first_error_line': None,
-            'first_warning_line': None,
+            # 'first_error_line': None,  # Disabled by default, use --include-error-details to enable
+            # 'first_warning_line': None,  # Disabled by default, use --include-error-details to enable
             'return_code': None,
             'processing_time_seconds': 0
         }
+        if include_error_details:
+            result['multiplayer_test']['first_error_line'] = None
+            result['multiplayer_test']['first_warning_line'] = None
     else:
         result['spoiler_test'] = {
             'success': False,
@@ -94,8 +102,8 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
             'total_spheres': 0,
             'error_count': 0,
             'warning_count': 0,
-            'first_error_line': None,
-            'first_warning_line': None,
+            # 'first_error_line': None,  # Disabled by default, use --include-error-details to enable
+            # 'first_warning_line': None,  # Disabled by default, use --include-error-details to enable
             'return_code': None,
             'processing_time_seconds': 0
         }
@@ -103,9 +111,14 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
             'success': False,
             'error_count': 0,
             'warning_count': 0,
-            'first_error_line': None,
-            'first_warning_line': None
+            # 'first_error_line': None,  # Disabled by default, use --include-error-details to enable
+            # 'first_warning_line': None  # Disabled by default, use --include-error-details to enable
         }
+        if include_error_details:
+            result['spoiler_test']['first_error_line'] = None
+            result['spoiler_test']['first_warning_line'] = None
+            result['analysis']['first_error_line'] = None
+            result['analysis']['first_warning_line'] = None
 
     # Step 1: Run Generate.py (skip if test_only mode)
     if not test_only:
@@ -142,16 +155,18 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
         gen_error_count, gen_warning_count, gen_first_error, gen_first_warning = count_errors_and_warnings(full_output)
         gen_error_type = classify_generation_error(full_output) if gen_return_code != 0 else None
 
-        result['generation'].update({
+        gen_update = {
             'success': gen_return_code == 0,
             'return_code': gen_return_code,
             'error_count': gen_error_count,
             'warning_count': gen_warning_count,
-            'first_error_line': gen_first_error,
-            'first_warning_line': gen_first_warning,
             'error_type': gen_error_type,
             'processing_time_seconds': gen_processing_time
-        })
+        }
+        if include_error_details:
+            gen_update['first_error_line'] = gen_first_error
+            gen_update['first_warning_line'] = gen_first_warning
+        result['generation'].update(gen_update)
 
         # Remove the test-only note if it exists from a previous run
         result['generation'].pop('note', None)
@@ -180,7 +195,8 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
         print(f"Rules file not found: {full_rules_path}")
         test_key = 'multiplayer_test' if multiplayer else 'spoiler_test'
         result[test_key]['error_count'] = 1
-        result[test_key]['first_error_line'] = f"Rules file not found: {rules_path}"
+        if include_error_details:
+            result[test_key]['first_error_line'] = f"Rules file not found: {rules_path}"
         return result
 
     # Step 2: Run test (multiplayer or spoiler based on mode)
@@ -239,8 +255,9 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
 
         result['multiplayer_test']['error_count'] = test_error_count
         result['multiplayer_test']['warning_count'] = test_warning_count
-        result['multiplayer_test']['first_error_line'] = test_first_error
-        result['multiplayer_test']['first_warning_line'] = test_first_warning
+        if include_error_details:
+            result['multiplayer_test']['first_error_line'] = test_first_error
+            result['multiplayer_test']['first_warning_line'] = test_first_warning
 
         # Parse test results
         test_results_dir = os.path.join(project_root, 'test_results', 'multiplayer')
@@ -259,7 +276,7 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
             'total_locations': test_results['client2_total_locations']
         })
 
-        if test_results.get('error_message'):
+        if include_error_details and test_results.get('error_message'):
             result['multiplayer_test']['first_error_line'] = test_results['error_message']
 
     else:
@@ -308,13 +325,19 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
 
                 # Parse the analysis
                 analysis_result = parse_playwright_analysis(analysis_text)
+                # Filter out error detail fields if not requested
+                if not include_error_details:
+                    analysis_result.pop('first_error_line', None)
+                    analysis_result.pop('first_warning_line', None)
                 result['spoiler_test'].update(analysis_result)
                 result['analysis']['success'] = True
 
             except IOError:
-                result['analysis']['first_error_line'] = "Could not read playwright-analysis.txt"
+                if include_error_details:
+                    result['analysis']['first_error_line'] = "Could not read playwright-analysis.txt"
         else:
-            result['analysis']['first_error_line'] = "playwright-analysis.txt not found"
+            if include_error_details:
+                result['analysis']['first_error_line'] = "playwright-analysis.txt not found"
 
         # Read total spheres from spheres_log.jsonl file
         # Use preset_dir (world_directory) instead of game_name for correct path
@@ -368,7 +391,7 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
     return result
 
 
-def test_template_seed_range(template_file: str, templates_dir: str, project_root: str, world_mapping: Dict[str, Dict], seed_list: List[int], export_only: bool = False, test_only: bool = False, stop_on_failure: bool = False, multiplayer: bool = False, single_client: bool = False, headed: bool = False) -> Dict:
+def test_template_seed_range(template_file: str, templates_dir: str, project_root: str, world_mapping: Dict[str, Dict], seed_list: List[int], export_only: bool = False, test_only: bool = False, stop_on_failure: bool = False, multiplayer: bool = False, single_client: bool = False, headed: bool = False, include_error_details: bool = False) -> Dict:
     """Test a template file with multiple seeds and return aggregated results."""
     template_name = os.path.basename(template_file)
 
@@ -403,7 +426,8 @@ def test_template_seed_range(template_file: str, templates_dir: str, project_roo
             # Test this specific seed
             result = test_template_single_seed(
                 template_file, templates_dir, project_root, world_mapping,
-                str(seed), export_only, test_only, multiplayer, single_client, headed
+                str(seed), export_only, test_only, multiplayer, single_client, headed,
+                include_error_details
             )
 
             seed_range_result['individual_results'][str(seed)] = result
@@ -508,7 +532,8 @@ def test_template_multiworld(template_file: str, templates_dir: str, project_roo
                             multiworld_dir: str, existing_results: Dict,
                             current_player_count: int, export_only: bool = False,
                             test_only: bool = False, headed: bool = False,
-                            keep_templates: bool = False, test_all_players: bool = False) -> Dict:
+                            keep_templates: bool = False, test_all_players: bool = False,
+                            include_error_details: bool = False) -> Dict:
     """
     Test a single template in multiworld mode.
 
@@ -578,9 +603,9 @@ def test_template_multiworld(template_file: str, templates_dir: str, project_roo
     print(f"Checking prerequisites for {template_name}...")
 
     # Load the three test results files
-    spoiler_minimal_file = os.path.join(project_root, 'scripts/output-spoiler-minimal/template-test-results.json')
-    spoiler_full_file = os.path.join(project_root, 'scripts/output-spoiler-full/template-test-results.json')
-    multiplayer_file = os.path.join(project_root, 'scripts/output-multiplayer/test-results-multiplayer.json')
+    spoiler_minimal_file = os.path.join(project_root, 'scripts/output-spoiler-minimal/test-results.json')
+    spoiler_full_file = os.path.join(project_root, 'scripts/output-spoiler-full/test-results.json')
+    multiplayer_file = os.path.join(project_root, 'scripts/output-multiplayer/test-results.json')
 
     spoiler_minimal_passed = False
     spoiler_full_passed = False
@@ -710,16 +735,18 @@ def test_template_multiworld(template_file: str, templates_dir: str, project_roo
         gen_error_count, gen_warning_count, gen_first_error, gen_first_warning = count_errors_and_warnings(full_output)
         gen_error_type = classify_generation_error(full_output) if gen_return_code != 0 else None
 
-        result['generation'] = {
+        gen_result = {
             'success': gen_return_code == 0,
             'return_code': gen_return_code,
             'error_count': gen_error_count,
             'warning_count': gen_warning_count,
-            'first_error_line': gen_first_error,
-            'first_warning_line': gen_first_warning,
             'error_type': gen_error_type,
             'processing_time_seconds': gen_processing_time
         }
+        if include_error_details:
+            gen_result['first_error_line'] = gen_first_error
+            gen_result['first_warning_line'] = gen_first_warning
+        result['generation'] = gen_result
 
         if gen_return_code != 0:
             print(f"Generation failed with return code {gen_return_code}")
@@ -818,9 +845,13 @@ def test_template_multiworld(template_file: str, templates_dir: str, project_roo
             'pass_fail': pass_fail,
             'error_count': test_error_count,
             'warning_count': test_warning_count,
-            'first_error_line': test_first_error,
-            'first_warning_line': test_first_warning
+            # 'first_error_line': test_first_error,  # Disabled by default, use --include-error-details to enable
+            # 'first_warning_line': test_first_warning  # Disabled by default, use --include-error-details to enable
         }
+
+        if include_error_details:
+            player_result['first_error_line'] = test_first_error
+            player_result['first_warning_line'] = test_first_warning
 
         result['multiworld_test']['player_results'][f'player_{player_num}'] = player_result
 

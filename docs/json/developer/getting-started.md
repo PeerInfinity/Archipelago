@@ -30,7 +30,7 @@ git clone -b JSONExport https://github.com/PeerInfinity/Archipelago.git archipel
 cd archipelago-json
 
 # Run the automated setup script
-python scripts/setup_dev_environment.py
+python scripts/setup/setup_dev_environment.py
 ```
 
 The script will automatically:
@@ -118,16 +118,30 @@ You should see the title of the Inventory panel change to "My Inventory".
 
 ### 3. Run Automated Tests
 
+**Quick Start (First Time Setup):**
+```bash
+npm install                        # Install dependencies
+npx playwright install chromium    # Install browser binaries
+npm test                          # Run tests (auto-starts HTTP server)
+```
+
+**Detailed Instructions:**
+
 This project includes an end-to-end test suite using Playwright that validates the entire frontend system, including the crucial `testSpoilers` logic validation. To run it:
 
 1.  Make sure you have Node.js and npm installed.
 2.  In the project's root directory, run `npm install` to get the testing dependencies.
-3.  Ensure the local server is still running (`python -m http.server 8000` from the project root directory).
-4.  In a **new terminal**, run the primary test command from the project root:
+3.  Install Playwright browser binaries:
+    ```bash
+    npx playwright install chromium
+    ```
+4.  **Optional:** Pre-start the local server if desired (`python -m http.server 8000`).
+    **Note:** Playwright will automatically start the server if it's not already running (see `webServer` config in `playwright.config.js`).
+5.  Run the primary test command from the project root:
     ```bash
     npm test
     ```
-5.  The test runner will launch a headless browser, run through the application's internal test suite, and report the results to the console. For a more detailed, human-readable report, you can run `npm run test:analyze` after the test completes.
+6.  The test runner will launch a headless browser, run through the application's internal test suite, and report the results to the console. For a more detailed, human-readable report, you can run `npm run test:analyze` after the test completes.
 
 #### Test Commands and Parameters
 
@@ -159,6 +173,22 @@ npm run test:headed --mode=test-full --game=alttp --seed=1
 ```
 
 **Note on Cursor Editor:** If you are using the Cursor editor, there is a known issue where Playwright commands may fail on the first attempt. If `npm test` fails, simply run it a second time.
+
+#### Troubleshooting: Containerized/Sandboxed Environments
+
+If you see "Page crashed" or "Target page, context or browser has been closed" errors, you may be running in a containerized or sandboxed environment (Docker, GitHub Codespaces, etc.).
+
+The `playwright.config.js` already includes browser launch arguments to handle these environments:
+- `--no-sandbox` - Required when root user lacks sandbox permissions
+- `--disable-dev-shm-usage` - Prevents shared memory issues
+- `--disable-setuid-sandbox` - Alternative sandbox disabling
+- `--disable-gpu` - Improves stability in headless mode
+- `--single-process` - Helps in resource-constrained environments
+
+These are already configured and should work automatically. If issues persist, verify:
+1. You have sufficient memory allocated (at least 2GB recommended)
+2. The `/tmp` directory is writable
+3. You're running the latest Playwright version (`npm update @playwright/test`)
 
 ## VSCode Setup
 
@@ -238,13 +268,13 @@ This creates a `host.yaml` file in the project root. For testing purposes, you c
 **Option 1: Use the convenience script (recommended)**
 ```bash
 # Enable minimal spoiler testing (basic sphere validation)
-python scripts/update_host_settings.py minimal-spoilers
+python scripts/setup/update_host_settings.py minimal-spoilers
 
 # Enable full spoiler testing (includes all location tracking)
-python scripts/update_host_settings.py full-spoilers
+python scripts/setup/update_host_settings.py full-spoilers
 
 # Later, disable testing settings and return to normal operation
-python scripts/update_host_settings.py normal
+python scripts/setup/update_host_settings.py normal
 ```
 
 **Option 2: Manual editing**

@@ -1,13 +1,13 @@
 {
   "source": {
-    "include": ["frontend/modules"]
+    "include": ["frontend/modules"],
+    "excludePattern": "textAdventure-remote/shared"
   },
   "opts": {
     "destination": "./docs/json/api",
     "recurse": true,
     "readme": "./README.md",
-    "encoding": "utf8",
-    "template": "node_modules/better-docs"
+    "encoding": "utf8"
   },
   "plugins": [
     "plugins/markdown"
@@ -18,15 +18,6 @@
   },
   "templates": {
     "cleverLinks": true,
-    "monospaceLinks": true,
-    "better-docs": {
-      "name": "Archipelago JSON - API Documentation",
-      "navigation": [
-        {
-          "label": "GitHub",
-          "href": "https://github.com/PeerInfinity/Archipelago/tree/JSONExport"
-        }
-      ]
-    }
+    "monospaceLinks": true
   }
 }

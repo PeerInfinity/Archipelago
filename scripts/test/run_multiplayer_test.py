@@ -11,8 +11,8 @@ This script orchestrates a full integration test with two simultaneous clients:
 6. Stops the server and cleans up
 
 Usage:
-    python3 scripts/run_multiplayer_test.py --game alttp --seed 14089154938208861744
-    python3 scripts/run_multiplayer_test.py --player-file path/to/player.yaml
+    python3 scripts/test/run_multiplayer_test.py --game alttp --seed 14089154938208861744
+    python3 scripts/test/run_multiplayer_test.py --player-file path/to/player.yaml
 """
 
 import subprocess
@@ -188,9 +188,9 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python3 scripts/run_multiplayer_test.py --game alttp --seed 14089154938208861744
-  python3 scripts/run_multiplayer_test.py --game sm --seed 12345 --player-file custom/players
-  python3 scripts/run_multiplayer_test.py --output-dir custom_results
+  python3 scripts/test/run_multiplayer_test.py --game alttp --seed 14089154938208861744
+  python3 scripts/test/run_multiplayer_test.py --game sm --seed 12345 --player-file custom/players
+  python3 scripts/test/run_multiplayer_test.py --output-dir custom_results
         """
     )
 
