@@ -1,8 +1,24 @@
 # Archipelago JSON Export Tools
 
+## Update
+
+**Development has moved to [Archipelago-CC](https://github.com/PeerInfinity/Archipelago-CC).**
+
+This repository will remain archived with its complete commit history intact. While I originally planned to keep this repository clean for a pull request back to the main Archipelago repository, the commit history now contains large files (particularly old versions of the JSON files in `frontend/presets/` and other directories) that shouldn't be merged upstream.
+
+### Future Plans
+
+- **Archipelago-CC**: Will use `git-filter-repo` to remove large files from history, then reconnect with the main Archipelago repository via merge.
+- **This Repository**: Will remain in its current state as a historical record. No commits from Archipelago-CC will be merged here.
+- **Upstream Contributions**: Any future pull requests to the main Archipelago repository will be made from a fresh fork with only the relevant files, not from this repository.
+
+---
+
 This project provides a system for exporting Archipelago's game logic into a standardized JSON format and includes a modular web client that uses this JSON for advanced tracking, accessibility analysis, and other utilities.
 
-**[Web Client Live Demo](https://peerinfinity.github.io/Archipelago/)**
+**[Web Client Live Demo](https://peerinfinity.github.io/Archipelago/)** (Stable Release)
+
+For the latest development version, visit [Archipelago-CC Demo](https://peerinfinity.github.io/Archipelago-CC/)
 
 ## Key Features
 
