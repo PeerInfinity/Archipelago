@@ -8,7 +8,7 @@ This repository will remain archived with its complete commit history intact. Wh
 
 ### Future Plans
 
-- **Archipelago-CC**: Will use `git-filter-repo` to remove large files from history, then reconnect with the main Archipelago repository via merge.
+- **Archipelago-CC**: I might eventually need to use `git-filter-repo` to remove large files from history, then reconnect with the main Archipelago repository via merge.
 - **This Repository**: Will remain in its current state as a historical record. No commits from Archipelago-CC will be merged here.
 - **Upstream Contributions**: Any future pull requests to the main Archipelago repository will be made from a fresh fork with only the relevant files, not from this repository.
 
