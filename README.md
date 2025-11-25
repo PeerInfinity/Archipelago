@@ -1,24 +1,28 @@
 # Archipelago JSON Export Tools
 
-## Update
-
-**Development has moved to [Archipelago-CC](https://github.com/PeerInfinity/Archipelago-CC).**
-
-This repository will remain archived with its complete commit history intact. While I originally planned to keep this repository clean for a pull request back to the main Archipelago repository, the commit history now contains large files (particularly old versions of the JSON files in `frontend/presets/` and other directories) that shouldn't be merged upstream.
-
-### Future Plans
-
-- **Archipelago-CC**: I might eventually need to use `git-filter-repo` to remove large files from history, then reconnect with the main Archipelago repository via merge.
-- **This Repository**: Will remain in its current state as a historical record. No commits from Archipelago-CC will be merged here.
-- **Upstream Contributions**: Any future pull requests to the main Archipelago repository will be made from a fresh fork with only the relevant files, not from this repository.
-
----
-
 This project provides a system for exporting Archipelago's game logic into a standardized JSON format and includes a modular web client that uses this JSON for advanced tracking, accessibility analysis, and other utilities.
 
 **[Web Client Live Demo](https://peerinfinity.github.io/Archipelago/)** (Stable Release)
 
 For the latest development version, visit [Archipelago-CC Demo](https://peerinfinity.github.io/Archipelago-CC/)
+
+## About This Repository
+
+**This repository is archived.** Active development continues at [Archipelago-CC](https://github.com/PeerInfinity/Archipelago-CC).
+
+### Why Two Repositories?
+
+- **This repository (PeerInfinity/Archipelago):** Archived stable snapshot. Periodically updated with current files from Archipelago-CC, but without git history. Use this as a clean starting point for your own fork.
+- **[Archipelago-CC](https://github.com/PeerInfinity/Archipelago-CC):** Active development repository. The commit history contains large files, making it unsuitable for direct forking if you want a clean upstream relationship.
+- **[ArchipelagoMW/Archipelago](https://github.com/ArchipelagoMW/Archipelago):** The main upstream Archipelago project.
+
+### For Contributors
+
+**To contribute to this project:** Submit pull requests to [Archipelago-CC](https://github.com/PeerInfinity/Archipelago-CC).
+
+**To contribute to upstream Archipelago or maintain your own clean fork:** Fork the [main ArchipelagoMW repository](https://github.com/ArchipelagoMW/Archipelago), then copy the relevant files from this repository or Archipelago-CC. See the [diff files documentation](https://github.com/PeerInfinity/Archipelago-CC/tree/main/docs/json/developer/diffs) for details on what has changed from upstream.
+
+---
 
 ## Key Features
 
@@ -47,7 +51,7 @@ This project contains a full documentation suite for both users and developers.
 
 ### Standard Mode
 
-1.  **Generate Your Game:** To get the necessary files, generate your seed using a version of Archipelago that contains the JSON exporter tool. You can download this from the [Archipelago JSON Export fork](https://github.com/PeerInfinity/Archipelago/tree/JSONExport). When you generate a seed, you will get two important files: your `.archipelago` file (for the server) and a `rules.json` file (for this web client).
+1.  **Generate Your Game:** To get the necessary files, generate your seed using a version of Archipelago that contains the JSON exporter tool. You can download this from this repository or from [Archipelago-CC](https://github.com/PeerInfinity/Archipelago-CC). When you generate a seed, you will get two important files: your `.archipelago` file (for the server) and a `rules.json` file (for this web client).
 2.  **Open the Web Client:** [Open the client](https://peerinfinity.github.io/Archipelago/).
 3.  **Load Your Rules:** In one of the panels, find the "Presets" tab. At the top, click the "Load JSON File" button and select your `rules.json` file.
 4.  **Connect:** In the "Console & Status" panel, enter your server address and click "Connect".
