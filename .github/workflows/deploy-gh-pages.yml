@@ -1,0 +1,33 @@
+# Manually triggered workflow to deploy frontend to gh-pages
+
+name: Deploy to GitHub Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_branch:
+        description: 'Branch to deploy from'
+        required: true
+        default: 'JSONExport'
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.source_branch }}
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./frontend
+          publish_branch: gh-pages
+          force_orphan: false
+          keep_files: false
