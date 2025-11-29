@@ -60,6 +60,10 @@ export class SphereState {
     this.currentSphere = null; // {integerSphere, fractionalSphere, isComplete}
     this.sphereLogPath = null;
     this.logFormat = null; // 'verbose' or 'incremental'
+    this.rawData = []; // Raw sphere log entries for multiworld support
+    this.focusedMode = false; // True if this is a focused regression test log
+    this.focusLocations = []; // Locations to focus on (only check these in focused mode)
+    this.logHeader = null; // Header metadata from log_header event
   }
 
   /**
@@ -68,9 +72,13 @@ export class SphereState {
   reset() {
     log('info', 'Resetting sphere state');
     this.sphereData = [];
+    this.rawData = [];
     this.currentSphere = null;
     this.sphereLogPath = null;
     this.logFormat = null;
+    this.focusedMode = false;
+    this.focusLocations = [];
+    this.logHeader = null;
     // Don't reset currentPlayerId as it comes from static data
 
     if (this.eventBus) {
@@ -79,19 +87,27 @@ export class SphereState {
   }
 
   /**
-   * Load sphere log from a file path
-   * @param {string} filePath - Path to the sphere log JSONL file
+   * Load sphere log from a file path or pre-loaded content
+   * @param {string} filePath - Path to the sphere log JSONL file (used for display/reference)
+   * @param {string} [preloadedContent] - Optional pre-loaded JSONL text content. If provided, skips fetch.
    */
-  async loadSphereLog(filePath) {
-    log('info', `Loading sphere log from: ${filePath}`);
+  async loadSphereLog(filePath, preloadedContent = null) {
+    log('info', `Loading sphere log from: ${filePath}${preloadedContent ? ' (pre-loaded content)' : ''}`);
 
     try {
-      const response = await fetch(filePath);
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      let text;
+      if (preloadedContent) {
+        // Use pre-loaded content directly
+        text = preloadedContent;
+      } else {
+        // Fetch from file path
+        const response = await fetch(filePath);
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        text = await response.text();
       }
 
-      const text = await response.text();
       this.parseSphereLog(text);
       this.sphereLogPath = filePath;
 
@@ -170,6 +186,9 @@ export class SphereState {
   parseSphereLog(jsonlText) {
     const lines = jsonlText.trim().split('\n');
     this.sphereData = [];
+    this.focusedMode = false;
+    this.focusLocations = [];
+    this.logHeader = null;
 
     // Parse all entries first
     const entries = [];
@@ -179,6 +198,21 @@ export class SphereState {
 
       try {
         const entry = JSON.parse(line);
+
+        // Handle log_header event (for focused regression tests)
+        if (entry.type === 'log_header') {
+          this.logHeader = entry;
+          if (entry.focused_mode) {
+            this.focusedMode = true;
+            this.focusLocations = entry.focus_locations || [];
+            log('info', `Detected focused mode log. Focus locations: ${this.focusLocations.join(', ')}`);
+            if (entry.description) {
+              log('info', `Log description: ${entry.description}`);
+            }
+          }
+          continue; // Don't add header to entries
+        }
+
         if (entry.type !== 'state_update') {
           log('warn', `Unexpected entry type at line ${i + 1}: ${entry.type}`);
           continue;
@@ -193,6 +227,9 @@ export class SphereState {
       log('warn', 'No valid entries found in sphere log');
       return;
     }
+
+    // Store raw data for multiworld support
+    this.rawData = entries;
 
     // Detect format
     this.logFormat = this._detectFormat(entries[0]);
@@ -227,9 +264,12 @@ export class SphereState {
         log('warn', `No data for player ${this.currentPlayerId} in sphere ${parsed.sphereIndex}`);
       }
 
+      // sphere_locations can be in player_data (new format) or at top level (old format)
+      const sphereLocations = playerData?.sphere_locations || entry.sphere_locations || [];
+
       this.sphereData.push({
         ...parsed,
-        locations: entry.sphere_locations || [],
+        locations: sphereLocations,
         accessibleLocations: playerData?.accessible_locations || [],
         accessibleRegions: playerData?.accessible_regions || [],
         inventoryDetails: playerData?.inventory_details || { base_items: {}, resolved_items: {} }
@@ -307,10 +347,13 @@ export class SphereState {
         accumulated = integerAccumulated;
       }
 
+      // sphere_locations can be in player_data (new format) or at top level (old format)
+      const sphereLocations = playerData?.sphere_locations || entry.sphere_locations || [];
+
       // Store the accumulated state in sphereData
       this.sphereData.push({
         ...parsed,
-        locations: entry.sphere_locations || [],
+        locations: sphereLocations,
         accessibleLocations: Array.from(accumulated.accessibleLocations).sort(),
         accessibleRegions: Array.from(accumulated.accessibleRegions).sort(),
         inventoryDetails: { ...accumulated.inventoryDetails }
@@ -346,6 +389,18 @@ export class SphereState {
     if (staticData?.player) {
       this.setCurrentPlayerId(staticData.player);
       return staticData.player;
+    }
+
+    // For multiworld: Try game_info field to identify this player's rules file
+    // In multiworld, game_info has a single key matching the player ID
+    if (staticData?.game_info) {
+      const gameInfoKeys = Object.keys(staticData.game_info);
+      if (gameInfoKeys.length === 1) {
+        const playerId = gameInfoKeys[0];
+        log('info', `Detected multiworld player ID from game_info: ${playerId}`);
+        this.setCurrentPlayerId(playerId);
+        return playerId;
+      }
     }
 
     // Try player_names field - get first player
@@ -426,6 +481,55 @@ export class SphereState {
    */
   getSphereData() {
     return this.sphereData;
+  }
+
+  /**
+   * Get multiworld sphere data with locations from all players
+   * Returns sphere data augmented with cross-player location information
+   * @returns {Array} Array of sphere objects with allPlayersLocations field
+   */
+  getMultiworldSphereData() {
+    if (!this.rawData || !this.rawData.length) {
+      return this.sphereData;
+    }
+
+    // Map to store locations by sphere index for all players
+    const sphereMap = new Map();
+
+    // Process raw data to extract all players' locations per sphere
+    for (const entry of this.rawData) {
+      if (!entry.sphere_index || !entry.player_data) {
+        continue;
+      }
+
+      const sphereIndex = entry.sphere_index;
+
+      if (!sphereMap.has(sphereIndex)) {
+        sphereMap.set(sphereIndex, {});
+      }
+
+      const sphereEntry = sphereMap.get(sphereIndex);
+
+      // Extract locations for each player
+      for (const [playerId, playerData] of Object.entries(entry.player_data)) {
+        const locations = playerData.sphere_locations || [];
+        if (locations.length > 0) {
+          if (!sphereEntry[playerId]) {
+            sphereEntry[playerId] = [];
+          }
+          sphereEntry[playerId].push(...locations);
+        }
+      }
+    }
+
+    // Augment existing sphere data with cross-player locations
+    return this.sphereData.map(sphere => {
+      const allPlayersLocations = sphereMap.get(sphere.sphereIndex) || {};
+      return {
+        ...sphere,
+        allPlayersLocations // Object keyed by playerId with arrays of location names
+      };
+    });
   }
 
   /**
@@ -553,6 +657,30 @@ export class SphereState {
    */
   getCurrentPlayerId() {
     return this.currentPlayerId;
+  }
+
+  /**
+   * Check if focused mode is active
+   * @returns {boolean} True if this is a focused regression test log
+   */
+  isFocusedMode() {
+    return this.focusedMode;
+  }
+
+  /**
+   * Get the locations to focus on in focused mode
+   * @returns {Array<string>} Array of location names to focus on
+   */
+  getFocusLocations() {
+    return this.focusLocations;
+  }
+
+  /**
+   * Get the log header metadata
+   * @returns {Object|null} Header metadata or null
+   */
+  getLogHeader() {
+    return this.logHeader;
   }
 }
 

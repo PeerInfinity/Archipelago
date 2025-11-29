@@ -136,7 +136,7 @@ export class LocationUI {
           this.updateLocationDisplay(); // Trigger redraw
         }
       }
-    , 'locations');
+      , 'locations');
   }
 
   onPanelDestroy() {
@@ -295,7 +295,7 @@ export class LocationUI {
         log('info', '[LocationUI rulesLoaded] Resetting panel state...');
         this.pendingLocations.clear(); // Clear all pending location states
         // Note: No need to clear checked locations here as they come from the game state snapshot
-        
+
         // Force clear the UI display immediately to remove any stale DOM content
         this.clear(); // This will clear the locations grid
 
@@ -305,8 +305,7 @@ export class LocationUI {
           this.originalLocationOrder = stateManager.getOriginalLocationOrder();
           log(
             'info',
-            `[LocationUI rulesLoaded] Stored ${
-              this.originalLocationOrder ? this.originalLocationOrder.length : 0
+            `[LocationUI rulesLoaded] Stored ${this.originalLocationOrder ? this.originalLocationOrder.length : 0
             } location keys for original order.`
           );
         } else {
@@ -377,11 +376,11 @@ export class LocationUI {
         <select id="sort-select">
           <option value="original">Original Order</option>
           <option value="name">Sort by Name</option>
-          <option value="accessibility_original">Sort by Accessibility (Original)</option>
+          <option value="accessibility_original" selected>Sort by Accessibility (Original)</option>
           <option value="accessibility">Sort by Accessibility (Name)</option>
         </select>
         <label>
-          <input type="checkbox" id="show-checked" checked />
+          <input type="checkbox" id="show-checked" />
           Show Checked
         </label>
         <label>
@@ -634,7 +633,7 @@ export class LocationUI {
     // If there was logging for which locations were clicked for analytics/debugging:
     // log('info',
     //   `User interaction: Location card for '${locationData.name}' clicked.`
-        // );
+    // );
   }
 
   /**
@@ -643,19 +642,19 @@ export class LocationUI {
    */
   handleLocationCheckRejected(eventData) {
     const { locationName, reason } = eventData;
-    
+
     log('info', `[LocationUI] Location check rejected for ${locationName}: ${reason}`);
-    
+
     // Clear pending state for this location
     if (this.pendingLocations.has(locationName)) {
       this.pendingLocations.delete(locationName);
       log('info', `[LocationUI] Cleared pending state for rejected location: ${locationName}`);
-      
+
       // Update the display to reflect the cleared pending state
       this.updateLocationDisplay();
     }
   }
-  
+
   // Restore syncWithState - primarily for fetching latest state and updating display
   syncWithState() {
     log(
@@ -709,25 +708,23 @@ export class LocationUI {
       !this.originalLocationOrder ||
       this.originalLocationOrder.length === 0
     ) {
-      // Only warn if not in "Show All" mode and original order is expected for sorting.
-      if (
-        (sortMethod === 'original' ||
-          sortMethod === 'accessibility_original') &&
-        Object.keys(staticData.locations).length > 0 // Only warn if there should be locations
-      ) {
-        log(
-          'warn',
-          '[LocationUI updateLocationDisplay] Original location order is empty (and an original-order sort is selected). Locations might appear unsorted or panel might wait for re-render.'
-        );
-      }
-      // The fallback fetch logic can remain as it might still be useful in some edge cases
-      // or if staticData itself was temporarily unavailable from the proxy.
+      // Try fallback fetch from stateManager
       const freshlyFetchedOrder = stateManager.getOriginalLocationOrder();
       if (freshlyFetchedOrder && freshlyFetchedOrder.length > 0) {
         this.originalLocationOrder = freshlyFetchedOrder;
         log(
           'info',
-          `[LocationUI updateLocationDisplay] Fallback fetch for originalLocationOrder succeeded: ${this.originalLocationOrder.length} items.`
+          `[LocationUI updateLocationDisplay] Fetched originalLocationOrder: ${this.originalLocationOrder.length} items.`
+        );
+      } else if (
+        // Only warn if fallback also failed and original order is expected for sorting
+        (sortMethod === 'original' ||
+          sortMethod === 'accessibility_original') &&
+        staticData.locations.size > 0 // Only warn if there should be locations
+      ) {
+        log(
+          'warn',
+          '[LocationUI updateLocationDisplay] Original location order not available (and an original-order sort is selected). Locations might appear unsorted.'
         );
       }
     }
@@ -765,8 +762,8 @@ export class LocationUI {
       .querySelector('#location-search')
       .value.toLowerCase();
 
-    // Filter locations
-    let filteredLocations = Object.values(staticData.locations).filter(
+    // Filter locations using Map methods
+    let filteredLocations = Array.from(staticData.locations.values()).filter(
       (loc) => {
         const name = loc.name;
         const isChecked = !!snapshot?.checkedLocations?.includes(name);
@@ -1127,7 +1124,7 @@ export class LocationUI {
         const isParentRegionEffectivelyReachable =
           parentRegionReachabilityStatus === 'reachable' ||
           parentRegionReachabilityStatus === 'checked';
-          
+
         const locationAccessRule = location.access_rule;
         const locationRuleEvalResult = locationAccessRule
           ? evaluateRule(locationAccessRule, snapshotInterface)
@@ -1240,7 +1237,7 @@ export class LocationUI {
 
         // Item at Location (if showLocationItems is enabled)
         if (this.showLocationItems && staticData?.locationItems) {
-          const itemAtLocation = staticData.locationItems[name];
+          const itemAtLocation = staticData.locationItems.get(name);
           if (itemAtLocation && itemAtLocation.name) {
             const itemDiv = document.createElement('div');
             itemDiv.className = 'text-sm location-item-name';
@@ -1345,7 +1342,7 @@ export class LocationUI {
     const locationReachabilityData = snapshot.locationReachability;
     const locationStatus = locationReachabilityData[locationName];
     const isChecked = snapshot.checkedLocations?.includes(locationName);
-    
+
 
     if (isChecked) {
       return 'checked';
@@ -1426,9 +1423,8 @@ export class LocationUI {
           location.access_rule,
           snapshotInterface
         );
-        accessResultText = `Rule evaluates to: ${
-          isAccessible ? 'TRUE' : 'FALSE'
-        }`;
+        accessResultText = `Rule evaluates to: ${isAccessible ? 'TRUE' : 'FALSE'
+          }`;
 
         // Use stateManager (proxy) to check for staleness
         if (
@@ -1470,9 +1466,8 @@ export class LocationUI {
     const displayNames = displayElements.map(el => el.text);
     modalTitle.textContent = `Details for ${displayNames.join(' - ')}`;
 
-    let detailsContent = `<p><strong>Region:</strong> ${
-      location.region || 'N/A'
-    }</p>`;
+    let detailsContent = `<p><strong>Region:</strong> ${location.region || 'N/A'
+      }</p>`;
     detailsContent += `<p><strong>Type:</strong> ${location.type || 'N/A'}</p>`;
 
     // Always show name, label1 and label2 in the modal if available
@@ -1485,12 +1480,11 @@ export class LocationUI {
     if (location.label2) {
       detailsContent += `<p><strong>Expression:</strong> ${location.label2}</p>`;
     }
-    // Add more location details as needed (e.g., item if present in staticData.locations[location.name].item)
-    const staticLocationData = staticData.locations[location.name];
+    // Add more location details as needed (e.g., item if present in staticData.locations.get(location.name).item)
+    const staticLocationData = staticData.locations.get(location.name);
     if (staticLocationData && staticLocationData.item) {
-      detailsContent += `<p><strong>Item:</strong> ${
-        staticLocationData.item.name || 'Unknown Item'
-      } (Player ${staticLocationData.item.player || 'N/A'})</p>`;
+      detailsContent += `<p><strong>Item:</strong> ${staticLocationData.item.name || 'Unknown Item'
+        } (Player ${staticLocationData.item.player || 'N/A'})</p>`;
     }
     detailsContent += `<p><strong>Current Evaluation:</strong> ${accessResultText}</p>`;
 

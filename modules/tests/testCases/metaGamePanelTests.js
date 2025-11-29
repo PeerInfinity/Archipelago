@@ -313,7 +313,7 @@ export async function testMetaGamePanelUI(testController) {
 
     // Load default rules to ensure clean state
     testController.log('Loading default rules to reset state...');
-    await testController.loadDefaultRules();
+    await testController.loadALTTPRules();
     testController.log('Default rules loaded successfully');
 
     // Clear any existing MetaGame configuration to prevent state pollution

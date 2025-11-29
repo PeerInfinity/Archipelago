@@ -1,0 +1,6900 @@
+{
+  "schema_version": 3,
+  "game_name": "The Wind Waker",
+  "game_directory": "tww",
+  "archipelago_version": "0.6.4",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1",
+    "2": "Player2",
+    "3": "Player3",
+    "4": "Player4",
+    "5": "Player5",
+    "6": "Player6",
+    "7": "Player7",
+    "8": "Player8",
+    "9": "Player9",
+    "10": "Player10",
+    "11": "Player11",
+    "12": "Player12",
+    "13": "Player13",
+    "14": "Player14",
+    "15": "Player15",
+    "16": "Player16",
+    "17": "Player17",
+    "18": "Player18",
+    "19": "Player19",
+    "20": "Player20",
+    "21": "Player21",
+    "22": "Player22",
+    "23": "Player23",
+    "24": "Player24",
+    "25": "Player25",
+    "26": "Player26",
+    "27": "Player27",
+    "28": "Player28",
+    "29": "Player29",
+    "30": "Player30",
+    "31": "Player31",
+    "32": "Player32",
+    "33": "Player33",
+    "34": "Player34",
+    "35": "Player35",
+    "36": "Player36",
+    "37": "Player37",
+    "38": "Player38",
+    "39": "Player39",
+    "40": "Player40",
+    "41": "Player41",
+    "42": "Player42",
+    "43": "Player43",
+    "44": "Player44",
+    "45": "Player45",
+    "46": "Player46",
+    "47": "Player47",
+    "48": "Player48",
+    "49": "Player49",
+    "50": "Player50",
+    "51": "Player51",
+    "52": "Player52",
+    "53": "Player53",
+    "54": "Player54",
+    "55": "Player55",
+    "56": "Player56",
+    "57": "Player57",
+    "58": "Player58",
+    "59": "Player59",
+    "60": "Player60",
+    "61": "Player61",
+    "62": "Player62",
+    "63": "Player63",
+    "64": "Player64",
+    "65": "Player65",
+    "66": "Player66",
+    "67": "Player67",
+    "68": "Player68",
+    "69": "Player69",
+    "70": "Player70",
+    "71": "Player71",
+    "72": "Player72",
+    "73": "Player73",
+    "74": "Player74",
+    "75": "Player75"
+  },
+  "world_classes": {
+    "1": "HatInTimeWorld",
+    "2": "ALTTPWorld",
+    "3": "ShortHikeWorld",
+    "4": "AdventureWorld",
+    "5": "AquariaWorld",
+    "6": "ArchipIDLEWorld",
+    "7": "BlasphemousWorld",
+    "8": "BombRushCyberfunkWorld",
+    "9": "BumpStikWorld",
+    "10": "CVCotMWorld",
+    "11": "CV64World",
+    "12": "Celeste64World",
+    "13": "ChecksFinderWorld",
+    "14": "ChocolateChipCookiesWorld",
+    "15": "CivVIWorld",
+    "16": "DarkSouls3World",
+    "17": "DLCqworld",
+    "18": "DKC3World",
+    "19": "DOOM1993World",
+    "20": "DOOM2World",
+    "21": "Factorio",
+    "22": "FaxanaduWorld",
+    "23": "FFMQWorld",
+    "24": "HereticWorld",
+    "25": "Hylics2World",
+    "26": "InscryptionWorld",
+    "27": "JakAndDaxterWorld",
+    "28": "KH2World",
+    "29": "KH1World",
+    "30": "KDL3World",
+    "31": "LandstalkerWorld",
+    "32": "LingoWorld",
+    "33": "LinksAwakeningWorld",
+    "34": "L2ACWorld",
+    "35": "MLSSWorld",
+    "36": "MathProof2p2e4World",
+    "37": "MM2World",
+    "38": "MMBN3World",
+    "39": "MeritousWorld",
+    "40": "MetamathWorld",
+    "41": "MuseDashWorld",
+    "42": "NoitaWorld",
+    "43": "OSRSWorld",
+    "44": "Overcooked2World",
+    "45": "PaintWorld",
+    "46": "PokemonEmeraldWorld",
+    "47": "PokemonRedBlueWorld",
+    "48": "RaftWorld",
+    "49": "RiskOfRainWorld",
+    "50": "SavingPrincessWorld",
+    "51": "SoEWorld",
+    "52": "ShapezWorld",
+    "53": "ShiversWorld",
+    "54": "SA2BWorld",
+    "55": "SC2World",
+    "56": "StardewValleyWorld",
+    "57": "SubnauticaWorld",
+    "58": "SM64World",
+    "59": "MarioLand2World",
+    "60": "SMWWorld",
+    "61": "SMWorld",
+    "62": "TerrariaWorld",
+    "63": "TLoZWorld",
+    "64": "MessengerWorld",
+    "65": "TWWWorld",
+    "66": "WitnessWorld",
+    "67": "TimespinnerWorld",
+    "68": "TunicWorld",
+    "69": "UndertaleWorld",
+    "70": "V6World",
+    "71": "WargrooveWorld",
+    "72": "WebDevJourneyWorld",
+    "73": "YachtDiceWorld",
+    "74": "YoshisIslandWorld",
+    "75": "Yugioh06World"
+  },
+  "regions": {
+    "65": {
+      "The Great Sea": {
+        "name": "The Great Sea",
+        "exits": [
+          {
+            "name": "Dungeon Entrance on Dragon Roost Island -> Dragon Roost Cavern",
+            "connected_region": "Dragon Roost Cavern",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Dungeon Entrance in Forest Haven Sector -> Forbidden Woods",
+            "connected_region": "Forbidden Woods",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_access_forest_haven",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_outdoors",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "helper",
+                          "name": "can_fly_with_deku_leaf_indoors",
+                          "args": []
+                        },
+                        {
+                          "type": "helper",
+                          "name": "can_fly_with_deku_leaf_outdoors",
+                          "args": []
+                        },
+                        {
+                          "type": "state_method",
+                          "method": "_tww_obscure_1",
+                          "args": []
+                        },
+                        {
+                          "type": "state_method",
+                          "method": "_tww_precise_1",
+                          "args": []
+                        }
+                      ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Grappling Hook"
+                    }
+                  ]
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_cut_grass",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_magic_meter_upgrade",
+                      "args": []
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "name": "Dungeon Entrance in Tower of the Gods Sector -> Tower of the Gods",
+            "connected_region": "Tower of the Gods",
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_group_unique",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Pearls"
+                },
+                {
+                  "type": "constant",
+                  "value": 3
+                }
+              ]
+            }
+          },
+          {
+            "name": "Dungeon Entrance on Headstone Island -> Earth Temple",
+            "connected_region": "Earth Temple",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Power Bracelets"
+            }
+          },
+          {
+            "name": "Dungeon Entrance on Gale Isle -> Wind Temple",
+            "connected_region": "Wind Temple",
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Iron Boots",
+                    "Skull Hammer"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "name": "Miniboss Entrance in Hyrule Castle -> Master Sword Chamber",
+            "connected_region": "Master Sword Chamber",
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_hyrule",
+              "args": []
+            }
+          },
+          {
+            "name": "Boss Entrance in Forsaken Fortress -> Helmaroc King Boss Arena",
+            "connected_region": "Helmaroc King Boss Arena",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_get_inside_forsaken_fortress",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "state_method",
+                          "method": "_tww_obscure_2",
+                          "args": []
+                        },
+                        {
+                          "type": "state_method",
+                          "method": "_tww_precise_2",
+                          "args": []
+                        }
+                      ]
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_fly_with_deku_leaf_indoors",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Hookshot"
+                    }
+                  ]
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_defeat_bokoblins",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_fly_with_deku_leaf_outdoors",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Grappling Hook"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Skull Hammer"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Secret Cave Entrance on Outset Island -> Savage Labyrinth",
+            "connected_region": "Savage Labyrinth",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "helper",
+                          "name": "can_fly_with_deku_leaf_outdoors",
+                          "args": []
+                        },
+                        {
+                          "type": "helper",
+                          "name": "can_reach_outset_island_upper_level",
+                          "args": []
+                        }
+                      ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Hookshot"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Power Bracelets"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Secret Cave Entrance on Dragon Roost Island -> Dragon Roost Island Secret Cave",
+            "connected_region": "Dragon Roost Island Secret Cave",
+            "access_rule": {
+              "type": "helper",
+              "name": "can_move_boulders",
+              "args": []
+            }
+          },
+          {
+            "name": "Secret Cave Entrance on Fire Mountain -> Fire Mountain Secret Cave",
+            "connected_region": "Fire Mountain Secret Cave",
+            "access_rule": {
+              "type": "helper",
+              "name": "has_ice_arrows",
+              "args": []
+            }
+          },
+          {
+            "name": "Secret Cave Entrance on Ice Ring Isle -> Ice Ring Isle Secret Cave",
+            "connected_region": "Ice Ring Isle Secret Cave",
+            "access_rule": {
+              "type": "helper",
+              "name": "has_fire_arrows",
+              "args": []
+            }
+          },
+          {
+            "name": "Secret Cave Entrance on Private Oasis -> Cabana Labyrinth",
+            "connected_region": "Cabana Labyrinth",
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Cabana Deed",
+                    "Delivery Bag",
+                    "Grappling Hook"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "name": "Secret Cave Entrance on Needle Rock Isle -> Needle Rock Isle Secret Cave",
+            "connected_region": "Needle Rock Isle Secret Cave",
+            "access_rule": {
+              "type": "helper",
+              "name": "has_fire_arrows",
+              "args": []
+            }
+          },
+          {
+            "name": "Secret Cave Entrance on Angular Isles -> Angular Isles Secret Cave",
+            "connected_region": "Angular Isles Secret Cave",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_outdoors",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "Hookshot"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Secret Cave Entrance on Boating Course -> Boating Course Secret Cave",
+            "connected_region": "Boating Course Secret Cave",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_outdoors",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "Hookshot"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Secret Cave Entrance on Stone Watcher Island -> Stone Watcher Island Secret Cave",
+            "connected_region": "Stone Watcher Island Secret Cave",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Power Bracelets"
+            }
+          },
+          {
+            "name": "Secret Cave Entrance on Overlook Island -> Overlook Island Secret Cave",
+            "connected_region": "Overlook Island Secret Cave",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Hookshot"
+            }
+          },
+          {
+            "name": "Secret Cave Entrance on Bird's Peak Rock -> Bird's Peak Rock Secret Cave",
+            "connected_region": "Bird's Peak Rock Secret Cave",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Bait Bag"
+            }
+          },
+          {
+            "name": "Secret Cave Entrance on Pawprint Isle -> Pawprint Isle Chuchu Cave",
+            "connected_region": "Pawprint Isle Chuchu Cave",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Secret Cave Entrance on Pawprint Isle Side Isle -> Pawprint Isle Wizzrobe Cave",
+            "connected_region": "Pawprint Isle Wizzrobe Cave",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Hookshot"
+            }
+          },
+          {
+            "name": "Secret Cave Entrance on Diamond Steppe Island -> Diamond Steppe Island Warp Maze Cave",
+            "connected_region": "Diamond Steppe Island Warp Maze Cave",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Hookshot"
+            }
+          },
+          {
+            "name": "Secret Cave Entrance on Bomb Island -> Bomb Island Secret Cave",
+            "connected_region": "Bomb Island Secret Cave",
+            "access_rule": {
+              "type": "helper",
+              "name": "can_move_boulders",
+              "args": []
+            }
+          },
+          {
+            "name": "Secret Cave Entrance on Rock Spire Isle -> Rock Spire Isle Secret Cave",
+            "connected_region": "Rock Spire Isle Secret Cave",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Bombs"
+            }
+          },
+          {
+            "name": "Secret Cave Entrance on Shark Island -> Shark Island Secret Cave",
+            "connected_region": "Shark Island Secret Cave",
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Iron Boots",
+                    "Skull Hammer"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "name": "Secret Cave Entrance on Cliff Plateau Isles -> Cliff Plateau Isles Secret Cave",
+            "connected_region": "Cliff Plateau Isles Secret Cave",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Secret Cave Entrance on Horseshoe Island -> Horseshoe Island Secret Cave",
+            "connected_region": "Horseshoe Island Secret Cave",
+            "access_rule": {
+              "type": "helper",
+              "name": "can_fan_with_deku_leaf",
+              "args": []
+            }
+          },
+          {
+            "name": "Secret Cave Entrance on Star Island -> Star Island Secret Cave",
+            "connected_region": "Star Island Secret Cave",
+            "access_rule": {
+              "type": "helper",
+              "name": "can_move_boulders",
+              "args": []
+            }
+          },
+          {
+            "name": "Fairy Fountain Entrance on Outset Island -> Outset Fairy Fountain",
+            "connected_region": "Outset Fairy Fountain",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_access_forest_of_fairies",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_move_boulders",
+                  "args": []
+                }
+              ]
+            }
+          },
+          {
+            "name": "Fairy Fountain Entrance on Thorned Fairy Island -> Thorned Fairy Fountain",
+            "connected_region": "Thorned Fairy Fountain",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Skull Hammer"
+            }
+          },
+          {
+            "name": "Fairy Fountain Entrance on Eastern Fairy Island -> Eastern Fairy Fountain",
+            "connected_region": "Eastern Fairy Fountain",
+            "access_rule": {
+              "type": "helper",
+              "name": "can_move_boulders",
+              "args": []
+            }
+          },
+          {
+            "name": "Fairy Fountain Entrance on Western Fairy Island -> Western Fairy Fountain",
+            "connected_region": "Western Fairy Fountain",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Skull Hammer"
+            }
+          },
+          {
+            "name": "Fairy Fountain Entrance on Southern Fairy Island -> Southern Fairy Fountain",
+            "connected_region": "Southern Fairy Fountain",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_fire_arrows",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "Bombs"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Fairy Fountain Entrance on Northern Fairy Island -> Northern Fairy Fountain",
+            "connected_region": "Northern Fairy Fountain",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Defeat Ganondorf",
+            "id": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_reach_and_defeat_ganondorf",
+              "args": []
+            },
+            "item": {
+              "name": "Victory",
+              "player": 65,
+              "advancement": true,
+              "type": "Event"
+            }
+          },
+          {
+            "name": "Forsaken Fortress - Chest Guarded By Bokoblin",
+            "id": 2326645,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_get_inside_forsaken_fortress",
+              "args": []
+            },
+            "item": {
+              "name": "Lantern",
+              "player": 68,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Forsaken Fortress - Chest Inside Lower Jail Cell",
+            "id": 2326644,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_get_inside_forsaken_fortress",
+              "args": []
+            },
+            "item": {
+              "name": "FF Dungeon Map",
+              "player": 65,
+              "advancement": false,
+              "type": "Map"
+            }
+          },
+          {
+            "name": "Forsaken Fortress - Chest Outside Upper Jail Cell",
+            "id": 2326643,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_get_inside_forsaken_fortress",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_fly_with_deku_leaf_indoors",
+                      "args": []
+                    },
+                    {
+                      "type": "state_method",
+                      "method": "_tww_obscure_1",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Hookshot"
+                    }
+                  ]
+                }
+              ]
+            },
+            "item": {
+              "name": "Red jewel(S)",
+              "player": 11,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Forsaken Fortress - Chest on Bed",
+            "id": 2326646,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_get_inside_forsaken_fortress",
+              "args": []
+            },
+            "item": {
+              "name": "FF Compass",
+              "player": 65,
+              "advancement": false,
+              "type": "Compass"
+            }
+          },
+          {
+            "name": "Forsaken Fortress - Phantom Ganon",
+            "id": 2326642,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_reach_and_defeat_phantom_ganon",
+              "args": []
+            },
+            "item": {
+              "name": "Roast beef",
+              "player": 11,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Ganon's Tower - Maze Chest",
+            "id": 2326692,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_phantom_ganon",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_reach_ganons_tower_phantom_ganon_room",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Pocket Ice Melon",
+              "player": 74,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Outset Island - Great Fairy",
+            "id": 2326532,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach_region",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Outset Fairy Fountain"
+                }
+              ]
+            },
+            "item": {
+              "name": "Dragonslayer Armor",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Rock Spire Isle - Beedle's Special Shop Ship - 500 Rupee Item",
+            "id": 2326758,
+            "access_rule": {
+              "type": "helper",
+              "name": "has_any_wallet_upgrade",
+              "args": []
+            },
+            "item": {
+              "name": "Silver Rupee",
+              "player": 65,
+              "advancement": false,
+              "type": "Item"
+            }
+          },
+          {
+            "name": "Rock Spire Isle - Beedle's Special Shop Ship - 900 Rupee Item",
+            "id": 2326760,
+            "access_rule": {
+              "type": "helper",
+              "name": "has_any_wallet_upgrade",
+              "args": []
+            },
+            "item": {
+              "name": "Magic Mirror",
+              "player": 2,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Rock Spire Isle - Beedle's Special Shop Ship - 950 Rupee Item",
+            "id": 2326759,
+            "access_rule": {
+              "type": "helper",
+              "name": "has_any_wallet_upgrade",
+              "args": []
+            },
+            "item": {
+              "name": "Piece of Heart",
+              "player": 65,
+              "advancement": false,
+              "type": "Item"
+            }
+          },
+          {
+            "name": "The Great Sea - Salvage Corp Gift",
+            "id": 2326706,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Winged Nightmares",
+              "player": 55,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Windfall Island - Jail - Tingle - First Gift",
+            "id": 2326537,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Freed The Blue Sage",
+              "player": 27,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Windfall Island - Jail - Tingle - Second Gift",
+            "id": 2326538,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "RegUP3",
+              "player": 38,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Windfall Island - Maggie - Free Item",
+            "id": 2326553,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Red",
+              "player": 32,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Windfall Island - Tott - Teach Rhythm",
+            "id": 2326558,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Wind Waker"
+            },
+            "item": {
+              "name": "HPMemory",
+              "player": 38,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Dragon Roost Cavern": {
+        "name": "Dragon Roost Cavern",
+        "exits": [
+          {
+            "name": "Boss Entrance in Dragon Roost Cavern -> Gohma Boss Arena",
+            "connected_region": "Gohma Boss Arena",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_reach_dragon_roost_cavern_boss_stairs",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "DRC Big Key"
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Dragon Roost Cavern - Alcove With Water Jugs",
+            "id": 2326585,
+            "access_rule": {
+              "type": "item_check",
+              "item": "DRC Small Key",
+              "count": {
+                "type": "constant",
+                "value": 1
+              }
+            },
+            "item": {
+              "name": "DRC Small Key",
+              "player": 65,
+              "advancement": true,
+              "type": "Small Key"
+            }
+          },
+          {
+            "name": "Dragon Roost Cavern - Big Key Chest",
+            "id": 2326599,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_reach_dragon_roost_cavern_gaping_maw",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_stun_magtails",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "Grappling Hook"
+                }
+              ]
+            },
+            "item": {
+              "name": "MP Berry",
+              "player": 68,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Dragon Roost Cavern - Bird's Nest",
+            "id": 2326591,
+            "access_rule": {
+              "type": "item_check",
+              "item": "DRC Small Key",
+              "count": {
+                "type": "constant",
+                "value": 3
+              }
+            },
+            "item": {
+              "name": "DRC Small Key",
+              "player": 65,
+              "advancement": true,
+              "type": "Small Key"
+            }
+          },
+          {
+            "name": "Dragon Roost Cavern - Boarded Up Chest",
+            "id": 2326587,
+            "access_rule": {
+              "type": "item_check",
+              "item": "DRC Small Key",
+              "count": {
+                "type": "constant",
+                "value": 1
+              }
+            },
+            "item": {
+              "name": "DRC Small Key",
+              "player": 65,
+              "advancement": true,
+              "type": "Small Key"
+            }
+          },
+          {
+            "name": "Dragon Roost Cavern - Boss Stairs Left Chest",
+            "id": 2326601,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_reach_dragon_roost_cavern_boss_stairs",
+              "args": []
+            },
+            "item": {
+              "name": "Goofy Defender",
+              "player": 28,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Dragon Roost Cavern - Boss Stairs Right Chest",
+            "id": 2326600,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_reach_dragon_roost_cavern_boss_stairs",
+              "args": []
+            },
+            "item": {
+              "name": "DRC Dungeon Map",
+              "player": 65,
+              "advancement": false,
+              "type": "Map"
+            }
+          },
+          {
+            "name": "Dragon Roost Cavern - Chest Across Lava Pit",
+            "id": 2326588,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "state_method",
+                          "method": "_tww_obscure_1",
+                          "args": []
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Hookshot"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_fly_with_deku_leaf_indoors",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Grappling Hook"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "DRC Small Key",
+                  "count": {
+                    "type": "constant",
+                    "value": 2
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Mithalas Doll",
+              "player": 5,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Dragon Roost Cavern - Dark Room",
+            "id": 2326592,
+            "access_rule": {
+              "type": "item_check",
+              "item": "DRC Small Key",
+              "count": {
+                "type": "constant",
+                "value": 4
+              }
+            },
+            "item": {
+              "name": "DRC Big Key",
+              "player": 65,
+              "advancement": true,
+              "type": "Big Key"
+            }
+          },
+          {
+            "name": "Dragon Roost Cavern - First Room",
+            "id": 2326584,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "DRC Small Key",
+              "player": 65,
+              "advancement": true,
+              "type": "Small Key"
+            }
+          },
+          {
+            "name": "Dragon Roost Cavern - Miniboss",
+            "id": 2326596,
+            "access_rule": {
+              "type": "item_check",
+              "item": "DRC Small Key",
+              "count": {
+                "type": "constant",
+                "value": 4
+              }
+            },
+            "item": {
+              "name": "8 REP",
+              "player": 8,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Dragon Roost Cavern - Pot Room Chest",
+            "id": 2326595,
+            "access_rule": {
+              "type": "item_check",
+              "item": "DRC Small Key",
+              "count": {
+                "type": "constant",
+                "value": 4
+              }
+            },
+            "item": {
+              "name": "Partial invisibility",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Dragon Roost Cavern - Rat Room",
+            "id": 2326589,
+            "access_rule": {
+              "type": "item_check",
+              "item": "DRC Small Key",
+              "count": {
+                "type": "constant",
+                "value": 2
+              }
+            },
+            "item": {
+              "name": "DRC Compass",
+              "player": 65,
+              "advancement": false,
+              "type": "Compass"
+            }
+          },
+          {
+            "name": "Dragon Roost Cavern - Rat Room Boarded Up Chest",
+            "id": 2326590,
+            "access_rule": {
+              "type": "item_check",
+              "item": "DRC Small Key",
+              "count": {
+                "type": "constant",
+                "value": 2
+              }
+            },
+            "item": {
+              "name": "Greatsword",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Dragon Roost Cavern - Under Rope Bridge",
+            "id": 2326597,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_fly_with_deku_leaf_outdoors",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Grappling Hook"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "DRC Small Key",
+                  "count": {
+                    "type": "constant",
+                    "value": 4
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Caustic Spray (Corruptor)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Forbidden Woods": {
+        "name": "Forbidden Woods",
+        "exits": [
+          {
+            "name": "Miniboss Entrance in Forbidden Woods -> Forbidden Woods Miniboss Arena",
+            "connected_region": "Forbidden Woods Miniboss Arena",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "FW Small Key",
+                        "Grappling Hook"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "name": "Boss Entrance in Forbidden Woods -> Kalle Demos Boss Arena",
+            "connected_region": "Kalle Demos Boss Arena",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_defeat_mothulas",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_defeat_door_flowers",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Grappling Hook"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "FW Big Key"
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Forbidden Woods - Big Key Chest",
+            "id": 2326621,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Boomerang",
+                        "Grappling Hook"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "item": {
+              "name": "Command Center Reactor",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Forbidden Woods - Chest Across Red Hanging Flower",
+            "id": 2326618,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Boomerang",
+                        "Grappling Hook"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "item": {
+              "name": "Eject Ability",
+              "player": 30,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Forbidden Woods - Chest in Locked Tree Trunk",
+            "id": 2326620,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Boomerang",
+                        "Grappling Hook"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "item": {
+              "name": "3 Ethanol",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Forbidden Woods - Climb to Top Using Boko Baba Bulbs",
+            "id": 2326608,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_door_flowers",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Junimo Hut",
+              "player": 56,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Forbidden Woods - Double Mothula Room",
+            "id": 2326622,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_defeat_mothulas",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_defeat_door_flowers",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Grappling Hook"
+                    }
+                  ]
+                }
+              ]
+            },
+            "item": {
+              "name": "Magnifying Glass",
+              "player": 74,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Forbidden Woods - First Room",
+            "id": 2326606,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Biscuit",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Forbidden Woods - Hole in Tree",
+            "id": 2326610,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "FW Big Key",
+              "player": 65,
+              "advancement": true,
+              "type": "Big Key"
+            }
+          },
+          {
+            "name": "Forbidden Woods - Inside Hollow Tree's Mouth",
+            "id": 2326607,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_defeat_door_flowers",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Blessed Gem",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Forbidden Woods - Morth Pit",
+            "id": 2326611,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "Grappling Hook"
+                }
+              ]
+            },
+            "item": {
+              "name": "FW Compass",
+              "player": 65,
+              "advancement": false,
+              "type": "Compass"
+            }
+          },
+          {
+            "name": "Forbidden Woods - Past Seeds Hanging by Vines",
+            "id": 2326617,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_defeat_door_flowers",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_destroy_seeds_hanging_by_vines",
+                      "args": []
+                    },
+                    {
+                      "type": "state_method",
+                      "method": "_tww_precise_1",
+                      "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "FW Small Key",
+                        "Grappling Hook"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "item": {
+              "name": "Crystal Hail",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Forbidden Woods - Tall Room Before Miniboss",
+            "id": 2326615,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_defeat_peahats",
+                      "args": []
+                    },
+                    {
+                      "type": "state_method",
+                      "method": "_tww_precise_2",
+                      "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "FW Small Key",
+                        "Grappling Hook"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "item": {
+              "name": "Crystal Magic Weapon",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Forbidden Woods - Vine Maze Left Chest",
+            "id": 2326612,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "Grappling Hook"
+                }
+              ]
+            },
+            "item": {
+              "name": "FW Small Key",
+              "player": 65,
+              "advancement": true,
+              "type": "Small Key"
+            }
+          },
+          {
+            "name": "Forbidden Woods - Vine Maze Right Chest",
+            "id": 2326613,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "Grappling Hook"
+                }
+              ]
+            },
+            "item": {
+              "name": "Emblem",
+              "player": 54,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Tower of the Gods": {
+        "name": "Tower of the Gods",
+        "exits": [
+          {
+            "name": "Miniboss Entrance in Tower of the Gods -> Tower of the Gods Miniboss Arena",
+            "connected_region": "Tower of the Gods Miniboss Arena",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_reach_tower_of_the_gods_second_floor",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_fly_with_deku_leaf_indoors",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Grappling Hook"
+                    }
+                  ]
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_play_command_melody",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_heros_bow",
+                      "args": []
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "name": "Boss Entrance in Tower of the Gods -> Gohdan Boss Arena",
+            "connected_region": "Gohdan Boss Arena",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_armos",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_reach_tower_of_the_gods_third_floor",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "TotG Big Key"
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Tower of the Gods - Big Key Chest",
+            "id": 2326639,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_reach_tower_of_the_gods_third_floor",
+              "args": []
+            },
+            "item": {
+              "name": "TotG Compass",
+              "player": 65,
+              "advancement": false,
+              "type": "Compass"
+            }
+          },
+          {
+            "name": "Tower of the Gods - Chest Behind Bombable Walls",
+            "id": 2326625,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Bombs"
+            },
+            "item": {
+              "name": "TotG Small Key",
+              "player": 65,
+              "advancement": true,
+              "type": "Small Key"
+            }
+          },
+          {
+            "name": "Tower of the Gods - First Chest Guarded by Armos Knights",
+            "id": 2326632,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_reach_tower_of_the_gods_second_floor",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_heros_bow",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Guardian Soul",
+              "player": 28,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tower of the Gods - Floating Platforms Room",
+            "id": 2326636,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_reach_tower_of_the_gods_second_floor",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "helper",
+                          "name": "can_fly_with_deku_leaf_indoors",
+                          "args": []
+                        },
+                        {
+                          "type": "state_method",
+                          "method": "_tww_precise_1",
+                          "args": []
+                        }
+                      ]
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "state_method",
+                          "method": "_tww_obscure_1",
+                          "args": []
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Hookshot"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_heros_bow",
+                      "args": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "item": {
+              "name": "Dio's Best Friend",
+              "player": 49,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tower of the Gods - Hop Across Floating Boxes",
+            "id": 2326627,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Motivational Video",
+              "player": 6,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tower of the Gods - Light Two Torches",
+            "id": 2326628,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Bombs"
+            },
+            "item": {
+              "name": "Soul of a Crestfallen Knight",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tower of the Gods - Second Chest Guarded by Armos Knights",
+            "id": 2326635,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_play_winds_requiem",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_reach_tower_of_the_gods_second_floor",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "Bombs"
+                }
+              ]
+            },
+            "item": {
+              "name": "TotG Dungeon Map",
+              "player": 65,
+              "advancement": false,
+              "type": "Map"
+            }
+          },
+          {
+            "name": "Tower of the Gods - Shoot Eye Above Skulls Room Chest",
+            "id": 2326630,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_heros_bow",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "Bombs"
+                }
+              ]
+            },
+            "item": {
+              "name": "Hoo Bean",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tower of the Gods - Skulls Room Chest",
+            "id": 2326629,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Bombs"
+            },
+            "item": {
+              "name": "TotG Small Key",
+              "player": 65,
+              "advancement": true,
+              "type": "Small Key"
+            }
+          },
+          {
+            "name": "Tower of the Gods - Stone Tablet",
+            "id": 2326633,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_reach_tower_of_the_gods_second_floor",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "Wind Waker"
+                }
+              ]
+            },
+            "item": {
+              "name": "Titanite Chunk",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tower of the Gods - Top of Floating Platforms Room",
+            "id": 2326637,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_reach_tower_of_the_gods_second_floor",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_heros_bow",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "TotG Big Key",
+              "player": 65,
+              "advancement": true,
+              "type": "Big Key"
+            }
+          }
+        ]
+      },
+      "Earth Temple": {
+        "name": "Earth Temple",
+        "exits": [
+          {
+            "name": "Miniboss Entrance in Earth Temple -> Earth Temple Miniboss Arena",
+            "connected_region": "Earth Temple Miniboss Arena",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_moblins_and_poes_room",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "ET Small Key",
+                  "count": {
+                    "type": "constant",
+                    "value": 3
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "Boss Entrance in Earth Temple -> Jalhalla Boss Arena",
+            "connected_region": "Jalhalla Boss Arena",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_tall_vine_room",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "ET Big Key"
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Earth Temple - Big Key Chest",
+            "id": 2326674,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_aim_mirror_shield",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_defeat_darknuts",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_play_command_melody",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_many_mirrors_room",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "helper",
+                          "name": "has_heros_bow",
+                          "args": []
+                        },
+                        {
+                          "type": "state_method",
+                          "method": "_tww_obscure_1",
+                          "args": []
+                        }
+                      ]
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "or",
+                          "conditions": [
+                            {
+                              "type": "helper",
+                              "name": "has_any_master_sword",
+                              "args": []
+                            },
+                            {
+                              "type": "helper",
+                              "name": "has_heros_sword",
+                              "args": []
+                            },
+                            {
+                              "type": "item_check",
+                              "item": "Skull Hammer"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "state_method",
+                          "method": "_tww_obscure_1",
+                          "args": []
+                        },
+                        {
+                          "type": "state_method",
+                          "method": "_tww_precise_1",
+                          "args": []
+                        }
+                      ]
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_defeat_blue_bubbles",
+                      "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Power Bracelets"
+                }
+              ]
+            },
+            "item": {
+              "name": "Blood Amulet (Ascendant)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Earth Temple - Casket in Second Crypt",
+            "id": 2326664,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_reach_earth_temple_moblins_and_poes_room",
+              "args": []
+            },
+            "item": {
+              "name": "Crystals x500",
+              "player": 39,
+              "advancement": false,
+              "type": "Crystals"
+            }
+          },
+          {
+            "name": "Earth Temple - Chest Behind Destructible Walls",
+            "id": 2326661,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_right_path",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_mirror_shield",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Energy Orb",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Earth Temple - Chest Behind Statues",
+            "id": 2326663,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_moblins_and_poes_room",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_aim_mirror_shield",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_play_command_melody",
+                      "args": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "item": {
+              "name": "ET Small Key",
+              "player": 65,
+              "advancement": true,
+              "type": "Small Key"
+            }
+          },
+          {
+            "name": "Earth Temple - Chest In Three Blocks Room",
+            "id": 2326662,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_floormasters",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_left_path",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_fire_arrows",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_aim_mirror_shield",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_play_command_melody",
+                      "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Power Bracelets"
+                }
+              ]
+            },
+            "item": {
+              "name": "Lightning Spear",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Earth Temple - Chest in Third Crypt",
+            "id": 2326670,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_reach_earth_temple_third_crypt",
+              "args": []
+            },
+            "item": {
+              "name": "ET Compass",
+              "player": 65,
+              "advancement": false,
+              "type": "Compass"
+            }
+          },
+          {
+            "name": "Earth Temple - End of Foggy Room With Floormasters",
+            "id": 2326667,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_redead_hub_room",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_aim_mirror_shield",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_play_command_melody",
+                      "args": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "item": {
+              "name": "ET Small Key",
+              "player": 65,
+              "advancement": true,
+              "type": "Small Key"
+            }
+          },
+          {
+            "name": "Earth Temple - Kill All Floormasters in Foggy Room",
+            "id": 2326668,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_floormasters",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_redead_hub_room",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_aim_mirror_shield",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_play_command_melody",
+                      "args": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "item": {
+              "name": "Heal Potion",
+              "player": 23,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Earth Temple - Many Mirrors Room Left Chest",
+            "id": 2326672,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_aim_mirror_shield",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_play_command_melody",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_many_mirrors_room",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "Power Bracelets"
+                }
+              ]
+            },
+            "item": {
+              "name": "ET Big Key",
+              "player": 65,
+              "advancement": true,
+              "type": "Big Key"
+            }
+          },
+          {
+            "name": "Earth Temple - Many Mirrors Room Right Chest",
+            "id": 2326671,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_play_command_melody",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_many_mirrors_room",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Potion",
+              "player": 42,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Earth Temple - Stalfos Crypt Room",
+            "id": 2326673,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_stalfos",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_many_mirrors_room",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "ET Dungeon Map",
+              "player": 65,
+              "advancement": false,
+              "type": "Map"
+            }
+          },
+          {
+            "name": "Earth Temple - Transparent Chest In Warp Pot Room",
+            "id": 2326658,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_play_command_melody",
+              "args": []
+            },
+            "item": {
+              "name": "Mega Armor",
+              "player": 19,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Earth Temple - Transparent Chest in First Crypt",
+            "id": 2326660,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_right_path",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_play_command_melody",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_mirror_shield",
+                      "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Power Bracelets"
+                }
+              ]
+            },
+            "item": {
+              "name": "ET Small Key",
+              "player": 65,
+              "advancement": true,
+              "type": "Small Key"
+            }
+          }
+        ]
+      },
+      "Wind Temple": {
+        "name": "Wind Temple",
+        "exits": [
+          {
+            "name": "Miniboss Entrance in Wind Temple -> Wind Temple Miniboss Arena",
+            "connected_region": "Wind Temple Miniboss Arena",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_open_wind_temple_upper_giant_grate",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "WT Small Key",
+                  "count": {
+                    "type": "constant",
+                    "value": 2
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "Boss Entrance in Wind Temple -> Molgera Boss Arena",
+            "connected_region": "Molgera Boss Arena",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_play_command_melody",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_play_wind_gods_aria",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_reach_wind_temple_tall_basement_room",
+                  "args": []
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Hookshot",
+                        "Iron Boots",
+                        "WT Big Key"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Wind Temple - Big Key Chest",
+            "id": 2326681,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_darknuts",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fan_with_deku_leaf",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_play_wind_gods_aria",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_reach_wind_temple_kidnapping_room",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "Iron Boots"
+                }
+              ]
+            },
+            "item": {
+              "name": "WT Small Key",
+              "player": 65,
+              "advancement": true,
+              "type": "Small Key"
+            }
+          },
+          {
+            "name": "Wind Temple - Chest Behind Seven Armos",
+            "id": 2326689,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_activate_wind_temple_giant_fan",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_defeat_armos",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Caitha's Chime",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wind Temple - Chest Behind Stone Head",
+            "id": 2326679,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_reach_wind_temple_kidnapping_room",
+                  "args": []
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Hookshot",
+                        "Iron Boots"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "item": {
+              "name": "Homeward Bone x2",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wind Temple - Chest Between Two Dirt Patches",
+            "id": 2326676,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_play_command_melody",
+              "args": []
+            },
+            "item": {
+              "name": "Projectile Refill",
+              "player": 23,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wind Temple - Chest In Many Cyclones Room",
+            "id": 2326682,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_reach_wind_temple_kidnapping_room",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "helper",
+                          "name": "can_defeat_blue_bubbles",
+                          "args": []
+                        },
+                        {
+                          "type": "helper",
+                          "name": "can_fly_with_deku_leaf_indoors",
+                          "args": []
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Hookshot"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "helper",
+                          "name": "can_fan_with_deku_leaf",
+                          "args": []
+                        },
+                        {
+                          "type": "helper",
+                          "name": "can_fly_with_deku_leaf_indoors",
+                          "args": []
+                        },
+                        {
+                          "type": "or",
+                          "conditions": [
+                            {
+                              "type": "helper",
+                              "name": "can_cut_grass",
+                              "args": []
+                            },
+                            {
+                              "type": "helper",
+                              "name": "has_magic_meter_upgrade",
+                              "args": []
+                            }
+                          ]
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Iron Boots"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "helper",
+                          "name": "can_fly_with_deku_leaf_indoors",
+                          "args": []
+                        },
+                        {
+                          "type": "state_method",
+                          "method": "_tww_obscure_1",
+                          "args": []
+                        },
+                        {
+                          "type": "state_method",
+                          "method": "_tww_precise_2",
+                          "args": []
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Hookshot"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "item": {
+              "name": "Reserve Tank",
+              "player": 61,
+              "advancement": true,
+              "type": "Reserve"
+            }
+          },
+          {
+            "name": "Wind Temple - Chest In Middle Of Hub Room",
+            "id": 2326684,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_open_wind_temple_upper_giant_grate",
+              "args": []
+            },
+            "item": {
+              "name": "Cyclops Sonar Upgrade",
+              "player": 57,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wind Temple - Chest at Top of Hub Room",
+            "id": 2326688,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_activate_wind_temple_giant_fan",
+              "args": []
+            },
+            "item": {
+              "name": "WT Small Key",
+              "player": 65,
+              "advancement": true,
+              "type": "Small Key"
+            }
+          },
+          {
+            "name": "Wind Temple - Chest in Left Alcove",
+            "id": 2326680,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_fan_with_deku_leaf",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_reach_wind_temple_kidnapping_room",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "Iron Boots"
+                }
+              ]
+            },
+            "item": {
+              "name": "WT Dungeon Map",
+              "player": 65,
+              "advancement": false,
+              "type": "Map"
+            }
+          },
+          {
+            "name": "Wind Temple - Kill All Enemies in Tall Basement Room",
+            "id": 2326690,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_morths",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_defeat_stalfos",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_defeat_wizzrobes",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_reach_wind_temple_tall_basement_room",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Small Tentacle x 2",
+              "player": 5,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wind Temple - Spike Wall Room - Destroy All Cracked Floors",
+            "id": 2326686,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_open_wind_temple_upper_giant_grate",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "Iron Boots"
+                }
+              ]
+            },
+            "item": {
+              "name": "Seashell",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wind Temple - Spike Wall Room - First Chest",
+            "id": 2326685,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_open_wind_temple_upper_giant_grate",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "Iron Boots"
+                }
+              ]
+            },
+            "item": {
+              "name": "WT Compass",
+              "player": 65,
+              "advancement": false,
+              "type": "Compass"
+            }
+          }
+        ]
+      },
+      "Forbidden Woods Miniboss Arena": {
+        "name": "Forbidden Woods Miniboss Arena",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Forbidden Woods - Mothula Miniboss Room",
+            "id": 2326616,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_defeat_winged_mothulas",
+              "args": []
+            },
+            "item": {
+              "name": "FW Dungeon Map",
+              "player": 65,
+              "advancement": false,
+              "type": "Map"
+            }
+          }
+        ]
+      },
+      "Tower of the Gods Miniboss Arena": {
+        "name": "Tower of the Gods Miniboss Arena",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Tower of the Gods - Darknut Miniboss Room",
+            "id": 2326634,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_defeat_darknuts",
+              "args": []
+            },
+            "item": {
+              "name": "Archdeacon Skirt",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Earth Temple Miniboss Arena": {
+        "name": "Earth Temple Miniboss Arena",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Earth Temple - Stalfos Miniboss Room",
+            "id": 2326665,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_stalfos",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "Hookshot"
+                }
+              ]
+            },
+            "item": {
+              "name": "Chuckle Bean",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Wind Temple Miniboss Arena": {
+        "name": "Wind Temple Miniboss Arena",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Wind Temple - Wizzrobe Miniboss Room",
+            "id": 2326687,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_darknuts",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_remove_peahat_armor",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "WT Big Key",
+              "player": 65,
+              "advancement": true,
+              "type": "Big Key"
+            }
+          }
+        ]
+      },
+      "Master Sword Chamber": {
+        "name": "Master Sword Chamber",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Hyrule - Master Sword Chamber",
+            "id": 2326641,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_defeat_mighty_darknuts",
+              "args": []
+            },
+            "item": {
+              "name": "Energy Tank",
+              "player": 61,
+              "advancement": true,
+              "type": "ETank"
+            }
+          }
+        ]
+      },
+      "Gohma Boss Arena": {
+        "name": "Gohma Boss Arena",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Dragon Roost Cavern - Gohma Heart Container",
+            "id": 2326603,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_defeat_gohma",
+              "args": []
+            },
+            "item": {
+              "name": "Quartz Flask",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Kalle Demos Boss Arena": {
+        "name": "Kalle Demos Boss Arena",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Forbidden Woods - Kalle Demos Heart Container",
+            "id": 2326623,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_defeat_kalle_demos",
+              "args": []
+            },
+            "item": {
+              "name": "Puppies 64-66",
+              "player": 29,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Gohdan Boss Arena": {
+        "name": "Gohdan Boss Arena",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Tower of the Gods - Gohdan Heart Container",
+            "id": 2326640,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_defeat_gohdan",
+              "args": []
+            },
+            "item": {
+              "name": "Recov30 *",
+              "player": 38,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Helmaroc King Boss Arena": {
+        "name": "Helmaroc King Boss Arena",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Forsaken Fortress - Helmaroc King Heart Container",
+            "id": 2326647,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_defeat_helmaroc_king",
+              "args": []
+            },
+            "item": {
+              "name": "Starting Paint Can",
+              "player": 9,
+              "advancement": false,
+              "type": "Helper"
+            }
+          }
+        ]
+      },
+      "Jalhalla Boss Arena": {
+        "name": "Jalhalla Boss Arena",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Earth Temple - Jalhalla Heart Container",
+            "id": 2326675,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_defeat_jalhalla",
+              "args": []
+            },
+            "item": {
+              "name": "Emblem",
+              "player": 54,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Molgera Boss Arena": {
+        "name": "Molgera Boss Arena",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Wind Temple - Molgera Heart Container",
+            "id": 2326691,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_defeat_molgera",
+              "args": []
+            },
+            "item": {
+              "name": "Box of bullets",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Savage Labyrinth": {
+        "name": "Savage Labyrinth",
+        "exits": [],
+        "locations": []
+      },
+      "Dragon Roost Island Secret Cave": {
+        "name": "Dragon Roost Island Secret Cave",
+        "exits": [],
+        "locations": []
+      },
+      "Fire Mountain Secret Cave": {
+        "name": "Fire Mountain Secret Cave",
+        "exits": [],
+        "locations": []
+      },
+      "Ice Ring Isle Secret Cave": {
+        "name": "Ice Ring Isle Secret Cave",
+        "exits": [
+          {
+            "name": "Inner Entrance in Ice Ring Isle Secret Cave -> Ice Ring Isle Inner Cave",
+            "connected_region": "Ice Ring Isle Inner Cave",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Iron Boots"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Ice Ring Isle - Cave - Chest",
+            "id": 2326654,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "The Dungeons (E1M2) - Green key",
+              "player": 24,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Cabana Labyrinth": {
+        "name": "Cabana Labyrinth",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Private Oasis - Cabana Labyrinth - Lower Floor Chest",
+            "id": 2326712,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Skull Hammer"
+            },
+            "item": {
+              "name": "Biscuit",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Private Oasis - Cabana Labyrinth - Upper Floor Chest",
+            "id": 2326713,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_play_winds_requiem",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "Skull Hammer"
+                }
+              ]
+            },
+            "item": {
+              "name": "Rare Candy",
+              "player": 47,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Needle Rock Isle Secret Cave": {
+        "name": "Needle Rock Isle Secret Cave",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Needle Rock Isle - Cave",
+            "id": 2326718,
+            "access_rule": {
+              "type": "helper",
+              "name": "has_fire_arrows",
+              "args": []
+            },
+            "item": {
+              "name": "Fourth Toe made of Limestone",
+              "player": 7,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Angular Isles Secret Cave": {
+        "name": "Angular Isles Secret Cave",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Angular Isles - Cave",
+            "id": 2326721,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_aim_mirror_shield",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_fly_with_deku_leaf_indoors",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Hookshot"
+                    }
+                  ]
+                }
+              ]
+            },
+            "item": {
+              "name": "The Portals of Chaos (E2M8)",
+              "player": 24,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Boating Course Secret Cave": {
+        "name": "Boating Course Secret Cave",
+        "exits": [],
+        "locations": []
+      },
+      "Stone Watcher Island Secret Cave": {
+        "name": "Stone Watcher Island Secret Cave",
+        "exits": [],
+        "locations": []
+      },
+      "Overlook Island Secret Cave": {
+        "name": "Overlook Island Secret Cave",
+        "exits": [],
+        "locations": []
+      },
+      "Bird's Peak Rock Secret Cave": {
+        "name": "Bird's Peak Rock Secret Cave",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bird's Peak Rock - Cave",
+            "id": 2326730,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_play_winds_requiem",
+              "args": []
+            },
+            "item": {
+              "name": "Levitate",
+              "player": 51,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Pawprint Isle Chuchu Cave": {
+        "name": "Pawprint Isle Chuchu Cave",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Pawprint Isle - Chuchu Cave - Behind Left Boulder",
+            "id": 2326732,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_move_boulders",
+              "args": []
+            },
+            "item": {
+              "name": "Sting",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Pawprint Isle - Chuchu Cave - Behind Right Boulder",
+            "id": 2326733,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_move_boulders",
+              "args": []
+            },
+            "item": {
+              "name": "8 REP",
+              "player": 8,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Pawprint Isle - Chuchu Cave - Chest",
+            "id": 2326731,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Treasure Bumper",
+              "player": 9,
+              "advancement": true,
+              "type": "Target"
+            }
+          },
+          {
+            "name": "Pawprint Isle - Chuchu Cave - Scale the Wall",
+            "id": 2326734,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Grappling Hook"
+            },
+            "item": {
+              "name": "Puzzle Skip",
+              "player": 32,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Pawprint Isle Wizzrobe Cave": {
+        "name": "Pawprint Isle Wizzrobe Cave",
+        "exits": [],
+        "locations": []
+      },
+      "Diamond Steppe Island Warp Maze Cave": {
+        "name": "Diamond Steppe Island Warp Maze Cave",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Diamond Steppe Island - Warp Maze Cave - First Chest",
+            "id": 2326751,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Dove Skull",
+              "player": 7,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Diamond Steppe Island - Warp Maze Cave - Second Chest",
+            "id": 2326752,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Heart Jeans",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Bomb Island Secret Cave": {
+        "name": "Bomb Island Secret Cave",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bomb Island - Cave",
+            "id": 2326754,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_stun_magtails",
+              "args": []
+            },
+            "item": {
+              "name": "Ember",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Rock Spire Isle Secret Cave": {
+        "name": "Rock Spire Isle Secret Cave",
+        "exits": [],
+        "locations": []
+      },
+      "Shark Island Secret Cave": {
+        "name": "Shark Island Secret Cave",
+        "exits": [],
+        "locations": []
+      },
+      "Cliff Plateau Isles Secret Cave": {
+        "name": "Cliff Plateau Isles Secret Cave",
+        "exits": [
+          {
+            "name": "Inner Entrance in Cliff Plateau Isles Secret Cave -> Cliff Plateau Isles Inner Cave",
+            "connected_region": "Cliff Plateau Isles Inner Cave",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Cliff Plateau Isles - Cave",
+            "id": 2326766,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "state_method",
+                      "method": "_tww_obscure_1",
+                      "args": []
+                    },
+                    {
+                      "type": "state_method",
+                      "method": "_tww_precise_1",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Grappling Hook"
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Campaign Tier 1 Column 4",
+              "player": 75,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Horseshoe Island Secret Cave": {
+        "name": "Horseshoe Island Secret Cave",
+        "exits": [],
+        "locations": []
+      },
+      "Star Island Secret Cave": {
+        "name": "Star Island Secret Cave",
+        "exits": [],
+        "locations": []
+      },
+      "Ice Ring Isle Inner Cave": {
+        "name": "Ice Ring Isle Inner Cave",
+        "exits": [],
+        "locations": []
+      },
+      "Cliff Plateau Isles Inner Cave": {
+        "name": "Cliff Plateau Isles Inner Cave",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Cliff Plateau Isles - Highest Isle",
+            "id": 2326767,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 18,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Outset Fairy Fountain": {
+        "name": "Outset Fairy Fountain",
+        "exits": [],
+        "locations": []
+      },
+      "Thorned Fairy Fountain": {
+        "name": "Thorned Fairy Fountain",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Thorned Fairy Island - Great Fairy",
+            "id": 2326737,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Belt Reader",
+              "player": 52,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Eastern Fairy Fountain": {
+        "name": "Eastern Fairy Fountain",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Eastern Fairy Island - Great Fairy",
+            "id": 2326740,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Rusted Coin",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Western Fairy Fountain": {
+        "name": "Western Fairy Fountain",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Western Fairy Island - Great Fairy",
+            "id": 2326742,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "The Graveyard (E1M9) - Map Scroll",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Southern Fairy Fountain": {
+        "name": "Southern Fairy Fountain",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Southern Fairy Island - Great Fairy",
+            "id": 2326744,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 18,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Northern Fairy Fountain": {
+        "name": "Northern Fairy Fountain",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Northern Fairy Island - Great Fairy",
+            "id": 2326747,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Sun Form",
+              "player": 5,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "start_regions": {
+    "65": {
+      "default": [
+        "The Great Sea"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "65": {
+      "Telescope": {
+        "name": "Telescope",
+        "id": 2322432,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wind Waker": {
+        "name": "Wind Waker",
+        "id": 2322434,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Grappling Hook": {
+        "name": "Grappling Hook",
+        "id": 2322435,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Spoils Bag": {
+        "name": "Spoils Bag",
+        "id": 2322436,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Boomerang": {
+        "name": "Boomerang",
+        "id": 2322437,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Deku Leaf": {
+        "name": "Deku Leaf",
+        "id": 2322438,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Tingle Tuner": {
+        "name": "Tingle Tuner",
+        "id": 2322439,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Iron Boots": {
+        "name": "Iron Boots",
+        "id": 2322440,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Magic Armor": {
+        "name": "Magic Armor",
+        "id": 2322441,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bait Bag": {
+        "name": "Bait Bag",
+        "id": 2322442,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bombs": {
+        "name": "Bombs",
+        "id": 2322443,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Delivery Bag": {
+        "name": "Delivery Bag",
+        "id": 2322444,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hookshot": {
+        "name": "Hookshot",
+        "id": 2322445,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Skull Hammer": {
+        "name": "Skull Hammer",
+        "id": 2322446,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Power Bracelets": {
+        "name": "Power Bracelets",
+        "id": 2322447,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hero's Charm": {
+        "name": "Hero's Charm",
+        "id": 2322448,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hurricane Spin": {
+        "name": "Hurricane Spin",
+        "id": 2322449,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dragon Tingle Statue": {
+        "name": "Dragon Tingle Statue",
+        "id": 2322450,
+        "groups": [
+          "Everything",
+          "Tingle Statues"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Forbidden Tingle Statue": {
+        "name": "Forbidden Tingle Statue",
+        "id": 2322451,
+        "groups": [
+          "Everything",
+          "Tingle Statues"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Goddess Tingle Statue": {
+        "name": "Goddess Tingle Statue",
+        "id": 2322452,
+        "groups": [
+          "Everything",
+          "Tingle Statues"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Earth Tingle Statue": {
+        "name": "Earth Tingle Statue",
+        "id": 2322453,
+        "groups": [
+          "Everything",
+          "Tingle Statues"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wind Tingle Statue": {
+        "name": "Wind Tingle Statue",
+        "id": 2322454,
+        "groups": [
+          "Everything",
+          "Tingle Statues"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wind's Requiem": {
+        "name": "Wind's Requiem",
+        "id": 2322455,
+        "groups": [
+          "Everything",
+          "Songs"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ballad of Gales": {
+        "name": "Ballad of Gales",
+        "id": 2322456,
+        "groups": [
+          "Everything",
+          "Songs"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Command Melody": {
+        "name": "Command Melody",
+        "id": 2322457,
+        "groups": [
+          "Everything",
+          "Songs"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Earth God's Lyric": {
+        "name": "Earth God's Lyric",
+        "id": 2322458,
+        "groups": [
+          "Everything",
+          "Songs"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wind God's Aria": {
+        "name": "Wind God's Aria",
+        "id": 2322459,
+        "groups": [
+          "Everything",
+          "Songs"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Song of Passing": {
+        "name": "Song of Passing",
+        "id": 2322460,
+        "groups": [
+          "Everything",
+          "Songs"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Triforce Shard 1": {
+        "name": "Triforce Shard 1",
+        "id": 2322461,
+        "groups": [
+          "Everything",
+          "Shards"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Triforce Shard 2": {
+        "name": "Triforce Shard 2",
+        "id": 2322462,
+        "groups": [
+          "Everything",
+          "Shards"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Triforce Shard 3": {
+        "name": "Triforce Shard 3",
+        "id": 2322463,
+        "groups": [
+          "Everything",
+          "Shards"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Triforce Shard 4": {
+        "name": "Triforce Shard 4",
+        "id": 2322464,
+        "groups": [
+          "Everything",
+          "Shards"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Triforce Shard 5": {
+        "name": "Triforce Shard 5",
+        "id": 2322465,
+        "groups": [
+          "Everything",
+          "Shards"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Triforce Shard 6": {
+        "name": "Triforce Shard 6",
+        "id": 2322466,
+        "groups": [
+          "Everything",
+          "Shards"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Triforce Shard 7": {
+        "name": "Triforce Shard 7",
+        "id": 2322467,
+        "groups": [
+          "Everything",
+          "Shards"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Triforce Shard 8": {
+        "name": "Triforce Shard 8",
+        "id": 2322468,
+        "groups": [
+          "Everything",
+          "Shards"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Skull Necklace": {
+        "name": "Skull Necklace",
+        "id": 2322469,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Boko Baba Seed": {
+        "name": "Boko Baba Seed",
+        "id": 2322470,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Golden Feather": {
+        "name": "Golden Feather",
+        "id": 2322471,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Knight's Crest": {
+        "name": "Knight's Crest",
+        "id": 2322472,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Red Chu Jelly": {
+        "name": "Red Chu Jelly",
+        "id": 2322473,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Green Chu Jelly": {
+        "name": "Green Chu Jelly",
+        "id": 2322474,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Joy Pendant": {
+        "name": "Joy Pendant",
+        "id": 2322475,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "All-Purpose Bait": {
+        "name": "All-Purpose Bait",
+        "id": 2322476,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hyoi Pear": {
+        "name": "Hyoi Pear",
+        "id": 2322477,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Note to Mom": {
+        "name": "Note to Mom",
+        "id": 2322478,
+        "groups": [
+          "Everything",
+          "Mail"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Maggie's Letter": {
+        "name": "Maggie's Letter",
+        "id": 2322479,
+        "groups": [
+          "Everything",
+          "Mail"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Moblin's Letter": {
+        "name": "Moblin's Letter",
+        "id": 2322480,
+        "groups": [
+          "Everything",
+          "Mail"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cabana Deed": {
+        "name": "Cabana Deed",
+        "id": 2322481,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fill-Up Coupon": {
+        "name": "Fill-Up Coupon",
+        "id": 2322482,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Nayru's Pearl": {
+        "name": "Nayru's Pearl",
+        "id": 2322483,
+        "groups": [
+          "Everything",
+          "Pearls"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Din's Pearl": {
+        "name": "Din's Pearl",
+        "id": 2322484,
+        "groups": [
+          "Everything",
+          "Pearls"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Farore's Pearl": {
+        "name": "Farore's Pearl",
+        "id": 2322485,
+        "groups": [
+          "Everything",
+          "Pearls"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Sword": {
+        "name": "Progressive Sword",
+        "id": 2322486,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "Progressive Shield": {
+        "name": "Progressive Shield",
+        "id": 2322487,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Progressive Picto Box": {
+        "name": "Progressive Picto Box",
+        "id": 2322488,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Bow": {
+        "name": "Progressive Bow",
+        "id": 2322489,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "Progressive Magic Meter": {
+        "name": "Progressive Magic Meter",
+        "id": 2322490,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Quiver Capacity Upgrade": {
+        "name": "Quiver Capacity Upgrade",
+        "id": 2322491,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bomb Bag Capacity Upgrade": {
+        "name": "Bomb Bag Capacity Upgrade",
+        "id": 2322492,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wallet Capacity Upgrade": {
+        "name": "Wallet Capacity Upgrade",
+        "id": 2322493,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Empty Bottle": {
+        "name": "Empty Bottle",
+        "id": 2322494,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "Triforce Chart 1": {
+        "name": "Triforce Chart 1",
+        "id": 2322495,
+        "groups": [
+          "Everything",
+          "Triforce Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Triforce Chart 2": {
+        "name": "Triforce Chart 2",
+        "id": 2322496,
+        "groups": [
+          "Everything",
+          "Triforce Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Triforce Chart 3": {
+        "name": "Triforce Chart 3",
+        "id": 2322497,
+        "groups": [
+          "Everything",
+          "Triforce Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Triforce Chart 4": {
+        "name": "Triforce Chart 4",
+        "id": 2322498,
+        "groups": [
+          "Everything",
+          "Triforce Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Triforce Chart 5": {
+        "name": "Triforce Chart 5",
+        "id": 2322499,
+        "groups": [
+          "Everything",
+          "Triforce Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Triforce Chart 6": {
+        "name": "Triforce Chart 6",
+        "id": 2322500,
+        "groups": [
+          "Everything",
+          "Triforce Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Triforce Chart 7": {
+        "name": "Triforce Chart 7",
+        "id": 2322501,
+        "groups": [
+          "Everything",
+          "Triforce Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Triforce Chart 8": {
+        "name": "Triforce Chart 8",
+        "id": 2322502,
+        "groups": [
+          "Everything",
+          "Triforce Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 1": {
+        "name": "Treasure Chart 1",
+        "id": 2322503,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 2": {
+        "name": "Treasure Chart 2",
+        "id": 2322504,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 3": {
+        "name": "Treasure Chart 3",
+        "id": 2322505,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 4": {
+        "name": "Treasure Chart 4",
+        "id": 2322506,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 5": {
+        "name": "Treasure Chart 5",
+        "id": 2322507,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 6": {
+        "name": "Treasure Chart 6",
+        "id": 2322508,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 7": {
+        "name": "Treasure Chart 7",
+        "id": 2322509,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 8": {
+        "name": "Treasure Chart 8",
+        "id": 2322510,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 9": {
+        "name": "Treasure Chart 9",
+        "id": 2322511,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 10": {
+        "name": "Treasure Chart 10",
+        "id": 2322512,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 11": {
+        "name": "Treasure Chart 11",
+        "id": 2322513,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 12": {
+        "name": "Treasure Chart 12",
+        "id": 2322514,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 13": {
+        "name": "Treasure Chart 13",
+        "id": 2322515,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 14": {
+        "name": "Treasure Chart 14",
+        "id": 2322516,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 15": {
+        "name": "Treasure Chart 15",
+        "id": 2322517,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 16": {
+        "name": "Treasure Chart 16",
+        "id": 2322518,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 17": {
+        "name": "Treasure Chart 17",
+        "id": 2322519,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 18": {
+        "name": "Treasure Chart 18",
+        "id": 2322520,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 19": {
+        "name": "Treasure Chart 19",
+        "id": 2322521,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 20": {
+        "name": "Treasure Chart 20",
+        "id": 2322522,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 21": {
+        "name": "Treasure Chart 21",
+        "id": 2322523,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 22": {
+        "name": "Treasure Chart 22",
+        "id": 2322524,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 23": {
+        "name": "Treasure Chart 23",
+        "id": 2322525,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 24": {
+        "name": "Treasure Chart 24",
+        "id": 2322526,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 25": {
+        "name": "Treasure Chart 25",
+        "id": 2322527,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 26": {
+        "name": "Treasure Chart 26",
+        "id": 2322528,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 27": {
+        "name": "Treasure Chart 27",
+        "id": 2322529,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 28": {
+        "name": "Treasure Chart 28",
+        "id": 2322530,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 29": {
+        "name": "Treasure Chart 29",
+        "id": 2322531,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 30": {
+        "name": "Treasure Chart 30",
+        "id": 2322532,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 31": {
+        "name": "Treasure Chart 31",
+        "id": 2322533,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 32": {
+        "name": "Treasure Chart 32",
+        "id": 2322534,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 33": {
+        "name": "Treasure Chart 33",
+        "id": 2322535,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 34": {
+        "name": "Treasure Chart 34",
+        "id": 2322536,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 35": {
+        "name": "Treasure Chart 35",
+        "id": 2322537,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 36": {
+        "name": "Treasure Chart 36",
+        "id": 2322538,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 37": {
+        "name": "Treasure Chart 37",
+        "id": 2322539,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 38": {
+        "name": "Treasure Chart 38",
+        "id": 2322540,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 39": {
+        "name": "Treasure Chart 39",
+        "id": 2322541,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 40": {
+        "name": "Treasure Chart 40",
+        "id": 2322542,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Chart 41": {
+        "name": "Treasure Chart 41",
+        "id": 2322543,
+        "groups": [
+          "Everything",
+          "Treasure Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Tingle's Chart": {
+        "name": "Tingle's Chart",
+        "id": 2322544,
+        "groups": [
+          "Everything",
+          "Special Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ghost Ship Chart": {
+        "name": "Ghost Ship Chart",
+        "id": 2322545,
+        "groups": [
+          "Everything",
+          "Special Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Octo Chart": {
+        "name": "Octo Chart",
+        "id": 2322546,
+        "groups": [
+          "Everything",
+          "Special Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Great Fairy Chart": {
+        "name": "Great Fairy Chart",
+        "id": 2322547,
+        "groups": [
+          "Everything",
+          "Special Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Secret Cave Chart": {
+        "name": "Secret Cave Chart",
+        "id": 2322548,
+        "groups": [
+          "Everything",
+          "Special Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Light Ring Chart": {
+        "name": "Light Ring Chart",
+        "id": 2322549,
+        "groups": [
+          "Everything",
+          "Special Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Platform Chart": {
+        "name": "Platform Chart",
+        "id": 2322550,
+        "groups": [
+          "Everything",
+          "Special Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Beedle's Chart": {
+        "name": "Beedle's Chart",
+        "id": 2322551,
+        "groups": [
+          "Everything",
+          "Special Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Submarine Chart": {
+        "name": "Submarine Chart",
+        "id": 2322552,
+        "groups": [
+          "Everything",
+          "Special Charts"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Green Rupee": {
+        "name": "Green Rupee",
+        "id": 2322553,
+        "groups": [
+          "Everything",
+          "Rupees"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Blue Rupee": {
+        "name": "Blue Rupee",
+        "id": 2322554,
+        "groups": [
+          "Everything",
+          "Rupees"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Yellow Rupee": {
+        "name": "Yellow Rupee",
+        "id": 2322555,
+        "groups": [
+          "Everything",
+          "Rupees"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Red Rupee": {
+        "name": "Red Rupee",
+        "id": 2322556,
+        "groups": [
+          "Everything",
+          "Rupees"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Purple Rupee": {
+        "name": "Purple Rupee",
+        "id": 2322557,
+        "groups": [
+          "Everything",
+          "Rupees"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Orange Rupee": {
+        "name": "Orange Rupee",
+        "id": 2322558,
+        "groups": [
+          "Everything",
+          "Rupees"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "Silver Rupee": {
+        "name": "Silver Rupee",
+        "id": 2322559,
+        "groups": [
+          "Everything",
+          "Rupees"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 12
+      },
+      "Rainbow Rupee": {
+        "name": "Rainbow Rupee",
+        "id": 2322560,
+        "groups": [
+          "Everything",
+          "Rupees"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Piece of Heart": {
+        "name": "Piece of Heart",
+        "id": 2322561,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 14
+      },
+      "Heart Container": {
+        "name": "Heart Container",
+        "id": 2322562,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "DRC Big Key": {
+        "name": "DRC Big Key",
+        "id": 2322563,
+        "groups": [
+          "Big Keys",
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "DRC Small Key": {
+        "name": "DRC Small Key",
+        "id": 2322564,
+        "groups": [
+          "Everything",
+          "Small Keys"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "FW Big Key": {
+        "name": "FW Big Key",
+        "id": 2322565,
+        "groups": [
+          "Big Keys",
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "FW Small Key": {
+        "name": "FW Small Key",
+        "id": 2322566,
+        "groups": [
+          "Everything",
+          "Small Keys"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "TotG Big Key": {
+        "name": "TotG Big Key",
+        "id": 2322567,
+        "groups": [
+          "Big Keys",
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "TotG Small Key": {
+        "name": "TotG Small Key",
+        "id": 2322568,
+        "groups": [
+          "Everything",
+          "Small Keys"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "ET Big Key": {
+        "name": "ET Big Key",
+        "id": 2322570,
+        "groups": [
+          "Big Keys",
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "ET Small Key": {
+        "name": "ET Small Key",
+        "id": 2322571,
+        "groups": [
+          "Everything",
+          "Small Keys"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "WT Big Key": {
+        "name": "WT Big Key",
+        "id": 2322572,
+        "groups": [
+          "Big Keys",
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "WT Small Key": {
+        "name": "WT Small Key",
+        "id": 2322573,
+        "groups": [
+          "Everything",
+          "Small Keys"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "DRC Dungeon Map": {
+        "name": "DRC Dungeon Map",
+        "id": 2322574,
+        "groups": [
+          "Dungeon Items",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "DRC Compass": {
+        "name": "DRC Compass",
+        "id": 2322575,
+        "groups": [
+          "Dungeon Items",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "FW Dungeon Map": {
+        "name": "FW Dungeon Map",
+        "id": 2322576,
+        "groups": [
+          "Dungeon Items",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "FW Compass": {
+        "name": "FW Compass",
+        "id": 2322577,
+        "groups": [
+          "Dungeon Items",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "TotG Dungeon Map": {
+        "name": "TotG Dungeon Map",
+        "id": 2322578,
+        "groups": [
+          "Dungeon Items",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "TotG Compass": {
+        "name": "TotG Compass",
+        "id": 2322579,
+        "groups": [
+          "Dungeon Items",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "FF Dungeon Map": {
+        "name": "FF Dungeon Map",
+        "id": 2322580,
+        "groups": [
+          "Dungeon Items",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "FF Compass": {
+        "name": "FF Compass",
+        "id": 2322581,
+        "groups": [
+          "Dungeon Items",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "ET Dungeon Map": {
+        "name": "ET Dungeon Map",
+        "id": 2322582,
+        "groups": [
+          "Dungeon Items",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "ET Compass": {
+        "name": "ET Compass",
+        "id": 2322583,
+        "groups": [
+          "Dungeon Items",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "WT Dungeon Map": {
+        "name": "WT Dungeon Map",
+        "id": 2322584,
+        "groups": [
+          "Dungeon Items",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "WT Compass": {
+        "name": "WT Compass",
+        "id": 2322585,
+        "groups": [
+          "Dungeon Items",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Victory": {
+        "name": "Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "The Portals of Chaos (E2M8)": {
+        "name": "The Portals of Chaos (E2M8)",
+        "id": 370448,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Levitate": {
+        "name": "Levitate",
+        "id": 64020,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ember": {
+        "name": "Ember",
+        "id": 100863,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Campaign Tier 1 Column 4": {
+        "name": "Campaign Tier 1 Column 4",
+        "id": 5730146,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "1-Up Balloon": {
+        "name": "1-Up Balloon",
+        "id": 14430209,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dove Skull": {
+        "name": "Dove Skull",
+        "id": 1909000,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Heart Jeans": {
+        "name": "Heart Jeans",
+        "id": 77771112,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "MP Berry": {
+        "name": "MP Berry",
+        "id": 509342418,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Goofy Defender": {
+        "name": "Goofy Defender",
+        "id": 1245455,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mithalas Doll": {
+        "name": "Mithalas Doll",
+        "id": 698016,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Quartz Flask": {
+        "name": "Quartz Flask",
+        "id": 370010,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "8 REP": {
+        "name": "8 REP",
+        "id": 2308159,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Partial invisibility": {
+        "name": "Partial invisibility",
+        "id": 360012,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Greatsword": {
+        "name": "Greatsword",
+        "id": 100080,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Caustic Spray (Corruptor)": {
+        "name": "Caustic Spray (Corruptor)",
+        "id": 2221,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Blood Amulet (Ascendant)": {
+        "name": "Blood Amulet (Ascendant)",
+        "id": 3367,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Crystals x500": {
+        "name": "Crystals x500",
+        "id": 593019,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Crystals",
+        "max_count": 1
+      },
+      "Energy Orb": {
+        "name": "Energy Orb",
+        "id": 370019,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lightning Spear": {
+        "name": "Lightning Spear",
+        "id": 101057,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Emblem": {
+        "name": "Emblem",
+        "id": 16711680,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Heal Potion": {
+        "name": "Heal Potion",
+        "id": 4325393,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Potion": {
+        "name": "Potion",
+        "id": 110003,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Chuckle Bean": {
+        "name": "Chuckle Bean",
+        "id": 77771020,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mega Armor": {
+        "name": "Mega Armor",
+        "id": 350108,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rusted Coin": {
+        "name": "Rusted Coin",
+        "id": 100844,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Command Center Reactor": {
+        "name": "Command Center Reactor",
+        "id": 1605,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Eject Ability": {
+        "name": "Eject Ability",
+        "id": 7798850,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": true,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "3 Ethanol": {
+        "name": "3 Ethanol",
+        "id": 64251,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Junimo Hut": {
+        "name": "Junimo Hut",
+        "id": 717082,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Magnifying Glass": {
+        "name": "Magnifying Glass",
+        "id": 3154057,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Biscuit": {
+        "name": "Biscuit",
+        "id": 64141,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Blessed Gem": {
+        "name": "Blessed Gem",
+        "id": 100918,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Puppies 64-66": {
+        "name": "Puppies 64-66",
+        "id": 2642222,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Crystal Hail": {
+        "name": "Crystal Hail",
+        "id": 101006,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Crystal Magic Weapon": {
+        "name": "Crystal Magic Weapon",
+        "id": 100994,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lantern": {
+        "name": "Lantern",
+        "id": 509342429,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Red jewel(S)": {
+        "name": "Red jewel(S)",
+        "id": 12992514,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Starting Paint Can": {
+        "name": "Starting Paint Can",
+        "id": 595005,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": "Helper",
+        "max_count": 1
+      },
+      "Roast beef": {
+        "name": "Roast beef",
+        "id": 12992519,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Pocket Ice Melon": {
+        "name": "Pocket Ice Melon",
+        "id": 3154056,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Energy Tank": {
+        "name": "Energy Tank",
+        "id": 83000,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "ETank",
+        "max_count": 1
+      },
+      "The Dungeons (E1M2) - Green key": {
+        "name": "The Dungeons (E1M2) - Green key",
+        "id": 370202,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fourth Toe made of Limestone": {
+        "name": "Fourth Toe made of Limestone",
+        "id": 1909019,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sun Form": {
+        "name": "Sun Form",
+        "id": 698118,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dragonslayer Armor": {
+        "name": "Dragonslayer Armor",
+        "id": 100568,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sting": {
+        "name": "Sting",
+        "id": 64031,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Bumper": {
+        "name": "Treasure Bumper",
+        "id": 595008,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Target",
+        "max_count": 1
+      },
+      "Puzzle Skip": {
+        "name": "Puzzle Skip",
+        "id": 444413,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rare Candy": {
+        "name": "Rare Candy",
+        "id": 172000040,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Magic Mirror": {
+        "name": "Magic Mirror",
+        "id": 26,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bonus Coin": {
+        "name": "Bonus Coin",
+        "id": 14430211,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Winged Nightmares": {
+        "name": "Winged Nightmares",
+        "id": 1510,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Belt Reader": {
+        "name": "Belt Reader",
+        "id": 20010724,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Archdeacon Skirt": {
+        "name": "Archdeacon Skirt",
+        "id": 100450,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Guardian Soul": {
+        "name": "Guardian Soul",
+        "id": 1245299,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dio's Best Friend": {
+        "name": "Dio's Best Friend",
+        "id": 37001,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Recov30 *": {
+        "name": "Recov30 *",
+        "id": 11735131,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Motivational Video": {
+        "name": "Motivational Video",
+        "id": 9002,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Soul of a Crestfallen Knight": {
+        "name": "Soul of a Crestfallen Knight",
+        "id": 100828,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hoo Bean": {
+        "name": "Hoo Bean",
+        "id": 77771019,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Titanite Chunk": {
+        "name": "Titanite Chunk",
+        "id": 100895,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "The Graveyard (E1M9) - Map Scroll": {
+        "name": "The Graveyard (E1M9) - Map Scroll",
+        "id": 370426,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Caitha's Chime": {
+        "name": "Caitha's Chime",
+        "id": 100191,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Homeward Bone x2": {
+        "name": "Homeward Bone x2",
+        "id": 100795,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Projectile Refill": {
+        "name": "Projectile Refill",
+        "id": 4325598,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Reserve Tank": {
+        "name": "Reserve Tank",
+        "id": 83020,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Reserve",
+        "max_count": 1
+      },
+      "Cyclops Sonar Upgrade": {
+        "name": "Cyclops Sonar Upgrade",
+        "id": 35004,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Small Tentacle x 2": {
+        "name": "Small Tentacle x 2",
+        "id": 698081,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Box of bullets": {
+        "name": "Box of bullets",
+        "id": 360016,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Seashell": {
+        "name": "Seashell",
+        "id": 82002,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Freed The Blue Sage": {
+        "name": "Freed The Blue Sage",
+        "id": 741002119,
+        "groups": [],
+        "advancement": true,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "RegUP3": {
+        "name": "RegUP3",
+        "id": 11735061,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Red": {
+        "name": "Red",
+        "id": 444401,
+        "groups": [],
+        "advancement": true,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "HPMemory": {
+        "name": "HPMemory",
+        "id": 11735058,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      " coins": {
+        "name": " coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      },
+      " coins freemium": {
+        "name": " coins freemium",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      }
+    }
+  },
+  "item_groups": {
+    "65": [
+      "Big Keys",
+      "Dungeon Items",
+      "Everything",
+      "Mail",
+      "Pearls",
+      "Rupees",
+      "Shards",
+      "Small Keys",
+      "Songs",
+      "Special Charts",
+      "Tingle Statues",
+      "Treasure Charts",
+      "Triforce Charts"
+    ]
+  },
+  "itempool_counts": {
+    "65": {
+      "Bait Bag": 1,
+      "Ballad of Gales": 1,
+      "Bomb Bag Capacity Upgrade": 1,
+      "Bombs": 1,
+      "Boomerang": 1,
+      "Cabana Deed": 1,
+      "Command Melody": 1,
+      "DRC Big Key": 1,
+      "DRC Compass": 1,
+      "DRC Dungeon Map": 1,
+      "DRC Small Key": 4,
+      "Deku Leaf": 1,
+      "Delivery Bag": 1,
+      "Din's Pearl": 1,
+      "ET Big Key": 1,
+      "ET Compass": 1,
+      "ET Dungeon Map": 1,
+      "ET Small Key": 3,
+      "Earth God's Lyric": 1,
+      "Empty Bottle": 4,
+      "FF Compass": 1,
+      "FF Dungeon Map": 1,
+      "FW Big Key": 1,
+      "FW Compass": 1,
+      "FW Dungeon Map": 1,
+      "FW Small Key": 1,
+      "Farore's Pearl": 1,
+      "Ghost Ship Chart": 1,
+      "Grappling Hook": 1,
+      "Heart Container": 1,
+      "Hookshot": 1,
+      "Hurricane Spin": 1,
+      "Iron Boots": 1,
+      "Magic Armor": 1,
+      "Nayru's Pearl": 1,
+      "Note to Mom": 1,
+      "Orange Rupee": 4,
+      "Piece of Heart": 14,
+      "Power Bracelets": 1,
+      "Progressive Bow": 3,
+      "Progressive Magic Meter": 2,
+      "Progressive Shield": 2,
+      "Progressive Sword": 4,
+      "Silver Rupee": 12,
+      "Skull Hammer": 1,
+      "Song of Passing": 1,
+      "TotG Big Key": 1,
+      "TotG Compass": 1,
+      "TotG Dungeon Map": 1,
+      "TotG Small Key": 2,
+      "Triforce Shard 1": 1,
+      "Triforce Shard 2": 1,
+      "Triforce Shard 3": 1,
+      "Triforce Shard 4": 1,
+      "Triforce Shard 5": 1,
+      "Triforce Shard 6": 1,
+      "Triforce Shard 7": 1,
+      "Triforce Shard 8": 1,
+      "Victory": 1,
+      "WT Big Key": 1,
+      "WT Compass": 1,
+      "WT Dungeon Map": 1,
+      "WT Small Key": 2,
+      "Wallet Capacity Upgrade": 2,
+      "Wind God's Aria": 1,
+      "Wind Waker": 1,
+      "Wind's Requiem": 1
+    }
+  },
+  "progression_mapping": {
+    "65": {}
+  },
+  "starting_items": {
+    "65": [
+      "Progressive Sword"
+    ]
+  },
+  "settings": {
+    "65": {
+      "game": "The Wind Waker",
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false,
+      "logic_in_swordless_mode": false,
+      "logic_in_required_bosses_mode": false,
+      "logic_obscure_1": false,
+      "logic_obscure_2": false,
+      "logic_obscure_3": false,
+      "logic_precise_1": false,
+      "logic_precise_2": false,
+      "logic_precise_3": false,
+      "logic_rematch_bosses_skipped": true,
+      "logic_tuner_logic_enabled": false
+    }
+  },
+  "game_info": {
+    "65": {
+      "name": "The Wind Waker",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

@@ -84,6 +84,11 @@ export class ConsoleUI {
     // location_groups command removed - location groups don't exist in Archipelago JSON data
     register('ready', 'Send ready status to server', this.handleReadyCommand);
     register(
+      'recalculate',
+      'Recalculate region/location accessibility and scan for new event locations',
+      this.handleRecalculateCommand
+    );
+    register(
       'set_delay',
       'Set check delay (min max)',
       this.handleSetDelayCommand
@@ -295,6 +300,40 @@ export class ConsoleUI {
       { cmd: 'StatusUpdate', status: Config.CLIENT_STATUS.CLIENT_READY },
     ]);
     consoleManager.print('Ready status sent to server.', 'system');
+  }
+
+  static async handleRecalculateCommand(args, { stateManager, consoleManager }) {
+    if (!stateManager) {
+      consoleManager.print('Error: StateManager not available.', 'error');
+      return;
+    }
+
+    try {
+      consoleManager.print('Triggering accessibility recalculation...', 'info');
+
+      // Trigger the recalculation
+      await stateManager.recalculateAccessibility();
+
+      // Wait for the worker to process and send the updated snapshot
+      consoleManager.print('Waiting for worker to complete...', 'info');
+      await stateManager.pingWorker('console_recalculate_check', 5000);
+
+      // Get the updated snapshot
+      const snapshot = stateManager.getSnapshot();
+      if (snapshot) {
+        const checkedCount = snapshot.checkedLocations?.length || 0;
+        const inventorySize = snapshot.inventory ? Object.keys(snapshot.inventory).filter(k => snapshot.inventory[k] > 0).length : 0;
+
+        consoleManager.print('Recalculation complete!', 'success');
+        consoleManager.print(`Current state: ${checkedCount} locations checked, ${inventorySize} items in inventory`, 'info');
+      } else {
+        consoleManager.print('Recalculation complete (no snapshot available).', 'system');
+      }
+
+    } catch (error) {
+      consoleManager.print(`Error during recalculation: ${error.message}`, 'error');
+      log('error', '[ConsoleUI] Error in handleRecalculateCommand:', error);
+    }
   }
 
   static handleSetDelayCommand(argsString, { centralRegistry, consoleManager }) {
@@ -563,8 +602,8 @@ export class ConsoleUI {
       }
 
       // Check location exists in static data locations
-      if (staticData.locations && staticData.locations[locationName]) {
-        const locationData = staticData.locations[locationName];
+      if (staticData.locations && staticData.locations.get(locationName)) {
+        const locationData = staticData.locations.get(locationName);
         consoleManager.print(`✓ Location Data Found:`);
         consoleManager.print(`  - Name: ${locationData.name}`);
         consoleManager.print(`  - ID: ${locationData.id}`);

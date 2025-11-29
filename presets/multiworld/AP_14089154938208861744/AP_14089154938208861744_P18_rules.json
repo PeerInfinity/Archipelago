@@ -1,0 +1,5867 @@
+{
+  "schema_version": 3,
+  "game_name": "Donkey Kong Country 3",
+  "game_directory": "dkc3",
+  "archipelago_version": "0.6.4",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1",
+    "2": "Player2",
+    "3": "Player3",
+    "4": "Player4",
+    "5": "Player5",
+    "6": "Player6",
+    "7": "Player7",
+    "8": "Player8",
+    "9": "Player9",
+    "10": "Player10",
+    "11": "Player11",
+    "12": "Player12",
+    "13": "Player13",
+    "14": "Player14",
+    "15": "Player15",
+    "16": "Player16",
+    "17": "Player17",
+    "18": "Player18",
+    "19": "Player19",
+    "20": "Player20",
+    "21": "Player21",
+    "22": "Player22",
+    "23": "Player23",
+    "24": "Player24",
+    "25": "Player25",
+    "26": "Player26",
+    "27": "Player27",
+    "28": "Player28",
+    "29": "Player29",
+    "30": "Player30",
+    "31": "Player31",
+    "32": "Player32",
+    "33": "Player33",
+    "34": "Player34",
+    "35": "Player35",
+    "36": "Player36",
+    "37": "Player37",
+    "38": "Player38",
+    "39": "Player39",
+    "40": "Player40",
+    "41": "Player41",
+    "42": "Player42",
+    "43": "Player43",
+    "44": "Player44",
+    "45": "Player45",
+    "46": "Player46",
+    "47": "Player47",
+    "48": "Player48",
+    "49": "Player49",
+    "50": "Player50",
+    "51": "Player51",
+    "52": "Player52",
+    "53": "Player53",
+    "54": "Player54",
+    "55": "Player55",
+    "56": "Player56",
+    "57": "Player57",
+    "58": "Player58",
+    "59": "Player59",
+    "60": "Player60",
+    "61": "Player61",
+    "62": "Player62",
+    "63": "Player63",
+    "64": "Player64",
+    "65": "Player65",
+    "66": "Player66",
+    "67": "Player67",
+    "68": "Player68",
+    "69": "Player69",
+    "70": "Player70",
+    "71": "Player71",
+    "72": "Player72",
+    "73": "Player73",
+    "74": "Player74",
+    "75": "Player75"
+  },
+  "world_classes": {
+    "1": "HatInTimeWorld",
+    "2": "ALTTPWorld",
+    "3": "ShortHikeWorld",
+    "4": "AdventureWorld",
+    "5": "AquariaWorld",
+    "6": "ArchipIDLEWorld",
+    "7": "BlasphemousWorld",
+    "8": "BombRushCyberfunkWorld",
+    "9": "BumpStikWorld",
+    "10": "CVCotMWorld",
+    "11": "CV64World",
+    "12": "Celeste64World",
+    "13": "ChecksFinderWorld",
+    "14": "ChocolateChipCookiesWorld",
+    "15": "CivVIWorld",
+    "16": "DarkSouls3World",
+    "17": "DLCqworld",
+    "18": "DKC3World",
+    "19": "DOOM1993World",
+    "20": "DOOM2World",
+    "21": "Factorio",
+    "22": "FaxanaduWorld",
+    "23": "FFMQWorld",
+    "24": "HereticWorld",
+    "25": "Hylics2World",
+    "26": "InscryptionWorld",
+    "27": "JakAndDaxterWorld",
+    "28": "KH2World",
+    "29": "KH1World",
+    "30": "KDL3World",
+    "31": "LandstalkerWorld",
+    "32": "LingoWorld",
+    "33": "LinksAwakeningWorld",
+    "34": "L2ACWorld",
+    "35": "MLSSWorld",
+    "36": "MathProof2p2e4World",
+    "37": "MM2World",
+    "38": "MMBN3World",
+    "39": "MeritousWorld",
+    "40": "MetamathWorld",
+    "41": "MuseDashWorld",
+    "42": "NoitaWorld",
+    "43": "OSRSWorld",
+    "44": "Overcooked2World",
+    "45": "PaintWorld",
+    "46": "PokemonEmeraldWorld",
+    "47": "PokemonRedBlueWorld",
+    "48": "RaftWorld",
+    "49": "RiskOfRainWorld",
+    "50": "SavingPrincessWorld",
+    "51": "SoEWorld",
+    "52": "ShapezWorld",
+    "53": "ShiversWorld",
+    "54": "SA2BWorld",
+    "55": "SC2World",
+    "56": "StardewValleyWorld",
+    "57": "SubnauticaWorld",
+    "58": "SM64World",
+    "59": "MarioLand2World",
+    "60": "SMWWorld",
+    "61": "SMWorld",
+    "62": "TerrariaWorld",
+    "63": "TLoZWorld",
+    "64": "MessengerWorld",
+    "65": "TWWWorld",
+    "66": "WitnessWorld",
+    "67": "TimespinnerWorld",
+    "68": "TunicWorld",
+    "69": "UndertaleWorld",
+    "70": "V6World",
+    "71": "WargrooveWorld",
+    "72": "WebDevJourneyWorld",
+    "73": "YachtDiceWorld",
+    "74": "YoshisIslandWorld",
+    "75": "Yugioh06World"
+  },
+  "regions": {
+    "18": {
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "Overworld 1",
+            "connected_region": "Overworld 1",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Overworld 1": {
+        "name": "Overworld 1",
+        "exits": [
+          {
+            "name": "Overworld 2",
+            "connected_region": "Overworld 2",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Progressive Boat Upgrade",
+              "count": {
+                "type": "constant",
+                "value": 1
+              }
+            }
+          },
+          {
+            "name": "Overworld 4",
+            "connected_region": "Overworld 4",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "DK Coin",
+                  "count": {
+                    "type": "constant",
+                    "value": 30
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Progressive Boat Upgrade",
+                  "count": {
+                    "type": "constant",
+                    "value": 3
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "Lake Orangatanga",
+            "connected_region": "Lake Orangatanga",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Kremwood Forest",
+            "connected_region": "Kremwood Forest",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Bounty Beach Region",
+            "connected_region": "Bounty Beach Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Bazaar's General Store Region",
+            "connected_region": "Bazaar's General Store Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Overworld 2": {
+        "name": "Overworld 2",
+        "exits": [
+          {
+            "name": "Overworld 3",
+            "connected_region": "Overworld 3",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Progressive Boat Upgrade",
+              "count": {
+                "type": "constant",
+                "value": 3
+              }
+            }
+          },
+          {
+            "name": "Cotton-Top Cove",
+            "connected_region": "Cotton-Top Cove",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Mekanos",
+            "connected_region": "Mekanos",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Kong Cave Region",
+            "connected_region": "Kong Cave Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Bramble's Bungalow Region",
+            "connected_region": "Bramble's Bungalow Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Overworld 3": {
+        "name": "Overworld 3",
+        "exits": [
+          {
+            "name": "K3",
+            "connected_region": "K3",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Razor Ridge",
+            "connected_region": "Razor Ridge",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "KAOS Kore",
+            "connected_region": "KAOS Kore",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Krematoa",
+            "connected_region": "Krematoa",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Undercover Cove Region",
+            "connected_region": "Undercover Cove Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Flower Spot Region",
+            "connected_region": "Flower Spot Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Barter's Swap Shop Region",
+            "connected_region": "Barter's Swap Shop Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Overworld 4": {
+        "name": "Overworld 4",
+        "exits": [
+          {
+            "name": "Belcha's Burrow Region",
+            "connected_region": "Belcha's Burrow Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "K's Cache Region",
+            "connected_region": "K's Cache Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Hill-Top Hoard Region",
+            "connected_region": "Hill-Top Hoard Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Lake Orangatanga": {
+        "name": "Lake Orangatanga",
+        "exits": [
+          {
+            "name": "Lakeside Limbo",
+            "connected_region": "Lakeside Limbo",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Doorstop Dash",
+            "connected_region": "Doorstop Dash",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Tidal Trouble",
+            "connected_region": "Tidal Trouble",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Skidda's Row",
+            "connected_region": "Skidda's Row",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Murky Mill",
+            "connected_region": "Murky Mill",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Belcha's Barn Region",
+            "connected_region": "Belcha's Barn Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Barnacle's Island Region",
+            "connected_region": "Barnacle's Island Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Smuggler's Cove Region",
+            "connected_region": "Smuggler's Cove Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Kremwood Forest": {
+        "name": "Kremwood Forest",
+        "exits": [
+          {
+            "name": "Barrel Shield Bust-Up",
+            "connected_region": "Barrel Shield Bust-Up",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Riverside Race",
+            "connected_region": "Riverside Race",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Squeals On Wheels",
+            "connected_region": "Squeals On Wheels",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Springin' Spiders",
+            "connected_region": "Springin' Spiders",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Bobbing Barrel Brawl",
+            "connected_region": "Bobbing Barrel Brawl",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Arich's Ambush Region",
+            "connected_region": "Arich's Ambush Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Arich's Hoard Region",
+            "connected_region": "Arich's Hoard Region",
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Riverside Race - Flag"
+                },
+                {
+                  "type": "constant",
+                  "value": "Location"
+                }
+              ]
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Cotton-Top Cove": {
+        "name": "Cotton-Top Cove",
+        "exits": [
+          {
+            "name": "Blue's Beach Hut Region",
+            "connected_region": "Blue's Beach Hut Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Bazza's Blockade",
+            "connected_region": "Bazza's Blockade",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Rocket Barrel Ride",
+            "connected_region": "Rocket Barrel Ride",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Kreeping Klasps",
+            "connected_region": "Kreeping Klasps",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Tracker Barrel Trek",
+            "connected_region": "Tracker Barrel Trek",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Fish Food Frenzy",
+            "connected_region": "Fish Food Frenzy",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Squirt's Showdown Region",
+            "connected_region": "Squirt's Showdown Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Bounty Bay Region",
+            "connected_region": "Bounty Bay Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Mekanos": {
+        "name": "Mekanos",
+        "exits": [
+          {
+            "name": "Fire-Ball Frenzy",
+            "connected_region": "Fire-Ball Frenzy",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Demolition Drain-Pipe",
+            "connected_region": "Demolition Drain-Pipe",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Ripsaw Rage",
+            "connected_region": "Ripsaw Rage",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Blazing Bazukas",
+            "connected_region": "Blazing Bazukas",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Low-G Labyrinth",
+            "connected_region": "Low-G Labyrinth",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "KAOS Karnage Region",
+            "connected_region": "KAOS Karnage Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Sky-High Secret Region",
+            "connected_region": "Sky-High Secret Region",
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Bleak's House"
+                },
+                {
+                  "type": "constant",
+                  "value": "Location"
+                }
+              ]
+            }
+          }
+        ],
+        "locations": []
+      },
+      "K3": {
+        "name": "K3",
+        "exits": [
+          {
+            "name": "Krevice Kreepers",
+            "connected_region": "Krevice Kreepers",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Tearaway Toboggan",
+            "connected_region": "Tearaway Toboggan",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Barrel Drop Bounce",
+            "connected_region": "Barrel Drop Bounce",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Krack-Shot Kroc",
+            "connected_region": "Krack-Shot Kroc",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Lemguin Lunge",
+            "connected_region": "Lemguin Lunge",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Bleak's House Region",
+            "connected_region": "Bleak's House Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Bizzard's Basecamp Region",
+            "connected_region": "Bizzard's Basecamp Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Glacial Grotto Region",
+            "connected_region": "Glacial Grotto Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Razor Ridge": {
+        "name": "Razor Ridge",
+        "exits": [
+          {
+            "name": "Buzzer Barrage",
+            "connected_region": "Buzzer Barrage",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Kong-Fused Cliffs",
+            "connected_region": "Kong-Fused Cliffs",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Floodlit Fish",
+            "connected_region": "Floodlit Fish",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Pothole Panic",
+            "connected_region": "Pothole Panic",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Ropey Rumpus",
+            "connected_region": "Ropey Rumpus",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Barbos's Barrier Region",
+            "connected_region": "Barbos's Barrier Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Clifftop Cache Region",
+            "connected_region": "Clifftop Cache Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "KAOS Kore": {
+        "name": "KAOS Kore",
+        "exits": [
+          {
+            "name": "Konveyor Rope Klash",
+            "connected_region": "Konveyor Rope Klash",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Creepy Caverns",
+            "connected_region": "Creepy Caverns",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Lightning Lookout",
+            "connected_region": "Lightning Lookout",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Koindozer Klamber",
+            "connected_region": "Koindozer Klamber",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Poisonous Pipeline",
+            "connected_region": "Poisonous Pipeline",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Sewer Stockpile Region",
+            "connected_region": "Sewer Stockpile Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Knautilus Region",
+            "connected_region": "Knautilus Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Krematoa": {
+        "name": "Krematoa",
+        "exits": [
+          {
+            "name": "Stampede Sprint",
+            "connected_region": "Stampede Sprint",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Bonus Coin",
+              "count": {
+                "type": "constant",
+                "value": 15
+              }
+            }
+          },
+          {
+            "name": "Criss Kross Cliffs",
+            "connected_region": "Criss Kross Cliffs",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Bonus Coin",
+              "count": {
+                "type": "constant",
+                "value": 30
+              }
+            }
+          },
+          {
+            "name": "Tyrant Twin Tussle",
+            "connected_region": "Tyrant Twin Tussle",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Bonus Coin",
+              "count": {
+                "type": "constant",
+                "value": 45
+              }
+            }
+          },
+          {
+            "name": "Swoopy Salvo",
+            "connected_region": "Swoopy Salvo",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Bonus Coin",
+              "count": {
+                "type": "constant",
+                "value": 60
+              }
+            }
+          },
+          {
+            "name": "Rocket Rush",
+            "connected_region": "Rocket Rush",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Bonus Coin",
+              "count": {
+                "type": "constant",
+                "value": 75
+              }
+            }
+          },
+          {
+            "name": "Kastle KAOS Region",
+            "connected_region": "Kastle KAOS Region",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Krematoa Cog",
+              "count": {
+                "type": "constant",
+                "value": 5
+              }
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Lakeside Limbo": {
+        "name": "Lakeside Limbo",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Lakeside Limbo - Flag",
+            "id": 14430208,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Fervour Upgrade",
+              "player": 7,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lakeside Limbo - Bonus 1",
+            "id": 14430209,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Canvas Height",
+              "player": 45,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lakeside Limbo - Bonus 2",
+            "id": 14430210,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Candle",
+              "player": 63,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lakeside Limbo - DK Coin",
+            "id": 14430211,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 18,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Doorstop Dash": {
+        "name": "Doorstop Dash",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Doorstop Dash - Flag",
+            "id": 14430212,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Music (Refuse)",
+              "player": 8,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Doorstop Dash - Bonus 1",
+            "id": 14430213,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Hookshot",
+              "player": 65,
+              "advancement": true,
+              "type": "Item"
+            }
+          },
+          {
+            "name": "Doorstop Dash - Bonus 2",
+            "id": 14430214,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Gooey Bag",
+              "player": 30,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Doorstop Dash - DK Coin",
+            "id": 14430215,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "progressive-bottle",
+              "player": 48,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Tidal Trouble": {
+        "name": "Tidal Trouble",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Tidal Trouble - Flag",
+            "id": 14430216,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Very Funny Joke",
+              "player": 6,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tidal Trouble - Bonus 1",
+            "id": 14430217,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Fortress of Mystery (E2M9)",
+              "player": 19,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tidal Trouble - Bonus 2",
+            "id": 14430218,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Downtown (MAP13)",
+              "player": 20,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tidal Trouble - DK Coin",
+            "id": 14430219,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Prescient Spores (Devourer)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Skidda's Row": {
+        "name": "Skidda's Row",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Skidda's Row - Flag",
+            "id": 14430220,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Fiber Seeds Recipe",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Skidda's Row - Bonus 1",
+            "id": 14430221,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Feather Badge",
+              "player": 46,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Skidda's Row - Bonus 2",
+            "id": 14430222,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Scout Fly - Spider Cave",
+              "player": 27,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Skidda's Row - DK Coin",
+            "id": 14430223,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Puppies 61-63",
+              "player": 29,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Murky Mill": {
+        "name": "Murky Mill",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Murky Mill - Flag",
+            "id": 14430224,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Axe Magic",
+              "player": 31,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Murky Mill - Bonus 1",
+            "id": 14430225,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Metal Pot Top",
+              "player": 53,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Murky Mill - Bonus 2",
+            "id": 14430226,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Knuckles - Sunglasses",
+              "player": 54,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Murky Mill - DK Coin",
+            "id": 14430227,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Wakewater",
+              "player": 23,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Barrel Shield Bust-Up": {
+        "name": "Barrel Shield Bust-Up",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Barrel Shield Bust-Up - Flag",
+            "id": 14430228,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Dash Refills",
+              "player": 12,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Barrel Shield Bust-Up - Bonus 1",
+            "id": 14430229,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Krematoa Cog",
+              "player": 18,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Barrel Shield Bust-Up - Bonus 2",
+            "id": 14430230,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 18,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Barrel Shield Bust-Up - DK Coin",
+            "id": 14430231,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Phalanx of Arthur, the Sailor",
+              "player": 7,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Riverside Race": {
+        "name": "Riverside Race",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Riverside Race - Flag",
+            "id": 14430232,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "The River of Fire (E2M3)",
+              "player": 24,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Riverside Race - Bonus 1",
+            "id": 14430233,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Wand (Tier 1)",
+              "player": 42,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Riverside Race - Bonus 2",
+            "id": 14430234,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "E-Tank",
+              "player": 37,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Riverside Race - DK Coin",
+            "id": 14430235,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Internal Fusion Module (Hercules)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Squeals On Wheels": {
+        "name": "Squeals On Wheels",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Squeals On Wheels - Flag",
+            "id": 14430236,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Biscuit",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Squeals On Wheels - Bonus 1",
+            "id": 14430237,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Stasis Rifle Fragment",
+              "player": 57,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Squeals On Wheels - Bonus 2",
+            "id": 14430238,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Platform Ghost",
+              "player": 74,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Squeals On Wheels - DK Coin",
+            "id": 14430239,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Lucky Emblem",
+              "player": 28,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Springin' Spiders": {
+        "name": "Springin' Spiders",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Springin' Spiders - Flag",
+            "id": 14430240,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Green Goblet",
+              "player": 35,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Springin' Spiders - Bonus 1",
+            "id": 14430241,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Category Ones",
+              "player": 73,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Springin' Spiders - Bonus 2",
+            "id": 14430242,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Phalanx of Miriam, the Counsellor",
+              "player": 7,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Springin' Spiders - DK Coin",
+            "id": 14430243,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "MAGICIAN'S FORCE",
+              "player": 75,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Bobbing Barrel Brawl": {
+        "name": "Bobbing Barrel Brawl",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bobbing Barrel Brawl - Flag",
+            "id": 14430244,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Hammers",
+              "player": 35,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bobbing Barrel Brawl - Bonus 1",
+            "id": 14430245,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "progressive-physical-projectile-damage",
+              "player": 21,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bobbing Barrel Brawl - Bonus 2",
+            "id": 14430246,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Crash Man Access Codes",
+              "player": 37,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bobbing Barrel Brawl - DK Coin",
+            "id": 14430247,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Bloodred Moss Clump x3",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Bazza's Blockade": {
+        "name": "Bazza's Blockade",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bazza's Blockade - Flag",
+            "id": 14430248,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Egg Plant",
+              "player": 74,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bazza's Blockade - Bonus 1",
+            "id": 14430249,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Temporary Spike",
+              "player": 17,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bazza's Blockade - Bonus 2",
+            "id": 14430250,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Twinkling Titanite",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bazza's Blockade - DK Coin",
+            "id": 14430251,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Adaptive Plating (Roach)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Rocket Barrel Ride": {
+        "name": "Rocket Barrel Ride",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Rocket Barrel Ride - Flag",
+            "id": 14430252,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "50 coins",
+              "player": 60,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Rocket Barrel Ride - Bonus 1",
+            "id": 14430253,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Combat Level",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Rocket Barrel Ride - Bonus 2",
+            "id": 14430254,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Equipment",
+              "player": 49,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Rocket Barrel Ride - DK Coin",
+            "id": 14430255,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Small Key",
+              "player": 63,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Kreeping Klasps": {
+        "name": "Kreeping Klasps",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Kreeping Klasps - Flag",
+            "id": 14430256,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Music (Chromebies)",
+              "player": 8,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Kreeping Klasps - Bonus 1",
+            "id": 14430257,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Dodge Roll",
+              "player": 29,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Kreeping Klasps - Bonus 2",
+            "id": 14430258,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Loretta's Bone",
+              "player": 16,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Kreeping Klasps - DK Coin",
+            "id": 14430259,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Super Missile",
+              "player": 61,
+              "advancement": true,
+              "type": "Super"
+            }
+          }
+        ]
+      },
+      "Tracker Barrel Trek": {
+        "name": "Tracker Barrel Trek",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Tracker Barrel Trek - Flag",
+            "id": 14430260,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Chuckle Bean",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tracker Barrel Trek - Bonus 1",
+            "id": 14430261,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1-Up Mushroom",
+              "player": 60,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tracker Barrel Trek - Bonus 2",
+            "id": 14430262,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Movie Theater",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tracker Barrel Trek - DK Coin",
+            "id": 14430263,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "progressive-fluid-handling",
+              "player": 21,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Fish Food Frenzy": {
+        "name": "Fish Food Frenzy",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Fish Food Frenzy - Flag",
+            "id": 14430264,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Megalixir",
+              "player": 29,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Fish Food Frenzy - Bonus 1",
+            "id": 14430265,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Fading Soul",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Fish Food Frenzy - Bonus 2",
+            "id": 14430266,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Mining Level",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Fish Food Frenzy - DK Coin",
+            "id": 14430267,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Psionic Shift (Kerrigan Tier 2)",
+              "player": 55,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Fire-Ball Frenzy": {
+        "name": "Fire-Ball Frenzy",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Fire-Ball Frenzy - Flag",
+            "id": 14430268,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Additional Palette Color",
+              "player": 45,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Fire-Ball Frenzy - Bonus 1",
+            "id": 14430269,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Underhalls (MAP02)",
+              "player": 20,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Fire-Ball Frenzy - Bonus 2",
+            "id": 14430270,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Medikit",
+              "player": 19,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Fire-Ball Frenzy - DK Coin",
+            "id": 14430271,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Mastery Of The Five Ways",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Demolition Drain-Pipe": {
+        "name": "Demolition Drain-Pipe",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Demolition Drain-Pipe - Flag",
+            "id": 14430272,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Pages 0-1",
+              "player": 68,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Demolition Drain-Pipe - Bonus 1",
+            "id": 14430273,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Heart Max Up",
+              "player": 10,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Demolition Drain-Pipe - Bonus 2",
+            "id": 14430274,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Heal Potion",
+              "player": 23,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Demolition Drain-Pipe - DK Coin",
+            "id": 14430275,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Ice Cream",
+              "player": 5,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Ripsaw Rage": {
+        "name": "Ripsaw Rage",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Ripsaw Rage - Flag",
+            "id": 14430276,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Health Energy (L)",
+              "player": 37,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Ripsaw Rage - Bonus 1",
+            "id": 14430277,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "6 Ash",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Ripsaw Rage - Bonus 2",
+            "id": 14430278,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Holy Wound of Contrition",
+              "player": 7,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Ripsaw Rage - DK Coin",
+            "id": 14430279,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "800z",
+              "player": 38,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Blazing Bazukas": {
+        "name": "Blazing Bazukas",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Blazing Bazukas - Flag",
+            "id": 14430280,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Power: Woody's Secret",
+              "player": 56,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Blazing Bazukas - Bonus 1",
+            "id": 14430281,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1-Up Mushroom",
+              "player": 60,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Blazing Bazukas - Bonus 2",
+            "id": 14430282,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Chuckle Bean",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Blazing Bazukas - DK Coin",
+            "id": 14430283,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Very Funny Joke",
+              "player": 6,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Low-G Labyrinth": {
+        "name": "Low-G Labyrinth",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Low-G Labyrinth - Flag",
+            "id": 14430284,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Advanced Targeting Optics (Banshee)",
+              "player": 55,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Low-G Labyrinth - Bonus 1",
+            "id": 14430285,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cottage",
+              "player": 29,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Low-G Labyrinth - Bonus 2",
+            "id": 14430286,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Beanstone 2",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Low-G Labyrinth - DK Coin",
+            "id": 14430287,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Net canister",
+              "player": 48,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Krevice Kreepers": {
+        "name": "Krevice Kreepers",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Krevice Kreepers - Flag",
+            "id": 14430288,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Ember",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Krevice Kreepers - Bonus 1",
+            "id": 14430289,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Extra Max HP",
+              "player": 42,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Krevice Kreepers - Bonus 2",
+            "id": 14430290,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Worm Bin",
+              "player": 56,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Krevice Kreepers - DK Coin",
+            "id": 14430291,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "2-Up",
+              "player": 74,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Tearaway Toboggan": {
+        "name": "Tearaway Toboggan",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Tearaway Toboggan - Flag",
+            "id": 14430292,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Special Cake",
+              "player": 5,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tearaway Toboggan - Bonus 1",
+            "id": 14430293,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Rapid Metamorph (Baneling)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tearaway Toboggan - Bonus 2",
+            "id": 14430294,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "The Feeling of Being Lost",
+              "player": 32,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tearaway Toboggan - DK Coin",
+            "id": 14430295,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "HP Max Up",
+              "player": 10,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Barrel Drop Bounce": {
+        "name": "Barrel Drop Bounce",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Barrel Drop Bounce - Flag",
+            "id": 14430296,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Red Potion",
+              "player": 22,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Barrel Drop Bounce - Bonus 1",
+            "id": 14430297,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Water",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Barrel Drop Bounce - Bonus 2",
+            "id": 14430298,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "GutImpct J",
+              "player": 38,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Barrel Drop Bounce - DK Coin",
+            "id": 14430299,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Hunter's Ring",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Krack-Shot Kroc": {
+        "name": "Krack-Shot Kroc",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Krack-Shot Kroc - Flag",
+            "id": 14430300,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Magic Powder",
+              "player": 33,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Krack-Shot Kroc - Bonus 1",
+            "id": 14430301,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Armor",
+              "player": 19,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Krack-Shot Kroc - Bonus 2",
+            "id": 14430302,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Invincibility",
+              "player": 54,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Krack-Shot Kroc - DK Coin",
+            "id": 14430303,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Call bead",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Lemguin Lunge": {
+        "name": "Lemguin Lunge",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Lemguin Lunge - Flag",
+            "id": 14430304,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "TM12 Water Gun",
+              "player": 47,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lemguin Lunge - Bonus 1",
+            "id": 14430305,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Resource Pack: 1 Sand",
+              "player": 48,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lemguin Lunge - Bonus 2",
+            "id": 14430306,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Hell's Maw (E1M8) - Map Scroll",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lemguin Lunge - DK Coin",
+            "id": 14430307,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "PP Up",
+              "player": 46,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Buzzer Barrage": {
+        "name": "Buzzer Barrage",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Buzzer Barrage - Flag",
+            "id": 14430308,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Bean Pants",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Buzzer Barrage - Bonus 1",
+            "id": 14430309,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Item Filter",
+              "player": 52,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Buzzer Barrage - Bonus 2",
+            "id": 14430310,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Shield",
+              "player": 2,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Buzzer Barrage - DK Coin",
+            "id": 14430311,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Reward: Adhesive Bandage",
+              "player": 62,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Kong-Fused Cliffs": {
+        "name": "Kong-Fused Cliffs",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Kong-Fused Cliffs - Flag",
+            "id": 14430312,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Silver Shield",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Kong-Fused Cliffs - Bonus 1",
+            "id": 14430313,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Second Chance",
+              "player": 28,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Kong-Fused Cliffs - Bonus 2",
+            "id": 14430314,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Monster Condo (MAP27) - Yellow skull key",
+              "player": 20,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Kong-Fused Cliffs - DK Coin",
+            "id": 14430315,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Scout Fly - Rock Village",
+              "player": 27,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Floodlit Fish": {
+        "name": "Floodlit Fish",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Floodlit Fish - Flag",
+            "id": 14430316,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Soul of a Deserted Corpse",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Floodlit Fish - Bonus 1",
+            "id": 14430317,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Paralytic Barbs (Viper)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Floodlit Fish - Bonus 2",
+            "id": 14430318,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cantina of the Blue Rose",
+              "player": 7,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Floodlit Fish - DK Coin",
+            "id": 14430319,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Rare Candy",
+              "player": 46,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Pothole Panic": {
+        "name": "Pothole Panic",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Pothole Panic - Flag",
+            "id": 14430320,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Diplomatic Favor",
+              "player": 15,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Pothole Panic - Bonus 1",
+            "id": 14430321,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Resource Pack: 4 Thatch",
+              "player": 48,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Pothole Panic - Bonus 2",
+            "id": 14430322,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Undead Bone Shard",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Pothole Panic - DK Coin",
+            "id": 14430323,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Statue of Gaia",
+              "player": 31,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Ropey Rumpus": {
+        "name": "Ropey Rumpus",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Ropey Rumpus - Flag",
+            "id": 14430324,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Chuckle Bean",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Ropey Rumpus - Bonus 1",
+            "id": 14430325,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Boss Heart Container",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Ropey Rumpus - Bonus 2",
+            "id": 14430326,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Golden Pumpkin",
+              "player": 56,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Ropey Rumpus - DK Coin",
+            "id": 14430327,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Secret Ansem's Report 6",
+              "player": 28,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Konveyor Rope Klash": {
+        "name": "Konveyor Rope Klash",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Konveyor Rope Klash - Flag",
+            "id": 14430328,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Power Cell",
+              "player": 27,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Konveyor Rope Klash - Bonus 1",
+            "id": 14430329,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Scout Fly - Volcanic Crater",
+              "player": 27,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Konveyor Rope Klash - Bonus 2",
+            "id": 14430330,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Blue Bug Pellet",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Konveyor Rope Klash - DK Coin",
+            "id": 14430331,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Beauty Badge",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Creepy Caverns": {
+        "name": "Creepy Caverns",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Creepy Caverns - Flag",
+            "id": 14430332,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Yarn",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Creepy Caverns - Bonus 1",
+            "id": 14430333,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Sun Stone",
+              "player": 31,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Creepy Caverns - Bonus 2",
+            "id": 14430334,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Heart Container",
+              "player": 33,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Creepy Caverns - DK Coin",
+            "id": 14430335,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Box of shotgun shells",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Lightning Lookout": {
+        "name": "Lightning Lookout",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Lightning Lookout - Flag",
+            "id": 14430336,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Shovel",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lightning Lookout - Bonus 1",
+            "id": 14430337,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Dots",
+              "player": 66,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lightning Lookout - Bonus 2",
+            "id": 14430338,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Power Star",
+              "player": 58,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lightning Lookout - DK Coin",
+            "id": 14430339,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Vow of Silence",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Koindozer Klamber": {
+        "name": "Koindozer Klamber",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Koindozer Klamber - Flag",
+            "id": 14430340,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Roll Fragment",
+              "player": 73,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Koindozer Klamber - Bonus 1",
+            "id": 14430341,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Timebomb of the Ancients",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Koindozer Klamber - Bonus 2",
+            "id": 14430342,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Puzzle Skip",
+              "player": 32,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Koindozer Klamber - DK Coin",
+            "id": 14430343,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Perfume",
+              "player": 68,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Poisonous Pipeline": {
+        "name": "Poisonous Pipeline",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Poisonous Pipeline - Flag",
+            "id": 14430344,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Petite Ribbon",
+              "player": 28,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Poisonous Pipeline - Bonus 1",
+            "id": 14430345,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Chuckle Bean",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Poisonous Pipeline - Bonus 2",
+            "id": 14430346,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Protect Chain",
+              "player": 29,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Poisonous Pipeline - DK Coin",
+            "id": 14430347,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Golden Feather",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Stampede Sprint": {
+        "name": "Stampede Sprint",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Stampede Sprint - Flag",
+            "id": 14430348,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Small Belt Upgrade",
+              "player": 52,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Stampede Sprint - Bonus 1",
+            "id": 14430349,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "HP Offering",
+              "player": 68,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Stampede Sprint - Bonus 2",
+            "id": 14430350,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Aerial Dive",
+              "player": 28,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Stampede Sprint - Bonus 3",
+            "id": 14430351,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Medikit",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Stampede Sprint - DK Coin",
+            "id": 14430352,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Lightning Bolt x12",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Criss Kross Cliffs": {
+        "name": "Criss Kross Cliffs",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Criss Kross Cliffs - Flag",
+            "id": 14430353,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Energy Tank",
+              "player": 61,
+              "advancement": true,
+              "type": "ETank"
+            }
+          },
+          {
+            "name": "Criss Kross Cliffs - Bonus 1",
+            "id": 14430354,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Ability Ring",
+              "player": 28,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Criss Kross Cliffs - Bonus 2",
+            "id": 14430355,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Vile Strain (Roach)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Criss Kross Cliffs - DK Coin",
+            "id": 14430356,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Supercharge",
+              "player": 19,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Tyrant Twin Tussle": {
+        "name": "Tyrant Twin Tussle",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Tyrant Twin Tussle - Flag",
+            "id": 14430357,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Infernal Plating (Hellion)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tyrant Twin Tussle - Bonus 1",
+            "id": 14430358,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Special Monsters A",
+              "player": 75,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tyrant Twin Tussle - Bonus 2",
+            "id": 14430359,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "TM33 Reflect",
+              "player": 47,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tyrant Twin Tussle - Bonus 3",
+            "id": 14430360,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "progressive-backpack",
+              "player": 48,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tyrant Twin Tussle - DK Coin",
+            "id": 14430361,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Gil's Hat",
+              "player": 56,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Swoopy Salvo": {
+        "name": "Swoopy Salvo",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Swoopy Salvo - Flag",
+            "id": 14430362,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cranberry Seeds",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Swoopy Salvo - Bonus 1",
+            "id": 14430363,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "The Glacier (E2M9) - Yellow key",
+              "player": 24,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Swoopy Salvo - Bonus 2",
+            "id": 14430364,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Heart Container",
+              "player": 33,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Swoopy Salvo - Bonus 3",
+            "id": 14430365,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "HP Max Up",
+              "player": 10,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Swoopy Salvo - DK Coin",
+            "id": 14430366,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Outfit (Shine - Autumn)",
+              "player": 8,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Rocket Rush": {
+        "name": "Rocket Rush",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Rocket Rush - Flag",
+            "id": 14430367,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Krematoa Cog",
+              "player": 18,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Rocket Rush - DK Coin",
+            "id": 14430368,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Escape Rope",
+              "player": 46,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Belcha's Barn Region": {
+        "name": "Belcha's Barn Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Belcha's Barn",
+            "id": 14430369,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Space Port",
+              "player": 15,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Arich's Ambush Region": {
+        "name": "Arich's Ambush Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Arich's Ambush",
+            "id": 14430370,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Coop",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Squirt's Showdown Region": {
+        "name": "Squirt's Showdown Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Squirt's Showdown",
+            "id": 14430371,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Big Pearl",
+              "player": 46,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "KAOS Karnage Region": {
+        "name": "KAOS Karnage Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "KAOS Karnage",
+            "id": 14430372,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Sacred Bloom Shield",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Bleak's House Region": {
+        "name": "Bleak's House Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bleak's House",
+            "id": 14430373,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Roast beef",
+              "player": 11,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Barbos's Barrier Region": {
+        "name": "Barbos's Barrier Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Barbos's Barrier",
+            "id": 14430374,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 18,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Kastle KAOS Region": {
+        "name": "Kastle KAOS Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Kastle KAOS",
+            "id": 14430375,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Donkey Kong",
+              "player": 18,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Knautilus Region": {
+        "name": "Knautilus Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Knautilus",
+            "id": 14430376,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Large Titanite Shard",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Belcha's Burrow Region": {
+        "name": "Belcha's Burrow Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Belcha's Burrow",
+            "id": 14430377,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Underhalls (MAP02) - Red keycard",
+              "player": 20,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Kong Cave Region": {
+        "name": "Kong Cave Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Kong Cave",
+            "id": 14430378,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Color Depth (Red)",
+              "player": 45,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Undercover Cove Region": {
+        "name": "Undercover Cove Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Undercover Cove",
+            "id": 14430379,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 66,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "K's Cache Region": {
+        "name": "K's Cache Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "K's Cache",
+            "id": 14430380,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Golden Feather",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Hill-Top Hoard Region": {
+        "name": "Hill-Top Hoard Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Hill-Top Hoard",
+            "id": 14430381,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Power: Jewels Of The Sea",
+              "player": 56,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Bounty Beach Region": {
+        "name": "Bounty Beach Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bounty Beach",
+            "id": 14430382,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Roach",
+              "player": 55,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Smuggler's Cove Region": {
+        "name": "Smuggler's Cove Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Smuggler's Cove",
+            "id": 14430383,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Time is Money Pack",
+              "player": 17,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Arich's Hoard Region": {
+        "name": "Arich's Hoard Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Arich's Hoard",
+            "id": 14430384,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Life Extension",
+              "player": 50,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Bounty Bay Region": {
+        "name": "Bounty Bay Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bounty Bay",
+            "id": 14430385,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Dreamchaser's Ashes",
+              "player": 16,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Sky-High Secret Region": {
+        "name": "Sky-High Secret Region",
+        "exits": [],
+        "locations": []
+      },
+      "Glacial Grotto Region": {
+        "name": "Glacial Grotto Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Glacial Grotto",
+            "id": 14430387,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Orange Rupee",
+              "player": 65,
+              "advancement": false,
+              "type": "Item"
+            }
+          }
+        ]
+      },
+      "Clifftop Cache Region": {
+        "name": "Clifftop Cache Region",
+        "exits": [],
+        "locations": []
+      },
+      "Sewer Stockpile Region": {
+        "name": "Sewer Stockpile Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Sewer Stockpile",
+            "id": 14430389,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Syrup",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Bazaar's General Store Region": {
+        "name": "Bazaar's General Store Region",
+        "exits": [],
+        "locations": []
+      },
+      "Bramble's Bungalow Region": {
+        "name": "Bramble's Bungalow Region",
+        "exits": [],
+        "locations": []
+      },
+      "Flower Spot Region": {
+        "name": "Flower Spot Region",
+        "exits": [],
+        "locations": []
+      },
+      "Barter's Swap Shop Region": {
+        "name": "Barter's Swap Shop Region",
+        "exits": [],
+        "locations": []
+      },
+      "Barnacle's Island Region": {
+        "name": "Barnacle's Island Region",
+        "exits": [],
+        "locations": []
+      },
+      "Blue's Beach Hut Region": {
+        "name": "Blue's Beach Hut Region",
+        "exits": [],
+        "locations": []
+      },
+      "Bizzard's Basecamp Region": {
+        "name": "Bizzard's Basecamp Region",
+        "exits": [],
+        "locations": []
+      }
+    }
+  },
+  "start_regions": {
+    "18": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "18": {
+      "1-Up Balloon": {
+        "name": "1-Up Balloon",
+        "id": 14430209,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 24
+      },
+      "Bear Coin": {
+        "name": "Bear Coin",
+        "id": 14430210,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 21
+      },
+      "Bonus Coin": {
+        "name": "Bonus Coin",
+        "id": 14430211,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 87
+      },
+      "DK Coin": {
+        "name": "DK Coin",
+        "id": 14430212,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 42
+      },
+      "Banana Bird": {
+        "name": "Banana Bird",
+        "id": 14430213,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Krematoa Cog": {
+        "name": "Krematoa Cog",
+        "id": 14430214,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 6
+      },
+      "Progressive Boat Upgrade": {
+        "name": "Progressive Boat Upgrade",
+        "id": 14430215,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "Donkey Kong": {
+        "name": "Donkey Kong",
+        "id": 14430208,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fervour Upgrade": {
+        "name": "Fervour Upgrade",
+        "id": 1909180,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Canvas Height": {
+        "name": "Progressive Canvas Height",
+        "id": 198502,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Candle": {
+        "name": "Candle",
+        "id": 7118,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Music (Refuse)": {
+        "name": "Music (Refuse)",
+        "id": 2308019,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hookshot": {
+        "name": "Hookshot",
+        "id": 2322445,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Item",
+        "max_count": 1
+      },
+      "Gooey Bag": {
+        "name": "Gooey Bag",
+        "id": 7798848,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": true,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "progressive-bottle": {
+        "name": "progressive-bottle",
+        "id": 47099,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Very Funny Joke": {
+        "name": "Very Funny Joke",
+        "id": 9001,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fortress of Mystery (E2M9)": {
+        "name": "Fortress of Mystery (E2M9)",
+        "id": 350064,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Downtown (MAP13)": {
+        "name": "Downtown (MAP13)",
+        "id": 360436,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Prescient Spores (Devourer)": {
+        "name": "Prescient Spores (Devourer)",
+        "id": 2247,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fiber Seeds Recipe": {
+        "name": "Fiber Seeds Recipe",
+        "id": 717233,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Feather Badge": {
+        "name": "Feather Badge",
+        "id": 3860231,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Scout Fly - Spider Cave": {
+        "name": "Scout Fly - Spider Cave",
+        "id": 741001109,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Puppies 61-63": {
+        "name": "Puppies 61-63",
+        "id": 2642221,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Axe Magic": {
+        "name": "Axe Magic",
+        "id": 4023,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Metal Pot Top": {
+        "name": "Metal Pot Top",
+        "id": 27019,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Knuckles - Sunglasses": {
+        "name": "Knuckles - Sunglasses",
+        "id": 16711695,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wakewater": {
+        "name": "Wakewater",
+        "id": 4325378,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dash Refills": {
+        "name": "Dash Refills",
+        "id": 13238273,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Phalanx of Arthur, the Sailor": {
+        "name": "Phalanx of Arthur, the Sailor",
+        "id": 1909147,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "The River of Fire (E2M3)": {
+        "name": "The River of Fire (E2M3)",
+        "id": 370433,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wand (Tier 1)": {
+        "name": "Wand (Tier 1)",
+        "id": 110006,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "E-Tank": {
+        "name": "E-Tank",
+        "id": 8912931,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Internal Fusion Module (Hercules)": {
+        "name": "Internal Fusion Module (Hercules)",
+        "id": 1386,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Biscuit": {
+        "name": "Biscuit",
+        "id": 64141,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Stasis Rifle Fragment": {
+        "name": "Stasis Rifle Fragment",
+        "id": 35039,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Platform Ghost": {
+        "name": "Platform Ghost",
+        "id": 3154022,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lucky Emblem": {
+        "name": "Lucky Emblem",
+        "id": 1245422,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Green Goblet": {
+        "name": "Green Goblet",
+        "id": 77771031,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Ones": {
+        "name": "Category Ones",
+        "id": 16871244103,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Phalanx of Miriam, the Counsellor": {
+        "name": "Phalanx of Miriam, the Counsellor",
+        "id": 1909148,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "MAGICIAN'S FORCE": {
+        "name": "MAGICIAN'S FORCE",
+        "id": 5730008,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hammers": {
+        "name": "Hammers",
+        "id": 77771035,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "progressive-physical-projectile-damage": {
+        "name": "progressive-physical-projectile-damage",
+        "id": 131281,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Crash Man Access Codes": {
+        "name": "Crash Man Access Codes",
+        "id": 8913160,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bloodred Moss Clump x3": {
+        "name": "Bloodred Moss Clump x3",
+        "id": 100720,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Egg Plant": {
+        "name": "Egg Plant",
+        "id": 3154018,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Temporary Spike": {
+        "name": "Temporary Spike",
+        "id": 120045,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": true,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Twinkling Titanite": {
+        "name": "Twinkling Titanite",
+        "id": 100902,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Adaptive Plating (Roach)": {
+        "name": "Adaptive Plating (Roach)",
+        "id": 2204,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "50 coins": {
+        "name": "50 coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 1
+      },
+      "Combat Level": {
+        "name": "Combat Level",
+        "id": 717077,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Equipment": {
+        "name": "Equipment",
+        "id": 37007,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Small Key": {
+        "name": "Small Key",
+        "id": 7126,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Music (Chromebies)": {
+        "name": "Music (Chromebies)",
+        "id": 2308026,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dodge Roll": {
+        "name": "Dodge Roll",
+        "id": 2643022,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Loretta's Bone": {
+        "name": "Loretta's Bone",
+        "id": 100947,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Super Missile": {
+        "name": "Super Missile",
+        "id": 83002,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Super",
+        "max_count": 1
+      },
+      "Chuckle Bean": {
+        "name": "Chuckle Bean",
+        "id": 77771020,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "1-Up Mushroom": {
+        "name": "1-Up Mushroom",
+        "id": 12320769,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Movie Theater": {
+        "name": "Progressive Movie Theater",
+        "id": 717022,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": true,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "progressive-fluid-handling": {
+        "name": "progressive-fluid-handling",
+        "id": 131269,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Megalixir": {
+        "name": "Megalixir",
+        "id": 2641008,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fading Soul": {
+        "name": "Fading Soul",
+        "id": 100819,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mining Level": {
+        "name": "Mining Level",
+        "id": 717076,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Psionic Shift (Kerrigan Tier 2)": {
+        "name": "Psionic Shift (Kerrigan Tier 2)",
+        "id": 2405,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Additional Palette Color": {
+        "name": "Additional Palette Color",
+        "id": 198523,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Underhalls (MAP02)": {
+        "name": "Underhalls (MAP02)",
+        "id": 360403,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Medikit": {
+        "name": "Medikit",
+        "id": 350113,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mastery Of The Five Ways": {
+        "name": "Mastery Of The Five Ways",
+        "id": 717492,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Pages 0-1": {
+        "name": "Pages 0-1",
+        "id": 509342502,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Heart Max Up": {
+        "name": "Heart Max Up",
+        "id": 3579634688,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Heal Potion": {
+        "name": "Heal Potion",
+        "id": 4325393,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ice Cream": {
+        "name": "Ice Cream",
+        "id": 698053,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Health Energy (L)": {
+        "name": "Health Energy (L)",
+        "id": 8912930,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "6 Ash": {
+        "name": "6 Ash",
+        "id": 64275,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Holy Wound of Contrition": {
+        "name": "Holy Wound of Contrition",
+        "id": 1909098,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "800z": {
+        "name": "800z",
+        "id": 11735198,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Power: Woody's Secret": {
+        "name": "Power: Woody's Secret",
+        "id": 717528,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Advanced Targeting Optics (Banshee)": {
+        "name": "Advanced Targeting Optics (Banshee)",
+        "id": 1337,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cottage": {
+        "name": "Cottage",
+        "id": 2641144,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Beanstone 2": {
+        "name": "Beanstone 2",
+        "id": 77771069,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Net canister": {
+        "name": "Net canister",
+        "id": 47086,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ember": {
+        "name": "Ember",
+        "id": 100863,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Extra Max HP": {
+        "name": "Extra Max HP",
+        "id": 110001,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Worm Bin": {
+        "name": "Worm Bin",
+        "id": 722259,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "2-Up": {
+        "name": "2-Up",
+        "id": 3154061,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Special Cake": {
+        "name": "Special Cake",
+        "id": 698083,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rapid Metamorph (Baneling)": {
+        "name": "Rapid Metamorph (Baneling)",
+        "id": 2233,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "The Feeling of Being Lost": {
+        "name": "The Feeling of Being Lost",
+        "id": 444575,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "HP Max Up": {
+        "name": "HP Max Up",
+        "id": 3579634689,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Red Potion": {
+        "name": "Red Potion",
+        "id": 400024,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Water": {
+        "name": "Water",
+        "id": 64110,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "GutImpct J": {
+        "name": "GutImpct J",
+        "id": 11735104,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hunter's Ring": {
+        "name": "Hunter's Ring",
+        "id": 100676,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Magic Powder": {
+        "name": "Magic Powder",
+        "id": 10000009,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Armor": {
+        "name": "Armor",
+        "id": 350107,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Invincibility": {
+        "name": "Invincibility",
+        "id": 16711718,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Call bead": {
+        "name": "Call bead",
+        "id": 64117,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "TM12 Water Gun": {
+        "name": "TM12 Water Gun",
+        "id": 172000212,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Resource Pack: 1 Sand": {
+        "name": "Resource Pack: 1 Sand",
+        "id": 47221,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hell's Maw (E1M8) - Map Scroll": {
+        "name": "Hell's Maw (E1M8) - Map Scroll",
+        "id": 370423,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "PP Up": {
+        "name": "PP Up",
+        "id": 3860069,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bean Pants": {
+        "name": "Bean Pants",
+        "id": 77771107,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Item Filter": {
+        "name": "Item Filter",
+        "id": 20010727,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Shield": {
+        "name": "Progressive Shield",
+        "id": 95,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Reward: Adhesive Bandage": {
+        "name": "Reward: Adhesive Bandage",
+        "id": 8257648,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Silver Shield": {
+        "name": "Silver Shield",
+        "id": 370016,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Second Chance": {
+        "name": "Second Chance",
+        "id": 1245392,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Monster Condo (MAP27) - Yellow skull key": {
+        "name": "Monster Condo (MAP27) - Yellow skull key",
+        "id": 360253,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Scout Fly - Rock Village": {
+        "name": "Scout Fly - Rock Village",
+        "id": 741001100,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Soul of a Deserted Corpse": {
+        "name": "Soul of a Deserted Corpse",
+        "id": 100820,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Paralytic Barbs (Viper)": {
+        "name": "Paralytic Barbs (Viper)",
+        "id": 2260,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cantina of the Blue Rose": {
+        "name": "Cantina of the Blue Rose",
+        "id": 1909058,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rare Candy": {
+        "name": "Rare Candy",
+        "id": 3860068,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Diplomatic Favor": {
+        "name": "Diplomatic Favor",
+        "id": 5041158,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Resource Pack: 4 Thatch": {
+        "name": "Resource Pack: 4 Thatch",
+        "id": 47209,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Undead Bone Shard": {
+        "name": "Undead Bone Shard",
+        "id": 100969,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statue of Gaia": {
+        "name": "Statue of Gaia",
+        "id": 4019,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Boss Heart Container": {
+        "name": "Boss Heart Container",
+        "id": 62,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Golden Pumpkin": {
+        "name": "Golden Pumpkin",
+        "id": 717211,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Secret Ansem's Report 6": {
+        "name": "Secret Ansem's Report 6",
+        "id": 1245189,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Power Cell": {
+        "name": "Power Cell",
+        "id": 741000000,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Scout Fly - Volcanic Crater": {
+        "name": "Scout Fly - Volcanic Crater",
+        "id": 741001101,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Blue Bug Pellet": {
+        "name": "Blue Bug Pellet",
+        "id": 100850,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Beauty Badge": {
+        "name": "Beauty Badge",
+        "id": 77771097,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Yarn": {
+        "name": "Yarn",
+        "id": 2000300001,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sun Stone": {
+        "name": "Sun Stone",
+        "id": 4030,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Heart Container": {
+        "name": "Heart Container",
+        "id": 10000137,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Box of shotgun shells": {
+        "name": "Box of shotgun shells",
+        "id": 360018,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Shovel": {
+        "name": "Shovel",
+        "id": 82008,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Dots": {
+        "name": "Progressive Dots",
+        "id": 158200,
+        "groups": [],
+        "advancement": true,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Power Star": {
+        "name": "Power Star",
+        "id": 3626000,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Vow of Silence": {
+        "name": "Vow of Silence",
+        "id": 101066,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Roll Fragment": {
+        "name": "Roll Fragment",
+        "id": 16871244003,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Timebomb of the Ancients": {
+        "name": "Timebomb of the Ancients",
+        "id": 370013,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Puzzle Skip": {
+        "name": "Puzzle Skip",
+        "id": 444413,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Perfume": {
+        "name": "Perfume",
+        "id": 509342469,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Petite Ribbon": {
+        "name": "Petite Ribbon",
+        "id": 1245262,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Protect Chain": {
+        "name": "Protect Chain",
+        "id": 2641017,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Golden Feather": {
+        "name": "Golden Feather",
+        "id": 82003,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Small Belt Upgrade": {
+        "name": "Small Belt Upgrade",
+        "id": 20010738,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "HP Offering": {
+        "name": "HP Offering",
+        "id": 509342448,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Aerial Dive": {
+        "name": "Aerial Dive",
+        "id": 1245406,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lightning Bolt x12": {
+        "name": "Lightning Bolt x12",
+        "id": 100028,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Energy Tank": {
+        "name": "Energy Tank",
+        "id": 83000,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "ETank",
+        "max_count": 1
+      },
+      "Ability Ring": {
+        "name": "Ability Ring",
+        "id": 1245312,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Vile Strain (Roach)": {
+        "name": "Vile Strain (Roach)",
+        "id": 2302,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Supercharge": {
+        "name": "Supercharge",
+        "id": 350112,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Infernal Plating (Hellion)": {
+        "name": "Infernal Plating (Hellion)",
+        "id": 1240,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Special Monsters A": {
+        "name": "Special Monsters A",
+        "id": 5730032,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "TM33 Reflect": {
+        "name": "TM33 Reflect",
+        "id": 172000233,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "progressive-backpack": {
+        "name": "progressive-backpack",
+        "id": 47095,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Gil's Hat": {
+        "name": "Gil's Hat",
+        "id": 717498,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cranberry Seeds": {
+        "name": "Cranberry Seeds",
+        "id": 717136,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "The Glacier (E2M9) - Yellow key": {
+        "name": "The Glacier (E2M9) - Yellow key",
+        "id": 370238,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Outfit (Shine - Autumn)": {
+        "name": "Outfit (Shine - Autumn)",
+        "id": 2308135,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Escape Rope": {
+        "name": "Escape Rope",
+        "id": 3860085,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Space Port": {
+        "name": "Progressive Space Port",
+        "id": 5041150,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Coop": {
+        "name": "Progressive Coop",
+        "id": 717084,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Big Pearl": {
+        "name": "Big Pearl",
+        "id": 3860107,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sacred Bloom Shield": {
+        "name": "Sacred Bloom Shield",
+        "id": 100245,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Roast beef": {
+        "name": "Roast beef",
+        "id": 12992519,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Large Titanite Shard": {
+        "name": "Large Titanite Shard",
+        "id": 100892,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Underhalls (MAP02) - Red keycard": {
+        "name": "Underhalls (MAP02) - Red keycard",
+        "id": 360200,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Color Depth (Red)": {
+        "name": "Progressive Color Depth (Red)",
+        "id": 198503,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Speed Boost": {
+        "name": "Speed Boost",
+        "id": 158500,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Power: Jewels Of The Sea": {
+        "name": "Power: Jewels Of The Sea",
+        "id": 717530,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Roach": {
+        "name": "Roach",
+        "id": 2002,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Time is Money Pack": {
+        "name": "Time is Money Pack",
+        "id": 120004,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Life Extension": {
+        "name": "Life Extension",
+        "id": 91630179862866,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dreamchaser's Ashes": {
+        "name": "Dreamchaser's Ashes",
+        "id": 100937,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Orange Rupee": {
+        "name": "Orange Rupee",
+        "id": 2322558,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": "Item",
+        "max_count": 1
+      },
+      "Syrup": {
+        "name": "Syrup",
+        "id": 77771009,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      " coins": {
+        "name": " coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      },
+      " coins freemium": {
+        "name": " coins freemium",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      }
+    }
+  },
+  "item_groups": {
+    "18": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "18": {
+      "1-Up Balloon": 24,
+      "Bear Coin": 21,
+      "Bonus Coin": 87,
+      "DK Coin": 42,
+      "Donkey Kong": 1,
+      "Krematoa Cog": 6,
+      "Progressive Boat Upgrade": 3
+    }
+  },
+  "progression_mapping": {
+    "18": {}
+  },
+  "starting_items": {
+    "18": []
+  },
+  "settings": {
+    "18": {
+      "game": "Donkey Kong Country 3",
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
+    }
+  },
+  "game_info": {
+    "18": {
+      "name": "Donkey Kong Country 3",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

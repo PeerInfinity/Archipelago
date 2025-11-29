@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "menu -> massan",
@@ -29,23 +28,6 @@
       },
       "Massan": {
         "name": "Massan",
-        "entrances": [
-          {
-            "name": "massan_cave -> massan",
-            "parent_region": "Massan Cave",
-            "connected_region": "Massan"
-          },
-          {
-            "name": "route_massan_gumi -> massan",
-            "parent_region": "Route between Massan and Gumi",
-            "connected_region": "Massan"
-          },
-          {
-            "name": "menu -> massan",
-            "parent_region": "Menu",
-            "connected_region": "Massan"
-          }
-        ],
         "exits": [
           {
             "name": "massan -> massan_cave",
@@ -54,33 +36,21 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
+                  "type": "and",
+                  "conditions": [
                     {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic",
-                            "Lantern"
-                          ]
-                        }
-                      ]
+                      "type": "item_check",
+                      "item": "Axe Magic"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Lantern"
                     }
                   ]
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 }
               ]
             }
@@ -92,32 +62,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": []
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Swamp Shrine"
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "event_visited_swamp_shrine"
                 }
               ]
             }
@@ -248,13 +198,6 @@
       },
       "Massan Cave": {
         "name": "Massan Cave",
-        "entrances": [
-          {
-            "name": "massan -> massan_cave",
-            "parent_region": "Massan",
-            "connected_region": "Massan Cave"
-          }
-        ],
         "exits": [
           {
             "name": "massan_cave -> massan",
@@ -263,33 +206,21 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
+                  "type": "and",
+                  "conditions": [
                     {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic",
-                            "Lantern"
-                          ]
-                        }
-                      ]
+                      "type": "item_check",
+                      "item": "Axe Magic"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Lantern"
                     }
                   ]
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 }
               ]
             }
@@ -342,33 +273,6 @@
       },
       "Route between Massan and Gumi": {
         "name": "Route between Massan and Gumi",
-        "entrances": [
-          {
-            "name": "massan -> route_massan_gumi",
-            "parent_region": "Massan",
-            "connected_region": "Route between Massan and Gumi"
-          },
-          {
-            "name": "waterfall_shrine -> route_massan_gumi",
-            "parent_region": "Waterfall Shrine",
-            "connected_region": "Route between Massan and Gumi"
-          },
-          {
-            "name": "swamp_shrine -> route_massan_gumi",
-            "parent_region": "Swamp Shrine",
-            "connected_region": "Route between Massan and Gumi"
-          },
-          {
-            "name": "gumi -> route_massan_gumi",
-            "parent_region": "Gumi",
-            "connected_region": "Route between Massan and Gumi"
-          },
-          {
-            "name": "greenmaze_post_whistle -> route_massan_gumi",
-            "parent_region": "Greenmaze (post-whistle)",
-            "connected_region": "Route between Massan and Gumi"
-          }
-        ],
         "exits": [
           {
             "name": "route_massan_gumi -> massan",
@@ -393,32 +297,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Idol Stone"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Idol Stone"
                 }
               ]
             }
@@ -451,13 +335,6 @@
       },
       "Waterfall Shrine": {
         "name": "Waterfall Shrine",
-        "entrances": [
-          {
-            "name": "route_massan_gumi -> waterfall_shrine",
-            "parent_region": "Route between Massan and Gumi",
-            "connected_region": "Waterfall Shrine"
-          }
-        ],
         "exits": [
           {
             "name": "waterfall_shrine -> route_massan_gumi",
@@ -529,13 +406,6 @@
       },
       "Swamp Shrine": {
         "name": "Swamp Shrine",
-        "entrances": [
-          {
-            "name": "route_massan_gumi -> swamp_shrine",
-            "parent_region": "Route between Massan and Gumi",
-            "connected_region": "Swamp Shrine"
-          }
-        ],
         "exits": [
           {
             "name": "swamp_shrine -> route_massan_gumi",
@@ -544,32 +414,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Idol Stone"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Idol Stone"
                 }
               ]
             }
@@ -720,13 +570,6 @@
       },
       "Massan (after Swamp Shrine)": {
         "name": "Massan (after Swamp Shrine)",
-        "entrances": [
-          {
-            "name": "massan -> massan_after_swamp_shrine",
-            "parent_region": "Massan",
-            "connected_region": "Massan (after Swamp Shrine)"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -747,13 +590,6 @@
       },
       "Gumi (after Swamp Shrine)": {
         "name": "Gumi (after Swamp Shrine)",
-        "entrances": [
-          {
-            "name": "gumi -> gumi_after_swamp_shrine",
-            "parent_region": "Gumi",
-            "connected_region": "Gumi (after Swamp Shrine)"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -774,13 +610,6 @@
       },
       "Gumi": {
         "name": "Gumi",
-        "entrances": [
-          {
-            "name": "route_massan_gumi -> gumi",
-            "parent_region": "Route between Massan and Gumi",
-            "connected_region": "Gumi"
-          }
-        ],
         "exits": [
           {
             "name": "gumi -> route_massan_gumi",
@@ -797,32 +626,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": []
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Swamp Shrine"
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "event_visited_swamp_shrine"
                 }
               ]
             }
@@ -897,43 +706,6 @@
       },
       "Route from Gumi to Ryuma": {
         "name": "Route from Gumi to Ryuma",
-        "entrances": [
-          {
-            "name": "gumi -> route_gumi_ryuma",
-            "parent_region": "Gumi",
-            "connected_region": "Route from Gumi to Ryuma"
-          },
-          {
-            "name": "ryuma -> route_gumi_ryuma",
-            "parent_region": "Ryuma",
-            "connected_region": "Route from Gumi to Ryuma"
-          },
-          {
-            "name": "tibor_tree -> route_gumi_ryuma",
-            "parent_region": "Route from Gumi to Ryuma (Tibor tree)",
-            "connected_region": "Route from Gumi to Ryuma"
-          },
-          {
-            "name": "mercator_gate_tree -> route_gumi_ryuma",
-            "parent_region": "Route from Gumi to Ryuma (Mercator gate tree)",
-            "connected_region": "Route from Gumi to Ryuma"
-          },
-          {
-            "name": "tibor -> route_gumi_ryuma",
-            "parent_region": "Tibor",
-            "connected_region": "Route from Gumi to Ryuma"
-          },
-          {
-            "name": "helga_hut -> route_gumi_ryuma",
-            "parent_region": "Witch Helga's Hut",
-            "connected_region": "Route from Gumi to Ryuma"
-          },
-          {
-            "name": "mercator -> route_gumi_ryuma",
-            "parent_region": "Mercator",
-            "connected_region": "Route from Gumi to Ryuma"
-          }
-        ],
         "exits": [
           {
             "name": "route_gumi_ryuma -> ryuma",
@@ -974,34 +746,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Einstein Whistle"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Einstein Whistle"
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Massan"
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "event_visited_massan"
                 }
               ]
             }
@@ -1013,32 +763,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Safety Pass"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Safety Pass"
                 }
               ]
             }
@@ -1077,13 +807,6 @@
       },
       "Route from Gumi to Ryuma (Tibor tree)": {
         "name": "Route from Gumi to Ryuma (Tibor tree)",
-        "entrances": [
-          {
-            "name": "route_gumi_ryuma -> tibor_tree",
-            "parent_region": "Route from Gumi to Ryuma",
-            "connected_region": "Route from Gumi to Ryuma (Tibor tree)"
-          }
-        ],
         "exits": [
           {
             "name": "tibor_tree -> route_gumi_ryuma",
@@ -1098,13 +821,6 @@
       },
       "Route from Gumi to Ryuma (Mercator gate tree)": {
         "name": "Route from Gumi to Ryuma (Mercator gate tree)",
-        "entrances": [
-          {
-            "name": "route_gumi_ryuma -> mercator_gate_tree",
-            "parent_region": "Route from Gumi to Ryuma",
-            "connected_region": "Route from Gumi to Ryuma (Mercator gate tree)"
-          }
-        ],
         "exits": [
           {
             "name": "mercator_gate_tree -> route_gumi_ryuma",
@@ -1119,13 +835,6 @@
       },
       "Tibor": {
         "name": "Tibor",
-        "entrances": [
-          {
-            "name": "route_gumi_ryuma -> tibor",
-            "parent_region": "Route from Gumi to Ryuma",
-            "connected_region": "Tibor"
-          }
-        ],
         "exits": [
           {
             "name": "tibor -> route_gumi_ryuma",
@@ -1197,23 +906,6 @@
       },
       "Ryuma": {
         "name": "Ryuma",
-        "entrances": [
-          {
-            "name": "route_gumi_ryuma -> ryuma",
-            "parent_region": "Route from Gumi to Ryuma",
-            "connected_region": "Ryuma"
-          },
-          {
-            "name": "ryuma_lighthouse_repaired -> ryuma",
-            "parent_region": "Ryuma (repaired lighthouse)",
-            "connected_region": "Ryuma"
-          },
-          {
-            "name": "thieves_hideout_pre_key -> ryuma",
-            "parent_region": "Thieves Hideout (before keydoor)",
-            "connected_region": "Ryuma"
-          }
-        ],
         "exits": [
           {
             "name": "ryuma -> route_gumi_ryuma",
@@ -1230,32 +922,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": []
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Thieves Hideout (after keydoor)"
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "event_visited_thieves_hideout_post_key"
                 }
               ]
             }
@@ -1267,32 +939,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Sun Stone"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Sun Stone"
                 }
               ]
             }
@@ -1339,13 +991,6 @@
       },
       "Ryuma (after Thieves Hideout)": {
         "name": "Ryuma (after Thieves Hideout)",
-        "entrances": [
-          {
-            "name": "ryuma -> ryuma_after_thieves_hideout",
-            "parent_region": "Ryuma",
-            "connected_region": "Ryuma (after Thieves Hideout)"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1450,13 +1095,6 @@
       },
       "Ryuma (repaired lighthouse)": {
         "name": "Ryuma (repaired lighthouse)",
-        "entrances": [
-          {
-            "name": "ryuma -> ryuma_lighthouse_repaired",
-            "parent_region": "Ryuma",
-            "connected_region": "Ryuma (repaired lighthouse)"
-          }
-        ],
         "exits": [
           {
             "name": "ryuma_lighthouse_repaired -> ryuma",
@@ -1465,32 +1103,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Sun Stone"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Sun Stone"
                 }
               ]
             }
@@ -1529,18 +1147,6 @@
       },
       "Thieves Hideout (before keydoor)": {
         "name": "Thieves Hideout (before keydoor)",
-        "entrances": [
-          {
-            "name": "ryuma -> thieves_hideout_pre_key",
-            "parent_region": "Ryuma",
-            "connected_region": "Thieves Hideout (before keydoor)"
-          },
-          {
-            "name": "thieves_hideout_post_key -> thieves_hideout_pre_key",
-            "parent_region": "Thieves Hideout (after keydoor)",
-            "connected_region": "Thieves Hideout (before keydoor)"
-          }
-        ],
         "exits": [
           {
             "name": "thieves_hideout_pre_key -> ryuma",
@@ -1557,32 +1163,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Key"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Key"
                 }
               ]
             }
@@ -1677,13 +1263,6 @@
       },
       "Thieves Hideout (after keydoor)": {
         "name": "Thieves Hideout (after keydoor)",
-        "entrances": [
-          {
-            "name": "thieves_hideout_pre_key -> thieves_hideout_post_key",
-            "parent_region": "Thieves Hideout (before keydoor)",
-            "connected_region": "Thieves Hideout (after keydoor)"
-          }
-        ],
         "exits": [
           {
             "name": "thieves_hideout_post_key -> thieves_hideout_pre_key",
@@ -1909,13 +1488,6 @@
       },
       "Witch Helga's Hut": {
         "name": "Witch Helga's Hut",
-        "entrances": [
-          {
-            "name": "route_gumi_ryuma -> helga_hut",
-            "parent_region": "Route from Gumi to Ryuma",
-            "connected_region": "Witch Helga's Hut"
-          }
-        ],
         "exits": [
           {
             "name": "helga_hut -> route_gumi_ryuma",
@@ -1924,34 +1496,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Einstein Whistle"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Einstein Whistle"
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Massan"
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "event_visited_massan"
                 }
               ]
             }
@@ -1990,43 +1540,6 @@
       },
       "Mercator": {
         "name": "Mercator",
-        "entrances": [
-          {
-            "name": "route_gumi_ryuma -> mercator",
-            "parent_region": "Route from Gumi to Ryuma",
-            "connected_region": "Mercator"
-          },
-          {
-            "name": "mercator_dungeon -> mercator",
-            "parent_region": "Mercator Dungeon",
-            "connected_region": "Mercator"
-          },
-          {
-            "name": "crypt -> mercator",
-            "parent_region": "Crypt",
-            "connected_region": "Mercator"
-          },
-          {
-            "name": "mercator_special_shop -> mercator",
-            "parent_region": "Mercator special shop",
-            "connected_region": "Mercator"
-          },
-          {
-            "name": "mercator_casino -> mercator",
-            "parent_region": "Mercator casino",
-            "connected_region": "Mercator"
-          },
-          {
-            "name": "mir_tower_sector -> mercator",
-            "parent_region": "Mir Tower sector",
-            "connected_region": "Mercator"
-          },
-          {
-            "name": "king_nole_cave -> mercator",
-            "parent_region": "King Nole's Cave",
-            "connected_region": "Mercator"
-          }
-        ],
         "exits": [
           {
             "name": "mercator -> route_gumi_ryuma",
@@ -2035,32 +1548,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Safety Pass"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Safety Pass"
                 }
               ]
             }
@@ -2088,32 +1581,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Buyer Card"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Buyer Card"
                 }
               ]
             }
@@ -2125,32 +1598,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Casino Ticket"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Casino Ticket"
                 }
               ]
             }
@@ -2170,32 +1623,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Key"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Key"
                 }
               ]
             }
@@ -2207,32 +1640,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": []
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Ryuma (repaired lighthouse)"
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "event_visited_ryuma_lighthouse_repaired"
                 }
               ]
             }
@@ -2425,14 +1838,12 @@
             "name": "Mercator: Fahl's dojo challenge reward",
             "id": 4343,
             "access_rule": {
-              "type": "helper",
-              "name": "_landstalker_has_health",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": 15
-                }
-              ]
+              "type": "item_check",
+              "item": "Life Stock",
+              "count": {
+                "type": "constant",
+                "value": 15
+              }
             },
             "item": {
               "name": "Restoration",
@@ -2445,13 +1856,6 @@
       },
       "Mercator (docks with repaired lighthouse)": {
         "name": "Mercator (docks with repaired lighthouse)",
-        "entrances": [
-          {
-            "name": "mercator -> mercator_repaired_docks",
-            "parent_region": "Mercator",
-            "connected_region": "Mercator (docks with repaired lighthouse)"
-          }
-        ],
         "exits": [
           {
             "name": "mercator_repaired_docks -> verla_shore",
@@ -2509,13 +1913,6 @@
       },
       "Mercator casino": {
         "name": "Mercator casino",
-        "entrances": [
-          {
-            "name": "mercator -> mercator_casino",
-            "parent_region": "Mercator",
-            "connected_region": "Mercator casino"
-          }
-        ],
         "exits": [
           {
             "name": "mercator_casino -> mercator",
@@ -2524,32 +1921,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Casino Ticket"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Casino Ticket"
                 }
               ]
             }
@@ -2574,13 +1951,6 @@
       },
       "Mercator Dungeon": {
         "name": "Mercator Dungeon",
-        "entrances": [
-          {
-            "name": "mercator -> mercator_dungeon",
-            "parent_region": "Mercator",
-            "connected_region": "Mercator Dungeon"
-          }
-        ],
         "exits": [
           {
             "name": "mercator_dungeon -> mercator",
@@ -2694,13 +2064,6 @@
       },
       "Crypt": {
         "name": "Crypt",
-        "entrances": [
-          {
-            "name": "mercator -> crypt",
-            "parent_region": "Mercator",
-            "connected_region": "Crypt"
-          }
-        ],
         "exits": [
           {
             "name": "crypt -> mercator",
@@ -2744,13 +2107,6 @@
       },
       "Mercator special shop": {
         "name": "Mercator special shop",
-        "entrances": [
-          {
-            "name": "mercator -> mercator_special_shop",
-            "parent_region": "Mercator",
-            "connected_region": "Mercator special shop"
-          }
-        ],
         "exits": [
           {
             "name": "mercator_special_shop -> mercator",
@@ -2759,32 +2115,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Buyer Card"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Buyer Card"
                 }
               ]
             }
@@ -2851,48 +2187,6 @@
       },
       "Mir Tower sector": {
         "name": "Mir Tower sector",
-        "entrances": [
-          {
-            "name": "mercator -> mir_tower_sector",
-            "parent_region": "Mercator",
-            "connected_region": "Mir Tower sector"
-          },
-          {
-            "name": "twinkle_village -> mir_tower_sector",
-            "parent_region": "Twinkle village",
-            "connected_region": "Mir Tower sector"
-          },
-          {
-            "name": "mir_tower_sector_tree_ledge -> mir_tower_sector",
-            "parent_region": "Mir Tower sector (ledge behind sacred tree)",
-            "connected_region": "Mir Tower sector"
-          },
-          {
-            "name": "mir_tower_sector_tree_coast -> mir_tower_sector",
-            "parent_region": "Mir Tower sector (coast behind sacred tree)",
-            "connected_region": "Mir Tower sector"
-          },
-          {
-            "name": "mir_tower_pre_garlic -> mir_tower_sector",
-            "parent_region": "Mir Tower (pre-garlic)",
-            "connected_region": "Mir Tower sector"
-          },
-          {
-            "name": "mir_tower_post_garlic -> mir_tower_sector",
-            "parent_region": "Mir Tower (post-garlic)",
-            "connected_region": "Mir Tower sector"
-          },
-          {
-            "name": "verla_shore -> mir_tower_sector",
-            "parent_region": "Verla shore",
-            "connected_region": "Mir Tower sector"
-          },
-          {
-            "name": "lake_shrine -> mir_tower_sector",
-            "parent_region": "Lake Shrine",
-            "connected_region": "Mir Tower sector"
-          }
-        ],
         "exits": [
           {
             "name": "mir_tower_sector -> mercator",
@@ -2917,32 +2211,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Axe Magic"
                 }
               ]
             }
@@ -2954,32 +2228,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Axe Magic"
                 }
               ]
             }
@@ -2991,32 +2245,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Armlet"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Armlet"
                 }
               ]
             }
@@ -3028,32 +2262,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": []
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Verla Mines"
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "event_visited_verla_mines"
                 }
               ]
             }
@@ -3120,13 +2334,6 @@
       },
       "Mir Tower sector (ledge behind sacred tree)": {
         "name": "Mir Tower sector (ledge behind sacred tree)",
-        "entrances": [
-          {
-            "name": "mir_tower_sector -> mir_tower_sector_tree_ledge",
-            "parent_region": "Mir Tower sector",
-            "connected_region": "Mir Tower sector (ledge behind sacred tree)"
-          }
-        ],
         "exits": [
           {
             "name": "mir_tower_sector_tree_ledge -> mir_tower_sector",
@@ -3135,32 +2342,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Axe Magic"
                 }
               ]
             }
@@ -3185,13 +2372,6 @@
       },
       "Mir Tower sector (coast behind sacred tree)": {
         "name": "Mir Tower sector (coast behind sacred tree)",
-        "entrances": [
-          {
-            "name": "mir_tower_sector -> mir_tower_sector_tree_coast",
-            "parent_region": "Mir Tower sector",
-            "connected_region": "Mir Tower sector (coast behind sacred tree)"
-          }
-        ],
         "exits": [
           {
             "name": "mir_tower_sector_tree_coast -> mir_tower_sector",
@@ -3200,32 +2380,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Axe Magic"
                 }
               ]
             }
@@ -3250,13 +2410,6 @@
       },
       "Twinkle village": {
         "name": "Twinkle village",
-        "entrances": [
-          {
-            "name": "mir_tower_sector -> twinkle_village",
-            "parent_region": "Mir Tower sector",
-            "connected_region": "Twinkle village"
-          }
-        ],
         "exits": [
           {
             "name": "twinkle_village -> mir_tower_sector",
@@ -3314,18 +2467,6 @@
       },
       "Mir Tower (pre-garlic)": {
         "name": "Mir Tower (pre-garlic)",
-        "entrances": [
-          {
-            "name": "mir_tower_sector -> mir_tower_pre_garlic",
-            "parent_region": "Mir Tower sector",
-            "connected_region": "Mir Tower (pre-garlic)"
-          },
-          {
-            "name": "mir_tower_post_garlic -> mir_tower_pre_garlic",
-            "parent_region": "Mir Tower (post-garlic)",
-            "connected_region": "Mir Tower (pre-garlic)"
-          }
-        ],
         "exits": [
           {
             "name": "mir_tower_pre_garlic -> mir_tower_sector",
@@ -3342,32 +2483,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Garlic"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Garlic"
                 }
               ]
             }
@@ -3490,13 +2611,6 @@
       },
       "Mir Tower (post-garlic)": {
         "name": "Mir Tower (post-garlic)",
-        "entrances": [
-          {
-            "name": "mir_tower_pre_garlic -> mir_tower_post_garlic",
-            "parent_region": "Mir Tower (pre-garlic)",
-            "connected_region": "Mir Tower (post-garlic)"
-          }
-        ],
         "exits": [
           {
             "name": "mir_tower_post_garlic -> mir_tower_pre_garlic",
@@ -3702,28 +2816,6 @@
       },
       "Greenmaze (pre-whistle)": {
         "name": "Greenmaze (pre-whistle)",
-        "entrances": [
-          {
-            "name": "mercator -> greenmaze_pre_whistle",
-            "parent_region": "Mercator",
-            "connected_region": "Greenmaze (pre-whistle)"
-          },
-          {
-            "name": "greenmaze_cutter -> greenmaze_pre_whistle",
-            "parent_region": "Greenmaze (Cutter hidden sector)",
-            "connected_region": "Greenmaze (pre-whistle)"
-          },
-          {
-            "name": "mountainous_area -> greenmaze_pre_whistle",
-            "parent_region": "Mountainous Area",
-            "connected_region": "Greenmaze (pre-whistle)"
-          },
-          {
-            "name": "greenmaze_post_whistle -> greenmaze_pre_whistle",
-            "parent_region": "Greenmaze (post-whistle)",
-            "connected_region": "Greenmaze (pre-whistle)"
-          }
-        ],
         "exits": [
           {
             "name": "greenmaze_pre_whistle -> greenmaze_post_whistle",
@@ -3732,32 +2824,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Einstein Whistle"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Einstein Whistle"
                 }
               ]
             }
@@ -3769,32 +2841,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "EkeEke"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "EkeEke"
                 }
               ]
             }
@@ -3806,32 +2858,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Axe Magic"
                 }
               ]
             }
@@ -3954,13 +2986,6 @@
       },
       "Greenmaze (Cutter hidden sector)": {
         "name": "Greenmaze (Cutter hidden sector)",
-        "entrances": [
-          {
-            "name": "greenmaze_pre_whistle -> greenmaze_cutter",
-            "parent_region": "Greenmaze (pre-whistle)",
-            "connected_region": "Greenmaze (Cutter hidden sector)"
-          }
-        ],
         "exits": [
           {
             "name": "greenmaze_cutter -> greenmaze_pre_whistle",
@@ -3969,32 +2994,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "EkeEke"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "EkeEke"
                 }
               ]
             }
@@ -4033,18 +3038,6 @@
       },
       "Greenmaze (post-whistle)": {
         "name": "Greenmaze (post-whistle)",
-        "entrances": [
-          {
-            "name": "greenmaze_pre_whistle -> greenmaze_post_whistle",
-            "parent_region": "Greenmaze (pre-whistle)",
-            "connected_region": "Greenmaze (post-whistle)"
-          },
-          {
-            "name": "greenmaze_post_whistle_tree -> greenmaze_post_whistle",
-            "parent_region": "Greenmaze (post-whistle tree)",
-            "connected_region": "Greenmaze (post-whistle)"
-          }
-        ],
         "exits": [
           {
             "name": "greenmaze_post_whistle -> greenmaze_post_whistle_tree",
@@ -4069,32 +3062,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Einstein Whistle"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Einstein Whistle"
                 }
               ]
             }
@@ -4133,13 +3106,6 @@
       },
       "Greenmaze (post-whistle tree)": {
         "name": "Greenmaze (post-whistle tree)",
-        "entrances": [
-          {
-            "name": "greenmaze_post_whistle -> greenmaze_post_whistle_tree",
-            "parent_region": "Greenmaze (post-whistle)",
-            "connected_region": "Greenmaze (post-whistle tree)"
-          }
-        ],
         "exits": [
           {
             "name": "greenmaze_post_whistle_tree -> greenmaze_post_whistle",
@@ -4154,38 +3120,6 @@
       },
       "Verla shore": {
         "name": "Verla shore",
-        "entrances": [
-          {
-            "name": "mercator_repaired_docks -> verla_shore",
-            "parent_region": "Mercator (docks with repaired lighthouse)",
-            "connected_region": "Verla shore"
-          },
-          {
-            "name": "verla -> verla_shore",
-            "parent_region": "Verla",
-            "connected_region": "Verla shore"
-          },
-          {
-            "name": "verla_mines -> verla_shore",
-            "parent_region": "Verla Mines",
-            "connected_region": "Verla shore"
-          },
-          {
-            "name": "verla_shore_cliff -> verla_shore",
-            "parent_region": "Verla shore cliff (accessible from Verla Mines)",
-            "connected_region": "Verla shore"
-          },
-          {
-            "name": "verla_shore_tree -> verla_shore",
-            "parent_region": "Verla shore tree",
-            "connected_region": "Verla shore"
-          },
-          {
-            "name": "mir_tower_sector -> verla_shore",
-            "parent_region": "Mir Tower sector",
-            "connected_region": "Verla shore"
-          }
-        ],
         "exits": [
           {
             "name": "verla_shore -> verla",
@@ -4218,32 +3152,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": []
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Verla Mines"
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "event_visited_verla_mines"
                 }
               ]
             }
@@ -4282,13 +3196,6 @@
       },
       "Verla shore tree": {
         "name": "Verla shore tree",
-        "entrances": [
-          {
-            "name": "verla_shore -> verla_shore_tree",
-            "parent_region": "Verla shore",
-            "connected_region": "Verla shore tree"
-          }
-        ],
         "exits": [
           {
             "name": "verla_shore_tree -> verla_shore",
@@ -4303,13 +3210,6 @@
       },
       "Verla shore cliff (accessible from Verla Mines)": {
         "name": "Verla shore cliff (accessible from Verla Mines)",
-        "entrances": [
-          {
-            "name": "verla_mines -> verla_shore_cliff",
-            "parent_region": "Verla Mines",
-            "connected_region": "Verla shore cliff (accessible from Verla Mines)"
-          }
-        ],
         "exits": [
           {
             "name": "verla_shore_cliff -> verla_mines",
@@ -4347,18 +3247,6 @@
       },
       "Verla": {
         "name": "Verla",
-        "entrances": [
-          {
-            "name": "verla_shore -> verla",
-            "parent_region": "Verla shore",
-            "connected_region": "Verla"
-          },
-          {
-            "name": "verla_after_mines -> verla",
-            "parent_region": "Verla (after mines)",
-            "connected_region": "Verla"
-          }
-        ],
         "exits": [
           {
             "name": "verla -> verla_shore",
@@ -4375,32 +3263,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": []
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Verla Mines"
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "event_visited_verla_mines"
                 }
               ]
             }
@@ -4467,13 +3335,6 @@
       },
       "Verla (after mines)": {
         "name": "Verla (after mines)",
-        "entrances": [
-          {
-            "name": "verla -> verla_after_mines",
-            "parent_region": "Verla",
-            "connected_region": "Verla (after mines)"
-          }
-        ],
         "exits": [
           {
             "name": "verla_after_mines -> verla",
@@ -4482,32 +3343,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": []
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Verla Mines"
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "event_visited_verla_mines"
                 }
               ]
             }
@@ -4546,23 +3387,6 @@
       },
       "Verla Mines": {
         "name": "Verla Mines",
-        "entrances": [
-          {
-            "name": "verla_shore -> verla_mines",
-            "parent_region": "Verla shore",
-            "connected_region": "Verla Mines"
-          },
-          {
-            "name": "verla_shore_cliff -> verla_mines",
-            "parent_region": "Verla shore cliff (accessible from Verla Mines)",
-            "connected_region": "Verla Mines"
-          },
-          {
-            "name": "verla_mines_behind_lava -> verla_mines",
-            "parent_region": "Verla Mines (behind lava)",
-            "connected_region": "Verla Mines"
-          }
-        ],
         "exits": [
           {
             "name": "verla_mines -> verla_shore",
@@ -4595,32 +3419,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Fireproof"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Fireproof"
                 }
               ]
             }
@@ -4799,13 +3603,6 @@
       },
       "Verla Mines (behind lava)": {
         "name": "Verla Mines (behind lava)",
-        "entrances": [
-          {
-            "name": "verla_mines -> verla_mines_behind_lava",
-            "parent_region": "Verla Mines",
-            "connected_region": "Verla Mines (behind lava)"
-          }
-        ],
         "exits": [
           {
             "name": "verla_mines_behind_lava -> verla_mines",
@@ -4814,32 +3611,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Fireproof"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Fireproof"
                 }
               ]
             }
@@ -4864,18 +3641,6 @@
       },
       "Route between Verla and Destel": {
         "name": "Route between Verla and Destel",
-        "entrances": [
-          {
-            "name": "verla_mines -> route_verla_destel",
-            "parent_region": "Verla Mines",
-            "connected_region": "Route between Verla and Destel"
-          },
-          {
-            "name": "destel -> route_verla_destel",
-            "parent_region": "Destel",
-            "connected_region": "Route between Verla and Destel"
-          }
-        ],
         "exits": [
           {
             "name": "route_verla_destel -> destel",
@@ -5003,23 +3768,6 @@
       },
       "Destel": {
         "name": "Destel",
-        "entrances": [
-          {
-            "name": "route_verla_destel -> destel",
-            "parent_region": "Route between Verla and Destel",
-            "connected_region": "Destel"
-          },
-          {
-            "name": "route_after_destel -> destel",
-            "parent_region": "Route after Destel",
-            "connected_region": "Destel"
-          },
-          {
-            "name": "destel_well -> destel",
-            "parent_region": "Destel Well",
-            "connected_region": "Destel"
-          }
-        ],
         "exits": [
           {
             "name": "destel -> route_verla_destel",
@@ -5149,13 +3897,6 @@
       },
       "Route after Destel": {
         "name": "Route after Destel",
-        "entrances": [
-          {
-            "name": "destel -> route_after_destel",
-            "parent_region": "Destel",
-            "connected_region": "Route after Destel"
-          }
-        ],
         "exits": [
           {
             "name": "route_after_destel -> destel",
@@ -5227,18 +3968,6 @@
       },
       "Destel Well": {
         "name": "Destel Well",
-        "entrances": [
-          {
-            "name": "destel -> destel_well",
-            "parent_region": "Destel",
-            "connected_region": "Destel Well"
-          },
-          {
-            "name": "route_lake_shrine -> destel_well",
-            "parent_region": "Route to Lake Shrine",
-            "connected_region": "Destel Well"
-          }
-        ],
         "exits": [
           {
             "name": "destel_well -> destel",
@@ -5486,23 +4215,6 @@
       },
       "Route to Lake Shrine": {
         "name": "Route to Lake Shrine",
-        "entrances": [
-          {
-            "name": "destel_well -> route_lake_shrine",
-            "parent_region": "Destel Well",
-            "connected_region": "Route to Lake Shrine"
-          },
-          {
-            "name": "lake_shrine -> route_lake_shrine",
-            "parent_region": "Lake Shrine",
-            "connected_region": "Route to Lake Shrine"
-          },
-          {
-            "name": "route_lake_shrine_cliff -> route_lake_shrine",
-            "parent_region": "Route to Lake Shrine cliff",
-            "connected_region": "Route to Lake Shrine"
-          }
-        ],
         "exits": [
           {
             "name": "route_lake_shrine -> destel_well",
@@ -5519,32 +4231,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Sword of Gaia"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Sword of Gaia"
                 }
               ]
             }
@@ -5653,13 +4345,6 @@
       },
       "Route to Lake Shrine cliff": {
         "name": "Route to Lake Shrine cliff",
-        "entrances": [
-          {
-            "name": "mountainous_area -> route_lake_shrine_cliff",
-            "parent_region": "Mountainous Area",
-            "connected_region": "Route to Lake Shrine cliff"
-          }
-        ],
         "exits": [
           {
             "name": "route_lake_shrine_cliff -> mountainous_area",
@@ -5668,32 +4353,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Axe Magic"
                 }
               ]
             }
@@ -5726,13 +4391,6 @@
       },
       "Lake Shrine": {
         "name": "Lake Shrine",
-        "entrances": [
-          {
-            "name": "route_lake_shrine -> lake_shrine",
-            "parent_region": "Route to Lake Shrine",
-            "connected_region": "Lake Shrine"
-          }
-        ],
         "exits": [
           {
             "name": "lake_shrine -> route_lake_shrine",
@@ -6078,28 +4736,6 @@
       },
       "Mountainous Area": {
         "name": "Mountainous Area",
-        "entrances": [
-          {
-            "name": "greenmaze_pre_whistle -> mountainous_area",
-            "parent_region": "Greenmaze (pre-whistle)",
-            "connected_region": "Mountainous Area"
-          },
-          {
-            "name": "mountainous_area_tree -> mountainous_area",
-            "parent_region": "Mountainous Area tree",
-            "connected_region": "Mountainous Area"
-          },
-          {
-            "name": "route_lake_shrine_cliff -> mountainous_area",
-            "parent_region": "Route to Lake Shrine cliff",
-            "connected_region": "Mountainous Area"
-          },
-          {
-            "name": "king_nole_cave -> mountainous_area",
-            "parent_region": "King Nole's Cave",
-            "connected_region": "Mountainous Area"
-          }
-        ],
         "exits": [
           {
             "name": "mountainous_area -> greenmaze_pre_whistle",
@@ -6108,32 +4744,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Axe Magic"
                 }
               ]
             }
@@ -6153,32 +4769,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Axe Magic"
                 }
               ]
             }
@@ -6190,32 +4786,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Gola's Eye"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Gola's Eye"
                 }
               ]
             }
@@ -6436,13 +5012,6 @@
       },
       "Mountainous Area tree": {
         "name": "Mountainous Area tree",
-        "entrances": [
-          {
-            "name": "mountainous_area -> mountainous_area_tree",
-            "parent_region": "Mountainous Area",
-            "connected_region": "Mountainous Area tree"
-          }
-        ],
         "exits": [
           {
             "name": "mountainous_area_tree -> mountainous_area",
@@ -6457,18 +5026,6 @@
       },
       "King Nole's Cave": {
         "name": "King Nole's Cave",
-        "entrances": [
-          {
-            "name": "mountainous_area -> king_nole_cave",
-            "parent_region": "Mountainous Area",
-            "connected_region": "King Nole's Cave"
-          },
-          {
-            "name": "kazalt -> king_nole_cave",
-            "parent_region": "Kazalt",
-            "connected_region": "King Nole's Cave"
-          }
-        ],
         "exits": [
           {
             "name": "king_nole_cave -> mountainous_area",
@@ -6477,32 +5034,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Gola's Eye"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Gola's Eye"
                 }
               ]
             }
@@ -6522,36 +5059,33 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
+                  "type": "and",
+                  "conditions": [
                     {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Red Jewel",
-                            "Purple Jewel",
-                            "Green Jewel",
-                            "Blue Jewel",
-                            "Yellow Jewel"
-                          ]
-                        }
-                      ]
+                      "type": "item_check",
+                      "item": "Blue Jewel"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Green Jewel"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Purple Jewel"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Red Jewel"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Yellow Jewel"
                     }
                   ]
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 }
               ]
             }
@@ -6646,18 +5180,6 @@
       },
       "Kazalt": {
         "name": "Kazalt",
-        "entrances": [
-          {
-            "name": "king_nole_cave -> kazalt",
-            "parent_region": "King Nole's Cave",
-            "connected_region": "Kazalt"
-          },
-          {
-            "name": "king_nole_labyrinth_pre_door -> kazalt",
-            "parent_region": "King Nole's Labyrinth (before door)",
-            "connected_region": "Kazalt"
-          }
-        ],
         "exits": [
           {
             "name": "kazalt -> king_nole_cave",
@@ -6751,23 +5273,6 @@
       },
       "King Nole's Labyrinth (before door)": {
         "name": "King Nole's Labyrinth (before door)",
-        "entrances": [
-          {
-            "name": "kazalt -> king_nole_labyrinth_pre_door",
-            "parent_region": "Kazalt",
-            "connected_region": "King Nole's Labyrinth (before door)"
-          },
-          {
-            "name": "king_nole_labyrinth_post_door -> king_nole_labyrinth_pre_door",
-            "parent_region": "King Nole's Labyrinth (after door)",
-            "connected_region": "King Nole's Labyrinth (before door)"
-          },
-          {
-            "name": "king_nole_labyrinth_fall_from_exterior -> king_nole_labyrinth_pre_door",
-            "parent_region": "King Nole's Labyrinth (fall from exterior)",
-            "connected_region": "King Nole's Labyrinth (before door)"
-          }
-        ],
         "exits": [
           {
             "name": "king_nole_labyrinth_pre_door -> kazalt",
@@ -6784,32 +5289,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Key"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Key"
                 }
               ]
             }
@@ -6821,32 +5306,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Iron Boots"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Iron Boots"
                 }
               ]
             }
@@ -6927,23 +5392,6 @@
       },
       "King Nole's Labyrinth (after door)": {
         "name": "King Nole's Labyrinth (after door)",
-        "entrances": [
-          {
-            "name": "king_nole_labyrinth_pre_door -> king_nole_labyrinth_post_door",
-            "parent_region": "King Nole's Labyrinth (before door)",
-            "connected_region": "King Nole's Labyrinth (after door)"
-          },
-          {
-            "name": "king_nole_labyrinth_raft_entrance -> king_nole_labyrinth_post_door",
-            "parent_region": "King Nole's Labyrinth (raft entrance)",
-            "connected_region": "King Nole's Labyrinth (after door)"
-          },
-          {
-            "name": "king_nole_labyrinth_path_to_palace -> king_nole_labyrinth_post_door",
-            "parent_region": "King Nole's Labyrinth (path to palace)",
-            "connected_region": "King Nole's Labyrinth (after door)"
-          }
-        ],
         "exits": [
           {
             "name": "king_nole_labyrinth_post_door -> king_nole_labyrinth_pre_door",
@@ -6960,32 +5408,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Snow Spikes"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Snow Spikes"
                 }
               ]
             }
@@ -6997,32 +5425,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Snow Spikes"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Snow Spikes"
                 }
               ]
             }
@@ -7034,34 +5442,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Axe Magic"
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "King Nole's Labyrinth (raft entrance)"
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "event_visited_king_nole_labyrinth_raft_entrance"
                 }
               ]
             }
@@ -7310,13 +5696,6 @@
       },
       "King Nole's Labyrinth (exterior)": {
         "name": "King Nole's Labyrinth (exterior)",
-        "entrances": [
-          {
-            "name": "king_nole_labyrinth_pre_door -> king_nole_labyrinth_exterior",
-            "parent_region": "King Nole's Labyrinth (before door)",
-            "connected_region": "King Nole's Labyrinth (exterior)"
-          }
-        ],
         "exits": [
           {
             "name": "king_nole_labyrinth_exterior -> king_nole_labyrinth_fall_from_exterior",
@@ -7325,32 +5704,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Axe Magic"
                 }
               ]
             }
@@ -7375,13 +5734,6 @@
       },
       "King Nole's Labyrinth (fall from exterior)": {
         "name": "King Nole's Labyrinth (fall from exterior)",
-        "entrances": [
-          {
-            "name": "king_nole_labyrinth_exterior -> king_nole_labyrinth_fall_from_exterior",
-            "parent_region": "King Nole's Labyrinth (exterior)",
-            "connected_region": "King Nole's Labyrinth (fall from exterior)"
-          }
-        ],
         "exits": [
           {
             "name": "king_nole_labyrinth_fall_from_exterior -> king_nole_labyrinth_pre_door",
@@ -7411,18 +5763,6 @@
       },
       "King Nole's Labyrinth (raft entrance)": {
         "name": "King Nole's Labyrinth (raft entrance)",
-        "entrances": [
-          {
-            "name": "king_nole_labyrinth_post_door -> king_nole_labyrinth_raft_entrance",
-            "parent_region": "King Nole's Labyrinth (after door)",
-            "connected_region": "King Nole's Labyrinth (raft entrance)"
-          },
-          {
-            "name": "king_nole_labyrinth_raft -> king_nole_labyrinth_raft_entrance",
-            "parent_region": "King Nole's Labyrinth (raft)",
-            "connected_region": "King Nole's Labyrinth (raft entrance)"
-          }
-        ],
         "exits": [
           {
             "name": "king_nole_labyrinth_raft_entrance -> king_nole_labyrinth_post_door",
@@ -7439,32 +5779,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Logs"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Logs"
                 }
               ]
             }
@@ -7489,13 +5809,6 @@
       },
       "King Nole's Labyrinth (raft)": {
         "name": "King Nole's Labyrinth (raft)",
-        "entrances": [
-          {
-            "name": "king_nole_labyrinth_raft_entrance -> king_nole_labyrinth_raft",
-            "parent_region": "King Nole's Labyrinth (raft entrance)",
-            "connected_region": "King Nole's Labyrinth (raft)"
-          }
-        ],
         "exits": [
           {
             "name": "king_nole_labyrinth_raft -> king_nole_labyrinth_raft_entrance",
@@ -7595,13 +5908,6 @@
       },
       "King Nole's Labyrinth (sacred tree)": {
         "name": "King Nole's Labyrinth (sacred tree)",
-        "entrances": [
-          {
-            "name": "king_nole_labyrinth_post_door -> king_nole_labyrinth_sacred_tree",
-            "parent_region": "King Nole's Labyrinth (after door)",
-            "connected_region": "King Nole's Labyrinth (sacred tree)"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7636,18 +5942,6 @@
       },
       "King Nole's Labyrinth (path to palace)": {
         "name": "King Nole's Labyrinth (path to palace)",
-        "entrances": [
-          {
-            "name": "king_nole_labyrinth_post_door -> king_nole_labyrinth_path_to_palace",
-            "parent_region": "King Nole's Labyrinth (after door)",
-            "connected_region": "King Nole's Labyrinth (path to palace)"
-          },
-          {
-            "name": "king_nole_palace -> king_nole_labyrinth_path_to_palace",
-            "parent_region": "King Nole's Palace",
-            "connected_region": "King Nole's Labyrinth (path to palace)"
-          }
-        ],
         "exits": [
           {
             "name": "king_nole_labyrinth_path_to_palace -> king_nole_labyrinth_post_door",
@@ -7699,13 +5993,6 @@
       },
       "King Nole's Palace": {
         "name": "King Nole's Palace",
-        "entrances": [
-          {
-            "name": "king_nole_labyrinth_path_to_palace -> king_nole_palace",
-            "parent_region": "King Nole's Labyrinth (path to palace)",
-            "connected_region": "King Nole's Palace"
-          }
-        ],
         "exits": [
           {
             "name": "king_nole_palace -> king_nole_labyrinth_path_to_palace",
@@ -7722,34 +6009,25 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
+                  "type": "and",
+                  "conditions": [
                     {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Gola's Fang",
-                            "Gola's Horn",
-                            "Gola's Nail"
-                          ]
-                        }
-                      ]
+                      "type": "item_check",
+                      "item": "Gola's Fang"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Gola's Horn"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Gola's Nail"
                     }
                   ]
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 }
               ]
             }
@@ -7802,13 +6080,6 @@
       },
       "The End": {
         "name": "The End",
-        "entrances": [
-          {
-            "name": "king_nole_palace -> end",
-            "parent_region": "King Nole's Palace",
-            "connected_region": "The End"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8819,7 +7090,8 @@
   "settings": {
     "1": {
       "game": "Landstalker - The Treasures of King Nole",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": true
     }
   },
   "game_info": {

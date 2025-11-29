@@ -543,7 +543,7 @@ Load a rules file in the main application to begin your adventure.`;
         const staticData = this.stateManager.getStaticData();
         if (!staticData || !staticData.regions) return null;
 
-        const regionData = staticData.regions[currentRegion];
+        const regionData = staticData.regions.get(currentRegion);
         if (!regionData) return null;
 
         return {
@@ -576,8 +576,8 @@ Load a rules file in the main application to begin your adventure.`;
         if (!snapshot || !staticData || !staticData.locations) {
             return false;
         }
-        
-        const locationDef = staticData.locations[locationName];
+
+        const locationDef = staticData.locations.get(locationName);
         if (!locationDef) return false;
         
         // Check region reachability

@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Menu -> Garden Of Assemblage",
@@ -29,13 +28,6 @@
       },
       "Garden Of Assemblage": {
         "name": "Garden Of Assemblage",
-        "entrances": [
-          {
-            "name": "Menu -> Garden Of Assemblage",
-            "parent_region": "Menu",
-            "connected_region": "Garden Of Assemblage"
-          }
-        ],
         "exits": [
           {
             "name": "Garden Of Assemblage -> Space Paranoids",
@@ -348,13 +340,6 @@
       },
       "Land of Dragons": {
         "name": "Land of Dragons",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> Land of Dragons",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "Land of Dragons"
-          }
-        ],
         "exits": [
           {
             "name": "Land of Dragons -> Shan Yu",
@@ -609,13 +594,6 @@
       },
       "Shan Yu": {
         "name": "Shan Yu",
-        "entrances": [
-          {
-            "name": "Land of Dragons -> Shan Yu",
-            "parent_region": "Land of Dragons",
-            "connected_region": "Shan Yu"
-          }
-        ],
         "exits": [
           {
             "name": "Shan Yu -> Land of Dragons 2",
@@ -707,13 +685,6 @@
       },
       "Land of Dragons 2": {
         "name": "Land of Dragons 2",
-        "entrances": [
-          {
-            "name": "Shan Yu -> Land of Dragons 2",
-            "parent_region": "Shan Yu",
-            "connected_region": "Land of Dragons 2"
-          }
-        ],
         "exits": [
           {
             "name": "Land of Dragons 2 -> Ansem Riku",
@@ -729,13 +700,6 @@
       },
       "Ansem Riku": {
         "name": "Ansem Riku",
-        "entrances": [
-          {
-            "name": "Land of Dragons 2 -> Ansem Riku",
-            "parent_region": "Land of Dragons 2",
-            "connected_region": "Ansem Riku"
-          }
-        ],
         "exits": [
           {
             "name": "Ansem Riku -> Storm Rider",
@@ -878,13 +842,6 @@
       },
       "Storm Rider": {
         "name": "Storm Rider",
-        "entrances": [
-          {
-            "name": "Ansem Riku -> Storm Rider",
-            "parent_region": "Ansem Riku",
-            "connected_region": "Storm Rider"
-          }
-        ],
         "exits": [
           {
             "name": "Storm Rider -> Data Xigbar",
@@ -943,13 +900,6 @@
       },
       "Data Xigbar": {
         "name": "Data Xigbar",
-        "entrances": [
-          {
-            "name": "Storm Rider -> Data Xigbar",
-            "parent_region": "Storm Rider",
-            "connected_region": "Data Xigbar"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -984,13 +934,6 @@
       },
       "Agrabah": {
         "name": "Agrabah",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> Agrabah",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "Agrabah"
-          }
-        ],
         "exits": [
           {
             "name": "Agrabah -> Twin Lords",
@@ -1000,12 +943,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "get_fire_lord_rules",
+                  "name": "get_blizzard_lord_rules",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "get_blizzard_lord_rules",
+                  "name": "get_fire_lord_rules",
                   "args": []
                 }
               ]
@@ -1423,13 +1366,6 @@
       },
       "Twin Lords": {
         "name": "Twin Lords",
-        "entrances": [
-          {
-            "name": "Agrabah -> Twin Lords",
-            "parent_region": "Agrabah",
-            "connected_region": "Twin Lords"
-          }
-        ],
         "exits": [
           {
             "name": "Twin Lords -> Agrabah 2",
@@ -1455,28 +1391,16 @@
                       "type": "list",
                       "value": [
                         {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ItemName"
-                          },
-                          "attr": "FireElement"
+                          "type": "constant",
+                          "value": "Fire Element"
                         },
                         {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ItemName"
-                          },
-                          "attr": "BlizzardElement"
+                          "type": "constant",
+                          "value": "Blizzard Element"
                         },
                         {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ItemName"
-                          },
-                          "attr": "ThunderElement"
+                          "type": "constant",
+                          "value": "Thunder Element"
                         }
                       ]
                     }
@@ -1533,13 +1457,6 @@
       },
       "Agrabah 2": {
         "name": "Agrabah 2",
-        "entrances": [
-          {
-            "name": "Twin Lords -> Agrabah 2",
-            "parent_region": "Twin Lords",
-            "connected_region": "Agrabah 2"
-          }
-        ],
         "exits": [
           {
             "name": "Agrabah 2 -> Genie Jafar",
@@ -1584,13 +1501,6 @@
       },
       "Genie Jafar": {
         "name": "Genie Jafar",
-        "entrances": [
-          {
-            "name": "Agrabah 2 -> Genie Jafar",
-            "parent_region": "Agrabah 2",
-            "connected_region": "Genie Jafar"
-          }
-        ],
         "exits": [
           {
             "name": "Genie Jafar -> Data Lexaeus",
@@ -1649,13 +1559,6 @@
       },
       "Data Lexaeus": {
         "name": "Data Lexaeus",
-        "entrances": [
-          {
-            "name": "Genie Jafar -> Data Lexaeus",
-            "parent_region": "Genie Jafar",
-            "connected_region": "Data Lexaeus"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1718,13 +1621,6 @@
       },
       "Disney Castle": {
         "name": "Disney Castle",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> Disney Castle",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "Disney Castle"
-          }
-        ],
         "exits": [
           {
             "name": "Disney Castle -> Timeless River",
@@ -1900,13 +1796,6 @@
       },
       "Timeless River": {
         "name": "Timeless River",
-        "entrances": [
-          {
-            "name": "Disney Castle -> Timeless River",
-            "parent_region": "Disney Castle",
-            "connected_region": "Timeless River"
-          }
-        ],
         "exits": [
           {
             "name": "Timeless River -> Old Pete",
@@ -1979,13 +1868,6 @@
       },
       "Old Pete": {
         "name": "Old Pete",
-        "entrances": [
-          {
-            "name": "Timeless River -> Old Pete",
-            "parent_region": "Timeless River",
-            "connected_region": "Old Pete"
-          }
-        ],
         "exits": [
           {
             "name": "Old Pete -> Future Pete",
@@ -2114,13 +1996,6 @@
       },
       "Future Pete": {
         "name": "Future Pete",
-        "entrances": [
-          {
-            "name": "Old Pete -> Future Pete",
-            "parent_region": "Old Pete",
-            "connected_region": "Future Pete"
-          }
-        ],
         "exits": [
           {
             "name": "Future Pete -> Terra",
@@ -2135,10 +2010,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Proof of Connection"
-                  }
+                  "item": "Proof of Connection"
                 }
               ]
             }
@@ -2242,13 +2114,6 @@
       },
       "Data Marluxia": {
         "name": "Data Marluxia",
-        "entrances": [
-          {
-            "name": "Future Pete -> Data Marluxia",
-            "parent_region": "Future Pete",
-            "connected_region": "Data Marluxia"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2311,13 +2176,6 @@
       },
       "Terra": {
         "name": "Terra",
-        "entrances": [
-          {
-            "name": "Future Pete -> Terra",
-            "parent_region": "Future Pete",
-            "connected_region": "Terra"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2380,13 +2238,6 @@
       },
       "Pooh's House": {
         "name": "Pooh's House",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> Pooh's House",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "Pooh's House"
-          }
-        ],
         "exits": [
           {
             "name": "Pooh's House -> Piglet's House",
@@ -2450,13 +2301,6 @@
       },
       "Piglet's House": {
         "name": "Piglet's House",
-        "entrances": [
-          {
-            "name": "Pooh's House -> Piglet's House",
-            "parent_region": "Pooh's House",
-            "connected_region": "Piglet's House"
-          }
-        ],
         "exits": [
           {
             "name": "Piglet's House -> Rabbit's House",
@@ -2520,13 +2364,6 @@
       },
       "Rabbit's House": {
         "name": "Rabbit's House",
-        "entrances": [
-          {
-            "name": "Piglet's House -> Rabbit's House",
-            "parent_region": "Piglet's House",
-            "connected_region": "Rabbit's House"
-          }
-        ],
         "exits": [
           {
             "name": "Rabbit's House -> Roo's House",
@@ -2590,13 +2427,6 @@
       },
       "Roo's House": {
         "name": "Roo's House",
-        "entrances": [
-          {
-            "name": "Rabbit's House -> Roo's House",
-            "parent_region": "Rabbit's House",
-            "connected_region": "Roo's House"
-          }
-        ],
         "exits": [
           {
             "name": "Roo's House -> Spooky Cave",
@@ -2660,13 +2490,6 @@
       },
       "Spooky Cave": {
         "name": "Spooky Cave",
-        "entrances": [
-          {
-            "name": "Roo's House -> Spooky Cave",
-            "parent_region": "Roo's House",
-            "connected_region": "Spooky Cave"
-          }
-        ],
         "exits": [
           {
             "name": "Spooky Cave -> Starry Hill",
@@ -2800,13 +2623,6 @@
       },
       "Starry Hill": {
         "name": "Starry Hill",
-        "entrances": [
-          {
-            "name": "Spooky Cave -> Starry Hill",
-            "parent_region": "Spooky Cave",
-            "connected_region": "Starry Hill"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2869,13 +2685,6 @@
       },
       "Port Royal": {
         "name": "Port Royal",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> Port Royal",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "Port Royal"
-          }
-        ],
         "exits": [
           {
             "name": "Port Royal -> Barbosa",
@@ -3158,13 +2967,6 @@
       },
       "Barbosa": {
         "name": "Barbosa",
-        "entrances": [
-          {
-            "name": "Port Royal -> Barbosa",
-            "parent_region": "Port Royal",
-            "connected_region": "Barbosa"
-          }
-        ],
         "exits": [
           {
             "name": "Barbosa -> Port Royal 2",
@@ -3270,13 +3072,6 @@
       },
       "Port Royal 2": {
         "name": "Port Royal 2",
-        "entrances": [
-          {
-            "name": "Barbosa -> Port Royal 2",
-            "parent_region": "Barbosa",
-            "connected_region": "Port Royal 2"
-          }
-        ],
         "exits": [
           {
             "name": "Port Royal 2 -> Grim Reaper 1",
@@ -3292,13 +3087,6 @@
       },
       "Grim Reaper 1": {
         "name": "Grim Reaper 1",
-        "entrances": [
-          {
-            "name": "Port Royal 2 -> Grim Reaper 1",
-            "parent_region": "Port Royal 2",
-            "connected_region": "Grim Reaper 1"
-          }
-        ],
         "exits": [
           {
             "name": "Grim Reaper 1 -> Grim Reaper 2",
@@ -3483,13 +3271,6 @@
       },
       "Grim Reaper 2": {
         "name": "Grim Reaper 2",
-        "entrances": [
-          {
-            "name": "Grim Reaper 1 -> Grim Reaper 2",
-            "parent_region": "Grim Reaper 1",
-            "connected_region": "Grim Reaper 2"
-          }
-        ],
         "exits": [
           {
             "name": "Grim Reaper 2 -> Data Luxord",
@@ -3562,13 +3343,6 @@
       },
       "Data Luxord": {
         "name": "Data Luxord",
-        "entrances": [
-          {
-            "name": "Grim Reaper 2 -> Data Luxord",
-            "parent_region": "Grim Reaper 2",
-            "connected_region": "Data Luxord"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3603,13 +3377,6 @@
       },
       "Olympus Coliseum": {
         "name": "Olympus Coliseum",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> Olympus Coliseum",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "Olympus Coliseum"
-          }
-        ],
         "exits": [
           {
             "name": "Olympus Coliseum -> Cerberus",
@@ -3724,13 +3491,6 @@
       },
       "Cerberus": {
         "name": "Cerberus",
-        "entrances": [
-          {
-            "name": "Olympus Coliseum -> Cerberus",
-            "parent_region": "Olympus Coliseum",
-            "connected_region": "Cerberus"
-          }
-        ],
         "exits": [
           {
             "name": "Cerberus -> Olympus Pete",
@@ -4027,13 +3787,6 @@
       },
       "Olympus Pete": {
         "name": "Olympus Pete",
-        "entrances": [
-          {
-            "name": "Cerberus -> Olympus Pete",
-            "parent_region": "Cerberus",
-            "connected_region": "Olympus Pete"
-          }
-        ],
         "exits": [
           {
             "name": "Olympus Pete -> Hydra",
@@ -4106,13 +3859,6 @@
       },
       "Hydra": {
         "name": "Hydra",
-        "entrances": [
-          {
-            "name": "Olympus Pete -> Hydra",
-            "parent_region": "Olympus Pete",
-            "connected_region": "Hydra"
-          }
-        ],
         "exits": [
           {
             "name": "Hydra -> Pain and Panic Cup",
@@ -4208,13 +3954,6 @@
       },
       "Olympus Coliseum 2": {
         "name": "Olympus Coliseum 2",
-        "entrances": [
-          {
-            "name": "Hydra -> Olympus Coliseum 2",
-            "parent_region": "Hydra",
-            "connected_region": "Olympus Coliseum 2"
-          }
-        ],
         "exits": [
           {
             "name": "Olympus Coliseum 2 -> Hades",
@@ -4245,13 +3984,6 @@
       },
       "Hades": {
         "name": "Hades",
-        "entrances": [
-          {
-            "name": "Olympus Coliseum 2 -> Hades",
-            "parent_region": "Olympus Coliseum 2",
-            "connected_region": "Hades"
-          }
-        ],
         "exits": [
           {
             "name": "Hades -> Titan Cup",
@@ -4342,13 +4074,6 @@
       },
       "Pain and Panic Cup": {
         "name": "Pain and Panic Cup",
-        "entrances": [
-          {
-            "name": "Hydra -> Pain and Panic Cup",
-            "parent_region": "Hydra",
-            "connected_region": "Pain and Panic Cup"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4397,13 +4122,6 @@
       },
       "Cerberus Cup": {
         "name": "Cerberus Cup",
-        "entrances": [
-          {
-            "name": "Hydra -> Cerberus Cup",
-            "parent_region": "Hydra",
-            "connected_region": "Cerberus Cup"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4452,13 +4170,6 @@
       },
       "Titan Cup": {
         "name": "Titan Cup",
-        "entrances": [
-          {
-            "name": "Hades -> Titan Cup",
-            "parent_region": "Hades",
-            "connected_region": "Titan Cup"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4507,13 +4218,6 @@
       },
       "Goddess of Fate Cup": {
         "name": "Goddess of Fate Cup",
-        "entrances": [
-          {
-            "name": "Hades -> Goddess of Fate Cup",
-            "parent_region": "Hades",
-            "connected_region": "Goddess of Fate Cup"
-          }
-        ],
         "exits": [
           {
             "name": "Goddess of Fate Cup -> Olympus Coliseum Hade's Paradox",
@@ -4572,13 +4276,6 @@
       },
       "Olympus Coliseum Hade's Paradox": {
         "name": "Olympus Coliseum Hade's Paradox",
-        "entrances": [
-          {
-            "name": "Goddess of Fate Cup -> Olympus Coliseum Hade's Paradox",
-            "parent_region": "Goddess of Fate Cup",
-            "connected_region": "Olympus Coliseum Hade's Paradox"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4613,13 +4310,6 @@
       },
       "Data Zexion": {
         "name": "Data Zexion",
-        "entrances": [
-          {
-            "name": "Hades -> Data Zexion",
-            "parent_region": "Hades",
-            "connected_region": "Data Zexion"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4696,13 +4386,6 @@
       },
       "Beast's Castle": {
         "name": "Beast's Castle",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> Beast's Castle",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "Beast's Castle"
-          }
-        ],
         "exits": [
           {
             "name": "Beast's Castle -> Thresholder",
@@ -4887,13 +4570,6 @@
       },
       "Thresholder": {
         "name": "Thresholder",
-        "entrances": [
-          {
-            "name": "Beast's Castle -> Thresholder",
-            "parent_region": "Beast's Castle",
-            "connected_region": "Thresholder"
-          }
-        ],
         "exits": [
           {
             "name": "Thresholder -> Beast",
@@ -5064,13 +4740,6 @@
       },
       "Beast": {
         "name": "Beast",
-        "entrances": [
-          {
-            "name": "Thresholder -> Beast",
-            "parent_region": "Thresholder",
-            "connected_region": "Beast"
-          }
-        ],
         "exits": [
           {
             "name": "Beast -> Dark Thorn",
@@ -5143,13 +4812,6 @@
       },
       "Dark Thorn": {
         "name": "Dark Thorn",
-        "entrances": [
-          {
-            "name": "Beast -> Dark Thorn",
-            "parent_region": "Beast",
-            "connected_region": "Dark Thorn"
-          }
-        ],
         "exits": [
           {
             "name": "Dark Thorn -> Beast's Castle 2",
@@ -5227,13 +4889,6 @@
       },
       "Beast's Castle 2": {
         "name": "Beast's Castle 2",
-        "entrances": [
-          {
-            "name": "Dark Thorn -> Beast's Castle 2",
-            "parent_region": "Dark Thorn",
-            "connected_region": "Beast's Castle 2"
-          }
-        ],
         "exits": [
           {
             "name": "Beast's Castle 2 -> Xaldin",
@@ -5278,13 +4933,6 @@
       },
       "Xaldin": {
         "name": "Xaldin",
-        "entrances": [
-          {
-            "name": "Beast's Castle 2 -> Xaldin",
-            "parent_region": "Beast's Castle 2",
-            "connected_region": "Xaldin"
-          }
-        ],
         "exits": [
           {
             "name": "Xaldin -> Data Xaldin",
@@ -5371,13 +5019,6 @@
       },
       "Data Xaldin": {
         "name": "Data Xaldin",
-        "entrances": [
-          {
-            "name": "Xaldin -> Data Xaldin",
-            "parent_region": "Xaldin",
-            "connected_region": "Data Xaldin"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -5412,13 +5053,6 @@
       },
       "Space Paranoids": {
         "name": "Space Paranoids",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> Space Paranoids",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "Space Paranoids"
-          }
-        ],
         "exits": [
           {
             "name": "Space Paranoids -> Hostile Program",
@@ -5603,13 +5237,6 @@
       },
       "Hostile Program": {
         "name": "Hostile Program",
-        "entrances": [
-          {
-            "name": "Space Paranoids -> Hostile Program",
-            "parent_region": "Space Paranoids",
-            "connected_region": "Hostile Program"
-          }
-        ],
         "exits": [
           {
             "name": "Hostile Program -> Space Paranoids 2",
@@ -5701,13 +5328,6 @@
       },
       "Space Paranoids 2": {
         "name": "Space Paranoids 2",
-        "entrances": [
-          {
-            "name": "Hostile Program -> Space Paranoids 2",
-            "parent_region": "Hostile Program",
-            "connected_region": "Space Paranoids 2"
-          }
-        ],
         "exits": [
           {
             "name": "Space Paranoids 2 -> Master Control Program",
@@ -5808,13 +5428,6 @@
       },
       "Master Control Program": {
         "name": "Master Control Program",
-        "entrances": [
-          {
-            "name": "Space Paranoids 2 -> Master Control Program",
-            "parent_region": "Space Paranoids 2",
-            "connected_region": "Master Control Program"
-          }
-        ],
         "exits": [
           {
             "name": "Master Control Program -> Data Larxene",
@@ -5873,13 +5486,6 @@
       },
       "Data Larxene": {
         "name": "Data Larxene",
-        "entrances": [
-          {
-            "name": "Master Control Program -> Data Larxene",
-            "parent_region": "Master Control Program",
-            "connected_region": "Data Larxene"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -5942,13 +5548,6 @@
       },
       "Holloween Town": {
         "name": "Holloween Town",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> Holloween Town",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "Holloween Town"
-          }
-        ],
         "exits": [
           {
             "name": "Holloween Town -> Prison Keeper",
@@ -6161,13 +5760,6 @@
       },
       "Prison Keeper": {
         "name": "Prison Keeper",
-        "entrances": [
-          {
-            "name": "Holloween Town -> Prison Keeper",
-            "parent_region": "Holloween Town",
-            "connected_region": "Prison Keeper"
-          }
-        ],
         "exits": [
           {
             "name": "Prison Keeper -> Oogie Boogie",
@@ -6226,13 +5818,6 @@
       },
       "Oogie Boogie": {
         "name": "Oogie Boogie",
-        "entrances": [
-          {
-            "name": "Prison Keeper -> Oogie Boogie",
-            "parent_region": "Prison Keeper",
-            "connected_region": "Oogie Boogie"
-          }
-        ],
         "exits": [
           {
             "name": "Oogie Boogie -> Holloween Town 2",
@@ -6310,13 +5895,6 @@
       },
       "Holloween Town 2": {
         "name": "Holloween Town 2",
-        "entrances": [
-          {
-            "name": "Oogie Boogie -> Holloween Town 2",
-            "parent_region": "Oogie Boogie",
-            "connected_region": "Holloween Town 2"
-          }
-        ],
         "exits": [
           {
             "name": "Holloween Town 2 -> The Experiment",
@@ -6389,13 +5967,6 @@
       },
       "The Experiment": {
         "name": "The Experiment",
-        "entrances": [
-          {
-            "name": "Holloween Town 2 -> The Experiment",
-            "parent_region": "Holloween Town 2",
-            "connected_region": "The Experiment"
-          }
-        ],
         "exits": [
           {
             "name": "The Experiment -> Data Vexen",
@@ -6468,13 +6039,6 @@
       },
       "Data Vexen": {
         "name": "Data Vexen",
-        "entrances": [
-          {
-            "name": "The Experiment -> Data Vexen",
-            "parent_region": "The Experiment",
-            "connected_region": "Data Vexen"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -6537,13 +6101,6 @@
       },
       "Hollow Bastion": {
         "name": "Hollow Bastion",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> Hollow Bastion",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "Hollow Bastion"
-          }
-        ],
         "exits": [
           {
             "name": "Hollow Bastion -> Hollow Bastion 2",
@@ -6719,13 +6276,6 @@
       },
       "Hollow Bastion 2": {
         "name": "Hollow Bastion 2",
-        "entrances": [
-          {
-            "name": "Hollow Bastion -> Hollow Bastion 2",
-            "parent_region": "Hollow Bastion",
-            "connected_region": "Hollow Bastion 2"
-          }
-        ],
         "exits": [
           {
             "name": "Hollow Bastion 2 -> Cavern of Rememberance",
@@ -6932,13 +6482,6 @@
       },
       "Hollow Bastion Demyx": {
         "name": "Hollow Bastion Demyx",
-        "entrances": [
-          {
-            "name": "Hollow Bastion 2 -> Hollow Bastion Demyx",
-            "parent_region": "Hollow Bastion 2",
-            "connected_region": "Hollow Bastion Demyx"
-          }
-        ],
         "exits": [
           {
             "name": "Hollow Bastion Demyx -> Thousand Heartless",
@@ -7081,23 +6624,13 @@
       },
       "Thousand Heartless": {
         "name": "Thousand Heartless",
-        "entrances": [
-          {
-            "name": "Hollow Bastion Demyx -> Thousand Heartless",
-            "parent_region": "Hollow Bastion Demyx",
-            "connected_region": "Thousand Heartless"
-          }
-        ],
         "exits": [
           {
             "name": "Thousand Heartless -> Mushroom 13",
             "connected_region": "Mushroom 13",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Proof of Peace"
-              }
+              "item": "Proof of Peace"
             }
           },
           {
@@ -7222,13 +6755,6 @@
       },
       "Data Demyx": {
         "name": "Data Demyx",
-        "entrances": [
-          {
-            "name": "Thousand Heartless -> Data Demyx",
-            "parent_region": "Thousand Heartless",
-            "connected_region": "Data Demyx"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7263,13 +6789,6 @@
       },
       "Mushroom 13": {
         "name": "Mushroom 13",
-        "entrances": [
-          {
-            "name": "Thousand Heartless -> Mushroom 13",
-            "parent_region": "Thousand Heartless",
-            "connected_region": "Mushroom 13"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7318,13 +6837,6 @@
       },
       "Sephiroth": {
         "name": "Sephiroth",
-        "entrances": [
-          {
-            "name": "Thousand Heartless -> Sephiroth",
-            "parent_region": "Thousand Heartless",
-            "connected_region": "Sephiroth"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7373,13 +6885,6 @@
       },
       "Cavern of Rememberance": {
         "name": "Cavern of Rememberance",
-        "entrances": [
-          {
-            "name": "Hollow Bastion 2 -> Cavern of Rememberance",
-            "parent_region": "Hollow Bastion 2",
-            "connected_region": "Cavern of Rememberance"
-          }
-        ],
         "exits": [
           {
             "name": "Cavern of Rememberance -> Cavern of Rememberance:Fight 1",
@@ -7514,13 +7019,6 @@
       },
       "Cavern of Rememberance:Fight 1": {
         "name": "Cavern of Rememberance:Fight 1",
-        "entrances": [
-          {
-            "name": "Cavern of Rememberance -> Cavern of Rememberance:Fight 1",
-            "parent_region": "Cavern of Rememberance",
-            "connected_region": "Cavern of Rememberance:Fight 1"
-          }
-        ],
         "exits": [
           {
             "name": "Cavern of Rememberance:Fight 1 -> Cavern of Rememberance:Fight 2",
@@ -7649,13 +7147,6 @@
       },
       "Cavern of Rememberance:Fight 2": {
         "name": "Cavern of Rememberance:Fight 2",
-        "entrances": [
-          {
-            "name": "Cavern of Rememberance:Fight 1 -> Cavern of Rememberance:Fight 2",
-            "parent_region": "Cavern of Rememberance:Fight 1",
-            "connected_region": "Cavern of Rememberance:Fight 2"
-          }
-        ],
         "exits": [
           {
             "name": "Cavern of Rememberance:Fight 2 -> Transport to Rememberance",
@@ -7770,13 +7261,6 @@
       },
       "Transport to Rememberance": {
         "name": "Transport to Rememberance",
-        "entrances": [
-          {
-            "name": "Cavern of Rememberance:Fight 2 -> Transport to Rememberance",
-            "parent_region": "Cavern of Rememberance:Fight 2",
-            "connected_region": "Transport to Rememberance"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7827,13 +7311,6 @@
       },
       "Pride Lands": {
         "name": "Pride Lands",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> Pride Lands",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "Pride Lands"
-          }
-        ],
         "exits": [
           {
             "name": "Pride Lands -> Scar",
@@ -8242,13 +7719,6 @@
       },
       "Scar": {
         "name": "Scar",
-        "entrances": [
-          {
-            "name": "Pride Lands -> Scar",
-            "parent_region": "Pride Lands",
-            "connected_region": "Scar"
-          }
-        ],
         "exits": [
           {
             "name": "Scar -> Pride Lands 2",
@@ -8326,13 +7796,6 @@
       },
       "Pride Lands 2": {
         "name": "Pride Lands 2",
-        "entrances": [
-          {
-            "name": "Scar -> Pride Lands 2",
-            "parent_region": "Scar",
-            "connected_region": "Pride Lands 2"
-          }
-        ],
         "exits": [
           {
             "name": "Pride Lands 2 -> Groundshaker",
@@ -8377,13 +7840,6 @@
       },
       "Groundshaker": {
         "name": "Groundshaker",
-        "entrances": [
-          {
-            "name": "Pride Lands 2 -> Groundshaker",
-            "parent_region": "Pride Lands 2",
-            "connected_region": "Groundshaker"
-          }
-        ],
         "exits": [
           {
             "name": "Groundshaker -> Data Saix",
@@ -8442,13 +7898,6 @@
       },
       "Data Saix": {
         "name": "Data Saix",
-        "entrances": [
-          {
-            "name": "Groundshaker -> Data Saix",
-            "parent_region": "Groundshaker",
-            "connected_region": "Data Saix"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8483,13 +7932,6 @@
       },
       "Simulated Twilight Town": {
         "name": "Simulated Twilight Town",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> Simulated Twilight Town",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "Simulated Twilight Town"
-          }
-        ],
         "exits": [
           {
             "name": "Simulated Twilight Town -> Twilight Thorn",
@@ -8576,13 +8018,6 @@
       },
       "Twilight Thorn": {
         "name": "Twilight Thorn",
-        "entrances": [
-          {
-            "name": "Simulated Twilight Town -> Twilight Thorn",
-            "parent_region": "Simulated Twilight Town",
-            "connected_region": "Twilight Thorn"
-          }
-        ],
         "exits": [
           {
             "name": "Twilight Thorn -> Axel 1",
@@ -8627,13 +8062,6 @@
       },
       "Axel 1": {
         "name": "Axel 1",
-        "entrances": [
-          {
-            "name": "Twilight Thorn -> Axel 1",
-            "parent_region": "Twilight Thorn",
-            "connected_region": "Axel 1"
-          }
-        ],
         "exits": [
           {
             "name": "Axel 1 -> Axel 2",
@@ -8930,13 +8358,6 @@
       },
       "Axel 2": {
         "name": "Axel 2",
-        "entrances": [
-          {
-            "name": "Axel 1 -> Axel 2",
-            "parent_region": "Axel 1",
-            "connected_region": "Axel 2"
-          }
-        ],
         "exits": [
           {
             "name": "Axel 2 -> Data Roxas",
@@ -8995,13 +8416,6 @@
       },
       "Data Roxas": {
         "name": "Data Roxas",
-        "entrances": [
-          {
-            "name": "Axel 2 -> Data Roxas",
-            "parent_region": "Axel 2",
-            "connected_region": "Data Roxas"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -9036,13 +8450,6 @@
       },
       "Twilight Town": {
         "name": "Twilight Town",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> Twilight Town",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "Twilight Town"
-          }
-        ],
         "exits": [
           {
             "name": "Twilight Town -> Twilight Town 2",
@@ -9442,13 +8849,6 @@
       },
       "Twilight Town 2": {
         "name": "Twilight Town 2",
-        "entrances": [
-          {
-            "name": "Twilight Town -> Twilight Town 2",
-            "parent_region": "Twilight Town",
-            "connected_region": "Twilight Town 2"
-          }
-        ],
         "exits": [
           {
             "name": "Twilight Town 2 -> Twilight Town 3",
@@ -9512,13 +8912,6 @@
       },
       "Twilight Town 3": {
         "name": "Twilight Town 3",
-        "entrances": [
-          {
-            "name": "Twilight Town 2 -> Twilight Town 3",
-            "parent_region": "Twilight Town 2",
-            "connected_region": "Twilight Town 3"
-          }
-        ],
         "exits": [
           {
             "name": "Twilight Town 3 -> Data Axel",
@@ -9843,13 +9236,6 @@
       },
       "Data Axel": {
         "name": "Data Axel",
-        "entrances": [
-          {
-            "name": "Twilight Town 3 -> Data Axel",
-            "parent_region": "Twilight Town 3",
-            "connected_region": "Data Axel"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -9884,13 +9270,6 @@
       },
       "The World That Never Was (Pre Roxas)": {
         "name": "The World That Never Was (Pre Roxas)",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> The World That Never Was (Pre Roxas)",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "The World That Never Was (Pre Roxas)"
-          }
-        ],
         "exits": [
           {
             "name": "The World That Never Was (Pre Roxas) -> Roxas",
@@ -9978,13 +9357,6 @@
       },
       "Roxas": {
         "name": "Roxas",
-        "entrances": [
-          {
-            "name": "The World That Never Was (Pre Roxas) -> Roxas",
-            "parent_region": "The World That Never Was (Pre Roxas)",
-            "connected_region": "Roxas"
-          }
-        ],
         "exits": [
           {
             "name": "Roxas -> Xigbar",
@@ -10183,13 +9555,6 @@
       },
       "Xigbar": {
         "name": "Xigbar",
-        "entrances": [
-          {
-            "name": "Roxas -> Xigbar",
-            "parent_region": "Roxas",
-            "connected_region": "Xigbar"
-          }
-        ],
         "exits": [
           {
             "name": "Xigbar -> Luxord",
@@ -10318,13 +9683,6 @@
       },
       "Luxord": {
         "name": "Luxord",
-        "entrances": [
-          {
-            "name": "Xigbar -> Luxord",
-            "parent_region": "Xigbar",
-            "connected_region": "Luxord"
-          }
-        ],
         "exits": [
           {
             "name": "Luxord -> Saix",
@@ -10397,13 +9755,6 @@
       },
       "Saix": {
         "name": "Saix",
-        "entrances": [
-          {
-            "name": "Luxord -> Saix",
-            "parent_region": "Luxord",
-            "connected_region": "Saix"
-          }
-        ],
         "exits": [
           {
             "name": "Saix -> The World That Never Was (Second Visit)",
@@ -10467,13 +9818,6 @@
       },
       "The World That Never Was (Second Visit)": {
         "name": "The World That Never Was (Second Visit)",
-        "entrances": [
-          {
-            "name": "Saix -> The World That Never Was (Second Visit)",
-            "parent_region": "Saix",
-            "connected_region": "The World That Never Was (Second Visit)"
-          }
-        ],
         "exits": [
           {
             "name": "The World That Never Was (Second Visit) -> Xemnas",
@@ -10560,13 +9904,6 @@
       },
       "Xemnas": {
         "name": "Xemnas",
-        "entrances": [
-          {
-            "name": "The World That Never Was (Second Visit) -> Xemnas",
-            "parent_region": "The World That Never Was (Second Visit)",
-            "connected_region": "Xemnas"
-          }
-        ],
         "exits": [
           {
             "name": "Xemnas -> Armored Xemnas",
@@ -10648,13 +9985,6 @@
       },
       "Armored Xemnas": {
         "name": "Armored Xemnas",
-        "entrances": [
-          {
-            "name": "Xemnas -> Armored Xemnas",
-            "parent_region": "Xemnas",
-            "connected_region": "Armored Xemnas"
-          }
-        ],
         "exits": [
           {
             "name": "Armored Xemnas -> Armored Xemnas 2",
@@ -10685,13 +10015,6 @@
       },
       "Armored Xemnas 2": {
         "name": "Armored Xemnas 2",
-        "entrances": [
-          {
-            "name": "Armored Xemnas -> Armored Xemnas 2",
-            "parent_region": "Armored Xemnas",
-            "connected_region": "Armored Xemnas 2"
-          }
-        ],
         "exits": [
           {
             "name": "Armored Xemnas 2 -> Final Xemnas",
@@ -10722,13 +10045,6 @@
       },
       "Final Xemnas": {
         "name": "Final Xemnas",
-        "entrances": [
-          {
-            "name": "Armored Xemnas 2 -> Final Xemnas",
-            "parent_region": "Armored Xemnas 2",
-            "connected_region": "Final Xemnas"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -10736,10 +10052,7 @@
             "id": null,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Lucky Emblem"
-              },
+              "item": "Lucky Emblem",
               "count": {
                 "type": "constant",
                 "value": 35
@@ -10756,13 +10069,6 @@
       },
       "Data Xemnas": {
         "name": "Data Xemnas",
-        "entrances": [
-          {
-            "name": "Xemnas -> Data Xemnas",
-            "parent_region": "Xemnas",
-            "connected_region": "Data Xemnas"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -10797,13 +10103,6 @@
       },
       "Atlantica First Song": {
         "name": "Atlantica First Song",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> Atlantica First Song",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "Atlantica First Song"
-          }
-        ],
         "exits": [
           {
             "name": "Atlantica First Song -> Atlantica Second Song",
@@ -10833,13 +10132,6 @@
       },
       "Atlantica Second Song": {
         "name": "Atlantica Second Song",
-        "entrances": [
-          {
-            "name": "Atlantica First Song -> Atlantica Second Song",
-            "parent_region": "Atlantica First Song",
-            "connected_region": "Atlantica Second Song"
-          }
-        ],
         "exits": [
           {
             "name": "Atlantica Second Song -> Atlantica Third Song",
@@ -10855,13 +10147,6 @@
       },
       "Atlantica Third Song": {
         "name": "Atlantica Third Song",
-        "entrances": [
-          {
-            "name": "Atlantica Second Song -> Atlantica Third Song",
-            "parent_region": "Atlantica Second Song",
-            "connected_region": "Atlantica Third Song"
-          }
-        ],
         "exits": [
           {
             "name": "Atlantica Third Song -> Atlantica Fourth Song",
@@ -10892,13 +10177,6 @@
       },
       "Atlantica Fourth Song": {
         "name": "Atlantica Fourth Song",
-        "entrances": [
-          {
-            "name": "Atlantica Third Song -> Atlantica Fourth Song",
-            "parent_region": "Atlantica Third Song",
-            "connected_region": "Atlantica Fourth Song"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -10933,21 +10211,24 @@
       },
       "Valor Form": {
         "name": "Valor Form",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> Valor Form",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "Valor Form"
-          }
-        ],
         "exits": [],
         "locations": [
           {
             "name": "Valor level 2",
             "id": 1245776,
             "access_rule": {
-              "type": "item_check",
-              "item": "ValorForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Valor Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 0
+                }
+              ]
             },
             "item": {
               "name": "Bond of Flame",
@@ -10960,8 +10241,18 @@
             "name": "Valor level 3",
             "id": 1245777,
             "access_rule": {
-              "type": "item_check",
-              "item": "ValorForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Valor Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 1
+                }
+              ]
             },
             "item": {
               "name": "Elixir",
@@ -10974,8 +10265,18 @@
             "name": "Valor level 4",
             "id": 1245778,
             "access_rule": {
-              "type": "item_check",
-              "item": "ValorForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Valor Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 2
+                }
+              ]
             },
             "item": {
               "name": "Precious Mushroom+",
@@ -10988,8 +10289,18 @@
             "name": "Valor level 5",
             "id": 1245779,
             "access_rule": {
-              "type": "item_check",
-              "item": "ValorForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Valor Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 3
+                }
+              ]
             },
             "item": {
               "name": "Power Boost",
@@ -11002,8 +10313,18 @@
             "name": "Valor level 6",
             "id": 1245780,
             "access_rule": {
-              "type": "item_check",
-              "item": "ValorForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Valor Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 4
+                }
+              ]
             },
             "item": {
               "name": "Lucky Emblem",
@@ -11016,8 +10337,18 @@
             "name": "Valor level 7",
             "id": 1245781,
             "access_rule": {
-              "type": "item_check",
-              "item": "ValorForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Valor Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 5
+                }
+              ]
             },
             "item": {
               "name": "Drive Converter",
@@ -11030,21 +10361,24 @@
       },
       "Wisdom Form": {
         "name": "Wisdom Form",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> Wisdom Form",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "Wisdom Form"
-          }
-        ],
         "exits": [],
         "locations": [
           {
             "name": "Wisdom level 2",
             "id": 1245782,
             "access_rule": {
-              "type": "item_check",
-              "item": "WisdomForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Wisdom Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 0
+                }
+              ]
             },
             "item": {
               "name": "Protect Belt",
@@ -11057,8 +10391,18 @@
             "name": "Wisdom level 3",
             "id": 1245783,
             "access_rule": {
-              "type": "item_check",
-              "item": "WisdomForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Wisdom Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 1
+                }
+              ]
             },
             "item": {
               "name": "Horizontal Slash",
@@ -11071,8 +10415,18 @@
             "name": "Wisdom level 4",
             "id": 1245784,
             "access_rule": {
-              "type": "item_check",
-              "item": "WisdomForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Wisdom Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 2
+                }
+              ]
             },
             "item": {
               "name": "Secret Ansem's Report 4",
@@ -11085,8 +10439,18 @@
             "name": "Wisdom level 5",
             "id": 1245785,
             "access_rule": {
-              "type": "item_check",
-              "item": "WisdomForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Wisdom Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 3
+                }
+              ]
             },
             "item": {
               "name": "Blizzagun Armlet",
@@ -11099,8 +10463,18 @@
             "name": "Wisdom level 6",
             "id": 1245786,
             "access_rule": {
-              "type": "item_check",
-              "item": "WisdomForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Wisdom Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 4
+                }
+              ]
             },
             "item": {
               "name": "Hi-Potion",
@@ -11113,8 +10487,18 @@
             "name": "Wisdom level 7",
             "id": 1245787,
             "access_rule": {
-              "type": "item_check",
-              "item": "WisdomForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Wisdom Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 5
+                }
+              ]
             },
             "item": {
               "name": "Moon Amulet",
@@ -11127,21 +10511,24 @@
       },
       "Limit Form": {
         "name": "Limit Form",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> Limit Form",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "Limit Form"
-          }
-        ],
         "exits": [],
         "locations": [
           {
             "name": "Limit level 2",
             "id": 1245788,
             "access_rule": {
-              "type": "item_check",
-              "item": "LimitForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Limit Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 0
+                }
+              ]
             },
             "item": {
               "name": "Magnet Element",
@@ -11154,8 +10541,18 @@
             "name": "Limit level 3",
             "id": 1245789,
             "access_rule": {
-              "type": "item_check",
-              "item": "LimitForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Limit Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 1
+                }
+              ]
             },
             "item": {
               "name": "Gold Ring",
@@ -11168,8 +10565,18 @@
             "name": "Limit level 4",
             "id": 1245790,
             "access_rule": {
-              "type": "item_check",
-              "item": "LimitForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Limit Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 2
+                }
+              ]
             },
             "item": {
               "name": "Proof of Peace",
@@ -11182,8 +10589,18 @@
             "name": "Limit level 5",
             "id": 1245791,
             "access_rule": {
-              "type": "item_check",
-              "item": "LimitForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Limit Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 3
+                }
+              ]
             },
             "item": {
               "name": "Donald Auto Healing",
@@ -11196,8 +10613,18 @@
             "name": "Limit level 6",
             "id": 1245792,
             "access_rule": {
-              "type": "item_check",
-              "item": "LimitForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Limit Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 4
+                }
+              ]
             },
             "item": {
               "name": "Way to the Dawn",
@@ -11210,8 +10637,18 @@
             "name": "Limit level 7",
             "id": 1245793,
             "access_rule": {
-              "type": "item_check",
-              "item": "LimitForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Limit Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 5
+                }
+              ]
             },
             "item": {
               "name": "Proof of Connection",
@@ -11224,21 +10661,24 @@
       },
       "Master Form": {
         "name": "Master Form",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> Master Form",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "Master Form"
-          }
-        ],
         "exits": [],
         "locations": [
           {
             "name": "Master level 2",
             "id": 1245794,
             "access_rule": {
-              "type": "item_check",
-              "item": "MasterForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Master Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 0
+                }
+              ]
             },
             "item": {
               "name": "Max MP Up",
@@ -11251,8 +10691,18 @@
             "name": "Master level 3",
             "id": 1245795,
             "access_rule": {
-              "type": "item_check",
-              "item": "MasterForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Master Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 1
+                }
+              ]
             },
             "item": {
               "name": "Ether",
@@ -11265,8 +10715,18 @@
             "name": "Master level 4",
             "id": 1245796,
             "access_rule": {
-              "type": "item_check",
-              "item": "MasterForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Master Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 2
+                }
+              ]
             },
             "item": {
               "name": "Hi-Potion",
@@ -11279,8 +10739,18 @@
             "name": "Master level 5",
             "id": 1245797,
             "access_rule": {
-              "type": "item_check",
-              "item": "MasterForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Master Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 3
+                }
+              ]
             },
             "item": {
               "name": "Max HP Up",
@@ -11293,8 +10763,18 @@
             "name": "Master level 6",
             "id": 1245798,
             "access_rule": {
-              "type": "item_check",
-              "item": "MasterForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Master Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 4
+                }
+              ]
             },
             "item": {
               "name": "Tent",
@@ -11307,8 +10787,18 @@
             "name": "Master level 7",
             "id": 1245799,
             "access_rule": {
-              "type": "item_check",
-              "item": "MasterForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Master Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 5
+                }
+              ]
             },
             "item": {
               "name": "Accessory Slot Up",
@@ -11321,21 +10811,24 @@
       },
       "Final Form": {
         "name": "Final Form",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> Final Form",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "Final Form"
-          }
-        ],
         "exits": [],
         "locations": [
           {
             "name": "Final level 2",
             "id": 1245800,
             "access_rule": {
-              "type": "item_check",
-              "item": "FinalForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Final Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 0
+                }
+              ]
             },
             "item": {
               "name": "Counterguard",
@@ -11348,8 +10841,18 @@
             "name": "Final level 3",
             "id": 1245801,
             "access_rule": {
-              "type": "item_check",
-              "item": "FinalForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Final Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 1
+                }
+              ]
             },
             "item": {
               "name": "Goofy Protega",
@@ -11362,8 +10865,18 @@
             "name": "Final level 4",
             "id": 1245802,
             "access_rule": {
-              "type": "item_check",
-              "item": "FinalForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Final Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 2
+                }
+              ]
             },
             "item": {
               "name": "Secret Ansem's Report 13",
@@ -11376,8 +10889,18 @@
             "name": "Final level 5",
             "id": 1245803,
             "access_rule": {
-              "type": "item_check",
-              "item": "FinalForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Final Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 3
+                }
+              ]
             },
             "item": {
               "name": "Fire Element",
@@ -11390,8 +10913,18 @@
             "name": "Final level 6",
             "id": 1245804,
             "access_rule": {
-              "type": "item_check",
-              "item": "FinalForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Final Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 4
+                }
+              ]
             },
             "item": {
               "name": "Lucky Emblem",
@@ -11404,8 +10937,18 @@
             "name": "Final level 7",
             "id": 1245805,
             "access_rule": {
-              "type": "item_check",
-              "item": "FinalForm"
+              "type": "helper",
+              "name": "form_list_unlock",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Final Form"
+                },
+                {
+                  "type": "constant",
+                  "value": 5
+                }
+              ]
             },
             "item": {
               "name": "Hero's Crest",
@@ -11418,13 +10961,6 @@
       },
       "Weapon Slots": {
         "name": "Weapon Slots",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> Weapon Slots",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "Weapon Slots"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -11432,10 +10968,7 @@
             "id": 1245809,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Valor Form"
-              }
+              "item": "Valor Form"
             },
             "item": {
               "name": "Draw",
@@ -11449,10 +10982,7 @@
             "id": 1245810,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Master Form"
-              }
+              "item": "Master Form"
             },
             "item": {
               "name": "Air Combo Boost",
@@ -11466,10 +10996,7 @@
             "id": 1245811,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Final Form"
-              }
+              "item": "Final Form"
             },
             "item": {
               "name": "MP Hastera",
@@ -11497,10 +11024,7 @@
             "id": 1245813,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Oathkeeper"
-              }
+              "item": "Oathkeeper"
             },
             "item": {
               "name": "Experience Boost",
@@ -11514,10 +11038,7 @@
             "id": 1245814,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Oblivion"
-              }
+              "item": "Oblivion"
             },
             "item": {
               "name": "Drive Boost",
@@ -11531,10 +11052,7 @@
             "id": 1245815,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Star Seeker"
-              }
+              "item": "Star Seeker"
             },
             "item": {
               "name": "Damage Drive",
@@ -11548,10 +11066,7 @@
             "id": 1245816,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Hidden Dragon"
-              }
+              "item": "Hidden Dragon"
             },
             "item": {
               "name": "Damage Control",
@@ -11565,10 +11080,7 @@
             "id": 1245817,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Hero's Crest"
-              }
+              "item": "Hero's Crest"
             },
             "item": {
               "name": "Lucky Lucky",
@@ -11582,10 +11094,7 @@
             "id": 1245818,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Monochrome"
-              }
+              "item": "Monochrome"
             },
             "item": {
               "name": "Damage Drive",
@@ -11599,10 +11108,7 @@
             "id": 1245819,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Follow the Wind"
-              }
+              "item": "Follow the Wind"
             },
             "item": {
               "name": "Lucky Lucky",
@@ -11616,10 +11122,7 @@
             "id": 1245820,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Circle of Life"
-              }
+              "item": "Circle of Life"
             },
             "item": {
               "name": "Thunder Boost",
@@ -11633,10 +11136,7 @@
             "id": 1245821,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Photon Debugger"
-              }
+              "item": "Photon Debugger"
             },
             "item": {
               "name": "Jackpot",
@@ -11650,10 +11150,7 @@
             "id": 1245822,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Gull Wing"
-              }
+              "item": "Gull Wing"
             },
             "item": {
               "name": "Thunder Boost",
@@ -11667,10 +11164,7 @@
             "id": 1245823,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Rumbling Rose"
-              }
+              "item": "Rumbling Rose"
             },
             "item": {
               "name": "Draw",
@@ -11684,10 +11178,7 @@
             "id": 1245824,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Guardian Soul"
-              }
+              "item": "Guardian Soul"
             },
             "item": {
               "name": "Air Combo Boost",
@@ -11701,10 +11192,7 @@
             "id": 1245825,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Wishing Lamp"
-              }
+              "item": "Wishing Lamp"
             },
             "item": {
               "name": "Lucky Lucky",
@@ -11718,10 +11206,7 @@
             "id": 1245826,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Decisive Pumpkin"
-              }
+              "item": "Decisive Pumpkin"
             },
             "item": {
               "name": "Scan",
@@ -11735,10 +11220,7 @@
             "id": 1245827,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Sweet Memories"
-              }
+              "item": "Sweet Memories"
             },
             "item": {
               "name": "Magic Lock-On",
@@ -11752,10 +11234,7 @@
             "id": 1245828,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Mysterious Abyss"
-              }
+              "item": "Mysterious Abyss"
             },
             "item": {
               "name": "Damage Drive",
@@ -11769,10 +11248,7 @@
             "id": 1245829,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Sleeping Lion"
-              }
+              "item": "Sleeping Lion"
             },
             "item": {
               "name": "Combo Boost",
@@ -11786,10 +11262,7 @@
             "id": 1245830,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Bond of Flame"
-              }
+              "item": "Bond of Flame"
             },
             "item": {
               "name": "MP Hastera",
@@ -11803,10 +11276,7 @@
             "id": 1245831,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Two Become One"
-              }
+              "item": "Two Become One"
             },
             "item": {
               "name": "MP Rage",
@@ -11820,10 +11290,7 @@
             "id": 1245832,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Fatal Crest"
-              }
+              "item": "Fatal Crest"
             },
             "item": {
               "name": "Magic Lock-On",
@@ -11837,10 +11304,7 @@
             "id": 1245833,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Fenrir"
-              }
+              "item": "Fenrir"
             },
             "item": {
               "name": "Draw",
@@ -11854,10 +11318,7 @@
             "id": 1245834,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Ultima Weapon"
-              }
+              "item": "Ultima Weapon"
             },
             "item": {
               "name": "MP Haste",
@@ -11871,10 +11332,7 @@
             "id": 1245835,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Winner's Proof"
-              }
+              "item": "Winner's Proof"
             },
             "item": {
               "name": "Air Combo Boost",
@@ -11888,10 +11346,7 @@
             "id": 1245836,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Pureblood"
-              }
+              "item": "Pureblood"
             },
             "item": {
               "name": "Fire Boost",
@@ -11905,10 +11360,7 @@
             "id": 1245865,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Centurion+"
-              }
+              "item": "Centurion+"
             },
             "item": {
               "name": "Donald MP Hastera",
@@ -11978,10 +11430,7 @@
             "id": 1245855,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Meteor Staff"
-              }
+              "item": "Meteor Staff"
             },
             "item": {
               "name": "Donald Draw",
@@ -11995,10 +11444,7 @@
             "id": 1245856,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Nobody Lance"
-              }
+              "item": "Nobody Lance"
             },
             "item": {
               "name": "Donald Fire",
@@ -12012,10 +11458,7 @@
             "id": 1245857,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Precious Mushroom"
-              }
+              "item": "Precious Mushroom"
             },
             "item": {
               "name": "Donald Thunder Boost",
@@ -12029,10 +11472,7 @@
             "id": 1245858,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Precious Mushroom+"
-              }
+              "item": "Precious Mushroom+"
             },
             "item": {
               "name": "Donald Lucky Lucky",
@@ -12046,10 +11486,7 @@
             "id": 1245859,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Premium Mushroom"
-              }
+              "item": "Premium Mushroom"
             },
             "item": {
               "name": "Donald Fantasia",
@@ -12063,10 +11500,7 @@
             "id": 1245860,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Rising Dragon"
-              }
+              "item": "Rising Dragon"
             },
             "item": {
               "name": "Donald MP Hastega",
@@ -12080,10 +11514,7 @@
             "id": 1245861,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Save The Queen+"
-              }
+              "item": "Save The Queen+"
             },
             "item": {
               "name": "Donald Thunder Boost",
@@ -12097,10 +11528,7 @@
             "id": 1245862,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Shaman's Relic"
-              }
+              "item": "Shaman's Relic"
             },
             "item": {
               "name": "Donald Jackpot",
@@ -12156,10 +11584,7 @@
             "id": 1245884,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Akashic Record"
-              }
+              "item": "Akashic Record"
             },
             "item": {
               "name": "Goofy Protect",
@@ -12215,10 +11640,7 @@
             "id": 1245888,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Frozen Pride+"
-              }
+              "item": "Frozen Pride+"
             },
             "item": {
               "name": "Goofy Hyper Healing",
@@ -12232,10 +11654,7 @@
             "id": 1245889,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Genji Shield"
-              }
+              "item": "Genji Shield"
             },
             "item": {
               "name": "Goofy Protera",
@@ -12277,10 +11696,7 @@
             "id": 1245892,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Majestic Mushroom"
-              }
+              "item": "Majestic Mushroom"
             },
             "item": {
               "name": "Goofy Turbo",
@@ -12294,10 +11710,7 @@
             "id": 1245893,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Majestic Mushroom+"
-              }
+              "item": "Majestic Mushroom+"
             },
             "item": {
               "name": "Goofy Item Boost",
@@ -12311,10 +11724,7 @@
             "id": 1245894,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Nobody Guard"
-              }
+              "item": "Nobody Guard"
             },
             "item": {
               "name": "Goofy Auto Limit",
@@ -12328,10 +11738,7 @@
             "id": 1245895,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Ogre Shield"
-              }
+              "item": "Ogre Shield"
             },
             "item": {
               "name": "Goofy Bash",
@@ -12345,10 +11752,7 @@
             "id": 1245896,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Save The King+"
-              }
+              "item": "Save The King+"
             },
             "item": {
               "name": "Goofy Damage Control",
@@ -12362,10 +11766,7 @@
             "id": 1245897,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Ultimate Mushroom"
-              }
+              "item": "Ultimate Mushroom"
             },
             "item": {
               "name": "Goofy Protect",
@@ -12378,13 +11779,6 @@
       },
       "Levels Region (1 Visit Locking Item)": {
         "name": "Levels Region (1 Visit Locking Item)",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> Levels Region (1 Visit Locking Item)",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "Levels Region (1 Visit Locking Item)"
-          }
-        ],
         "exits": [
           {
             "name": "Levels Region (1 Visit Locking Item) -> Levels Region (3 Visit Locking Items)",
@@ -12476,13 +11870,6 @@
       },
       "Levels Region (3 Visit Locking Items)": {
         "name": "Levels Region (3 Visit Locking Items)",
-        "entrances": [
-          {
-            "name": "Levels Region (1 Visit Locking Item) -> Levels Region (3 Visit Locking Items)",
-            "parent_region": "Levels Region (1 Visit Locking Item)",
-            "connected_region": "Levels Region (3 Visit Locking Items)"
-          }
-        ],
         "exits": [
           {
             "name": "Levels Region (3 Visit Locking Items) -> Levels Region (6 Visit Locking Items)",
@@ -12574,13 +11961,6 @@
       },
       "Levels Region (6 Visit Locking Items)": {
         "name": "Levels Region (6 Visit Locking Items)",
-        "entrances": [
-          {
-            "name": "Levels Region (3 Visit Locking Items) -> Levels Region (6 Visit Locking Items)",
-            "parent_region": "Levels Region (3 Visit Locking Items)",
-            "connected_region": "Levels Region (6 Visit Locking Items)"
-          }
-        ],
         "exits": [
           {
             "name": "Levels Region (6 Visit Locking Items) -> Levels Region (9 Visit Locking Items)",
@@ -12658,13 +12038,6 @@
       },
       "Levels Region (9 Visit Locking Items)": {
         "name": "Levels Region (9 Visit Locking Items)",
-        "entrances": [
-          {
-            "name": "Levels Region (6 Visit Locking Items) -> Levels Region (9 Visit Locking Items)",
-            "parent_region": "Levels Region (6 Visit Locking Items)",
-            "connected_region": "Levels Region (9 Visit Locking Items)"
-          }
-        ],
         "exits": [
           {
             "name": "Levels Region (9 Visit Locking Items) -> Levels Region (12 Visit Locking Items)",
@@ -12756,13 +12129,6 @@
       },
       "Levels Region (12 Visit Locking Items)": {
         "name": "Levels Region (12 Visit Locking Items)",
-        "entrances": [
-          {
-            "name": "Levels Region (9 Visit Locking Items) -> Levels Region (12 Visit Locking Items)",
-            "parent_region": "Levels Region (9 Visit Locking Items)",
-            "connected_region": "Levels Region (12 Visit Locking Items)"
-          }
-        ],
         "exits": [
           {
             "name": "Levels Region (12 Visit Locking Items) -> Levels Region (15 Visit Locking Items)",
@@ -12826,13 +12192,6 @@
       },
       "Levels Region (15 Visit Locking Items)": {
         "name": "Levels Region (15 Visit Locking Items)",
-        "entrances": [
-          {
-            "name": "Levels Region (12 Visit Locking Items) -> Levels Region (15 Visit Locking Items)",
-            "parent_region": "Levels Region (12 Visit Locking Items)",
-            "connected_region": "Levels Region (15 Visit Locking Items)"
-          }
-        ],
         "exits": [
           {
             "name": "Levels Region (15 Visit Locking Items) -> Levels Region (18 Visit Locking Items)",
@@ -12868,13 +12227,6 @@
       },
       "Levels Region (18 Visit Locking Items)": {
         "name": "Levels Region (18 Visit Locking Items)",
-        "entrances": [
-          {
-            "name": "Levels Region (15 Visit Locking Items) -> Levels Region (18 Visit Locking Items)",
-            "parent_region": "Levels Region (15 Visit Locking Items)",
-            "connected_region": "Levels Region (18 Visit Locking Items)"
-          }
-        ],
         "exits": [
           {
             "name": "Levels Region (18 Visit Locking Items) -> Levels Region (21 Visit Locking Items)",
@@ -12895,13 +12247,6 @@
       },
       "Levels Region (21 Visit Locking Items)": {
         "name": "Levels Region (21 Visit Locking Items)",
-        "entrances": [
-          {
-            "name": "Levels Region (18 Visit Locking Items) -> Levels Region (21 Visit Locking Items)",
-            "parent_region": "Levels Region (18 Visit Locking Items)",
-            "connected_region": "Levels Region (21 Visit Locking Items)"
-          }
-        ],
         "exits": [
           {
             "name": "Levels Region (21 Visit Locking Items) -> Levels Region (24 Visit Locking Items)",
@@ -12922,13 +12267,6 @@
       },
       "Levels Region (24 Visit Locking Items)": {
         "name": "Levels Region (24 Visit Locking Items)",
-        "entrances": [
-          {
-            "name": "Levels Region (21 Visit Locking Items) -> Levels Region (24 Visit Locking Items)",
-            "parent_region": "Levels Region (21 Visit Locking Items)",
-            "connected_region": "Levels Region (24 Visit Locking Items)"
-          }
-        ],
         "exits": [
           {
             "name": "Levels Region (24 Visit Locking Items) -> Levels Region (26 Visit Locking Items)",
@@ -12949,25 +12287,11 @@
       },
       "Levels Region (26 Visit Locking Items)": {
         "name": "Levels Region (26 Visit Locking Items)",
-        "entrances": [
-          {
-            "name": "Levels Region (24 Visit Locking Items) -> Levels Region (26 Visit Locking Items)",
-            "parent_region": "Levels Region (24 Visit Locking Items)",
-            "connected_region": "Levels Region (26 Visit Locking Items)"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Summons": {
         "name": "Summons",
-        "entrances": [
-          {
-            "name": "Garden Of Assemblage -> Summons",
-            "parent_region": "Garden Of Assemblage",
-            "connected_region": "Summons"
-          }
-        ],
         "exits": [],
         "locations": []
       }
@@ -18069,7 +17393,13 @@
   "settings": {
     "1": {
       "game": "Kingdom Hearts 2",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false,
+      "FightLogic": 1,
+      "AutoFormLogic": 0,
+      "FinalFormLogic": 1,
+      "Promise_Charm": 0,
+      "CorSkipToggle": 0
     }
   },
   "game_info": {

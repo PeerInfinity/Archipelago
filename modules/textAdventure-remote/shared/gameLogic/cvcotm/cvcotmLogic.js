@@ -1,5 +1,7 @@
 // Castlevania - Circle of the Moon game-specific logic
 
+import { DEFAULT_PLAYER_ID } from '../../playerIdUtils.js';
+
 // Helper function mappings for CvCotM-specific rules
 export const helperFunctions = {
         // Movement abilities
@@ -16,7 +18,7 @@ export const helperFunctions = {
             const hasRocWing = !!(snapshot?.inventory?.['Roc Wing']);
             if (!hasRocWing) return false;
 
-            const playerId = snapshot?.player?.slot || '1';
+            const playerId = snapshot?.player?.id || snapshot?.player?.slot || staticData?.playerId || DEFAULT_PLAYER_ID;
             const nerfRocWing = staticData?.settings?.[playerId]?.nerf_roc_wing || 0;
 
             if (nerfRocWing) {
@@ -30,7 +32,7 @@ export const helperFunctions = {
             const hasRocWing = !!(snapshot?.inventory?.['Roc Wing']);
             if (!hasRocWing) return false;
 
-            const playerId = snapshot?.player?.slot || '1';
+            const playerId = snapshot?.player?.id || snapshot?.player?.slot || staticData?.playerId || DEFAULT_PLAYER_ID;
             const nerfRocWing = staticData?.settings?.[playerId]?.nerf_roc_wing || 0;
 
             if (nerfRocWing) {
@@ -44,7 +46,7 @@ export const helperFunctions = {
             const hasRocWing = !!(snapshot?.inventory?.['Roc Wing']);
             if (!hasRocWing) return false;
 
-            const playerId = snapshot?.player?.slot || '1';
+            const playerId = snapshot?.player?.id || snapshot?.player?.slot || staticData?.playerId || DEFAULT_PLAYER_ID;
             const nerfRocWing = staticData?.settings?.[playerId]?.nerf_roc_wing || 0;
 
             if (nerfRocWing) {
@@ -66,9 +68,13 @@ export const helperFunctions = {
             return !!(snapshot?.inventory?.['Heavy Ring']);
         },
         'has_ice_or_stone': (snapshot, staticData) => {
-            // Need either Cockatrice or Serpent card
-            return !!(snapshot?.inventory?.['Cockatrice Card'] ||
-                     snapshot?.inventory?.['Serpent Card']);
+            // Valid DSS combo that allows freezing or petrifying enemies to use as platforms
+            // Requires (Serpent OR Cockatrice) AND (Mercury OR Mars)
+            const hasStoneOrSnake = !!(snapshot?.inventory?.['Cockatrice Card'] ||
+                                       snapshot?.inventory?.['Serpent Card']);
+            const hasMercuryOrMars = !!(snapshot?.inventory?.['Mercury Card'] ||
+                                        snapshot?.inventory?.['Mars Card']);
+            return hasStoneOrSnake && hasMercuryOrMars;
         },
         'broke_iron_maidens': (snapshot, staticData) => {
             // Check if iron maidens are broken (via detonator or start broken option)

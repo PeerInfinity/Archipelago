@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "DLC Quest Basic",
@@ -29,23 +28,13 @@
       },
       "Move Right": {
         "name": "Move Right",
-        "entrances": [
-          {
-            "name": "DLC Quest Basic",
-            "parent_region": "Menu",
-            "connected_region": "Move Right"
-          }
-        ],
         "exits": [
           {
             "name": "Moving",
             "connected_region": "Movement Pack",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Movement Pack"
-              }
+              "item": "Movement Pack"
             }
           }
         ],
@@ -228,23 +217,13 @@
       },
       "Movement Pack": {
         "name": "Movement Pack",
-        "entrances": [
-          {
-            "name": "Moving",
-            "parent_region": "Move Right",
-            "connected_region": "Movement Pack"
-          }
-        ],
         "exits": [
           {
             "name": "Tree",
             "connected_region": "Behind Tree",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Time is Money Pack"
-              }
+              "item": "Time is Money Pack"
             }
           },
           {
@@ -252,10 +231,7 @@
             "connected_region": "Psychological Warfare",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Psychological Warfare Pack"
-              }
+              "item": "Psychological Warfare Pack"
             }
           }
         ],
@@ -385,10 +361,7 @@
             "id": 120049,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Time is Money Pack"
-              }
+              "item": "Time is Money Pack"
             },
             "item": {
               "name": "Loading Screen",
@@ -415,23 +388,13 @@
       },
       "Behind Tree": {
         "name": "Behind Tree",
-        "entrances": [
-          {
-            "name": "Tree",
-            "parent_region": "Movement Pack",
-            "connected_region": "Behind Tree"
-          }
-        ],
         "exits": [
           {
             "name": "Behind Tree Double Jump",
             "connected_region": "Double Jump Behind Tree",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Double Jump Pack"
-              }
+              "item": "Double Jump Pack"
             }
           },
           {
@@ -439,10 +402,7 @@
             "connected_region": "The Forest",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Map Pack"
-              }
+              "item": "Map Pack"
             }
           }
         ],
@@ -573,23 +533,13 @@
       },
       "Psychological Warfare": {
         "name": "Psychological Warfare",
-        "entrances": [
-          {
-            "name": "Cloud",
-            "parent_region": "Movement Pack",
-            "connected_region": "Psychological Warfare"
-          }
-        ],
         "exits": [
           {
             "name": "Cloud Double Jump",
             "connected_region": "Double Jump Total Left",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Double Jump Pack"
-              }
+              "item": "Double Jump Pack"
             }
           }
         ],
@@ -599,10 +549,7 @@
             "id": 120053,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Time is Money Pack"
-              }
+              "item": "Time is Money Pack"
             },
             "item": {
               "name": "Double Jump Pack",
@@ -629,23 +576,13 @@
       },
       "Double Jump Total Left": {
         "name": "Double Jump Total Left",
-        "entrances": [
-          {
-            "name": "Cloud Double Jump",
-            "parent_region": "Psychological Warfare",
-            "connected_region": "Double Jump Total Left"
-          }
-        ],
         "exits": [
           {
             "name": "Cave Tree",
             "connected_region": "Double Jump Total Left Cave",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Time is Money Pack"
-              }
+              "item": "Time is Money Pack"
             }
           },
           {
@@ -653,10 +590,7 @@
             "connected_region": "Double Jump Total Left Roof",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Double Jump Pack"
-              }
+              "item": "Double Jump Pack"
             }
           }
         ],
@@ -746,10 +680,7 @@
             "id": 120052,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Time is Money Pack"
-              }
+              "item": "Time is Money Pack"
             },
             "item": {
               "name": "Audio Pack",
@@ -776,13 +707,6 @@
       },
       "Double Jump Total Left Cave": {
         "name": "Double Jump Total Left Cave",
-        "entrances": [
-          {
-            "name": "Cave Tree",
-            "parent_region": "Double Jump Total Left",
-            "connected_region": "Double Jump Total Left Cave"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -817,13 +741,6 @@
       },
       "Double Jump Total Left Roof": {
         "name": "Double Jump Total Left Roof",
-        "entrances": [
-          {
-            "name": "Cave Roof",
-            "parent_region": "Double Jump Total Left",
-            "connected_region": "Double Jump Total Left Roof"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -831,10 +748,7 @@
             "id": 120051,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Time is Money Pack"
-              }
+              "item": "Time is Money Pack"
             },
             "item": {
               "name": "Pet Pack",
@@ -861,13 +775,6 @@
       },
       "Double Jump Behind Tree": {
         "name": "Double Jump Behind Tree",
-        "entrances": [
-          {
-            "name": "Behind Tree Double Jump",
-            "parent_region": "Behind Tree",
-            "connected_region": "Double Jump Behind Tree"
-          }
-        ],
         "exits": [
           {
             "name": "True Double Jump",
@@ -965,13 +872,6 @@
       },
       "True Double Jump Behind Tree": {
         "name": "True Double Jump Behind Tree",
-        "entrances": [
-          {
-            "name": "True Double Jump",
-            "parent_region": "Double Jump Behind Tree",
-            "connected_region": "True Double Jump Behind Tree"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1020,23 +920,13 @@
       },
       "The Forest": {
         "name": "The Forest",
-        "entrances": [
-          {
-            "name": "Forest Entrance",
-            "parent_region": "Behind Tree",
-            "connected_region": "The Forest"
-          }
-        ],
         "exits": [
           {
             "name": "Behind Ogre",
             "connected_region": "The Final Boss Room",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Gun Pack"
-              }
+              "item": "Gun Pack"
             }
           },
           {
@@ -1044,10 +934,7 @@
             "connected_region": "The Forest with double Jump",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Double Jump Pack"
-              }
+              "item": "Double Jump Pack"
             }
           }
         ],
@@ -1150,23 +1037,13 @@
       },
       "The Forest with double Jump": {
         "name": "The Forest with double Jump",
-        "entrances": [
-          {
-            "name": "Forest Double Jump",
-            "parent_region": "The Forest",
-            "connected_region": "The Forest with double Jump"
-          }
-        ],
         "exits": [
           {
             "name": "Forest True Double Jump",
             "connected_region": "The Forest with double Jump Part 2",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Double Jump Pack"
-              }
+              "item": "Double Jump Pack"
             }
           }
         ],
@@ -1243,13 +1120,6 @@
       },
       "The Forest with double Jump Part 2": {
         "name": "The Forest with double Jump Part 2",
-        "entrances": [
-          {
-            "name": "Forest True Double Jump",
-            "parent_region": "The Forest with double Jump",
-            "connected_region": "The Forest with double Jump Part 2"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1284,13 +1154,6 @@
       },
       "The Final Boss Room": {
         "name": "The Final Boss Room",
-        "entrances": [
-          {
-            "name": "Behind Ogre",
-            "parent_region": "The Forest",
-            "connected_region": "The Final Boss Room"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1341,17 +1204,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Armor for your Horse Pack"
-                  }
+                  "item": "Armor for your Horse Pack"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Finish the Fight Pack"
-                  }
+                  "item": "Finish the Fight Pack"
                 }
               ]
             },
@@ -1376,6 +1233,175 @@
   },
   "items": {
     "1": {
+      "4 coins": {
+        "name": "4 coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 1
+      },
+      "46 coins": {
+        "name": "46 coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 1
+      },
+      "60 coins": {
+        "name": "60 coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 1
+      },
+      "100 coins": {
+        "name": "100 coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 1
+      },
+      "50 coins": {
+        "name": "50 coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 1
+      },
+      "9 coins": {
+        "name": "9 coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 1
+      },
+      "10 coins": {
+        "name": "10 coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 1
+      },
+      "89 coins": {
+        "name": "89 coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 1
+      },
+      "7 coins": {
+        "name": "7 coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 1
+      },
+      "171 coins": {
+        "name": "171 coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 1
+      },
+      "76 coins": {
+        "name": "76 coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 1
+      },
+      "203 coins": {
+        "name": "203 coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 1
+      },
+      "Victory Basic": {
+        "name": "Victory Basic",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
       "Movement Pack": {
         "name": "Movement Pack",
         "id": 120000,
@@ -2064,162 +2090,6 @@
         "event": false,
         "type": "coins",
         "max_count": 999999
-      },
-      "4 coins": {
-        "name": "4 coins",
-        "id": null,
-        "groups": [
-          "coins"
-        ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": "coins",
-        "max_count": 1
-      },
-      "46 coins": {
-        "name": "46 coins",
-        "id": null,
-        "groups": [
-          "coins"
-        ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": "coins",
-        "max_count": 1
-      },
-      "60 coins": {
-        "name": "60 coins",
-        "id": null,
-        "groups": [
-          "coins"
-        ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": "coins",
-        "max_count": 1
-      },
-      "100 coins": {
-        "name": "100 coins",
-        "id": null,
-        "groups": [
-          "coins"
-        ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": "coins",
-        "max_count": 1
-      },
-      "50 coins": {
-        "name": "50 coins",
-        "id": null,
-        "groups": [
-          "coins"
-        ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": "coins",
-        "max_count": 1
-      },
-      "9 coins": {
-        "name": "9 coins",
-        "id": null,
-        "groups": [
-          "coins"
-        ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": "coins",
-        "max_count": 1
-      },
-      "10 coins": {
-        "name": "10 coins",
-        "id": null,
-        "groups": [
-          "coins"
-        ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": "coins",
-        "max_count": 1
-      },
-      "89 coins": {
-        "name": "89 coins",
-        "id": null,
-        "groups": [
-          "coins"
-        ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": "coins",
-        "max_count": 1
-      },
-      "7 coins": {
-        "name": "7 coins",
-        "id": null,
-        "groups": [
-          "coins"
-        ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": "coins",
-        "max_count": 1
-      },
-      "171 coins": {
-        "name": "171 coins",
-        "id": null,
-        "groups": [
-          "coins"
-        ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": "coins",
-        "max_count": 1
-      },
-      "76 coins": {
-        "name": "76 coins",
-        "id": null,
-        "groups": [
-          "coins"
-        ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": "coins",
-        "max_count": 1
-      },
-      "203 coins": {
-        "name": "203 coins",
-        "id": null,
-        "groups": [
-          "coins"
-        ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": "coins",
-        "max_count": 1
       }
     }
   },
@@ -2274,7 +2144,8 @@
   "settings": {
     "1": {
       "game": "DLCQuest",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
     }
   },
   "game_info": {
@@ -2282,6 +2153,18 @@
       "name": "DLCQuest",
       "rule_format": {
         "version": "1.0"
+      },
+      "accumulator_rules": [
+        {
+          "pattern": "^(\\d+) coins?$",
+          "extract_value": true,
+          "target": " coins",
+          "discriminator": null
+        }
+      ],
+      "prog_items_init": {
+        " coins": 0,
+        " coins freemium": 0
       }
     }
   }

@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "New Board",
@@ -29,13 +28,6 @@
       },
       "Board": {
         "name": "Board",
-        "entrances": [
-          {
-            "name": "New Board",
-            "parent_region": "Menu",
-            "connected_region": "Board"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -744,7 +736,8 @@
   "settings": {
     "1": {
       "game": "ChecksFinder",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
     }
   },
   "game_info": {

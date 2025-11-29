@@ -10,6 +10,12 @@ import {
   initializeMappingsFromDataPackage,
   loadMappingsFromStorage,
 } from '../utils/idMapping.js';
+import {
+  generateInaccessibleLocationSphereLog,
+  generateRegressionTestSphereLog,
+  createSphereLogDownloadUrl,
+  generateSphereLogFilename,
+} from '../utils/debugSphereLogger.js';
 import { sharedClientState } from './sharedState.js';
 import { stateManagerProxySingleton } from '../../stateManager/index.js';
 import { getClientModuleDispatcher, moduleInfo } from '../index.js';
@@ -124,8 +130,7 @@ export class MessageHandler {
         break;
 
       case 'Bounced':
-        // Use injected eventBus
-        this.eventBus?.publish('game:bounced', command, 'client');
+        this._handleBounced(command);
         break;
 
       default:
@@ -183,11 +188,19 @@ export class MessageHandler {
 
     this.clientSlotName = slotName;
 
-    // Determine the game name from RoomInfo
-    // The game name should come from the slot info for the player we're connecting as
-    let gameName = 'A Link to the Past'; // Default fallback
+    // Determine the game name - prefer stateManager's loaded rules over RoomInfo
+    // This ensures multiworld scenarios use the correct player-specific game
+    let gameName = null;
 
-    // Log RoomInfo structure to understand what data is available
+    // First, try to get game name from stateManager (most reliable for multiworld)
+    if (stateManagerProxySingleton) {
+      gameName = stateManagerProxySingleton.getGameName();
+      if (gameName) {
+        log('info', `[MessageHandler] Using game name from stateManager: ${gameName}`);
+      }
+    }
+
+    // Log RoomInfo structure for debugging
     log('info', `[MessageHandler] RoomInfo keys:`, Object.keys(data));
     if (data.games) {
       log('info', `[MessageHandler] RoomInfo.games:`, data.games);
@@ -199,15 +212,20 @@ export class MessageHandler {
       log('info', `[MessageHandler] RoomInfo.players:`, data.players);
     }
 
-    // RoomInfo might only have a 'games' array listing all available games
-    // We may need to just pick the first non-Archipelago game
-    if (data.games && Array.isArray(data.games) && data.games.length > 0) {
+    // Fallback: if stateManager didn't have the game name, try RoomInfo
+    if (!gameName && data.games && Array.isArray(data.games) && data.games.length > 0) {
       // Filter out 'Archipelago' which is the meta-game
       const actualGames = data.games.filter(g => g !== 'Archipelago');
       if (actualGames.length > 0) {
         gameName = actualGames[0];
-        log('info', `[MessageHandler] Using first available game: ${gameName}`);
+        log('info', `[MessageHandler] Fallback: using first available game from RoomInfo: ${gameName}`);
       }
+    }
+
+    // Final fallback
+    if (!gameName) {
+      gameName = 'A Link to the Past';
+      log('warn', `[MessageHandler] No game name found, using default: ${gameName}`);
     }
 
     // Store the game name for this client
@@ -284,7 +302,7 @@ export class MessageHandler {
 
   async _handleConnected(data) {
     log('info', '[MessageHandler] _handleConnected called with data:', data);
-    
+
     // Get stateManager
     const stateManager = await this._getStateManager();
 
@@ -294,10 +312,10 @@ export class MessageHandler {
     this.players = data.players;
     this.missingLocationIds = data.missing_locations || [];
     this.checkedLocationIds = data.checked_locations || [];
-    
+
     // Build reverse mapping: location name -> server protocol ID
     this.serverLocationNameToId = new Map();
-    
+
     // Add missing locations to reverse mapping
     if (data.missing_locations) {
       for (const serverId of data.missing_locations) {
@@ -307,7 +325,7 @@ export class MessageHandler {
         }
       }
     }
-    
+
     // Add checked locations to reverse mapping
     if (data.checked_locations) {
       for (const serverId of data.checked_locations) {
@@ -317,7 +335,7 @@ export class MessageHandler {
         }
       }
     }
-    
+
     log('info', `[MessageHandler] Built server location name->ID mapping with ${this.serverLocationNameToId.size} entries`);
 
     log('info', '[MessageHandler] Connection established:');
@@ -326,7 +344,26 @@ export class MessageHandler {
     log('info', '  - Players:', this.players);
     log('info', '  - Missing Locations:', data.missing_locations?.length || 0);
     log('info', '  - Checked Locations:', data.checked_locations?.length || 0);
-    
+
+    // Check if there are other players already connected on the same team
+    // Players with same team but different slot are other clients
+    const otherPlayers = data.players.filter(p =>
+      p.team === this.clientTeam && p.slot !== this.clientSlot
+    );
+
+    if (otherPlayers.length > 0) {
+      log('info', `[MessageHandler] Detected ${otherPlayers.length} other player(s) already connected on same team`);
+
+      // Publish event for each other player
+      otherPlayers.forEach(player => {
+        this.eventBus?.publish('game:playerJoined', {
+          player: player,
+          totalPlayers: data.players.length,
+          alreadyConnected: true
+        }, 'client');
+      });
+    }
+
     // Use injected eventBus
     this.eventBus?.publish('game:connected', {
       slot: this.clientSlot,
@@ -385,31 +422,21 @@ export class MessageHandler {
   }
 
   /**
-   * Process received items from server, with deduplication
+   * Process received items from server
    * @param {Object} data - The ReceivedItems packet from server
    */
   async _handleReceivedItems(data) {
     // Get stateManager
     const stateManager = await this._getStateManager();
     if (!stateManager) {
-      log('error', 
+      log('error',
         '[MessageHandler _handleReceivedItems] Failed to process received items: stateManager not available'
       );
       return;
     }
 
-    // Skip if we're already processing
-    if (sharedClientState.processingBatchItems) {
-      log('info', 
-        '[MessageHandler _handleReceivedItems] Already processing an item batch, skipping duplicate'
-      );
-      return;
-    }
-
-    // Set processing flag
-    sharedClientState.processingBatchItems = true;
     this._logDebug(
-      `[MessageHandler _handleReceivedItems] Processing ${data.items.length} items from server`
+      `[MessageHandler _handleReceivedItems] Processing ${data.items.length} items from server (index: ${data.index})`
     );
 
     const processedItemDetails = []; // Array to hold { itemName, locationNameToMark }
@@ -424,22 +451,10 @@ export class MessageHandler {
         try {
           itemName = getItemNameFromServerId(item.item, stateManager);
           if (!itemName) {
-            log('warn', 
+            log('warn',
               `[MessageHandler _handleReceivedItems] Could not find matching item name for server ID: ${item.item}`
             );
             continue; // Skip this item if name not found
-          }
-
-          // Skip if this item was just clicked by the user (to prevent echo processing)
-          if (
-            sharedClientState.userClickedItems &&
-            sharedClientState.userClickedItems.has(itemName)
-          ) {
-            this._logDebug(
-              `[MessageHandler _handleReceivedItems] Skipping server item ${itemName} as it was just clicked by user`
-            );
-            sharedClientState.userClickedItems.delete(itemName);
-            continue;
           }
 
           const locationNameToMark =
@@ -465,7 +480,7 @@ export class MessageHandler {
           );
         } catch (error) {
           // Catch errors from processing a single item (e.g., getting itemName or locationName)
-          log('error', 
+          log('error',
             `[MessageHandler _handleReceivedItems] Error preparing item ID ${item.item} (current item name context: ${itemName}):`,
             error
           );
@@ -483,7 +498,7 @@ export class MessageHandler {
             `[MessageHandler _handleReceivedItems] Incremental items (index=${data.index}): Adding ${processedItemDetails.length} items to inventory.`
           );
         }
-        
+
         // Add all items to inventory
         for (const itemDetail of processedItemDetails) {
           if (itemDetail && itemDetail.itemName) {
@@ -499,17 +514,10 @@ export class MessageHandler {
       await stateManager.commitBatchUpdate();
     } catch (batchError) {
       // Catch errors related to beginBatchUpdate, commitBatchUpdate, or the applyRuntimeStateData call itself
-      log('error', 
+      log('error',
         '[MessageHandler _handleReceivedItems] Error during batch processing of received items:',
         batchError
       );
-      // It might be prudent to ensure batch processing flag is reset even if commit fails
-      // However, the finally block handles this.
-    } finally {
-      // Always clear the processing flag
-      setTimeout(() => {
-        sharedClientState.processingBatchItems = false;
-      }, 100);
     }
 
     // Publish notification
@@ -531,6 +539,8 @@ export class MessageHandler {
   }
 
   async _handleRoomUpdate(data) {
+    log('info', '[MessageHandler] RoomUpdate received');
+
     // Get stateManager
     const stateManager = await this._getStateManager();
 
@@ -539,9 +549,34 @@ export class MessageHandler {
       await this._syncLocationsFromServer(data.checked_locations);
     }
 
-    // Process player updates if present
+    // Process player updates if present - detect new players joining
     if (data.players) {
+      const previousPlayers = this.players;
       this.players = data.players;
+
+      // Detect if a new player has joined
+      // RoomUpdate sends all players, so we check if the count increased
+      if (previousPlayers.length > 0 && data.players.length > previousPlayers.length) {
+        // Find the new player(s)
+        const previousSlots = new Set(previousPlayers.map(p => `${p.team}-${p.slot}`));
+        const newPlayers = data.players.filter(p => !previousSlots.has(`${p.team}-${p.slot}`));
+
+        if (newPlayers.length > 0) {
+          log('info', `[MessageHandler] Detected ${newPlayers.length} new player(s) joining via RoomUpdate`);
+
+          // Publish event for each new player
+          newPlayers.forEach(player => {
+            // Only publish if it's not this client (don't notify about ourselves)
+            if (player.slot !== this.clientSlot || player.team !== this.clientTeam) {
+              log('info', `[MessageHandler] Publishing game:playerJoined for player: team=${player.team}, slot=${player.slot}`);
+              this.eventBus?.publish('game:playerJoined', {
+                player: player,
+                totalPlayers: data.players.length
+              }, 'client');
+            }
+          });
+        }
+      }
     }
 
     // Publish the event for UI updates
@@ -560,6 +595,20 @@ export class MessageHandler {
     // PrintJSON is purely for displaying messages to the player
     // Location updates are handled by RoomUpdate, items by ReceivedItems
 
+    // Check if this is a chat message (type === 'Chat')
+    if (data.type === 'Chat') {
+      log('info', '[MessageHandler] Received chat message:', data);
+
+      // Publish a specific event for chat messages
+      this.eventBus?.publish('game:chatMessage', {
+        message: data.message,  // The actual chat message text
+        slot: data.slot,         // Slot of the player who sent it
+        team: data.team,         // Team of the player who sent it
+        data: data.data,         // Formatted message parts
+        raw: data,               // Full raw data for advanced use
+      }, 'client');
+    }
+
     // Handle PrintJSON messages that contain console text (Join, Tutorial, ItemSend, etc.)
     if (this.eventBus && data.data && Array.isArray(data.data)) {
       // PrintJSON data is an array of structured text objects with type information
@@ -571,13 +620,31 @@ export class MessageHandler {
     }
   }
 
+  _handleBounced(data) {
+    log('info', '[MessageHandler _handleBounced] Received bounced message:', data);
+
+    // Publish bounced data for application use
+    if (this.eventBus && data.data) {
+      this.eventBus.publish('game:bouncedMessage', {
+        data: data.data,
+        games: data.games,
+        slots: data.slots,
+        tags: data.tags,
+        raw: data,
+      }, 'client');
+    }
+  }
+
   _handleDataPackage(data) {
     log('info', 'Received data package from server');
 
     // Save to storage
     if (data.data.version !== 0) {
       storage.setItem('dataPackageVersion', data.data.version);
-      storage.setItem('dataPackage', JSON.stringify(data.data));
+      // Full data package storage is optional - it may exceed localStorage quota
+      // for large games or multiworld sessions. The app fetches fresh data each connection,
+      // so this is just a cache optimization. Use silent mode to avoid warning on quota errors.
+      storage.setItem('dataPackage', JSON.stringify(data.data), { silent: true });
 
       // Initialize mappings, passing the client's game name to avoid ID collisions in multiworld
       const initSuccess = initializeMappingsFromDataPackage(data.data, this.clientGameName);
@@ -596,6 +663,8 @@ export class MessageHandler {
 
   /**
    * Sync locations from server to stateManager
+   * Detects and logs when the server reports a location as checked that the frontend
+   * logic says should be inaccessible, but force-checks it anyway to maintain sync.
    * @param {number[]} serverLocationIds - Array of server location IDs
    */
   async _syncLocationsFromServer(serverLocationIds) {
@@ -611,29 +680,115 @@ export class MessageHandler {
       `Syncing ${serverLocationIds.length} checked locations from server to stateManager`
     );
 
-          if (serverLocationIds && serverLocationIds.length > 0) {
-        let locationsMarked = 0;
-        for (const id of serverLocationIds) {
-          const name = getLocationNameFromServerId(id, stateManager);
-          if (name && name !== `Location ${id}`) {
-            // Mark each location individually using RoomUpdate approach (without adding items)
+    if (serverLocationIds && serverLocationIds.length > 0) {
+      let locationsMarked = 0;
+
+      for (const id of serverLocationIds) {
+        const name = getLocationNameFromServerId(id, stateManager);
+        if (name && name !== `Location ${id}`) {
+          // Get current snapshot to check accessibility BEFORE attempting the check
+          const snapshotBefore = stateManager.getSnapshot();
+          const locationReachability = snapshotBefore?.locationReachability || {};
+
+          // Check if this location is already checked (skip if so)
+          if (locationReachability[name] === 'checked') {
+            // Already checked, no need to do anything
+            continue;
+          }
+
+          // Check if location is accessible according to frontend logic
+          const isAccessible = locationReachability[name] === 'reachable';
+
+          if (!isAccessible) {
+            // Location is inaccessible according to frontend logic, but server says it was checked
+            // Capture state before force-checking
+            const stateBefore = {
+              inventory: { ...(snapshotBefore?.inventory || {}) },
+              accessibleLocations: Object.entries(locationReachability)
+                .filter(([, status]) => status === 'reachable')
+                .map(([locName]) => locName),
+              accessibleRegions: Object.entries(snapshotBefore?.regionReachability || {})
+                .filter(([, status]) => status === 'reachable')
+                .map(([regName]) => regName)
+            };
+
+            // Force-check the location to maintain server sync
+            await stateManager.checkLocation(name, false, true); // forceCheck = true
+            locationsMarked++;
+
+            // Get state after the force-check
+            const snapshotAfter = stateManager.getSnapshot();
+            const locationReachabilityAfter = snapshotAfter?.locationReachability || {};
+            const stateAfter = {
+              inventory: { ...(snapshotAfter?.inventory || {}) },
+              accessibleLocations: Object.entries(locationReachabilityAfter)
+                .filter(([, status]) => status === 'reachable')
+                .map(([locName]) => locName),
+              accessibleRegions: Object.entries(snapshotAfter?.regionReachability || {})
+                .filter(([, status]) => status === 'reachable')
+                .map(([regName]) => regName)
+            };
+
+            // Generate sphere logs for debugging
+            const playerId = snapshotBefore?.player?.id || '1';
+            const sphereLogOptions = {
+              locationName: name,
+              playerId,
+              stateBefore,
+              stateAfter
+            };
+
+            // 1. Diagnostic log: Shows actual state (with the bug)
+            const diagnosticLogContent = generateInaccessibleLocationSphereLog(sphereLogOptions);
+            const diagnosticDownloadUrl = createSphereLogDownloadUrl(diagnosticLogContent);
+            const diagnosticFileName = generateSphereLogFilename(name, 'diagnostic');
+
+            // 2. Regression test log: Shows expected state (location should be accessible)
+            const regressionLogContent = generateRegressionTestSphereLog(sphereLogOptions);
+            const regressionDownloadUrl = createSphereLogDownloadUrl(regressionLogContent);
+            const regressionFileName = generateSphereLogFilename(name, 'regression');
+
+            // Log detailed error message
+            const errorMessage = `[INACCESSIBLE LOCATION DETECTED]
+Location: ${name}
+Server ID: ${id}
+The server says this location was checked, but frontend logic says it should be inaccessible.
+Location was force-checked to maintain server sync.`;
+
+            log('error', errorMessage);
+            log('error', `Download diagnostic sphere log: ${diagnosticDownloadUrl}`);
+            log('error', `Download regression test sphere log: ${regressionDownloadUrl}`);
+
+            // Publish to console UI with both download links
+            this.eventBus?.publish('ui:printToConsole', {
+              message: errorMessage,
+              type: 'error',
+              downloads: [
+                { url: diagnosticDownloadUrl, fileName: diagnosticFileName, label: 'Diagnostic Log (actual state)' },
+                { url: regressionDownloadUrl, fileName: regressionFileName, label: 'Regression Test (expected state)' }
+              ]
+            }, 'client');
+
+          } else {
+            // Normal case - location is accessible, check it normally
             await stateManager.checkLocation(name, false);
             locationsMarked++;
-          } else {
-            log(
-              'warn',
-              `[MessageHandler _syncLocationsFromServer] Could not map server location ID ${id} to a known name.`
-            );
           }
-        }
-        
-        if (locationsMarked > 0) {
+        } else {
           log(
-            'info',
-            `Location sync complete: Marked ${locationsMarked} locations as checked via RoomUpdate.`
+            'warn',
+            `[MessageHandler _syncLocationsFromServer] Could not map server location ID ${id} to a known name.`
           );
         }
       }
+
+      if (locationsMarked > 0) {
+        log(
+          'info',
+          `Location sync complete: Marked ${locationsMarked} locations as checked via RoomUpdate.`
+        );
+      }
+    }
   }
 
   // Helper methods
@@ -732,6 +887,30 @@ export class MessageHandler {
         text: message,
       },
     ]);
+  }
+
+  sendBounce(data, options = {}) {
+    if (!connection.isConnected()) {
+      return false;
+    }
+
+    const bouncePacket = {
+      cmd: 'Bounce',
+      data: data,
+    };
+
+    // Add optional targeting
+    if (options.games && options.games.length > 0) {
+      bouncePacket.games = options.games;
+    }
+    if (options.slots && options.slots.length > 0) {
+      bouncePacket.slots = options.slots;
+    }
+    if (options.tags && options.tags.length > 0) {
+      bouncePacket.tags = options.tags;
+    }
+
+    return connection.send([bouncePacket]);
   }
 
   sendStatusUpdate(status) {
@@ -915,7 +1094,7 @@ export class MessageHandler {
     // Use clientSlot from this instance
     const slot = this.clientSlot;
     if (slot === undefined || slot === null) {
-      log('error', 
+      log('error',
         '[MessageHandler] Client slot not defined, cannot send location checks. Current value:',
         slot
       );

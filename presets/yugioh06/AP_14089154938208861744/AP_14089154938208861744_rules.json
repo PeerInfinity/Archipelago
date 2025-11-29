@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "to Deck Edit",
@@ -53,13 +52,6 @@
       },
       "Campaign": {
         "name": "Campaign",
-        "entrances": [
-          {
-            "name": "to Campaign",
-            "parent_region": "Menu",
-            "connected_region": "Campaign"
-          }
-        ],
         "exits": [
           {
             "name": "Campaign Tier 1 Column 1",
@@ -68,21 +60,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Campaign Tier 1 Column 1"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Campaign Tier 1 Column 1"
                 }
               ]
             }
@@ -94,21 +106,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Campaign Tier 1 Column 2"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 0
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Campaign Tier 1 Column 2"
                 }
               ]
             }
@@ -120,21 +152,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Campaign Tier 1 Column 3"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 0
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Campaign Tier 1 Column 3"
                 }
               ]
             }
@@ -146,21 +198,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Campaign Tier 1 Column 4"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 0
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Campaign Tier 1 Column 4"
                 }
               ]
             }
@@ -172,21 +244,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Campaign Tier 1 Column 5"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Campaign Tier 1 Column 5"
                 }
               ]
             }
@@ -198,21 +290,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Campaign Tier 2 Column 1"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Campaign Tier 2 Column 1"
                 }
               ]
             }
@@ -224,21 +336,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Campaign Tier 2 Column 2"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Campaign Tier 2 Column 2"
                 }
               ]
             }
@@ -250,21 +382,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Campaign Tier 2 Column 3"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Campaign Tier 2 Column 3"
                 }
               ]
             }
@@ -276,21 +428,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Campaign Tier 2 Column 4"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Campaign Tier 2 Column 4"
                 }
               ]
             }
@@ -302,21 +474,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Campaign Tier 2 Column 5"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Campaign Tier 2 Column 5"
                 }
               ]
             }
@@ -328,21 +520,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Campaign Tier 3 Column 1"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 2
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Campaign Tier 3 Column 1"
                 }
               ]
             }
@@ -354,21 +566,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Campaign Tier 3 Column 2"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 2
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Campaign Tier 3 Column 2"
                 }
               ]
             }
@@ -380,21 +612,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Campaign Tier 3 Column 3"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 2
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Campaign Tier 3 Column 3"
                 }
               ]
             }
@@ -406,21 +658,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Campaign Tier 3 Column 4"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 2
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Campaign Tier 3 Column 4"
                 }
               ]
             }
@@ -432,21 +704,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Campaign Tier 3 Column 5"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 2
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Campaign Tier 3 Column 5"
                 }
               ]
             }
@@ -458,21 +750,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Campaign Tier 4 Column 1"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 3
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Campaign Tier 4 Column 1"
                 }
               ]
             }
@@ -484,21 +796,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Campaign Tier 4 Column 2"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 3
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Campaign Tier 4 Column 2"
                 }
               ]
             }
@@ -510,21 +842,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Campaign Tier 4 Column 3"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 3
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Campaign Tier 4 Column 3"
                 }
               ]
             }
@@ -536,21 +888,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Campaign Tier 4 Column 4"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 3
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Campaign Tier 4 Column 4"
                 }
               ]
             }
@@ -562,21 +934,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Campaign Tier 4 Column 5"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 3
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Campaign Tier 4 Column 5"
                 }
               ]
             }
@@ -588,21 +980,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Campaign Tier 5 Column 1"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 4
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Campaign Tier 5 Column 1"
                 }
               ]
             }
@@ -614,21 +1026,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Campaign Tier 5 Column 2"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 4
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Campaign Tier 5 Column 2"
                 }
               ]
             }
@@ -641,20 +1073,11 @@
               "conditions": [
                 {
                   "type": "group_check",
-                  "group": {
+                  "group": "Campaign Boss Beaten",
+                  "count": {
                     "type": "constant",
-                    "value": "Campaign Boss Beaten"
+                    "value": 3
                   }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": 5
-                    }
-                  ]
                 },
                 {
                   "type": "state_method",
@@ -663,6 +1086,39 @@
                     {
                       "type": "constant",
                       "value": []
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_from_list",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
+                    {
+                      "type": "constant",
+                      "value": 5
                     }
                   ]
                 }
@@ -677,20 +1133,11 @@
               "conditions": [
                 {
                   "type": "group_check",
-                  "group": {
+                  "group": "Campaign Boss Beaten",
+                  "count": {
                     "type": "constant",
-                    "value": "Campaign Boss Beaten"
+                    "value": 7
                   }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": 6
-                    }
-                  ]
                 },
                 {
                   "type": "state_method",
@@ -699,6 +1146,39 @@
                     {
                       "type": "constant",
                       "value": []
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_from_list",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
+                    {
+                      "type": "constant",
+                      "value": 6
                     }
                   ]
                 }
@@ -713,20 +1193,11 @@
               "conditions": [
                 {
                   "type": "group_check",
-                  "group": {
+                  "group": "Campaign Boss Beaten",
+                  "count": {
                     "type": "constant",
-                    "value": "Campaign Boss Beaten"
+                    "value": 12
                   }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": 7
-                    }
-                  ]
                 },
                 {
                   "type": "state_method",
@@ -735,6 +1206,39 @@
                     {
                       "type": "constant",
                       "value": []
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_from_list",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
+                    {
+                      "type": "constant",
+                      "value": 7
                     }
                   ]
                 }
@@ -748,10 +1252,7 @@
             "id": 5730001,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tier 1 Beaten"
-              }
+              "item": "Tier 1 Beaten"
             },
             "item": {
               "name": "Special Summon Collection C",
@@ -765,10 +1266,7 @@
             "id": 5730002,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tier 2 Beaten"
-              }
+              "item": "Tier 2 Beaten"
             },
             "item": {
               "name": "Banlist March 2005",
@@ -782,10 +1280,7 @@
             "id": 5730003,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tier 3 Beaten"
-              }
+              "item": "Tier 3 Beaten"
             },
             "item": {
               "name": "TD24 Victory in 5 Turns Unlock",
@@ -799,10 +1294,7 @@
             "id": 5730004,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tier 4 Beaten"
-              }
+              "item": "Tier 4 Beaten"
             },
             "item": {
               "name": "Special Summon Collection B",
@@ -816,10 +1308,7 @@
             "id": 5730005,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tier 5 Beaten"
-              }
+              "item": "Tier 5 Beaten"
             },
             "item": {
               "name": "Special Summon Collection A",
@@ -860,9 +1349,32 @@
             "name": "Max ATK Bonus",
             "id": 5730008,
             "access_rule": {
-              "type": "helper",
-              "name": "yugioh06_difficulty",
+              "type": "state_method",
+              "method": "has_from_list",
               "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "LEGEND OF B.E.W.D.",
+                    "METAL RAIDERS",
+                    "PHARAOH'S SERVANT",
+                    "PHARAONIC GUARDIAN",
+                    "SPELL RULER",
+                    "LABYRINTH OF NIGHTMARE",
+                    "LEGACY OF DARKNESS",
+                    "MAGICIAN'S FORCE",
+                    "DARK CRISIS",
+                    "INVASION OF CHAOS",
+                    "ANCIENT SANCTUARY",
+                    "SOUL OF THE DUELIST",
+                    "RISE OF DESTINY",
+                    "FLAMING ETERNITY",
+                    "THE LOST MILLENIUM",
+                    "CYBERNETIC REVOLUTION",
+                    "ELEMENTAL ENERGY",
+                    "SHADOW OF INFINITY"
+                  ]
+                },
                 {
                   "type": "constant",
                   "value": 2
@@ -986,10 +1498,7 @@
             "id": 5730015,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Ritual"
-              }
+              "item": "Ritual"
             },
             "item": {
               "name": "Fiend Collection A",
@@ -1016,9 +1525,32 @@
             "name": "No Spell Cards Bonus",
             "id": 5730017,
             "access_rule": {
-              "type": "helper",
-              "name": "yugioh06_difficulty",
+              "type": "state_method",
+              "method": "has_from_list",
               "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "LEGEND OF B.E.W.D.",
+                    "METAL RAIDERS",
+                    "PHARAOH'S SERVANT",
+                    "PHARAONIC GUARDIAN",
+                    "SPELL RULER",
+                    "LABYRINTH OF NIGHTMARE",
+                    "LEGACY OF DARKNESS",
+                    "MAGICIAN'S FORCE",
+                    "DARK CRISIS",
+                    "INVASION OF CHAOS",
+                    "ANCIENT SANCTUARY",
+                    "SOUL OF THE DUELIST",
+                    "RISE OF DESTINY",
+                    "FLAMING ETERNITY",
+                    "THE LOST MILLENIUM",
+                    "CYBERNETIC REVOLUTION",
+                    "ELEMENTAL ENERGY",
+                    "SHADOW OF INFINITY"
+                  ]
+                },
                 {
                   "type": "constant",
                   "value": 2
@@ -1036,9 +1568,32 @@
             "name": "No Trap Cards Bonus",
             "id": 5730018,
             "access_rule": {
-              "type": "helper",
-              "name": "yugioh06_difficulty",
+              "type": "state_method",
+              "method": "has_from_list",
               "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "LEGEND OF B.E.W.D.",
+                    "METAL RAIDERS",
+                    "PHARAOH'S SERVANT",
+                    "PHARAONIC GUARDIAN",
+                    "SPELL RULER",
+                    "LABYRINTH OF NIGHTMARE",
+                    "LEGACY OF DARKNESS",
+                    "MAGICIAN'S FORCE",
+                    "DARK CRISIS",
+                    "INVASION OF CHAOS",
+                    "ANCIENT SANCTUARY",
+                    "SOUL OF THE DUELIST",
+                    "RISE OF DESTINY",
+                    "FLAMING ETERNITY",
+                    "THE LOST MILLENIUM",
+                    "CYBERNETIC REVOLUTION",
+                    "ELEMENTAL ENERGY",
+                    "SHADOW OF INFINITY"
+                  ]
+                },
                 {
                   "type": "constant",
                   "value": 2
@@ -1057,9 +1612,10 @@
             "id": 5730019,
             "access_rule": {
               "type": "group_check",
-              "group": {
+              "group": "Campaign Boss Beaten",
+              "count": {
                 "type": "constant",
-                "value": "Campaign Boss Beaten"
+                "value": 3
               }
             },
             "item": {
@@ -1083,10 +1639,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Can Stall with ST"
-                  }
+                  "item": "Can Stall with ST"
                 }
               ]
             },
@@ -1104,21 +1657,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Wall of Revealing Light"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 2
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Wall of Revealing Light"
                 }
               ]
             },
@@ -1149,9 +1722,32 @@
                   ]
                 },
                 {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 4
@@ -1188,9 +1784,32 @@
                   ]
                 },
                 {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 2
@@ -1227,9 +1846,32 @@
                   ]
                 },
                 {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 3
@@ -1253,23 +1895,17 @@
               "conditions": [
                 {
                   "type": "state_method",
-                  "method": "has_all",
+                  "method": "can_reach",
                   "args": [
                     {
                       "type": "constant",
-                      "value": [
-                        "Solar Flare Dragon",
-                        "UFO Turtle"
-                      ]
+                      "value": "Destiny Board Finish Bonus"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Location"
                     }
                   ]
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Wave-Motion Cannon"
-                  }
                 },
                 {
                   "type": "state_method",
@@ -1287,31 +1923,28 @@
                 },
                 {
                   "type": "state_method",
-                  "method": "can_reach",
+                  "method": "has_all",
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Destiny Board Finish Bonus"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Location"
+                      "value": [
+                        "Solar Flare Dragon",
+                        "UFO Turtle"
+                      ]
                     }
                   ]
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Can Exodia Win"
-                  }
+                  "item": "Can Exodia Win"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Can Last Turn Win"
-                  }
+                  "item": "Can Last Turn Win"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Wave-Motion Cannon"
                 }
               ]
             },
@@ -1325,7 +1958,72 @@
           {
             "name": "No More Cards Bonus",
             "id": 5730026,
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "has_any",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Cyber Jar",
+                        "Morphing Jar",
+                        "Morphing Jar #2",
+                        "Needle Worm"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_any",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Spear Cretin",
+                        "The Shallow Grave"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_from_list",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
+                    {
+                      "type": "constant",
+                      "value": 5
+                    }
+                  ]
+                }
+              ]
+            },
             "item": {
               "name": "INVASION OF CHAOS",
               "player": 1,
@@ -1337,9 +2035,32 @@
             "name": "Opponent's Turn Finish Bonus",
             "id": 5730027,
             "access_rule": {
-              "type": "helper",
-              "name": "yugioh06_difficulty",
+              "type": "state_method",
+              "method": "has_from_list",
               "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "LEGEND OF B.E.W.D.",
+                    "METAL RAIDERS",
+                    "PHARAOH'S SERVANT",
+                    "PHARAONIC GUARDIAN",
+                    "SPELL RULER",
+                    "LABYRINTH OF NIGHTMARE",
+                    "LEGACY OF DARKNESS",
+                    "MAGICIAN'S FORCE",
+                    "DARK CRISIS",
+                    "INVASION OF CHAOS",
+                    "ANCIENT SANCTUARY",
+                    "SOUL OF THE DUELIST",
+                    "RISE OF DESTINY",
+                    "FLAMING ETERNITY",
+                    "THE LOST MILLENIUM",
+                    "CYBERNETIC REVOLUTION",
+                    "ELEMENTAL ENERGY",
+                    "SHADOW OF INFINITY"
+                  ]
+                },
                 {
                   "type": "constant",
                   "value": 2
@@ -1357,9 +2078,32 @@
             "name": "Exactly 0 LP Bonus",
             "id": 5730028,
             "access_rule": {
-              "type": "helper",
-              "name": "yugioh06_difficulty",
+              "type": "state_method",
+              "method": "has_from_list",
               "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "LEGEND OF B.E.W.D.",
+                    "METAL RAIDERS",
+                    "PHARAOH'S SERVANT",
+                    "PHARAONIC GUARDIAN",
+                    "SPELL RULER",
+                    "LABYRINTH OF NIGHTMARE",
+                    "LEGACY OF DARKNESS",
+                    "MAGICIAN'S FORCE",
+                    "DARK CRISIS",
+                    "INVASION OF CHAOS",
+                    "ANCIENT SANCTUARY",
+                    "SOUL OF THE DUELIST",
+                    "RISE OF DESTINY",
+                    "FLAMING ETERNITY",
+                    "THE LOST MILLENIUM",
+                    "CYBERNETIC REVOLUTION",
+                    "ELEMENTAL ENERGY",
+                    "SHADOW OF INFINITY"
+                  ]
+                },
                 {
                   "type": "constant",
                   "value": 2
@@ -1377,9 +2121,32 @@
             "name": "Reversal Finish Bonus",
             "id": 5730029,
             "access_rule": {
-              "type": "helper",
-              "name": "yugioh06_difficulty",
+              "type": "state_method",
+              "method": "has_from_list",
               "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "LEGEND OF B.E.W.D.",
+                    "METAL RAIDERS",
+                    "PHARAOH'S SERVANT",
+                    "PHARAONIC GUARDIAN",
+                    "SPELL RULER",
+                    "LABYRINTH OF NIGHTMARE",
+                    "LEGACY OF DARKNESS",
+                    "MAGICIAN'S FORCE",
+                    "DARK CRISIS",
+                    "INVASION OF CHAOS",
+                    "ANCIENT SANCTUARY",
+                    "SOUL OF THE DUELIST",
+                    "RISE OF DESTINY",
+                    "FLAMING ETERNITY",
+                    "THE LOST MILLENIUM",
+                    "CYBERNETIC REVOLUTION",
+                    "ELEMENTAL ENERGY",
+                    "SHADOW OF INFINITY"
+                  ]
+                },
                 {
                   "type": "constant",
                   "value": 2
@@ -1400,21 +2167,41 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Quick-Finish"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 6
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Quick-Finish"
                 }
               ]
             },
@@ -1430,10 +2217,7 @@
             "id": 5730031,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Can Exodia Win"
-              }
+              "item": "Can Exodia Win"
             },
             "item": {
               "name": "5000DP",
@@ -1447,10 +2231,7 @@
             "id": 5730032,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Can Last Turn Win"
-              }
+              "item": "Can Last Turn Win"
             },
             "item": {
               "name": "Campaign Tier 5 Column 2",
@@ -1467,17 +2248,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Final Countdown"
-                  }
+                  "item": "Can Stall with ST"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Can Stall with ST"
-                  }
+                  "item": "Final Countdown"
                 }
               ]
             },
@@ -1496,24 +2271,15 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Can Stall with Monsters"
-                  }
+                  "item": "A Cat of Ill Omen"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Destiny Board and its letters"
-                  }
+                  "item": "Can Stall with Monsters"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "A Cat of Ill Omen"
-                  }
+                  "item": "Destiny Board and its letters"
                 }
               ]
             },
@@ -1529,10 +2295,7 @@
             "id": 5730035,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Can Yata Lock"
-              }
+              "item": "Can Yata Lock"
             },
             "item": {
               "name": "Campaign Tier 4 Column 5",
@@ -1548,21 +2311,41 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Skull Servant"
-                  }
-                },
-                {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 3
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Skull Servant"
                 }
               ]
             },
@@ -1579,20 +2362,6 @@
             "access_rule": {
               "type": "or",
               "conditions": [
-                {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Castle of Dark Illusions",
-                        "Messenger of Peace",
-                        "Mystik Wok"
-                      ]
-                    }
-                  ]
-                },
                 {
                   "type": "and",
                   "conditions": [
@@ -1612,13 +2381,50 @@
                       ]
                     },
                     {
-                      "type": "helper",
-                      "name": "yugioh06_difficulty",
+                      "type": "state_method",
+                      "method": "has_from_list",
                       "args": [
+                        {
+                          "type": "constant",
+                          "value": [
+                            "LEGEND OF B.E.W.D.",
+                            "METAL RAIDERS",
+                            "PHARAOH'S SERVANT",
+                            "PHARAONIC GUARDIAN",
+                            "SPELL RULER",
+                            "LABYRINTH OF NIGHTMARE",
+                            "LEGACY OF DARKNESS",
+                            "MAGICIAN'S FORCE",
+                            "DARK CRISIS",
+                            "INVASION OF CHAOS",
+                            "ANCIENT SANCTUARY",
+                            "SOUL OF THE DUELIST",
+                            "RISE OF DESTINY",
+                            "FLAMING ETERNITY",
+                            "THE LOST MILLENIUM",
+                            "CYBERNETIC REVOLUTION",
+                            "ELEMENTAL ENERGY",
+                            "SHADOW OF INFINITY"
+                          ]
+                        },
                         {
                           "type": "constant",
                           "value": 8
                         }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Castle of Dark Illusions",
+                        "Messenger of Peace",
+                        "Mystik Wok"
                       ]
                     }
                   ]
@@ -1637,10 +2443,7 @@
             "id": 5730129,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tier 1 Beaten"
-              }
+              "item": "Tier 1 Beaten"
             },
             "item": {
               "name": "Dragon Collection",
@@ -1654,10 +2457,7 @@
             "id": 5730130,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tier 1 Beaten"
-              },
+              "item": "Tier 1 Beaten",
               "count": {
                 "type": "constant",
                 "value": 3
@@ -1675,10 +2475,7 @@
             "id": 5730131,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tier 1 Beaten"
-              },
+              "item": "Tier 1 Beaten",
               "count": {
                 "type": "constant",
                 "value": 3
@@ -1696,10 +2493,7 @@
             "id": 5730132,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tier 1 Beaten"
-              },
+              "item": "Tier 1 Beaten",
               "count": {
                 "type": "constant",
                 "value": 5
@@ -1717,10 +2511,7 @@
             "id": 5730133,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tier 1 Beaten"
-              },
+              "item": "Tier 1 Beaten",
               "count": {
                 "type": "constant",
                 "value": 5
@@ -1738,10 +2529,7 @@
             "id": 5730134,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tier 2 Beaten"
-              }
+              "item": "Tier 2 Beaten"
             },
             "item": {
               "name": "Campaign Tier 1 Column 3",
@@ -1755,10 +2543,7 @@
             "id": 5730135,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tier 2 Beaten"
-              },
+              "item": "Tier 2 Beaten",
               "count": {
                 "type": "constant",
                 "value": 3
@@ -1776,10 +2561,7 @@
             "id": 5730136,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tier 2 Beaten"
-              },
+              "item": "Tier 2 Beaten",
               "count": {
                 "type": "constant",
                 "value": 3
@@ -1797,10 +2579,7 @@
             "id": 5730137,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tier 2 Beaten"
-              },
+              "item": "Tier 2 Beaten",
               "count": {
                 "type": "constant",
                 "value": 5
@@ -1818,10 +2597,7 @@
             "id": 5730138,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tier 2 Beaten"
-              },
+              "item": "Tier 2 Beaten",
               "count": {
                 "type": "constant",
                 "value": 5
@@ -1839,10 +2615,7 @@
             "id": 5730139,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tier 3 Beaten"
-              }
+              "item": "Tier 3 Beaten"
             },
             "item": {
               "name": "DARK CRISIS",
@@ -1856,10 +2629,7 @@
             "id": 5730140,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tier 3 Beaten"
-              },
+              "item": "Tier 3 Beaten",
               "count": {
                 "type": "constant",
                 "value": 3
@@ -1877,10 +2647,7 @@
             "id": 5730141,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tier 3 Beaten"
-              },
+              "item": "Tier 3 Beaten",
               "count": {
                 "type": "constant",
                 "value": 3
@@ -1898,10 +2665,7 @@
             "id": 5730142,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tier 3 Beaten"
-              },
+              "item": "Tier 3 Beaten",
               "count": {
                 "type": "constant",
                 "value": 5
@@ -1919,10 +2683,7 @@
             "id": 5730143,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tier 3 Beaten"
-              },
+              "item": "Tier 3 Beaten",
               "count": {
                 "type": "constant",
                 "value": 5
@@ -1940,10 +2701,7 @@
             "id": 5730144,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tier 4 Beaten"
-              },
+              "item": "Tier 4 Beaten",
               "count": {
                 "type": "constant",
                 "value": 5
@@ -1961,10 +2719,7 @@
             "id": 5730145,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tier 4 Beaten"
-              },
+              "item": "Tier 4 Beaten",
               "count": {
                 "type": "constant",
                 "value": 5
@@ -1981,13 +2736,6 @@
       },
       "Challenges": {
         "name": "Challenges",
-        "entrances": [
-          {
-            "name": "to Challenges",
-            "parent_region": "Menu",
-            "connected_region": "Challenges"
-          }
-        ],
         "exits": [
           {
             "name": "LD12 All except Wind forbidden",
@@ -2004,9 +2752,32 @@
                       "args": []
                     },
                     {
-                      "type": "helper",
-                      "name": "yugioh06_difficulty",
+                      "type": "state_method",
+                      "method": "has_from_list",
                       "args": [
+                        {
+                          "type": "constant",
+                          "value": [
+                            "LEGEND OF B.E.W.D.",
+                            "METAL RAIDERS",
+                            "PHARAOH'S SERVANT",
+                            "PHARAONIC GUARDIAN",
+                            "SPELL RULER",
+                            "LABYRINTH OF NIGHTMARE",
+                            "LEGACY OF DARKNESS",
+                            "MAGICIAN'S FORCE",
+                            "DARK CRISIS",
+                            "INVASION OF CHAOS",
+                            "ANCIENT SANCTUARY",
+                            "SOUL OF THE DUELIST",
+                            "RISE OF DESTINY",
+                            "FLAMING ETERNITY",
+                            "THE LOST MILLENIUM",
+                            "CYBERNETIC REVOLUTION",
+                            "ELEMENTAL ENERGY",
+                            "SHADOW OF INFINITY"
+                          ]
+                        },
                         {
                           "type": "constant",
                           "value": 2
@@ -2017,10 +2788,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "LD12 All except Wind forbidden Unlock"
-                  }
+                  "item": "LD12 All except Wind forbidden Unlock"
                 }
               ]
             }
@@ -2040,9 +2808,32 @@
                       "args": []
                     },
                     {
-                      "type": "helper",
-                      "name": "yugioh06_difficulty",
+                      "type": "state_method",
+                      "method": "has_from_list",
                       "args": [
+                        {
+                          "type": "constant",
+                          "value": [
+                            "LEGEND OF B.E.W.D.",
+                            "METAL RAIDERS",
+                            "PHARAOH'S SERVANT",
+                            "PHARAONIC GUARDIAN",
+                            "SPELL RULER",
+                            "LABYRINTH OF NIGHTMARE",
+                            "LEGACY OF DARKNESS",
+                            "MAGICIAN'S FORCE",
+                            "DARK CRISIS",
+                            "INVASION OF CHAOS",
+                            "ANCIENT SANCTUARY",
+                            "SOUL OF THE DUELIST",
+                            "RISE OF DESTINY",
+                            "FLAMING ETERNITY",
+                            "THE LOST MILLENIUM",
+                            "CYBERNETIC REVOLUTION",
+                            "ELEMENTAL ENERGY",
+                            "SHADOW OF INFINITY"
+                          ]
+                        },
                         {
                           "type": "constant",
                           "value": 4
@@ -2053,10 +2844,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "LD16 Effect Monsters forbidden Unlock"
-                  }
+                  "item": "LD16 Effect Monsters forbidden Unlock"
                 }
               ]
             }
@@ -2076,9 +2864,32 @@
                       "args": []
                     },
                     {
-                      "type": "helper",
-                      "name": "yugioh06_difficulty",
+                      "type": "state_method",
+                      "method": "has_from_list",
                       "args": [
+                        {
+                          "type": "constant",
+                          "value": [
+                            "LEGEND OF B.E.W.D.",
+                            "METAL RAIDERS",
+                            "PHARAOH'S SERVANT",
+                            "PHARAONIC GUARDIAN",
+                            "SPELL RULER",
+                            "LABYRINTH OF NIGHTMARE",
+                            "LEGACY OF DARKNESS",
+                            "MAGICIAN'S FORCE",
+                            "DARK CRISIS",
+                            "INVASION OF CHAOS",
+                            "ANCIENT SANCTUARY",
+                            "SOUL OF THE DUELIST",
+                            "RISE OF DESTINY",
+                            "FLAMING ETERNITY",
+                            "THE LOST MILLENIUM",
+                            "CYBERNETIC REVOLUTION",
+                            "ELEMENTAL ENERGY",
+                            "SHADOW OF INFINITY"
+                          ]
+                        },
                         {
                           "type": "constant",
                           "value": 2
@@ -2089,10 +2900,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "LD21 All except Dark forbidden Unlock"
-                  }
+                  "item": "LD21 All except Dark forbidden Unlock"
                 }
               ]
             }
@@ -2104,9 +2912,32 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 5
@@ -2115,10 +2946,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "LD23 Refer to Mar 05 Banlist Unlock"
-                  }
+                  "item": "LD23 Refer to Mar 05 Banlist Unlock"
                 }
               ]
             }
@@ -2130,9 +2958,32 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 5
@@ -2141,10 +2992,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "LD24 Refer to Sept 04 Banlist Unlock"
-                  }
+                  "item": "LD24 Refer to Sept 04 Banlist Unlock"
                 }
               ]
             }
@@ -2164,9 +3012,32 @@
                       "args": []
                     },
                     {
-                      "type": "helper",
-                      "name": "yugioh06_difficulty",
+                      "type": "state_method",
+                      "method": "has_from_list",
                       "args": [
+                        {
+                          "type": "constant",
+                          "value": [
+                            "LEGEND OF B.E.W.D.",
+                            "METAL RAIDERS",
+                            "PHARAOH'S SERVANT",
+                            "PHARAONIC GUARDIAN",
+                            "SPELL RULER",
+                            "LABYRINTH OF NIGHTMARE",
+                            "LEGACY OF DARKNESS",
+                            "MAGICIAN'S FORCE",
+                            "DARK CRISIS",
+                            "INVASION OF CHAOS",
+                            "ANCIENT SANCTUARY",
+                            "SOUL OF THE DUELIST",
+                            "RISE OF DESTINY",
+                            "FLAMING ETERNITY",
+                            "THE LOST MILLENIUM",
+                            "CYBERNETIC REVOLUTION",
+                            "ELEMENTAL ENERGY",
+                            "SHADOW OF INFINITY"
+                          ]
+                        },
                         {
                           "type": "constant",
                           "value": 2
@@ -2177,10 +3048,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "LD37 All except Water forbidden Unlock"
-                  }
+                  "item": "LD37 All except Water forbidden Unlock"
                 }
               ]
             }
@@ -2192,9 +3060,32 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 4
@@ -2203,10 +3094,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "LD38 Refer to Mar 04 Banlist Unlock"
-                  }
+                  "item": "LD38 Refer to Mar 04 Banlist Unlock"
                 }
               ]
             }
@@ -2226,9 +3114,32 @@
                       "args": []
                     },
                     {
-                      "type": "helper",
-                      "name": "yugioh06_difficulty",
+                      "type": "state_method",
+                      "method": "has_from_list",
                       "args": [
+                        {
+                          "type": "constant",
+                          "value": [
+                            "LEGEND OF B.E.W.D.",
+                            "METAL RAIDERS",
+                            "PHARAOH'S SERVANT",
+                            "PHARAONIC GUARDIAN",
+                            "SPELL RULER",
+                            "LABYRINTH OF NIGHTMARE",
+                            "LEGACY OF DARKNESS",
+                            "MAGICIAN'S FORCE",
+                            "DARK CRISIS",
+                            "INVASION OF CHAOS",
+                            "ANCIENT SANCTUARY",
+                            "SOUL OF THE DUELIST",
+                            "RISE OF DESTINY",
+                            "FLAMING ETERNITY",
+                            "THE LOST MILLENIUM",
+                            "CYBERNETIC REVOLUTION",
+                            "ELEMENTAL ENERGY",
+                            "SHADOW OF INFINITY"
+                          ]
+                        },
                         {
                           "type": "constant",
                           "value": 2
@@ -2239,10 +3150,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "TD13 Flip Summon Unlock"
-                  }
+                  "item": "TD13 Flip Summon Unlock"
                 }
               ]
             }
@@ -2257,35 +3165,52 @@
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Victory D."
-                      }
-                    },
-                    {
                       "type": "helper",
                       "name": "only_dragon",
                       "args": []
                     },
                     {
-                      "type": "helper",
-                      "name": "yugioh06_difficulty",
+                      "type": "state_method",
+                      "method": "has_from_list",
                       "args": [
+                        {
+                          "type": "constant",
+                          "value": [
+                            "LEGEND OF B.E.W.D.",
+                            "METAL RAIDERS",
+                            "PHARAOH'S SERVANT",
+                            "PHARAONIC GUARDIAN",
+                            "SPELL RULER",
+                            "LABYRINTH OF NIGHTMARE",
+                            "LEGACY OF DARKNESS",
+                            "MAGICIAN'S FORCE",
+                            "DARK CRISIS",
+                            "INVASION OF CHAOS",
+                            "ANCIENT SANCTUARY",
+                            "SOUL OF THE DUELIST",
+                            "RISE OF DESTINY",
+                            "FLAMING ETERNITY",
+                            "THE LOST MILLENIUM",
+                            "CYBERNETIC REVOLUTION",
+                            "ELEMENTAL ENERGY",
+                            "SHADOW OF INFINITY"
+                          ]
+                        },
                         {
                           "type": "constant",
                           "value": 3
                         }
                       ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Victory D."
                     }
                   ]
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "TD21 Victory D. Unlock"
-                  }
+                  "item": "TD21 Victory D. Unlock"
                 }
               ]
             }
@@ -2297,9 +3222,32 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "yugioh06_difficulty",
+                  "type": "state_method",
+                  "method": "has_from_list",
                   "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "LEGEND OF B.E.W.D.",
+                        "METAL RAIDERS",
+                        "PHARAOH'S SERVANT",
+                        "PHARAONIC GUARDIAN",
+                        "SPELL RULER",
+                        "LABYRINTH OF NIGHTMARE",
+                        "LEGACY OF DARKNESS",
+                        "MAGICIAN'S FORCE",
+                        "DARK CRISIS",
+                        "INVASION OF CHAOS",
+                        "ANCIENT SANCTUARY",
+                        "SOUL OF THE DUELIST",
+                        "RISE OF DESTINY",
+                        "FLAMING ETERNITY",
+                        "THE LOST MILLENIUM",
+                        "CYBERNETIC REVOLUTION",
+                        "ELEMENTAL ENERGY",
+                        "SHADOW OF INFINITY"
+                      ]
+                    },
                     {
                       "type": "constant",
                       "value": 3
@@ -2308,10 +3256,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "TD24 Victory in 5 Turns Unlock"
-                  }
+                  "item": "TD24 Victory in 5 Turns Unlock"
                 }
               ]
             }
@@ -2321,23 +3266,13 @@
       },
       "Card Shop": {
         "name": "Card Shop",
-        "entrances": [
-          {
-            "name": "to Card Shop",
-            "parent_region": "Menu",
-            "connected_region": "Card Shop"
-          }
-        ],
         "exits": [
           {
             "name": "LEGEND OF B.E.W.D.",
             "connected_region": "LEGEND OF B.E.W.D.",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "LEGEND OF B.E.W.D."
-              }
+              "item": "LEGEND OF B.E.W.D."
             }
           },
           {
@@ -2345,10 +3280,7 @@
             "connected_region": "METAL RAIDERS",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "METAL RAIDERS"
-              }
+              "item": "METAL RAIDERS"
             }
           },
           {
@@ -2356,10 +3288,7 @@
             "connected_region": "PHARAOH'S SERVANT",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "PHARAOH'S SERVANT"
-              }
+              "item": "PHARAOH'S SERVANT"
             }
           },
           {
@@ -2367,10 +3296,7 @@
             "connected_region": "PHARAONIC GUARDIAN",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "PHARAONIC GUARDIAN"
-              }
+              "item": "PHARAONIC GUARDIAN"
             }
           },
           {
@@ -2378,10 +3304,7 @@
             "connected_region": "SPELL RULER",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "SPELL RULER"
-              }
+              "item": "SPELL RULER"
             }
           },
           {
@@ -2389,10 +3312,7 @@
             "connected_region": "LABYRINTH OF NIGHTMARE",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "LABYRINTH OF NIGHTMARE"
-              }
+              "item": "LABYRINTH OF NIGHTMARE"
             }
           },
           {
@@ -2400,10 +3320,7 @@
             "connected_region": "LEGACY OF DARKNESS",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "LEGACY OF DARKNESS"
-              }
+              "item": "LEGACY OF DARKNESS"
             }
           },
           {
@@ -2411,10 +3328,7 @@
             "connected_region": "MAGICIAN'S FORCE",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "MAGICIAN'S FORCE"
-              }
+              "item": "MAGICIAN'S FORCE"
             }
           },
           {
@@ -2422,10 +3336,7 @@
             "connected_region": "DARK CRISIS",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "DARK CRISIS"
-              }
+              "item": "DARK CRISIS"
             }
           },
           {
@@ -2433,10 +3344,7 @@
             "connected_region": "INVASION OF CHAOS",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "INVASION OF CHAOS"
-              }
+              "item": "INVASION OF CHAOS"
             }
           },
           {
@@ -2444,10 +3352,7 @@
             "connected_region": "ANCIENT SANCTUARY",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "ANCIENT SANCTUARY"
-              }
+              "item": "ANCIENT SANCTUARY"
             }
           },
           {
@@ -2455,10 +3360,7 @@
             "connected_region": "SOUL OF THE DUELIST",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "SOUL OF THE DUELIST"
-              }
+              "item": "SOUL OF THE DUELIST"
             }
           },
           {
@@ -2466,10 +3368,7 @@
             "connected_region": "RISE OF DESTINY",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "RISE OF DESTINY"
-              }
+              "item": "RISE OF DESTINY"
             }
           },
           {
@@ -2477,10 +3376,7 @@
             "connected_region": "FLAMING ETERNITY",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "FLAMING ETERNITY"
-              }
+              "item": "FLAMING ETERNITY"
             }
           },
           {
@@ -2488,10 +3384,7 @@
             "connected_region": "THE LOST MILLENIUM",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "THE LOST MILLENIUM"
-              }
+              "item": "THE LOST MILLENIUM"
             }
           },
           {
@@ -2499,10 +3392,7 @@
             "connected_region": "CYBERNETIC REVOLUTION",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "CYBERNETIC REVOLUTION"
-              }
+              "item": "CYBERNETIC REVOLUTION"
             }
           },
           {
@@ -2510,10 +3400,7 @@
             "connected_region": "ELEMENTAL ENERGY",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "ELEMENTAL ENERGY"
-              }
+              "item": "ELEMENTAL ENERGY"
             }
           },
           {
@@ -2521,10 +3408,7 @@
             "connected_region": "SHADOW OF INFINITY",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "SHADOW OF INFINITY"
-              }
+              "item": "SHADOW OF INFINITY"
             }
           },
           {
@@ -2532,10 +3416,7 @@
             "connected_region": "GAME GIFT COLLECTION",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "GAME GIFT COLLECTION"
-              }
+              "item": "GAME GIFT COLLECTION"
             }
           },
           {
@@ -2543,10 +3424,7 @@
             "connected_region": "Special Gift Collection",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Special Gift Collection"
-              }
+              "item": "Special Gift Collection"
             }
           },
           {
@@ -2554,10 +3432,7 @@
             "connected_region": "Fairy Collection",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Fairy Collection"
-              }
+              "item": "Fairy Collection"
             }
           },
           {
@@ -2565,10 +3440,7 @@
             "connected_region": "Dragon Collection",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Dragon Collection"
-              }
+              "item": "Dragon Collection"
             }
           },
           {
@@ -2576,10 +3448,7 @@
             "connected_region": "Warrior Collection A",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Warrior Collection A"
-              }
+              "item": "Warrior Collection A"
             }
           },
           {
@@ -2587,10 +3456,7 @@
             "connected_region": "Warrior Collection B",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Warrior Collection B"
-              }
+              "item": "Warrior Collection B"
             }
           },
           {
@@ -2598,10 +3464,7 @@
             "connected_region": "Fiend Collection A",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Fiend Collection A"
-              }
+              "item": "Fiend Collection A"
             }
           },
           {
@@ -2609,10 +3472,7 @@
             "connected_region": "Fiend Collection B",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Fiend Collection B"
-              }
+              "item": "Fiend Collection B"
             }
           },
           {
@@ -2620,10 +3480,7 @@
             "connected_region": "Machine Collection A",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Machine Collection A"
-              }
+              "item": "Machine Collection A"
             }
           },
           {
@@ -2631,10 +3488,7 @@
             "connected_region": "Machine Collection B",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Machine Collection B"
-              }
+              "item": "Machine Collection B"
             }
           },
           {
@@ -2642,10 +3496,7 @@
             "connected_region": "Spellcaster Collection A",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Spellcaster Collection A"
-              }
+              "item": "Spellcaster Collection A"
             }
           },
           {
@@ -2653,10 +3504,7 @@
             "connected_region": "Spellcaster Collection B",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Spellcaster Collection B"
-              }
+              "item": "Spellcaster Collection B"
             }
           },
           {
@@ -2664,10 +3512,7 @@
             "connected_region": "Zombie Collection",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Zombie Collection"
-              }
+              "item": "Zombie Collection"
             }
           },
           {
@@ -2675,10 +3520,7 @@
             "connected_region": "Special Monsters A",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Special Monsters A"
-              }
+              "item": "Special Monsters A"
             }
           },
           {
@@ -2686,10 +3528,7 @@
             "connected_region": "Special Monsters B",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Special Monsters B"
-              }
+              "item": "Special Monsters B"
             }
           },
           {
@@ -2697,10 +3536,7 @@
             "connected_region": "Reverse Collection",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Reverse Collection"
-              }
+              "item": "Reverse Collection"
             }
           },
           {
@@ -2708,10 +3544,7 @@
             "connected_region": "LP Recovery Collection",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "LP Recovery Collection"
-              }
+              "item": "LP Recovery Collection"
             }
           },
           {
@@ -2719,10 +3552,7 @@
             "connected_region": "Special Summon Collection A",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Special Summon Collection A"
-              }
+              "item": "Special Summon Collection A"
             }
           },
           {
@@ -2730,10 +3560,7 @@
             "connected_region": "Special Summon Collection B",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Special Summon Collection B"
-              }
+              "item": "Special Summon Collection B"
             }
           },
           {
@@ -2741,10 +3568,7 @@
             "connected_region": "Special Summon Collection C",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Special Summon Collection C"
-              }
+              "item": "Special Summon Collection C"
             }
           },
           {
@@ -2752,10 +3576,7 @@
             "connected_region": "Equipment Collection",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Equipment Collection"
-              }
+              "item": "Equipment Collection"
             }
           },
           {
@@ -2763,10 +3584,7 @@
             "connected_region": "Continuous Spell/Trap A",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Continuous Spell/Trap A"
-              }
+              "item": "Continuous Spell/Trap A"
             }
           },
           {
@@ -2774,10 +3592,7 @@
             "connected_region": "Continuous Spell/Trap B",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Continuous Spell/Trap B"
-              }
+              "item": "Continuous Spell/Trap B"
             }
           },
           {
@@ -2785,10 +3600,7 @@
             "connected_region": "Quick/Counter Collection",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Quick/Counter Collection"
-              }
+              "item": "Quick/Counter Collection"
             }
           },
           {
@@ -2796,10 +3608,7 @@
             "connected_region": "Direct Damage Collection",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Direct Damage Collection"
-              }
+              "item": "Direct Damage Collection"
             }
           },
           {
@@ -2807,10 +3616,7 @@
             "connected_region": "Direct Attack Collection",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Direct Attack Collection"
-              }
+              "item": "Direct Attack Collection"
             }
           },
           {
@@ -2818,10 +3624,7 @@
             "connected_region": "Monster Destroy Collection",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Monster Destroy Collection"
-              }
+              "item": "Monster Destroy Collection"
             }
           }
         ],
@@ -2831,10 +3634,7 @@
             "id": 5730154,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Exodia"
-              }
+              "item": "Exodia"
             },
             "item": {
               "name": "LEGEND OF B.E.W.D.",
@@ -2848,10 +3648,7 @@
             "id": 5730155,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Final Countdown"
-              }
+              "item": "Final Countdown"
             },
             "item": {
               "name": "Campaign Tier 4 Column 2",
@@ -2865,10 +3662,7 @@
             "id": 5730156,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Victory D."
-              }
+              "item": "Victory D."
             },
             "item": {
               "name": "Special Monsters A",
@@ -2882,10 +3676,7 @@
             "id": 5730157,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Ojama Delta Hurricane and required cards"
-              }
+              "item": "Ojama Delta Hurricane and required cards"
             },
             "item": {
               "name": "CYBERNETIC REVOLUTION",
@@ -2899,10 +3690,7 @@
             "id": 5730158,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Huge Revolution and its required cards"
-              }
+              "item": "Huge Revolution and its required cards"
             },
             "item": {
               "name": "Campaign Tier 3 Column 5",
@@ -2916,10 +3704,7 @@
             "id": 5730159,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Perfectly Ultimate Great Moth and its required cards"
-              }
+              "item": "Perfectly Ultimate Great Moth and its required cards"
             },
             "item": {
               "name": "5000DP",
@@ -2933,10 +3718,7 @@
             "id": 5730160,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Valkyrion the Magna Warrior and its pieces"
-              }
+              "item": "Valkyrion the Magna Warrior and its pieces"
             },
             "item": {
               "name": "Campaign Tier 1 Column 2",
@@ -2950,10 +3732,7 @@
             "id": 5730161,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Dark Sage and its required cards"
-              }
+              "item": "Dark Sage and its required cards"
             },
             "item": {
               "name": "Campaign Tier 1 Column 4",
@@ -2967,10 +3746,7 @@
             "id": 5730162,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Destiny Board and its letters"
-              }
+              "item": "Destiny Board and its letters"
             },
             "item": {
               "name": "5000DP",
@@ -2984,10 +3760,7 @@
             "id": 5730163,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "XYZ-Dragon Cannon fusions and their materials"
-              }
+              "item": "XYZ-Dragon Cannon fusions and their materials"
             },
             "item": {
               "name": "Campaign Tier 2 Column 3",
@@ -3001,10 +3774,7 @@
             "id": 5730164,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "VWXYZ-Dragon Catapult Cannon and the fusion materials"
-              }
+              "item": "VWXYZ-Dragon Catapult Cannon and the fusion materials"
             },
             "item": {
               "name": "PHARAOH'S SERVANT",
@@ -3018,10 +3788,7 @@
             "id": 5730165,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Hamon, Lord of Striking Thunder"
-              }
+              "item": "Hamon, Lord of Striking Thunder"
             },
             "item": {
               "name": "Banlist September 2004",
@@ -3035,10 +3802,7 @@
             "id": 5730166,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Raviel, Lord of Phantasms"
-              }
+              "item": "Raviel, Lord of Phantasms"
             },
             "item": {
               "name": "PHARAONIC GUARDIAN",
@@ -3052,10 +3816,7 @@
             "id": 5730167,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Uria, Lord of Searing Flames"
-              }
+              "item": "Uria, Lord of Searing Flames"
             },
             "item": {
               "name": "Campaign Tier 4 Column 3",
@@ -3069,10 +3830,7 @@
             "id": 5730168,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Gate Guardian and its pieces"
-              }
+              "item": "Gate Guardian and its pieces"
             },
             "item": {
               "name": "Equipment Collection",
@@ -3086,10 +3844,7 @@
             "id": 5730169,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Dark Scorpion Combination and its required cards"
-              }
+              "item": "Dark Scorpion Combination and its required cards"
             },
             "item": {
               "name": "LP Recovery Collection",
@@ -3493,21 +4248,21 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Last Turn",
-                        "Wall of Revealing Light"
-                      ]
-                    }
-                  ]
-                },
-                {
                   "type": "or",
                   "conditions": [
+                    {
+                      "type": "state_method",
+                      "method": "has_all",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": [
+                            "Cyber-Stein",
+                            "The Last Warrior from Another Planet"
+                          ]
+                        }
+                      ]
+                    },
                     {
                       "type": "state_method",
                       "method": "has_any",
@@ -3521,18 +4276,18 @@
                           ]
                         }
                       ]
-                    },
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
                     {
-                      "type": "state_method",
-                      "method": "has_all",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Cyber-Stein",
-                            "The Last Warrior from Another Planet"
-                          ]
-                        }
+                      "type": "constant",
+                      "value": [
+                        "Last Turn",
+                        "Wall of Revealing Light"
                       ]
                     }
                   ]
@@ -3565,13 +4320,6 @@
       },
       "Structure Deck": {
         "name": "Structure Deck",
-        "entrances": [
-          {
-            "name": "to Deck Edit",
-            "parent_region": "Menu",
-            "connected_region": "Structure Deck"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3760,13 +4508,6 @@
       },
       "Kuriboh": {
         "name": "Kuriboh",
-        "entrances": [
-          {
-            "name": "Campaign Tier 1 Column 1",
-            "parent_region": "Campaign",
-            "connected_region": "Kuriboh"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3787,13 +4528,6 @@
       },
       "Scapegoat": {
         "name": "Scapegoat",
-        "entrances": [
-          {
-            "name": "Campaign Tier 1 Column 2",
-            "parent_region": "Campaign",
-            "connected_region": "Scapegoat"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3814,13 +4548,6 @@
       },
       "Skull Servant": {
         "name": "Skull Servant",
-        "entrances": [
-          {
-            "name": "Campaign Tier 1 Column 3",
-            "parent_region": "Campaign",
-            "connected_region": "Skull Servant"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3841,13 +4568,6 @@
       },
       "Watapon": {
         "name": "Watapon",
-        "entrances": [
-          {
-            "name": "Campaign Tier 1 Column 4",
-            "parent_region": "Campaign",
-            "connected_region": "Watapon"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3868,13 +4588,6 @@
       },
       "White Magician Pikeru": {
         "name": "White Magician Pikeru",
-        "entrances": [
-          {
-            "name": "Campaign Tier 1 Column 5",
-            "parent_region": "Campaign",
-            "connected_region": "White Magician Pikeru"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3895,13 +4608,6 @@
       },
       "Battery Man C": {
         "name": "Battery Man C",
-        "entrances": [
-          {
-            "name": "Campaign Tier 2 Column 1",
-            "parent_region": "Campaign",
-            "connected_region": "Battery Man C"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3936,13 +4642,6 @@
       },
       "Ojama Yellow": {
         "name": "Ojama Yellow",
-        "entrances": [
-          {
-            "name": "Campaign Tier 2 Column 2",
-            "parent_region": "Campaign",
-            "connected_region": "Ojama Yellow"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3963,13 +4662,6 @@
       },
       "Goblin King": {
         "name": "Goblin King",
-        "entrances": [
-          {
-            "name": "Campaign Tier 2 Column 3",
-            "parent_region": "Campaign",
-            "connected_region": "Goblin King"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4004,13 +4696,6 @@
       },
       "Des Frog": {
         "name": "Des Frog",
-        "entrances": [
-          {
-            "name": "Campaign Tier 2 Column 4",
-            "parent_region": "Campaign",
-            "connected_region": "Des Frog"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4045,13 +4730,6 @@
       },
       "Water Dragon": {
         "name": "Water Dragon",
-        "entrances": [
-          {
-            "name": "Campaign Tier 2 Column 5",
-            "parent_region": "Campaign",
-            "connected_region": "Water Dragon"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4086,13 +4764,6 @@
       },
       "Red-Eyes Darkness Dragon": {
         "name": "Red-Eyes Darkness Dragon",
-        "entrances": [
-          {
-            "name": "Campaign Tier 3 Column 1",
-            "parent_region": "Campaign",
-            "connected_region": "Red-Eyes Darkness Dragon"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4127,13 +4798,6 @@
       },
       "Vampire Genesis": {
         "name": "Vampire Genesis",
-        "entrances": [
-          {
-            "name": "Campaign Tier 3 Column 2",
-            "parent_region": "Campaign",
-            "connected_region": "Vampire Genesis"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4168,13 +4832,6 @@
       },
       "Infernal Flame Emperor": {
         "name": "Infernal Flame Emperor",
-        "entrances": [
-          {
-            "name": "Campaign Tier 3 Column 3",
-            "parent_region": "Campaign",
-            "connected_region": "Infernal Flame Emperor"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4195,13 +4852,6 @@
       },
       "Ocean Dragon Lord - Neo-Daedalus": {
         "name": "Ocean Dragon Lord - Neo-Daedalus",
-        "entrances": [
-          {
-            "name": "Campaign Tier 3 Column 4",
-            "parent_region": "Campaign",
-            "connected_region": "Ocean Dragon Lord - Neo-Daedalus"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4222,13 +4872,6 @@
       },
       "Helios Duo Megiste": {
         "name": "Helios Duo Megiste",
-        "entrances": [
-          {
-            "name": "Campaign Tier 3 Column 5",
-            "parent_region": "Campaign",
-            "connected_region": "Helios Duo Megiste"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4263,13 +4906,6 @@
       },
       "Gilford the Legend": {
         "name": "Gilford the Legend",
-        "entrances": [
-          {
-            "name": "Campaign Tier 4 Column 1",
-            "parent_region": "Campaign",
-            "connected_region": "Gilford the Legend"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4304,13 +4940,6 @@
       },
       "Dark Eradicator Warlock": {
         "name": "Dark Eradicator Warlock",
-        "entrances": [
-          {
-            "name": "Campaign Tier 4 Column 2",
-            "parent_region": "Campaign",
-            "connected_region": "Dark Eradicator Warlock"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4345,13 +4974,6 @@
       },
       "Guardian Exode": {
         "name": "Guardian Exode",
-        "entrances": [
-          {
-            "name": "Campaign Tier 4 Column 3",
-            "parent_region": "Campaign",
-            "connected_region": "Guardian Exode"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4372,13 +4994,6 @@
       },
       "Goldd, Wu-Lord of Dark World": {
         "name": "Goldd, Wu-Lord of Dark World",
-        "entrances": [
-          {
-            "name": "Campaign Tier 4 Column 4",
-            "parent_region": "Campaign",
-            "connected_region": "Goldd, Wu-Lord of Dark World"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4413,13 +5028,6 @@
       },
       "Elemental Hero Erikshieler": {
         "name": "Elemental Hero Erikshieler",
-        "entrances": [
-          {
-            "name": "Campaign Tier 4 Column 5",
-            "parent_region": "Campaign",
-            "connected_region": "Elemental Hero Erikshieler"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4454,13 +5062,6 @@
       },
       "Raviel, Lord of Phantasms": {
         "name": "Raviel, Lord of Phantasms",
-        "entrances": [
-          {
-            "name": "Campaign Tier 5 Column 1",
-            "parent_region": "Campaign",
-            "connected_region": "Raviel, Lord of Phantasms"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4495,13 +5096,6 @@
       },
       "Horus the Black Flame Dragon LV8": {
         "name": "Horus the Black Flame Dragon LV8",
-        "entrances": [
-          {
-            "name": "Campaign Tier 5 Column 2",
-            "parent_region": "Campaign",
-            "connected_region": "Horus the Black Flame Dragon LV8"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4536,13 +5130,6 @@
       },
       "Stronghold": {
         "name": "Stronghold",
-        "entrances": [
-          {
-            "name": "Campaign Tier 5 Column 3",
-            "parent_region": "Campaign",
-            "connected_region": "Stronghold"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4577,13 +5164,6 @@
       },
       "Sacred Phoenix of Nephthys": {
         "name": "Sacred Phoenix of Nephthys",
-        "entrances": [
-          {
-            "name": "Campaign Tier 5 Column 4",
-            "parent_region": "Campaign",
-            "connected_region": "Sacred Phoenix of Nephthys"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4618,13 +5198,6 @@
       },
       "Cyber End Dragon": {
         "name": "Cyber End Dragon",
-        "entrances": [
-          {
-            "name": "Campaign Tier 5 Column 5",
-            "parent_region": "Campaign",
-            "connected_region": "Cyber End Dragon"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4659,13 +5232,6 @@
       },
       "LEGEND OF B.E.W.D.": {
         "name": "LEGEND OF B.E.W.D.",
-        "entrances": [
-          {
-            "name": "LEGEND OF B.E.W.D.",
-            "parent_region": "Card Shop",
-            "connected_region": "LEGEND OF B.E.W.D."
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4728,13 +5294,6 @@
       },
       "METAL RAIDERS": {
         "name": "METAL RAIDERS",
-        "entrances": [
-          {
-            "name": "METAL RAIDERS",
-            "parent_region": "Card Shop",
-            "connected_region": "METAL RAIDERS"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -5049,13 +5608,6 @@
       },
       "PHARAOH'S SERVANT": {
         "name": "PHARAOH'S SERVANT",
-        "entrances": [
-          {
-            "name": "PHARAOH'S SERVANT",
-            "parent_region": "Card Shop",
-            "connected_region": "PHARAOH'S SERVANT"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -5216,13 +5768,6 @@
       },
       "PHARAONIC GUARDIAN": {
         "name": "PHARAONIC GUARDIAN",
-        "entrances": [
-          {
-            "name": "PHARAONIC GUARDIAN",
-            "parent_region": "Card Shop",
-            "connected_region": "PHARAONIC GUARDIAN"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -5593,13 +6138,6 @@
       },
       "SPELL RULER": {
         "name": "SPELL RULER",
-        "entrances": [
-          {
-            "name": "SPELL RULER",
-            "parent_region": "Card Shop",
-            "connected_region": "SPELL RULER"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -5900,13 +6438,6 @@
       },
       "LABYRINTH OF NIGHTMARE": {
         "name": "LABYRINTH OF NIGHTMARE",
-        "entrances": [
-          {
-            "name": "LABYRINTH OF NIGHTMARE",
-            "parent_region": "Card Shop",
-            "connected_region": "LABYRINTH OF NIGHTMARE"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -6235,13 +6766,6 @@
       },
       "LEGACY OF DARKNESS": {
         "name": "LEGACY OF DARKNESS",
-        "entrances": [
-          {
-            "name": "LEGACY OF DARKNESS",
-            "parent_region": "Card Shop",
-            "connected_region": "LEGACY OF DARKNESS"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -6556,13 +7080,6 @@
       },
       "MAGICIAN'S FORCE": {
         "name": "MAGICIAN'S FORCE",
-        "entrances": [
-          {
-            "name": "MAGICIAN'S FORCE",
-            "parent_region": "Card Shop",
-            "connected_region": "MAGICIAN'S FORCE"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7129,13 +7646,6 @@
       },
       "DARK CRISIS": {
         "name": "DARK CRISIS",
-        "entrances": [
-          {
-            "name": "DARK CRISIS",
-            "parent_region": "Card Shop",
-            "connected_region": "DARK CRISIS"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7506,13 +8016,6 @@
       },
       "INVASION OF CHAOS": {
         "name": "INVASION OF CHAOS",
-        "entrances": [
-          {
-            "name": "INVASION OF CHAOS",
-            "parent_region": "Card Shop",
-            "connected_region": "INVASION OF CHAOS"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7883,13 +8386,6 @@
       },
       "ANCIENT SANCTUARY": {
         "name": "ANCIENT SANCTUARY",
-        "entrances": [
-          {
-            "name": "ANCIENT SANCTUARY",
-            "parent_region": "Card Shop",
-            "connected_region": "ANCIENT SANCTUARY"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8064,13 +8560,6 @@
       },
       "SOUL OF THE DUELIST": {
         "name": "SOUL OF THE DUELIST",
-        "entrances": [
-          {
-            "name": "SOUL OF THE DUELIST",
-            "parent_region": "Card Shop",
-            "connected_region": "SOUL OF THE DUELIST"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8287,13 +8776,6 @@
       },
       "RISE OF DESTINY": {
         "name": "RISE OF DESTINY",
-        "entrances": [
-          {
-            "name": "RISE OF DESTINY",
-            "parent_region": "Card Shop",
-            "connected_region": "RISE OF DESTINY"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8426,13 +8908,6 @@
       },
       "FLAMING ETERNITY": {
         "name": "FLAMING ETERNITY",
-        "entrances": [
-          {
-            "name": "FLAMING ETERNITY",
-            "parent_region": "Card Shop",
-            "connected_region": "FLAMING ETERNITY"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8607,13 +9082,6 @@
       },
       "THE LOST MILLENIUM": {
         "name": "THE LOST MILLENIUM",
-        "entrances": [
-          {
-            "name": "THE LOST MILLENIUM",
-            "parent_region": "Card Shop",
-            "connected_region": "THE LOST MILLENIUM"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8788,13 +9256,6 @@
       },
       "CYBERNETIC REVOLUTION": {
         "name": "CYBERNETIC REVOLUTION",
-        "entrances": [
-          {
-            "name": "CYBERNETIC REVOLUTION",
-            "parent_region": "Card Shop",
-            "connected_region": "CYBERNETIC REVOLUTION"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -8927,13 +9388,6 @@
       },
       "ELEMENTAL ENERGY": {
         "name": "ELEMENTAL ENERGY",
-        "entrances": [
-          {
-            "name": "ELEMENTAL ENERGY",
-            "parent_region": "Card Shop",
-            "connected_region": "ELEMENTAL ENERGY"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -9220,13 +9674,6 @@
       },
       "SHADOW OF INFINITY": {
         "name": "SHADOW OF INFINITY",
-        "entrances": [
-          {
-            "name": "SHADOW OF INFINITY",
-            "parent_region": "Card Shop",
-            "connected_region": "SHADOW OF INFINITY"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -9387,13 +9834,6 @@
       },
       "GAME GIFT COLLECTION": {
         "name": "GAME GIFT COLLECTION",
-        "entrances": [
-          {
-            "name": "GAME GIFT COLLECTION",
-            "parent_region": "Card Shop",
-            "connected_region": "GAME GIFT COLLECTION"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -9736,13 +10176,6 @@
       },
       "Special Gift Collection": {
         "name": "Special Gift Collection",
-        "entrances": [
-          {
-            "name": "Special Gift Collection",
-            "parent_region": "Card Shop",
-            "connected_region": "Special Gift Collection"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -9931,13 +10364,6 @@
       },
       "Fairy Collection": {
         "name": "Fairy Collection",
-        "entrances": [
-          {
-            "name": "Fairy Collection",
-            "parent_region": "Card Shop",
-            "connected_region": "Fairy Collection"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -10168,13 +10594,6 @@
       },
       "Dragon Collection": {
         "name": "Dragon Collection",
-        "entrances": [
-          {
-            "name": "Dragon Collection",
-            "parent_region": "Card Shop",
-            "connected_region": "Dragon Collection"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -10391,13 +10810,6 @@
       },
       "Warrior Collection A": {
         "name": "Warrior Collection A",
-        "entrances": [
-          {
-            "name": "Warrior Collection A",
-            "parent_region": "Card Shop",
-            "connected_region": "Warrior Collection A"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -10488,13 +10900,6 @@
       },
       "Warrior Collection B": {
         "name": "Warrior Collection B",
-        "entrances": [
-          {
-            "name": "Warrior Collection B",
-            "parent_region": "Card Shop",
-            "connected_region": "Warrior Collection B"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -10823,13 +11228,6 @@
       },
       "Fiend Collection A": {
         "name": "Fiend Collection A",
-        "entrances": [
-          {
-            "name": "Fiend Collection A",
-            "parent_region": "Card Shop",
-            "connected_region": "Fiend Collection A"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -10990,13 +11388,6 @@
       },
       "Fiend Collection B": {
         "name": "Fiend Collection B",
-        "entrances": [
-          {
-            "name": "Fiend Collection B",
-            "parent_region": "Card Shop",
-            "connected_region": "Fiend Collection B"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -11325,13 +11716,6 @@
       },
       "Machine Collection A": {
         "name": "Machine Collection A",
-        "entrances": [
-          {
-            "name": "Machine Collection A",
-            "parent_region": "Card Shop",
-            "connected_region": "Machine Collection A"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -11408,13 +11792,6 @@
       },
       "Machine Collection B": {
         "name": "Machine Collection B",
-        "entrances": [
-          {
-            "name": "Machine Collection B",
-            "parent_region": "Card Shop",
-            "connected_region": "Machine Collection B"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -11659,13 +12036,6 @@
       },
       "Spellcaster Collection A": {
         "name": "Spellcaster Collection A",
-        "entrances": [
-          {
-            "name": "Spellcaster Collection A",
-            "parent_region": "Card Shop",
-            "connected_region": "Spellcaster Collection A"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -11826,13 +12196,6 @@
       },
       "Spellcaster Collection B": {
         "name": "Spellcaster Collection B",
-        "entrances": [
-          {
-            "name": "Spellcaster Collection B",
-            "parent_region": "Card Shop",
-            "connected_region": "Spellcaster Collection B"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -12217,13 +12580,6 @@
       },
       "Zombie Collection": {
         "name": "Zombie Collection",
-        "entrances": [
-          {
-            "name": "Zombie Collection",
-            "parent_region": "Card Shop",
-            "connected_region": "Zombie Collection"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -12426,13 +12782,6 @@
       },
       "Special Monsters A": {
         "name": "Special Monsters A",
-        "entrances": [
-          {
-            "name": "Special Monsters A",
-            "parent_region": "Card Shop",
-            "connected_region": "Special Monsters A"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -12915,13 +13264,6 @@
       },
       "Special Monsters B": {
         "name": "Special Monsters B",
-        "entrances": [
-          {
-            "name": "Special Monsters B",
-            "parent_region": "Card Shop",
-            "connected_region": "Special Monsters B"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -13306,13 +13648,6 @@
       },
       "Reverse Collection": {
         "name": "Reverse Collection",
-        "entrances": [
-          {
-            "name": "Reverse Collection",
-            "parent_region": "Card Shop",
-            "connected_region": "Reverse Collection"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -13557,13 +13892,6 @@
       },
       "LP Recovery Collection": {
         "name": "LP Recovery Collection",
-        "entrances": [
-          {
-            "name": "LP Recovery Collection",
-            "parent_region": "Card Shop",
-            "connected_region": "LP Recovery Collection"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -13766,13 +14094,6 @@
       },
       "Special Summon Collection A": {
         "name": "Special Summon Collection A",
-        "entrances": [
-          {
-            "name": "Special Summon Collection A",
-            "parent_region": "Card Shop",
-            "connected_region": "Special Summon Collection A"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -14241,13 +14562,6 @@
       },
       "Special Summon Collection B": {
         "name": "Special Summon Collection B",
-        "entrances": [
-          {
-            "name": "Special Summon Collection B",
-            "parent_region": "Card Shop",
-            "connected_region": "Special Summon Collection B"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -14632,13 +14946,6 @@
       },
       "Special Summon Collection C": {
         "name": "Special Summon Collection C",
-        "entrances": [
-          {
-            "name": "Special Summon Collection C",
-            "parent_region": "Card Shop",
-            "connected_region": "Special Summon Collection C"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -14981,13 +15288,6 @@
       },
       "Equipment Collection": {
         "name": "Equipment Collection",
-        "entrances": [
-          {
-            "name": "Equipment Collection",
-            "parent_region": "Card Shop",
-            "connected_region": "Equipment Collection"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -15036,13 +15336,6 @@
       },
       "Continuous Spell/Trap A": {
         "name": "Continuous Spell/Trap A",
-        "entrances": [
-          {
-            "name": "Continuous Spell/Trap A",
-            "parent_region": "Card Shop",
-            "connected_region": "Continuous Spell/Trap A"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -15217,13 +15510,6 @@
       },
       "Continuous Spell/Trap B": {
         "name": "Continuous Spell/Trap B",
-        "entrances": [
-          {
-            "name": "Continuous Spell/Trap B",
-            "parent_region": "Card Shop",
-            "connected_region": "Continuous Spell/Trap B"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -15398,13 +15684,6 @@
       },
       "Quick/Counter Collection": {
         "name": "Quick/Counter Collection",
-        "entrances": [
-          {
-            "name": "Quick/Counter Collection",
-            "parent_region": "Card Shop",
-            "connected_region": "Quick/Counter Collection"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -15747,13 +16026,6 @@
       },
       "Direct Damage Collection": {
         "name": "Direct Damage Collection",
-        "entrances": [
-          {
-            "name": "Direct Damage Collection",
-            "parent_region": "Card Shop",
-            "connected_region": "Direct Damage Collection"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -16110,13 +16382,6 @@
       },
       "Direct Attack Collection": {
         "name": "Direct Attack Collection",
-        "entrances": [
-          {
-            "name": "Direct Attack Collection",
-            "parent_region": "Card Shop",
-            "connected_region": "Direct Attack Collection"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -16263,13 +16528,6 @@
       },
       "Monster Destroy Collection": {
         "name": "Monster Destroy Collection",
-        "entrances": [
-          {
-            "name": "Monster Destroy Collection",
-            "parent_region": "Card Shop",
-            "connected_region": "Monster Destroy Collection"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -16696,13 +16954,6 @@
       },
       "LD12 All except Wind forbidden": {
         "name": "LD12 All except Wind forbidden",
-        "entrances": [
-          {
-            "name": "LD12 All except Wind forbidden",
-            "parent_region": "Challenges",
-            "connected_region": "LD12 All except Wind forbidden"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -16737,13 +16988,6 @@
       },
       "LD16 Effect Monsters forbidden": {
         "name": "LD16 Effect Monsters forbidden",
-        "entrances": [
-          {
-            "name": "LD16 Effect Monsters forbidden",
-            "parent_region": "Challenges",
-            "connected_region": "LD16 Effect Monsters forbidden"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -16778,13 +17022,6 @@
       },
       "LD21 All except Dark forbidden": {
         "name": "LD21 All except Dark forbidden",
-        "entrances": [
-          {
-            "name": "LD21 All except Dark forbidden",
-            "parent_region": "Challenges",
-            "connected_region": "LD21 All except Dark forbidden"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -16819,13 +17056,6 @@
       },
       "LD23 Refer to Mar 05 Banlist": {
         "name": "LD23 Refer to Mar 05 Banlist",
-        "entrances": [
-          {
-            "name": "LD23 Refer to Mar 05 Banlist",
-            "parent_region": "Challenges",
-            "connected_region": "LD23 Refer to Mar 05 Banlist"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -16860,13 +17090,6 @@
       },
       "LD24 Refer to Sept 04 Banlist": {
         "name": "LD24 Refer to Sept 04 Banlist",
-        "entrances": [
-          {
-            "name": "LD24 Refer to Sept 04 Banlist",
-            "parent_region": "Challenges",
-            "connected_region": "LD24 Refer to Sept 04 Banlist"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -16901,13 +17124,6 @@
       },
       "LD37 All except Water forbidden": {
         "name": "LD37 All except Water forbidden",
-        "entrances": [
-          {
-            "name": "LD37 All except Water forbidden",
-            "parent_region": "Challenges",
-            "connected_region": "LD37 All except Water forbidden"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -16942,13 +17158,6 @@
       },
       "LD38 Refer to Mar 04 Banlist": {
         "name": "LD38 Refer to Mar 04 Banlist",
-        "entrances": [
-          {
-            "name": "LD38 Refer to Mar 04 Banlist",
-            "parent_region": "Challenges",
-            "connected_region": "LD38 Refer to Mar 04 Banlist"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -16983,13 +17192,6 @@
       },
       "TD13 Flip Summon": {
         "name": "TD13 Flip Summon",
-        "entrances": [
-          {
-            "name": "TD13 Flip Summon",
-            "parent_region": "Challenges",
-            "connected_region": "TD13 Flip Summon"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -17024,13 +17226,6 @@
       },
       "TD21 Victory D.": {
         "name": "TD21 Victory D.",
-        "entrances": [
-          {
-            "name": "TD21 Victory D.",
-            "parent_region": "Challenges",
-            "connected_region": "TD21 Victory D."
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -17065,13 +17260,6 @@
       },
       "TD24 Victory in 5 Turns": {
         "name": "TD24 Victory in 5 Turns",
-        "entrances": [
-          {
-            "name": "TD24 Victory in 5 Turns",
-            "parent_region": "Challenges",
-            "connected_region": "TD24 Victory in 5 Turns"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -19873,6 +20061,7 @@
         "name": "Tier 1 Beaten",
         "id": null,
         "groups": [
+          "Campaign Boss Beaten",
           "Event"
         ],
         "advancement": true,
@@ -19886,6 +20075,7 @@
         "name": "Tier 2 Beaten",
         "id": null,
         "groups": [
+          "Campaign Boss Beaten",
           "Event"
         ],
         "advancement": true,
@@ -19912,6 +20102,7 @@
         "name": "Tier 3 Beaten",
         "id": null,
         "groups": [
+          "Campaign Boss Beaten",
           "Event"
         ],
         "advancement": true,
@@ -19925,6 +20116,7 @@
         "name": "Tier 4 Beaten",
         "id": null,
         "groups": [
+          "Campaign Boss Beaten",
           "Event"
         ],
         "advancement": true,
@@ -19938,6 +20130,7 @@
         "name": "Tier 5 Beaten",
         "id": null,
         "groups": [
+          "Campaign Boss Beaten",
           "Event"
         ],
         "advancement": true,
@@ -25403,7 +25596,8 @@
   "settings": {
     "1": {
       "game": "Yu-Gi-Oh! 2006",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
     }
   },
   "game_info": {

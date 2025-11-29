@@ -272,6 +272,19 @@ export const testLogic = {
       );
     }
 
+    // Check for testOrderSeed parameter in URL (overrides any loaded state)
+    const urlParams = new URLSearchParams(window.location.search);
+    const seedParam = urlParams.get('testOrderSeed');
+    if (seedParam !== null) {
+      const parsedSeed = parseInt(seedParam, 10);
+      if (!isNaN(parsedSeed)) {
+        TestState.testLogicState.randomSeed = parsedSeed;
+        log('info', `[TestLogic applyLoadedState] Using test order seed from URL parameter: ${parsedSeed}`);
+      } else {
+        log('warn', `[TestLogic applyLoadedState] Invalid testOrderSeed parameter in URL: ${seedParam}`);
+      }
+    }
+
     // Ensure discovery is complete before applying loaded state
     await initializeTestDiscovery();
 
@@ -357,7 +370,7 @@ export const testLogic = {
           // Apply loaded preferences to discovered test
           currentTests.push({
             ...discoveredTest,
-            isEnabled: loadedTest.isEnabled,
+            enabled: loadedTest.enabled,
             order:
               loadedTest.order !== undefined
                 ? loadedTest.order
@@ -367,13 +380,13 @@ export const testLogic = {
           });
         } else {
           // Use discovered test but only apply defaultEnabledState if test has no explicit enabled value
-          const finalEnabledState = discoveredTest.isEnabled !== undefined 
-            ? discoveredTest.isEnabled  // Use explicit value from registration
+          const finalEnabledState = discoveredTest.enabled !== undefined
+            ? discoveredTest.enabled  // Use explicit value from registration
             : TestState.testLogicState.defaultEnabledState;  // Use default only if no explicit value
-          
-          currentTests.push({ 
+
+          currentTests.push({
             ...discoveredTest,
-            isEnabled: finalEnabledState
+            enabled: finalEnabledState
           });
         }
       });
@@ -398,13 +411,13 @@ export const testLogic = {
     } else {
       // No loaded data, use discovered tests but only apply defaultEnabledState if test has no explicit enabled value
       discoveredTests.forEach((discoveredTest) => {
-        const finalEnabledState = discoveredTest.isEnabled !== undefined 
-          ? discoveredTest.isEnabled  // Use explicit value from registration
+        const finalEnabledState = discoveredTest.enabled !== undefined
+          ? discoveredTest.enabled  // Use explicit value from registration
           : TestState.testLogicState.defaultEnabledState;  // Use default only if no explicit value
-        
-        currentTests.push({ 
+
+        currentTests.push({
           ...discoveredTest,
-          isEnabled: finalEnabledState
+          enabled: finalEnabledState
         });
       });
     }
@@ -460,7 +473,7 @@ export const testLogic = {
       eventBusInstance.publish('tests:loadedStateApplied', {
         autoStartEnabled: TestState.shouldAutoStartTests(),
         testCount: currentTests.length,
-        enabledTestCount: currentTests.filter((t) => t.isEnabled).length,
+        enabledTestCount: currentTests.filter((t) => t.enabled).length,
       }, 'tests');
     }
 
@@ -489,7 +502,7 @@ export const testLogic = {
           await Promise.race([
             this.runAllEnabledTests(),
             new Promise((_, reject) => {
-              setTimeout(() => reject(new Error('Auto-start timeout after 120 seconds')), 120000);
+              setTimeout(() => reject(new Error('Auto-start timeout after 600 seconds')), 600000);
             })
           ]);
         } catch (error) {
@@ -558,9 +571,9 @@ export const testLogic = {
     }
   },
 
-  async toggleTestEnabled(testId, isEnabled) {
+  async toggleTestEnabled(testId, enabled) {
     await initializeTestDiscovery();
-    TestState.toggleTestEnabled(testId, isEnabled);
+    TestState.toggleTestEnabled(testId, enabled);
     if (eventBusInstance)
       eventBusInstance.publish('tests:listUpdated', {
         tests: await this.getTests(),
@@ -811,7 +824,7 @@ export const testLogic = {
     await initializeTestDiscovery();
 
     const tests = TestState.getTestsForExecution();
-    const enabledTests = tests.filter((t) => t.isEnabled);
+    const enabledTests = tests.filter((t) => t.enabled);
 
     if (enabledTests.length === 0) {
       log('info', '[TestLogic] No enabled tests to run.');
@@ -904,37 +917,50 @@ export const testLogic = {
     this._setPlaywrightCompletionFlags(summary, finalTests);
   },
 
-  async toggleAllTestsEnabled(isEnabled) {
+  async toggleAllTestsEnabled(enabled) {
     await initializeTestDiscovery();
     const tests = TestState.getTests();
 
     // Enable/disable all tests
     tests.forEach((test) => {
-      TestState.toggleTestEnabled(test.id, isEnabled);
+      TestState.toggleTestEnabled(test.id, enabled);
     });
 
     if (eventBusInstance) {
       eventBusInstance.publish('tests:allTestsChanged', {
-        isEnabled,
+        enabled,
         testCount: tests.length,
       }, 'tests');
     }
   },
 
-  // Set localStorage flags for Playwright test completion detection
+  // Set window properties for Playwright test completion detection
   _setPlaywrightCompletionFlags(summary, allTests) {
     try {
       // Prepare detailed test results for Playwright - only include enabled tests
       const testDetails = allTests
         .filter((test) => test.status !== 'disabled')
-        .map((test) => ({
-          id: test.id,
-          name: test.name,
-          status: test.status,
-          category: test.category,
-          conditions: test.conditions || [],
-          logs: test.logs || [],
-        }));
+        .map((test) => {
+          // Calculate duration if start and end times are available
+          let durationMs = null;
+          if (test.startTime && test.endTime) {
+            const start = new Date(test.startTime);
+            const end = new Date(test.endTime);
+            durationMs = end - start;
+          }
+
+          return {
+            id: test.id,
+            name: test.name,
+            status: test.status,
+            category: test.category,
+            startTime: test.startTime || null,
+            endTime: test.endTime || null,
+            durationMs: durationMs,
+            conditions: test.conditions || [],
+            logs: test.logs || [],
+          };
+        });
 
       const playwrightResults = {
         summary,
@@ -942,14 +968,9 @@ export const testLogic = {
         completedAt: new Date().toISOString(),
       };
 
-      // Set the results in localStorage
-      localStorage.setItem(
-        '__playwrightTestResults__',
-        JSON.stringify(playwrightResults)
-      );
-
-      // Set the completion flag
-      localStorage.setItem('__playwrightTestsComplete__', 'true');
+      // Set results on window object - no size limits, full logs preserved
+      window.__playwrightTestResults__ = playwrightResults;
+      window.__playwrightTestsComplete__ = true;
 
       log('info', '[TestLogic] Playwright completion flags set:', {
         summary,

@@ -222,7 +222,7 @@ export async function testGraphDataLoading(testController) {
     testController.log(`[${testRunId}] Starting graph data loading test...`);
     testController.reportCondition('Test started', true);
     
-    await testController.loadDefaultRules();
+    await testController.loadALTTPRules();
     testController.log(`[${testRunId}] Default rules loaded`);
     
     const eventBusModule = await import('../../../app/core/eventBus.js');

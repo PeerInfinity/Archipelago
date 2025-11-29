@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "New Game",
@@ -37,35 +36,18 @@
       },
       "???": {
         "name": "???",
-        "entrances": [
-          {
-            "name": "??? Exit",
-            "parent_region": "Menu",
-            "connected_region": "???"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Hub": {
         "name": "Hub",
-        "entrances": [
-          {
-            "name": "New Game",
-            "parent_region": "Menu",
-            "connected_region": "Hub"
-          }
-        ],
         "exits": [
           {
             "name": "Ruins Hub",
             "connected_region": "Ruins",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Ruins Key"
-              }
+              "item": "Ruins Key"
             }
           },
           {
@@ -73,10 +55,7 @@
             "connected_region": "Snowdin Forest",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Snowdin Key"
-              }
+              "item": "Snowdin Key"
             }
           },
           {
@@ -84,10 +63,7 @@
             "connected_region": "Waterfall",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Waterfall Key"
-              }
+              "item": "Waterfall Key"
             }
           },
           {
@@ -95,10 +71,7 @@
             "connected_region": "Hotland",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Hotland Key"
-              }
+              "item": "Hotland Key"
             }
           },
           {
@@ -106,10 +79,7 @@
             "connected_region": "Core",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Core Key"
-              }
+              "item": "Core Key"
             }
           }
         ],
@@ -117,13 +87,6 @@
       },
       "Ruins": {
         "name": "Ruins",
-        "entrances": [
-          {
-            "name": "Ruins Hub",
-            "parent_region": "Hub",
-            "connected_region": "Ruins"
-          }
-        ],
         "exits": [
           {
             "name": "Ruins Exit",
@@ -265,25 +228,11 @@
       },
       "Old Home": {
         "name": "Old Home",
-        "entrances": [
-          {
-            "name": "Ruins Exit",
-            "parent_region": "Ruins",
-            "connected_region": "Old Home"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Snowdin Forest": {
         "name": "Snowdin Forest",
-        "entrances": [
-          {
-            "name": "Snowdin Hub",
-            "parent_region": "Hub",
-            "connected_region": "Snowdin Forest"
-          }
-        ],
         "exits": [
           {
             "name": "Snowdin Forest Exit",
@@ -347,13 +296,6 @@
       },
       "Snowdin Town": {
         "name": "Snowdin Town",
-        "entrances": [
-          {
-            "name": "Snowdin Forest Exit",
-            "parent_region": "Snowdin Forest",
-            "connected_region": "Snowdin Town"
-          }
-        ],
         "exits": [
           {
             "name": "Papyrus\" Home Entrance",
@@ -465,13 +407,6 @@
       },
       "Papyrus\" Home": {
         "name": "Papyrus\" Home",
-        "entrances": [
-          {
-            "name": "Papyrus\" Home Entrance",
-            "parent_region": "Snowdin Town",
-            "connected_region": "Papyrus\" Home"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -492,13 +427,6 @@
       },
       "Waterfall": {
         "name": "Waterfall",
-        "entrances": [
-          {
-            "name": "Waterfall Hub",
-            "parent_region": "Hub",
-            "connected_region": "Waterfall"
-          }
-        ],
         "exits": [
           {
             "name": "Undyne\"s Home Entrance",
@@ -541,17 +469,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Punch Card"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 3
-                  }
-                },
-                {
                   "type": "state_method",
                   "method": "can_reach",
                   "args": [
@@ -564,6 +481,14 @@
                       "value": "Region"
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Punch Card",
+                  "count": {
+                    "type": "constant",
+                    "value": 3
+                  }
                 }
               ]
             },
@@ -908,10 +833,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "1000G"
-                  },
+                  "item": "1000G",
                   "count": {
                     "type": "constant",
                     "value": 2
@@ -930,13 +852,6 @@
       },
       "Undyne\"s Home": {
         "name": "Undyne\"s Home",
-        "entrances": [
-          {
-            "name": "Undyne\"s Home Entrance",
-            "parent_region": "Waterfall",
-            "connected_region": "Undyne\"s Home"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -957,13 +872,6 @@
       },
       "Hotland": {
         "name": "Hotland",
-        "entrances": [
-          {
-            "name": "Hotland Hub",
-            "parent_region": "Hub",
-            "connected_region": "Hotland"
-          }
-        ],
         "exits": [
           {
             "name": "Cooking Show Entrance",
@@ -1265,13 +1173,6 @@
       },
       "Cooking Show": {
         "name": "Cooking Show",
-        "entrances": [
-          {
-            "name": "Cooking Show Entrance",
-            "parent_region": "Hotland",
-            "connected_region": "Cooking Show"
-          }
-        ],
         "exits": [
           {
             "name": "News Show Entrance",
@@ -1286,50 +1187,96 @@
       },
       "News Show": {
         "name": "News Show",
-        "entrances": [
-          {
-            "name": "News Show Entrance",
-            "parent_region": "Cooking Show",
-            "connected_region": "News Show"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "True Lab": {
         "name": "True Lab",
-        "entrances": [
-          {
-            "name": "Lab Elevator",
-            "parent_region": "Hotland",
-            "connected_region": "True Lab"
-          }
-        ],
         "exits": [],
         "locations": []
       },
       "Core": {
         "name": "Core",
-        "entrances": [
-          {
-            "name": "Core Hub",
-            "parent_region": "Hub",
-            "connected_region": "Core"
-          }
-        ],
         "exits": [
           {
             "name": "Core Exit",
             "connected_region": "New Home",
             "access_rule": {
-              "type": "helper",
-              "name": "_undertale_has_plot",
-              "args": [
-                {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
                   "type": "constant",
                   "value": "Mettaton Plush"
+                },
+                "op": "==",
+                "right": {
+                  "type": "constant",
+                  "value": "Complete Skeleton"
                 }
-              ]
+              },
+              "if_true": {
+                "type": "item_check",
+                "item": "Complete Skeleton"
+              },
+              "if_false": {
+                "type": "conditional",
+                "test": {
+                  "type": "compare",
+                  "left": {
+                    "type": "constant",
+                    "value": "Mettaton Plush"
+                  },
+                  "op": "==",
+                  "right": {
+                    "type": "constant",
+                    "value": "Fish"
+                  }
+                },
+                "if_true": {
+                  "type": "item_check",
+                  "item": "Fish"
+                },
+                "if_false": {
+                  "type": "conditional",
+                  "test": {
+                    "type": "compare",
+                    "left": {
+                      "type": "constant",
+                      "value": "Mettaton Plush"
+                    },
+                    "op": "==",
+                    "right": {
+                      "type": "constant",
+                      "value": "Mettaton Plush"
+                    }
+                  },
+                  "if_true": {
+                    "type": "item_check",
+                    "item": "Mettaton Plush"
+                  },
+                  "if_false": {
+                    "type": "conditional",
+                    "test": {
+                      "type": "compare",
+                      "left": {
+                        "type": "constant",
+                        "value": "Mettaton Plush"
+                      },
+                      "op": "==",
+                      "right": {
+                        "type": "constant",
+                        "value": "DT Extractor"
+                      }
+                    },
+                    "if_true": {
+                      "type": "item_check",
+                      "item": "DT Extractor"
+                    },
+                    "if_false": null
+                  }
+                }
+              }
             }
           }
         ],
@@ -1362,18 +1309,8 @@
             "name": "Mettaton Plot",
             "id": 79062,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Core Exit"
-                },
-                {
-                  "type": "constant",
-                  "value": "Entrance"
-                }
-              ]
+              "type": "can_reach_entrance",
+              "entrance": "Core Exit"
             },
             "item": {
               "name": "1000G",
@@ -1386,13 +1323,6 @@
       },
       "New Home": {
         "name": "New Home",
-        "entrances": [
-          {
-            "name": "Core Exit",
-            "parent_region": "Core",
-            "connected_region": "New Home"
-          }
-        ],
         "exits": [
           {
             "name": "New Home Exit",
@@ -1405,26 +1335,17 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Left Home Key"
-                      }
+                      "item": "Left Home Key"
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Right Home Key"
-                      }
+                      "item": "Right Home Key"
                     }
                   ]
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Key Piece"
-                  },
+                  "item": "Key Piece",
                   "count": {
                     "type": "constant",
                     "value": 5
@@ -1535,13 +1456,6 @@
       },
       "Last Corridor": {
         "name": "Last Corridor",
-        "entrances": [
-          {
-            "name": "New Home Exit",
-            "parent_region": "New Home",
-            "connected_region": "Last Corridor"
-          }
-        ],
         "exits": [
           {
             "name": "Last Corridor Exit",
@@ -1556,13 +1470,6 @@
       },
       "Barrier": {
         "name": "Barrier",
-        "entrances": [
-          {
-            "name": "Last Corridor Exit",
-            "parent_region": "Last Corridor",
-            "connected_region": "Barrier"
-          }
-        ],
         "exits": [],
         "locations": []
       }
@@ -1578,35 +1485,9 @@
   },
   "items": {
     "1": {
-      "Progressive Plot": {
-        "name": "Progressive Plot",
-        "id": 77700,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Progressive Weapons": {
-        "name": "Progressive Weapons",
-        "id": 77701,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Progressive Armor": {
-        "name": "Progressive Armor",
-        "id": 77702,
+      "Key Piece": {
+        "name": "Key Piece",
+        "id": 77000,
         "groups": [
           "Everything"
         ],
@@ -2384,149 +2265,6 @@
         "type": null,
         "max_count": 2
       },
-      "Complete Skeleton": {
-        "name": "Complete Skeleton",
-        "id": 77779,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Fish": {
-        "name": "Fish",
-        "id": 77780,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "DT Extractor": {
-        "name": "DT Extractor",
-        "id": 77782,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Mettaton Plush": {
-        "name": "Mettaton Plush",
-        "id": 77786,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "Left Home Key": {
-        "name": "Left Home Key",
-        "id": 77787,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "LOVE": {
-        "name": "LOVE",
-        "id": 77788,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Right Home Key": {
-        "name": "Right Home Key",
-        "id": 77789,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "Key Piece": {
-        "name": "Key Piece",
-        "id": 77000,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "100G": {
-        "name": "100G",
-        "id": 77999,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "500G": {
-        "name": "500G",
-        "id": 77998,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 4
-      },
-      "1000G": {
-        "name": "1000G",
-        "id": 77997,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 4
-      },
       "ATK Up": {
         "name": "ATK Up",
         "id": 77065,
@@ -2683,6 +2421,175 @@
         "type": null,
         "max_count": 2
       },
+      "Progressive Plot": {
+        "name": "Progressive Plot",
+        "id": 77700,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Weapons": {
+        "name": "Progressive Weapons",
+        "id": 77701,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Armor": {
+        "name": "Progressive Armor",
+        "id": 77702,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Complete Skeleton": {
+        "name": "Complete Skeleton",
+        "id": 77779,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fish": {
+        "name": "Fish",
+        "id": 77780,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "DT Extractor": {
+        "name": "DT Extractor",
+        "id": 77782,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mettaton Plush": {
+        "name": "Mettaton Plush",
+        "id": 77786,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Left Home Key": {
+        "name": "Left Home Key",
+        "id": 77787,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "LOVE": {
+        "name": "LOVE",
+        "id": 77788,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Right Home Key": {
+        "name": "Right Home Key",
+        "id": 77789,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "1000G": {
+        "name": "1000G",
+        "id": 77997,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "500G": {
+        "name": "500G",
+        "id": 77998,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "100G": {
+        "name": "100G",
+        "id": 77999,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
       "Papyrus Date": {
         "name": "Papyrus Date",
         "id": null,
@@ -2797,7 +2704,8 @@
   "settings": {
     "1": {
       "game": "Undertale",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
     }
   },
   "game_info": {

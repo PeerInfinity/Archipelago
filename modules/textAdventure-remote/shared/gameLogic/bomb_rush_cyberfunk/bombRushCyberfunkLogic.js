@@ -1,11 +1,13 @@
 /**
  * Bomb Rush Cyberfunk helper functions
  * Translated from worlds/bomb_rush_cyberfunk/Rules.py
- * 
+ *
  * Note: This is a simplified implementation for initial testing.
  * The actual graffiti counting logic may be more complex and will need
  * refinement based on how items are represented in the game data.
  */
+
+import { DEFAULT_PLAYER_ID } from '../../playerIdUtils.js';
 
 // Basic helper function to count items
 function getItemCount(snapshot, itemName) {
@@ -24,53 +26,20 @@ function hasEvent(snapshot, eventName) {
 
 // Helper function to check if player has any item from a group
 function hasGroup(snapshot, groupName, staticData) {
-    const debug = groupName === 'skates';
-
     if (!snapshot?.inventory || !staticData?.items) {
-        if (debug) {
-            console.log('[hasGroup] Missing data:', {
-                hasInventory: !!snapshot?.inventory,
-                hasStaticData: !!staticData,
-                hasItems: !!staticData?.items,
-                staticDataKeys: staticData ? Object.keys(staticData) : null,
-                itemsType: staticData?.items ? typeof staticData.items : null
-            });
-        }
         return false;
     }
 
     // Check if any item in inventory belongs to the specified group
-    let checkedCount = 0;
     for (const itemName in snapshot.inventory) {
         const count = snapshot.inventory[itemName];
         if (count > 0) {
-            checkedCount++;
             const itemDef = staticData.items[itemName];
             const matches = itemDef?.groups?.includes(groupName);
-            if (debug) {
-                if (itemName.includes('Inline')) {
-                    console.log(`[hasGroup] Checking ${itemName}, count=${count}`);
-                    console.log(`[hasGroup]   itemDef exists: ${!!itemDef}, matches: ${matches}`);
-                    if (itemDef) {
-                        console.log(`[hasGroup]   groups:`, itemDef.groups);
-                    } else {
-                        // Item not found - check what items are in staticData
-                        console.log(`[hasGroup]   staticData.items has ${Object.keys(staticData.items).length} items`);
-                        const sampleKeys = Object.keys(staticData.items).slice(0, 5);
-                        console.log(`[hasGroup]   Sample item keys:`, sampleKeys);
-                    }
-                }
-            }
             if (matches) {
-                if (debug) {
-                    console.log(`[hasGroup] RETURNING TRUE for ${itemName}`);
-                }
                 return true;
             }
         }
-    }
-    if (debug) {
-        console.log(`[hasGroup] No items found in skates group, RETURNING FALSE (checked ${checkedCount} items with count > 0)`);
     }
     return false;
 }
@@ -128,10 +97,6 @@ function skateboard(snapshot, staticData, movestyle) {
 function inline_skates(snapshot, staticData, movestyle) {
     const hasSkatesGroup = hasGroup(snapshot, 'skates', staticData);
     const result = movestyle === 3 || hasSkatesGroup;
-    const rep = snapshot?.inventory?.rep || 0;
-    if (rep >= 16 && rep <= 40) {
-        console.log(`[inline_skates] movestyle=${movestyle}, hasGroup('skates')=${hasSkatesGroup}, result=${result}, inventory keys:`, Object.keys(snapshot?.inventory || {}).filter(k => k.toLowerCase().includes('skate') || k.toLowerCase().includes('inline')));
-    }
     return result;
 }
 
@@ -148,21 +113,64 @@ function is_girl(snapshot, staticData) {
 }
 
 function current_chapter(snapshot, staticData, chapter) {
-    return hasItem(snapshot, 'Chapter Completed', chapter - 1);
+    // Check inventory for "Chapter Completed" (from progressionMapping or direct)
+    const inventoryChapters = getItemCount(snapshot, 'Chapter Completed');
+    if (inventoryChapters >= chapter - 1) {
+        return true;
+    }
+
+    // Fallback: check prog_items structure
+    const progChapters = snapshot?.prog_items?.['1']?.['Chapter Completed'] ||
+                         snapshot?.prog_items?.[1]?.['Chapter Completed'] || 0;
+    if (progChapters >= chapter - 1) {
+        return true;
+    }
+
+    // Check events array (if events are tracked separately)
+    const events = snapshot?.events || [];
+    let chaptersCompleted = 0;
+    for (const event of events) {
+        if (event.includes('Chapter') && event.includes('Complete')) {
+            chaptersCompleted++;
+        }
+    }
+
+    return chaptersCompleted >= chapter - 1;
 }
 
 function rep(snapshot, staticData, required) {
-    return hasItem(snapshot, 'rep', required);
+    // The progressionMapping in rules should aggregate "8 REP", "16 REP", etc.
+    // into inventory["rep"]. This is handled by stateManager.addItemToInventory().
+    // We check both the aggregated "rep" counter and fall back to manual aggregation
+    // for spoiler tests that may use prog_items directly.
+
+    // First check the aggregated "rep" counter (from progressionMapping)
+    const aggregatedRep = getItemCount(snapshot, 'rep');
+    if (aggregatedRep >= required) {
+        return true;
+    }
+
+    // Fallback: check prog_items structure (used by spoiler tests)
+    const progRep = snapshot?.prog_items?.['1']?.rep || snapshot?.prog_items?.[1]?.rep || 0;
+    if (progRep >= required) {
+        return true;
+    }
+
+    // Second fallback: manually aggregate REP items (for cases where progressionMapping hasn't run)
+    const repItemAmounts = [8, 16, 24, 32, 48];
+    let totalRep = 0;
+    for (const amount of repItemAmounts) {
+        const itemName = `${amount} REP`;
+        const count = getItemCount(snapshot, itemName);
+        totalRep += amount * count;
+    }
+
+    return totalRep >= required;
 }
 
 // Progression functions
 function versum_hill_entrance(snapshot, staticData) {
-    const result = rep(snapshot, staticData, 20);
-    const currentRep = snapshot?.inventory?.rep || 0;
-    if (currentRep >= 16 && currentRep <= 32) {
-        console.log(`[versum_hill_entrance] REP=${currentRep}, required=20, result=${result}`);
-    }
-    return result;
+    return rep(snapshot, staticData, 20);
 }
 
 function versum_hill_ch1_roadblock(snapshot, staticData, limit) {
@@ -495,12 +503,42 @@ function mataan_faux(snapshot, staticData, limit, glitched) {
            graffitiM(snapshot, staticData, limit, 122);
 }
 
+// Helper to get options from static data
+function getOptionsFromStaticData(snapshot, staticData) {
+    const playerSlot = snapshot?.player?.id || snapshot?.player?.slot || staticData?.playerId || DEFAULT_PLAYER_ID;
+    const settings = staticData?.settings?.[playerSlot];
+    if (!settings) {
+        return {
+            movestyle: 2,  // Default: skateboard
+            limit: false,
+            glitched: false
+        };
+    }
+
+    return {
+        movestyle: settings.starting_movestyle ?? 2,
+        limit: settings.limited_graffiti ?? false,
+        glitched: settings.logic ?? false
+    };
+}
+
 // Spot counting functions based on Python implementation
 function spots_s_glitchless(snapshot, staticData, limit, accessCache) {
+    // Extract actual value if limit comes as a rule tree object
+    if (typeof limit === 'object' && limit?.type === 'constant') {
+        limit = limit.value;
+    }
+
+    // If accessCache is a name reference or undefined, build it
+    if (!accessCache || (typeof accessCache === 'object' && accessCache?.type === 'name')) {
+        const options = getOptionsFromStaticData(snapshot, staticData);
+        accessCache = build_access_cache(snapshot, staticData, options.movestyle, options.limit, options.glitched);
+    }
+
     // Small spots can be tagged without any graffiti items
     // Starting with 10 spots accessible in the Hideout
     let total = 10;
-    
+
     // Additional spots become available as regions are accessed
     const conditions = [
         ["versum_hill_entrance", 1],
@@ -524,7 +562,7 @@ function spots_s_glitchless(snapshot, staticData, limit, accessCache) {
         ["mataan_oldhead", 3],
         ["mataan_deepest", 2]
     ];
-    
+
     // Add graffiti counts for accessible regions, stop at first inaccessible
     for (const [accessName, graffitiCount] of conditions) {
         if (accessCache[accessName]) {
@@ -533,7 +571,7 @@ function spots_s_glitchless(snapshot, staticData, limit, accessCache) {
             break;
         }
     }
-    
+
     if (limit) {
         // With limit, spots are limited by character count
         let characterCount = 0;
@@ -554,13 +592,24 @@ function spots_s_glitchless(snapshot, staticData, limit, accessCache) {
 }
 
 function spots_s_glitched(snapshot, staticData, limit, accessCache) {
+    // Extract actual value if limit comes as a rule tree object
+    if (typeof limit === 'object' && limit?.type === 'constant') {
+        limit = limit.value;
+    }
+
+    // If accessCache is a name reference or undefined, build it
+    if (!accessCache || (typeof accessCache === 'object' && accessCache?.type === 'name')) {
+        const options = getOptionsFromStaticData(snapshot, staticData);
+        accessCache = build_access_cache(snapshot, staticData, options.movestyle, options.limit, options.glitched);
+    }
+
     let total = 75;
-    
+
     const conditions = [
         ["brink_terminal_entrance", 13],
         ["chapter3", 6]
     ];
-    
+
     for (const [accessName, graffitiCount] of conditions) {
         if (accessCache[accessName]) {
             total += graffitiCount;
@@ -568,7 +617,7 @@ function spots_s_glitched(snapshot, staticData, limit, accessCache) {
             break;
         }
     }
-    
+
     if (limit) {
         let characterCount = 0;
         if (snapshot?.inventory) {
@@ -1030,28 +1079,7 @@ function graffiti_spots(snapshot, staticData, movestyle, limit, glitched, spots)
         total = s_spots + m_spots + l_spots + xl_spots;
     }
 
-    // Debug logging for checking graffiti spots
-    if (spots === 25 || spots === 30) {
-        console.log(`[graffiti_spots] Checking for ${spots} spots: S=${s_spots}, M=${m_spots}, L=${l_spots}, XL=${xl_spots}, total=${total}, result=${total >= spots}`);
-        console.log(`[graffiti_spots] REP=${snapshot?.inventory?.rep || 0}, inline_skates=${accessCache.inline_skates}, versum_hill_entrance=${accessCache.versum_hill_entrance}`);
-        console.log(`[graffiti_spots] movestyle=${movestyle}, limit=${limit}, glitched=${glitched}`);
-    }
-
-    const result = total >= spots;
-
-    // Extra debug for problematic spot counts
-    if (spots === 30 && result) {
-        console.log(`[graffiti_spots] !!! Spot ${spots} is ACCESSIBLE: total=${total}, REP=${snapshot?.inventory?.rep || 0}`);
-        // Log all REP items in inventory
-        const repItems = Object.keys(snapshot?.inventory || {}).filter(k => k.includes('REP'));
-        console.log(`[graffiti_spots] REP items in inventory:`, repItems.map(k => `${k}=${snapshot.inventory[k]}`));
-        // Log all items with count > 0
-        const collectedItems = Object.keys(snapshot?.inventory || {}).filter(k => snapshot.inventory[k] > 0);
-        console.log(`[graffiti_spots] All collected items (${collectedItems.length}):`, collectedItems);
-        console.log(`[graffiti_spots] Specifically: rep=${snapshot.inventory.rep}, 16 REP=${snapshot.inventory['16 REP']}`);
-    }
-
-    return result;
+    return total >= spots;
 }
 
 // Export the helper functions in the expected format
@@ -1133,5 +1161,16 @@ export const helperFunctions = {
     mataan_smoke_wall2,
     mataan_deepest,
     mataan_crew_battle,
-    mataan_faux
+    mataan_faux,
+
+    // Internal spot counting functions (exported for use by helpers.js)
+    spots_s_glitchless,
+    spots_s_glitched,
+    spots_m_glitchless,
+    spots_m_glitched,
+    spots_l_glitchless,
+    spots_l_glitched,
+    spots_xl_glitchless,
+    spots_xl_glitched,
+    build_access_cache
 };

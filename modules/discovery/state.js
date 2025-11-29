@@ -71,12 +71,12 @@ export class DiscoveryState {
 
     // Add all exits from Menu to the discovered exits
     try {
-      const currentStateManager = this.stateManager.instance; // Use injected instance
-      if (!currentStateManager) {
-        throw new Error('StateManager instance is not available.');
+      const staticData = this.stateManager.getStaticData(); // Get static data from proxy
+      if (!staticData || !staticData.regions) {
+        throw new Error('StateManager static data is not available.');
       }
 
-      const menuRegion = currentStateManager.regions['Menu'];
+      const menuRegion = staticData.regions.get('Menu');
       if (menuRegion && menuRegion.exits) {
         const menuExits = this.discoveredExits.get('Menu');
         menuRegion.exits.forEach((exit) => {

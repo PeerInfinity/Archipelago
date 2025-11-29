@@ -447,7 +447,8 @@ export class WindowAdapterCore {
                 log('debug', `stateManagerProxy is available for window ${windowId}`);
                 
                 // Use pingWorker to ensure we get fresh state
-                window.stateManagerProxy.pingWorker({ requestedBy: `window-${windowId}` }, 1000)
+                // Increased timeout to 10 seconds to handle complex rule evaluation
+                window.stateManagerProxy.pingWorker({ requestedBy: `window-${windowId}` }, 10000)
                     .then(() => {
                         // After ping, get the fresh snapshot
                         stateSnapshot = window.stateManagerProxy.getLatestStateSnapshot();

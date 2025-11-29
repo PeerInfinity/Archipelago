@@ -8,6 +8,7 @@ export const testLogicState = {
   autoStartTestsOnLoad: false,
   hideDisabledTests: false, // Default to false - show all tests
   randomizeOrder: false, // Default to false - maintain order
+  randomSeed: null, // Random seed for reproducible test ordering
   defaultEnabledState: false, // Default for newly discovered tests
   currentRunningTestId: null,
   fromDiscovery: false, // Flag to indicate if state was initialized from discovery
@@ -44,7 +45,7 @@ export function getSavableTestConfig() {
       name: t.name,
       description: t.description,
       functionName: t.functionName,
-      isEnabled: t.isEnabled,
+      enabled: t.enabled,
       order: t.order,
       category: t.category,
     })),
@@ -81,11 +82,36 @@ export function shouldRandomizeOrder() {
   return testLogicState.randomizeOrder;
 }
 
+// Simple seeded random number generator (Mulberry32)
+function seededRandom(seed) {
+  return function() {
+    let t = seed += 0x6D2B79F5;
+    t = Math.imul(t ^ t >>> 15, t | 1);
+    t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
 // Shuffle array using Fisher-Yates algorithm
+// If a seed is provided, uses seeded random; otherwise uses Math.random
 function shuffleArray(array) {
   const shuffled = [...array];
+  let rng;
+
+  if (testLogicState.randomSeed !== null) {
+    rng = seededRandom(testLogicState.randomSeed);
+    console.log(`[TestState] Shuffling tests with seed: ${testLogicState.randomSeed}`);
+  } else {
+    // Generate a random seed for this run
+    const newSeed = Math.floor(Math.random() * 2147483647);
+    testLogicState.randomSeed = newSeed;
+    rng = seededRandom(newSeed);
+    console.log(`[TestState] Shuffling tests with generated seed: ${newSeed}`);
+    console.log(`[TestState] To reproduce this order, add &testOrderSeed=${newSeed} to the URL`);
+  }
+
   for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(rng() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
   return shuffled;
@@ -101,17 +127,17 @@ export function getTestsForExecution() {
   return sortedTests;
 }
 
-export function toggleTestEnabled(testId, isEnabled) {
+export function toggleTestEnabled(testId, enabled) {
   const test = findTestById(testId);
   if (test) {
-    test.isEnabled = isEnabled;
+    test.enabled = enabled;
     // Update status based on enabled state, but preserve completed test results
     if (
       test.status !== 'passed' &&
       test.status !== 'failed' &&
       test.status !== 'running'
     ) {
-      test.status = isEnabled ? 'pending' : 'disabled';
+      test.status = enabled ? 'pending' : 'disabled';
     }
   }
 }
@@ -154,15 +180,25 @@ export function setTestStatus(testId, status, eventWaitingFor = null) {
     test.status = status;
     test.currentEventWaitingFor =
       status === 'waiting_for_event' ? eventWaitingFor : null;
-    
-    // Only clear conditions when starting fresh (transitioning from non-active or completed states to running)
+
+    // Track start time when test begins running
     if (status === 'running' && (previousStatus === 'pending' || previousStatus === 'disabled' || previousStatus === 'passed' || previousStatus === 'failed' || !previousStatus)) {
+      test.startTime = new Date().toISOString();
+      test.endTime = null; // Clear end time
       test.conditions = []; // Clear conditions
       test.logs = []; // Clear logs
     }
+
+    // Track end time when test completes
+    if ((status === 'passed' || status === 'failed') && test.startTime) {
+      test.endTime = new Date().toISOString();
+    }
+
     // Also clear when explicitly set to pending (test reset)
     if (status === 'pending') {
-      test.conditions = []; // Clear conditions  
+      test.startTime = null;
+      test.endTime = null;
+      test.conditions = []; // Clear conditions
       test.logs = []; // Clear logs
     }
   }

@@ -1,3 +1,20 @@
+/**
+ * State Manager Proxy Module
+ *
+ * Main thread proxy for the StateManager web worker. Handles communication
+ * between the UI thread and the worker thread that runs state management logic.
+ *
+ * Key responsibilities:
+ * - Worker lifecycle management (initialization, message handling, termination)
+ * - Query/command routing with promise-based responses
+ * - Snapshot caching for synchronous UI access
+ * - Event forwarding from worker to main thread event bus
+ * - Static data caching (items, locations, regions, etc.)
+ *
+ * @module stateManager/proxy
+ * @class StateManagerProxy
+ */
+
 // Use logger if available, fallback to console.log
 // Check if we're in a worker context (no window object)
 const isWorkerContext = typeof window === 'undefined';
@@ -15,6 +32,7 @@ import { evaluateRule } from '../shared/ruleEngine.js';
 import { STATE_MANAGER_COMMANDS } from './stateManagerCommands.js'; // Import shared commands
 import { helperFunctions as alttpLogic } from '../shared/gameLogic/alttp/alttpLogic.js';
 import { helperFunctions as genericLogic } from '../shared/gameLogic/generic/genericLogic.js';
+import { DEFAULT_PLAYER_ID } from '../shared/playerIdUtils.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -43,7 +61,14 @@ export class StateManagerProxy {
     this.uiCache = null; // Initialize cache to null, indicating not yet loaded
     this.staticDataCache = {}; // Initialize staticDataCache to an empty object
     this.nextQueryId = 1;
-    this.pendingQueries = new Map(); // Map<queryId, { resolve, reject, timeoutId? }>
+    this.nextCorrelationId = 1; // Separate ID for command correlation tracking
+    this.pendingQueries = new Map(); // Map<queryId, { resolve, reject, timeoutId?, correlationId?, command?, state?, createdAt? }>
+    this.timedOutPings = new Map(); // Map<queryId, { payload, timeoutMs, timedOutAt }>
+    this.erroredQueries = new Map(); // Map<queryId, { error, timestamp, command, correlationId }>
+    this.cancelledQueries = new Map(); // Map<queryId, { reason, timestamp, command, correlationId }>
+    this.queryDeletionHistory = new Map(); // Map<queryId, { reason, timestamp, context, command, correlationId }>
+    this.unknownResponseBuffer = new Map(); // Map<queryId, { response, receivedAt, type }> - grace period buffer
+    this.commandStates = new Map(); // Map<correlationId, { state, queryId, command, history[] }>
     this.initialLoadPromise = null;
     this.initialLoadResolver = null;
     this.staticDataIsSet = false; // Flag for static data readiness
@@ -55,10 +80,16 @@ export class StateManagerProxy {
     this.messageCounter = 0; // DEPRECATED or RENAMED? Let's ensure nextMessageId is primary.
     this.nextMessageId = 0; // MODIFIED: Initialize nextMessageId
     this.config = null; // To store initial config like playerId
-    
+
     // Track worker initialization state
     this.workerInitialized = false;
     this.pendingGameStateData = null; // Queue Game State data for after initialization
+
+    // Response buffer grace period (ms) - allow late responses to be buffered
+    this.responseBufferGracePeriod = 5000;
+
+    // Start periodic cleanup of old buffered responses
+    this._startBufferCleanup();
 
     this._setupInitialLoadPromise();
     this.initializeWorker();
@@ -76,7 +107,7 @@ export class StateManagerProxy {
    */
   updateWorkerLoggingConfig(newLoggingConfig) {
     if (!this.worker) {
-      log('warn', '[StateManagerProxy] Cannot update worker logging config - worker not initialized');
+      log('error', '[StateManagerProxy] Cannot update worker logging config - worker not initialized');
       return;
     }
     
@@ -149,7 +180,7 @@ export class StateManagerProxy {
       return this.gameNameFromWorker;
     }
     log(
-      'warn',
+      'debug',
       '[StateManagerProxy getGameName] Game name not found. Sources checked: staticDataCache.game_name, uiCache.game, gameNameFromWorker. staticDataCache available:',
       !!this.staticDataCache,
       'gameNameFromWorker:',
@@ -179,16 +210,49 @@ export class StateManagerProxy {
       };
 
       this.worker.onerror = (error) => {
-        log('error', '[stateManagerProxy] Worker error:', error);
+        log('error', '[stateManagerProxy] Worker global error:', error);
         const errorMessage = `Worker error: ${
           error.message || 'Unknown worker error'
         }`;
-        // Reject all pending queries
-        this.pendingQueries.forEach(({ reject, timeoutId }) => {
-          if (timeoutId) clearTimeout(timeoutId);
-          reject(new Error(errorMessage));
+
+        // Reject all pending queries with tracking
+        const pendingQueryIds = Array.from(this.pendingQueries.keys());
+        log('error', `[StateManagerProxy] Worker global error - clearing ${pendingQueryIds.length} pending queries`, {
+          queryIds: pendingQueryIds
         });
+
+        this.pendingQueries.forEach((pending, queryId) => {
+          // Store in cancelled queries since this is a global cancellation
+          this._storeCancelledQuery(queryId, 'worker_global_error');
+
+          if (pending.timeoutId) clearTimeout(pending.timeoutId);
+          pending.reject(new Error(errorMessage));
+
+          // Record deletion in history
+          this.queryDeletionHistory.set(queryId, {
+            reason: 'worker_global_error',
+            timestamp: Date.now(),
+            context: {
+              error: errorMessage,
+              command: pending.command,
+              correlationId: pending.correlationId
+            },
+            command: pending.command,
+            correlationId: pending.correlationId
+          });
+
+          // Update command state
+          if (pending.correlationId) {
+            this._updateCommandState(pending.correlationId, StateManagerProxy.COMMAND_STATES.FAILED, {
+              queryId,
+              reason: 'worker_global_error',
+              error: errorMessage
+            });
+          }
+        });
+
         this.pendingQueries.clear();
+
         // Reject initial load promise if it's still pending
         if (this.initialLoadResolver) {
           // Ensure it hasn't resolved yet
@@ -219,6 +283,11 @@ export class StateManagerProxy {
         message
       );
       return;
+    }
+
+    // Log all ping responses for debugging
+    if (message.type === 'pingResponse') {
+      log('debug', `[StateManagerProxy] RECEIVED pingResponse for queryId ${message.queryId}`);
     }
 
     // ADDED: Detailed log for all incoming messages from worker
@@ -270,69 +339,92 @@ export class StateManagerProxy {
         if (message.newStaticData) {
           const newCache = { ...message.newStaticData };
 
-          // Convert exits array to object keyed by name
-          if (Array.isArray(newCache.exits)) {
-            const exitsObject = {};
-            newCache.exits.forEach((exit) => {
-              if (exit && exit.name) {
-                exitsObject[exit.name] = exit;
-              } else {
-                log(
-                  'warn',
-                  '[StateManagerProxy] Encountered exit without a name during array to object conversion:',
-                  exit
-                );
-              }
-            });
-            newCache.exits = exitsObject;
+          // Phase 3.2: Handle both Map and array format for backward compatibility
+          // Maps are preferred (no conversion needed), but arrays are converted to Maps
+
+          // Convert locations to Map if needed
+          if (Array.isArray(newCache.locations)) {
+            newCache.locations = new Map(newCache.locations);
+            log('info', `[StateManagerProxy] Converted ${newCache.locations.size} locations array to Map`);
+          } else if (newCache.locations instanceof Map) {
+            log('info', `[StateManagerProxy] Received ${newCache.locations.size} locations as Map (no conversion needed)`);
+          } else {
+            log('error', '[StateManagerProxy] newStaticData.locations is neither array nor Map');
           }
 
-          // Convert locations array to object keyed by name
-          if (Array.isArray(newCache.locations)) {
-            const locationsObject = {};
-            newCache.locations.forEach((location) => {
-              if (location && location.name) {
-                locationsObject[location.name] = location;
+          // Convert regions to Map if needed
+          if (Array.isArray(newCache.regions)) {
+            newCache.regions = new Map(newCache.regions);
+            log('info', `[StateManagerProxy] Converted ${newCache.regions.size} regions array to Map`);
+          } else if (newCache.regions instanceof Map) {
+            log('info', `[StateManagerProxy] Received ${newCache.regions.size} regions as Map (no conversion needed)`);
+          } else {
+            log('error', '[StateManagerProxy] newStaticData.regions is neither array nor Map');
+          }
+
+          // Convert dungeons to Map if needed
+          if (Array.isArray(newCache.dungeons)) {
+            newCache.dungeons = new Map(newCache.dungeons);
+            log('info', `[StateManagerProxy] Converted ${newCache.dungeons.size} dungeons array to Map`);
+          } else if (newCache.dungeons instanceof Map) {
+            log('info', `[StateManagerProxy] Received ${newCache.dungeons.size} dungeons as Map (no conversion needed)`);
+          } else if (newCache.dungeons) {
+            log('error', '[StateManagerProxy] newStaticData.dungeons is neither array nor Map');
+          }
+
+          // Convert locationItems to Map if needed
+          if (Array.isArray(newCache.locationItems)) {
+            newCache.locationItems = new Map(newCache.locationItems);
+            log('info', `[StateManagerProxy] Converted ${newCache.locationItems.size} locationItems array to Map`);
+          } else if (newCache.locationItems instanceof Map) {
+            log('info', `[StateManagerProxy] Received ${newCache.locationItems.size} locationItems as Map (no conversion needed)`);
+          } else if (newCache.locationItems) {
+            log('error', '[StateManagerProxy] newStaticData.locationItems is neither array nor Map');
+          }
+
+          // Phase 3: Re-link regions to dungeons after Map conversion
+          // When regions are serialized from worker, region.dungeon becomes a plain object
+          // We need to replace it with a reference to the dungeon in the dungeons Map
+          if (newCache.regions instanceof Map && newCache.dungeons instanceof Map) {
+            let relinkCount = 0;
+            for (const [regionName, region] of newCache.regions.entries()) {
+              if (region.dungeon && typeof region.dungeon === 'object') {
+                // region.dungeon is currently a plain object (serialized dungeon)
+                // Find the matching dungeon by name in the dungeons Map
+                const dungeonName = region.dungeon.name || region.dungeon_name;
+                if (dungeonName && newCache.dungeons.has(dungeonName)) {
+                  region.dungeon = newCache.dungeons.get(dungeonName);
+                  relinkCount++;
+                }
+              } else if (typeof region.dungeon === 'string') {
+                // If it's just a string name, look it up
+                if (newCache.dungeons.has(region.dungeon)) {
+                  region.dungeon = newCache.dungeons.get(region.dungeon);
+                  relinkCount++;
+                }
+              }
+            }
+            log('info', `[StateManagerProxy] Re-linked ${relinkCount} regions to dungeon objects`);
+          }
+
+          // Phase 3.2: Convert exits array to Map keyed by name
+          if (Array.isArray(newCache.exits)) {
+            const exitsMap = new Map();
+            newCache.exits.forEach((exit) => {
+              if (exit && exit.name) {
+                exitsMap.set(exit.name, exit);
               } else {
-                log(
-                  'warn',
-                  '[StateManagerProxy] Encountered location without a name during array to object conversion:',
-                  location
-                );
+                log('error', '[StateManagerProxy] Encountered exit without a name during conversion:', exit);
               }
             });
-            newCache.locations = locationsObject;
-          } else {
-            // If it's not an array, it might already be an object (e.g. from older structure or direct setStaticData)
-            // We should ensure it's what we expect or log a warning if it's something else.
-            if (
-              typeof newCache.locations !== 'object' ||
-              newCache.locations === null
-            ) {
-              log(
-                'warn',
-                '[StateManagerProxy] newStaticData.locations is neither an array nor a valid object. Check worker data structure.',
-                newCache.locations
-              );
-            } else if (
-              Object.values(newCache.locations).some(
-                (loc) => typeof loc !== 'object' || !loc.name
-              )
-            ) {
-              // If it's an object, but not keyed by name properly (e.g. keyed by ID), this won't fix it, but we can warn.
-              // This specific block might be overly cautious if the worker guarantees name-keyed objects when not sending arrays.
-              log(
-                'warn',
-                '[StateManagerProxy] newStaticData.locations is an object, but its values may not be location objects with names. Potential issue for snapshot interface.',
-                newCache.locations
-              );
-            }
+            newCache.exits = exitsMap;
+            log('info', `[StateManagerProxy] Converted ${newCache.exits.size} exits to Map`);
           }
 
           this.staticDataCache = newCache;
         } else {
           log(
-            'warn',
+            'error',
             '[StateManagerProxy] rulesLoadedConfirmation received, but newStaticData is missing.'
           );
         }
@@ -345,7 +437,7 @@ export class StateManagerProxy {
           );
         } else {
           log(
-            'warn',
+            'error',
             '[stateManagerProxy] rulesLoadedConfirmation received without initial snapshot.'
           );
         }
@@ -395,7 +487,7 @@ export class StateManagerProxy {
           }, 'stateManager');
         } else {
           log(
-            'warn',
+            'error',
             '[stateManagerProxy] Received stateSnapshot message without snapshot data.'
           );
         }
@@ -431,13 +523,39 @@ export class StateManagerProxy {
         if (message.queryId) {
           const pending = this.pendingQueries.get(message.queryId);
           if (pending) {
-            if (pending.timeoutId) clearTimeout(pending.timeoutId);
+            // Verify error correlation - check if the command matches
+            const expectedCommand = pending.command;
+            const reportedCommand = message.originalCommand;
+
+            if (expectedCommand && reportedCommand && expectedCommand !== reportedCommand) {
+              log('error', `[StateManagerProxy] ERROR CORRELATION MISMATCH!`, {
+                queryId: message.queryId,
+                expectedCommand,
+                reportedCommand,
+                correlationId: pending.correlationId,
+                message: 'Worker error attributed to wrong queryId!'
+              });
+            }
+
+            // Store error metadata before rejecting
+            this._storeErroredQuery(message.queryId, {
+              error: message.message,
+              command: message.originalCommand,
+              stack: message.stack,
+              context: { type: 'error', source: 'worker' }
+            });
+
             pending.reject(
               new Error(
                 message.message || 'Worker reported an error for this query.'
               )
             );
-            this.pendingQueries.delete(message.queryId);
+
+            this._deleteQueryId(message.queryId, 'error', {
+              workerError: message.message,
+              command: message.originalCommand,
+              stack: message.stack
+            });
           }
         }
         break;
@@ -456,14 +574,42 @@ export class StateManagerProxy {
         if (message.queryId) {
           const pending = this.pendingQueries.get(message.queryId);
           if (pending) {
-            if (pending.timeoutId) clearTimeout(pending.timeoutId);
+            // Verify error correlation - check if the command matches
+            const expectedCommand = pending.command;
+            const reportedCommand = message.command;
+
+            if (expectedCommand && reportedCommand && expectedCommand !== reportedCommand) {
+              log('error', `[StateManagerProxy] ERROR CORRELATION MISMATCH!`, {
+                queryId: message.queryId,
+                expectedCommand,
+                reportedCommand,
+                correlationId: pending.correlationId,
+                message: 'Worker error attributed to wrong queryId!'
+              });
+            }
+
+            // Store error metadata before rejecting
+            this._storeErroredQuery(message.queryId, {
+              error: message.errorMessage,
+              command: message.command,
+              stack: message.errorStack,
+              context: { type: 'workerError', source: 'worker' }
+            });
+
+            log('error', `[StateManagerProxy] Clearing queryId ${message.queryId} due to worker error: ${message.errorMessage}`);
+
             pending.reject(
               new Error(
                 message.errorMessage ||
                   'Worker reported an error processing command.'
               )
             );
-            this.pendingQueries.delete(message.queryId);
+
+            this._deleteQueryId(message.queryId, 'error', {
+              workerError: message.errorMessage,
+              command: message.command,
+              stack: message.errorStack
+            });
           }
         }
         break;
@@ -475,6 +621,51 @@ export class StateManagerProxy {
         break;
       case 'eventPublish': // New case for event republishing from worker
         this._handleEventPublish(message);
+        break;
+      case 'commandEnqueued': // Phase 8: Command queue acknowledgment
+        // Command was successfully enqueued
+        // Most commands will resolve their promise immediately upon enqueue
+        this._handleQueryResponse(message);
+        break;
+      case 'commandCompleted': // Phase 8: Command completed processing
+        // Command finished processing (for PING and similar that wait for completion)
+        this._handleQueryResponse(message);
+        break;
+      case 'commandFailed': // Phase 8: Command failed during processing
+        // Command encountered an error during execution
+        const pending = this.pendingQueries.get(message.queryId);
+
+        // Enhanced logging with correlation check
+        if (pending) {
+          const expectedCorrelation = pending.correlationId;
+          const receivedCorrelation = message.correlationId;
+
+          if (expectedCorrelation && receivedCorrelation && expectedCorrelation !== receivedCorrelation) {
+            log('error', `[StateManagerProxy] CORRELATION MISMATCH in commandFailed!`, {
+              queryId: message.queryId,
+              expectedCorrelation,
+              receivedCorrelation,
+              command: message.command
+            });
+          }
+        }
+
+        log('error', `[StateManagerProxy] Command failed`, {
+          command: message.command,
+          queryId: message.queryId,
+          correlationId: message.correlationId,
+          error: message.error,
+          queueStatus: message.queueStatus,
+          workerContext: message.context
+        });
+
+        this._handleQueryResponse({
+          queryId: message.queryId,
+          command: message.command,
+          error: message.error,
+          stack: message.stack,
+          correlationId: message.correlationId
+        });
         break;
       default:
         log(
@@ -488,45 +679,170 @@ export class StateManagerProxy {
 
   _handleQueryResponse(message) {
     const { queryId, result, error } = message;
+    log('debug', `[StateManagerProxy] _handleQueryResponse called for queryId ${queryId}, message type: ${message.type}`);
+
+    // Check if there's a buffered request that matches this response
+    const bufferedRequest = this._checkBufferedResponse(queryId);
+    if (bufferedRequest) {
+      log('info', `[StateManagerProxy] Found buffered request for queryId ${queryId}, processing late response`);
+      this.unknownResponseBuffer.delete(queryId);
+    }
+
     const pending = this.pendingQueries.get(queryId);
 
     if (pending) {
-      if (pending.timeoutId) {
-        clearTimeout(pending.timeoutId);
+      // Check if this query already timed out - handle late response gracefully
+      if (pending.timedOut) {
+        const latencyMs = Date.now() - pending.timedOutAt;
+        log('debug', `[StateManagerProxy] Late response arrived for timed-out queryId ${queryId} (${latencyMs}ms after timeout)`, {
+          command: pending.command,
+          hasResult: !!result,
+          hasError: !!error
+        });
+        // Clean up the entry now that we've received the response
+        this._deleteQueryId(queryId, 'late_response_after_timeout', {
+          latencyMs,
+          command: pending.command,
+          hasResult: !!result,
+          hasError: !!error
+        });
+        return;
       }
+
       if (error) {
         log('error', `[stateManagerProxy] Query ${queryId} failed:`, error);
+        this._storeErroredQuery(queryId, {
+          error,
+          command: message.command || pending.command,
+          stack: message.stack
+        });
         pending.reject(new Error(error));
+        this._deleteQueryId(queryId, 'error', {
+          error,
+          messageType: message.type,
+          command: message.command
+        });
       } else {
-        // console.debug(`[stateManagerProxy] Query ${queryId} succeeded.`); // Debug level
+        // Success path
         pending.resolve(result);
+        this._deleteQueryId(queryId, 'success', {
+          messageType: message.type,
+          command: message.command,
+          hasResult: !!result
+        });
       }
-      this.pendingQueries.delete(queryId);
     } else {
-      log(
-        'warn',
-        `[stateManagerProxy] Received response for unknown queryId: ${queryId}`
-      );
+      // Response for unknown queryId - check diagnostic info
+      const diagnostic = this._getDiagnosticInfo(queryId);
+
+      log('warn', `[stateManagerProxy] Received response for unknown queryId: ${queryId}`, {
+        messageType: message.type,
+        command: message.command,
+        hasResult: !!result,
+        hasError: !!error,
+        diagnostic
+      });
+
+      // Buffer this response in case the request arrives late
+      if (!diagnostic.deletionHistory) {
+        this._bufferUnknownResponse(queryId, message, message.type);
+      }
     }
   }
 
   _handlePingResponse(message) {
     if (message.queryId) {
-      const pending = this.pendingQueries.get(message.queryId);
+      const queryId = message.queryId;
+      const pending = this.pendingQueries.get(queryId);
+
+      log('debug', `[StateManagerProxy] _handlePingResponse called for queryId ${queryId}, pending exists: ${!!pending}`);
+
       if (pending) {
-        if (pending.timeoutId) clearTimeout(pending.timeoutId);
-        pending.resolve(message.payload); // Resolve with the echoed payload
-        this.pendingQueries.delete(message.queryId);
-        this._logDebug(
-          '[StateManagerProxy] Ping response processed for queryId:',
-          message.queryId
-        );
+        // Check if this ping already timed out - handle late response gracefully
+        if (pending.timedOut) {
+          const latencyMs = Date.now() - pending.timedOutAt;
+          log('debug', `[StateManagerProxy] Late ping response arrived for timed-out queryId ${queryId} (${latencyMs}ms after timeout)`, {
+            command: pending.command,
+            payload: message.payload
+          });
+          // Clean up the entry now that we've received the response
+          this._deleteQueryId(queryId, 'late_response_after_timeout', {
+            latencyMs,
+            command: pending.command,
+            messageType: 'pingResponse'
+          });
+          return;
+        }
+
+        // Success path - ping response arrived while queryId still pending
+        pending.resolve(message.payload);
+        this._deleteQueryId(queryId, 'success', {
+          payload: message.payload,
+          messageType: 'pingResponse'
+        });
+        log('debug', `[StateManagerProxy] Ping response SUCCESS for queryId: ${queryId}`);
       } else {
-        log(
-          'warn',
-          '[StateManagerProxy] Received pingResponse for unknown queryId:',
-          message.queryId
-        );
+        // Ping response for unknown queryId - use enhanced diagnostics
+        const diagnostic = this._getDiagnosticInfo(queryId);
+        const queueInfo = message.queueStatus || {};
+
+        // Build detailed diagnostic message
+        let diagnosticMessage = `[StateManagerProxy] Ping response for unknown queryId: ${queryId}\n`;
+
+        // Check timeout case
+        if (diagnostic.timedOut) {
+          const timeoutInfo = diagnostic.timedOutInfo;
+          const delayMs = Date.now() - timeoutInfo.timedOutAt;
+          diagnosticMessage += `  DIAGNOSIS: Actual timeout occurred\n`;
+          diagnosticMessage += `  Payload: ${JSON.stringify(timeoutInfo.payload)}\n`;
+          diagnosticMessage += `  Configured timeout: ${timeoutInfo.timeoutMs}ms\n`;
+          diagnosticMessage += `  Response delay after timeout: ${delayMs}ms\n`;
+          diagnosticMessage += `  Worker queue status: ${queueInfo.pending || '?'} pending, ${queueInfo.processing ? 'processing' : 'idle'}\n`;
+          diagnosticMessage += `  Current command: ${queueInfo.currentCommand || 'none'}\n`;
+          diagnosticMessage += `  This means the worker response is arriving late and the snapshot may be stale!`;
+
+          // Clean up timeout metadata
+          this.timedOutPings.delete(queryId);
+        }
+        // Check error case
+        else if (diagnostic.errored) {
+          const errorInfo = diagnostic.errorInfo;
+          diagnosticMessage += `  DIAGNOSIS: QueryId was cleared due to worker error\n`;
+          diagnosticMessage += `  Error: ${errorInfo.error}\n`;
+          diagnosticMessage += `  Error timestamp: ${new Date(errorInfo.timestamp).toISOString()}\n`;
+          diagnosticMessage += `  Command: ${errorInfo.command || 'unknown'}\n`;
+          diagnosticMessage += `  Correlation ID: ${errorInfo.correlationId || 'none'}\n`;
+          diagnosticMessage += `  Time since error: ${Date.now() - errorInfo.timestamp}ms\n`;
+          diagnosticMessage += `  Worker queue status: ${queueInfo.pending || '?'} pending, ${queueInfo.processing ? 'processing' : 'idle'}\n`;
+          diagnosticMessage += `  Current command: ${queueInfo.currentCommand || 'none'}\n`;
+          diagnosticMessage += `  The ping completed successfully but the queryId was already cleared due to an error.`;
+        }
+        // Check deletion history
+        else if (diagnostic.deletionHistory) {
+          const deletion = diagnostic.deletionHistory;
+          diagnosticMessage += `  DIAGNOSIS: QueryId was deleted for reason: ${deletion.reason}\n`;
+          diagnosticMessage += `  Deleted at: ${new Date(deletion.timestamp).toISOString()}\n`;
+          diagnosticMessage += `  Command: ${deletion.command || 'unknown'}\n`;
+          diagnosticMessage += `  Correlation ID: ${deletion.correlationId || 'none'}\n`;
+          diagnosticMessage += `  Age at deletion: ${deletion.context.age}ms\n`;
+          diagnosticMessage += `  Time since deletion: ${Date.now() - deletion.timestamp}ms\n`;
+          diagnosticMessage += `  Deletion context: ${JSON.stringify(deletion.context)}`;
+        }
+        // Unknown cause
+        else {
+          diagnosticMessage += `  DIAGNOSIS: Unknown cause - no timeout, error, or deletion history found\n`;
+          diagnosticMessage += `  Timeout metadata map size: ${this.timedOutPings.size}\n`;
+          diagnosticMessage += `  Errored queries map size: ${this.erroredQueries.size}\n`;
+          diagnosticMessage += `  Deletion history map size: ${this.queryDeletionHistory.size}\n`;
+          diagnosticMessage += `  Worker queue status: ${queueInfo.pending || '?'} pending, ${queueInfo.processing ? 'processing' : 'idle'}\n`;
+          diagnosticMessage += `  Current command: ${queueInfo.currentCommand || 'none'}\n`;
+          diagnosticMessage += `  This may indicate a race condition or message reordering issue.`;
+
+          // Buffer this response in case it's a reordering issue
+          this._bufferUnknownResponse(queryId, message, 'pingResponse');
+        }
+
+        log('warn', diagnosticMessage);
       }
     } else {
       // Handle non-query pings if any (currently not used by pingWorker)
@@ -554,6 +870,290 @@ export class StateManagerProxy {
         error
       );
     }
+  }
+
+  // --- Command Tracking and State Management Methods ---
+
+  /**
+   * Generate a new correlation ID for tracking commands across their lifecycle
+   * @returns {number} Unique correlation ID
+   */
+  _generateCorrelationId() {
+    return this.nextCorrelationId++;
+  }
+
+  /**
+   * Command state constants
+   */
+  static COMMAND_STATES = {
+    PENDING: 'PENDING',       // Created but not yet sent
+    QUEUED: 'QUEUED',         // Sent to worker, in queue
+    EXECUTING: 'EXECUTING',   // Worker is processing
+    COMPLETED: 'COMPLETED',   // Successfully completed
+    FAILED: 'FAILED',         // Failed with error
+    TIMED_OUT: 'TIMED_OUT',   // Timeout occurred
+    CANCELLED: 'CANCELLED'    // Manually cancelled
+  };
+
+  /**
+   * Update command state and record in history
+   * @param {number} correlationId - Command correlation ID
+   * @param {string} newState - New state from COMMAND_STATES
+   * @param {object} context - Additional context
+   */
+  _updateCommandState(correlationId, newState, context = {}) {
+    let stateInfo = this.commandStates.get(correlationId);
+
+    if (!stateInfo) {
+      stateInfo = {
+        state: newState,
+        command: context.command || 'unknown',
+        queryId: context.queryId,
+        history: []
+      };
+      this.commandStates.set(correlationId, stateInfo);
+    }
+
+    const previousState = stateInfo.state;
+    stateInfo.state = newState;
+
+    stateInfo.history.push({
+      state: newState,
+      previousState,
+      timestamp: Date.now(),
+      context
+    });
+
+    this._logDebug(
+      `[StateManagerProxy] Command state transition: ${previousState} -> ${newState}`,
+      { correlationId, command: stateInfo.command, context }
+    );
+  }
+
+  /**
+   * Get current state of a command
+   * @param {number} correlationId - Command correlation ID
+   * @returns {string|null} Current state or null if not found
+   */
+  _getCommandState(correlationId) {
+    const stateInfo = this.commandStates.get(correlationId);
+    return stateInfo ? stateInfo.state : null;
+  }
+
+  /**
+   * Centralized method for deleting queryId from pendingQueries with tracking
+   * @param {number} queryId - Query ID to delete
+   * @param {string} reason - Reason for deletion (timeout, success, error, cancelled)
+   * @param {object} context - Additional context information
+   */
+  _deleteQueryId(queryId, reason, context = {}) {
+    const pending = this.pendingQueries.get(queryId);
+
+    if (!pending) {
+      log('warn', `[StateManagerProxy] Attempted to delete non-existent queryId ${queryId}`, {
+        reason,
+        context
+      });
+      return;
+    }
+
+    const deletionRecord = {
+      reason,
+      timestamp: Date.now(),
+      context: {
+        ...context,
+        command: pending.command,
+        correlationId: pending.correlationId,
+        createdAt: pending.createdAt,
+        age: Date.now() - (pending.createdAt || Date.now())
+      },
+      command: pending.command,
+      correlationId: pending.correlationId
+    };
+
+    // Log deletion with full context
+    log('debug', `[StateManagerProxy] Deleting queryId ${queryId}`, deletionRecord);
+
+    // Clear timeout if exists
+    if (pending.timeoutId) {
+      clearTimeout(pending.timeoutId);
+    }
+
+    // Store in deletion history
+    this.queryDeletionHistory.set(queryId, deletionRecord);
+
+    // Update command state based on reason
+    if (pending.correlationId) {
+      let newState;
+      switch (reason) {
+        case 'timeout':
+          newState = StateManagerProxy.COMMAND_STATES.TIMED_OUT;
+          break;
+        case 'success':
+          newState = StateManagerProxy.COMMAND_STATES.COMPLETED;
+          break;
+        case 'error':
+          newState = StateManagerProxy.COMMAND_STATES.FAILED;
+          break;
+        case 'cancelled':
+          newState = StateManagerProxy.COMMAND_STATES.CANCELLED;
+          break;
+        default:
+          newState = StateManagerProxy.COMMAND_STATES.FAILED;
+      }
+      this._updateCommandState(pending.correlationId, newState, {
+        queryId,
+        reason,
+        ...context
+      });
+    }
+
+    // Delete from pending queries
+    this.pendingQueries.delete(queryId);
+
+    // Limit history size to prevent memory leaks (keep last 1000)
+    if (this.queryDeletionHistory.size > 1000) {
+      const firstKey = this.queryDeletionHistory.keys().next().value;
+      this.queryDeletionHistory.delete(firstKey);
+    }
+  }
+
+  /**
+   * Store metadata when query fails due to error
+   * @param {number} queryId - Query ID that errored
+   * @param {object} errorInfo - Error information
+   */
+  _storeErroredQuery(queryId, errorInfo) {
+    const pending = this.pendingQueries.get(queryId);
+
+    this.erroredQueries.set(queryId, {
+      error: errorInfo.error || errorInfo.message,
+      timestamp: Date.now(),
+      command: errorInfo.command || pending?.command,
+      correlationId: pending?.correlationId,
+      stack: errorInfo.stack,
+      context: errorInfo.context
+    });
+
+    // Limit size to prevent memory leaks (keep last 500)
+    if (this.erroredQueries.size > 500) {
+      const firstKey = this.erroredQueries.keys().next().value;
+      this.erroredQueries.delete(firstKey);
+    }
+  }
+
+  /**
+   * Store metadata when query is cancelled
+   * @param {number} queryId - Query ID that was cancelled
+   * @param {string} reason - Cancellation reason
+   */
+  _storeCancelledQuery(queryId, reason) {
+    const pending = this.pendingQueries.get(queryId);
+
+    this.cancelledQueries.set(queryId, {
+      reason,
+      timestamp: Date.now(),
+      command: pending?.command,
+      correlationId: pending?.correlationId
+    });
+
+    // Limit size to prevent memory leaks (keep last 500)
+    if (this.cancelledQueries.size > 500) {
+      const firstKey = this.cancelledQueries.keys().next().value;
+      this.cancelledQueries.delete(firstKey);
+    }
+  }
+
+  /**
+   * Buffer a response that arrived for an unknown queryId
+   * @param {number} queryId - Query ID of the response
+   * @param {object} response - The response message
+   * @param {string} type - Response type (pingResponse, queryResponse, etc.)
+   */
+  _bufferUnknownResponse(queryId, response, type) {
+    log('debug', `[StateManagerProxy] Buffering unknown response for queryId ${queryId}`, {
+      type,
+      bufferSize: this.unknownResponseBuffer.size
+    });
+
+    this.unknownResponseBuffer.set(queryId, {
+      response,
+      receivedAt: Date.now(),
+      type
+    });
+
+    // Limit buffer size
+    if (this.unknownResponseBuffer.size > 100) {
+      const firstKey = this.unknownResponseBuffer.keys().next().value;
+      this.unknownResponseBuffer.delete(firstKey);
+    }
+  }
+
+  /**
+   * Check if a buffered response exists for a queryId
+   * @param {number} queryId - Query ID to check
+   * @returns {object|null} Buffered response or null
+   */
+  _checkBufferedResponse(queryId) {
+    return this.unknownResponseBuffer.get(queryId) || null;
+  }
+
+  /**
+   * Start periodic cleanup of old buffered responses and timed-out queries
+   */
+  _startBufferCleanup() {
+    // Grace period for timed-out queries before cleanup (60 seconds)
+    const timedOutQueryGracePeriod = 60000;
+
+    setInterval(() => {
+      const now = Date.now();
+
+      // Clean up old buffered responses
+      for (const [queryId, bufferEntry] of this.unknownResponseBuffer.entries()) {
+        if (now - bufferEntry.receivedAt > this.responseBufferGracePeriod) {
+          log('debug', `[StateManagerProxy] Removing expired buffered response for queryId ${queryId}`, {
+            age: now - bufferEntry.receivedAt,
+            type: bufferEntry.type
+          });
+          this.unknownResponseBuffer.delete(queryId);
+        }
+      }
+
+      // Clean up old timed-out queries that never received a response
+      for (const [queryId, pending] of this.pendingQueries.entries()) {
+        if (pending.timedOut && (now - pending.timedOutAt > timedOutQueryGracePeriod)) {
+          log('debug', `[StateManagerProxy] Cleaning up stale timed-out queryId ${queryId} (no response after ${timedOutQueryGracePeriod}ms)`, {
+            command: pending.command,
+            timedOutAt: pending.timedOutAt
+          });
+          this._deleteQueryId(queryId, 'stale_timeout_cleanup', {
+            timedOutAt: pending.timedOutAt,
+            command: pending.command,
+            ageAfterTimeout: now - pending.timedOutAt
+          });
+        }
+      }
+    }, 10000); // Cleanup every 10 seconds
+  }
+
+  /**
+   * Get diagnostic information about a queryId
+   * @param {number} queryId - Query ID to diagnose
+   * @returns {object} Diagnostic information
+   */
+  _getDiagnosticInfo(queryId) {
+    return {
+      pending: this.pendingQueries.has(queryId),
+      timedOut: this.timedOutPings.has(queryId),
+      errored: this.erroredQueries.has(queryId),
+      cancelled: this.cancelledQueries.has(queryId),
+      deletionHistory: this.queryDeletionHistory.get(queryId),
+      buffered: this.unknownResponseBuffer.has(queryId),
+      timedOutInfo: this.timedOutPings.get(queryId),
+      errorInfo: this.erroredQueries.get(queryId),
+      cancelInfo: this.cancelledQueries.get(queryId),
+      bufferInfo: this.unknownResponseBuffer.get(queryId)
+    };
   }
 
   // --- Internal Helper Methods ---
@@ -614,18 +1214,26 @@ export class StateManagerProxy {
 
       if (timeoutMs > 0) {
         timeoutId = setTimeout(() => {
-          if (this.pendingQueries.has(queryId)) {
-            log(
-              'error',
-              `[stateManagerProxy] Query ${queryId} (${message.command}) timed out after ${timeoutMs}ms.`
-            );
-            this.pendingQueries.delete(queryId);
+          const pending = this.pendingQueries.get(queryId);
+          if (pending && !pending.timedOut) {
+            // Mark as timed out but keep in pendingQueries to handle late responses gracefully
+            pending.timedOut = true;
+            pending.timedOutAt = Date.now();
+            pending.resolve = null; // Clear to avoid resolving after rejection
+            pending.reject = null;  // Clear to avoid double rejection
+
+            log('warn', `[StateManagerProxy] Query timed out but keeping queryId for late response handling`, {
+              queryId,
+              command: message.command,
+              timeoutMs
+            });
+
             reject(new Error(`Query timed out: ${message.command}`));
           }
         }, timeoutMs);
       }
 
-      this.pendingQueries.set(queryId, { resolve, reject, timeoutId });
+      this.pendingQueries.set(queryId, { resolve, reject, timeoutId, command: message.command });
 
       try {
         this.worker.postMessage({ ...message, queryId });
@@ -774,7 +1382,7 @@ export class StateManagerProxy {
 
     // If still not ready, it means something is off or it's a genuine timeout from a previous state.
     log(
-      'warn',
+      'error',
       '[StateManagerProxy ensureReady] Fell through all checks, returning current (likely false) ready state.'
     );
     return false; // Or this._isReadyPublished which would be false
@@ -909,10 +1517,10 @@ export class StateManagerProxy {
     );
   }
 
-  async checkLocation(locationName, addItems = true) {
+  async checkLocation(locationName, addItems = true, forceCheck = false) {
     return this._sendCommand(
       StateManagerProxy.COMMANDS.CHECK_LOCATION,
-      { locationName, addItems },
+      { locationName, addItems, forceCheck },
       true
     );
   }
@@ -994,9 +1602,15 @@ export class StateManagerProxy {
 
   terminateWorker() {
     if (this.worker) {
+      // Clear all pending queries and their timeouts before terminating
+      this.pendingQueries.forEach(({ timeoutId }) => {
+        if (timeoutId) clearTimeout(timeoutId);
+      });
+      this.pendingQueries.clear();
+
       this.worker.terminate();
       this.worker = null;
-      log('info', '[StateManagerProxy] Worker terminated.');
+      log('info', '[StateManagerProxy] Worker terminated and pending queries cleared.');
     }
   }
 
@@ -1049,7 +1663,7 @@ export class StateManagerProxy {
     command,
     payload = null,
     expectResponse = false,
-    timeout = 5000
+    timeout = 10000
   ) {
     if (!this.worker) {
       // MODIFIED: Direct call to imported function
@@ -1065,46 +1679,96 @@ export class StateManagerProxy {
       );
     }
 
-    const messageId = this.nextMessageId++;
-    const message = {
-      queryId: messageId,
-      command: command,
-      payload: payload,
-      expectResponse: expectResponse,
-    };
-
     return new Promise((resolve, reject) => {
+      const messageId = this.nextMessageId++;
+      const correlationId = this._generateCorrelationId();
+      const createdAt = Date.now();
+
+      const message = {
+        queryId: messageId,
+        command: command,
+        payload: payload,
+        expectResponse: expectResponse,
+        correlationId: correlationId, // Include correlation ID in message
+      };
+
+      // Initialize command state
+      this._updateCommandState(correlationId, StateManagerProxy.COMMAND_STATES.PENDING, {
+        queryId: messageId,
+        command,
+        expectResponse,
+        timeout
+      });
+
       if (expectResponse) {
-        this.pendingQueries.set(messageId, { resolve, reject, timeout });
-        // Start timeout for query
-        setTimeout(() => {
-          if (this.pendingQueries.has(messageId)) {
-            this.pendingQueries.delete(messageId);
+        const timeoutId = setTimeout(() => {
+          const pending = this.pendingQueries.get(messageId);
+          if (pending && !pending.timedOut) {
             const queryError = new Error(
-              `Timeout waiting for response to command: ${command} (ID: ${messageId})`
+              `Timeout waiting for response to command: ${command} (ID: ${messageId}, Correlation: ${correlationId})`
             );
-            // MODIFIED: Direct call to imported logWorkerCommunication
-            if (typeof logWorkerCommunication === 'function') {
-              logWorkerCommunication(
-                `[Proxy -> Worker] ${queryError.message}`,
-                'error'
-              );
+
+            // Mark as timed out but keep in pendingQueries to handle late responses gracefully
+            pending.timedOut = true;
+            pending.timedOutAt = Date.now();
+            pending.resolve = null; // Clear to avoid resolving after rejection
+            pending.reject = null;  // Clear to avoid double rejection
+
+            // Update command state
+            if (pending.correlationId) {
+              this._updateCommandState(pending.correlationId, StateManagerProxy.COMMAND_STATES.TIMED_OUT, {
+                queryId: messageId,
+                command,
+                timeout
+              });
             }
+
+            log('warn', `[StateManagerProxy] Command timed out but keeping queryId for late response handling`, {
+              queryId: messageId,
+              command,
+              timeout,
+              correlationId
+            });
+
             reject(queryError);
           }
         }, timeout);
+
+        this.pendingQueries.set(messageId, {
+          resolve,
+          reject,
+          timeout,
+          timeoutId,
+          command,
+          correlationId,
+          createdAt,
+          state: StateManagerProxy.COMMAND_STATES.PENDING
+        });
       }
 
       // MODIFIED: Direct call to imported logWorkerCommunication
       if (typeof logWorkerCommunication === 'function') {
         logWorkerCommunication(
-          `[Proxy -> Worker] ID: ${messageId}, CMD: ${command}`,
+          `[Proxy -> Worker] ID: ${messageId}, Correlation: ${correlationId}, CMD: ${command}`,
           payload
         );
       }
+
+      // Update state to QUEUED when sending
+      this._updateCommandState(correlationId, StateManagerProxy.COMMAND_STATES.QUEUED, {
+        queryId: messageId,
+        command
+      });
+
       this.worker.postMessage(message);
 
       if (!expectResponse) {
+        // Still update state for fire-and-forget commands
+        this._updateCommandState(correlationId, StateManagerProxy.COMMAND_STATES.COMPLETED, {
+          queryId: messageId,
+          command,
+          note: 'fire-and-forget command completed immediately'
+        });
         resolve(); // Resolve immediately for fire-and-forget commands
       }
     });
@@ -1213,7 +1877,7 @@ export class StateManagerProxy {
     // initialConfig might contain rulesConfig (as data), gameName, etc.
     this.initialConfig = {
       rulesData: initialConfig.rulesConfig, // Expects rulesConfig to be the actual rules JSON object
-      playerId: initialConfig.playerId || '1', // ADDED: Store and use playerId from initialConfig
+      playerId: initialConfig.playerId || DEFAULT_PLAYER_ID, // Store and use playerId from initialConfig
       rulesUrl: null, // Explicitly null if rulesData is provided; worker will prioritize rulesData
       eventsConfig: initialConfig.eventsConfig, // Pass through if provided
       settings: initialConfig.settings, // Pass through if provided
@@ -1450,26 +2114,74 @@ export class StateManagerProxy {
   }
   // --- END ADDED ---
 
-  async pingWorker(dataToEcho, timeoutMs = 2000) {
+  async pingWorker(dataToEcho, timeoutMs = 5000) {
     const queryId = this.nextQueryId++;
-    this._logDebug(
-      `[StateManagerProxy] Pinging worker with queryId ${queryId}, payload:`,
-      dataToEcho
-    );
+    const correlationId = this._generateCorrelationId();
+    const command = StateManagerProxy.COMMANDS.PING;
+    const createdAt = Date.now();
+
+    log('debug', `[StateManagerProxy] SENDING ping with queryId ${queryId}, correlationId ${correlationId}, timeout: ${timeoutMs}ms, payload: ${JSON.stringify(dataToEcho).substring(0, 50)}...`);
+
+    // Initialize command state
+    this._updateCommandState(correlationId, StateManagerProxy.COMMAND_STATES.PENDING, {
+      queryId,
+      command,
+      payload: dataToEcho,
+      timeoutMs
+    });
 
     const promise = new Promise((resolve, reject) => {
       const timeoutId = setTimeout(() => {
-        this.pendingQueries.delete(queryId);
-        reject(
-          new Error(`Timeout waiting for ping response (queryId: ${queryId})`)
-        );
+        const pending = this.pendingQueries.get(queryId);
+        if (pending && !pending.timedOut) {
+          // Mark as timed out but keep in pendingQueries to handle late responses gracefully
+          pending.timedOut = true;
+          pending.timedOutAt = Date.now();
+          pending.resolve = null; // Clear to avoid resolving after rejection
+          pending.reject = null;  // Clear to avoid double rejection
+
+          // Update command state
+          this._updateCommandState(correlationId, StateManagerProxy.COMMAND_STATES.TIMED_OUT, {
+            queryId,
+            command,
+            timeoutMs
+          });
+
+          log('warn', `[StateManagerProxy] Ping timed out but keeping queryId for late response handling`, {
+            queryId,
+            correlationId,
+            timeoutMs
+          });
+
+          reject(
+            new Error(`Timeout waiting for ping response (queryId: ${queryId}, correlationId: ${correlationId})`)
+          );
+        }
       }, timeoutMs);
-      this.pendingQueries.set(queryId, { resolve, reject, timeoutId });
+
+      this.pendingQueries.set(queryId, {
+        resolve,
+        reject,
+        timeoutId,
+        command,
+        correlationId,
+        createdAt,
+        state: StateManagerProxy.COMMAND_STATES.PENDING
+      });
+
+      log('debug', `[StateManagerProxy] Added ping queryId ${queryId}, correlationId ${correlationId} to pendingQueries`);
+    });
+
+    // Update state to QUEUED when sending to worker
+    this._updateCommandState(correlationId, StateManagerProxy.COMMAND_STATES.QUEUED, {
+      queryId,
+      command
     });
 
     this.sendCommandToWorker({
-      command: StateManagerProxy.COMMANDS.PING,
-      queryId: queryId, // Include queryId so worker can echo it back
+      command,
+      queryId: queryId,
+      correlationId: correlationId, // Include correlationId for tracking
       payload: dataToEcho,
     });
 
@@ -1635,6 +2347,37 @@ export class StateManagerProxy {
       StateManagerProxy.COMMANDS.SET_AUTO_COLLECT_EVENTS_CONFIG,
       { enabled }, // Pass 'enabled' as part of the payload
       false // This is a fire-and-forget command, no specific response expected beyond ack
+    );
+  }
+
+  // Method to enable/disable spoiler test mode in the worker's StateManager
+  async setSpoilerTestMode(enabled) {
+    return this._sendCommand(
+      StateManagerProxy.COMMANDS.SET_SPOILER_TEST_MODE,
+      { enabled }, // Pass 'enabled' as part of the payload
+      false // This is a fire-and-forget command, no specific response expected beyond ack
+    );
+  }
+
+  /**
+   * Manually triggers a recalculation of region and location accessibility in the worker.
+   * This includes:
+   * - Invalidating the reachability cache
+   * - Recomputing reachable regions via BFS
+   * - Scanning for newly accessible event locations and auto-collecting them (if enabled)
+   * - Sending an updated snapshot to the main thread
+   *
+   * Useful for forcing a fresh calculation when state might be stale or
+   * when you need to ensure all event locations have been scanned and checked.
+   *
+   * @returns {Promise<void>} A promise that resolves when the command has been sent
+   */
+  async recalculateAccessibility() {
+    log('info', '[StateManagerProxy] Requesting manual accessibility recalculation from worker');
+    return this._sendCommand(
+      StateManagerProxy.COMMANDS.RECALCULATE_ACCESSIBILITY,
+      null, // No payload needed
+      false // Fire-and-forget, snapshot update will arrive via normal flow
     );
   }
 }

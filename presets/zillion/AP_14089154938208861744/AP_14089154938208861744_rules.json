@@ -14,23 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [
-          {
-            "name": "B-8  to Menu",
-            "parent_region": "B-8 ",
-            "connected_region": "Menu"
-          },
-          {
-            "name": "left_of_start to Menu",
-            "parent_region": "left_of_start",
-            "connected_region": "Menu"
-          },
-          {
-            "name": "C-6  to Menu",
-            "parent_region": "C-6 ",
-            "connected_region": "Menu"
-          }
-        ],
         "exits": [
           {
             "name": "Menu to B-8 ",
@@ -61,23 +44,6 @@
       },
       "left_of_start": {
         "name": "left_of_start",
-        "entrances": [
-          {
-            "name": "Menu to left_of_start",
-            "parent_region": "Menu",
-            "connected_region": "left_of_start"
-          },
-          {
-            "name": "B-1  to left_of_start",
-            "parent_region": "B-1 ",
-            "connected_region": "left_of_start"
-          },
-          {
-            "name": "A-3  to left_of_start",
-            "parent_region": "A-3 ",
-            "connected_region": "left_of_start"
-          }
-        ],
         "exits": [
           {
             "name": "left_of_start to Menu",
@@ -108,13 +74,6 @@
       },
       "B-1 ": {
         "name": "B-1 ",
-        "entrances": [
-          {
-            "name": "left_of_start to B-1 ",
-            "parent_region": "left_of_start",
-            "connected_region": "B-1 "
-          }
-        ],
         "exits": [
           {
             "name": "B-1  to left_of_start",
@@ -185,18 +144,6 @@
       },
       "B-8 ": {
         "name": "B-8 ",
-        "entrances": [
-          {
-            "name": "Menu to B-8 ",
-            "parent_region": "Menu",
-            "connected_region": "B-8 "
-          },
-          {
-            "name": "A-8  to B-8 ",
-            "parent_region": "A-8 ",
-            "connected_region": "B-8 "
-          }
-        ],
         "exits": [
           {
             "name": "B-8  to Menu",
@@ -242,18 +189,6 @@
       },
       "A-3 ": {
         "name": "A-3 ",
-        "entrances": [
-          {
-            "name": "left_of_start to A-3 ",
-            "parent_region": "left_of_start",
-            "connected_region": "A-3 "
-          },
-          {
-            "name": "A-4  to A-3 ",
-            "parent_region": "A-4 ",
-            "connected_region": "A-3 "
-          }
-        ],
         "exits": [
           {
             "name": "A-3  to left_of_start",
@@ -288,18 +223,6 @@
       },
       "A-4 ": {
         "name": "A-4 ",
-        "entrances": [
-          {
-            "name": "A-3  to A-4 ",
-            "parent_region": "A-3 ",
-            "connected_region": "A-4 "
-          },
-          {
-            "name": "A-6  to A-4 ",
-            "parent_region": "A-6 ",
-            "connected_region": "A-4 "
-          }
-        ],
         "exits": [
           {
             "name": "A-4  to A-3 ",
@@ -367,13 +290,6 @@
       },
       "A-6 ": {
         "name": "A-6 ",
-        "entrances": [
-          {
-            "name": "A-4  to A-6 ",
-            "parent_region": "A-4 ",
-            "connected_region": "A-6 "
-          }
-        ],
         "exits": [
           {
             "name": "A-6  to A-4 ",
@@ -455,13 +371,6 @@
       },
       "A-8 ": {
         "name": "A-8 ",
-        "entrances": [
-          {
-            "name": "B-8  to A-8 ",
-            "parent_region": "B-8 ",
-            "connected_region": "A-8 "
-          }
-        ],
         "exits": [
           {
             "name": "A-8  to B-8 ",
@@ -510,23 +419,6 @@
       },
       "C-3 ": {
         "name": "C-3 ",
-        "entrances": [
-          {
-            "name": "C-4  to C-3 ",
-            "parent_region": "C-4 ",
-            "connected_region": "C-3 "
-          },
-          {
-            "name": "D-2  to C-3 ",
-            "parent_region": "D-2 ",
-            "connected_region": "C-3 "
-          },
-          {
-            "name": "D-3  to C-3 ",
-            "parent_region": "D-3 ",
-            "connected_region": "C-3 "
-          }
-        ],
         "exits": [
           {
             "name": "C-3  to C-4 ",
@@ -569,18 +461,6 @@
       },
       "C-4 ": {
         "name": "C-4 ",
-        "entrances": [
-          {
-            "name": "C-5  to C-4 ",
-            "parent_region": "C-5 ",
-            "connected_region": "C-4 "
-          },
-          {
-            "name": "C-3  to C-4 ",
-            "parent_region": "C-3 ",
-            "connected_region": "C-4 "
-          }
-        ],
         "exits": [
           {
             "name": "C-4  to C-5 ",
@@ -615,18 +495,6 @@
       },
       "C-5 ": {
         "name": "C-5 ",
-        "entrances": [
-          {
-            "name": "C-6  to C-5 ",
-            "parent_region": "C-6 ",
-            "connected_region": "C-5 "
-          },
-          {
-            "name": "C-4  to C-5 ",
-            "parent_region": "C-4 ",
-            "connected_region": "C-5 "
-          }
-        ],
         "exits": [
           {
             "name": "C-5  to C-6 ",
@@ -661,18 +529,6 @@
       },
       "C-6 ": {
         "name": "C-6 ",
-        "entrances": [
-          {
-            "name": "Menu to C-6 ",
-            "parent_region": "Menu",
-            "connected_region": "C-6 "
-          },
-          {
-            "name": "C-5  to C-6 ",
-            "parent_region": "C-5 ",
-            "connected_region": "C-6 "
-          }
-        ],
         "exits": [
           {
             "name": "C-6  to Menu",
@@ -718,18 +574,6 @@
       },
       "D-2 ": {
         "name": "D-2 ",
-        "entrances": [
-          {
-            "name": "C-3  to D-2 ",
-            "parent_region": "C-3 ",
-            "connected_region": "D-2 "
-          },
-          {
-            "name": "D-3  to D-2 ",
-            "parent_region": "D-3 ",
-            "connected_region": "D-2 "
-          }
-        ],
         "exits": [
           {
             "name": "D-2  to C-3 ",
@@ -775,23 +619,6 @@
       },
       "D-3 ": {
         "name": "D-3 ",
-        "entrances": [
-          {
-            "name": "C-3  to D-3 ",
-            "parent_region": "C-3 ",
-            "connected_region": "D-3 "
-          },
-          {
-            "name": "D-2  to D-3 ",
-            "parent_region": "D-2 ",
-            "connected_region": "D-3 "
-          },
-          {
-            "name": "D-5  to D-3 ",
-            "parent_region": "D-5 ",
-            "connected_region": "D-3 "
-          }
-        ],
         "exits": [
           {
             "name": "D-3  to D-2 ",
@@ -834,18 +661,6 @@
       },
       "D-5 ": {
         "name": "D-5 ",
-        "entrances": [
-          {
-            "name": "D-3  to D-5 ",
-            "parent_region": "D-3 ",
-            "connected_region": "D-5 "
-          },
-          {
-            "name": "D-6  to D-5 ",
-            "parent_region": "D-6 ",
-            "connected_region": "D-5 "
-          }
-        ],
         "exits": [
           {
             "name": "D-5  to D-3 ",
@@ -891,18 +706,6 @@
       },
       "D-6 ": {
         "name": "D-6 ",
-        "entrances": [
-          {
-            "name": "D-5  to D-6 ",
-            "parent_region": "D-5 ",
-            "connected_region": "D-6 "
-          },
-          {
-            "name": "between_blue_red to D-6 ",
-            "parent_region": "between_blue_red",
-            "connected_region": "D-6 "
-          }
-        ],
         "exits": [
           {
             "name": "D-6  to D-5 ",
@@ -948,23 +751,6 @@
       },
       "between_blue_red": {
         "name": "between_blue_red",
-        "entrances": [
-          {
-            "name": "D-6  to between_blue_red",
-            "parent_region": "D-6 ",
-            "connected_region": "between_blue_red"
-          },
-          {
-            "name": "E-6  to between_blue_red",
-            "parent_region": "E-6 ",
-            "connected_region": "between_blue_red"
-          },
-          {
-            "name": "E-8  to between_blue_red",
-            "parent_region": "E-8 ",
-            "connected_region": "between_blue_red"
-          }
-        ],
         "exits": [
           {
             "name": "between_blue_red to D-6 ",
@@ -995,18 +781,6 @@
       },
       "E-4 ": {
         "name": "E-4 ",
-        "entrances": [
-          {
-            "name": "F-4  to E-4 ",
-            "parent_region": "F-4 ",
-            "connected_region": "E-4 "
-          },
-          {
-            "name": "E-5 SW to E-4 ",
-            "parent_region": "E-5 SW",
-            "connected_region": "E-4 "
-          }
-        ],
         "exits": [
           {
             "name": "E-4  to F-4 ",
@@ -1041,18 +815,6 @@
       },
       "E-5 SW": {
         "name": "E-5 SW",
-        "entrances": [
-          {
-            "name": "E-4  to E-5 SW",
-            "parent_region": "E-4 ",
-            "connected_region": "E-5 SW"
-          },
-          {
-            "name": "E-5 NE to E-5 SW",
-            "parent_region": "E-5 NE",
-            "connected_region": "E-5 SW"
-          }
-        ],
         "exits": [
           {
             "name": "E-5 SW to E-4 ",
@@ -1087,13 +849,6 @@
       },
       "E-5 NE": {
         "name": "E-5 NE",
-        "entrances": [
-          {
-            "name": "E-5 SW to E-5 NE",
-            "parent_region": "E-5 SW",
-            "connected_region": "E-5 NE"
-          }
-        ],
         "exits": [
           {
             "name": "E-5 NE to E-5 SW",
@@ -1120,13 +875,6 @@
       },
       "E-6 ": {
         "name": "E-6 ",
-        "entrances": [
-          {
-            "name": "between_blue_red to E-6 ",
-            "parent_region": "between_blue_red",
-            "connected_region": "E-6 "
-          }
-        ],
         "exits": [
           {
             "name": "E-6  to between_blue_red",
@@ -1197,18 +945,6 @@
       },
       "E-8 ": {
         "name": "E-8 ",
-        "entrances": [
-          {
-            "name": "between_blue_red to E-8 ",
-            "parent_region": "between_blue_red",
-            "connected_region": "E-8 "
-          },
-          {
-            "name": "F-8  to E-8 ",
-            "parent_region": "F-8 ",
-            "connected_region": "E-8 "
-          }
-        ],
         "exits": [
           {
             "name": "E-8  to between_blue_red",
@@ -1254,23 +990,6 @@
       },
       "F-4 ": {
         "name": "F-4 ",
-        "entrances": [
-          {
-            "name": "F-5  to F-4 ",
-            "parent_region": "F-5 ",
-            "connected_region": "F-4 "
-          },
-          {
-            "name": "E-4  to F-4 ",
-            "parent_region": "E-4 ",
-            "connected_region": "F-4 "
-          },
-          {
-            "name": "red_elevator to F-4 ",
-            "parent_region": "red_elevator",
-            "connected_region": "F-4 "
-          }
-        ],
         "exits": [
           {
             "name": "F-4  to F-5 ",
@@ -1313,18 +1032,6 @@
       },
       "F-5 ": {
         "name": "F-5 ",
-        "entrances": [
-          {
-            "name": "F-7  to F-5 ",
-            "parent_region": "F-7 ",
-            "connected_region": "F-5 "
-          },
-          {
-            "name": "F-4  to F-5 ",
-            "parent_region": "F-4 ",
-            "connected_region": "F-5 "
-          }
-        ],
         "exits": [
           {
             "name": "F-5  to F-7 ",
@@ -1359,23 +1066,6 @@
       },
       "F-7 ": {
         "name": "F-7 ",
-        "entrances": [
-          {
-            "name": "F-8  to F-7 ",
-            "parent_region": "F-8 ",
-            "connected_region": "F-7 "
-          },
-          {
-            "name": "F-5  to F-7 ",
-            "parent_region": "F-5 ",
-            "connected_region": "F-7 "
-          },
-          {
-            "name": "G-7  to F-7 ",
-            "parent_region": "G-7 ",
-            "connected_region": "F-7 "
-          }
-        ],
         "exits": [
           {
             "name": "F-7  to F-8 ",
@@ -1418,18 +1108,6 @@
       },
       "F-8 ": {
         "name": "F-8 ",
-        "entrances": [
-          {
-            "name": "E-8  to F-8 ",
-            "parent_region": "E-8 ",
-            "connected_region": "F-8 "
-          },
-          {
-            "name": "F-7  to F-8 ",
-            "parent_region": "F-7 ",
-            "connected_region": "F-8 "
-          }
-        ],
         "exits": [
           {
             "name": "F-8  to E-8 ",
@@ -1464,18 +1142,6 @@
       },
       "G-4 ": {
         "name": "G-4 ",
-        "entrances": [
-          {
-            "name": "G-5  to G-4 ",
-            "parent_region": "G-5 ",
-            "connected_region": "G-4 "
-          },
-          {
-            "name": "H-4  to G-4 ",
-            "parent_region": "H-4 ",
-            "connected_region": "G-4 "
-          }
-        ],
         "exits": [
           {
             "name": "G-4  to G-5 ",
@@ -1521,18 +1187,6 @@
       },
       "G-5 ": {
         "name": "G-5 ",
-        "entrances": [
-          {
-            "name": "G-6  to G-5 ",
-            "parent_region": "G-6 ",
-            "connected_region": "G-5 "
-          },
-          {
-            "name": "G-4  to G-5 ",
-            "parent_region": "G-4 ",
-            "connected_region": "G-5 "
-          }
-        ],
         "exits": [
           {
             "name": "G-5  to G-6 ",
@@ -1578,18 +1232,6 @@
       },
       "G-6 ": {
         "name": "G-6 ",
-        "entrances": [
-          {
-            "name": "G-7  to G-6 ",
-            "parent_region": "G-7 ",
-            "connected_region": "G-6 "
-          },
-          {
-            "name": "G-5  to G-6 ",
-            "parent_region": "G-5 ",
-            "connected_region": "G-6 "
-          }
-        ],
         "exits": [
           {
             "name": "G-6  to G-7 ",
@@ -1635,23 +1277,6 @@
       },
       "G-7 ": {
         "name": "G-7 ",
-        "entrances": [
-          {
-            "name": "F-7  to G-7 ",
-            "parent_region": "F-7 ",
-            "connected_region": "G-7 "
-          },
-          {
-            "name": "G-6  to G-7 ",
-            "parent_region": "G-6 ",
-            "connected_region": "G-7 "
-          },
-          {
-            "name": "G-8  to G-7 ",
-            "parent_region": "G-8 ",
-            "connected_region": "G-7 "
-          }
-        ],
         "exits": [
           {
             "name": "G-7  to F-7 ",
@@ -1705,18 +1330,6 @@
       },
       "G-8 ": {
         "name": "G-8 ",
-        "entrances": [
-          {
-            "name": "G-7  to G-8 ",
-            "parent_region": "G-7 ",
-            "connected_region": "G-8 "
-          },
-          {
-            "name": "H-8  to G-8 ",
-            "parent_region": "H-8 ",
-            "connected_region": "G-8 "
-          }
-        ],
         "exits": [
           {
             "name": "G-8  to G-7 ",
@@ -1739,23 +1352,6 @@
       },
       "H-4 ": {
         "name": "H-4 ",
-        "entrances": [
-          {
-            "name": "red_elevator to H-4 ",
-            "parent_region": "red_elevator",
-            "connected_region": "H-4 "
-          },
-          {
-            "name": "G-4  to H-4 ",
-            "parent_region": "G-4 ",
-            "connected_region": "H-4 "
-          },
-          {
-            "name": "H-5 SW to H-4 ",
-            "parent_region": "H-5 SW",
-            "connected_region": "H-4 "
-          }
-        ],
         "exits": [
           {
             "name": "H-4  to G-4 ",
@@ -1809,18 +1405,6 @@
       },
       "H-5 NE": {
         "name": "H-5 NE",
-        "entrances": [
-          {
-            "name": "I-5  to H-5 NE",
-            "parent_region": "I-5 ",
-            "connected_region": "H-5 NE"
-          },
-          {
-            "name": "H-6  to H-5 NE",
-            "parent_region": "H-6 ",
-            "connected_region": "H-5 NE"
-          }
-        ],
         "exits": [
           {
             "name": "H-5 NE to H-6 ",
@@ -1855,13 +1439,6 @@
       },
       "H-5 SW": {
         "name": "H-5 SW",
-        "entrances": [
-          {
-            "name": "H-4  to H-5 SW",
-            "parent_region": "H-4 ",
-            "connected_region": "H-5 SW"
-          }
-        ],
         "exits": [
           {
             "name": "H-5 SW to H-4 ",
@@ -1888,18 +1465,6 @@
       },
       "H-6 ": {
         "name": "H-6 ",
-        "entrances": [
-          {
-            "name": "H-7  to H-6 ",
-            "parent_region": "H-7 ",
-            "connected_region": "H-6 "
-          },
-          {
-            "name": "H-5 NE to H-6 ",
-            "parent_region": "H-5 NE",
-            "connected_region": "H-6 "
-          }
-        ],
         "exits": [
           {
             "name": "H-6  to H-7 ",
@@ -1945,18 +1510,6 @@
       },
       "H-7 ": {
         "name": "H-7 ",
-        "entrances": [
-          {
-            "name": "H-8  to H-7 ",
-            "parent_region": "H-8 ",
-            "connected_region": "H-7 "
-          },
-          {
-            "name": "H-6  to H-7 ",
-            "parent_region": "H-6 ",
-            "connected_region": "H-7 "
-          }
-        ],
         "exits": [
           {
             "name": "H-7  to H-8 ",
@@ -2002,18 +1555,6 @@
       },
       "H-8 ": {
         "name": "H-8 ",
-        "entrances": [
-          {
-            "name": "G-8  to H-8 ",
-            "parent_region": "G-8 ",
-            "connected_region": "H-8 "
-          },
-          {
-            "name": "H-7  to H-8 ",
-            "parent_region": "H-7 ",
-            "connected_region": "H-8 "
-          }
-        ],
         "exits": [
           {
             "name": "H-8  to G-8 ",
@@ -2048,18 +1589,6 @@
       },
       "I-4 ": {
         "name": "I-4 ",
-        "entrances": [
-          {
-            "name": "red_elevator to I-4 ",
-            "parent_region": "red_elevator",
-            "connected_region": "I-4 "
-          },
-          {
-            "name": "I-5  to I-4 ",
-            "parent_region": "I-5 ",
-            "connected_region": "I-4 "
-          }
-        ],
         "exits": [
           {
             "name": "I-4  to I-5 ",
@@ -2094,23 +1623,6 @@
       },
       "I-5 ": {
         "name": "I-5 ",
-        "entrances": [
-          {
-            "name": "I-4  to I-5 ",
-            "parent_region": "I-4 ",
-            "connected_region": "I-5 "
-          },
-          {
-            "name": "H-5 NE to I-5 ",
-            "parent_region": "H-5 NE",
-            "connected_region": "I-5 "
-          },
-          {
-            "name": "I-6  to I-5 ",
-            "parent_region": "I-6 ",
-            "connected_region": "I-5 "
-          }
-        ],
         "exits": [
           {
             "name": "I-5  to H-5 NE",
@@ -2153,18 +1665,6 @@
       },
       "I-6 ": {
         "name": "I-6 ",
-        "entrances": [
-          {
-            "name": "I-5  to I-6 ",
-            "parent_region": "I-5 ",
-            "connected_region": "I-6 "
-          },
-          {
-            "name": "I-8  to I-6 ",
-            "parent_region": "I-8 ",
-            "connected_region": "I-6 "
-          }
-        ],
         "exits": [
           {
             "name": "I-6  to I-5 ",
@@ -2199,13 +1699,6 @@
       },
       "I-8 ": {
         "name": "I-8 ",
-        "entrances": [
-          {
-            "name": "I-6  to I-8 ",
-            "parent_region": "I-6 ",
-            "connected_region": "I-8 "
-          }
-        ],
         "exits": [
           {
             "name": "I-8  to I-6 ",
@@ -2243,28 +1736,6 @@
       },
       "red_elevator": {
         "name": "red_elevator",
-        "entrances": [
-          {
-            "name": "F-4  to red_elevator",
-            "parent_region": "F-4 ",
-            "connected_region": "red_elevator"
-          },
-          {
-            "name": "I-4  to red_elevator",
-            "parent_region": "I-4 ",
-            "connected_region": "red_elevator"
-          },
-          {
-            "name": "H-4  to red_elevator",
-            "parent_region": "H-4 ",
-            "connected_region": "red_elevator"
-          },
-          {
-            "name": "E-2  to red_elevator",
-            "parent_region": "E-2 ",
-            "connected_region": "red_elevator"
-          }
-        ],
         "exits": [
           {
             "name": "red_elevator to I-4 ",
@@ -2303,18 +1774,6 @@
       },
       "E-2 ": {
         "name": "E-2 ",
-        "entrances": [
-          {
-            "name": "red_elevator to E-2 ",
-            "parent_region": "red_elevator",
-            "connected_region": "E-2 "
-          },
-          {
-            "name": "F-2  to E-2 ",
-            "parent_region": "F-2 ",
-            "connected_region": "E-2 "
-          }
-        ],
         "exits": [
           {
             "name": "E-2  to red_elevator",
@@ -2349,18 +1808,6 @@
       },
       "F-2 ": {
         "name": "F-2 ",
-        "entrances": [
-          {
-            "name": "E-2  to F-2 ",
-            "parent_region": "E-2 ",
-            "connected_region": "F-2 "
-          },
-          {
-            "name": "G-2  to F-2 ",
-            "parent_region": "G-2 ",
-            "connected_region": "F-2 "
-          }
-        ],
         "exits": [
           {
             "name": "F-2  to E-2 ",
@@ -2395,23 +1842,6 @@
       },
       "G-2 ": {
         "name": "G-2 ",
-        "entrances": [
-          {
-            "name": "F-2  to G-2 ",
-            "parent_region": "F-2 ",
-            "connected_region": "G-2 "
-          },
-          {
-            "name": "I-2  to G-2 ",
-            "parent_region": "I-2 ",
-            "connected_region": "G-2 "
-          },
-          {
-            "name": "big_elevator to G-2 ",
-            "parent_region": "big_elevator",
-            "connected_region": "G-2 "
-          }
-        ],
         "exits": [
           {
             "name": "G-2  to F-2 ",
@@ -2454,13 +1884,6 @@
       },
       "I-2 ": {
         "name": "I-2 ",
-        "entrances": [
-          {
-            "name": "G-2  to I-2 ",
-            "parent_region": "G-2 ",
-            "connected_region": "I-2 "
-          }
-        ],
         "exits": [
           {
             "name": "I-2  to G-2 ",
@@ -2509,38 +1932,6 @@
       },
       "big_elevator": {
         "name": "big_elevator",
-        "entrances": [
-          {
-            "name": "G-2  to big_elevator",
-            "parent_region": "G-2 ",
-            "connected_region": "big_elevator"
-          },
-          {
-            "name": "K-2 W to big_elevator",
-            "parent_region": "K-2 W",
-            "connected_region": "big_elevator"
-          },
-          {
-            "name": "M-2 W to big_elevator",
-            "parent_region": "M-2 W",
-            "connected_region": "big_elevator"
-          },
-          {
-            "name": "N-2 SW to big_elevator",
-            "parent_region": "N-2 SW",
-            "connected_region": "big_elevator"
-          },
-          {
-            "name": "P-3 W to big_elevator",
-            "parent_region": "P-3 W",
-            "connected_region": "big_elevator"
-          },
-          {
-            "name": "O-3 NW to big_elevator",
-            "parent_region": "O-3 NW",
-            "connected_region": "big_elevator"
-          }
-        ],
         "exits": [
           {
             "name": "big_elevator to G-2 ",
@@ -2595,13 +1986,6 @@
       },
       "J-2 N": {
         "name": "J-2 N",
-        "entrances": [
-          {
-            "name": "J-3  to J-2 N",
-            "parent_region": "J-3 ",
-            "connected_region": "J-2 N"
-          }
-        ],
         "exits": [
           {
             "name": "J-2 N to J-3 ",
@@ -2650,13 +2034,6 @@
       },
       "J-2 S": {
         "name": "J-2 S",
-        "entrances": [
-          {
-            "name": "K-2 W to J-2 S",
-            "parent_region": "K-2 W",
-            "connected_region": "J-2 S"
-          }
-        ],
         "exits": [
           {
             "name": "J-2 S to K-2 W",
@@ -2683,23 +2060,6 @@
       },
       "J-3 ": {
         "name": "J-3 ",
-        "entrances": [
-          {
-            "name": "K-3  to J-3 ",
-            "parent_region": "K-3 ",
-            "connected_region": "J-3 "
-          },
-          {
-            "name": "J-2 N to J-3 ",
-            "parent_region": "J-2 N",
-            "connected_region": "J-3 "
-          },
-          {
-            "name": "J-4 S to J-3 ",
-            "parent_region": "J-4 S",
-            "connected_region": "J-3 "
-          }
-        ],
         "exits": [
           {
             "name": "J-3  to K-3 ",
@@ -2753,18 +2113,6 @@
       },
       "J-4 S": {
         "name": "J-4 S",
-        "entrances": [
-          {
-            "name": "J-3  to J-4 S",
-            "parent_region": "J-3 ",
-            "connected_region": "J-4 S"
-          },
-          {
-            "name": "J-5 W to J-4 S",
-            "parent_region": "J-5 W",
-            "connected_region": "J-4 S"
-          }
-        ],
         "exits": [
           {
             "name": "J-4 S to J-3 ",
@@ -2799,13 +2147,6 @@
       },
       "J-4 N": {
         "name": "J-4 N",
-        "entrances": [
-          {
-            "name": "J-5 W to J-4 N",
-            "parent_region": "J-5 W",
-            "connected_region": "J-4 N"
-          }
-        ],
         "exits": [
           {
             "name": "J-4 N to J-5 W",
@@ -2832,13 +2173,6 @@
       },
       "J-5 E": {
         "name": "J-5 E",
-        "entrances": [
-          {
-            "name": "K-5  to J-5 E",
-            "parent_region": "K-5 ",
-            "connected_region": "J-5 E"
-          }
-        ],
         "exits": [
           {
             "name": "J-5 E to K-5 ",
@@ -2853,18 +2187,6 @@
       },
       "J-5 W": {
         "name": "J-5 W",
-        "entrances": [
-          {
-            "name": "J-4 S to J-5 W",
-            "parent_region": "J-4 S",
-            "connected_region": "J-5 W"
-          },
-          {
-            "name": "J-4 N to J-5 W",
-            "parent_region": "J-4 N",
-            "connected_region": "J-5 W"
-          }
-        ],
         "exits": [
           {
             "name": "J-5 W to J-4 S",
@@ -2910,13 +2232,6 @@
       },
       "J-6 ": {
         "name": "J-6 ",
-        "entrances": [
-          {
-            "name": "final_elevator to J-6 ",
-            "parent_region": "final_elevator",
-            "connected_region": "J-6 "
-          }
-        ],
         "exits": [
           {
             "name": "J-6  to final_elevator",
@@ -2943,13 +2258,6 @@
       },
       "K-2 E": {
         "name": "K-2 E",
-        "entrances": [
-          {
-            "name": "K-3  to K-2 E",
-            "parent_region": "K-3 ",
-            "connected_region": "K-2 E"
-          }
-        ],
         "exits": [
           {
             "name": "K-2 E to K-3 ",
@@ -2998,18 +2306,6 @@
       },
       "K-2 W": {
         "name": "K-2 W",
-        "entrances": [
-          {
-            "name": "big_elevator to K-2 W",
-            "parent_region": "big_elevator",
-            "connected_region": "K-2 W"
-          },
-          {
-            "name": "J-2 S to K-2 W",
-            "parent_region": "J-2 S",
-            "connected_region": "K-2 W"
-          }
-        ],
         "exits": [
           {
             "name": "K-2 W to big_elevator",
@@ -3055,23 +2351,6 @@
       },
       "K-3 ": {
         "name": "K-3 ",
-        "entrances": [
-          {
-            "name": "K-4  to K-3 ",
-            "parent_region": "K-4 ",
-            "connected_region": "K-3 "
-          },
-          {
-            "name": "K-2 E to K-3 ",
-            "parent_region": "K-2 E",
-            "connected_region": "K-3 "
-          },
-          {
-            "name": "J-3  to K-3 ",
-            "parent_region": "J-3 ",
-            "connected_region": "K-3 "
-          }
-        ],
         "exits": [
           {
             "name": "K-3  to K-4 ",
@@ -3125,23 +2404,6 @@
       },
       "K-4 ": {
         "name": "K-4 ",
-        "entrances": [
-          {
-            "name": "L-4  to K-4 ",
-            "parent_region": "L-4 ",
-            "connected_region": "K-4 "
-          },
-          {
-            "name": "K-5  to K-4 ",
-            "parent_region": "K-5 ",
-            "connected_region": "K-4 "
-          },
-          {
-            "name": "K-3  to K-4 ",
-            "parent_region": "K-3 ",
-            "connected_region": "K-4 "
-          }
-        ],
         "exits": [
           {
             "name": "K-4  to L-4 ",
@@ -3195,23 +2457,6 @@
       },
       "K-5 ": {
         "name": "K-5 ",
-        "entrances": [
-          {
-            "name": "K-4  to K-5 ",
-            "parent_region": "K-4 ",
-            "connected_region": "K-5 "
-          },
-          {
-            "name": "K-6 W to K-5 ",
-            "parent_region": "K-6 W",
-            "connected_region": "K-5 "
-          },
-          {
-            "name": "J-5 E to K-5 ",
-            "parent_region": "J-5 E",
-            "connected_region": "K-5 "
-          }
-        ],
         "exits": [
           {
             "name": "K-5  to K-4 ",
@@ -3265,13 +2510,6 @@
       },
       "K-6 W": {
         "name": "K-6 W",
-        "entrances": [
-          {
-            "name": "K-5  to K-6 W",
-            "parent_region": "K-5 ",
-            "connected_region": "K-6 W"
-          }
-        ],
         "exits": [
           {
             "name": "K-6 W to K-5 ",
@@ -3286,18 +2524,6 @@
       },
       "K-6 E": {
         "name": "K-6 E",
-        "entrances": [
-          {
-            "name": "K-7 NE to K-6 E",
-            "parent_region": "K-7 NE",
-            "connected_region": "K-6 E"
-          },
-          {
-            "name": "K-7 SW to K-6 E",
-            "parent_region": "K-7 SW",
-            "connected_region": "K-6 E"
-          }
-        ],
         "exits": [
           {
             "name": "K-6 E to K-7 NE",
@@ -3343,18 +2569,6 @@
       },
       "K-7 NE": {
         "name": "K-7 NE",
-        "entrances": [
-          {
-            "name": "L-7 N to K-7 NE",
-            "parent_region": "L-7 N",
-            "connected_region": "K-7 NE"
-          },
-          {
-            "name": "K-6 E to K-7 NE",
-            "parent_region": "K-6 E",
-            "connected_region": "K-7 NE"
-          }
-        ],
         "exits": [
           {
             "name": "K-7 NE to L-7 N",
@@ -3377,13 +2591,6 @@
       },
       "K-7 SW": {
         "name": "K-7 SW",
-        "entrances": [
-          {
-            "name": "K-6 E to K-7 SW",
-            "parent_region": "K-6 E",
-            "connected_region": "K-7 SW"
-          }
-        ],
         "exits": [
           {
             "name": "K-7 SW to K-6 E",
@@ -3421,13 +2628,6 @@
       },
       "L-2 ": {
         "name": "L-2 ",
-        "entrances": [
-          {
-            "name": "M-2 E to L-2 ",
-            "parent_region": "M-2 E",
-            "connected_region": "L-2 "
-          }
-        ],
         "exits": [
           {
             "name": "L-2  to M-2 E",
@@ -3498,18 +2698,6 @@
       },
       "L-3 ": {
         "name": "L-3 ",
-        "entrances": [
-          {
-            "name": "M-3  to L-3 ",
-            "parent_region": "M-3 ",
-            "connected_region": "L-3 "
-          },
-          {
-            "name": "L-4  to L-3 ",
-            "parent_region": "L-4 ",
-            "connected_region": "L-3 "
-          }
-        ],
         "exits": [
           {
             "name": "L-3  to M-3 ",
@@ -3544,23 +2732,6 @@
       },
       "L-4 ": {
         "name": "L-4 ",
-        "entrances": [
-          {
-            "name": "L-3  to L-4 ",
-            "parent_region": "L-3 ",
-            "connected_region": "L-4 "
-          },
-          {
-            "name": "K-4  to L-4 ",
-            "parent_region": "K-4 ",
-            "connected_region": "L-4 "
-          },
-          {
-            "name": "L-5  to L-4 ",
-            "parent_region": "L-5 ",
-            "connected_region": "L-4 "
-          }
-        ],
         "exits": [
           {
             "name": "L-4  to L-3 ",
@@ -3614,18 +2785,6 @@
       },
       "L-5 ": {
         "name": "L-5 ",
-        "entrances": [
-          {
-            "name": "L-4  to L-5 ",
-            "parent_region": "L-4 ",
-            "connected_region": "L-5 "
-          },
-          {
-            "name": "L-6 N to L-5 ",
-            "parent_region": "L-6 N",
-            "connected_region": "L-5 "
-          }
-        ],
         "exits": [
           {
             "name": "L-5  to L-4 ",
@@ -3671,18 +2830,6 @@
       },
       "L-6 S": {
         "name": "L-6 S",
-        "entrances": [
-          {
-            "name": "M-6 NW to L-6 S",
-            "parent_region": "M-6 NW",
-            "connected_region": "L-6 S"
-          },
-          {
-            "name": "L-7 S to L-6 S",
-            "parent_region": "L-7 S",
-            "connected_region": "L-6 S"
-          }
-        ],
         "exits": [
           {
             "name": "L-6 S to M-6 NW",
@@ -3728,18 +2875,6 @@
       },
       "L-6 N": {
         "name": "L-6 N",
-        "entrances": [
-          {
-            "name": "L-5  to L-6 N",
-            "parent_region": "L-5 ",
-            "connected_region": "L-6 N"
-          },
-          {
-            "name": "L-7 N to L-6 N",
-            "parent_region": "L-7 N",
-            "connected_region": "L-6 N"
-          }
-        ],
         "exits": [
           {
             "name": "L-6 N to L-5 ",
@@ -3762,13 +2897,6 @@
       },
       "L-7 S": {
         "name": "L-7 S",
-        "entrances": [
-          {
-            "name": "L-6 S to L-7 S",
-            "parent_region": "L-6 S",
-            "connected_region": "L-7 S"
-          }
-        ],
         "exits": [
           {
             "name": "L-7 S to L-6 S",
@@ -3795,18 +2923,6 @@
       },
       "L-7 N": {
         "name": "L-7 N",
-        "entrances": [
-          {
-            "name": "L-6 N to L-7 N",
-            "parent_region": "L-6 N",
-            "connected_region": "L-7 N"
-          },
-          {
-            "name": "K-7 NE to L-7 N",
-            "parent_region": "K-7 NE",
-            "connected_region": "L-7 N"
-          }
-        ],
         "exits": [
           {
             "name": "L-7 N to L-6 N",
@@ -3829,18 +2945,6 @@
       },
       "M-2 E": {
         "name": "M-2 E",
-        "entrances": [
-          {
-            "name": "M-3  to M-2 E",
-            "parent_region": "M-3 ",
-            "connected_region": "M-2 E"
-          },
-          {
-            "name": "L-2  to M-2 E",
-            "parent_region": "L-2 ",
-            "connected_region": "M-2 E"
-          }
-        ],
         "exits": [
           {
             "name": "M-2 E to M-3 ",
@@ -3875,13 +2979,6 @@
       },
       "M-2 W": {
         "name": "M-2 W",
-        "entrances": [
-          {
-            "name": "big_elevator to M-2 W",
-            "parent_region": "big_elevator",
-            "connected_region": "M-2 W"
-          }
-        ],
         "exits": [
           {
             "name": "M-2 W to big_elevator",
@@ -3908,23 +3005,6 @@
       },
       "M-3 ": {
         "name": "M-3 ",
-        "entrances": [
-          {
-            "name": "M-4 N to M-3 ",
-            "parent_region": "M-4 N",
-            "connected_region": "M-3 "
-          },
-          {
-            "name": "M-2 E to M-3 ",
-            "parent_region": "M-2 E",
-            "connected_region": "M-3 "
-          },
-          {
-            "name": "L-3  to M-3 ",
-            "parent_region": "L-3 ",
-            "connected_region": "M-3 "
-          }
-        ],
         "exits": [
           {
             "name": "M-3  to M-4 N",
@@ -3967,13 +3047,6 @@
       },
       "M-4 S": {
         "name": "M-4 S",
-        "entrances": [
-          {
-            "name": "N-4  to M-4 S",
-            "parent_region": "N-4 ",
-            "connected_region": "M-4 S"
-          }
-        ],
         "exits": [
           {
             "name": "M-4 S to N-4 ",
@@ -4000,18 +3073,6 @@
       },
       "M-4 N": {
         "name": "M-4 N",
-        "entrances": [
-          {
-            "name": "M-5  to M-4 N",
-            "parent_region": "M-5 ",
-            "connected_region": "M-4 N"
-          },
-          {
-            "name": "M-3  to M-4 N",
-            "parent_region": "M-3 ",
-            "connected_region": "M-4 N"
-          }
-        ],
         "exits": [
           {
             "name": "M-4 N to M-5 ",
@@ -4034,23 +3095,6 @@
       },
       "M-5 ": {
         "name": "M-5 ",
-        "entrances": [
-          {
-            "name": "N-5  to M-5 ",
-            "parent_region": "N-5 ",
-            "connected_region": "M-5 "
-          },
-          {
-            "name": "M-6 NW to M-5 ",
-            "parent_region": "M-6 NW",
-            "connected_region": "M-5 "
-          },
-          {
-            "name": "M-4 N to M-5 ",
-            "parent_region": "M-4 N",
-            "connected_region": "M-5 "
-          }
-        ],
         "exits": [
           {
             "name": "M-5  to N-5 ",
@@ -4093,23 +3137,6 @@
       },
       "M-6 NW": {
         "name": "M-6 NW",
-        "entrances": [
-          {
-            "name": "M-5  to M-6 NW",
-            "parent_region": "M-5 ",
-            "connected_region": "M-6 NW"
-          },
-          {
-            "name": "L-6 S to M-6 NW",
-            "parent_region": "L-6 S",
-            "connected_region": "M-6 NW"
-          },
-          {
-            "name": "M-6 SE to M-6 NW",
-            "parent_region": "M-6 SE",
-            "connected_region": "M-6 NW"
-          }
-        ],
         "exits": [
           {
             "name": "M-6 NW to M-5 ",
@@ -4152,23 +3179,6 @@
       },
       "M-6 SE": {
         "name": "M-6 SE",
-        "entrances": [
-          {
-            "name": "M-6 NW to M-6 SE",
-            "parent_region": "M-6 NW",
-            "connected_region": "M-6 SE"
-          },
-          {
-            "name": "N-6  to M-6 SE",
-            "parent_region": "N-6 ",
-            "connected_region": "M-6 SE"
-          },
-          {
-            "name": "M-7 W to M-6 SE",
-            "parent_region": "M-7 W",
-            "connected_region": "M-6 SE"
-          }
-        ],
         "exits": [
           {
             "name": "M-6 SE to M-6 NW",
@@ -4211,23 +3221,6 @@
       },
       "M-7 W": {
         "name": "M-7 W",
-        "entrances": [
-          {
-            "name": "M-6 SE to M-7 W",
-            "parent_region": "M-6 SE",
-            "connected_region": "M-7 W"
-          },
-          {
-            "name": "N-7 N to M-7 W",
-            "parent_region": "N-7 N",
-            "connected_region": "M-7 W"
-          },
-          {
-            "name": "M-7 E to M-7 W",
-            "parent_region": "M-7 E",
-            "connected_region": "M-7 W"
-          }
-        ],
         "exits": [
           {
             "name": "M-7 W to M-6 SE",
@@ -4270,18 +3263,6 @@
       },
       "M-7 E": {
         "name": "M-7 E",
-        "entrances": [
-          {
-            "name": "M-7 W to M-7 E",
-            "parent_region": "M-7 W",
-            "connected_region": "M-7 E"
-          },
-          {
-            "name": "final_elevator to M-7 E",
-            "parent_region": "final_elevator",
-            "connected_region": "M-7 E"
-          }
-        ],
         "exits": [
           {
             "name": "M-7 E to M-7 W",
@@ -4316,18 +3297,6 @@
       },
       "N-2 NE": {
         "name": "N-2 NE",
-        "entrances": [
-          {
-            "name": "N-2 SW to N-2 NE",
-            "parent_region": "N-2 SW",
-            "connected_region": "N-2 NE"
-          },
-          {
-            "name": "N-3  to N-2 NE",
-            "parent_region": "N-3 ",
-            "connected_region": "N-2 NE"
-          }
-        ],
         "exits": [
           {
             "name": "N-2 NE to N-3 ",
@@ -4395,18 +3364,6 @@
       },
       "N-2 SW": {
         "name": "N-2 SW",
-        "entrances": [
-          {
-            "name": "big_elevator to N-2 SW",
-            "parent_region": "big_elevator",
-            "connected_region": "N-2 SW"
-          },
-          {
-            "name": "N-2 NE to N-2 SW",
-            "parent_region": "N-2 NE",
-            "connected_region": "N-2 SW"
-          }
-        ],
         "exits": [
           {
             "name": "N-2 SW to big_elevator",
@@ -4452,23 +3409,6 @@
       },
       "N-3 ": {
         "name": "N-3 ",
-        "entrances": [
-          {
-            "name": "O-3 NW to N-3 ",
-            "parent_region": "O-3 NW",
-            "connected_region": "N-3 "
-          },
-          {
-            "name": "N-2 NE to N-3 ",
-            "parent_region": "N-2 NE",
-            "connected_region": "N-3 "
-          },
-          {
-            "name": "N-4  to N-3 ",
-            "parent_region": "N-4 ",
-            "connected_region": "N-3 "
-          }
-        ],
         "exits": [
           {
             "name": "N-3  to O-3 NW",
@@ -4511,28 +3451,6 @@
       },
       "N-4 ": {
         "name": "N-4 ",
-        "entrances": [
-          {
-            "name": "N-3  to N-4 ",
-            "parent_region": "N-3 ",
-            "connected_region": "N-4 "
-          },
-          {
-            "name": "M-4 S to N-4 ",
-            "parent_region": "M-4 S",
-            "connected_region": "N-4 "
-          },
-          {
-            "name": "N-5  to N-4 ",
-            "parent_region": "N-5 ",
-            "connected_region": "N-4 "
-          },
-          {
-            "name": "O-4 W to N-4 ",
-            "parent_region": "O-4 W",
-            "connected_region": "N-4 "
-          }
-        ],
         "exits": [
           {
             "name": "N-4  to N-3 ",
@@ -4594,23 +3512,6 @@
       },
       "N-5 ": {
         "name": "N-5 ",
-        "entrances": [
-          {
-            "name": "N-4  to N-5 ",
-            "parent_region": "N-4 ",
-            "connected_region": "N-5 "
-          },
-          {
-            "name": "O-5  to N-5 ",
-            "parent_region": "O-5 ",
-            "connected_region": "N-5 "
-          },
-          {
-            "name": "M-5  to N-5 ",
-            "parent_region": "M-5 ",
-            "connected_region": "N-5 "
-          }
-        ],
         "exits": [
           {
             "name": "N-5  to N-4 ",
@@ -4653,18 +3554,6 @@
       },
       "N-6 ": {
         "name": "N-6 ",
-        "entrances": [
-          {
-            "name": "M-6 SE to N-6 ",
-            "parent_region": "M-6 SE",
-            "connected_region": "N-6 "
-          },
-          {
-            "name": "O-6  to N-6 ",
-            "parent_region": "O-6 ",
-            "connected_region": "N-6 "
-          }
-        ],
         "exits": [
           {
             "name": "N-6  to M-6 SE",
@@ -4710,13 +3599,6 @@
       },
       "N-7 N": {
         "name": "N-7 N",
-        "entrances": [
-          {
-            "name": "M-7 W to N-7 N",
-            "parent_region": "M-7 W",
-            "connected_region": "N-7 N"
-          }
-        ],
         "exits": [
           {
             "name": "N-7 N to M-7 W",
@@ -4743,18 +3625,6 @@
       },
       "N-7 S": {
         "name": "N-7 S",
-        "entrances": [
-          {
-            "name": "O-7 E to N-7 S",
-            "parent_region": "O-7 E",
-            "connected_region": "N-7 S"
-          },
-          {
-            "name": "final_elevator to N-7 S",
-            "parent_region": "final_elevator",
-            "connected_region": "N-7 S"
-          }
-        ],
         "exits": [
           {
             "name": "N-7 S to O-7 E",
@@ -4789,18 +3659,6 @@
       },
       "O-3 NW": {
         "name": "O-3 NW",
-        "entrances": [
-          {
-            "name": "big_elevator to O-3 NW",
-            "parent_region": "big_elevator",
-            "connected_region": "O-3 NW"
-          },
-          {
-            "name": "N-3  to O-3 NW",
-            "parent_region": "N-3 ",
-            "connected_region": "O-3 NW"
-          }
-        ],
         "exits": [
           {
             "name": "O-3 NW to big_elevator",
@@ -4835,18 +3693,6 @@
       },
       "O-3 SE": {
         "name": "O-3 SE",
-        "entrances": [
-          {
-            "name": "O-4 W to O-3 SE",
-            "parent_region": "O-4 W",
-            "connected_region": "O-3 SE"
-          },
-          {
-            "name": "P-3 E to O-3 SE",
-            "parent_region": "P-3 E",
-            "connected_region": "O-3 SE"
-          }
-        ],
         "exits": [
           {
             "name": "O-3 SE to O-4 W",
@@ -4881,13 +3727,6 @@
       },
       "O-4 E": {
         "name": "O-4 E",
-        "entrances": [
-          {
-            "name": "O-5  to O-4 E",
-            "parent_region": "O-5 ",
-            "connected_region": "O-4 E"
-          }
-        ],
         "exits": [
           {
             "name": "O-4 E to O-5 ",
@@ -4914,18 +3753,6 @@
       },
       "O-4 W": {
         "name": "O-4 W",
-        "entrances": [
-          {
-            "name": "N-4  to O-4 W",
-            "parent_region": "N-4 ",
-            "connected_region": "O-4 W"
-          },
-          {
-            "name": "O-3 SE to O-4 W",
-            "parent_region": "O-3 SE",
-            "connected_region": "O-4 W"
-          }
-        ],
         "exits": [
           {
             "name": "O-4 W to N-4 ",
@@ -4960,18 +3787,6 @@
       },
       "O-5 ": {
         "name": "O-5 ",
-        "entrances": [
-          {
-            "name": "N-5  to O-5 ",
-            "parent_region": "N-5 ",
-            "connected_region": "O-5 "
-          },
-          {
-            "name": "O-4 E to O-5 ",
-            "parent_region": "O-4 E",
-            "connected_region": "O-5 "
-          }
-        ],
         "exits": [
           {
             "name": "O-5  to N-5 ",
@@ -5006,18 +3821,6 @@
       },
       "O-6 ": {
         "name": "O-6 ",
-        "entrances": [
-          {
-            "name": "N-6  to O-6 ",
-            "parent_region": "N-6 ",
-            "connected_region": "O-6 "
-          },
-          {
-            "name": "O-7 W to O-6 ",
-            "parent_region": "O-7 W",
-            "connected_region": "O-6 "
-          }
-        ],
         "exits": [
           {
             "name": "O-6  to N-6 ",
@@ -5052,13 +3855,6 @@
       },
       "O-7 W": {
         "name": "O-7 W",
-        "entrances": [
-          {
-            "name": "O-6  to O-7 W",
-            "parent_region": "O-6 ",
-            "connected_region": "O-7 W"
-          }
-        ],
         "exits": [
           {
             "name": "O-7 W to O-6 ",
@@ -5085,18 +3881,6 @@
       },
       "O-7 E": {
         "name": "O-7 E",
-        "entrances": [
-          {
-            "name": "P-3 E to O-7 E",
-            "parent_region": "P-3 E",
-            "connected_region": "O-7 E"
-          },
-          {
-            "name": "N-7 S to O-7 E",
-            "parent_region": "N-7 S",
-            "connected_region": "O-7 E"
-          }
-        ],
         "exits": [
           {
             "name": "O-7 E to P-3 E",
@@ -5131,18 +3915,6 @@
       },
       "P-3 E": {
         "name": "P-3 E",
-        "entrances": [
-          {
-            "name": "O-3 SE to P-3 E",
-            "parent_region": "O-3 SE",
-            "connected_region": "P-3 E"
-          },
-          {
-            "name": "O-7 E to P-3 E",
-            "parent_region": "O-7 E",
-            "connected_region": "P-3 E"
-          }
-        ],
         "exits": [
           {
             "name": "P-3 E to O-3 SE",
@@ -5177,13 +3949,6 @@
       },
       "P-3 W": {
         "name": "P-3 W",
-        "entrances": [
-          {
-            "name": "big_elevator to P-3 W",
-            "parent_region": "big_elevator",
-            "connected_region": "P-3 W"
-          }
-        ],
         "exits": [
           {
             "name": "P-3 W to big_elevator",
@@ -5210,23 +3975,6 @@
       },
       "final_elevator": {
         "name": "final_elevator",
-        "entrances": [
-          {
-            "name": "N-7 S to final_elevator",
-            "parent_region": "N-7 S",
-            "connected_region": "final_elevator"
-          },
-          {
-            "name": "M-7 E to final_elevator",
-            "parent_region": "M-7 E",
-            "connected_region": "final_elevator"
-          },
-          {
-            "name": "J-6  to final_elevator",
-            "parent_region": "J-6 ",
-            "connected_region": "final_elevator"
-          }
-        ],
         "exits": [
           {
             "name": "final_elevator to N-7 S",

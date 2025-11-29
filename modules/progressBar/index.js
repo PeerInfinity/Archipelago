@@ -12,6 +12,13 @@ let progressBarManager = null;
 
 // Registration function - called during app startup
 export function register(registrationApi) {
+  // Dynamically load module CSS
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.type = 'text/css';
+  link.href = 'modules/progressBar/progressBar.css';
+  document.head.appendChild(link);
+
   // Register event subscribers - what this module wants to receive
   registrationApi.registerEventBusSubscriberIntent(moduleInfo.name, 'progressBar:create');
   registrationApi.registerEventBusSubscriberIntent(moduleInfo.name, 'progressBar:update');

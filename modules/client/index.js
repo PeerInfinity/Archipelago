@@ -9,6 +9,7 @@ import messageHandler, {
   handleUserItemCheckForClient,
 } from './core/messageHandler.js';
 import LocationManager from './core/locationManager.js';
+import stateManagerProxySingleton from '../stateManager/stateManagerProxySingleton.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -176,9 +177,11 @@ export function register(registrationApi) {
   registrationApi.registerEventBusPublisher('game:roomInfo');
   registrationApi.registerEventBusPublisher('game:connected');
   registrationApi.registerEventBusPublisher('game:bounced');
+  registrationApi.registerEventBusPublisher('game:bouncedMessage');
   registrationApi.registerEventBusPublisher('game:roomUpdate');
   registrationApi.registerEventBusPublisher('game:itemsReceived');
   registrationApi.registerEventBusPublisher('game:dataPackageReceived');
+  registrationApi.registerEventBusPublisher('game:chatMessage');
   registrationApi.registerEventBusPublisher('ui:printToConsole');
   registrationApi.registerEventBusPublisher('ui:printFormattedToConsole');
   registrationApi.registerEventBusPublisher('network:connectionRefused');
@@ -193,7 +196,7 @@ export function register(registrationApi) {
   // registrationApi.registerEventBusPublisher('control:quickCheck');
 
   // Register public function for programmatic connection
-  registrationApi.registerPublicFunction('connect', (serverAddress, playerName) => {
+  registrationApi.registerPublicFunction(moduleInfo.name, 'connect', (serverAddress, playerName) => {
     log('info', `[Client Module] Public connect function called with server: ${serverAddress}, player: ${playerName}`);
     if (!coreConnection) {
       log('error', '[Client Module] Cannot connect: Core connection not initialized.');
@@ -211,6 +214,116 @@ export function register(registrationApi) {
       }
     }
     return coreConnection.requestConnect(serverAddress);
+  });
+
+  // Register public function for sending chat messages
+  registrationApi.registerPublicFunction(moduleInfo.name, 'sendChatMessage', (message) => {
+    log('info', `[Client Module] Public sendChatMessage function called with message: ${message}`);
+    if (!coreMessageHandler) {
+      log('error', '[Client Module] Cannot send chat message: Message handler not initialized.');
+      return false;
+    }
+    return coreMessageHandler.sendMessage(message);
+  });
+
+  // Register public function for waiting for a chat message
+  registrationApi.registerPublicFunction(moduleInfo.name, 'waitForChatMessage', async (filterFn, timeoutMs = 30000) => {
+    log('info', `[Client Module] Public waitForChatMessage function called with timeout: ${timeoutMs}ms`);
+    if (!moduleEventBus) {
+      log('error', '[Client Module] Cannot wait for chat message: EventBus not initialized.');
+      return null;
+    }
+
+    return new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => {
+        unsubscribe();
+        reject(new Error(`Timeout waiting for chat message after ${timeoutMs}ms`));
+      }, timeoutMs);
+
+      const unsubscribe = moduleEventBus.subscribe('game:chatMessage', (chatData) => {
+        // If no filter function provided, accept any message
+        if (!filterFn || filterFn(chatData)) {
+          clearTimeout(timeout);
+          unsubscribe();
+          resolve(chatData);
+        }
+      }, 'client-chat-waiter');
+    });
+  });
+
+  // Register public function for sending ready messages via Bounce
+  registrationApi.registerPublicFunction(moduleInfo.name, 'sendReadyMessage', (clientId, options = {}) => {
+    log('info', `[Client Module] Sending ready message from ${clientId} with options:`, options);
+    if (!coreMessageHandler) {
+      log('error', '[Client Module] Cannot send ready message: Message handler not initialized.');
+      return false;
+    }
+
+    const data = {
+      type: 'READY_MESSAGE',
+      sender: clientId,
+      timestamp: Date.now(),
+    };
+
+    return coreMessageHandler.sendBounce(data, options);
+  });
+
+  // Register public function for waiting for ready messages via Bounce
+  registrationApi.registerPublicFunction(moduleInfo.name, 'waitForReadyMessage', async (expectedSender, timeoutMs = 10000) => {
+    log('info', `[Client Module] Waiting for ready message from ${expectedSender}, timeout: ${timeoutMs}ms`);
+    if (!moduleEventBus) {
+      log('error', '[Client Module] Cannot wait for ready message: EventBus not initialized.');
+      return null;
+    }
+
+    return new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => {
+        unsubscribe();
+        reject(new Error(`Timeout waiting for ready message from ${expectedSender} after ${timeoutMs}ms`));
+      }, timeoutMs);
+
+      const unsubscribe = moduleEventBus.subscribe('game:bouncedMessage', (bounceData) => {
+        // Check if this is a ready message from the expected sender
+        if (bounceData.data &&
+            bounceData.data.type === 'READY_MESSAGE' &&
+            bounceData.data.sender === expectedSender) {
+          clearTimeout(timeout);
+          unsubscribe();
+          resolve(bounceData);
+        }
+      }, 'client-ready-waiter');
+    });
+  });
+
+  // Register public function to check if WebSocket is connected
+  registrationApi.registerPublicFunction(moduleInfo.name, 'isConnected', () => {
+    if (!coreConnection) {
+      return false;
+    }
+    return coreConnection.isConnected();
+  });
+
+  // Register public function to check if handshake is complete (full connection established)
+  registrationApi.registerPublicFunction(moduleInfo.name, 'isHandshakeComplete', () => {
+    if (!coreMessageHandler) {
+      return false;
+    }
+    // Handshake is complete when we have a client slot assigned
+    const slot = coreMessageHandler.getClientSlot();
+    return slot !== null && slot !== undefined;
+  });
+
+  // Register public function to get connection info
+  registrationApi.registerPublicFunction(moduleInfo.name, 'getConnectionInfo', () => {
+    if (!coreMessageHandler) {
+      return null;
+    }
+    return {
+      slot: coreMessageHandler.getClientSlot(),
+      team: coreMessageHandler.getClientTeam(),
+      isConnected: coreConnection ? coreConnection.isConnected() : false,
+      isHandshakeComplete: coreMessageHandler.getClientSlot() !== null && coreMessageHandler.getClientSlot() !== undefined,
+    };
   });
 }
 
@@ -302,16 +415,39 @@ export async function postInitialize(api, config) {
       }
     }
 
-    // Attempt to connect
-    log('info', `[Client Module] Auto-connecting to ${serverAddress}...`);
-    setTimeout(() => {
-      if (coreConnection) {
-        log('info', '[Client Module] Calling requestConnect...');
-        coreConnection.requestConnect(serverAddress);
+    // Wait for stateManager to be ready before connecting
+    // This ensures player-specific rules are fully loaded in multiworld scenarios
+    log('info', '[Client Module] Waiting for stateManager to be ready before auto-connecting...');
+
+    // Use ensureReady() which waits for the worker to confirm rules are loaded
+    try {
+      const isReady = await stateManagerProxySingleton.ensureReady(15000);
+
+      if (isReady) {
+        const gameName = stateManagerProxySingleton.getGameName();
+        log('info', `[Client Module] StateManager is ready (game: ${gameName}). Auto-connecting to ${serverAddress}...`);
+
+        // Small delay to ensure all UI components have processed the ready state
+        setTimeout(() => {
+          if (coreConnection) {
+            coreConnection.requestConnect(serverAddress);
+          } else {
+            log('error', '[Client Module] Cannot auto-connect: coreConnection not available');
+          }
+        }, 100);
       } else {
-        log('error', '[Client Module] Cannot auto-connect: coreConnection not available');
+        log('warn', '[Client Module] StateManager did not become ready within timeout. Attempting connection anyway...');
+        if (coreConnection) {
+          coreConnection.requestConnect(serverAddress);
+        }
       }
-    }, 500); // Small delay to ensure everything is fully initialized
+    } catch (ensureReadyError) {
+      log('error', '[Client Module] ensureReady() threw an error:', ensureReadyError);
+      // Try to connect anyway
+      if (coreConnection) {
+        coreConnection.requestConnect(serverAddress);
+      }
+    }
   } else {
     log('info', '[Client Module] autoConnect not enabled (autoConnect=' + autoConnect + ')');
   }

@@ -44,39 +44,26 @@ export function setEditorInstance(instance) {
 }
 
 // Handler for rules loaded event
-function handleRulesLoaded(eventData, propagationOptions = {}) {
-  log('info', '[Editor Module Handler] Received state:rulesLoaded');
+function handleRulesLoaded(eventData) {
+  log('info', '[Editor Module Handler] Received stateManager:rulesLoaded');
   if (eventData.jsonData) {
     if (editorInstance) {
       // Instance already exists (set via setEditorInstance), load data directly
-      log('info', 
+      log('info',
         '[Editor Module Handler] Editor instance exists, loading data immediately.'
       );
       editorInstance.loadJsonData(eventData.jsonData);
       pendingJsonData = null; // Ensure pending is clear
     } else {
       // Instance doesn't exist yet, store data for when setEditorInstance is called
-      log('info', 
+      log('info',
         '[Editor Module Handler] Editor instance not yet available, storing pending data.'
       );
       pendingJsonData = eventData.jsonData;
     }
   } else {
-    log('warn', 
-      '[Editor Module Handler] No jsonData received in state:rulesLoaded event.'
-    );
-  }
-
-  // Propagate the event to the next module in the chain
-  const dispatcher = initApi?.getDispatcher(); // Use the stored initApi
-  if (dispatcher) {
-    const direction = propagationOptions.propagationDirection || 'up'; // Use incoming direction or default
-    dispatcher.publishToNextModule('editor', 'state:rulesLoaded', eventData, {
-      direction: direction,
-    });
-  } else {
-    log('error', 
-      '[Editor Module Handler] Cannot propagate state:rulesLoaded: Dispatcher not available (initApi missing?).'
+    log('warn',
+      '[Editor Module Handler] No jsonData received in stateManager:rulesLoaded event.'
     );
   }
 }
@@ -90,9 +77,6 @@ export function register(registrationApi) {
 
   // Register the panel component class constructor directly
   registrationApi.registerPanelComponent('vanillaJSONEditorPanel', EditorUI);
-
-  // Register event handler for rules loaded
-  registrationApi.registerEventHandler('state:rulesLoaded', handleRulesLoaded);
 }
 
 /**
@@ -103,12 +87,19 @@ export function initialize(moduleId, priorityIndex, initializationApi) {
   log('info', `[Editor Module] Initializing with priority ${priorityIndex}...`);
   // Store the full API
   initApi = initializationApi;
-  // moduleEventBus = initializationApi.getEventBus(); // We have the full API now
-  // const settings = await initializationApi.getSettings();
+  const eventBus = initializationApi.getEventBus();
+
+  // Subscribe to stateManager:rulesLoaded
+  if (eventBus) {
+    log('info', '[Editor Module] Subscribing to stateManager:rulesLoaded');
+    eventBus.subscribe('stateManager:rulesLoaded', handleRulesLoaded, 'editor');
+  } else {
+    log('error', '[Editor Module] EventBus not available for subscriptions');
+  }
 
   // EditorUI handles its own event bus subscriptions within its initialize/destroy methods.
   // We previously subscribed to 'editor:loadJsonData' there, which might now be redundant
-  // if state:rulesLoaded is the primary way data gets loaded initially.
+  // if stateManager:rulesLoaded is the primary way data gets loaded initially.
   // Consider reviewing EditorUI's subscriptions.
 
   log('info', '[Editor Module] Initialization complete.');

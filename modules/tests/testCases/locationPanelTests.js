@@ -20,14 +20,24 @@ export async function testLibraryLocationAccessibility(testController) {
     testController.log(`[${testRunId}] Starting Library location accessibility test...`);
     testController.reportCondition('Test started', true);
 
-    // 1. Activate the Locations panel
+    // 1. Load ALTTP rules (required for Library location)
+    testController.log(`[${testRunId}] Loading ALTTP rules...`);
+    const alttpRulesPath = './presets/alttp/AP_14089154938208861744/AP_14089154938208861744_rules.json';
+    await testController.loadRulesFromFile(alttpRulesPath);
+    testController.reportCondition('ALTTP rules loaded', true);
+
+    // Give time for static data cache to update after rules load
+    testController.log(`[${testRunId}] Waiting for static data cache to update...`);
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    // 2. Activate the Locations panel
     testController.log(`[${testRunId}] Activating ${PANEL_ID} panel...`);
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
     eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
     await new Promise((resolve) => setTimeout(resolve, 1500)); // wait for panel to fully init
 
-    // 2. Wait for the locations panel to appear in DOM
+    // 3. Wait for the locations panel to appear in DOM
     let locationsPanelElement = null;
     if (
       !(await testController.pollForCondition(
@@ -44,7 +54,7 @@ export async function testLibraryLocationAccessibility(testController) {
     }
     testController.reportCondition('Locations panel found in DOM', true);
 
-    // 3. Wait for locations to be loaded and displayed
+    // 4. Wait for locations to be loaded and displayed
     let locationsGrid = null;
     if (
       !(await testController.pollForCondition(
@@ -61,7 +71,7 @@ export async function testLibraryLocationAccessibility(testController) {
     }
     testController.reportCondition('Locations grid populated', true);
 
-    // 4. Look for the Library location specifically
+    // 5. Look for the Library location specifically
     let libraryLocationCard = null;
     if (
       !(await testController.pollForCondition(
@@ -85,7 +95,7 @@ export async function testLibraryLocationAccessibility(testController) {
     }
     testController.reportCondition('Library location card found', true);
 
-    // 5. Get the current state snapshot to check location and region accessibility
+    // 6. Get the current state snapshot to check location and region accessibility
     const stateManager = testController.stateManager;
     const snapshot = stateManager.getSnapshot();
     
@@ -113,7 +123,7 @@ export async function testLibraryLocationAccessibility(testController) {
       testController.log(`[${testRunId}] WARNING: Library region is not reachable. This may affect the test validity.`);
     }
 
-    // 6. Check the visual state of the Library location card
+    // 7. Check the visual state of the Library location card
     const hasFullyReachableClass = libraryLocationCard.classList.contains('fully-reachable');
     const hasRegionOnlyReachableClass = libraryLocationCard.classList.contains('region-only-reachable');
     const hasLocationOnlyReachableClass = libraryLocationCard.classList.contains('location-only-reachable');
@@ -123,7 +133,7 @@ export async function testLibraryLocationAccessibility(testController) {
 
     testController.log(`[${testRunId}] Library location card classes: fully-reachable=${hasFullyReachableClass}, region-only-reachable=${hasRegionOnlyReachableClass}, location-only-reachable=${hasLocationOnlyReachableClass}, fully-unreachable=${hasFullyUnreachableClass}, checked=${hasCheckedClass}, unknown=${hasUnknownClass}`);
 
-    // 7. Get the status text from the location card
+    // 8. Get the status text from the location card
     let statusText = 'unknown';
     const statusElements = libraryLocationCard.querySelectorAll('div, span');
     for (const element of statusElements) {
@@ -140,7 +150,7 @@ export async function testLibraryLocationAccessibility(testController) {
     }
     testController.log(`[${testRunId}] Library location status text: "${statusText}"`);
 
-    // 8. Verify the expected behavior: Library region reachable, Library location NOT reachable
+    // 9. Verify the expected behavior: Library region reachable, Library location NOT reachable
     // This tests the fix for the region/location name conflict bug
     if (isLibraryRegionReachable && !isLibraryLocationReachable) {
       // Expected case: region accessible, location not accessible
@@ -169,7 +179,7 @@ export async function testLibraryLocationAccessibility(testController) {
       overallResult = false;
     }
 
-    // 9. Confirm the fix: region and location accessibility are properly separated
+    // 10. Confirm the fix: region and location accessibility are properly separated
     const regionLocationSeparated = 
       (snapshot.regionReachability && snapshot.locationReachability) ||
       (isLibraryRegionReachable !== isLibraryLocationReachable);
@@ -182,7 +192,7 @@ export async function testLibraryLocationAccessibility(testController) {
       overallResult = false;
     }
 
-    // 10. Additional diagnostic information
+    // 11. Additional diagnostic information
     testController.log(`[${testRunId}] Additional diagnostic info:`);
     testController.log(`[${testRunId}] - locationReachability exists: ${!!snapshot.locationReachability}`);
     testController.log(`[${testRunId}] - locationReachability entries: ${snapshot.locationReachability ? Object.keys(snapshot.locationReachability).length : 0}`);

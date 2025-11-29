@@ -3,6 +3,8 @@
  * Translated from worlds/celeste64/Rules.py
  */
 
+import { DEFAULT_PLAYER_ID } from '../../playerIdUtils.js';
+
 /**
  * Celeste 64 state management module
  */
@@ -60,12 +62,14 @@ export const helperFunctions = {
    */
   location_rule(snapshot, staticData, locationName) {
     // Get the appropriate logic mapping based on difficulty
-    const logicDifficulty = staticData?.settings?.logic_difficulty || 'standard';
+    const playerSlot = snapshot?.player?.id || snapshot?.player?.slot || staticData?.playerId || DEFAULT_PLAYER_ID;
+    const settings = staticData?.settings?.[playerSlot];
+    const logicDifficulty = settings?.logic_difficulty || 'standard';
     const logicMappingKey = logicDifficulty === 'standard' ?
       'location_standard_moves_logic' : 'location_hard_moves_logic';
 
-    // Try to get the logic mapping from staticData.settings
-    const activeLogicMapping = staticData?.settings?.[logicMappingKey] || {};
+    // Try to get the logic mapping from settings
+    const activeLogicMapping = settings?.[logicMappingKey] || {};
 
     // If location has no requirements, it's accessible
     if (!activeLogicMapping[locationName]) {
@@ -103,12 +107,14 @@ export const helperFunctions = {
    */
   region_connection_rule(snapshot, staticData, regionTuple) {
     // Get the appropriate logic mapping based on difficulty
-    const logicDifficulty = staticData?.settings?.logic_difficulty || 'standard';
+    const playerSlot = snapshot?.player?.id || snapshot?.player?.slot || staticData?.playerId || DEFAULT_PLAYER_ID;
+    const settings = staticData?.settings?.[playerSlot];
+    const logicDifficulty = settings?.logic_difficulty || 'standard';
     const logicMappingKey = logicDifficulty === 'standard' ?
       'region_standard_moves_logic' : 'region_hard_moves_logic';
 
-    // Try to get the logic mapping from staticData.settings
-    const activeRegionLogicMapping = staticData?.settings?.[logicMappingKey] || {};
+    // Try to get the logic mapping from settings
+    const activeRegionLogicMapping = settings?.[logicMappingKey] || {};
 
     // Extract regions from tuple argument
     const [fromRegion, toRegion] = regionTuple || [];
@@ -155,7 +161,9 @@ export const helperFunctions = {
    * @returns {boolean} True if goal is met
    */
   goal_rule(snapshot, staticData) {
-    const strawberriesRequired = staticData?.settings?.strawberries_required || 0;
+    const playerSlot = snapshot?.player?.id || snapshot?.player?.slot || staticData?.playerId || DEFAULT_PLAYER_ID;
+    const settings = staticData?.settings?.[playerSlot];
+    const strawberriesRequired = settings?.strawberries_required || 0;
     const strawberryCount = snapshot?.inventory?.['Strawberry'] || 0;
     
     // Check if player has enough strawberries

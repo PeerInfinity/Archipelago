@@ -1,0 +1,4290 @@
+{
+  "schema_version": 3,
+  "game_name": "Noita",
+  "game_directory": "noita",
+  "archipelago_version": "0.6.4",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1",
+    "2": "Player2",
+    "3": "Player3",
+    "4": "Player4",
+    "5": "Player5",
+    "6": "Player6",
+    "7": "Player7",
+    "8": "Player8",
+    "9": "Player9",
+    "10": "Player10",
+    "11": "Player11",
+    "12": "Player12",
+    "13": "Player13",
+    "14": "Player14",
+    "15": "Player15",
+    "16": "Player16",
+    "17": "Player17",
+    "18": "Player18",
+    "19": "Player19",
+    "20": "Player20",
+    "21": "Player21",
+    "22": "Player22",
+    "23": "Player23",
+    "24": "Player24",
+    "25": "Player25",
+    "26": "Player26",
+    "27": "Player27",
+    "28": "Player28",
+    "29": "Player29",
+    "30": "Player30",
+    "31": "Player31",
+    "32": "Player32",
+    "33": "Player33",
+    "34": "Player34",
+    "35": "Player35",
+    "36": "Player36",
+    "37": "Player37",
+    "38": "Player38",
+    "39": "Player39",
+    "40": "Player40",
+    "41": "Player41",
+    "42": "Player42",
+    "43": "Player43",
+    "44": "Player44",
+    "45": "Player45",
+    "46": "Player46",
+    "47": "Player47",
+    "48": "Player48",
+    "49": "Player49",
+    "50": "Player50",
+    "51": "Player51",
+    "52": "Player52",
+    "53": "Player53",
+    "54": "Player54",
+    "55": "Player55",
+    "56": "Player56",
+    "57": "Player57",
+    "58": "Player58",
+    "59": "Player59",
+    "60": "Player60",
+    "61": "Player61",
+    "62": "Player62",
+    "63": "Player63",
+    "64": "Player64",
+    "65": "Player65",
+    "66": "Player66",
+    "67": "Player67",
+    "68": "Player68",
+    "69": "Player69",
+    "70": "Player70",
+    "71": "Player71",
+    "72": "Player72",
+    "73": "Player73",
+    "74": "Player74",
+    "75": "Player75"
+  },
+  "world_classes": {
+    "1": "HatInTimeWorld",
+    "2": "ALTTPWorld",
+    "3": "ShortHikeWorld",
+    "4": "AdventureWorld",
+    "5": "AquariaWorld",
+    "6": "ArchipIDLEWorld",
+    "7": "BlasphemousWorld",
+    "8": "BombRushCyberfunkWorld",
+    "9": "BumpStikWorld",
+    "10": "CVCotMWorld",
+    "11": "CV64World",
+    "12": "Celeste64World",
+    "13": "ChecksFinderWorld",
+    "14": "ChocolateChipCookiesWorld",
+    "15": "CivVIWorld",
+    "16": "DarkSouls3World",
+    "17": "DLCqworld",
+    "18": "DKC3World",
+    "19": "DOOM1993World",
+    "20": "DOOM2World",
+    "21": "Factorio",
+    "22": "FaxanaduWorld",
+    "23": "FFMQWorld",
+    "24": "HereticWorld",
+    "25": "Hylics2World",
+    "26": "InscryptionWorld",
+    "27": "JakAndDaxterWorld",
+    "28": "KH2World",
+    "29": "KH1World",
+    "30": "KDL3World",
+    "31": "LandstalkerWorld",
+    "32": "LingoWorld",
+    "33": "LinksAwakeningWorld",
+    "34": "L2ACWorld",
+    "35": "MLSSWorld",
+    "36": "MathProof2p2e4World",
+    "37": "MM2World",
+    "38": "MMBN3World",
+    "39": "MeritousWorld",
+    "40": "MetamathWorld",
+    "41": "MuseDashWorld",
+    "42": "NoitaWorld",
+    "43": "OSRSWorld",
+    "44": "Overcooked2World",
+    "45": "PaintWorld",
+    "46": "PokemonEmeraldWorld",
+    "47": "PokemonRedBlueWorld",
+    "48": "RaftWorld",
+    "49": "RiskOfRainWorld",
+    "50": "SavingPrincessWorld",
+    "51": "SoEWorld",
+    "52": "ShapezWorld",
+    "53": "ShiversWorld",
+    "54": "SA2BWorld",
+    "55": "SC2World",
+    "56": "StardewValleyWorld",
+    "57": "SubnauticaWorld",
+    "58": "SM64World",
+    "59": "MarioLand2World",
+    "60": "SMWWorld",
+    "61": "SMWorld",
+    "62": "TerrariaWorld",
+    "63": "TLoZWorld",
+    "64": "MessengerWorld",
+    "65": "TWWWorld",
+    "66": "WitnessWorld",
+    "67": "TimespinnerWorld",
+    "68": "TunicWorld",
+    "69": "UndertaleWorld",
+    "70": "V6World",
+    "71": "WargrooveWorld",
+    "72": "WebDevJourneyWorld",
+    "73": "YachtDiceWorld",
+    "74": "YoshisIslandWorld",
+    "75": "Yugioh06World"
+  },
+  "regions": {
+    "42": {
+      "Abyss Orb Room": {
+        "name": "Abyss Orb Room",
+        "exits": [],
+        "locations": []
+      },
+      "Ancient Laboratory": {
+        "name": "Ancient Laboratory",
+        "exits": [],
+        "locations": []
+      },
+      "Below Lava Lake": {
+        "name": "Below Lava Lake",
+        "exits": [],
+        "locations": []
+      },
+      "Coal Pits": {
+        "name": "Coal Pits",
+        "exits": [
+          {
+            "name": "Coal Pits -> Fungal Caverns",
+            "connected_region": "Fungal Caverns",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Coal Pits -> Snowy Depths Holy Mountain",
+            "connected_region": "Snowy Depths Holy Mountain",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Portal to Holy Mountain 2"
+            }
+          },
+          {
+            "name": "Coal Pits -> Ancient Laboratory",
+            "connected_region": "Ancient Laboratory",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Coal Pits Chest 1",
+            "id": 110126,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cure Potion",
+              "player": 23,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Coal Pits Chest 2",
+            "id": 110127,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Kyanite",
+              "player": 57,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Coal Pits Chest 3",
+            "id": 110128,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Random Cosmetic",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Coal Pits Pedestal 1",
+            "id": 110146,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Additional Palette Color",
+              "player": 45,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Coal Pits Pedestal 2",
+            "id": 110147,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 66,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Coal Pits Pedestal 3",
+            "id": 110148,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Healing Poultice",
+              "player": 5,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Coal Pits Pedestal 4",
+            "id": 110149,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Magnifying Glass",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Coal Pits Pedestal 5",
+            "id": 110150,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Heart of the Holy Purge",
+              "player": 7,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Coal Pits Pedestal 6",
+            "id": 110151,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Bean Fruit 7",
+              "player": 35,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Portal to Holy Mountain 2",
+            "id": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_group_unique",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Perks"
+                },
+                {
+                  "type": "constant",
+                  "value": 1
+                }
+              ]
+            },
+            "item": {
+              "name": "Portal to Holy Mountain 2",
+              "player": 42,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Coal Pits Holy Mountain": {
+        "name": "Coal Pits Holy Mountain",
+        "exits": [
+          {
+            "name": "Coal Pits Holy Mountain -> Coal Pits",
+            "connected_region": "Coal Pits",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Coal Pits Holy Mountain Shop Item 1",
+            "id": 110000,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Thorn Upgrade",
+              "player": 7,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Coal Pits Holy Mountain Shop Item 2",
+            "id": 110001,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cyclops Hull Fragment",
+              "player": 57,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Coal Pits Holy Mountain Shop Item 3",
+            "id": 110002,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Berry Pick-Mi-Up",
+              "player": 67,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Coal Pits Holy Mountain Shop Item 4",
+            "id": 110003,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Prawn Suit Fragment",
+              "player": 57,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Coal Pits Holy Mountain Shop Item 5",
+            "id": 110004,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Poochy",
+              "player": 74,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Coal Pits Holy Mountain Spell Refresh",
+            "id": 110005,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Power Cell",
+              "player": 27,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Collapsed Mines": {
+        "name": "Collapsed Mines",
+        "exits": [],
+        "locations": []
+      },
+      "Desert": {
+        "name": "Desert",
+        "exits": [],
+        "locations": []
+      },
+      "Dragoncave": {
+        "name": "Dragoncave",
+        "exits": [],
+        "locations": []
+      },
+      "Floating Island": {
+        "name": "Floating Island",
+        "exits": [],
+        "locations": []
+      },
+      "Forest": {
+        "name": "Forest",
+        "exits": [
+          {
+            "name": "Forest -> Mines",
+            "connected_region": "Mines",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Forest -> Floating Island",
+            "connected_region": "Floating Island",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Forest -> Desert",
+            "connected_region": "Desert",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Forest -> Snowy Wasteland",
+            "connected_region": "Snowy Wasteland",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Friend Cave": {
+        "name": "Friend Cave",
+        "exits": [],
+        "locations": []
+      },
+      "Frozen Vault": {
+        "name": "Frozen Vault",
+        "exits": [
+          {
+            "name": "Frozen Vault -> The Vault",
+            "connected_region": "The Vault",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Fungal Caverns": {
+        "name": "Fungal Caverns",
+        "exits": [],
+        "locations": []
+      },
+      "Hiisi Base": {
+        "name": "Hiisi Base",
+        "exits": [
+          {
+            "name": "Hiisi Base -> Secret Shop",
+            "connected_region": "Secret Shop",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Hiisi Base -> Pyramid",
+            "connected_region": "Pyramid",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Hiisi Base -> Underground Jungle Holy Mountain",
+            "connected_region": "Underground Jungle Holy Mountain",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Portal to Holy Mountain 4"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Hiisi Base Chest 1",
+            "id": 110246,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Restoration",
+              "player": 31,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hiisi Base Chest 2",
+            "id": 110247,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Crimson Vortex",
+              "player": 67,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hiisi Base Chest 3",
+            "id": 110248,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Herald Trousers",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hiisi Base Pedestal 1",
+            "id": 110266,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Armor",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hiisi Base Pedestal 2",
+            "id": 110267,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Titanite Shard",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hiisi Base Pedestal 3",
+            "id": 110268,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "25 Pons",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hiisi Base Pedestal 4",
+            "id": 110269,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Puppies 13-15",
+              "player": 29,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hiisi Base Pedestal 5",
+            "id": 110270,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Bomb",
+              "player": 63,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hiisi Base Pedestal 6",
+            "id": 110271,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Etude -Sunset-",
+              "player": 41,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Portal to Holy Mountain 4",
+            "id": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_group_unique",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Perks"
+                },
+                {
+                  "type": "constant",
+                  "value": 2
+                }
+              ]
+            },
+            "item": {
+              "name": "Portal to Holy Mountain 4",
+              "player": 42,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Hiisi Base Holy Mountain": {
+        "name": "Hiisi Base Holy Mountain",
+        "exits": [
+          {
+            "name": "Hiisi Base Holy Mountain -> Hiisi Base",
+            "connected_region": "Hiisi Base",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Hiisi Base Holy Mountain Shop Item 1",
+            "id": 110012,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Ember",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hiisi Base Holy Mountain Shop Item 2",
+            "id": 110013,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Dragonslayer Spear",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hiisi Base Holy Mountain Shop Item 3",
+            "id": 110014,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Category Fives",
+              "player": 73,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hiisi Base Holy Mountain Shop Item 4",
+            "id": 110015,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Winter",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hiisi Base Holy Mountain Shop Item 5",
+            "id": 110016,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Venus Key",
+              "player": 23,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hiisi Base Holy Mountain Spell Refresh",
+            "id": 110017,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Rupees (5)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Laboratory Holy Mountain": {
+        "name": "Laboratory Holy Mountain",
+        "exits": [
+          {
+            "name": "Laboratory Holy Mountain -> The Laboratory",
+            "connected_region": "The Laboratory",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Laboratory Holy Mountain Shop Item 1",
+            "id": 110036,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Hornet Ring",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Laboratory Holy Mountain Shop Item 2",
+            "id": 110037,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "JUICE",
+              "player": 25,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Laboratory Holy Mountain Shop Item 3",
+            "id": 110038,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Suburbs (MAP16) - Blue skull key",
+              "player": 20,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Laboratory Holy Mountain Shop Item 4",
+            "id": 110039,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Mind Repair",
+              "player": 31,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Laboratory Holy Mountain Shop Item 5",
+            "id": 110040,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Scanner Room Fragment",
+              "player": 57,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Laboratory Holy Mountain Spell Refresh",
+            "id": 110041,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Emblem",
+              "player": 54,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Lake": {
+        "name": "Lake",
+        "exits": [],
+        "locations": []
+      },
+      "Lava Lake": {
+        "name": "Lava Lake",
+        "exits": [
+          {
+            "name": "Lava Lake -> Abyss Orb Room",
+            "connected_region": "Abyss Orb Room",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Lukki Lair": {
+        "name": "Lukki Lair",
+        "exits": [],
+        "locations": []
+      },
+      "Magical Temple": {
+        "name": "Magical Temple",
+        "exits": [],
+        "locations": []
+      },
+      "Meat Realm": {
+        "name": "Meat Realm",
+        "exits": [],
+        "locations": []
+      },
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "Menu -> Forest",
+            "connected_region": "Forest",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Mines": {
+        "name": "Mines",
+        "exits": [
+          {
+            "name": "Mines -> Collapsed Mines",
+            "connected_region": "Collapsed Mines",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Mines -> Coal Pits Holy Mountain",
+            "connected_region": "Coal Pits Holy Mountain",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Portal to Holy Mountain 1"
+            }
+          },
+          {
+            "name": "Mines -> Lava Lake",
+            "connected_region": "Lava Lake",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Mines Chest 1",
+            "id": 110046,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "progressive-flamethrower",
+              "player": 21,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mines Chest 2",
+            "id": 110047,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Heart Star",
+              "player": 30,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mines Chest 3",
+            "id": 110048,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Dark Talisman",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mines Pedestal 1",
+            "id": 110066,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Space Port",
+              "player": 15,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mines Pedestal 2",
+            "id": 110067,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Combat Level",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mines Pedestal 3",
+            "id": 110068,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Island North Turtle",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mines Pedestal 4",
+            "id": 110069,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cartography",
+              "player": 15,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mines Pedestal 5",
+            "id": 110070,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Chuckle Bean",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mines Pedestal 6",
+            "id": 110071,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Toxin Refinery (E1M3) - Yellow keycard",
+              "player": 19,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Portal to Holy Mountain 1",
+            "id": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_group_unique",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Perks"
+                },
+                {
+                  "type": "constant",
+                  "value": 0
+                }
+              ]
+            },
+            "item": {
+              "name": "Portal to Holy Mountain 1",
+              "player": 42,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Overgrown Cavern": {
+        "name": "Overgrown Cavern",
+        "exits": [
+          {
+            "name": "Overgrown Cavern -> Sandcave",
+            "connected_region": "Sandcave",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Powerplant": {
+        "name": "Powerplant",
+        "exits": [
+          {
+            "name": "Powerplant -> Meat Realm",
+            "connected_region": "Meat Realm",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Pyramid": {
+        "name": "Pyramid",
+        "exits": [],
+        "locations": []
+      },
+      "Sandcave": {
+        "name": "Sandcave",
+        "exits": [],
+        "locations": []
+      },
+      "Secret Shop": {
+        "name": "Secret Shop",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Secret Shop Item 1",
+            "id": 110042,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Tears of Atonement (18000)",
+              "player": 7,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Secret Shop Item 2",
+            "id": 110043,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Projectile Refill",
+              "player": 23,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Secret Shop Item 3",
+            "id": 110044,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Rotten Meat",
+              "player": 5,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Secret Shop Item 4",
+            "id": 110045,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Titanite Shard",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Snow Chasm": {
+        "name": "Snow Chasm",
+        "exits": [],
+        "locations": []
+      },
+      "Snowy Depths": {
+        "name": "Snowy Depths",
+        "exits": [
+          {
+            "name": "Snowy Depths -> Hiisi Base Holy Mountain",
+            "connected_region": "Hiisi Base Holy Mountain",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Portal to Holy Mountain 3"
+            }
+          },
+          {
+            "name": "Snowy Depths -> Magical Temple",
+            "connected_region": "Magical Temple",
+            "access_rule": {
+              "type": "item_check",
+              "item": "All-Seeing Eye Perk"
+            }
+          },
+          {
+            "name": "Snowy Depths -> Below Lava Lake",
+            "connected_region": "Below Lava Lake",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Snowy Depths Chest 1",
+            "id": 110206,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "The Halls of Fear (E3M6) - Blue key",
+              "player": 24,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Snowy Depths Chest 2",
+            "id": 110207,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "progressive-research-speed",
+              "player": 21,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Snowy Depths Chest 3",
+            "id": 110208,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "progressive-follower-robot-count",
+              "player": 21,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Snowy Depths Pedestal 1",
+            "id": 110226,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Max HP Up",
+              "player": 28,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Snowy Depths Pedestal 2",
+            "id": 110227,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Foraging Level",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Snowy Depths Pedestal 3",
+            "id": 110228,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Easier Lyre",
+              "player": 53,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Snowy Depths Pedestal 4",
+            "id": 110229,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Titanium",
+              "player": 57,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Snowy Depths Pedestal 5",
+            "id": 110230,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Money",
+              "player": 49,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Snowy Depths Pedestal 6",
+            "id": 110231,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Great To Perfect (10 Pack)",
+              "player": 41,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Portal to Holy Mountain 3",
+            "id": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_group_unique",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Perks"
+                },
+                {
+                  "type": "constant",
+                  "value": 1
+                }
+              ]
+            },
+            "item": {
+              "name": "Portal to Holy Mountain 3",
+              "player": 42,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Snowy Depths Holy Mountain": {
+        "name": "Snowy Depths Holy Mountain",
+        "exits": [
+          {
+            "name": "Snowy Depths Holy Mountain -> Snowy Depths",
+            "connected_region": "Snowy Depths",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Snowy Depths Holy Mountain Shop Item 1",
+            "id": 110006,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Titanite Shard",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Snowy Depths Holy Mountain Shop Item 2",
+            "id": 110007,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Call bead",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Snowy Depths Holy Mountain Shop Item 3",
+            "id": 110008,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Morne's Helm",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Snowy Depths Holy Mountain Shop Item 4",
+            "id": 110009,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Restoration",
+              "player": 31,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Snowy Depths Holy Mountain Shop Item 5",
+            "id": 110010,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 39,
+              "advancement": false,
+              "type": "Enhancement"
+            }
+          },
+          {
+            "name": "Snowy Depths Holy Mountain Spell Refresh",
+            "id": 110011,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "2 Clay",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Snowy Wasteland": {
+        "name": "Snowy Wasteland",
+        "exits": [],
+        "locations": []
+      },
+      "Temple of the Art": {
+        "name": "Temple of the Art",
+        "exits": [
+          {
+            "name": "Temple of the Art -> Laboratory Holy Mountain",
+            "connected_region": "Laboratory Holy Mountain",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Portal to Holy Mountain 7"
+            }
+          },
+          {
+            "name": "Temple of the Art -> The Tower",
+            "connected_region": "The Tower",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Temple of the Art -> Wizards' Den",
+            "connected_region": "Wizards' Den",
+            "access_rule": {
+              "type": "item_check",
+              "item": "All-Seeing Eye Perk"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Temple of the Art Chest 1",
+            "id": 110406,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "MP Max Up",
+              "player": 10,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Temple of the Art Chest 2",
+            "id": 110407,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Outfit (Mesh - Autumn)",
+              "player": 8,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Temple of the Art Chest 3",
+            "id": 110408,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Hidden Dragon",
+              "player": 28,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Temple of the Art Pedestal 1",
+            "id": 110426,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Exile Leggings",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Temple of the Art Pedestal 2",
+            "id": 110427,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Plank Shield",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Temple of the Art Pedestal 3",
+            "id": 110428,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Ultra-Capacitors",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Temple of the Art Pedestal 4",
+            "id": 110429,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "VESSEL ROOM KEY",
+              "player": 25,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Temple of the Art Pedestal 5",
+            "id": 110430,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Mega Armor",
+              "player": 19,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Temple of the Art Pedestal 6",
+            "id": 110431,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Max HP",
+              "player": 67,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Portal to Holy Mountain 7",
+            "id": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_group_unique",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Perks"
+                },
+                {
+                  "type": "constant",
+                  "value": 3
+                }
+              ]
+            },
+            "item": {
+              "name": "Portal to Holy Mountain 7",
+              "player": 42,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Temple of the Art Holy Mountain": {
+        "name": "Temple of the Art Holy Mountain",
+        "exits": [
+          {
+            "name": "Temple of the Art Holy Mountain -> Temple of the Art",
+            "connected_region": "Temple of the Art",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Temple of the Art Holy Mountain Shop Item 1",
+            "id": 110030,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "The Citadel (MAP19) - Red skull key",
+              "player": 20,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Temple of the Art Holy Mountain Shop Item 2",
+            "id": 110031,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Salt Deposit",
+              "player": 57,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Temple of the Art Holy Mountain Shop Item 3",
+            "id": 110032,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Starting Paint Can",
+              "player": 9,
+              "advancement": false,
+              "type": "Helper"
+            }
+          },
+          {
+            "name": "Temple of the Art Holy Mountain Shop Item 4",
+            "id": 110033,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Ghost Ship Chart",
+              "player": 65,
+              "advancement": true,
+              "type": "Item"
+            }
+          },
+          {
+            "name": "Temple of the Art Holy Mountain Shop Item 5",
+            "id": 110034,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Potion",
+              "player": 29,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Temple of the Art Holy Mountain Spell Refresh",
+            "id": 110035,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Golden Feather",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "The Laboratory": {
+        "name": "The Laboratory",
+        "exits": [
+          {
+            "name": "The Laboratory -> The Work",
+            "connected_region": "The Work",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "The Laboratory -> Friend Cave",
+            "connected_region": "Friend Cave",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "The Laboratory -> The Work (Hell)",
+            "connected_region": "The Work (Hell)",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "The Laboratory -> Lake",
+            "connected_region": "Lake",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "The Laboratory -> The Sky",
+            "connected_region": "The Sky",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "The Sky": {
+        "name": "The Sky",
+        "exits": [],
+        "locations": []
+      },
+      "The Tower": {
+        "name": "The Tower",
+        "exits": [],
+        "locations": []
+      },
+      "The Vault": {
+        "name": "The Vault",
+        "exits": [
+          {
+            "name": "The Vault -> Frozen Vault",
+            "connected_region": "Frozen Vault",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "The Vault -> Temple of the Art Holy Mountain",
+            "connected_region": "Temple of the Art Holy Mountain",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Portal to Holy Mountain 6"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "The Vault Chest 1",
+            "id": 110366,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Boomerang",
+              "player": 65,
+              "advancement": true,
+              "type": "Item"
+            }
+          },
+          {
+            "name": "The Vault Chest 2",
+            "id": 110367,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1000 Exp",
+              "player": 49,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Vault Chest 3",
+            "id": 110368,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Health Pon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Vault Pedestal 1",
+            "id": 110386,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "ZeusHammer Z",
+              "player": 38,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Vault Pedestal 2",
+            "id": 110387,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Key for Puzzle Room",
+              "player": 53,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Vault Pedestal 3",
+            "id": 110388,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Heal Potion",
+              "player": 23,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Vault Pedestal 4",
+            "id": 110389,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Holy Wound of Attrition",
+              "player": 7,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Vault Pedestal 5",
+            "id": 110390,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Zerg Flyer Attack",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Vault Pedestal 6",
+            "id": 110391,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Super Mushroom",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Portal to Holy Mountain 6",
+            "id": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_group_unique",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Perks"
+                },
+                {
+                  "type": "constant",
+                  "value": 3
+                }
+              ]
+            },
+            "item": {
+              "name": "Portal to Holy Mountain 6",
+              "player": 42,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "The Work": {
+        "name": "The Work",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Victory",
+            "id": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Victory",
+              "player": 42,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "The Work (Hell)": {
+        "name": "The Work (Hell)",
+        "exits": [],
+        "locations": []
+      },
+      "Underground Jungle": {
+        "name": "Underground Jungle",
+        "exits": [
+          {
+            "name": "Underground Jungle -> Dragoncave",
+            "connected_region": "Dragoncave",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Underground Jungle -> Overgrown Cavern",
+            "connected_region": "Overgrown Cavern",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Underground Jungle -> Vault Holy Mountain",
+            "connected_region": "Vault Holy Mountain",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Portal to Holy Mountain 5"
+            }
+          },
+          {
+            "name": "Underground Jungle -> Lukki Lair",
+            "connected_region": "Lukki Lair",
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "All-Seeing Eye Perk",
+                    "Melee Immunity Perk"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "name": "Underground Jungle -> Snow Chasm",
+            "connected_region": "Snow Chasm",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Underground Jungle -> West Meat Realm",
+            "connected_region": "West Meat Realm",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Underground Jungle Chest 1",
+            "id": 110286,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Dahl",
+              "player": 31,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Jungle Chest 2",
+            "id": 110287,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Nectar",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Jungle Chest 3",
+            "id": 110288,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Burnt Pan",
+              "player": 69,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Jungle Pedestal 1",
+            "id": 110306,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Spare Plate",
+              "player": 44,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Jungle Pedestal 2",
+            "id": 110307,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Extra Life Perk",
+              "player": 42,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Jungle Pedestal 3",
+            "id": 110308,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Great Chaos Fire Orb",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Jungle Pedestal 4",
+            "id": 110309,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Central Processing (E1M6) - Blue keycard",
+              "player": 19,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Jungle Pedestal 5",
+            "id": 110310,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Pocket Fire Melon",
+              "player": 74,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Jungle Pedestal 6",
+            "id": 110311,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Bombs (3)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Portal to Holy Mountain 5",
+            "id": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_group_unique",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Perks"
+                },
+                {
+                  "type": "constant",
+                  "value": 2
+                }
+              ]
+            },
+            "item": {
+              "name": "Portal to Holy Mountain 5",
+              "player": 42,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Underground Jungle Holy Mountain": {
+        "name": "Underground Jungle Holy Mountain",
+        "exits": [
+          {
+            "name": "Underground Jungle Holy Mountain -> Underground Jungle",
+            "connected_region": "Underground Jungle",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Underground Jungle Holy Mountain Shop Item 1",
+            "id": 110018,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Incorrupt Hand of the Fraternal Master",
+              "player": 7,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Jungle Holy Mountain Shop Item 2",
+            "id": 110019,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "EXP Bracelet",
+              "player": 29,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Jungle Holy Mountain Shop Item 3",
+            "id": 110020,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Max Repel",
+              "player": 46,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Jungle Holy Mountain Shop Item 4",
+            "id": 110021,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cyclops Hull Fragment",
+              "player": 57,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Jungle Holy Mountain Shop Item 5",
+            "id": 110022,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Pocket Fire Melon",
+              "player": 74,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Jungle Holy Mountain Spell Refresh",
+            "id": 110023,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Anytime Egg",
+              "player": 74,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Vault Holy Mountain": {
+        "name": "Vault Holy Mountain",
+        "exits": [
+          {
+            "name": "Vault Holy Mountain -> The Vault",
+            "connected_region": "The Vault",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Vault Holy Mountain Shop Item 1",
+            "id": 110024,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Arcane Poultice",
+              "player": 5,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Vault Holy Mountain Shop Item 2",
+            "id": 110025,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Rupees (20)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Vault Holy Mountain Shop Item 3",
+            "id": 110026,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "TM22 Solar Beam",
+              "player": 47,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Vault Holy Mountain Shop Item 4",
+            "id": 110027,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "TM02",
+              "player": 46,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Vault Holy Mountain Shop Item 5",
+            "id": 110028,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Bait Bag",
+              "player": 65,
+              "advancement": true,
+              "type": "Item"
+            }
+          },
+          {
+            "name": "Vault Holy Mountain Spell Refresh",
+            "id": 110029,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "EkeEke",
+              "player": 31,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "West Meat Realm": {
+        "name": "West Meat Realm",
+        "exits": [],
+        "locations": []
+      },
+      "Wizards' Den": {
+        "name": "Wizards' Den",
+        "exits": [
+          {
+            "name": "Wizards' Den -> Powerplant",
+            "connected_region": "Powerplant",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      }
+    }
+  },
+  "start_regions": {
+    "42": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "42": {
+      "Trap": {
+        "name": "Trap",
+        "id": 110000,
+        "groups": [
+          "Everything",
+          "Traps"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 7
+      },
+      "Extra Max HP": {
+        "name": "Extra Max HP",
+        "id": 110001,
+        "groups": [
+          "Everything",
+          "Pickups"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 17
+      },
+      "Spell Refresher": {
+        "name": "Spell Refresher",
+        "id": 110002,
+        "groups": [
+          "Everything",
+          "Pickups"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 10
+      },
+      "Potion": {
+        "name": "Potion",
+        "id": 110003,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 6
+      },
+      "Gold (200)": {
+        "name": "Gold (200)",
+        "id": 110004,
+        "groups": [
+          "Everything",
+          "Gold"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "Gold (1000)": {
+        "name": "Gold (1000)",
+        "id": 110005,
+        "groups": [
+          "Everything",
+          "Gold"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Wand (Tier 1)": {
+        "name": "Wand (Tier 1)",
+        "id": 110006,
+        "groups": [
+          "Everything",
+          "Wands"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 5
+      },
+      "Wand (Tier 2)": {
+        "name": "Wand (Tier 2)",
+        "id": 110007,
+        "groups": [
+          "Everything",
+          "Wands"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Wand (Tier 3)": {
+        "name": "Wand (Tier 3)",
+        "id": 110008,
+        "groups": [
+          "Everything",
+          "Wands"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 5
+      },
+      "Wand (Tier 4)": {
+        "name": "Wand (Tier 4)",
+        "id": 110009,
+        "groups": [
+          "Everything",
+          "Wands"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "Wand (Tier 5)": {
+        "name": "Wand (Tier 5)",
+        "id": 110010,
+        "groups": [
+          "Everything",
+          "Wands"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "Wand (Tier 6)": {
+        "name": "Wand (Tier 6)",
+        "id": 110011,
+        "groups": [
+          "Everything",
+          "Wands"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "Kantele": {
+        "name": "Kantele",
+        "id": 110012,
+        "groups": [
+          "Everything",
+          "Wands"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fire Immunity Perk": {
+        "name": "Fire Immunity Perk",
+        "id": 110013,
+        "groups": [
+          "Everything",
+          "Perks"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Toxic Immunity Perk": {
+        "name": "Toxic Immunity Perk",
+        "id": 110014,
+        "groups": [
+          "Everything",
+          "Perks"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Explosion Immunity Perk": {
+        "name": "Explosion Immunity Perk",
+        "id": 110015,
+        "groups": [
+          "Everything",
+          "Perks"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Melee Immunity Perk": {
+        "name": "Melee Immunity Perk",
+        "id": 110016,
+        "groups": [
+          "Everything",
+          "Perks"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Electricity Immunity Perk": {
+        "name": "Electricity Immunity Perk",
+        "id": 110017,
+        "groups": [
+          "Everything",
+          "Perks"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Tinker with Wands Everywhere Perk": {
+        "name": "Tinker with Wands Everywhere Perk",
+        "id": 110018,
+        "groups": [
+          "Everything",
+          "Perks"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "All-Seeing Eye Perk": {
+        "name": "All-Seeing Eye Perk",
+        "id": 110019,
+        "groups": [
+          "Everything",
+          "Perks"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Spatial Awareness Perk": {
+        "name": "Spatial Awareness Perk",
+        "id": 110020,
+        "groups": [
+          "Everything",
+          "Perks"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Extra Life Perk": {
+        "name": "Extra Life Perk",
+        "id": 110021,
+        "groups": [
+          "Everything",
+          "Repeatable Perks"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 9
+      },
+      "Orb": {
+        "name": "Orb",
+        "id": 110022,
+        "groups": [
+          "Everything",
+          "Orbs"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Random Potion": {
+        "name": "Random Potion",
+        "id": 110023,
+        "groups": [
+          "Everything",
+          "Items"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Secret Potion": {
+        "name": "Secret Potion",
+        "id": 110024,
+        "groups": [
+          "Everything",
+          "Items"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 6
+      },
+      "Powder Pouch": {
+        "name": "Powder Pouch",
+        "id": 110025,
+        "groups": [
+          "Everything",
+          "Items"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 6
+      },
+      "Chaos Die": {
+        "name": "Chaos Die",
+        "id": 110026,
+        "groups": [
+          "Everything",
+          "Items"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Greed Die": {
+        "name": "Greed Die",
+        "id": 110027,
+        "groups": [
+          "Everything",
+          "Items"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "Kammi": {
+        "name": "Kammi",
+        "id": 110028,
+        "groups": [
+          "Everything",
+          "Items"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Refreshing Gourd": {
+        "name": "Refreshing Gourd",
+        "id": 110029,
+        "groups": [
+          "Everything",
+          "Items"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "S\u00e4dekivi": {
+        "name": "S\u00e4dekivi",
+        "id": 110030,
+        "groups": [
+          "Everything",
+          "Items"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Broken Wand": {
+        "name": "Broken Wand",
+        "id": 110031,
+        "groups": [
+          "Everything",
+          "Items"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Victory": {
+        "name": "Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Portal to Holy Mountain 1": {
+        "name": "Portal to Holy Mountain 1",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Portal to Holy Mountain 2": {
+        "name": "Portal to Holy Mountain 2",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Portal to Holy Mountain 3": {
+        "name": "Portal to Holy Mountain 3",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Portal to Holy Mountain 4": {
+        "name": "Portal to Holy Mountain 4",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Portal to Holy Mountain 5": {
+        "name": "Portal to Holy Mountain 5",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Portal to Holy Mountain 6": {
+        "name": "Portal to Holy Mountain 6",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Portal to Holy Mountain 7": {
+        "name": "Portal to Holy Mountain 7",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Cure Potion": {
+        "name": "Cure Potion",
+        "id": 4325392,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Kyanite": {
+        "name": "Kyanite",
+        "id": 35211,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Random Cosmetic": {
+        "name": "Random Cosmetic",
+        "id": 2000300044,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Additional Palette Color": {
+        "name": "Additional Palette Color",
+        "id": 198523,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Speed Boost": {
+        "name": "Speed Boost",
+        "id": 158500,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Healing Poultice": {
+        "name": "Healing Poultice",
+        "id": 698049,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Magnifying Glass": {
+        "name": "Magnifying Glass",
+        "id": 717097,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Heart of the Holy Purge": {
+        "name": "Heart of the Holy Purge",
+        "id": 1909075,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bean Fruit 7": {
+        "name": "Bean Fruit 7",
+        "id": 77771050,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Thorn Upgrade": {
+        "name": "Thorn Upgrade",
+        "id": 1909095,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cyclops Hull Fragment": {
+        "name": "Cyclops Hull Fragment",
+        "id": 35022,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Berry Pick-Mi-Up": {
+        "name": "Berry Pick-Mi-Up",
+        "id": 1337061,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Prawn Suit Fragment": {
+        "name": "Prawn Suit Fragment",
+        "id": 35032,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Poochy": {
+        "name": "Poochy",
+        "id": 3154021,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Power Cell": {
+        "name": "Power Cell",
+        "id": 741000000,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Restoration": {
+        "name": "Restoration",
+        "id": 4046,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Crimson Vortex": {
+        "name": "Crimson Vortex",
+        "id": 1337158,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Herald Trousers": {
+        "name": "Herald Trousers",
+        "id": 100301,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Armor": {
+        "name": "Armor",
+        "id": 360008,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Titanite Shard": {
+        "name": "Titanite Shard",
+        "id": 100890,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "25 Pons": {
+        "name": "25 Pons",
+        "id": 2000300034,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Puppies 13-15": {
+        "name": "Puppies 13-15",
+        "id": 2642205,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bomb": {
+        "name": "Bomb",
+        "id": 7127,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Etude -Sunset-": {
+        "name": "Etude -Sunset-",
+        "id": 2900520,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ember": {
+        "name": "Ember",
+        "id": 100863,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dragonslayer Spear": {
+        "name": "Dragonslayer Spear",
+        "id": 100153,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Fives": {
+        "name": "Category Fives",
+        "id": 16871244107,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Winter": {
+        "name": "Winter",
+        "id": 717127,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Venus Key": {
+        "name": "Venus Key",
+        "id": 4325379,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rupees (5)": {
+        "name": "Rupees (5)",
+        "id": 53,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hornet Ring": {
+        "name": "Hornet Ring",
+        "id": 100663,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "JUICE": {
+        "name": "JUICE",
+        "id": 200634,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Suburbs (MAP16) - Blue skull key": {
+        "name": "Suburbs (MAP16) - Blue skull key",
+        "id": 360231,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mind Repair": {
+        "name": "Mind Repair",
+        "id": 4021,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Scanner Room Fragment": {
+        "name": "Scanner Room Fragment",
+        "id": 35037,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Emblem": {
+        "name": "Emblem",
+        "id": 16711680,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "progressive-flamethrower": {
+        "name": "progressive-flamethrower",
+        "id": 131268,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Heart Star": {
+        "name": "Heart Star",
+        "id": 7798816,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dark Talisman": {
+        "name": "Dark Talisman",
+        "id": 717282,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Space Port": {
+        "name": "Progressive Space Port",
+        "id": 5041150,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Combat Level": {
+        "name": "Combat Level",
+        "id": 717077,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Island North Turtle": {
+        "name": "Island North Turtle",
+        "id": 717262,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cartography": {
+        "name": "Cartography",
+        "id": 5041026,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Chuckle Bean": {
+        "name": "Chuckle Bean",
+        "id": 77771020,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Toxin Refinery (E1M3) - Yellow keycard": {
+        "name": "Toxin Refinery (E1M3) - Yellow keycard",
+        "id": 350006,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Tears of Atonement (18000)": {
+        "name": "Tears of Atonement (18000)",
+        "id": 1909202,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Projectile Refill": {
+        "name": "Projectile Refill",
+        "id": 4325598,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rotten Meat": {
+        "name": "Rotten Meat",
+        "id": 698073,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "The Halls of Fear (E3M6) - Blue key": {
+        "name": "The Halls of Fear (E3M6) - Blue key",
+        "id": 370255,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "progressive-research-speed": {
+        "name": "progressive-research-speed",
+        "id": 131285,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "progressive-follower-robot-count": {
+        "name": "progressive-follower-robot-count",
+        "id": 131271,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Max HP Up": {
+        "name": "Max HP Up",
+        "id": 1245350,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Foraging Level": {
+        "name": "Foraging Level",
+        "id": 717075,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Easier Lyre": {
+        "name": "Easier Lyre",
+        "id": 27091,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Titanium": {
+        "name": "Titanium",
+        "id": 35200,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Money": {
+        "name": "Money",
+        "id": 37301,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Great To Perfect (10 Pack)": {
+        "name": "Great To Perfect (10 Pack)",
+        "id": 2900030,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Call bead": {
+        "name": "Call bead",
+        "id": 64117,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Morne's Helm": {
+        "name": "Morne's Helm",
+        "id": 100320,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Circuit Charge upgrade": {
+        "name": "Circuit Charge upgrade",
+        "id": 593002,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Enhancement",
+        "max_count": 1
+      },
+      "2 Clay": {
+        "name": "2 Clay",
+        "id": 64116,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "MP Max Up": {
+        "name": "MP Max Up",
+        "id": 3579634690,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Outfit (Mesh - Autumn)": {
+        "name": "Outfit (Mesh - Autumn)",
+        "id": 2308133,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hidden Dragon": {
+        "name": "Hidden Dragon",
+        "id": 1245291,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Exile Leggings": {
+        "name": "Exile Leggings",
+        "id": 100415,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Plank Shield": {
+        "name": "Plank Shield",
+        "id": 100239,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ultra-Capacitors": {
+        "name": "Ultra-Capacitors",
+        "id": 1600,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "VESSEL ROOM KEY": {
+        "name": "VESSEL ROOM KEY",
+        "id": 200644,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mega Armor": {
+        "name": "Mega Armor",
+        "id": 350108,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Max HP": {
+        "name": "Max HP",
+        "id": 1337179,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "The Citadel (MAP19) - Red skull key": {
+        "name": "The Citadel (MAP19) - Red skull key",
+        "id": 360239,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Salt Deposit": {
+        "name": "Salt Deposit",
+        "id": 35210,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Starting Paint Can": {
+        "name": "Starting Paint Can",
+        "id": 595005,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": "Helper",
+        "max_count": 1
+      },
+      "Ghost Ship Chart": {
+        "name": "Ghost Ship Chart",
+        "id": 2322545,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Item",
+        "max_count": 1
+      },
+      "Golden Feather": {
+        "name": "Golden Feather",
+        "id": 82003,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Boomerang": {
+        "name": "Boomerang",
+        "id": 2322437,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Item",
+        "max_count": 1
+      },
+      "1000 Exp": {
+        "name": "1000 Exp",
+        "id": 37303,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Health Pon": {
+        "name": "Health Pon",
+        "id": 2000300037,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "ZeusHammer Z": {
+        "name": "ZeusHammer Z",
+        "id": 11735166,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Key for Puzzle Room": {
+        "name": "Key for Puzzle Room",
+        "id": 27045,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Heal Potion": {
+        "name": "Heal Potion",
+        "id": 4325393,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Holy Wound of Attrition": {
+        "name": "Holy Wound of Attrition",
+        "id": 1909097,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Zerg Flyer Attack": {
+        "name": "Progressive Zerg Flyer Attack",
+        "id": 2103,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Super Mushroom": {
+        "name": "Super Mushroom",
+        "id": 77771002,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dahl": {
+        "name": "Dahl",
+        "id": 4045,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Nectar": {
+        "name": "Nectar",
+        "id": 64103,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Burnt Pan": {
+        "name": "Burnt Pan",
+        "id": 77047,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Spare Plate": {
+        "name": "Spare Plate",
+        "id": 213703,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Great Chaos Fire Orb": {
+        "name": "Great Chaos Fire Orb",
+        "id": 101029,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Central Processing (E1M6) - Blue keycard": {
+        "name": "Central Processing (E1M6) - Blue keycard",
+        "id": 350018,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Pocket Fire Melon": {
+        "name": "Pocket Fire Melon",
+        "id": 3154055,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bombs (3)": {
+        "name": "Bombs (3)",
+        "id": 40,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Incorrupt Hand of the Fraternal Master": {
+        "name": "Incorrupt Hand of the Fraternal Master",
+        "id": 1909062,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "EXP Bracelet": {
+        "name": "EXP Bracelet",
+        "id": 2641059,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Max Repel": {
+        "name": "Max Repel",
+        "id": 3860084,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Anytime Egg": {
+        "name": "Anytime Egg",
+        "id": 3154051,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Arcane Poultice": {
+        "name": "Arcane Poultice",
+        "id": 698038,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rupees (20)": {
+        "name": "Rupees (20)",
+        "id": 54,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "TM22 Solar Beam": {
+        "name": "TM22 Solar Beam",
+        "id": 172000222,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "TM02": {
+        "name": "TM02",
+        "id": 3860290,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bait Bag": {
+        "name": "Bait Bag",
+        "id": 2322442,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Item",
+        "max_count": 1
+      },
+      "EkeEke": {
+        "name": "EkeEke",
+        "id": 4000,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      " coins": {
+        "name": " coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      },
+      " coins freemium": {
+        "name": " coins freemium",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      }
+    }
+  },
+  "item_groups": {
+    "42": [
+      "Everything",
+      "Gold",
+      "Items",
+      "Orbs",
+      "Perks",
+      "Pickups",
+      "Repeatable Perks",
+      "Traps",
+      "Wands"
+    ]
+  },
+  "itempool_counts": {
+    "42": {
+      "All-Seeing Eye Perk": 1,
+      "Broken Wand": 2,
+      "Electricity Immunity Perk": 1,
+      "Explosion Immunity Perk": 1,
+      "Extra Life Perk": 9,
+      "Extra Max HP": 17,
+      "Fire Immunity Perk": 1,
+      "Gold (1000)": 2,
+      "Gold (200)": 4,
+      "Greed Die": 3,
+      "Kammi": 2,
+      "Melee Immunity Perk": 1,
+      "Portal to Holy Mountain 1": 1,
+      "Portal to Holy Mountain 2": 1,
+      "Portal to Holy Mountain 3": 1,
+      "Portal to Holy Mountain 4": 1,
+      "Portal to Holy Mountain 5": 1,
+      "Portal to Holy Mountain 6": 1,
+      "Portal to Holy Mountain 7": 1,
+      "Potion": 6,
+      "Powder Pouch": 6,
+      "Random Potion": 2,
+      "Refreshing Gourd": 4,
+      "Secret Potion": 6,
+      "Spell Refresher": 10,
+      "S\u00e4dekivi": 1,
+      "Tinker with Wands Everywhere Perk": 1,
+      "Toxic Immunity Perk": 1,
+      "Trap": 7,
+      "Victory": 1,
+      "Wand (Tier 1)": 5,
+      "Wand (Tier 2)": 2,
+      "Wand (Tier 3)": 5,
+      "Wand (Tier 4)": 3,
+      "Wand (Tier 5)": 4,
+      "Wand (Tier 6)": 3
+    }
+  },
+  "progression_mapping": {
+    "42": {}
+  },
+  "starting_items": {
+    "42": []
+  },
+  "settings": {
+    "42": {
+      "game": "Noita",
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
+    }
+  },
+  "game_info": {
+    "42": {
+      "name": "Noita",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "rules-alttp.schema.json",
+  "title": "A Link to the Past Archipelago Rules JSON Schema",
+  "description": "ALTTP-specific schema extending the generic Archipelago rules schema with game-specific fields and constraints.",
+  "allOf": [
+    {
+      "$ref": "rules.schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "game_name": {
+          "const": "A Link to the Past",
+          "description": "Game name must be 'A Link to the Past' for ALTTP seeds"
+        },
+        "game_directory": {
+          "const": "alttp",
+          "description": "Game directory must be 'alttp' for ALTTP seeds"
+        },
+        "settings": {
+          "type": "object",
+          "description": "ALTTP-specific settings per player",
+          "patternProperties": {
+            "^[0-9]+$": {
+              "type": "object",
+              "properties": {
+                "game": {
+                  "const": "A Link to the Past"
+                },
+                "assume_bidirectional_exits": {
+                  "type": "boolean",
+                  "description": "Whether to assume exits are bidirectional (always true for ALTTP)"
+                },
+                "accessibility": {
+                  "type": "string",
+                  "enum": ["items", "locations", "none"],
+                  "description": "Accessibility level for generation"
+                },
+                "mode": {
+                  "type": "string",
+                  "enum": ["standard", "open", "inverted", "retro"],
+                  "description": "Game mode"
+                },
+                "dark_room_logic": {
+                  "type": "string",
+                  "enum": ["lamp", "torches", "none"],
+                  "description": "Logic for navigating dark rooms"
+                },
+                "glitches_required": {
+                  "type": "string",
+                  "enum": ["none", "overworld_glitches", "major_glitches", "no_logic"],
+                  "description": "Level of glitches required in logic"
+                },
+                "enemy_health": {
+                  "type": "string",
+                  "enum": ["default", "easy", "hard", "expert"],
+                  "description": "Enemy health setting"
+                },
+                "enemy_damage": {
+                  "type": "string",
+                  "enum": ["default", "shuffled", "chaos"],
+                  "description": "Enemy damage setting"
+                },
+                "dungeon_counters": {
+                  "type": "string",
+                  "enum": ["default", "on", "off"],
+                  "description": "Dungeon counter display setting"
+                },
+                "pot_shuffle": {
+                  "type": "string",
+                  "enum": ["off", "on"],
+                  "description": "Whether pots are shuffled"
+                },
+                "glitch_boots": {
+                  "type": "string",
+                  "enum": ["off", "on"],
+                  "description": "Whether glitch boots are enabled"
+                },
+                "shuffle_capacity_upgrades": {
+                  "type": "string",
+                  "enum": ["off", "on", "progressive"],
+                  "description": "How capacity upgrades are shuffled"
+                },
+                "retro_bow": {
+                  "type": "boolean",
+                  "description": "Whether retro bow mode is enabled (arrows consume rupees)"
+                },
+                "swordless": {
+                  "type": "boolean",
+                  "description": "Whether swordless mode is enabled"
+                },
+                "enemy_shuffle": {
+                  "type": "boolean",
+                  "description": "Whether enemies are shuffled"
+                },
+                "bombless_start": {
+                  "type": "boolean",
+                  "description": "Whether the player starts without bombs"
+                },
+                "crystals_needed_for_gt": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 7,
+                  "description": "Number of crystals needed to enter Ganon's Tower"
+                },
+                "crystals_needed_for_ganon": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 7,
+                  "description": "Number of crystals needed to fight Ganon"
+                },
+                "treasure_hunt_required": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Number of items required for treasure hunt mode"
+                },
+                "required_medallions": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": ["Bombos", "Ether", "Quake"]
+                  },
+                  "description": "List of required medallions"
+                },
+                "misery_mire_medallion": {
+                  "type": ["string", "null"],
+                  "enum": ["Bombos", "Ether", "Quake", null],
+                  "description": "Medallion required to enter Misery Mire"
+                },
+                "turtle_rock_medallion": {
+                  "type": ["string", "null"],
+                  "enum": ["Bombos", "Ether", "Quake", null],
+                  "description": "Medallion required to enter Turtle Rock"
+                },
+                "difficulty_requirements": {
+                  "type": "object",
+                  "properties": {
+                    "progressive_bottle_limit": {
+                      "type": ["integer", "null"],
+                      "minimum": 0,
+                      "description": "Maximum number of progressive bottles"
+                    },
+                    "boss_heart_container_limit": {
+                      "type": ["integer", "null"],
+                      "minimum": 0,
+                      "description": "Maximum number of boss heart containers"
+                    },
+                    "heart_piece_limit": {
+                      "type": ["integer", "null"],
+                      "minimum": 0,
+                      "description": "Maximum number of heart pieces"
+                    }
+                  },
+                  "description": "Difficulty-related item limits"
+                }
+              },
+              "required": ["game", "assume_bidirectional_exits"]
+            }
+          }
+        },
+        "regions": {
+          "type": "object",
+          "description": "ALTTP regions with light/dark world attributes",
+          "patternProperties": {
+            "^[0-9]+$": {
+              "type": "object",
+              "patternProperties": {
+                "^.*$": {
+                  "allOf": [
+                    {
+                      "$ref": "rules.schema.json#/$defs/region"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "is_light_world": {
+                          "type": "boolean",
+                          "description": "Whether this region is in the Light World"
+                        },
+                        "is_dark_world": {
+                          "type": "boolean",
+                          "description": "Whether this region is in the Dark World"
+                        },
+                        "locations": {
+                          "type": "array",
+                          "items": {
+                            "allOf": [
+                              {
+                                "$ref": "rules.schema.json#/$defs/location"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "crystal": {
+                                    "type": ["boolean", "null"],
+                                    "description": "Whether this location awards a crystal (for dungeon prizes)"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

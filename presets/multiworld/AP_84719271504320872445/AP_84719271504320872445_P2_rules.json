@@ -16,7 +16,6 @@
     "2": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "GameStart",
@@ -31,43 +30,13 @@
       },
       "Overworld": {
         "name": "Overworld",
-        "entrances": [
-          {
-            "name": "GameStart",
-            "parent_region": "Menu",
-            "connected_region": "Overworld"
-          },
-          {
-            "name": "YellowCastleExit",
-            "parent_region": "YellowCastle",
-            "connected_region": "Overworld"
-          },
-          {
-            "name": "WhiteCastleExit",
-            "parent_region": "WhiteCastle",
-            "connected_region": "Overworld"
-          },
-          {
-            "name": "BlackCastleExit",
-            "parent_region": "BlackCastle",
-            "connected_region": "Overworld"
-          },
-          {
-            "name": "CreditsExit",
-            "parent_region": "CreditsRoom",
-            "connected_region": "Overworld"
-          }
-        ],
         "exits": [
           {
             "name": "YellowCastlePort",
             "connected_region": "YellowCastle",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Yellow Key"
-              }
+              "item": "Yellow Key"
             }
           },
           {
@@ -75,10 +44,7 @@
             "connected_region": "WhiteCastle",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "White Key"
-              }
+              "item": "White Key"
             }
           },
           {
@@ -86,10 +52,7 @@
             "connected_region": "BlackCastle",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Black Key"
-              }
+              "item": "Black Key"
             }
           },
           {
@@ -100,17 +63,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Bridge"
-                  }
+                  "item": "Black Key"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Black Key"
-                  }
+                  "item": "Bridge"
                 }
               ]
             }
@@ -265,17 +222,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Sword"
-                  }
+                  "item": "Right Difficulty Switch"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Right Difficulty Switch"
-                  }
+                  "item": "Sword"
                 }
               ]
             },
@@ -290,13 +241,6 @@
       },
       "YellowCastle": {
         "name": "YellowCastle",
-        "entrances": [
-          {
-            "name": "YellowCastlePort",
-            "parent_region": "Overworld",
-            "connected_region": "YellowCastle"
-          }
-        ],
         "exits": [
           {
             "name": "YellowCastleExit",
@@ -330,17 +274,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chalice"
-                  }
+                  "item": "Chalice"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Yellow Key"
-                  }
+                  "item": "Yellow Key"
                 }
               ]
             },
@@ -355,23 +293,6 @@
       },
       "WhiteCastle": {
         "name": "WhiteCastle",
-        "entrances": [
-          {
-            "name": "WhiteCastlePort",
-            "parent_region": "Overworld",
-            "connected_region": "WhiteCastle"
-          },
-          {
-            "name": "WhiteCastleReturnPassage",
-            "parent_region": "WhiteCastleVault",
-            "connected_region": "WhiteCastle"
-          },
-          {
-            "name": "WhiteCastleFromPeek",
-            "parent_region": "WhiteCastlePreVaultPeek",
-            "connected_region": "WhiteCastle"
-          }
-        ],
         "exits": [
           {
             "name": "WhiteCastleExit",
@@ -386,10 +307,7 @@
             "connected_region": "WhiteCastleVault",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Bridge"
-              }
+              "item": "Bridge"
             }
           },
           {
@@ -400,17 +318,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Bridge"
-                  }
+                  "item": "Bridge"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Magnet"
-                  }
+                  "item": "Magnet"
                 }
               ]
             }
@@ -449,13 +361,6 @@
       },
       "WhiteCastlePreVaultPeek": {
         "name": "WhiteCastlePreVaultPeek",
-        "entrances": [
-          {
-            "name": "WhiteCastlePeekPassage",
-            "parent_region": "WhiteCastle",
-            "connected_region": "WhiteCastlePreVaultPeek"
-          }
-        ],
         "exits": [
           {
             "name": "WhiteCastleFromPeek",
@@ -485,13 +390,6 @@
       },
       "WhiteCastleVault": {
         "name": "WhiteCastleVault",
-        "entrances": [
-          {
-            "name": "WhiteCastleSecretPassage",
-            "parent_region": "WhiteCastle",
-            "connected_region": "WhiteCastleVault"
-          }
-        ],
         "exits": [
           {
             "name": "WhiteCastleReturnPassage",
@@ -525,17 +423,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Sword"
-                  }
+                  "item": "Right Difficulty Switch"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Right Difficulty Switch"
-                  }
+                  "item": "Sword"
                 }
               ]
             },
@@ -550,18 +442,6 @@
       },
       "BlackCastle": {
         "name": "BlackCastle",
-        "entrances": [
-          {
-            "name": "BlackCastlePort",
-            "parent_region": "Overworld",
-            "connected_region": "BlackCastle"
-          },
-          {
-            "name": "BlackCastleReturnPassage",
-            "parent_region": "BlackCastleVault",
-            "connected_region": "BlackCastle"
-          }
-        ],
         "exits": [
           {
             "name": "BlackCastleExit",
@@ -579,17 +459,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Bridge"
-                  }
+                  "item": "Bridge"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Magnet"
-                  }
+                  "item": "Magnet"
                 }
               ]
             }
@@ -646,17 +520,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Sword"
-                  }
+                  "item": "Right Difficulty Switch"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Right Difficulty Switch"
-                  }
+                  "item": "Sword"
                 }
               ]
             },
@@ -671,13 +539,6 @@
       },
       "BlackCastleVault": {
         "name": "BlackCastleVault",
-        "entrances": [
-          {
-            "name": "BlackCastleVaultEntrance",
-            "parent_region": "BlackCastle",
-            "connected_region": "BlackCastleVault"
-          }
-        ],
         "exits": [
           {
             "name": "BlackCastleReturnPassage",
@@ -707,18 +568,6 @@
       },
       "CreditsRoom": {
         "name": "CreditsRoom",
-        "entrances": [
-          {
-            "name": "CreditsWall",
-            "parent_region": "Overworld",
-            "connected_region": "CreditsRoom"
-          },
-          {
-            "name": "CreditsFromFarSide",
-            "parent_region": "CreditsRoomFarSide",
-            "connected_region": "CreditsRoom"
-          }
-        ],
         "exits": [
           {
             "name": "CreditsExit",
@@ -733,10 +582,7 @@
             "connected_region": "CreditsRoomFarSide",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Magnet"
-              }
+              "item": "Magnet"
             }
           }
         ],
@@ -759,13 +605,6 @@
       },
       "CreditsRoomFarSide": {
         "name": "CreditsRoomFarSide",
-        "entrances": [
-          {
-            "name": "CreditsToFarSide",
-            "parent_region": "CreditsRoom",
-            "connected_region": "CreditsRoomFarSide"
-          }
-        ],
         "exits": [
           {
             "name": "CreditsFromFarSide",
@@ -1012,6 +851,138 @@
         "event": true,
         "type": "Event",
         "max_count": 1
+      },
+      "Golden Feather": {
+        "name": "Golden Feather",
+        "id": 82003,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Seashell": {
+        "name": "Seashell",
+        "id": 82002,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "The Treasure of Sid Beach Map": {
+        "name": "The Treasure of Sid Beach Map",
+        "id": 82019,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Medal": {
+        "name": "Medal",
+        "id": 82011,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "13 Coins": {
+        "name": "13 Coins",
+        "id": 82037,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "A Stormy View Map": {
+        "name": "A Stormy View Map",
+        "id": 82017,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "25 Coins": {
+        "name": "25 Coins",
+        "id": 82032,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sunhat": {
+        "name": "Sunhat",
+        "id": 82021,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Baseball Cap": {
+        "name": "Baseball Cap",
+        "id": 82022,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "7 Coins": {
+        "name": "7 Coins",
+        "id": 82028,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "21 Coins": {
+        "name": "21 Coins",
+        "id": 82031,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Provincial Park Hat": {
+        "name": "Provincial Park Hat",
+        "id": 82023,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
       }
     }
   },
@@ -1047,7 +1018,8 @@
   "settings": {
     "2": {
       "game": "Adventure",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
     }
   },
   "game_info": {

@@ -202,6 +202,7 @@ Playthrough:
 2: {
   Dragon Roost Cavern - Alcove With Water Jugs: DRC Small Key
   Dragon Roost Cavern - Boarded Up Chest: Wind's Requiem
+  Windfall Island - Tott - Teach Rhythm: Magic Armor
 }
 3: {
   Dragon Roost Cavern - Rat Room Boarded Up Chest: DRC Small Key
@@ -210,8 +211,10 @@ Playthrough:
   Dragon Roost Cavern - Bird's Nest: DRC Small Key
 }
 5: {
+  Dragon Roost Cavern - Big Key Chest: Nayru's Pearl
   Dragon Roost Cavern - Boss Stairs Right Chest: Deku Leaf
   Dragon Roost Cavern - Miniboss: Progressive Magic Meter
+  Dragon Roost Cavern - Pot Room Chest: DRC Big Key
 }
 6: {
   Cliff Plateau Isles - Highest Isle: Progressive Bow
@@ -235,6 +238,7 @@ Playthrough:
 }
 9: {
   Bird's Peak Rock - Cave: Power Bracelets
+  Ice Ring Isle - Cave - Chest: Ballad of Gales
   Needle Rock Isle - Cave: Boomerang
 }
 10: {
@@ -244,33 +248,53 @@ Playthrough:
 11: {
   Earth Temple - Transparent Chest In Warp Pot Room: Hookshot
   Earth Temple - Transparent Chest in First Crypt: ET Small Key
+  Wind Temple - Chest Behind Seven Armos: WT Big Key
+  Wind Temple - Chest Between Two Dirt Patches: Delivery Bag
   Wind Temple - Chest In Many Cyclones Room: WT Small Key
   Wind Temple - Chest at Top of Hub Room: WT Small Key
   Wind Temple - Chest in Left Alcove: Triforce Shard 4
   Wind Temple - Spike Wall Room - Destroy All Cracked Floors: Wallet Capacity Upgrade
 }
 12: {
+  Diamond Steppe Island - Warp Maze Cave - Second Chest: Din's Pearl
   Rock Spire Isle - Beedle's Special Shop Ship - 900 Rupee Item: Progressive Shield
   Wind Temple - Chest Behind Stone Head: Triforce Shard 7
   Wind Temple - Kill All Enemies in Tall Basement Room: Wind God's Aria
 }
 13: {
+  Earth Temple - Chest Behind Destructible Walls: Note to Mom
   Wind Temple - Big Key Chest: Triforce Shard 1
+  Wind Temple - Molgera Heart Container: Progressive Magic Meter
 }
 14: {
   Ganon's Tower - Maze Chest: Earth God's Lyric
 }
 15: {
+  Earth Temple - End of Foggy Room With Floormasters: ET Big Key
   Earth Temple - Kill All Floormasters in Foggy Room: ET Small Key
 }
 16: {
+  Earth Temple - Chest Behind Statues: Farore's Pearl
   Earth Temple - Chest In Three Blocks Room: ET Small Key
 }
 17: {
   Earth Temple - Big Key Chest: Progressive Bow
+  Earth Temple - Chest in Third Crypt: Wallet Capacity Upgrade
+  Earth Temple - Jalhalla Heart Container: Ghost Ship Chart
+  Earth Temple - Stalfos Crypt Room: Empty Bottle
+  Earth Temple - Stalfos Miniboss Room: Cabana Deed
+  Tower of the Gods - Skulls Room Chest: TotG Small Key
 }
 18: {
   Defeat Ganondorf: Victory
+  Private Oasis - Cabana Labyrinth - Upper Floor Chest: Empty Bottle
+  Tower of the Gods - First Chest Guarded by Armos Knights: TotG Big Key
+  Tower of the Gods - Floating Platforms Room: Song of Passing
+  Tower of the Gods - Second Chest Guarded by Armos Knights: TotG Small Key
+  Tower of the Gods - Stone Tablet: Empty Bottle
+}
+19: {
+  Tower of the Gods - Big Key Chest: Empty Bottle
 }
 
 Paths:
@@ -287,7 +311,13 @@ Cliff Plateau Isles - Highest Isle
    =>   Cliff Plateau Isles Inner Cave
 Defeat Ganondorf
         The Great Sea
+Diamond Steppe Island - Warp Maze Cave - Second Chest
+        The Great Sea -> Secret Cave Entrance on Diamond Steppe Island -> Diamond Steppe Island Warp Maze Cave
+   =>   Diamond Steppe Island Warp Maze Cave
 Dragon Roost Cavern - Alcove With Water Jugs
+        The Great Sea -> Dungeon Entrance on Dragon Roost Island -> Dragon Roost Cavern
+   =>   Dragon Roost Cavern
+Dragon Roost Cavern - Big Key Chest
         The Great Sea -> Dungeon Entrance on Dragon Roost Island -> Dragon Roost Cavern
    =>   Dragon Roost Cavern
 Dragon Roost Cavern - Bird's Nest
@@ -305,18 +335,44 @@ Dragon Roost Cavern - First Room
 Dragon Roost Cavern - Miniboss
         The Great Sea -> Dungeon Entrance on Dragon Roost Island -> Dragon Roost Cavern
    =>   Dragon Roost Cavern
+Dragon Roost Cavern - Pot Room Chest
+        The Great Sea -> Dungeon Entrance on Dragon Roost Island -> Dragon Roost Cavern
+   =>   Dragon Roost Cavern
 Dragon Roost Cavern - Rat Room Boarded Up Chest
         The Great Sea -> Dungeon Entrance on Dragon Roost Island -> Dragon Roost Cavern
    =>   Dragon Roost Cavern
 Earth Temple - Big Key Chest
         The Great Sea -> Dungeon Entrance on Headstone Island -> Earth Temple
    =>   Earth Temple
+Earth Temple - Chest Behind Destructible Walls
+        The Great Sea -> Dungeon Entrance on Headstone Island -> Earth Temple
+   =>   Earth Temple
+Earth Temple - Chest Behind Statues
+        The Great Sea -> Dungeon Entrance on Headstone Island -> Earth Temple
+   =>   Earth Temple
 Earth Temple - Chest In Three Blocks Room
         The Great Sea -> Dungeon Entrance on Headstone Island -> Earth Temple
    =>   Earth Temple
+Earth Temple - Chest in Third Crypt
+        The Great Sea -> Dungeon Entrance on Headstone Island -> Earth Temple
+   =>   Earth Temple
+Earth Temple - End of Foggy Room With Floormasters
+        The Great Sea -> Dungeon Entrance on Headstone Island -> Earth Temple
+   =>   Earth Temple
+Earth Temple - Jalhalla Heart Container
+        The Great Sea -> Dungeon Entrance on Headstone Island -> Earth Temple
+   =>   Earth Temple -> Boss Entrance in Earth Temple -> Jalhalla Boss Arena
+   =>   Jalhalla Boss Arena
 Earth Temple - Kill All Floormasters in Foggy Room
         The Great Sea -> Dungeon Entrance on Headstone Island -> Earth Temple
    =>   Earth Temple
+Earth Temple - Stalfos Crypt Room
+        The Great Sea -> Dungeon Entrance on Headstone Island -> Earth Temple
+   =>   Earth Temple
+Earth Temple - Stalfos Miniboss Room
+        The Great Sea -> Dungeon Entrance on Headstone Island -> Earth Temple
+   =>   Earth Temple -> Miniboss Entrance in Earth Temple -> Earth Temple Miniboss Arena
+   =>   Earth Temple Miniboss Arena
 Earth Temple - Transparent Chest In Warp Pot Room
         The Great Sea -> Dungeon Entrance on Headstone Island -> Earth Temple
    =>   Earth Temple
@@ -364,6 +420,9 @@ Forsaken Fortress - Helmaroc King Heart Container
    =>   Helmaroc King Boss Arena
 Ganon's Tower - Maze Chest
         The Great Sea
+Ice Ring Isle - Cave - Chest
+        The Great Sea -> Secret Cave Entrance on Ice Ring Isle -> Ice Ring Isle Secret Cave
+   =>   Ice Ring Isle Secret Cave
 Needle Rock Isle - Cave
         The Great Sea -> Secret Cave Entrance on Needle Rock Isle -> Needle Rock Isle Secret Cave
    =>   Needle Rock Isle Secret Cave
@@ -373,15 +432,42 @@ Northern Fairy Island - Great Fairy
 Pawprint Isle - Chuchu Cave - Chest
         The Great Sea -> Secret Cave Entrance on Pawprint Isle -> Pawprint Isle Chuchu Cave
    =>   Pawprint Isle Chuchu Cave
+Private Oasis - Cabana Labyrinth - Upper Floor Chest
+        The Great Sea -> Secret Cave Entrance on Private Oasis -> Cabana Labyrinth
+   =>   Cabana Labyrinth
 Rock Spire Isle - Beedle's Special Shop Ship - 900 Rupee Item
         The Great Sea
 Thorned Fairy Island - Great Fairy
         The Great Sea -> Fairy Fountain Entrance on Thorned Fairy Island -> Thorned Fairy Fountain
    =>   Thorned Fairy Fountain
+Tower of the Gods - Big Key Chest
+        The Great Sea -> Dungeon Entrance in Tower of the Gods Sector -> Tower of the Gods
+   =>   Tower of the Gods
+Tower of the Gods - First Chest Guarded by Armos Knights
+        The Great Sea -> Dungeon Entrance in Tower of the Gods Sector -> Tower of the Gods
+   =>   Tower of the Gods
+Tower of the Gods - Floating Platforms Room
+        The Great Sea -> Dungeon Entrance in Tower of the Gods Sector -> Tower of the Gods
+   =>   Tower of the Gods
+Tower of the Gods - Second Chest Guarded by Armos Knights
+        The Great Sea -> Dungeon Entrance in Tower of the Gods Sector -> Tower of the Gods
+   =>   Tower of the Gods
+Tower of the Gods - Skulls Room Chest
+        The Great Sea -> Dungeon Entrance in Tower of the Gods Sector -> Tower of the Gods
+   =>   Tower of the Gods
+Tower of the Gods - Stone Tablet
+        The Great Sea -> Dungeon Entrance in Tower of the Gods Sector -> Tower of the Gods
+   =>   Tower of the Gods
 Wind Temple - Big Key Chest
         The Great Sea -> Dungeon Entrance on Gale Isle -> Wind Temple
    =>   Wind Temple
+Wind Temple - Chest Behind Seven Armos
+        The Great Sea -> Dungeon Entrance on Gale Isle -> Wind Temple
+   =>   Wind Temple
 Wind Temple - Chest Behind Stone Head
+        The Great Sea -> Dungeon Entrance on Gale Isle -> Wind Temple
+   =>   Wind Temple
+Wind Temple - Chest Between Two Dirt Patches
         The Great Sea -> Dungeon Entrance on Gale Isle -> Wind Temple
    =>   Wind Temple
 Wind Temple - Chest In Many Cyclones Room
@@ -396,10 +482,16 @@ Wind Temple - Chest in Left Alcove
 Wind Temple - Kill All Enemies in Tall Basement Room
         The Great Sea -> Dungeon Entrance on Gale Isle -> Wind Temple
    =>   Wind Temple
+Wind Temple - Molgera Heart Container
+        The Great Sea -> Dungeon Entrance on Gale Isle -> Wind Temple
+   =>   Wind Temple -> Boss Entrance in Wind Temple -> Molgera Boss Arena
+   =>   Molgera Boss Arena
 Wind Temple - Spike Wall Room - Destroy All Cracked Floors
         The Great Sea -> Dungeon Entrance on Gale Isle -> Wind Temple
    =>   Wind Temple
 Windfall Island - Jail - Tingle - First Gift
         The Great Sea
 Windfall Island - Maggie - Free Item
+        The Great Sea
+Windfall Island - Tott - Teach Rhythm
         The Great Sea

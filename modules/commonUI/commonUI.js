@@ -75,11 +75,12 @@ class CommonUI {
     }
 
     // Find all locations that have this item
+    // Use Map methods
     const locationInfos = [];
-    for (const [locName, itemData] of Object.entries(staticData.locationItems)) {
+    for (const [locName, itemData] of staticData.locationItems.entries()) {
       if (itemData && itemData.name === itemName) {
         // Get the location's region from static data
-        const locData = Object.values(staticData.locations).find(l => l.name === locName);
+        const locData = staticData.locations.get(locName);
         if (locData) {
           locationInfos.push({
             locationName: locName,

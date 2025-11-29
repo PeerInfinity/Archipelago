@@ -474,18 +474,18 @@ export class InventoryUI {
     });
 
     subscribe('loop:modeChanged', (isLoopMode) => {
-      if (this.isInitialized) this.updateDisplay();
+      if (this.isInitialized && this.itemData) this.updateDisplay();
     });
 
     log('info', '[InventoryUI] EventBus listeners attached.');
   }
 
   _handleSnapshotUpdated(snapshotData) {
-    if (this.isInitialized) {
+    if (this.isInitialized && this.itemData) {
       if (snapshotData) {
         this.updateDisplay();
       } else {
-        log('warn', 
+        log('warn',
           '[InventoryUI] snapshotUpdated event received null snapshotData?'
         );
       }
@@ -493,10 +493,10 @@ export class InventoryUI {
   }
 
   _handleInventoryChanged() {
-    log('info', 
+    log('info',
       '[InventoryUI] stateManager:inventoryChanged received. Triggering display update.'
     );
-    if (this.isInitialized) {
+    if (this.isInitialized && this.itemData) {
       this.updateDisplay();
     }
   }

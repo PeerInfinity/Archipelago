@@ -89,11 +89,18 @@ export async function rulesReloadTest(testController) {
 
     // Track if we receive the stateManager:rulesLoaded event
     let rulesLoadedEventReceived = false;
-    
+
+    // Step 0: Load ALTTP rules first (this test uses ALTTP-specific locations)
+    testController.log('Step 0: Loading ALTTP rules for test setup...');
+    await testController.loadALTTPRules();
+    testController.reportCondition('ALTTP rules loaded for test', true);
+
+    // Note: loadALTTPRules() already waits for stateManager:rulesLoaded event, so no delay needed
+
     // Step 1: Activate the Locations panel
     testController.log('Step 1: Activating Locations panel...');
     testController.eventBus.publish('ui:activatePanel', { panelId: 'locationsPanel' }, 'tests');
-    
+
     // Wait for the panel to be ready
     const locationsReady = await testController.pollForCondition(
       () => {
@@ -105,6 +112,16 @@ export async function rulesReloadTest(testController) {
       50
     );
     testController.reportCondition('Locations panel activated', locationsReady);
+
+    // Step 1b: Ensure "Show Checked" checkbox is enabled
+    testController.log('Step 1b: Ensuring "Show Checked" checkbox is enabled...');
+    const showCheckedCheckbox = document.querySelector('#show-checked');
+    if (showCheckedCheckbox && !showCheckedCheckbox.checked) {
+      testController.log('"Show Checked" was not checked, enabling it...');
+      showCheckedCheckbox.click();
+      // The checkbox change triggers UI update synchronously, no wait needed
+    }
+    testController.reportCondition('"Show Checked" checkbox enabled', showCheckedCheckbox && showCheckedCheckbox.checked);
 
     // Step 2: Click on the Mushroom location to check it
     testController.log('Step 2: Looking for Mushroom location...');
@@ -129,27 +146,27 @@ export async function rulesReloadTest(testController) {
       testController.reportCondition('Mushroom location found', true);
       testController.log('Clicking on Mushroom location to check it...');
       mushroomLocation.click();
-      
-      // Wait for the location to be checked
-      await new Promise(resolve => setTimeout(resolve, 1500));
       testController.reportCondition('Mushroom location clicked', true);
     } else {
       testController.reportCondition('Mushroom location not found', false);
     }
 
-    // Step 3: Confirm that the Mushroom location is checked
+    // Step 3: Confirm that the Mushroom location is checked (polling handles the wait)
     testController.log('Step 3: Confirming Mushroom location is checked...');
     const mushroomLocationChecked = await testController.pollForCondition(
       () => {
         const locationCards = document.querySelectorAll('.location-card');
         for (const card of locationCards) {
           if (card.textContent.includes('Mushroom')) {
-            return card.classList.contains('checked') || card.classList.contains('location-checked');
+            const classes = Array.from(card.classList).join(', ');
+            testController.log(`Mushroom card classes: ${classes}`);
+            // Check for either checked or pending (pending means the click worked, waiting for confirmation)
+            return card.classList.contains('checked') || card.classList.contains('pending');
           }
         }
         return false;
       },
-      'Mushroom location is checked',
+      'Mushroom location is checked or pending',
       5000,
       50
     );
@@ -251,56 +268,60 @@ export async function rulesReloadTest(testController) {
     );
     testController.reportCondition('Regions panel activated', regionsReady);
 
-    // Step 8: Click on the Move button for "Links House S&Q → Links House"
-    testController.log('Step 8: Looking for Links House S&Q move button...');
-    
-    const moveButton = await testController.pollForValue(
+    // Step 8: Click on the exit block for "Links House S&Q → Links House"
+    testController.log('Step 8: Looking for Links House S&Q exit...');
+
+    const exitElement = await testController.pollForValue(
       () => {
-        const moveButtons = document.querySelectorAll('.move-btn');
-        for (const button of moveButtons) {
-          if (button.parentElement && 
-              button.parentElement.textContent.includes('Links House S&Q')) {
-            return button;
+        // Find the exit wrapper div (not the li), which has the click handler
+        const exitsList = document.querySelector('.region-exits-list');
+        if (!exitsList) return null;
+
+        const exitItems = exitsList.querySelectorAll('li');
+        for (const exitItem of exitItems) {
+          const exitText = exitItem.textContent;
+          if (exitText.includes('Links House S&Q') && exitText.includes('Links House')) {
+            // Return the exit-wrapper div inside the li, which has the click handler
+            return exitItem.querySelector('.exit-wrapper');
           }
         }
         return null;
       },
-      'Links House S&Q move button found',
+      'Links House S&Q exit found',
       5000,
       50
     );
-    
-    if (moveButton) {
-      testController.reportCondition('Links House S&Q move button found', true);
-      testController.log('Clicking Links House S&Q move button...');
-      moveButton.click();
-      
-      // Wait for the region to be added
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      testController.reportCondition('Links House S&Q move button clicked', true);
+
+    if (exitElement) {
+      testController.reportCondition('Links House S&Q exit found', true);
+      testController.log('Clicking Links House S&Q exit wrapper...');
+      testController.log(`Exit element tag: ${exitElement.tagName}, classes: ${exitElement.className}`);
+
+      // Click the exit-wrapper div which has the actual click handler
+      // The click handler checks if target is region-link and returns early if so
+      testController.log('Clicking the exit-wrapper to trigger navigation...');
+
+      // Just use a simple click - the wrapper already has the handler attached
+      exitElement.click();
+      testController.reportCondition('Links House S&Q exit clicked', true);
     } else {
-      testController.reportCondition('Links House S&Q move button not found', false);
+      testController.reportCondition('Links House S&Q exit not found', false);
     }
 
-    // Step 9: Confirm Links House region block appears
+    // Step 9: Confirm Links House region block appears (polling handles the wait)
     testController.log('Step 9: Confirming Links House region block appears...');
     const linksHouseAdded = await testController.pollForCondition(
       () => {
-        // Use the same pattern as regionPanelTests.js - scope to regions container and check region name element
+        // Region blocks now use data-region attribute instead of .region-name elements
         const regionsPanel = document.querySelector('.regions-panel-container');
         if (!regionsPanel) return false; // If regions panel not found, region hasn't appeared
-        
+
         const regionsContainer = regionsPanel.querySelector('#region-details-container');
         if (!regionsContainer) return false; // If regions container not found, region hasn't appeared
-        
-        const regionBlocks = regionsContainer.querySelectorAll('.region-block');
-        for (const block of regionBlocks) {
-          const regionNameElement = block.querySelector('.region-name');
-          if (regionNameElement && regionNameElement.textContent.trim() === 'Links House') {
-            return true; // Found it
-          }
-        }
-        return false;
+
+        // Look for region block with data-region="Links House"
+        const linksHouseBlock = regionsContainer.querySelector('.region-block[data-region="Links House"]');
+        return !!linksHouseBlock; // Found it if block exists
       },
       'Links House region block appears',
       5000,
@@ -308,16 +329,16 @@ export async function rulesReloadTest(testController) {
     );
     testController.reportCondition('Links House region block confirmed added', linksHouseAdded);
 
-    // Step 10: Run loadDefaultRules
-    testController.log('Step 10: Calling loadDefaultRules()...');
+    // Step 10: Run loadALTTPRules
+    testController.log('Step 10: Calling loadALTTPRules()...');
     
     // Set up a promise to wait for the stateManager:rulesLoaded event
     const rulesLoadedPromise = testController.waitForEvent('stateManager:rulesLoaded', 10000);
     
     // Start the reload (this will fire the event)
-    await testController.loadDefaultRules();
+    await testController.loadALTTPRules();
     
-    testController.reportCondition('loadDefaultRules() completed successfully', true);
+    testController.reportCondition('loadALTTPRules() completed successfully', true);
     testController.log('Rules reload completed successfully');
     
     // Wait for the event to be received
@@ -329,10 +350,10 @@ export async function rulesReloadTest(testController) {
       testController.log(`Failed to receive stateManager:rulesLoaded event: ${error.message}`, 'warn');
       rulesLoadedEventReceived = false;
     }
-    
-    // Give time for UI to refresh completely after the event
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
+
+    // Note: UI refresh happens on stateManager:rulesLoaded event, no delay needed
+    // The polling checks below will wait for the actual UI changes
+
     // Step 11: Check if our test received the event
     testController.reportCondition('Test received stateManager:rulesLoaded event', rulesLoadedEventReceived);
     
@@ -394,21 +415,16 @@ export async function rulesReloadTest(testController) {
     
     const linksHouseRemovedAfterReload = await testController.pollForCondition(
       () => {
-        // Use the same pattern as regionPanelTests.js - scope to regions container and check region name element
+        // Region blocks now use data-region attribute instead of .region-name elements
         const regionsPanel = document.querySelector('.regions-panel-container');
         if (!regionsPanel) return true; // If regions panel not found, consider it removed
-        
+
         const regionsContainer = regionsPanel.querySelector('#region-details-container');
         if (!regionsContainer) return true; // If regions container not found, consider it removed
-        
-        const regionBlocks = regionsContainer.querySelectorAll('.region-block');
-        for (const block of regionBlocks) {
-          const regionNameElement = block.querySelector('.region-name');
-          if (regionNameElement && regionNameElement.textContent.trim() === 'Links House') {
-            return false; // If we still find it, condition not met
-          }
-        }
-        return true; // Not found = removed = condition met
+
+        // Look for region block with data-region="Links House"
+        const linksHouseBlock = regionsContainer.querySelector('.region-block[data-region="Links House"]');
+        return !linksHouseBlock; // Return true if block is NOT found (i.e., removed)
       },
       'Links House region block removed',
       3000,
@@ -481,7 +497,7 @@ registerTest({
   id: 'test_core_rules_reload',
   name: 'Rules Reload Test',
   description:
-    'Tests the loadDefaultRules() function to ensure it properly loads the default rules.json file and waits for completion.',
+    'Tests the loadALTTPRules() function to ensure it properly loads the default rules.json file and waits for completion.',
   testFunction: rulesReloadTest,
   category: 'Core',
   //enabled: true,

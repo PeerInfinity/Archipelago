@@ -41,8 +41,10 @@ const TEST_CASE_FILES = [
   './testCases/textAdventure-windowTests.js',
   './testCases/iframe-baseTests.js',
   './testCases/window-baseTests.js',
-  './testCases/multiplayerTests.js',
+  './testCases/timerTests.js',
+  './testCases/multiclientTests.js',
   './testCases/testSpoilersPanelTests.js',
+  //'./testCases/manualTests.js',
 ];
 
 let discoveryComplete = false;

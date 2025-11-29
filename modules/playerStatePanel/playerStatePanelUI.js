@@ -49,7 +49,7 @@ export class PlayerStatePanelUI {
         this.unsubscribeHandles.push(handle);
         
         // Also listen for rules loaded to get initial state
-        const rulesHandle = eventBus.subscribe('state:rulesLoaded', () => {
+        const rulesHandle = eventBus.subscribe('stateManager:rulesLoaded', () => {
             this.updateDisplay();
         }, 'playerStatePanel');
         this.unsubscribeHandles.push(rulesHandle);

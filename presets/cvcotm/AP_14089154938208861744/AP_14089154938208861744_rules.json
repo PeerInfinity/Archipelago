@@ -14,18 +14,6 @@
     "1": {
       "Catacomb": {
         "name": "Catacomb",
-        "entrances": [
-          {
-            "name": "Start Game",
-            "parent_region": "Menu",
-            "connected_region": "Catacomb"
-          },
-          {
-            "name": "Start Game",
-            "parent_region": "Menu",
-            "connected_region": "Catacomb"
-          }
-        ],
         "exits": [
           {
             "name": "Catacomb to Stairway",
@@ -52,36 +40,8 @@
             "name": "Sealed Room: Main shaft left fake wall",
             "id": 3579576373,
             "access_rule": {
-              "type": "conditional",
-              "test": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "self"
-                },
-                "attr": "nerf_roc_wing"
-              },
-              "if_true": {
-                "type": "state_method",
-                "method": "has_all",
-                "args": [
-                  {
-                    "type": "constant",
-                    "value": [
-                      "Double",
-                      "Kick Boots",
-                      "Roc Wing"
-                    ]
-                  }
-                ]
-              },
-              "if_false": {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Roc Wing"
-                }
-              }
+              "type": "item_check",
+              "item": "Roc Wing"
             },
             "item": {
               "name": "Heart Max Up",
@@ -95,10 +55,7 @@
             "id": 3579576375,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Heavy Ring"
-              }
+              "item": "Heavy Ring"
             },
             "item": {
               "name": "MP Max Up",
@@ -141,12 +98,12 @@
                   "conditions": [
                     {
                       "type": "helper",
-                      "name": "has_jump_level_1",
+                      "name": "has_ice_or_stone",
                       "args": []
                     },
                     {
                       "type": "helper",
-                      "name": "has_ice_or_stone",
+                      "name": "has_jump_level_1",
                       "args": []
                     }
                   ]
@@ -184,10 +141,7 @@
             "id": 3579576376,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tackle"
-              }
+              "item": "Tackle"
             },
             "item": {
               "name": "HP Max Up",
@@ -395,21 +349,10 @@
               "type": "None"
             }
           }
-        ],
-        "type": "Region",
-        "player": 1,
-        "time_passes": true,
-        "provides_chest_count": true
+        ]
       },
       "Abyss Stairway": {
         "name": "Abyss Stairway",
-        "entrances": [
-          {
-            "name": "Catacomb to Stairway",
-            "parent_region": "Catacomb",
-            "connected_region": "Abyss Stairway"
-          }
-        ],
         "exits": [
           {
             "name": "Stairway to Audience",
@@ -458,31 +401,17 @@
               "type": "None"
             }
           }
-        ],
-        "type": "Region",
-        "player": 1,
-        "time_passes": true,
-        "provides_chest_count": true
+        ]
       },
       "Audience Room": {
         "name": "Audience Room",
-        "entrances": [
-          {
-            "name": "Stairway to Audience",
-            "parent_region": "Abyss Stairway",
-            "connected_region": "Audience Room"
-          }
-        ],
         "exits": [
           {
             "name": "Audience to Machine Bottom",
             "connected_region": "Machine Tower Bottom",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tackle"
-              }
+              "item": "Tackle"
             }
           },
           {
@@ -515,12 +444,12 @@
                   "conditions": [
                     {
                       "type": "helper",
-                      "name": "has_jump_level_2",
+                      "name": "has_ice_or_stone",
                       "args": []
                     },
                     {
                       "type": "helper",
-                      "name": "has_ice_or_stone",
+                      "name": "has_jump_level_2",
                       "args": []
                     }
                   ]
@@ -562,10 +491,7 @@
             "connected_region": "Underground Warehouse Start",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Heavy Ring"
-              }
+              "item": "Heavy Ring"
             }
           },
           {
@@ -577,29 +503,18 @@
                 {
                   "type": "compare",
                   "left": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "iron_maiden_behavior"
+                    "type": "constant",
+                    "value": 0
                   },
                   "op": "==",
                   "right": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "IronMaidenBehavior"
-                    },
-                    "attr": "option_start_broken"
+                    "type": "constant",
+                    "value": 1
                   }
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Maiden Detonator"
-                  }
+                  "item": "Maiden Detonator"
                 }
               ]
             }
@@ -608,36 +523,8 @@
             "name": "Audience to Observation",
             "connected_region": "Observation Tower",
             "access_rule": {
-              "type": "conditional",
-              "test": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "self"
-                },
-                "attr": "nerf_roc_wing"
-              },
-              "if_true": {
-                "type": "state_method",
-                "method": "has_all",
-                "args": [
-                  {
-                    "type": "constant",
-                    "value": [
-                      "Double",
-                      "Kick Boots",
-                      "Roc Wing"
-                    ]
-                  }
-                ]
-              },
-              "if_false": {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Roc Wing"
-                }
-              }
+              "type": "item_check",
+              "item": "Roc Wing"
             }
           },
           {
@@ -645,10 +532,7 @@
             "connected_region": "Ceremonial Room",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Last Key"
-              },
+              "item": "Last Key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -661,35 +545,8 @@
             "name": "Abyss Staircase: Roc ledge",
             "id": 3579576390,
             "access_rule": {
-              "type": "conditional",
-              "test": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "self"
-                },
-                "attr": "nerf_roc_wing"
-              },
-              "if_true": {
-                "type": "state_method",
-                "method": "has_all",
-                "args": [
-                  {
-                    "type": "constant",
-                    "value": [
-                      "Kick Boots",
-                      "Roc Wing"
-                    ]
-                  }
-                ]
-              },
-              "if_false": {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Roc Wing"
-                }
-              }
+              "type": "item_check",
+              "item": "Roc Wing"
             },
             "item": {
               "name": "HP Max Up",
@@ -759,10 +616,7 @@
             "id": 3579576395,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Heavy Ring"
-              }
+              "item": "Heavy Ring"
             },
             "item": {
               "name": "Heart Max Up",
@@ -790,10 +644,7 @@
             "id": 3579576393,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tackle"
-              }
+              "item": "Tackle"
             },
             "item": {
               "name": "Heart Max Up",
@@ -820,35 +671,8 @@
             "name": "Audience Room: Wicked roc chamber - Upper",
             "id": 3579576396,
             "access_rule": {
-              "type": "conditional",
-              "test": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "self"
-                },
-                "attr": "nerf_roc_wing"
-              },
-              "if_true": {
-                "type": "state_method",
-                "method": "has_all",
-                "args": [
-                  {
-                    "type": "constant",
-                    "value": [
-                      "Kick Boots",
-                      "Roc Wing"
-                    ]
-                  }
-                ]
-              },
-              "if_false": {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Roc Wing"
-                }
-              }
+              "type": "item_check",
+              "item": "Roc Wing"
             },
             "item": {
               "name": "Black Dog Card",
@@ -985,12 +809,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "has_tackle",
+                  "name": "has_jump_level_5",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "has_jump_level_5",
+                  "name": "has_tackle",
                   "args": []
                 }
               ]
@@ -1010,12 +834,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "has_tackle",
+                  "name": "has_push",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "has_push",
+                  "name": "has_tackle",
                   "args": []
                 }
               ]
@@ -1038,12 +862,12 @@
                   "conditions": [
                     {
                       "type": "helper",
-                      "name": "has_jump_level_3",
+                      "name": "has_ice_or_stone",
                       "args": []
                     },
                     {
                       "type": "helper",
-                      "name": "has_ice_or_stone",
+                      "name": "has_jump_level_3",
                       "args": []
                     }
                   ]
@@ -1073,12 +897,12 @@
                   "conditions": [
                     {
                       "type": "helper",
-                      "name": "has_jump_level_3",
+                      "name": "has_ice_or_stone",
                       "args": []
                     },
                     {
                       "type": "helper",
-                      "name": "has_ice_or_stone",
+                      "name": "has_jump_level_3",
                       "args": []
                     }
                   ]
@@ -1101,35 +925,8 @@
             "name": "Outer Wall: Left roc ledge",
             "id": 3579576471,
             "access_rule": {
-              "type": "conditional",
-              "test": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "self"
-                },
-                "attr": "nerf_roc_wing"
-              },
-              "if_true": {
-                "type": "state_method",
-                "method": "has_all",
-                "args": [
-                  {
-                    "type": "constant",
-                    "value": [
-                      "Kick Boots",
-                      "Roc Wing"
-                    ]
-                  }
-                ]
-              },
-              "if_false": {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Roc Wing"
-                }
-              }
+              "type": "item_check",
+              "item": "Roc Wing"
             },
             "item": {
               "name": "Heart Max Up",
@@ -1146,12 +943,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "has_jump_level_5",
+                  "name": "has_ice_or_stone",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "has_ice_or_stone",
+                  "name": "has_jump_level_5",
                   "args": []
                 }
               ]
@@ -1202,12 +999,12 @@
                   "conditions": [
                     {
                       "type": "helper",
-                      "name": "has_kick",
+                      "name": "has_ice_or_stone",
                       "args": []
                     },
                     {
                       "type": "helper",
-                      "name": "has_ice_or_stone",
+                      "name": "has_kick",
                       "args": []
                     }
                   ]
@@ -1226,21 +1023,10 @@
               "type": "None"
             }
           }
-        ],
-        "type": "Region",
-        "player": 1,
-        "time_passes": true,
-        "provides_chest_count": true
+        ]
       },
       "Machine Tower Bottom": {
         "name": "Machine Tower Bottom",
-        "entrances": [
-          {
-            "name": "Audience to Machine Bottom",
-            "parent_region": "Audience Room",
-            "connected_region": "Machine Tower Bottom"
-          }
-        ],
         "exits": [
           {
             "name": "Machine Bottom to Top",
@@ -1386,26 +1172,10 @@
               "type": "None"
             }
           }
-        ],
-        "type": "Region",
-        "player": 1,
-        "time_passes": true,
-        "provides_chest_count": true
+        ]
       },
       "Machine Tower Top": {
         "name": "Machine Tower Top",
-        "entrances": [
-          {
-            "name": "Audience to Machine Top",
-            "parent_region": "Audience Room",
-            "connected_region": "Machine Tower Top"
-          },
-          {
-            "name": "Machine Bottom to Top",
-            "parent_region": "Machine Tower Bottom",
-            "connected_region": "Machine Tower Top"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1427,10 +1197,7 @@
             "id": 3579576416,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tackle"
-              }
+              "item": "Tackle"
             },
             "item": {
               "name": "Heart Max Up",
@@ -1467,26 +1234,10 @@
               "type": "None"
             }
           }
-        ],
-        "type": "Region",
-        "player": 1,
-        "time_passes": true,
-        "provides_chest_count": true
+        ]
       },
       "Eternal Corridor Pit": {
         "name": "Eternal Corridor Pit",
-        "entrances": [
-          {
-            "name": "Into the Corridor Pit",
-            "parent_region": "Chapel Tower Bottom",
-            "connected_region": "Eternal Corridor Pit"
-          },
-          {
-            "name": "Gallery to Corridor",
-            "parent_region": "Underground Gallery Upper",
-            "connected_region": "Eternal Corridor Pit"
-          }
-        ],
         "exits": [
           {
             "name": "Corridor to Gallery",
@@ -1497,29 +1248,18 @@
                 {
                   "type": "compare",
                   "left": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "iron_maiden_behavior"
+                    "type": "constant",
+                    "value": 0
                   },
                   "op": "==",
                   "right": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "IronMaidenBehavior"
-                    },
-                    "attr": "option_start_broken"
+                    "type": "constant",
+                    "value": 1
                   }
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Maiden Detonator"
-                  }
+                  "item": "Maiden Detonator"
                 }
               ]
             }
@@ -1559,26 +1299,10 @@
               "type": "None"
             }
           }
-        ],
-        "type": "Region",
-        "player": 1,
-        "time_passes": true,
-        "provides_chest_count": true
+        ]
       },
       "Chapel Tower Bottom": {
         "name": "Chapel Tower Bottom",
-        "entrances": [
-          {
-            "name": "Audience to Chapel",
-            "parent_region": "Audience Room",
-            "connected_region": "Chapel Tower Bottom"
-          },
-          {
-            "name": "Escape the Gallery Pit",
-            "parent_region": "Eternal Corridor Pit",
-            "connected_region": "Chapel Tower Bottom"
-          }
-        ],
         "exits": [
           {
             "name": "Into the Corridor Pit",
@@ -1592,47 +1316,8 @@
             "name": "Dip Into Waterway End",
             "connected_region": "Underground Waterway End",
             "access_rule": {
-              "type": "conditional",
-              "test": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "self"
-                },
-                "attr": "nerf_roc_wing"
-              },
-              "if_true": {
-                "type": "and",
-                "conditions": [
-                  {
-                    "type": "item_check",
-                    "item": {
-                      "type": "constant",
-                      "value": "Roc Wing"
-                    }
-                  },
-                  {
-                    "type": "state_method",
-                    "method": "has_any",
-                    "args": [
-                      {
-                        "type": "constant",
-                        "value": [
-                          "Double",
-                          "Kick Boots"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              "if_false": {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Roc Wing"
-                }
-              }
+              "type": "item_check",
+              "item": "Roc Wing"
             }
           },
           {
@@ -1692,12 +1377,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "has_jump_level_2",
+                  "name": "has_ice_or_stone",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "has_ice_or_stone",
+                  "name": "has_jump_level_2",
                   "args": []
                 }
               ]
@@ -1714,10 +1399,7 @@
             "id": 3579576425,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Heavy Ring"
-              }
+              "item": "Heavy Ring"
             },
             "item": {
               "name": "Uranus Card",
@@ -1787,10 +1469,7 @@
             "id": 3579576430,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Heavy Ring"
-              }
+              "item": "Heavy Ring"
             },
             "item": {
               "name": "Heart Max Up",
@@ -1807,12 +1486,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "has_jump_level_2",
+                  "name": "has_ice_or_stone",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "has_ice_or_stone",
+                  "name": "has_jump_level_2",
                   "args": []
                 }
               ]
@@ -1838,21 +1517,10 @@
               "type": "None"
             }
           }
-        ],
-        "type": "Region",
-        "player": 1,
-        "time_passes": true,
-        "provides_chest_count": true
+        ]
       },
       "Chapel Tower Top": {
         "name": "Chapel Tower Top",
-        "entrances": [
-          {
-            "name": "Climb to Chapel Top",
-            "parent_region": "Chapel Tower Bottom",
-            "connected_region": "Chapel Tower Top"
-          }
-        ],
         "exits": [
           {
             "name": "Arena Passage",
@@ -1862,12 +1530,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "has_push",
+                  "name": "has_jump_level_2",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "has_jump_level_2",
+                  "name": "has_push",
                   "args": []
                 }
               ]
@@ -1926,29 +1594,18 @@
                 {
                   "type": "compare",
                   "left": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "iron_maiden_behavior"
+                    "type": "constant",
+                    "value": 0
                   },
                   "op": "==",
                   "right": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "IronMaidenBehavior"
-                    },
-                    "attr": "option_start_broken"
+                    "type": "constant",
+                    "value": 1
                   }
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Maiden Detonator"
-                  }
+                  "item": "Maiden Detonator"
                 }
               ]
             },
@@ -1959,21 +1616,10 @@
               "type": "None"
             }
           }
-        ],
-        "type": "Region",
-        "player": 1,
-        "time_passes": true,
-        "provides_chest_count": true
+        ]
       },
       "Battle Arena": {
         "name": "Battle Arena",
-        "entrances": [
-          {
-            "name": "Arena Passage",
-            "parent_region": "Chapel Tower Top",
-            "connected_region": "Battle Arena"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1987,12 +1633,12 @@
                   "conditions": [
                     {
                       "type": "helper",
-                      "name": "has_jump_level_3",
+                      "name": "has_ice_or_stone",
                       "args": []
                     },
                     {
                       "type": "helper",
-                      "name": "has_ice_or_stone",
+                      "name": "has_jump_level_3",
                       "args": []
                     }
                   ]
@@ -2022,12 +1668,12 @@
                   "conditions": [
                     {
                       "type": "helper",
-                      "name": "has_jump_level_3",
+                      "name": "has_ice_or_stone",
                       "args": []
                     },
                     {
                       "type": "helper",
-                      "name": "has_ice_or_stone",
+                      "name": "has_jump_level_3",
                       "args": []
                     }
                   ]
@@ -2046,26 +1692,10 @@
               "type": "None"
             }
           }
-        ],
-        "type": "Region",
-        "player": 1,
-        "time_passes": true,
-        "provides_chest_count": true
+        ]
       },
       "Underground Gallery Upper": {
         "name": "Underground Gallery Upper",
-        "entrances": [
-          {
-            "name": "Corridor to Gallery",
-            "parent_region": "Eternal Corridor Pit",
-            "connected_region": "Underground Gallery Upper"
-          },
-          {
-            "name": "Gallery Lower to Upper",
-            "parent_region": "Underground Gallery Lower",
-            "connected_region": "Underground Gallery Upper"
-          }
-        ],
         "exits": [
           {
             "name": "Gallery to Corridor",
@@ -2080,10 +1710,7 @@
             "connected_region": "Underground Gallery Lower",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tackle"
-              }
+              "item": "Tackle"
             }
           }
         ],
@@ -2107,10 +1734,7 @@
             "id": 3579576451,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Heavy Ring"
-              }
+              "item": "Heavy Ring"
             },
             "item": {
               "name": "HP Max Up",
@@ -2124,10 +1748,7 @@
             "id": 3579576449,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Heavy Ring"
-              }
+              "item": "Heavy Ring"
             },
             "item": {
               "name": "MP Max Up",
@@ -2144,12 +1765,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "has_jump_level_2",
+                  "name": "has_ice_or_stone",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "has_ice_or_stone",
+                  "name": "has_jump_level_2",
                   "args": []
                 }
               ]
@@ -2169,12 +1790,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "has_jump_level_4",
+                  "name": "has_ice_or_stone",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "has_ice_or_stone",
+                  "name": "has_jump_level_4",
                   "args": []
                 }
               ]
@@ -2186,36 +1807,17 @@
               "type": "None"
             }
           }
-        ],
-        "type": "Region",
-        "player": 1,
-        "time_passes": true,
-        "provides_chest_count": true
+        ]
       },
       "Underground Gallery Lower": {
         "name": "Underground Gallery Lower",
-        "entrances": [
-          {
-            "name": "Audience to Gallery",
-            "parent_region": "Audience Room",
-            "connected_region": "Underground Gallery Lower"
-          },
-          {
-            "name": "Gallery Upper to Lower",
-            "parent_region": "Underground Gallery Upper",
-            "connected_region": "Underground Gallery Lower"
-          }
-        ],
         "exits": [
           {
             "name": "Gallery Lower to Upper",
             "connected_region": "Underground Gallery Upper",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tackle"
-              }
+              "item": "Tackle"
             }
           }
         ],
@@ -2225,10 +1827,7 @@
             "id": 3579576454,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tackle"
-              }
+              "item": "Tackle"
             },
             "item": {
               "name": "HP Max Up",
@@ -2293,31 +1892,17 @@
               "type": "None"
             }
           }
-        ],
-        "type": "Region",
-        "player": 1,
-        "time_passes": true,
-        "provides_chest_count": true
+        ]
       },
       "Underground Warehouse Start": {
         "name": "Underground Warehouse Start",
-        "entrances": [
-          {
-            "name": "Audience to Warehouse",
-            "parent_region": "Audience Room",
-            "connected_region": "Underground Warehouse Start"
-          }
-        ],
         "exits": [
           {
             "name": "Into Warehouse Main",
             "connected_region": "Underground Warehouse Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tackle"
-              }
+              "item": "Tackle"
             }
           }
         ],
@@ -2336,21 +1921,10 @@
               "type": "None"
             }
           }
-        ],
-        "type": "Region",
-        "player": 1,
-        "time_passes": true,
-        "provides_chest_count": true
+        ]
       },
       "Underground Warehouse Main": {
         "name": "Underground Warehouse Main",
-        "entrances": [
-          {
-            "name": "Into Warehouse Main",
-            "parent_region": "Underground Warehouse Start",
-            "connected_region": "Underground Warehouse Main"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2406,12 +1980,12 @@
                   "conditions": [
                     {
                       "type": "helper",
-                      "name": "has_jump_level_4",
+                      "name": "has_ice_or_stone",
                       "args": []
                     },
                     {
                       "type": "helper",
-                      "name": "has_ice_or_stone",
+                      "name": "has_jump_level_4",
                       "args": []
                     }
                   ]
@@ -2452,12 +2026,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "has_jump_level_2",
+                  "name": "has_ice_or_stone",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "has_ice_or_stone",
+                  "name": "has_jump_level_2",
                   "args": []
                 }
               ]
@@ -2494,12 +2068,12 @@
                   "conditions": [
                     {
                       "type": "helper",
-                      "name": "has_jump_level_2",
+                      "name": "has_ice_or_stone",
                       "args": []
                     },
                     {
                       "type": "helper",
-                      "name": "has_ice_or_stone",
+                      "name": "has_jump_level_2",
                       "args": []
                     }
                   ]
@@ -2574,21 +2148,10 @@
               "type": "None"
             }
           }
-        ],
-        "type": "Region",
-        "player": 1,
-        "time_passes": true,
-        "provides_chest_count": true
+        ]
       },
       "Underground Waterway Start": {
         "name": "Underground Waterway Start",
-        "entrances": [
-          {
-            "name": "Audience to Waterway",
-            "parent_region": "Audience Room",
-            "connected_region": "Underground Waterway Start"
-          }
-        ],
         "exits": [
           {
             "name": "Into Waterway Main",
@@ -2597,19 +2160,12 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "ignore_cleansing"
+                  "type": "constant",
+                  "value": 0
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Cleansing"
-                  }
+                  "item": "Cleansing"
                 }
               ]
             }
@@ -2630,21 +2186,10 @@
               "type": "None"
             }
           }
-        ],
-        "type": "Region",
-        "player": 1,
-        "time_passes": true,
-        "provides_chest_count": true
+        ]
       },
       "Underground Waterway Main": {
         "name": "Underground Waterway Main",
-        "entrances": [
-          {
-            "name": "Into Waterway Main",
-            "parent_region": "Underground Waterway Start",
-            "connected_region": "Underground Waterway Main"
-          }
-        ],
         "exits": [
           {
             "name": "Onward to Waterway End",
@@ -2706,12 +2251,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "has_jump_level_3",
+                  "name": "has_ice_or_stone",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "has_ice_or_stone",
+                  "name": "has_jump_level_3",
                   "args": []
                 }
               ]
@@ -2742,10 +2287,7 @@
             "id": 3579576469,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Roc Wing"
-              }
+              "item": "Roc Wing"
             },
             "item": {
               "name": "Neptune Card",
@@ -2796,26 +2338,10 @@
               "type": "None"
             }
           }
-        ],
-        "type": "Region",
-        "player": 1,
-        "time_passes": true,
-        "provides_chest_count": true
+        ]
       },
       "Underground Waterway End": {
         "name": "Underground Waterway End",
-        "entrances": [
-          {
-            "name": "Dip Into Waterway End",
-            "parent_region": "Chapel Tower Bottom",
-            "connected_region": "Underground Waterway End"
-          },
-          {
-            "name": "Onward to Waterway End",
-            "parent_region": "Underground Waterway Main",
-            "connected_region": "Underground Waterway End"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2825,19 +2351,12 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "ignore_cleansing"
+                  "type": "constant",
+                  "value": 0
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Cleansing"
-                  }
+                  "item": "Cleansing"
                 }
               ]
             },
@@ -2852,47 +2371,8 @@
             "name": "Underground Waterway: Roc exit shaft",
             "id": 3579576466,
             "access_rule": {
-              "type": "conditional",
-              "test": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "self"
-                },
-                "attr": "nerf_roc_wing"
-              },
-              "if_true": {
-                "type": "and",
-                "conditions": [
-                  {
-                    "type": "item_check",
-                    "item": {
-                      "type": "constant",
-                      "value": "Roc Wing"
-                    }
-                  },
-                  {
-                    "type": "state_method",
-                    "method": "has_any",
-                    "args": [
-                      {
-                        "type": "constant",
-                        "value": [
-                          "Double",
-                          "Kick Boots"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              "if_false": {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Roc Wing"
-                }
-              }
+              "type": "item_check",
+              "item": "Roc Wing"
             },
             "item": {
               "name": "Apollo Card",
@@ -2908,19 +2388,12 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "ignore_cleansing"
+                  "type": "constant",
+                  "value": 0
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Cleansing"
-                  }
+                  "item": "Cleansing"
                 }
               ]
             },
@@ -2935,47 +2408,8 @@
             "name": "Underground Waterway: Roc exit shaft fake wall",
             "id": 3579576470,
             "access_rule": {
-              "type": "conditional",
-              "test": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "self"
-                },
-                "attr": "nerf_roc_wing"
-              },
-              "if_true": {
-                "type": "and",
-                "conditions": [
-                  {
-                    "type": "item_check",
-                    "item": {
-                      "type": "constant",
-                      "value": "Roc Wing"
-                    }
-                  },
-                  {
-                    "type": "state_method",
-                    "method": "has_any",
-                    "args": [
-                      {
-                        "type": "constant",
-                        "value": [
-                          "Double",
-                          "Kick Boots"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              "if_false": {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Roc Wing"
-                }
-              }
+              "type": "item_check",
+              "item": "Roc Wing"
             },
             "item": {
               "name": "Heart Max Up",
@@ -2984,21 +2418,10 @@
               "type": "None"
             }
           }
-        ],
-        "type": "Region",
-        "player": 1,
-        "time_passes": true,
-        "provides_chest_count": true
+        ]
       },
       "Observation Tower": {
         "name": "Observation Tower",
-        "entrances": [
-          {
-            "name": "Audience to Observation",
-            "parent_region": "Audience Room",
-            "connected_region": "Observation Tower"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3141,21 +2564,10 @@
               "type": "None"
             }
           }
-        ],
-        "type": "Region",
-        "player": 1,
-        "time_passes": true,
-        "provides_chest_count": true
+        ]
       },
       "Ceremonial Room": {
         "name": "Ceremonial Room",
-        "entrances": [
-          {
-            "name": "Ceremonial Door",
-            "parent_region": "Audience Room",
-            "connected_region": "Ceremonial Room"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3188,10 +2600,7 @@
             "id": null,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Roc Wing"
-              }
+              "item": "Roc Wing"
             },
             "item": {
               "name": "The Count Downed",
@@ -3200,15 +2609,10 @@
               "type": "None"
             }
           }
-        ],
-        "type": "Region",
-        "player": 1,
-        "time_passes": true,
-        "provides_chest_count": true
+        ]
       },
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Start Game",
@@ -3219,18 +2623,14 @@
             }
           }
         ],
-        "locations": [],
-        "type": "Region",
-        "player": 1,
-        "time_passes": true,
-        "provides_chest_count": true
+        "locations": []
       }
     }
   },
   "start_regions": {
     "1": {
       "default": [
-        "Menu"
+        "Catacomb"
       ],
       "available": []
     }
@@ -3727,6 +3127,17 @@
         "event": false,
         "type": null,
         "max_count": 3
+      },
+      "The Count Downed": {
+        "name": "The Count Downed",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 1
       }
     }
   },
@@ -3790,6 +3201,7 @@
     "1": {
       "game": "Castlevania - Circle of the Moon",
       "assume_bidirectional_exits": false,
+      "use_resolved_items": false,
       "nerf_roc_wing": 0,
       "ignore_cleansing": 0,
       "iron_maiden_behavior": 0,

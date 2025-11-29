@@ -1,0 +1,4866 @@
+{
+  "schema_version": 3,
+  "game_name": "Super Mario 64",
+  "game_directory": "sm64ex",
+  "archipelago_version": "0.6.4",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1",
+    "2": "Player2",
+    "3": "Player3",
+    "4": "Player4",
+    "5": "Player5",
+    "6": "Player6",
+    "7": "Player7",
+    "8": "Player8",
+    "9": "Player9",
+    "10": "Player10",
+    "11": "Player11",
+    "12": "Player12",
+    "13": "Player13",
+    "14": "Player14",
+    "15": "Player15",
+    "16": "Player16",
+    "17": "Player17",
+    "18": "Player18",
+    "19": "Player19",
+    "20": "Player20",
+    "21": "Player21",
+    "22": "Player22",
+    "23": "Player23",
+    "24": "Player24",
+    "25": "Player25",
+    "26": "Player26",
+    "27": "Player27",
+    "28": "Player28",
+    "29": "Player29",
+    "30": "Player30",
+    "31": "Player31",
+    "32": "Player32",
+    "33": "Player33",
+    "34": "Player34",
+    "35": "Player35",
+    "36": "Player36",
+    "37": "Player37",
+    "38": "Player38",
+    "39": "Player39",
+    "40": "Player40",
+    "41": "Player41",
+    "42": "Player42",
+    "43": "Player43",
+    "44": "Player44",
+    "45": "Player45",
+    "46": "Player46",
+    "47": "Player47",
+    "48": "Player48",
+    "49": "Player49",
+    "50": "Player50",
+    "51": "Player51",
+    "52": "Player52",
+    "53": "Player53",
+    "54": "Player54",
+    "55": "Player55",
+    "56": "Player56",
+    "57": "Player57",
+    "58": "Player58",
+    "59": "Player59",
+    "60": "Player60",
+    "61": "Player61",
+    "62": "Player62",
+    "63": "Player63",
+    "64": "Player64",
+    "65": "Player65",
+    "66": "Player66",
+    "67": "Player67",
+    "68": "Player68",
+    "69": "Player69",
+    "70": "Player70",
+    "71": "Player71",
+    "72": "Player72",
+    "73": "Player73",
+    "74": "Player74",
+    "75": "Player75"
+  },
+  "world_classes": {
+    "1": "HatInTimeWorld",
+    "2": "ALTTPWorld",
+    "3": "ShortHikeWorld",
+    "4": "AdventureWorld",
+    "5": "AquariaWorld",
+    "6": "ArchipIDLEWorld",
+    "7": "BlasphemousWorld",
+    "8": "BombRushCyberfunkWorld",
+    "9": "BumpStikWorld",
+    "10": "CVCotMWorld",
+    "11": "CV64World",
+    "12": "Celeste64World",
+    "13": "ChecksFinderWorld",
+    "14": "ChocolateChipCookiesWorld",
+    "15": "CivVIWorld",
+    "16": "DarkSouls3World",
+    "17": "DLCqworld",
+    "18": "DKC3World",
+    "19": "DOOM1993World",
+    "20": "DOOM2World",
+    "21": "Factorio",
+    "22": "FaxanaduWorld",
+    "23": "FFMQWorld",
+    "24": "HereticWorld",
+    "25": "Hylics2World",
+    "26": "InscryptionWorld",
+    "27": "JakAndDaxterWorld",
+    "28": "KH2World",
+    "29": "KH1World",
+    "30": "KDL3World",
+    "31": "LandstalkerWorld",
+    "32": "LingoWorld",
+    "33": "LinksAwakeningWorld",
+    "34": "L2ACWorld",
+    "35": "MLSSWorld",
+    "36": "MathProof2p2e4World",
+    "37": "MM2World",
+    "38": "MMBN3World",
+    "39": "MeritousWorld",
+    "40": "MetamathWorld",
+    "41": "MuseDashWorld",
+    "42": "NoitaWorld",
+    "43": "OSRSWorld",
+    "44": "Overcooked2World",
+    "45": "PaintWorld",
+    "46": "PokemonEmeraldWorld",
+    "47": "PokemonRedBlueWorld",
+    "48": "RaftWorld",
+    "49": "RiskOfRainWorld",
+    "50": "SavingPrincessWorld",
+    "51": "SoEWorld",
+    "52": "ShapezWorld",
+    "53": "ShiversWorld",
+    "54": "SA2BWorld",
+    "55": "SC2World",
+    "56": "StardewValleyWorld",
+    "57": "SubnauticaWorld",
+    "58": "SM64World",
+    "59": "MarioLand2World",
+    "60": "SMWWorld",
+    "61": "SMWorld",
+    "62": "TerrariaWorld",
+    "63": "TLoZWorld",
+    "64": "MessengerWorld",
+    "65": "TWWWorld",
+    "66": "WitnessWorld",
+    "67": "TimespinnerWorld",
+    "68": "TunicWorld",
+    "69": "UndertaleWorld",
+    "70": "V6World",
+    "71": "WargrooveWorld",
+    "72": "WebDevJourneyWorld",
+    "73": "YachtDiceWorld",
+    "74": "YoshisIslandWorld",
+    "75": "Yugioh06World"
+  },
+  "regions": {
+    "58": {
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "Menu -> Bob-omb Battlefield",
+            "connected_region": "Bob-omb Battlefield",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Menu -> Whomp's Fortress",
+            "connected_region": "Whomp's Fortress",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Power Star",
+              "count": {
+                "type": "constant",
+                "value": 1
+              }
+            }
+          },
+          {
+            "name": "Menu -> Jolly Roger Bay",
+            "connected_region": "Jolly Roger Bay",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Power Star",
+              "count": {
+                "type": "constant",
+                "value": 3
+              }
+            }
+          },
+          {
+            "name": "Menu -> Cool, Cool Mountain",
+            "connected_region": "Cool, Cool Mountain",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Power Star",
+              "count": {
+                "type": "constant",
+                "value": 3
+              }
+            }
+          },
+          {
+            "name": "Menu -> Big Boo's Haunt",
+            "connected_region": "Big Boo's Haunt",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Power Star",
+              "count": {
+                "type": "constant",
+                "value": 12
+              }
+            }
+          },
+          {
+            "name": "Menu -> The Princess's Secret Slide",
+            "connected_region": "The Princess's Secret Slide",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Power Star",
+              "count": {
+                "type": "constant",
+                "value": 1
+              }
+            }
+          },
+          {
+            "name": "Menu -> Tower of the Wing Cap",
+            "connected_region": "Tower of the Wing Cap",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Power Star",
+              "count": {
+                "type": "constant",
+                "value": 10
+              }
+            }
+          },
+          {
+            "name": "Menu -> Bowser in the Dark World",
+            "connected_region": "Bowser in the Dark World",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Power Star",
+              "count": {
+                "type": "constant",
+                "value": 7
+              }
+            }
+          },
+          {
+            "name": "Menu -> Basement",
+            "connected_region": "Basement",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Basement Key"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Progressive Key",
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "Menu -> Second Floor",
+            "connected_region": "Second Floor",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Progressive Key",
+                  "count": {
+                    "type": "constant",
+                    "value": 2
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Second Floor Key"
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Toad (Basement)",
+            "id": 3626168,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Basement"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Power Star",
+                  "count": {
+                    "type": "constant",
+                    "value": 12
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Wolf Knight Helm",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Toad (Second Floor)",
+            "id": 3626169,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Second Floor"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Power Star",
+                  "count": {
+                    "type": "constant",
+                    "value": 25
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Rupees (50)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Toad (Third Floor)",
+            "id": 3626170,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Third Floor"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Power Star",
+                  "count": {
+                    "type": "constant",
+                    "value": 35
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Reward: Flipper",
+              "player": 62,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "MIPS 1",
+            "id": 3626171,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Basement"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Power Star",
+                  "count": {
+                    "type": "constant",
+                    "value": 13
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Progressive Color Depth (Red)",
+              "player": 45,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "MIPS 2",
+            "id": 3626172,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Basement"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Power Star",
+                  "count": {
+                    "type": "constant",
+                    "value": 44
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Ember",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Bob-omb Battlefield": {
+        "name": "Bob-omb Battlefield",
+        "exits": [
+          {
+            "name": "BoB: Island",
+            "connected_region": "BoB: Island",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Cannon Unlock BoB"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "BoB: Big Bob-Omb on the Summit",
+            "id": 3626000,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Coop",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "BoB: Footrace with Koopa The Quick",
+            "id": 3626001,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "SHADOW OF INFINITY",
+              "player": 75,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "BoB: Mario Wings to the Sky",
+            "id": 3626004,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Cannon Unlock BoB"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Wing Cap"
+                }
+              ]
+            },
+            "item": {
+              "name": "The Chasm (E3M7) - Map Scroll",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "BoB: Behind Chain Chomp's Gate",
+            "id": 3626005,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Digital Democracy",
+              "player": 15,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "BoB: Bob-omb Buddy",
+            "id": 3626200,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cannon Unlock BoB",
+              "player": 58,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "BoB: Island": {
+        "name": "BoB: Island",
+        "exits": [],
+        "locations": [
+          {
+            "name": "BoB: Shoot to the Island in the Sky",
+            "id": 3626002,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "10 coins",
+              "player": 60,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "BoB: Find the 8 Red Coins",
+            "id": 3626003,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "MUSCLE APPLIQUE",
+              "player": 25,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Whomp's Fortress": {
+        "name": "Whomp's Fortress",
+        "exits": [
+          {
+            "name": "WF: Tower",
+            "connected_region": "WF: Tower",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "WF: Chip Off Whomp's Block",
+            "id": 3626007,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "EkeEke",
+              "player": 31,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "WF: Shoot into the Wild Blue",
+            "id": 3626009,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Additional Starting Supply",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "WF: Red Coins on the Floating Isle",
+            "id": 3626010,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Encouragement",
+              "player": 73,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "WF: Fall onto the Caged Island",
+            "id": 3626011,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "WF: Tower"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Graffiti (M - 0m33)",
+              "player": 8,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "WF: Blast Away the Wall",
+            "id": 3626012,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Cannon Unlock WF"
+            },
+            "item": {
+              "name": "Inferno Band",
+              "player": 29,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "WF: Tower": {
+        "name": "WF: Tower",
+        "exits": [],
+        "locations": [
+          {
+            "name": "WF: To the Top of the Fortress",
+            "id": 3626008,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Fool Trap",
+              "player": 68,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "WF: Bob-omb Buddy",
+            "id": 3626201,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cannon Unlock WF",
+              "player": 58,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Jolly Roger Bay": {
+        "name": "Jolly Roger Bay",
+        "exits": [
+          {
+            "name": "JRB: Upper",
+            "connected_region": "JRB: Upper",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Jolly Roger Bay -> The Secret Aquarium",
+            "connected_region": "The Secret Aquarium",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "JRB: Plunder in the Sunken Ship",
+            "id": 3626014,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Health Pon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "JRB: Can the Eel Come Out to Play?",
+            "id": 3626015,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Energy cell pack",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "JRB: Treasure of the Ocean Cave",
+            "id": 3626016,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Elixir",
+              "player": 46,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "JRB: Blast to the Stone Pillar",
+            "id": 3626018,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Cannon Unlock JRB"
+            },
+            "item": {
+              "name": "Partial invisibility",
+              "player": 19,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "JRB: Through the Jet Stream",
+            "id": 3626019,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Metal Cap"
+            },
+            "item": {
+              "name": "Titanite Chunk",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "JRB: Bob-omb Buddy",
+            "id": 3626202,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cannon Unlock JRB",
+              "player": 58,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "JRB: Upper": {
+        "name": "JRB: Upper",
+        "exits": [],
+        "locations": [
+          {
+            "name": "JRB: Red Coins on the Ship Afloat",
+            "id": 3626017,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Symmetry",
+              "player": 66,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Cool, Cool Mountain": {
+        "name": "Cool, Cool Mountain",
+        "exits": [],
+        "locations": [
+          {
+            "name": "CCM: Slip Slidin' Away",
+            "id": 3626021,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Greater Runes",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CCM: Li'l Penguin Lost",
+            "id": 3626022,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Pages 18-19",
+              "player": 68,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CCM: Big Penguin Race",
+            "id": 3626023,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Bonus Point",
+              "player": 73,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CCM: Frosty Slide for 8 Red Coins",
+            "id": 3626024,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Hidden Weapon",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CCM: Snowman's Lost His Head",
+            "id": 3626025,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Nugget",
+              "player": 46,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CCM: Wall Kicks Will Work",
+            "id": 3626026,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Cannon Unlock CCM"
+            },
+            "item": {
+              "name": "The Azure Fortress (E3M4) - Map Scroll",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CCM: Bob-omb Buddy",
+            "id": 3626203,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cannon Unlock CCM",
+              "player": 58,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CCM: 1Up Block Near Snowman",
+            "id": 3626215,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CCM: 1Up Block Ice Pillar",
+            "id": 3626216,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CCM: 1Up Block Secret Slide",
+            "id": 3626217,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Big Boo's Haunt": {
+        "name": "Big Boo's Haunt",
+        "exits": [
+          {
+            "name": "BBH: Third Floor",
+            "connected_region": "BBH: Third Floor",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "BBH: Go on a Ghost Hunt",
+            "id": 3626028,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Sight Poultice",
+              "player": 5,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "BBH: Ride Big Boo's Merry-Go-Round",
+            "id": 3626029,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Syrup",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "BBH: Secret of the Haunted Books",
+            "id": 3626030,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "RegUP3",
+              "player": 38,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "BBH: Seek the 8 Red Coins",
+            "id": 3626031,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 39,
+              "advancement": false,
+              "type": "Enhancement"
+            }
+          }
+        ]
+      },
+      "BBH: Third Floor": {
+        "name": "BBH: Third Floor",
+        "exits": [
+          {
+            "name": "BBH: Roof",
+            "connected_region": "BBH: Roof",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "BBH: Eye to Eye in the Secret Room",
+            "id": 3626033,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Vanish Cap"
+            },
+            "item": {
+              "name": "Yellow Trinity",
+              "player": 29,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "BBH: Roof": {
+        "name": "BBH: Roof",
+        "exits": [],
+        "locations": [
+          {
+            "name": "BBH: Big Boo's Balcony",
+            "id": 3626032,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Medikit",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "BBH: 1Up Block Top of Mansion",
+            "id": 3626218,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "The Princess's Secret Slide": {
+        "name": "The Princess's Secret Slide",
+        "exits": [],
+        "locations": [
+          {
+            "name": "The Princess's Secret Slide Block",
+            "id": 3626126,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Medikit",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Princess's Secret Slide Fast",
+            "id": 3626127,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Energy cell pack",
+              "player": 19,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "The Secret Aquarium": {
+        "name": "The Secret Aquarium",
+        "exits": [],
+        "locations": [
+          {
+            "name": "The Secret Aquarium",
+            "id": 3626161,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "HiCannon *",
+              "player": 38,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Tower of the Wing Cap": {
+        "name": "Tower of the Wing Cap",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Tower of the Wing Cap Switch",
+            "id": 3626181,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Resource Efficiency (Medic)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tower of the Wing Cap Red Coins",
+            "id": 3626140,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Thorned Symbol",
+              "player": 7,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Bowser in the Dark World": {
+        "name": "Bowser in the Dark World",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bowser in the Dark World Red Coins",
+            "id": 3626105,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Armor",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bowser in the Dark World Key",
+            "id": 3626178,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Full Restore",
+              "player": 46,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bowser in the Dark World 1Up Block on Tower",
+            "id": 3626236,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bowser in the Dark World 1Up Block near Goombas",
+            "id": 3626237,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Basement": {
+        "name": "Basement",
+        "exits": [
+          {
+            "name": "Basement -> Hazy Maze Cave",
+            "connected_region": "Hazy Maze Cave",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Basement -> Lethal Lava Land",
+            "connected_region": "Lethal Lava Land",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Basement -> Shifting Sand Land",
+            "connected_region": "Shifting Sand Land",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Basement -> Dire, Dire Docks",
+            "connected_region": "Dire, Dire Docks",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Power Star",
+              "count": {
+                "type": "constant",
+                "value": 26
+              }
+            }
+          },
+          {
+            "name": "Basement -> Vanish Cap under the Moat",
+            "connected_region": "Vanish Cap under the Moat",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Basement -> Bowser in the Fire Sea",
+            "connected_region": "Bowser in the Fire Sea",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "DDD: Board Bowser's Sub"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Location"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Power Star",
+                  "count": {
+                    "type": "constant",
+                    "value": 26
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Hazy Maze Cave": {
+        "name": "Hazy Maze Cave",
+        "exits": [
+          {
+            "name": "HMC: Red Coin Area",
+            "connected_region": "HMC: Red Coin Area",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "HMC: Pit Islands",
+            "connected_region": "HMC: Pit Islands",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Hazy Maze Cave -> Cavern of the Metal Cap",
+            "connected_region": "Cavern of the Metal Cap",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "HMC: Swimming Beast in the Cavern",
+            "id": 3626035,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "25 Pons",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "HMC: Metal-Head Mario Can Move!",
+            "id": 3626037,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Metal Cap"
+            },
+            "item": {
+              "name": "Secret Ansem's Report 8",
+              "player": 28,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "HMC: Watch for Rolling Rocks",
+            "id": 3626040,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Junimo Kart: Extra Life",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "HMC: Navigating the Toxic Maze",
+            "id": 3626038,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Kusari Jacket",
+              "player": 64,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "HMC: 1Up Block Past Rolling Rocks",
+            "id": 3626220,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "HMC: Red Coin Area": {
+        "name": "HMC: Red Coin Area",
+        "exits": [],
+        "locations": [
+          {
+            "name": "HMC: Elevate for 8 Red Coins",
+            "id": 3626036,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Outrider Knight Leggings",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "HMC: Pit Islands": {
+        "name": "HMC: Pit Islands",
+        "exits": [],
+        "locations": [
+          {
+            "name": "HMC: A-Maze-Ing Emergency Exit",
+            "id": 3626039,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Lurker Aspect (Hydralisk)",
+              "player": 55,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "HMC: 1Up Block above Pit",
+            "id": 3626219,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Lethal Lava Land": {
+        "name": "Lethal Lava Land",
+        "exits": [
+          {
+            "name": "LLL: Upper Volcano",
+            "connected_region": "LLL: Upper Volcano",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "LLL: Boil the Big Bully",
+            "id": 3626042,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Bomb Refill",
+              "player": 23,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "LLL: Bully the Bullies",
+            "id": 3626043,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Armor",
+              "player": 19,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "LLL: 8-Coin Puzzle with 15 Pieces",
+            "id": 3626044,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "10 BugFrags",
+              "player": 38,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "LLL: Red-Hot Log Rolling",
+            "id": 3626045,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 18,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "LLL: Upper Volcano": {
+        "name": "LLL: Upper Volcano",
+        "exits": [],
+        "locations": [
+          {
+            "name": "LLL: Hot-Foot-It into the Volcano",
+            "id": 3626046,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "10 coins",
+              "player": 60,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "LLL: Elevator Tour in the Volcano",
+            "id": 3626047,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Emblem",
+              "player": 54,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Shifting Sand Land": {
+        "name": "Shifting Sand Land",
+        "exits": [
+          {
+            "name": "SSL: Upper Pyramid",
+            "connected_region": "SSL: Upper Pyramid",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "SSL: In the Talons of the Big Bird",
+            "id": 3626049,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "progressive-stronger-explosives",
+              "player": 21,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SSL: Shining Atop the Pyramid",
+            "id": 3626050,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Mr Qi's Plane Ride",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SSL: Free Flying for 8 Red Coins",
+            "id": 3626053,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_all_items",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Cannon Unlock SSL",
+                        "Wing Cap"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Wing Cap"
+                }
+              ]
+            },
+            "item": {
+              "name": "Leaf Poultice x 3",
+              "player": 5,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SSL: Bob-omb Buddy",
+            "id": 3626207,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cannon Unlock SSL",
+              "player": 58,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SSL: 1Up Block Outside Pyramid",
+            "id": 3626221,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SSL: 1Up Block Pyramid Left Path",
+            "id": 3626222,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SSL: 1Up Block Pyramid Back",
+            "id": 3626223,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "SSL: Upper Pyramid": {
+        "name": "SSL: Upper Pyramid",
+        "exits": [],
+        "locations": [
+          {
+            "name": "SSL: Inside the Ancient Pyramid",
+            "id": 3626051,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Refinery (E2M3) - Blue keycard",
+              "player": 19,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SSL: Stand Tall on the Four Pillars",
+            "id": 3626052,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_all_items",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Cannon Unlock SSL",
+                        "Wing Cap"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Wing Cap"
+                }
+              ]
+            },
+            "item": {
+              "name": "EMP Rounds (Ghost)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SSL: Pyramid Puzzle",
+            "id": 3626054,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Titanite Chunk",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Dire, Dire Docks": {
+        "name": "Dire, Dire Docks",
+        "exits": [],
+        "locations": [
+          {
+            "name": "DDD: Board Bowser's Sub",
+            "id": 3626056,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "RegUP3",
+              "player": 38,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "DDD: Chests in the Current",
+            "id": 3626057,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Treasure Bumper",
+              "player": 9,
+              "advancement": true,
+              "type": "Target"
+            }
+          },
+          {
+            "name": "DDD: Through the Jet Stream",
+            "id": 3626059,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Metal Cap"
+            },
+            "item": {
+              "name": "Cyclops Engine Fragment",
+              "player": 57,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "DDD: The Manta Ray's Reward",
+            "id": 3626060,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Small Key",
+              "player": 63,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "DDD: Collect the Caps...",
+            "id": 3626061,
+            "access_rule": {
+              "type": "helper",
+              "name": "has_all_items",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Vanish Cap",
+                    "Metal Cap"
+                  ]
+                }
+              ]
+            },
+            "item": {
+              "name": "Grav Trap Fragment",
+              "player": 57,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "DDD: Pole-Jumping for Red Coins",
+            "id": 3626058,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Bowser in the Fire Sea Key"
+                },
+                {
+                  "type": "constant",
+                  "value": "Location"
+                }
+              ]
+            },
+            "item": {
+              "name": "Direct Attack Collection",
+              "player": 75,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Cavern of the Metal Cap": {
+        "name": "Cavern of the Metal Cap",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Cavern of the Metal Cap Switch",
+            "id": 3626182,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Area: Edgeville",
+              "player": 43,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Cavern of the Metal Cap Red Coins",
+            "id": 3626133,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Metal Cap"
+            },
+            "item": {
+              "name": "Postcard",
+              "player": 29,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Cavern of the Metal Cap 1Up Block",
+            "id": 3626241,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Vanish Cap under the Moat": {
+        "name": "Vanish Cap under the Moat",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Vanish Cap Under the Moat Switch",
+            "id": 3626183,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "The Cesspool (E3M2)",
+              "player": 24,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Vanish Cap Under the Moat Red Coins",
+            "id": 3626147,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Vanish Cap"
+            },
+            "item": {
+              "name": "Fire Enclosed in Enamel",
+              "player": 7,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Vanish Cap Under the Moat 1Up Block",
+            "id": 3626242,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Bowser in the Fire Sea": {
+        "name": "Bowser in the Fire Sea",
+        "exits": [
+          {
+            "name": "BitFS: Upper",
+            "connected_region": "BitFS: Upper",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "BitFS: Upper": {
+        "name": "BitFS: Upper",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bowser in the Fire Sea Red Coins",
+            "id": 3626112,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Revival Herb",
+              "player": 46,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bowser in the Fire Sea Key",
+            "id": 3626179,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "TM31 Mimic",
+              "player": 47,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bowser in the Fire Sea 1Up Block Swaying Stairs",
+            "id": 3626238,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bowser in the Fire Sea 1Up Block Near Poles",
+            "id": 3626239,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Second Floor": {
+        "name": "Second Floor",
+        "exits": [
+          {
+            "name": "Second Floor -> Snowman's Land",
+            "connected_region": "Snowman's Land",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Second Floor -> Wet-Dry World",
+            "connected_region": "Wet-Dry World",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Second Floor -> Tall, Tall Mountain",
+            "connected_region": "Tall, Tall Mountain",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Second Floor -> Tiny-Huge Island (Tiny)",
+            "connected_region": "Tiny-Huge Island (Tiny)",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Second Floor -> Tiny-Huge Island (Huge)",
+            "connected_region": "Tiny-Huge Island (Huge)",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Second Floor -> Third Floor",
+            "connected_region": "Third Floor",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Power Star",
+              "count": {
+                "type": "constant",
+                "value": 44
+              }
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Snowman's Land": {
+        "name": "Snowman's Land",
+        "exits": [],
+        "locations": [
+          {
+            "name": "SL: Snowman's Big Head",
+            "id": 3626063,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Corrosive Spray (Devourer)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SL: Chill with the Bully",
+            "id": 3626064,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Sky Meadow",
+              "player": 49,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SL: In the Deep Freeze",
+            "id": 3626065,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Sarge Badge",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SL: Whirl from the Freezing Pond",
+            "id": 3626066,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Box of bullets",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SL: Shell Shreddin' for Red Coins",
+            "id": 3626067,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Half-Empty Ice Cube Tray",
+              "player": 6,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SL: Into the Igloo",
+            "id": 3626068,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Vanish Cap"
+            },
+            "item": {
+              "name": "Biscuit",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SL: Bob-omb Buddy",
+            "id": 3626209,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cannon Unlock SL",
+              "player": 58,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SL: 1Up Block Near Moneybags",
+            "id": 3626224,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SL: 1Up Block inside Igloo",
+            "id": 3626225,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Wet-Dry World": {
+        "name": "Wet-Dry World",
+        "exits": [
+          {
+            "name": "WDW: Top",
+            "connected_region": "WDW: Top",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "WDW: Downtown",
+            "connected_region": "WDW: Downtown",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "WDW: Express Elevator--Hurry Up!",
+            "id": 3626073,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Mt. Erebus (E3M6) - Computer area map",
+              "player": 19,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "WDW: Top": {
+        "name": "WDW: Top",
+        "exits": [],
+        "locations": [
+          {
+            "name": "WDW: Shocking Arrow Lifts!",
+            "id": 3626070,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Carthus Beacon",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "WDW: Top o' the Town",
+            "id": 3626071,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Map Bombs",
+              "player": 13,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "WDW: Secrets in the Shallows & Sky",
+            "id": 3626072,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "2 Honey",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "WDW: Bob-omb Buddy",
+            "id": 3626210,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cannon Unlock WDW",
+              "player": 58,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "WDW: Downtown": {
+        "name": "WDW: Downtown",
+        "exits": [],
+        "locations": [
+          {
+            "name": "WDW: Go to Town for Red Coins",
+            "id": 3626074,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "SetSand",
+              "player": 38,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "WDW: Quick Race Through Downtown!",
+            "id": 3626075,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Vanish Cap"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Vanish Cap"
+                }
+              ]
+            },
+            "item": {
+              "name": "Golden Bracelets",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "WDW: 1Up Block in Downtown",
+            "id": 3626226,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Tall, Tall Mountain": {
+        "name": "Tall, Tall Mountain",
+        "exits": [
+          {
+            "name": "TTM: Middle",
+            "connected_region": "TTM: Middle",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "TTM: Middle": {
+        "name": "TTM: Middle",
+        "exits": [
+          {
+            "name": "TTM: Top",
+            "connected_region": "TTM: Top",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "TTM: Scary 'Shrooms, Red Coins",
+            "id": 3626079,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Anti-Mechanical Munition (Viking)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TTM: Blast to the Lonely Mushroom",
+            "id": 3626082,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Cannon Unlock TTM"
+            },
+            "item": {
+              "name": "Wand (Tier 3)",
+              "player": 42,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TTM: Bob-omb Buddy",
+            "id": 3626211,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cannon Unlock TTM",
+              "player": 58,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TTM: 1Up Block on Red Mushroom",
+            "id": 3626227,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "TTM: Top": {
+        "name": "TTM: Top",
+        "exits": [],
+        "locations": [
+          {
+            "name": "TTM: Scale the Mountain",
+            "id": 3626077,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Limit Form",
+              "player": 28,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TTM: Mystery of the Monkey Cage",
+            "id": 3626078,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Partial invisibility",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TTM: Mysterious Mountainside",
+            "id": 3626080,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Krematoa Cog",
+              "player": 18,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TTM: Breathtaking View from Bridge",
+            "id": 3626081,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Fire Power",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Tiny-Huge Island (Huge)": {
+        "name": "Tiny-Huge Island (Huge)",
+        "exits": [
+          {
+            "name": "Tiny-Huge Island (Huge) -> Tiny-Huge Island",
+            "connected_region": "Tiny-Huge Island",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Tiny-Huge Island (Tiny)": {
+        "name": "Tiny-Huge Island (Tiny)",
+        "exits": [
+          {
+            "name": "Tiny-Huge Island (Tiny) -> Tiny-Huge Island",
+            "connected_region": "Tiny-Huge Island",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Tiny-Huge Island": {
+        "name": "Tiny-Huge Island",
+        "exits": [
+          {
+            "name": "THI: Pipes",
+            "connected_region": "THI: Pipes",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "THI: 1Up Block THI Small near Start",
+            "id": 3626228,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "THI: Pipes": {
+        "name": "THI: Pipes",
+        "exits": [
+          {
+            "name": "THI: Large Top",
+            "connected_region": "THI: Large Top",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "THI: The Tip Top of the Huge Island",
+            "id": 3626085,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "EkeEke",
+              "player": 31,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "THI: Pluck the Piranha Flower",
+            "id": 3626084,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 18,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "THI: Rematch with Koopa the Quick",
+            "id": 3626086,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Hazard Bumper",
+              "player": 9,
+              "advancement": true,
+              "type": "Target"
+            }
+          },
+          {
+            "name": "THI: Five Itty Bitty Secrets",
+            "id": 3626087,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Piece of Heart",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "THI: Wiggler's Red Coins",
+            "id": 3626088,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Machine Collection A",
+              "player": 75,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "THI: Bob-omb Buddy",
+            "id": 3626212,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cannon Unlock THI",
+              "player": 58,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "THI: 1Up Block THI Large near Start",
+            "id": 3626229,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "THI: 1Up Block Windy Area",
+            "id": 3626230,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "THI: Large Top": {
+        "name": "THI: Large Top",
+        "exits": [],
+        "locations": [
+          {
+            "name": "THI: Make Wiggler Squirm",
+            "id": 3626089,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Five Rupees",
+              "player": 63,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Third Floor": {
+        "name": "Third Floor",
+        "exits": [
+          {
+            "name": "Third Floor -> Tick Tock Clock",
+            "connected_region": "Tick Tock Clock",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Third Floor -> Rainbow Ride",
+            "connected_region": "Rainbow Ride",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Third Floor -> Wing Mario over the Rainbow",
+            "connected_region": "Wing Mario over the Rainbow",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Third Floor -> Bowser in the Sky",
+            "connected_region": "Bowser in the Sky",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Power Star",
+              "count": {
+                "type": "constant",
+                "value": 61
+              }
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Tick Tock Clock": {
+        "name": "Tick Tock Clock",
+        "exits": [
+          {
+            "name": "TTC: Lower",
+            "connected_region": "TTC: Lower",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "TTC: Stop Time for Red Coins",
+            "id": 3626096,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Refreshing Herb",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "TTC: Lower": {
+        "name": "TTC: Lower",
+        "exits": [
+          {
+            "name": "TTC: Upper",
+            "connected_region": "TTC: Upper",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "TTC: Roll into the Cage",
+            "id": 3626091,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 37,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TTC: Get a Hand",
+            "id": 3626093,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "3-Up",
+              "player": 74,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "TTC: Upper": {
+        "name": "TTC: Upper",
+        "exits": [
+          {
+            "name": "TTC: Top",
+            "connected_region": "TTC: Top",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "TTC: Timed Jumps on Moving Bars",
+            "id": 3626095,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Five Rupees",
+              "player": 63,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TTC: The Pit and the Pendulums",
+            "id": 3626092,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Red jewel(L)",
+              "player": 11,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "TTC: Top": {
+        "name": "TTC: Top",
+        "exits": [],
+        "locations": [
+          {
+            "name": "TTC: 1Up Block Midway Up",
+            "id": 3626231,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TTC: Stomp on the Thwomp",
+            "id": 3626094,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "16 REP",
+              "player": 8,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TTC: 1Up Block at the Top",
+            "id": 3626232,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Rainbow Ride": {
+        "name": "Rainbow Ride",
+        "exits": [
+          {
+            "name": "RR: Maze",
+            "connected_region": "RR: Maze",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "RR: Cruiser",
+            "connected_region": "RR: Cruiser",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "RR: House",
+            "connected_region": "RR: House",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "RR: Swingin' in the Breeze",
+            "id": 3626101,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive High Impact Payload (Thor)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "RR: Tricky Triangles!",
+            "id": 3626102,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Extra Candle",
+              "player": 26,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "RR: 1Up Block Top of Red Coin Maze",
+            "id": 3626233,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "RR: 1Up Block Under Fly Guy",
+            "id": 3626234,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "RR: Bob-omb Buddy",
+            "id": 3626214,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cannon Unlock RR",
+              "player": 58,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "RR: Maze": {
+        "name": "RR: Maze",
+        "exits": [],
+        "locations": [
+          {
+            "name": "RR: Coins Amassed in a Maze",
+            "id": 3626100,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Tome of Power",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "RR: Cruiser": {
+        "name": "RR: Cruiser",
+        "exits": [],
+        "locations": [
+          {
+            "name": "RR: Cruiser Crossing the Rainbow",
+            "id": 3626098,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Mush Badge A",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "RR: Somewhere Over the Rainbow",
+            "id": 3626103,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Cannon Unlock RR"
+            },
+            "item": {
+              "name": "Drakeblood Gauntlets",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "RR: House": {
+        "name": "RR: House",
+        "exits": [],
+        "locations": [
+          {
+            "name": "RR: The Big House in the Sky",
+            "id": 3626099,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Reward: Frog Leg",
+              "player": 62,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "RR: 1Up Block On House in the Sky",
+            "id": 3626235,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Wing Mario over the Rainbow": {
+        "name": "Wing Mario over the Rainbow",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Wing Mario Over the Rainbow Red Coins",
+            "id": 3626154,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Wing Cap"
+            },
+            "item": {
+              "name": "TD19 20 Turns Unlock",
+              "player": 75,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wing Mario Over the Rainbow 1Up Block",
+            "id": 3626243,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Wing Cap"
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Bowser in the Sky": {
+        "name": "Bowser in the Sky",
+        "exits": [
+          {
+            "name": "BitS: Top",
+            "connected_region": "BitS: Top",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Bowser in the Sky 1Up Block",
+            "id": 3626240,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 58,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "BitS: Top": {
+        "name": "BitS: Top",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bowser in the Sky Red Coins",
+            "id": 3626119,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Treasure Bumper",
+              "player": 9,
+              "advancement": true,
+              "type": "Target"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "start_regions": {
+    "58": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "58": {
+      "Power Star": {
+        "name": "Power Star",
+        "id": 3626000,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 105
+      },
+      "Basement Key": {
+        "name": "Basement Key",
+        "id": 3626178,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Second Floor Key": {
+        "name": "Second Floor Key",
+        "id": 3626179,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Key": {
+        "name": "Progressive Key",
+        "id": 3626180,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Wing Cap": {
+        "name": "Wing Cap",
+        "id": 3626181,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Metal Cap": {
+        "name": "Metal Cap",
+        "id": 3626182,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Vanish Cap": {
+        "name": "Vanish Cap",
+        "id": 3626183,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "1Up Mushroom": {
+        "name": "1Up Mushroom",
+        "id": 3626184,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 29
+      },
+      "Double Jump": {
+        "name": "Double Jump",
+        "id": 3626185,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Triple Jump": {
+        "name": "Triple Jump",
+        "id": 3626186,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Long Jump": {
+        "name": "Long Jump",
+        "id": 3626187,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Backflip": {
+        "name": "Backflip",
+        "id": 3626188,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Side Flip": {
+        "name": "Side Flip",
+        "id": 3626189,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wall Kick": {
+        "name": "Wall Kick",
+        "id": 3626190,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dive": {
+        "name": "Dive",
+        "id": 3626191,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ground Pound": {
+        "name": "Ground Pound",
+        "id": 3626192,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Kick": {
+        "name": "Kick",
+        "id": 3626193,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Climb": {
+        "name": "Climb",
+        "id": 3626194,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ledge Grab": {
+        "name": "Ledge Grab",
+        "id": 3626195,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cannon Unlock BoB": {
+        "name": "Cannon Unlock BoB",
+        "id": 3626200,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cannon Unlock WF": {
+        "name": "Cannon Unlock WF",
+        "id": 3626201,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cannon Unlock JRB": {
+        "name": "Cannon Unlock JRB",
+        "id": 3626202,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cannon Unlock CCM": {
+        "name": "Cannon Unlock CCM",
+        "id": 3626203,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cannon Unlock SSL": {
+        "name": "Cannon Unlock SSL",
+        "id": 3626207,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cannon Unlock SL": {
+        "name": "Cannon Unlock SL",
+        "id": 3626209,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cannon Unlock WDW": {
+        "name": "Cannon Unlock WDW",
+        "id": 3626210,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cannon Unlock TTM": {
+        "name": "Cannon Unlock TTM",
+        "id": 3626211,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cannon Unlock THI": {
+        "name": "Cannon Unlock THI",
+        "id": 3626212,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cannon Unlock RR": {
+        "name": "Cannon Unlock RR",
+        "id": 3626214,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wolf Knight Helm": {
+        "name": "Wolf Knight Helm",
+        "id": 100563,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rupees (50)": {
+        "name": "Rupees (50)",
+        "id": 65,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Reward: Flipper": {
+        "name": "Reward: Flipper",
+        "id": 8257621,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Color Depth (Red)": {
+        "name": "Progressive Color Depth (Red)",
+        "id": 198503,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ember": {
+        "name": "Ember",
+        "id": 100863,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Coop": {
+        "name": "Progressive Coop",
+        "id": 717084,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "SHADOW OF INFINITY": {
+        "name": "SHADOW OF INFINITY",
+        "id": 5730018,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "The Chasm (E3M7) - Map Scroll": {
+        "name": "The Chasm (E3M7) - Map Scroll",
+        "id": 370474,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Digital Democracy": {
+        "name": "Digital Democracy",
+        "id": 5041130,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "10 coins": {
+        "name": "10 coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 1
+      },
+      "MUSCLE APPLIQUE": {
+        "name": "MUSCLE APPLIQUE",
+        "id": 200626,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "EkeEke": {
+        "name": "EkeEke",
+        "id": 4000,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Additional Starting Supply": {
+        "name": "Additional Starting Supply",
+        "id": 1802,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Encouragement": {
+        "name": "Encouragement",
+        "id": 16871244200,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Graffiti (M - 0m33)": {
+        "name": "Graffiti (M - 0m33)",
+        "id": 2308045,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Inferno Band": {
+        "name": "Inferno Band",
+        "id": 2641050,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fool Trap": {
+        "name": "Fool Trap",
+        "id": 509342485,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": true,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Health Pon": {
+        "name": "Health Pon",
+        "id": 2000300037,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Energy cell pack": {
+        "name": "Energy cell pack",
+        "id": 360019,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Elixir": {
+        "name": "Elixir",
+        "id": 3860036,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Partial invisibility": {
+        "name": "Partial invisibility",
+        "id": 350111,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Titanite Chunk": {
+        "name": "Titanite Chunk",
+        "id": 100895,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Symmetry": {
+        "name": "Progressive Symmetry",
+        "id": 158210,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Greater Runes": {
+        "name": "Greater Runes",
+        "id": 370020,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Pages 18-19": {
+        "name": "Pages 18-19",
+        "id": 509342511,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bonus Point": {
+        "name": "Bonus Point",
+        "id": 16871244205,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hidden Weapon": {
+        "name": "Hidden Weapon",
+        "id": 100997,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Nugget": {
+        "name": "Nugget",
+        "id": 3860110,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "The Azure Fortress (E3M4) - Map Scroll": {
+        "name": "The Azure Fortress (E3M4) - Map Scroll",
+        "id": 370465,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sight Poultice": {
+        "name": "Sight Poultice",
+        "id": 698078,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Syrup": {
+        "name": "Syrup",
+        "id": 77771009,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "RegUP3": {
+        "name": "RegUP3",
+        "id": 11735061,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Circuit Refill upgrade": {
+        "name": "Circuit Refill upgrade",
+        "id": 593003,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Enhancement",
+        "max_count": 1
+      },
+      "Yellow Trinity": {
+        "name": "Yellow Trinity",
+        "id": 2648004,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Medikit": {
+        "name": "Medikit",
+        "id": 360015,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "HiCannon *": {
+        "name": "HiCannon *",
+        "id": 11735111,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Resource Efficiency (Medic)": {
+        "name": "Resource Efficiency (Medic)",
+        "id": 1225,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Thorned Symbol": {
+        "name": "Thorned Symbol",
+        "id": 1909013,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Armor": {
+        "name": "Armor",
+        "id": 360008,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Full Restore": {
+        "name": "Full Restore",
+        "id": 3860019,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "25 Pons": {
+        "name": "25 Pons",
+        "id": 2000300034,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Secret Ansem's Report 8": {
+        "name": "Secret Ansem's Report 8",
+        "id": 1245191,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Junimo Kart: Extra Life": {
+        "name": "Junimo Kart: Extra Life",
+        "id": 717105,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Kusari Jacket": {
+        "name": "Kusari Jacket",
+        "id": 11391008,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Outrider Knight Leggings": {
+        "name": "Outrider Knight Leggings",
+        "id": 100403,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lurker Aspect (Hydralisk)": {
+        "name": "Lurker Aspect (Hydralisk)",
+        "id": 2305,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bomb Refill": {
+        "name": "Bomb Refill",
+        "id": 4325597,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "10 BugFrags": {
+        "name": "10 BugFrags",
+        "id": 11735221,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bonus Coin": {
+        "name": "Bonus Coin",
+        "id": 14430211,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Emblem": {
+        "name": "Emblem",
+        "id": 16711680,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "progressive-stronger-explosives": {
+        "name": "progressive-stronger-explosives",
+        "id": 131289,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mr Qi's Plane Ride": {
+        "name": "Mr Qi's Plane Ride",
+        "id": 717511,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Leaf Poultice x 3": {
+        "name": "Leaf Poultice x 3",
+        "id": 698107,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Refinery (E2M3) - Blue keycard": {
+        "name": "Refinery (E2M3) - Blue keycard",
+        "id": 350044,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "EMP Rounds (Ghost)": {
+        "name": "EMP Rounds (Ghost)",
+        "id": 1358,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Bumper": {
+        "name": "Treasure Bumper",
+        "id": 595008,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Target",
+        "max_count": 1
+      },
+      "Cyclops Engine Fragment": {
+        "name": "Cyclops Engine Fragment",
+        "id": 35021,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Small Key": {
+        "name": "Small Key",
+        "id": 7126,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Grav Trap Fragment": {
+        "name": "Grav Trap Fragment",
+        "id": 35023,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Direct Attack Collection": {
+        "name": "Direct Attack Collection",
+        "id": 5730044,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Area: Edgeville": {
+        "name": "Area: Edgeville",
+        "id": 458761,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Postcard": {
+        "name": "Postcard",
+        "id": 2641211,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "The Cesspool (E3M2)": {
+        "name": "The Cesspool (E3M2)",
+        "id": 370457,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fire Enclosed in Enamel": {
+        "name": "Fire Enclosed in Enamel",
+        "id": 1909038,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Revival Herb": {
+        "name": "Revival Herb",
+        "id": 3860033,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "TM31 Mimic": {
+        "name": "TM31 Mimic",
+        "id": 172000231,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Corrosive Spray (Devourer)": {
+        "name": "Corrosive Spray (Devourer)",
+        "id": 2244,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sky Meadow": {
+        "name": "Sky Meadow",
+        "id": 37738,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sarge Badge": {
+        "name": "Sarge Badge",
+        "id": 77771101,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Box of bullets": {
+        "name": "Box of bullets",
+        "id": 360016,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Half-Empty Ice Cube Tray": {
+        "name": "Half-Empty Ice Cube Tray",
+        "id": 9219,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Biscuit": {
+        "name": "Biscuit",
+        "id": 64141,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mt. Erebus (E3M6) - Computer area map": {
+        "name": "Mt. Erebus (E3M6) - Computer area map",
+        "id": 350088,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Carthus Beacon": {
+        "name": "Carthus Beacon",
+        "id": 101041,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Map Bombs": {
+        "name": "Map Bombs",
+        "id": 80002,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "2 Honey": {
+        "name": "2 Honey",
+        "id": 64347,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "SetSand": {
+        "name": "SetSand",
+        "id": 11735188,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Golden Bracelets": {
+        "name": "Golden Bracelets",
+        "id": 100422,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Anti-Mechanical Munition (Viking)": {
+        "name": "Anti-Mechanical Munition (Viking)",
+        "id": 1280,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wand (Tier 3)": {
+        "name": "Wand (Tier 3)",
+        "id": 110008,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Limit Form": {
+        "name": "Limit Form",
+        "id": 1245217,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Krematoa Cog": {
+        "name": "Krematoa Cog",
+        "id": 14430214,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fire Power": {
+        "name": "Fire Power",
+        "id": 64014,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "1-Up Balloon": {
+        "name": "1-Up Balloon",
+        "id": 14430209,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hazard Bumper": {
+        "name": "Hazard Bumper",
+        "id": 595007,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Target",
+        "max_count": 1
+      },
+      "Piece of Heart": {
+        "name": "Piece of Heart",
+        "id": 23,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Machine Collection A": {
+        "name": "Machine Collection A",
+        "id": 5730027,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Five Rupees": {
+        "name": "Five Rupees",
+        "id": 7129,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Refreshing Herb": {
+        "name": "Refreshing Herb",
+        "id": 77771016,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Weapon Energy (L)": {
+        "name": "Weapon Energy (L)",
+        "id": 8912929,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "3-Up": {
+        "name": "3-Up",
+        "id": 3154062,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Red jewel(L)": {
+        "name": "Red jewel(L)",
+        "id": 12992515,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "16 REP": {
+        "name": "16 REP",
+        "id": 2308160,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive High Impact Payload (Thor)": {
+        "name": "Progressive High Impact Payload (Thor)",
+        "id": 1361,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Extra Candle": {
+        "name": "Extra Candle",
+        "id": 147012,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Tome of Power": {
+        "name": "Tome of Power",
+        "id": 370014,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mush Badge A": {
+        "name": "Mush Badge A",
+        "id": 77771092,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Drakeblood Gauntlets": {
+        "name": "Drakeblood Gauntlets",
+        "id": 100550,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Reward: Frog Leg": {
+        "name": "Reward: Frog Leg",
+        "id": 8257622,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "TD19 20 Turns Unlock": {
+        "name": "TD19 20 Turns Unlock",
+        "id": 5730111,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      " coins": {
+        "name": " coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      },
+      " coins freemium": {
+        "name": " coins freemium",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      }
+    }
+  },
+  "item_groups": {
+    "58": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "58": {
+      "1Up Mushroom": 29,
+      "Cannon Unlock BoB": 1,
+      "Cannon Unlock CCM": 1,
+      "Cannon Unlock JRB": 1,
+      "Cannon Unlock RR": 1,
+      "Cannon Unlock SL": 1,
+      "Cannon Unlock SSL": 1,
+      "Cannon Unlock THI": 1,
+      "Cannon Unlock TTM": 1,
+      "Cannon Unlock WDW": 1,
+      "Cannon Unlock WF": 1,
+      "Metal Cap": 1,
+      "Power Star": 105,
+      "Progressive Key": 2,
+      "Vanish Cap": 1,
+      "Wing Cap": 1
+    }
+  },
+  "progression_mapping": {
+    "58": {}
+  },
+  "starting_items": {
+    "58": []
+  },
+  "settings": {
+    "58": {
+      "game": "Super Mario 64",
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false,
+      "enable_move_rando": false,
+      "strict_cap_requirements": true,
+      "strict_cannon_requirements": true,
+      "strict_move_requirements": true,
+      "area_rando": 0
+    }
+  },
+  "game_info": {
+    "58": {
+      "name": "Super Mario 64",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

@@ -54,8 +54,8 @@ function log(level, message, ...data) {
 // --- Event Handlers --- //
 
 // Handler for rules loaded
-function handleRulesLoaded(eventData, propagationOptions = {}) {
-  log('info', '[Loops Module] Received state:rulesLoaded');
+function handleRulesLoaded(eventData) {
+  log('info', '[Loops Module] Received stateManager:rulesLoaded');
   // Reset loop state now that new rules are loaded
   if (
     loopStateSingleton &&
@@ -63,26 +63,12 @@ function handleRulesLoaded(eventData, propagationOptions = {}) {
   ) {
     loopStateSingleton._resetLoop();
   } else {
-    log('warn', 
-      '[Loops Module] LoopState singleton or _resetLoop method not available when handling state:rulesLoaded.'
+    log('warn',
+      '[Loops Module] LoopState singleton or _resetLoop method not available when handling stateManager:rulesLoaded.'
     );
   }
   // Potentially trigger UI update if loopInstance exists
   loopInstance?.renderLoopPanel();
-
-  // Propagate the event to the next module in the chain using stored dispatcher
-  if (moduleDispatcher) {
-    moduleDispatcher.publishToNextModule(
-      'loops',
-      'state:rulesLoaded',
-      eventData,
-      { direction: 'up' }
-    );
-  } else {
-    log('error', 
-      '[Loops Module] Cannot propagate state:rulesLoaded: Dispatcher not available.'
-    );
-  }
 }
 
 // Removed old handleCheckLocationRequest as it will be replaced by handleUserLocationCheckForLoops from loopEvents.js
@@ -94,6 +80,14 @@ function handleRulesLoaded(eventData, propagationOptions = {}) {
 export function register(registrationApi) {
   log('info', '[Loops Module] Registering...');
 
+  // Dynamically load module CSS
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.type = 'text/css';
+  link.href = 'modules/loops/loop.css';
+  document.head.appendChild(link);
+  log('info', '[Loops Module] CSS loaded');
+
   // Register panel component with the CLASS CONSTRUCTOR directly
   registrationApi.registerPanelComponent(
     'loopsPanel',
@@ -101,7 +95,6 @@ export function register(registrationApi) {
   );
 
   // Register Loops settings schema snippet
-  // TODO: Confirm this schema structure matches what settingsManager expects
   registrationApi.registerSettingsSchema({
     type: 'object',
     properties: {
@@ -270,9 +263,12 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
       }
     });
 
-    // TODO: Add subscription for state:rulesLoaded -> handleRulesLoaded
+    // Subscribe to stateManager:rulesLoaded to reset loop state when rules change
+    loopUnsubscribeHandles.push(
+      eventBus.subscribe('stateManager:rulesLoaded', handleRulesLoaded, moduleInfo.name)
+    );
   } else {
-    log('error', 
+    log('error',
       '[Loops Module] EventBus not available during initialization.'
     );
   }

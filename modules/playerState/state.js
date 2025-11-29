@@ -128,9 +128,10 @@ export class PlayerState {
     /**
      * Add a location check entry to the path
      * @param {string} locationName - Name of the location checked
-     * @param {string} regionName - Name of the region where the location exists
+     * @param {string} regionName - Name of the region where the location exists (optional, will be looked up if not provided)
+     * @param {Object} staticData - Optional staticData for region lookup
      */
-    addLocationCheck(locationName, regionName = null) {
+    addLocationCheck(locationName, regionName = null, staticData = null) {
         // Find the most recent regionMove entry in the path for instance number
         let lastRegionMove = null;
         for (let i = this.path.length - 1; i >= 0; i--) {
@@ -139,17 +140,25 @@ export class PlayerState {
                 break;
             }
         }
-        
+
         if (!lastRegionMove) {
             console.warn(`[PlayerState] Cannot add location check: no regionMove entries found in path`);
             return;
         }
-        
-        // Use the provided region name or fall back to the location's actual region
+
+        // Use the provided region name, or look it up from staticData, or fall back to current region
         let locationRegion = regionName;
+        if (!locationRegion && staticData && staticData.locations) {
+            // Try to find the location in staticData to get its region
+            const locationDef = staticData.locations.get(locationName);
+            if (locationDef && locationDef.region) {
+                locationRegion = locationDef.region;
+            }
+        }
+
+        // If still no region, use the current region from the last regionMove
         if (!locationRegion) {
-            console.warn(`[PlayerState] No region specified for location check: ${locationName}`);
-            return;
+            locationRegion = lastRegionMove.region;
         }
         
         this.path.push({

@@ -1,0 +1,3062 @@
+{
+  "schema_version": 3,
+  "game_name": "Bumper Stickers",
+  "game_directory": "bumpstik",
+  "archipelago_version": "0.6.4",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1",
+    "2": "Player2",
+    "3": "Player3",
+    "4": "Player4",
+    "5": "Player5",
+    "6": "Player6",
+    "7": "Player7",
+    "8": "Player8",
+    "9": "Player9",
+    "10": "Player10",
+    "11": "Player11",
+    "12": "Player12",
+    "13": "Player13",
+    "14": "Player14",
+    "15": "Player15",
+    "16": "Player16",
+    "17": "Player17",
+    "18": "Player18",
+    "19": "Player19",
+    "20": "Player20",
+    "21": "Player21",
+    "22": "Player22",
+    "23": "Player23",
+    "24": "Player24",
+    "25": "Player25",
+    "26": "Player26",
+    "27": "Player27",
+    "28": "Player28",
+    "29": "Player29",
+    "30": "Player30",
+    "31": "Player31",
+    "32": "Player32",
+    "33": "Player33",
+    "34": "Player34",
+    "35": "Player35",
+    "36": "Player36",
+    "37": "Player37",
+    "38": "Player38",
+    "39": "Player39",
+    "40": "Player40",
+    "41": "Player41",
+    "42": "Player42",
+    "43": "Player43",
+    "44": "Player44",
+    "45": "Player45",
+    "46": "Player46",
+    "47": "Player47",
+    "48": "Player48",
+    "49": "Player49",
+    "50": "Player50",
+    "51": "Player51",
+    "52": "Player52",
+    "53": "Player53",
+    "54": "Player54",
+    "55": "Player55",
+    "56": "Player56",
+    "57": "Player57",
+    "58": "Player58",
+    "59": "Player59",
+    "60": "Player60",
+    "61": "Player61",
+    "62": "Player62",
+    "63": "Player63",
+    "64": "Player64",
+    "65": "Player65",
+    "66": "Player66",
+    "67": "Player67",
+    "68": "Player68",
+    "69": "Player69",
+    "70": "Player70",
+    "71": "Player71",
+    "72": "Player72",
+    "73": "Player73",
+    "74": "Player74",
+    "75": "Player75"
+  },
+  "world_classes": {
+    "1": "HatInTimeWorld",
+    "2": "ALTTPWorld",
+    "3": "ShortHikeWorld",
+    "4": "AdventureWorld",
+    "5": "AquariaWorld",
+    "6": "ArchipIDLEWorld",
+    "7": "BlasphemousWorld",
+    "8": "BombRushCyberfunkWorld",
+    "9": "BumpStikWorld",
+    "10": "CVCotMWorld",
+    "11": "CV64World",
+    "12": "Celeste64World",
+    "13": "ChecksFinderWorld",
+    "14": "ChocolateChipCookiesWorld",
+    "15": "CivVIWorld",
+    "16": "DarkSouls3World",
+    "17": "DLCqworld",
+    "18": "DKC3World",
+    "19": "DOOM1993World",
+    "20": "DOOM2World",
+    "21": "Factorio",
+    "22": "FaxanaduWorld",
+    "23": "FFMQWorld",
+    "24": "HereticWorld",
+    "25": "Hylics2World",
+    "26": "InscryptionWorld",
+    "27": "JakAndDaxterWorld",
+    "28": "KH2World",
+    "29": "KH1World",
+    "30": "KDL3World",
+    "31": "LandstalkerWorld",
+    "32": "LingoWorld",
+    "33": "LinksAwakeningWorld",
+    "34": "L2ACWorld",
+    "35": "MLSSWorld",
+    "36": "MathProof2p2e4World",
+    "37": "MM2World",
+    "38": "MMBN3World",
+    "39": "MeritousWorld",
+    "40": "MetamathWorld",
+    "41": "MuseDashWorld",
+    "42": "NoitaWorld",
+    "43": "OSRSWorld",
+    "44": "Overcooked2World",
+    "45": "PaintWorld",
+    "46": "PokemonEmeraldWorld",
+    "47": "PokemonRedBlueWorld",
+    "48": "RaftWorld",
+    "49": "RiskOfRainWorld",
+    "50": "SavingPrincessWorld",
+    "51": "SoEWorld",
+    "52": "ShapezWorld",
+    "53": "ShiversWorld",
+    "54": "SA2BWorld",
+    "55": "SC2World",
+    "56": "StardewValleyWorld",
+    "57": "SubnauticaWorld",
+    "58": "SM64World",
+    "59": "MarioLand2World",
+    "60": "SMWWorld",
+    "61": "SMWorld",
+    "62": "TerrariaWorld",
+    "63": "TLoZWorld",
+    "64": "MessengerWorld",
+    "65": "TWWWorld",
+    "66": "WitnessWorld",
+    "67": "TimespinnerWorld",
+    "68": "TunicWorld",
+    "69": "UndertaleWorld",
+    "70": "V6World",
+    "71": "WargrooveWorld",
+    "72": "WebDevJourneyWorld",
+    "73": "YachtDiceWorld",
+    "74": "YoshisIslandWorld",
+    "75": "Yugioh06World"
+  },
+  "regions": {
+    "9": {
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "To Level 1",
+            "connected_region": "Level 1",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Booster Bumper",
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Treasure Bumper",
+                  "count": {
+                    "type": "constant",
+                    "value": 8
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Level 1 - 250 Points",
+            "id": 595000,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Rusty Key",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 1 - 500 Points",
+            "id": 595001,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Golden Coin",
+              "player": 68,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 1 - 750 Points",
+            "id": 595002,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Rarecrow #4",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 1 - 1000 Points",
+            "id": 595003,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Triangles",
+              "player": 66,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 1 - 500 Level Points",
+            "id": 595004,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Yarn",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 1 - 1000 Level Points",
+            "id": 595005,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Wetland Aspect",
+              "player": 49,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 1 - 1500 Level Points",
+            "id": 595006,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Category Twos",
+              "player": 73,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 1 - 2000 Level Points",
+            "id": 595007,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Armor",
+              "player": 43,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 1 - 25 Level Bumpers",
+            "id": 595008,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Containment Area (E2M2) - Yellow keycard",
+              "player": 19,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 1 - 50 Level Bumpers",
+            "id": 595009,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Weight of True Guilt",
+              "player": 7,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 1 - 75 Level Bumpers",
+            "id": 595010,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Space Port",
+              "player": 15,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 1 - Combo 5",
+            "id": 595011,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "The Great Hall (E2M7) - Yellow key",
+              "player": 24,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bonus Booster 1",
+            "id": 595063,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Booster Bumper",
+              "count": {
+                "type": "constant",
+                "value": 1
+              }
+            },
+            "item": {
+              "name": "Anklet",
+              "player": 68,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 1",
+            "id": 595068,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 1
+              }
+            },
+            "item": {
+              "name": "Wagon",
+              "player": 71,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 2",
+            "id": 595069,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 2
+              }
+            },
+            "item": {
+              "name": "Chuckle Bean",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 3",
+            "id": 595070,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 3
+              }
+            },
+            "item": {
+              "name": "Small Key",
+              "player": 63,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 4",
+            "id": 595071,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 4
+              }
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 18,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 5",
+            "id": 595072,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 5
+              }
+            },
+            "item": {
+              "name": "Chuckle Bean",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 6",
+            "id": 595073,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 6
+              }
+            },
+            "item": {
+              "name": "Spawn Larvae (Swarm Queen)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 7",
+            "id": 595074,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 7
+              }
+            },
+            "item": {
+              "name": "Progressive Sword",
+              "player": 22,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 8",
+            "id": 595075,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 8
+              }
+            },
+            "item": {
+              "name": "500 GOLD",
+              "player": 11,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Level 1": {
+        "name": "Level 1",
+        "exits": [
+          {
+            "name": "To Level 2",
+            "connected_region": "Level 2",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Booster Bumper",
+                  "count": {
+                    "type": "constant",
+                    "value": 2
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Treasure Bumper",
+                  "count": {
+                    "type": "constant",
+                    "value": 16
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Level 2 - 500 Points",
+            "id": 595012,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Stimpack (Hellion)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 2 - 1000 Points",
+            "id": 595013,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "HP Offering",
+              "player": 68,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 2 - 1500 Points",
+            "id": 595014,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Red Pepper",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 2 - 2000 Points",
+            "id": 595015,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Knuckles - Air Necklace",
+              "player": 54,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 2 - 1000 Level Points",
+            "id": 595016,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Homeward Bone x2",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 2 - 2000 Level Points",
+            "id": 595017,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "MP Max Up",
+              "player": 10,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 2 - 3000 Level Points",
+            "id": 595018,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Box of bullets",
+              "player": 19,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 2 - 4000 Level Points",
+            "id": 595019,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Railgun Turret (Raven)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 2 - 25 Level Bumpers",
+            "id": 595020,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Necro",
+              "player": 64,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 2 - 50 Level Bumpers",
+            "id": 595021,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Statue of Gaia",
+              "player": 31,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 2 - 75 Level Bumpers",
+            "id": 595022,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Additional Palette Color",
+              "player": 45,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 2 - 100 Level Bumpers",
+            "id": 595023,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Max Sand",
+              "player": 67,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 2 - Combo 5",
+            "id": 595024,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Graffiti (M - Stacked Symbols)",
+              "player": 8,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 2 - Chain x2",
+            "id": 595025,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "BOMBO - GENESIS",
+              "player": 25,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bonus Booster 2",
+            "id": 595064,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Booster Bumper",
+              "count": {
+                "type": "constant",
+                "value": 2
+              }
+            },
+            "item": {
+              "name": "Micro-Filtering",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 9",
+            "id": 595076,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 9
+              }
+            },
+            "item": {
+              "name": "Red jewel(S)",
+              "player": 11,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 10",
+            "id": 595077,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 10
+              }
+            },
+            "item": {
+              "name": "Armor",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 11",
+            "id": 595078,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 11
+              }
+            },
+            "item": {
+              "name": "Money x25",
+              "player": 68,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 12",
+            "id": 595079,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 12
+              }
+            },
+            "item": {
+              "name": "Card Pack",
+              "player": 26,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 13",
+            "id": 595080,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 13
+              }
+            },
+            "item": {
+              "name": "Category Fours",
+              "player": 73,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 14",
+            "id": 595081,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 14
+              }
+            },
+            "item": {
+              "name": "Resource Pack: 2 Raw_Potato",
+              "player": 48,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 15",
+            "id": 595082,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 15
+              }
+            },
+            "item": {
+              "name": "Money",
+              "player": 49,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 16",
+            "id": 595083,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 16
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 66,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Level 2": {
+        "name": "Level 2",
+        "exits": [
+          {
+            "name": "To Level 3",
+            "connected_region": "Level 3",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Booster Bumper",
+                  "count": {
+                    "type": "constant",
+                    "value": 3
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Treasure Bumper",
+                  "count": {
+                    "type": "constant",
+                    "value": 24
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Level 3 - 800 Points",
+            "id": 595026,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Task Advance",
+              "player": 9,
+              "advancement": false,
+              "type": "Helper"
+            }
+          },
+          {
+            "name": "Level 3 - 1600 Points",
+            "id": 595027,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "2 Roots",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 3 - 2400 Points",
+            "id": 595028,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Arnassi Statue",
+              "player": 5,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 3 - 3200 Points",
+            "id": 595029,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Auto-Grabber",
+              "player": 56,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 3 - 2000 Level Points",
+            "id": 595030,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Resource Pack: 10 Qi Seasoning",
+              "player": 56,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 3 - 4000 Level Points",
+            "id": 595031,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "2-Up",
+              "player": 74,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 3 - 6000 Level Points",
+            "id": 595032,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Outfit (Rave - Autumn)",
+              "player": 8,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 3 - 8000 Level Points",
+            "id": 595033,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Reinforced Dive Suit",
+              "player": 57,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 3 - 25 Level Bumpers",
+            "id": 595034,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Emblem",
+              "player": 54,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 3 - 50 Level Bumpers",
+            "id": 595035,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Empty White Hallways",
+              "player": 32,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 3 - 75 Level Bumpers",
+            "id": 595036,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "TM35 Metronome",
+              "player": 47,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 3 - 100 Level Bumpers",
+            "id": 595037,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Refresher",
+              "player": 23,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 3 - 125 Level Bumpers",
+            "id": 595038,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Power Cell",
+              "player": 27,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 3 - Combo 5",
+            "id": 595039,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Trap",
+              "player": 42,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 3 - Combo 7",
+            "id": 595040,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Pale Pine Resin",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 3 - Chain x2",
+            "id": 595041,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Timebomb of the Ancients",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 3 - All Clear, 3 colors",
+            "id": 595042,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "MP Berry x2",
+              "player": 68,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bonus Booster 3",
+            "id": 595065,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Booster Bumper",
+              "count": {
+                "type": "constant",
+                "value": 3
+              }
+            },
+            "item": {
+              "name": "Full Restore",
+              "player": 47,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 17",
+            "id": 595084,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 17
+              }
+            },
+            "item": {
+              "name": "Extra Max HP",
+              "player": 42,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 18",
+            "id": 595085,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 18
+              }
+            },
+            "item": {
+              "name": "Morne's Armor",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 19",
+            "id": 595086,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 19
+              }
+            },
+            "item": {
+              "name": "Small Key",
+              "player": 63,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 20",
+            "id": 595087,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 20
+              }
+            },
+            "item": {
+              "name": "Concussive Shells (Marauder)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 21",
+            "id": 595088,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 21
+              }
+            },
+            "item": {
+              "name": "Turtle Soup",
+              "player": 5,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 22",
+            "id": 595089,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 22
+              }
+            },
+            "item": {
+              "name": "Miss To Great (5 Pack)",
+              "player": 41,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 23",
+            "id": 595090,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 23
+              }
+            },
+            "item": {
+              "name": "Scout Fly - Misty Island",
+              "player": 27,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 24",
+            "id": 595091,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 24
+              }
+            },
+            "item": {
+              "name": "Empty Golden Thimble",
+              "player": 7,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Level 3": {
+        "name": "Level 3",
+        "exits": [
+          {
+            "name": "To Level 4",
+            "connected_region": "Level 4",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Booster Bumper",
+                  "count": {
+                    "type": "constant",
+                    "value": 5
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Treasure Bumper",
+                  "count": {
+                    "type": "constant",
+                    "value": 32
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Level 4 - 1500 Points",
+            "id": 595043,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Refresher",
+              "player": 23,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 4 - 3000 Points",
+            "id": 595044,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Ice Rod",
+              "player": 2,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 4 - 4500 Points",
+            "id": 595045,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "2 Call beads",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 4 - 6000 Points",
+            "id": 595046,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Stable",
+              "player": 56,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 4 - 3000 Level Points",
+            "id": 595047,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Camping Set",
+              "player": 29,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 4 - 6000 Level Points",
+            "id": 595048,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "progressive-inserter",
+              "player": 21,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 4 - 9000 Level Points",
+            "id": 595049,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Quartz Flask",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 4 - 12000 Level Points",
+            "id": 595050,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Item Scrap, White",
+              "player": 49,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 4 - 25 Level Bumpers",
+            "id": 595051,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Smart Servos (Liberator)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 4 - 50 Level Bumpers",
+            "id": 595052,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Juggernaut Plating (Marauder)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 4 - 75 Level Bumpers",
+            "id": 595053,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cure Potion",
+              "player": 23,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 4 - 100 Level Bumpers",
+            "id": 595054,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Scout Fly - Rock Village",
+              "player": 27,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 4 - 125 Level Bumpers",
+            "id": 595055,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Anywhere Pow",
+              "player": 74,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 4 - 150 Level Bumpers",
+            "id": 595056,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Small Key",
+              "player": 63,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 4 - Combo 5",
+            "id": 595057,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Chaotic Attunement (Ascendant)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 4 - Combo 7",
+            "id": 595058,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Tears of Atonement (2600)",
+              "player": 7,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 4 - Chain x2",
+            "id": 595059,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Automated Refinery",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 4 - Chain x3",
+            "id": 595060,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Large Soul of a Nameless Soldier",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bonus Booster 4",
+            "id": 595066,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Booster Bumper",
+              "count": {
+                "type": "constant",
+                "value": 4
+              }
+            },
+            "item": {
+              "name": "Cyclops Decoy Tube Upgrade",
+              "player": 57,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bonus Booster 5",
+            "id": 595067,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Booster Bumper",
+              "count": {
+                "type": "constant",
+                "value": 5
+              }
+            },
+            "item": {
+              "name": "Stasis Calibration (Oracle)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 25",
+            "id": 595092,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 25
+              }
+            },
+            "item": {
+              "name": "Proud Fang",
+              "player": 28,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 26",
+            "id": 595093,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 26
+              }
+            },
+            "item": {
+              "name": "Fixed Score Multiplier",
+              "player": 73,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 27",
+            "id": 595094,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 27
+              }
+            },
+            "item": {
+              "name": "Health Pon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 28",
+            "id": 595095,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 28
+              }
+            },
+            "item": {
+              "name": "Easier Lyre",
+              "player": 53,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 29",
+            "id": 595096,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 29
+              }
+            },
+            "item": {
+              "name": "Speckled Stoneplate Ring",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 30",
+            "id": 595097,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 30
+              }
+            },
+            "item": {
+              "name": "Empty White Hallways",
+              "player": 32,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 31",
+            "id": 595098,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 31
+              }
+            },
+            "item": {
+              "name": "1-Up Mushroom",
+              "player": 60,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Treasure Bumper 32",
+            "id": 595099,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Treasure Bumper",
+              "count": {
+                "type": "constant",
+                "value": 32
+              }
+            },
+            "item": {
+              "name": "Soul of a Weary Warrior",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Level 4": {
+        "name": "Level 4",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Level 5 - 50,000+ Total Points",
+            "id": 595061,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Turtle Zone Progression",
+              "player": 59,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Level 5 - Cleared all Hazards",
+            "id": 595062,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Hazard Bumper",
+              "count": {
+                "type": "constant",
+                "value": 25
+              }
+            },
+            "item": {
+              "name": "Emblem",
+              "player": 54,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "start_regions": {
+    "9": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "9": {
+      "Nothing": {
+        "classification": "filler",
+        "type": "Other",
+        "id": 595000,
+        "groups": [
+          "Everything"
+        ]
+      },
+      "Score Bonus": {
+        "classification": "filler",
+        "type": "Other",
+        "id": 595001,
+        "groups": [
+          "Everything"
+        ]
+      },
+      "Task Advance": {
+        "classification": "useful",
+        "type": "Helper",
+        "id": 595002,
+        "groups": [
+          "Everything",
+          "Helpers"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false
+      },
+      "Starting Turner": {
+        "classification": "useful",
+        "type": "Helper",
+        "id": 595003,
+        "groups": [
+          "Everything",
+          "Helpers"
+        ]
+      },
+      "Reserved": {
+        "classification": "filler",
+        "type": "Other",
+        "id": 595004,
+        "groups": [
+          "Everything"
+        ]
+      },
+      "Starting Paint Can": {
+        "classification": "useful",
+        "type": "Helper",
+        "id": 595005,
+        "groups": [
+          "Everything",
+          "Helpers"
+        ]
+      },
+      "Booster Bumper": {
+        "classification": "progression",
+        "type": "Target",
+        "id": 595006,
+        "groups": [
+          "Everything",
+          "Targets"
+        ]
+      },
+      "Hazard Bumper": {
+        "classification": "progression",
+        "type": "Target",
+        "id": 595007,
+        "groups": [
+          "Everything",
+          "Targets"
+        ]
+      },
+      "Treasure Bumper": {
+        "classification": "progression",
+        "type": "Target",
+        "id": 595008,
+        "groups": [
+          "Everything",
+          "Targets"
+        ]
+      },
+      "Rainbow Trap": {
+        "classification": "trap",
+        "type": "Trap",
+        "id": 595009,
+        "groups": [
+          "Everything",
+          "Traps"
+        ]
+      },
+      "Spinner Trap": {
+        "classification": "trap",
+        "type": "Trap",
+        "id": 595010,
+        "groups": [
+          "Everything",
+          "Traps"
+        ]
+      },
+      "Killer Trap": {
+        "classification": "trap",
+        "type": "Trap",
+        "id": 595011,
+        "groups": [
+          "Everything",
+          "Traps"
+        ]
+      },
+      "Rusty Key": {
+        "name": "Rusty Key",
+        "id": 717015,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Golden Coin": {
+        "name": "Golden Coin",
+        "id": 509342439,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rarecrow #4": {
+        "name": "Rarecrow #4",
+        "id": 717205,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Triangles": {
+        "name": "Triangles",
+        "id": 158020,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Yarn": {
+        "name": "Yarn",
+        "id": 2000300001,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wetland Aspect": {
+        "name": "Wetland Aspect",
+        "id": 37712,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Twos": {
+        "name": "Category Twos",
+        "id": 16871244104,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Armor": {
+        "name": "Progressive Armor",
+        "id": 458781,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Containment Area (E2M2) - Yellow keycard": {
+        "name": "Containment Area (E2M2) - Yellow keycard",
+        "id": 350040,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Weight of True Guilt": {
+        "name": "Weight of True Guilt",
+        "id": 1909030,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Space Port": {
+        "name": "Progressive Space Port",
+        "id": 5041150,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "The Great Hall (E2M7) - Yellow key": {
+        "name": "The Great Hall (E2M7) - Yellow key",
+        "id": 370236,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Anklet": {
+        "name": "Anklet",
+        "id": 509342466,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wagon": {
+        "name": "Wagon",
+        "id": 52001,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Chuckle Bean": {
+        "name": "Chuckle Bean",
+        "id": 77771020,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Small Key": {
+        "name": "Small Key",
+        "id": 7126,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bonus Coin": {
+        "name": "Bonus Coin",
+        "id": 14430211,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Spawn Larvae (Swarm Queen)": {
+        "name": "Spawn Larvae (Swarm Queen)",
+        "id": 2268,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Sword": {
+        "name": "Progressive Sword",
+        "id": 400000,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "500 GOLD": {
+        "name": "500 GOLD",
+        "id": 12992551,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Stimpack (Hellion)": {
+        "name": "Progressive Stimpack (Hellion)",
+        "id": 1259,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "HP Offering": {
+        "name": "HP Offering",
+        "id": 509342448,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Red Pepper": {
+        "name": "Red Pepper",
+        "id": 77771017,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Knuckles - Air Necklace": {
+        "name": "Knuckles - Air Necklace",
+        "id": 16711693,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Homeward Bone x2": {
+        "name": "Homeward Bone x2",
+        "id": 100795,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "MP Max Up": {
+        "name": "MP Max Up",
+        "id": 3579634690,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Box of bullets": {
+        "name": "Box of bullets",
+        "id": 350114,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Railgun Turret (Raven)": {
+        "name": "Railgun Turret (Raven)",
+        "id": 1365,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Necro": {
+        "name": "Necro",
+        "id": 11390994,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statue of Gaia": {
+        "name": "Statue of Gaia",
+        "id": 4019,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Additional Palette Color": {
+        "name": "Additional Palette Color",
+        "id": 198523,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Max Sand": {
+        "name": "Max Sand",
+        "id": 1337249,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Graffiti (M - Stacked Symbols)": {
+        "name": "Graffiti (M - Stacked Symbols)",
+        "id": 2308051,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "BOMBO - GENESIS": {
+        "name": "BOMBO - GENESIS",
+        "id": 200685,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Micro-Filtering": {
+        "name": "Micro-Filtering",
+        "id": 1603,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Red jewel(S)": {
+        "name": "Red jewel(S)",
+        "id": 12992514,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Armor": {
+        "name": "Armor",
+        "id": 360008,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Money x25": {
+        "name": "Money x25",
+        "id": 509342491,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Card Pack": {
+        "name": "Card Pack",
+        "id": 147041,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Fours": {
+        "name": "Category Fours",
+        "id": 16871244106,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Resource Pack: 2 Raw_Potato": {
+        "name": "Resource Pack: 2 Raw_Potato",
+        "id": 47252,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Money": {
+        "name": "Money",
+        "id": 37301,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Speed Boost": {
+        "name": "Speed Boost",
+        "id": 158500,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "2 Roots": {
+        "name": "2 Roots",
+        "id": 64122,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Arnassi Statue": {
+        "name": "Arnassi Statue",
+        "id": 698001,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Auto-Grabber": {
+        "name": "Auto-Grabber",
+        "id": 722268,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Resource Pack: 10 Qi Seasoning": {
+        "name": "Resource Pack: 10 Qi Seasoning",
+        "id": 722234,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "2-Up": {
+        "name": "2-Up",
+        "id": 3154061,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Outfit (Rave - Autumn)": {
+        "name": "Outfit (Rave - Autumn)",
+        "id": 2308131,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Reinforced Dive Suit": {
+        "name": "Reinforced Dive Suit",
+        "id": 35005,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Emblem": {
+        "name": "Emblem",
+        "id": 16711680,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Empty White Hallways": {
+        "name": "Empty White Hallways",
+        "id": 444577,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "TM35 Metronome": {
+        "name": "TM35 Metronome",
+        "id": 172000235,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Refresher": {
+        "name": "Refresher",
+        "id": 4325395,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Power Cell": {
+        "name": "Power Cell",
+        "id": 741000000,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trap": {
+        "name": "Trap",
+        "id": 110000,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": true,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Pale Pine Resin": {
+        "name": "Pale Pine Resin",
+        "id": 100785,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Timebomb of the Ancients": {
+        "name": "Timebomb of the Ancients",
+        "id": 370013,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "MP Berry x2": {
+        "name": "MP Berry x2",
+        "id": 509342419,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Full Restore": {
+        "name": "Full Restore",
+        "id": 172000016,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Extra Max HP": {
+        "name": "Extra Max HP",
+        "id": 110001,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Morne's Armor": {
+        "name": "Morne's Armor",
+        "id": 100321,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Concussive Shells (Marauder)": {
+        "name": "Concussive Shells (Marauder)",
+        "id": 1214,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Turtle Soup": {
+        "name": "Turtle Soup",
+        "id": 698092,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Miss To Great (5 Pack)": {
+        "name": "Miss To Great (5 Pack)",
+        "id": 2900031,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Scout Fly - Misty Island": {
+        "name": "Scout Fly - Misty Island",
+        "id": 741001052,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Empty Golden Thimble": {
+        "name": "Empty Golden Thimble",
+        "id": 1909104,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ice Rod": {
+        "name": "Ice Rod",
+        "id": 8,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "2 Call beads": {
+        "name": "2 Call beads",
+        "id": 64237,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Stable": {
+        "name": "Stable",
+        "id": 717091,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Camping Set": {
+        "name": "Camping Set",
+        "id": 2641143,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "progressive-inserter": {
+        "name": "progressive-inserter",
+        "id": 131272,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Quartz Flask": {
+        "name": "Quartz Flask",
+        "id": 370010,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Item Scrap, White": {
+        "name": "Item Scrap, White",
+        "id": 37008,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Smart Servos (Liberator)": {
+        "name": "Smart Servos (Liberator)",
+        "id": 1384,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Juggernaut Plating (Marauder)": {
+        "name": "Juggernaut Plating (Marauder)",
+        "id": 1238,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cure Potion": {
+        "name": "Cure Potion",
+        "id": 4325392,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Scout Fly - Rock Village": {
+        "name": "Scout Fly - Rock Village",
+        "id": 741001100,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Anywhere Pow": {
+        "name": "Anywhere Pow",
+        "id": 3154052,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Chaotic Attunement (Ascendant)": {
+        "name": "Chaotic Attunement (Ascendant)",
+        "id": 3366,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Tears of Atonement (2600)": {
+        "name": "Tears of Atonement (2600)",
+        "id": 1909194,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Automated Refinery": {
+        "name": "Automated Refinery",
+        "id": 1604,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Large Soul of a Nameless Soldier": {
+        "name": "Large Soul of a Nameless Soldier",
+        "id": 100825,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cyclops Decoy Tube Upgrade": {
+        "name": "Cyclops Decoy Tube Upgrade",
+        "id": 35013,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Stasis Calibration (Oracle)": {
+        "name": "Stasis Calibration (Oracle)",
+        "id": 3326,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Proud Fang": {
+        "name": "Proud Fang",
+        "id": 1245207,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fixed Score Multiplier": {
+        "name": "Fixed Score Multiplier",
+        "id": 16871244005,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Health Pon": {
+        "name": "Health Pon",
+        "id": 2000300037,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Easier Lyre": {
+        "name": "Easier Lyre",
+        "id": 27091,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Speckled Stoneplate Ring": {
+        "name": "Speckled Stoneplate Ring",
+        "id": 100624,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "1-Up Mushroom": {
+        "name": "1-Up Mushroom",
+        "id": 12320769,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Soul of a Weary Warrior": {
+        "name": "Soul of a Weary Warrior",
+        "id": 100826,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Turtle Zone Progression": {
+        "name": "Turtle Zone Progression",
+        "id": 16,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      " coins": {
+        "name": " coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      },
+      " coins freemium": {
+        "name": " coins freemium",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      }
+    }
+  },
+  "item_groups": {
+    "9": [
+      "Everything",
+      "Helpers",
+      "Targets",
+      "Traps"
+    ]
+  },
+  "itempool_counts": {
+    "9": {
+      "Booster Bumper": 5,
+      "Hazard Bumper": 25,
+      "Rainbow Trap": 3,
+      "Score Bonus": 22,
+      "Spinner Trap": 2,
+      "Starting Paint Can": 3,
+      "Starting Turner": 3,
+      "Task Advance": 5,
+      "Treasure Bumper": 33
+    }
+  },
+  "progression_mapping": {
+    "9": {}
+  },
+  "starting_items": {
+    "9": []
+  },
+  "settings": {
+    "9": {
+      "game": "Bumper Stickers",
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
+    }
+  },
+  "game_info": {
+    "9": {
+      "name": "Bumper Stickers",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

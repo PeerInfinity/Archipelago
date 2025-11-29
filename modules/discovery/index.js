@@ -60,13 +60,6 @@ export function register(registrationApi) {
     handleLocationChecked,
     null
   );
-  // ADDED: Register handler for state:rulesLoaded
-  registrationApi.registerDispatcherReceiver(
-    moduleInfo.name,
-    'state:rulesLoaded',
-    handleRulesLoaded,
-    null // Or define priority if needed
-  );
 }
 
 /**
@@ -92,11 +85,13 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
       eventBus: _moduleEventBus,
       stateManager: stateManager,
     });
-    log('info', 
+    log('info',
       '[Discovery Module] Dependencies injected into DiscoveryState Singleton.'
     );
+    // Note: We don't call initialize() here because static data isn't available yet.
+    // Discovery will be initialized when stateManager:rulesLoaded is published.
   } else {
-    log('error', 
+    log('error',
       '[Discovery Module] Failed to inject dependencies into DiscoveryState Singleton: Missing instance or APIs.'
     );
   }
@@ -121,9 +116,18 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
       }
     }, 'discovery');
     _unsubscribeHandles.push(unsubscribe);
+
+    // Subscribe to stateManager:rulesLoaded to reinitialize when rules change
+    log('info', '[Discovery Module] Subscribing to stateManager:rulesLoaded');
+    const rulesLoadedUnsubscribe = _moduleEventBus.subscribe(
+      'stateManager:rulesLoaded',
+      handleRulesLoaded,
+      'discovery'
+    );
+    _unsubscribeHandles.push(rulesLoadedUnsubscribe);
   } else {
-    log('error', 
-      '[Discovery Module] EventBus not available for loop:reset subscription.'
+    log('error',
+      '[Discovery Module] EventBus not available for subscriptions.'
     );
   }
 
@@ -153,46 +157,36 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
 
 // --- Event Handlers (Updated to use _discoveryStateInstance and _moduleDispatcher) --- //
 
-// Handler for state:rulesLoaded event - Primary Initialization Point for Discovery
-function handleRulesLoaded(eventData, propagationOptions = {}) {
-  log('info', '[Discovery Module] Received state:rulesLoaded via dispatcher.');
+// Handler for stateManager:rulesLoaded event - Primary Initialization Point for Discovery
+function handleRulesLoaded(eventData) {
+  log('info', '[Discovery Module] Received stateManager:rulesLoaded via eventBus.');
 
   if (!discoveryStateSingleton) {
     // <<< Use singleton
-    log('error', 
+    log('error',
       '[Discovery Module] Cannot initialize: DiscoveryState singleton missing.'
     );
     return; // Cannot proceed
   }
 
+  // Check if dependencies have been injected yet
+  if (!discoveryStateSingleton.stateManager || !discoveryStateSingleton.eventBus) {
+    log('warn',
+      '[Discovery Module] Dependencies not yet injected, skipping initialization. Will initialize when module initialize() runs.'
+    );
+    return;
+  }
+
   // Initialize or re-initialize based on the loaded rules
-  log('info', 
-    '[Discovery Module] Initializing discoverables from state:rulesLoaded handler...'
+  log('info',
+    '[Discovery Module] Initializing discoverables from stateManager:rulesLoaded handler...'
   );
   try {
     discoveryStateSingleton.initialize(); // <<< Use singleton
   } catch (error) {
-    log('error', 
+    log('error',
       '[Discovery Module] Error initializing DiscoveryState from rulesLoaded:',
       error
-    );
-  }
-
-  // Propagate the event to the next module in the chain using stored dispatcher
-  if (
-    _moduleDispatcher &&
-    typeof _moduleDispatcher.publishToNextModule === 'function'
-  ) {
-    const direction = propagationOptions?.direction || 'up'; // Use incoming direction or default
-    _moduleDispatcher.publishToNextModule(
-      moduleInfo.name,
-      'state:rulesLoaded',
-      eventData,
-      { direction: direction }
-    );
-  } else {
-    log('error', 
-      '[Discovery Module] Cannot propagate state:rulesLoaded: Dispatcher not available.'
     );
   }
 }

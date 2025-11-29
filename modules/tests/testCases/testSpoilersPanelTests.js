@@ -299,20 +299,6 @@ export async function testSpoilersPanelFullRun(testController) {
         `[${testRunId}] Spoiler test results stored in window.__spoilerTestResults__`
       );
     }
-    try {
-      localStorage.setItem(
-        '__spoilerTestResults__',
-        JSON.stringify(testResults)
-      );
-      testController.log(
-        `[${testRunId}] Spoiler test results stored in localStorage`
-      );
-    } catch (e) {
-      testController.log(
-        `[${testRunId}] Could not store results in localStorage: ' + e.message`,
-        'warn'
-      );
-    }
   } catch (error) {
     testController.log(
       `[${testRunId}] Error in testSpoilersPanelFullRun: ${

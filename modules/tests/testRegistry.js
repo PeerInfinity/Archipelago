@@ -97,7 +97,7 @@ export function registerTest(testDefinition) {
     functionName: testFunction.name || id, // Use function name or fall back to id
     testFunction,
     category,
-    isEnabled: enabled,
+    enabled: enabled,
     order: finalOrder,
     // Runtime state (will be managed by TestState)
     status: enabled ? 'pending' : 'disabled', // Set status based on enabled state
@@ -133,7 +133,7 @@ export function registerCategory(categoryDefinition) {
   const finalOrder = order !== undefined ? order : registeredCategories.size;
 
   registeredCategories.set(name, {
-    isEnabled: enabled,
+    enabled: enabled,
     order: finalOrder,
   });
 

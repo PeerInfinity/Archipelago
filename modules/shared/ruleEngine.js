@@ -1,12 +1,158 @@
+import { DEFAULT_PLAYER_ID } from './playerIdUtils.js';
+
+/**
+ * Rule Engine - Thread-Agnostic Rule Evaluation
+ *
+ * This module provides the core rule evaluation engine that works identically in both
+ * the web worker thread (StateManager) and the main thread (UI components). It evaluates
+ * Archipelago JSON rule objects against game state snapshots.
+ *
+ * **THREAD-AGNOSTIC DESIGN**:
+ * This file is designed to run in BOTH thread contexts without modification:
+ * - **Worker Thread**: Used by StateManager for live state computation
+ * - **Main Thread**: Used by UI components for cached snapshot evaluation
+ *
+ * The key to thread-agnostic design:
+ * - No direct StateManager dependencies - uses context injection
+ * - Thread-aware logging (detects window object)
+ * - Pure computation - no DOM or Worker APIs
+ * - All state access through SnapshotInterface context object
+ *
+ * **DATA FLOW - WORKER THREAD PATH**:
+ *
+ * User Action (e.g., location click on main thread):
+ *   Input: User clicks location in UI
+ *   ↓
+ * StateManagerProxy (main thread):
+ *   Processing: Posts 'checkLocation' command to worker
+ *   ↓
+ * StateManagerWorker (worker thread):
+ *   Processing: Receives message, calls StateManager.checkLocation()
+ *   ↓
+ * StateManager.checkLocation():
+ *   Processing:
+ *     ├─> Needs to verify location is accessible
+ *     ├─> Creates SnapshotInterface via _createSelfSnapshotInterface()
+ *     │     └─> Calls createStateSnapshotInterface(snapshot, staticData)
+ *     ├─> Calls evaluateRule(location.access_rule, snapshotInterface)
+ *     │
+ *   Output: Worker evaluates rule, updates state, returns snapshot
+ *   ↓
+ * evaluateRule() [THIS FILE] (worker thread):
+ *   Input:
+ *     ├─> rule: { type: 'helper', name: 'has', args: ['Progressive Sword'] }
+ *     ├─> context: SnapshotInterface with executeHelper(), hasItem(), etc.
+ *     └─> depth: 0 (recursion counter)
+ *
+ *   Processing:
+ *     ├─> Detects rule type 'helper'
+ *     ├─> Evaluates args recursively (line 234)
+ *     ├─> Calls context.executeHelper('has', 'Progressive Sword')
+ *     │     └─> SnapshotInterface delegates to ruleEvaluator.executeHelper()
+ *     │           └─> Gets snapshot + staticData from StateManager
+ *     │                 └─> Calls helperFunctions.has(snapshot, staticData, 'Progressive Sword')
+ *     │                       └─> Game-specific helper from alttpLogic.js
+ *     │                             └─> Returns boolean result
+ *     │
+ *   Output: boolean (true/false) or undefined
+ *   ↓
+ * StateManager:
+ *   Processing: Uses result to update reachability
+ *   Output: Posts updated snapshot to main thread
+ *   ↓
+ * Main Thread UI:
+ *   Processing: Receives snapshot, re-renders
+ *
+ * **DATA FLOW - MAIN THREAD PATH**:
+ *
+ * UI Render (LocationUI.updateLocationDisplay):
+ *   Input: Need to render location accessibility
+ *   ↓
+ * LocationUI:
+ *   Processing:
+ *     ├─> Calls stateManager.getLatestStateSnapshot() (from proxy)
+ *     │     └─> Returns CACHED snapshot (no worker call)
+ *     ├─> Calls stateManager.getStaticData() (from proxy)
+ *     │     └─> Returns CACHED static data (no worker call)
+ *     ├─> Creates SnapshotInterface on main thread
+ *     │     └─> const snapshotInterface = createStateSnapshotInterface(snapshot, staticData)
+ *     │           └─> Same function used in worker!
+ *     │
+ *   Output: SnapshotInterface ready for evaluation
+ *   ↓
+ * evaluateRule() [THIS FILE] (main thread):
+ *   Input:
+ *     ├─> rule: { type: 'helper', name: 'has', args: ['Progressive Sword'] }
+ *     ├─> context: SnapshotInterface (created on main thread from cached data)
+ *     └─> depth: 0
+ *
+ *   Processing:
+ *     ├─> Detects rule type 'helper'
+ *     ├─> Evaluates args recursively
+ *     ├─> Calls context.executeHelper('has', 'Progressive Sword')
+ *     │     └─> SnapshotInterface delegates to getHelperFunctions()
+ *     │           └─> Gets game logic from gameLogicRegistry
+ *     │                 └─> Calls helperFunctions.has(snapshot, staticData, 'Progressive Sword')
+ *     │                       └─> SAME game-specific helper as worker!
+ *     │                             └─> Returns boolean result
+ *     │
+ *   Output: boolean (true/false) or undefined
+ *   ↓
+ * LocationUI:
+ *   Processing:
+ *     ├─> Uses result to set CSS class (reachable/unreachable)
+ *     └─> Renders DOM element with appropriate styling
+ *
+ * **KEY DIFFERENCE BETWEEN PATHS**:
+ *
+ * Worker Thread:
+ *   ├─> Live StateManager instance
+ *   ├─> Fresh computation of reachability
+ *   ├─> Updates global state
+ *   └─> Posts snapshot to main thread
+ *
+ * Main Thread:
+ *   ├─> Cached snapshot from proxy
+ *   ├─> No recomputation (uses existing values)
+ *   ├─> Read-only evaluation
+ *   └─> Immediate DOM updates
+ *
+ * **SUPPORTED RULE TYPES**:
+ * - helper: Calls game-specific helper functions
+ * - state_method: Calls StateManager methods (can_reach, etc.)
+ * - item_check: Checks if player has item
+ * - count_check: Checks item quantity
+ * - group_check: Checks item group count
+ * - location_check: Checks if location is accessible
+ * - locations_checked: Checks total locations checked
+ * - total_items_count: Checks total items collected
+ * - can_reach: Checks region reachability
+ * - capability: Checks if player has a specific capability (calls can_* helper)
+ * - and/or/not: Boolean logic operators
+ * - compare: Comparison operators (>, <, ==, !=, in, etc.)
+ * - attribute: Property access on objects
+ * - function_call: Call functions with arguments
+ * - subscript: Array/object indexing
+ * - conditional: Ternary operator (if_true/if_false)
+ * - binary_op: Arithmetic operators (+, -, *, /, //)
+ * - value/constant: Literal values
+ * - name: Variable name resolution
+ *
+ * **ARCHITECTURE NOTES**:
+ * - Context injection via SnapshotInterface - no global state
+ * - Recursive evaluation with depth limiting (max 100)
+ * - Thread-aware logging (lines 12-23)
+ * - Special handling for Python constructs (any/all, boss defeat, multiworld)
+ * - Progressive item mapping support
+ * - Dungeon and boss rule support
+ *
+ * @module shared/ruleEngine
+ * @see stateInterface.js - Creates SnapshotInterface context objects
+ * @see gameLogicRegistry.js - Selects game-specific helper functions
+ * @see stateManager/core/ruleEvaluator.js - Worker thread helper execution
+ */
+
 // frontend/modules/shared/ruleEngine.js
-
-// Remove stateManagerSingleton import and getter
-// import stateManagerSingleton from './stateManagerSingleton.js';
-// function getStateManager() {
-//   return stateManagerSingleton.instance;
-// }
-
-// Evaluation trace object for capturing debug info
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -154,6 +300,39 @@ function isBossDefeatCheck(rule, stateSnapshotInterface) {
 }
 
 /**
+ * Creates a new context with bound iterator variables for all_of/any_of comprehensions.
+ * @param {object} context - The original context
+ * @param {object} iterator_info - Iterator information with target and iterator
+ * @param {any} value - The value to bind to the iterator variable
+ * @returns {object} - A new context with the variable binding
+ */
+function createBoundContext(context, iterator_info, value) {
+  if (!iterator_info || !iterator_info.target || !iterator_info.target.name) {
+    // No variable to bind, return original context
+    return context;
+  }
+
+  const varName = iterator_info.target.name;
+  const boundVariables = { [varName]: value };
+
+  // Create a wrapper context that intercepts resolveName calls
+  return {
+    ...context,
+    resolveName: function(name) {
+      // Check if this is the bound variable
+      if (name in boundVariables) {
+        return boundVariables[name];
+      }
+      // Otherwise delegate to the original context
+      if (context && typeof context.resolveName === 'function') {
+        return context.resolveName(name);
+      }
+      return undefined;
+    }
+  };
+}
+
+/**
  * Evaluates a rule against the provided state context (either StateManager or main thread snapshot).\n * @param {any} rule - The rule object (or primitive) to evaluate.\n * @param {object} context - Either the StateManager instance (or its interface) in the worker,\n *                           or the snapshot interface on the main thread.\n * @param {number} [depth=0] - Current recursion depth for debugging.\n * @returns {boolean|any} - The result of the rule evaluation.\n */
 export const evaluateRule = (rule, context, depth = 0) => {
   // Prevent infinite recursion by limiting depth
@@ -233,11 +412,42 @@ export const evaluateRule = (rule, context, depth = 0) => {
         const args = rule.args
           ? rule.args.map((arg) => evaluateRule(arg, context, depth + 1))
           : [];
-        if (args.some((arg) => arg === undefined)) {
+
+        // SM helpers like wor, wand can handle undefined args by treating them as false
+        // Don't fail early for these helpers - let them evaluate what they can
+        // Also include SMZ3 helpers that receive Config arguments which may be undefined
+        const helpersAllowingUndefinedArgs = new Set([
+          'wor', 'wand', 'evalSMBool', 'SMBool',
+          'smz3_CanAccessMiseryMirePortal'
+        ]);
+        const allowUndefinedArgs = helpersAllowingUndefinedArgs.has(rule.name);
+
+        if (!allowUndefinedArgs && args.some((arg) => arg === undefined)) {
           result = undefined;
         } else if (isValidContext) {
           if (typeof context.executeHelper === 'function') {
             result = context.executeHelper(rule.name, ...args);
+
+            // Handle SMBool objects from SM helpers
+            // For SM helpers that return SMBool objects {bool, difficulty}:
+            // - At depth 0 (top-level): check difficulty against maxDiff and convert to boolean
+            // - At depth > 0: preserve the SMBool object so parent helpers (wand, wor) can
+            //   work with difficulty values correctly
+            if (result && typeof result === 'object' && 'bool' in result && 'difficulty' in result) {
+              if (depth === 0) {
+                // Top-level: check difficulty against maxDiff
+                let maxDiff = 50; // Default to hardcore for Super Metroid
+                if (typeof context.getPlayerId === 'function' && typeof context.resolveName === 'function') {
+                  const playerId = context.getPlayerId();
+                  const state = context.resolveName('state');
+                  if (state?.smbm?.[playerId]?.maxDiff !== undefined) {
+                    maxDiff = state.smbm[playerId].maxDiff;
+                  }
+                }
+                result = result.bool === true && result.difficulty <= maxDiff;
+              }
+              // At depth > 0: leave result as SMBool object so parent helpers can use difficulty
+            }
           } else {
             log(
               'warn',
@@ -260,6 +470,22 @@ export const evaluateRule = (rule, context, depth = 0) => {
         } else if (isValidContext) {
           if (typeof context.executeHelper === 'function') {
             result = context.executeHelper(rule.name, ...args);
+
+            // Same SMBool handling as regular helpers - preserve at depth > 0
+            if (result && typeof result === 'object' && 'bool' in result && 'difficulty' in result) {
+              if (depth === 0) {
+                let maxDiff = 50;
+                if (typeof context.getPlayerId === 'function' && typeof context.resolveName === 'function') {
+                  const playerId = context.getPlayerId();
+                  const state = context.resolveName('state');
+                  if (state?.smbm?.[playerId]?.maxDiff !== undefined) {
+                    maxDiff = state.smbm[playerId].maxDiff;
+                  }
+                }
+                result = result.bool === true && result.difficulty <= maxDiff;
+              }
+              // At depth > 0: leave result as SMBool object
+            }
           } else {
             log(
               'warn',
@@ -303,14 +529,28 @@ export const evaluateRule = (rule, context, depth = 0) => {
       case 'and': {
         result = true; // Assume true initially
         let hasUndefined = false;
+        let hasSMBool = false;
+        let totalDifficulty = 0;
         for (const condition of rule.conditions || []) {
           const conditionResult = evaluateRule(condition, context, depth + 1);
-          if (conditionResult === false) {
+
+          // Handle SMBool objects from Super Metroid
+          // Track difficulty to properly check against maxDiff at depth 0
+          let boolValue = conditionResult;
+          if (conditionResult && typeof conditionResult === 'object' && 'bool' in conditionResult) {
+            // SMBool object - extract the boolean value and accumulate difficulty
+            boolValue = conditionResult.bool === true;
+            hasSMBool = true;
+            totalDifficulty += conditionResult.difficulty || 0;
+          }
+
+          // Check for falsiness (but not undefined, which is handled separately)
+          if (!boolValue && boolValue !== undefined) {
             result = false;
             hasUndefined = false; // Definitively false
             break;
           }
-          if (conditionResult === undefined) {
+          if (boolValue === undefined) {
             hasUndefined = true; // Potential undefined result
           }
         }
@@ -318,18 +558,42 @@ export const evaluateRule = (rule, context, depth = 0) => {
         if (result === true && hasUndefined) {
           result = undefined;
         }
+        // If any condition was an SMBool, return an SMBool with accumulated difficulty
+        // This allows proper difficulty checking at depth 0
+        if (result === true && hasSMBool) {
+          result = { bool: true, difficulty: totalDifficulty };
+        }
         break;
       }
 
       case 'or': {
         result = false; // Assume false initially
         let hasUndefined = false;
+        let hasSMBool = false;
+        let minDifficulty = Infinity;
         for (const condition of rule.conditions || []) {
           const conditionResult = evaluateRule(condition, context, depth + 1);
-          if (conditionResult === true) {
+
+          // Handle SMBool objects from Super Metroid
+          // Track minimum difficulty among passing conditions for proper maxDiff check
+          let boolValue = conditionResult;
+          let difficulty = 0;
+          if (conditionResult && typeof conditionResult === 'object' && 'bool' in conditionResult) {
+            // SMBool object - extract the boolean value and difficulty
+            boolValue = conditionResult.bool === true;
+            difficulty = conditionResult.difficulty || 0;
+            hasSMBool = true;
+          }
+
+          // Check for truthiness (but not undefined, which is handled separately)
+          if (boolValue && boolValue !== undefined) {
             result = true;
-            hasUndefined = false; // Definitively true
-            break;
+            // For OR, we want the minimum difficulty among passing conditions
+            if (difficulty < minDifficulty) {
+              minDifficulty = difficulty;
+            }
+            // Don't break early - continue to find the lowest difficulty option
+            hasUndefined = false; // Definitively true (at least one path)
           }
           if (conditionResult === undefined) {
             hasUndefined = true; // Potential undefined result
@@ -338,6 +602,79 @@ export const evaluateRule = (rule, context, depth = 0) => {
         // Only set to undefined if not definitively true and encountered an undefined condition
         if (result === false && hasUndefined) {
           result = undefined;
+        }
+        // If any condition was an SMBool and result is true, return SMBool with min difficulty
+        if (result === true && hasSMBool) {
+          result = { bool: true, difficulty: minDifficulty === Infinity ? 0 : minDifficulty };
+        }
+        break;
+      }
+
+      case 'conditional': {
+        // Conditional expression (ternary) - evaluates test and returns if_true or if_false branch
+        // Pattern: test ? if_true : if_false
+        const testResult = evaluateRule(rule.test, context, depth + 1);
+
+        // If test result is undefined, we can't determine which branch to take
+        if (testResult === undefined) {
+          result = undefined;
+        } else if (testResult) {
+          // Test is truthy - evaluate if_true branch
+          result = evaluateRule(rule.if_true, context, depth + 1);
+        } else {
+          // Test is falsy - evaluate if_false branch
+          result = evaluateRule(rule.if_false, context, depth + 1);
+        }
+        break;
+      }
+
+      case 'count_true': {
+        // Count how many conditions evaluate to true
+        // Returns true if at least rule.count conditions are true
+        const requiredCount = rule.count || 0;
+        const conditions = rule.conditions || [];
+
+        if (requiredCount === 0) {
+          // No conditions required, always true
+          result = true;
+          break;
+        }
+
+        if (conditions.length === 0) {
+          // No conditions to evaluate
+          result = requiredCount === 0;
+          break;
+        }
+
+        let trueCount = 0;
+        let undefinedCount = 0;
+
+        for (const condition of conditions) {
+          const conditionResult = evaluateRule(condition, context, depth + 1);
+          if (conditionResult === true) {
+            trueCount++;
+          } else if (conditionResult === undefined) {
+            undefinedCount++;
+          }
+          // Short-circuit if we already have enough true conditions
+          if (trueCount >= requiredCount) {
+            result = true;
+            break;
+          }
+        }
+
+        // If we didn't short-circuit with true, determine the result
+        if (result !== true) {
+          if (trueCount >= requiredCount) {
+            // We have enough true conditions
+            result = true;
+          } else if (trueCount + undefinedCount >= requiredCount) {
+            // We might have enough if some undefineds are true
+            result = undefined;
+          } else {
+            // Impossible to reach required count even if all undefineds were true
+            result = false;
+          }
         }
         break;
       }
@@ -371,6 +708,30 @@ export const evaluateRule = (rule, context, depth = 0) => {
         break;
       }
 
+      case 'world_reference': {
+        // SMZ3 exports self.world as world_reference - return null as a safe placeholder
+        // These are typically passed to helpers that don't actually use them in JavaScript
+        result = null;
+        break;
+      }
+
+      case 'tuple': {
+        // Handle tuple types (used for door arguments in Lingo and similar games)
+        // Evaluate each element and return as an array
+        if (!rule.elements || !Array.isArray(rule.elements)) {
+          result = [];
+          break;
+        }
+        const elements = rule.elements.map((elem) => evaluateRule(elem, context, depth + 1));
+        // If any element is undefined, the tuple is undefined
+        if (elements.some((elem) => elem === undefined)) {
+          result = undefined;
+        } else {
+          result = elements;
+        }
+        break;
+      }
+
       case 'attribute': {
         const baseObject = evaluateRule(rule.object, context, depth + 1);
 
@@ -378,12 +739,17 @@ export const evaluateRule = (rule, context, depth = 0) => {
         // try to resolve from game settings (self in Python rules = world/rules class instance with options)
         if (baseObject === undefined && rule.object && rule.object.type === 'name' && rule.object.name === 'self') {
           // Try to get the setting value from context
-          if (context.getStaticData) {
-            const staticData = context.getStaticData();
-            const playerId = context.playerId || context.getPlayerSlot?.() || '1';
+          if (context.getStaticData || context.staticData) {
+            const staticData = context.getStaticData ? context.getStaticData() : context.staticData;
+            const playerId = context.playerId || context.getPlayerId?.() || context.getPlayerSlot?.() || DEFAULT_PLAYER_ID;
+
+            // Special case: if accessing self.options, return the settings object so nested attributes work
+            if (rule.attr === 'options' && staticData?.settings && staticData.settings[playerId]) {
+              return staticData.settings[playerId];
+            }
 
             // Check if the setting exists
-            if (staticData.settings && staticData.settings[playerId]) {
+            if (staticData?.settings && staticData.settings[playerId]) {
               const settingValue = staticData.settings[playerId][rule.attr];
               if (settingValue !== undefined) {
                 return settingValue;
@@ -400,7 +766,7 @@ export const evaluateRule = (rule, context, depth = 0) => {
           // Try to get the setting value from context
           if (context.getStaticData) {
             const staticData = context.getStaticData();
-            const playerId = context.playerId || context.getPlayerSlot?.() || '1';
+            const playerId = context.playerId || context.getPlayerId?.() || context.getPlayerSlot?.() || DEFAULT_PLAYER_ID;
 
             // Check if the setting exists
             if (staticData.settings && staticData.settings[playerId]) {
@@ -415,6 +781,9 @@ export const evaluateRule = (rule, context, depth = 0) => {
           if (rule.attr === 'keyblades_unlock_chests') {
             return false; // Default value
           }
+          if (rule.attr === 'advanced_logic') {
+            return false; // Default value
+          }
 
           return undefined;
         }
@@ -425,52 +794,52 @@ export const evaluateRule = (rule, context, depth = 0) => {
             // Dynamically resolve the parent region from the context
             if (context.getStaticData && context.getStaticData().regions) {
               const regions = context.getStaticData().regions;
-              
-              // Try direct lookup first
-              if (regions[baseObject.parent_region_name]) {
-                return regions[baseObject.parent_region_name];
-              }
-              
-              // Try player-specific lookup  
-              const playerId = context.playerId || context.getPlayerSlot?.() || '1';
-              if (regions[playerId] && regions[playerId][baseObject.parent_region_name]) {
-                return regions[playerId][baseObject.parent_region_name];
+
+              // Regions is always a Map
+              const region = regions.get(baseObject.parent_region_name);
+              if (region) {
+                return region;
               }
             }
             return undefined;
           }
 
           // Special handling for boss attribute - redirect to bosses["None"] if bosses exists
-          if (rule.attr === 'boss' && !baseObject.boss && baseObject.bosses) {
-            // Use the new bosses format - default to "None" entry
-            return baseObject.bosses["None"] || Object.values(baseObject.bosses)[0];
+          if (rule.attr === 'boss') {
+            const hasBoss = baseObject.boss !== undefined;
+            const hasBosses = baseObject.bosses !== undefined;
+
+            if (!hasBoss && hasBosses) {
+              // Use the new bosses format - default to "None" entry
+              return baseObject.bosses["None"] || Object.values(baseObject.bosses)[0];
+            }
           }
           
           // Special handling for dungeon attribute - resolve string to actual dungeon object
-          if (rule.attr === 'dungeon' && baseObject.dungeon) {
-            const dungeonValue = baseObject.dungeon;
-            
-            if (typeof dungeonValue === 'string') {
-              // Look up the actual dungeon object from staticData
-              const dungeonName = dungeonValue;
-              const playerId = context.playerId || context.getPlayerSlot?.() || '1';
-              const dungeons = context.dungeons || context.getAllDungeons?.() || context.staticData?.dungeons;
-              
-              if (dungeons) {
-                // Try player-specific dungeon first
-                if (dungeons[playerId] && dungeons[playerId][dungeonName]) {
-                  return dungeons[playerId][dungeonName];
+          if (rule.attr === 'dungeon') {
+            const hasDungeon = baseObject.dungeon !== undefined;
+
+            if (hasDungeon) {
+              const dungeonValue = baseObject.dungeon;
+
+              if (typeof dungeonValue === 'string') {
+                // Look up the actual dungeon object from staticData
+                const dungeonName = dungeonValue;
+                const dungeons = context.dungeons || context.getAllDungeons?.() || context.getStaticData?.().dungeons;
+
+                if (dungeons) {
+                  // Dungeons is always a Map
+                  const dungeon = dungeons.get(dungeonName);
+                  if (dungeon) {
+                    return dungeon;
+                  }
                 }
-                // Fallback to direct dungeon lookup if not nested by player
-                if (dungeons[dungeonName]) {
-                  return dungeons[dungeonName];
-                }
+                // If we couldn't resolve, return the string (fallback)
+                return dungeonName;
               }
-              // If we couldn't resolve, return the string (fallback)
-              return dungeonName;
+              // Already an object, return as-is
+              return dungeonValue;
             }
-            // Already an object, return as-is
-            return dungeonValue;
           }
 
           // First try direct property access
@@ -506,9 +875,55 @@ export const evaluateRule = (rule, context, depth = 0) => {
       }
 
       case 'function_call': {
+        // Special handling for state method calls like state.CanAcquireAtLeast()
+        // In the exported rules, these appear as: {type: 'function_call', function: {type: 'attribute', object: {type: 'constant', value: true}, attr: 'MethodName'}}
+        // The constant 'true' is a placeholder for the state/world object
+        if (rule.function?.type === 'attribute' &&
+            rule.function.object?.type === 'constant' &&
+            rule.function.object.value === true) {
+
+          const methodName = rule.function.attr;
+          const args = (rule.args || []).map(
+            (arg) => evaluateRule(arg, context, depth + 1)
+          );
+
+          // If any argument evaluation results in undefined, return undefined
+          if (args.some((arg) => arg === undefined)) {
+            result = undefined;
+            break;
+          }
+
+          // For SMZ3, prepend 'smz3_' to the method name to get the helper function name
+          // This handles methods like CanAcquireAtLeast, CanAcquireAll, etc.
+          const helperName = `smz3_${methodName}`;
+
+          // Call the helper function through context.executeHelper
+          if (context.executeHelper) {
+            try {
+              result = context.executeHelper(helperName, ...args);
+              break;
+            } catch (error) {
+              logError(
+                LOG_LEVEL.ERROR,
+                `[ruleEngine] [evaluateRule] Failed to execute state method helper '${helperName}':`,
+                error
+              );
+              result = undefined;
+              break;
+            }
+          } else {
+            logError(
+              LOG_LEVEL.ERROR,
+              `[ruleEngine] [evaluateRule] No executeHelper method in context for state method '${helperName}'`
+            );
+            result = undefined;
+            break;
+          }
+        }
+
         // Special handling for state.multiworld.get_location() calls
         // These are used in location access rules to reference the location's parent_region
-        if (rule.function?.type === 'attribute' && 
+        if (rule.function?.type === 'attribute' &&
             rule.function.attr === 'get_location' &&
             rule.function.object?.type === 'attribute' &&
             rule.function.object.attr === 'multiworld') {
@@ -534,7 +949,8 @@ export const evaluateRule = (rule, context, depth = 0) => {
           if (context.getStaticData) {
             const staticData = context.getStaticData();
             // Search all regions for this location
-            for (const [regionName, regionData] of Object.entries(staticData.regions || {})) {
+            // Regions is always a Map
+            for (const [regionName, regionData] of staticData.regions.entries()) {
               if (regionData.locations) {
                 const location = regionData.locations.find(loc => loc.name === locationName);
                 if (location) {
@@ -547,7 +963,7 @@ export const evaluateRule = (rule, context, depth = 0) => {
               }
             }
           }
-          
+
           return undefined;
         }
         
@@ -575,7 +991,8 @@ export const evaluateRule = (rule, context, depth = 0) => {
           if (context.getStaticData) {
             const staticData = context.getStaticData();
             // Search all regions for this exit
-            for (const [regionName, regionData] of Object.entries(staticData.regions || {})) {
+            // Regions is always a Map
+            for (const [regionName, regionData] of staticData.regions.entries()) {
               if (regionData.exits) {
                 const exit = regionData.exits.find(ex => ex.name === exitName);
                 if (exit) {
@@ -588,7 +1005,7 @@ export const evaluateRule = (rule, context, depth = 0) => {
               }
             }
           }
-          
+
           return undefined;
         }
         
@@ -636,37 +1053,55 @@ export const evaluateRule = (rule, context, depth = 0) => {
               depth + 1
             );
 
-            // Debug the chain resolution step by step
-            log('debug', '[evaluateRule] Boss defeat chain resolution:', {
-              hasLocation: !!context.currentLocation,
-              locationName: context.currentLocation?.name,
-              bossObjectResult: bossObject,
-              bossObjectType: typeof bossObject,
-              hasBossDefeatRule: !!(bossObject && bossObject.defeat_rule),
-              functionChain: extractFunctionChain(rule.function.object),
-            });
-
             if (bossObject && bossObject.defeat_rule) {
-              // Use the boss's defeat_rule instead of trying to call can_defeat
-              log(
-                'debug',
-                '[evaluateRule] Redirecting boss.can_defeat to boss.defeat_rule',
-                {
-                  boss: bossObject.name,
-                  defeatRule: bossObject.defeat_rule,
-                }
-              );
               result = evaluateRule(bossObject.defeat_rule, context, depth + 1);
               break;
             } else {
-              //log('warn', '[evaluateRule] Boss object missing defeat_rule', {
-              //  bossObject,
-              //  functionObject: rule.function.object,
-              //  contextCurrentLocation: context.currentLocation?.name,
-              //});
               result = undefined;
               break;
             }
+          }
+        }
+
+        // Special handling for self.method_name() calls (e.g., self.explore_score())
+        // These should be treated as helper function calls
+        if (
+          rule.function?.type === 'attribute' &&
+          rule.function.object?.type === 'name' &&
+          rule.function.object.name === 'self'
+        ) {
+          const helperName = rule.function.attr;
+          const args = (rule.args || []).map(
+            (arg) => evaluateRule(arg, context, depth + 1)
+          );
+
+          // If any argument evaluation results in undefined, return undefined
+          if (args.some((arg) => arg === undefined)) {
+            result = undefined;
+            break;
+          }
+
+          // Call the helper function through context.executeHelper
+          if (context.executeHelper) {
+            try {
+              result = context.executeHelper(helperName, ...args);
+              break;
+            } catch (error) {
+              logError(
+                LOG_LEVEL.ERROR,
+                `[ruleEngine] [evaluateRule] Failed to execute helper '${helperName}':`,
+                error
+              );
+              result = undefined;
+              break;
+            }
+          } else {
+            logError(
+              LOG_LEVEL.ERROR,
+              `[ruleEngine] [evaluateRule] No executeHelper method in context for helper '${helperName}'`
+            );
+            result = undefined;
+            break;
           }
         }
 
@@ -688,6 +1123,16 @@ export const evaluateRule = (rule, context, depth = 0) => {
         ) {
           // Evaluate the rule object directly
           result = evaluateRule(func, context, depth + 1);
+          break;
+        }
+
+        // Special case: If func is a boolean, it means rule.function was a rule object
+        // that was already evaluated. In this case, the boolean is the result.
+        // This happens when the exporter creates function_call structures where
+        // the function field contains a complete rule (e.g., an 'and' rule) instead
+        // of a function reference.
+        if (typeof func === 'boolean') {
+          result = func;
           break;
         }
 
@@ -784,8 +1229,42 @@ export const evaluateRule = (rule, context, depth = 0) => {
       }
 
       case 'compare': {
-        const left = evaluateRule(rule.left, context, depth + 1);
-        const right = evaluateRule(rule.right, context, depth + 1);
+        // Special handling for item_check in comparisons
+        // When item_check (without a count field) is used as an operand in a comparison,
+        // we need the item COUNT, not a boolean. This handles cases like KeyPD >= 4.
+        let left = rule.left;
+        let right = rule.right;
+
+        // If left is an item_check without a count field, get the item count directly
+        if (left && left.type === 'item_check' && left.count === undefined) {
+          const itemName = evaluateRule(left.item, context, depth + 1);
+          if (itemName === undefined) {
+            left = undefined;
+          } else if (typeof context.countItem === 'function') {
+            left = context.countItem(itemName) || 0;
+          } else {
+            log('warn', '[evaluateRule] context.countItem not available for item_check in compare');
+            left = undefined;
+          }
+        } else {
+          left = evaluateRule(left, context, depth + 1);
+        }
+
+        // If right is an item_check without a count field, get the item count directly
+        if (right && right.type === 'item_check' && right.count === undefined) {
+          const itemName = evaluateRule(right.item, context, depth + 1);
+          if (itemName === undefined) {
+            right = undefined;
+          } else if (typeof context.countItem === 'function') {
+            right = context.countItem(itemName) || 0;
+          } else {
+            log('warn', '[evaluateRule] context.countItem not available for item_check in compare');
+            right = undefined;
+          }
+        } else {
+          right = evaluateRule(right, context, depth + 1);
+        }
+
         const op = rule.op;
 
         // If either operand is undefined, the comparison result is undefined
@@ -832,7 +1311,7 @@ export const evaluateRule = (rule, context, depth = 0) => {
                 result = right.some(item => {
                   if (Array.isArray(item)) {
                     // Deep array comparison
-                    return item.length === left.length && 
+                    return item.length === left.length &&
                            item.every((val, index) => val === left[index]);
                   } else {
                     return item === left;
@@ -846,6 +1325,9 @@ export const evaluateRule = (rule, context, depth = 0) => {
             } else if (right instanceof Set) {
               // Handle Set
               result = right.has(left);
+            } else if (typeof right === 'object' && right !== null) {
+              // Handle object (dictionary) membership check
+              result = left in right;
             } else {
               log(
                 'warn',
@@ -854,6 +1336,49 @@ export const evaluateRule = (rule, context, depth = 0) => {
               );
               result = false; // Define behavior: false if right side isn't iterable
             }
+            break;
+          case 'not in':
+            // Same logic as 'in' but negated
+            if (Array.isArray(right)) {
+              // Handle array comparison with deep equality for nested arrays
+              if (Array.isArray(left)) {
+                result = !right.some(item => {
+                  if (Array.isArray(item)) {
+                    // Deep array comparison
+                    return item.length === left.length &&
+                           item.every((val, index) => val === left[index]);
+                  } else {
+                    return item === left;
+                  }
+                });
+              } else {
+                result = !right.includes(left);
+              }
+            } else if (typeof right === 'string') {
+              result = !right.includes(left);
+            } else if (right instanceof Set) {
+              // Handle Set
+              result = !right.has(left);
+            } else if (typeof right === 'object' && right !== null) {
+              // Handle object (dictionary) membership check
+              result = !(left in right);
+            } else {
+              log(
+                'warn',
+                '[evaluateRule] "not in" operator used with invalid right side type:',
+                { left, right }
+              );
+              result = true; // Define behavior: true if right side isn't iterable (consistent with 'not in' semantics)
+            }
+            break;
+          case 'is':
+            // Python 'is' operator - checks identity (same object)
+            // In JavaScript, use === for strict equality which is closest
+            result = left === right;
+            break;
+          case 'is not':
+            // Python 'is not' operator - checks non-identity
+            result = left !== right;
             break;
           default:
             log(
@@ -890,17 +1415,12 @@ export const evaluateRule = (rule, context, depth = 0) => {
       case 'locations_checked': {
         // Check if player has checked at least N locations
         const requiredCount = evaluateRule(rule.count, context, depth + 1);
-        console.log('[locations_checked] Rule triggered, requiredCount:', requiredCount);
         if (requiredCount === undefined) {
-          console.log('[locations_checked] requiredCount is undefined');
           result = undefined;
         } else if (typeof context.getCheckedLocationsCount === 'function') {
           const checkedCount = context.getCheckedLocationsCount();
-          console.log(`[locations_checked] Checking if ${checkedCount} >= ${requiredCount}`);
           result = checkedCount >= requiredCount;
-          console.log(`[locations_checked] Result: ${result}`);
         } else {
-          console.log('[locations_checked] context.getCheckedLocationsCount is not a function');
           log('warn', '[evaluateRule] context.getCheckedLocationsCount is not a function for locations_checked.');
           result = undefined;
         }
@@ -952,6 +1472,23 @@ export const evaluateRule = (rule, context, depth = 0) => {
           }
         } else {
           log('warn', '[evaluateRule] context.isLocationAccessible is not a function for location_check.');
+          result = undefined;
+        }
+        break;
+      }
+
+      case 'region_check': {
+        // Check if a region is accessible (can be reached)
+        const regionName = evaluateRule(rule.region, context, depth + 1);
+        if (regionName === undefined) {
+          result = undefined;
+        } else if (typeof context.isRegionAccessible === 'function') {
+          result = context.isRegionAccessible(regionName);
+          if (result === undefined) {
+            log('warn', `[evaluateRule] Region ${regionName} accessibility could not be determined`);
+          }
+        } else {
+          log('warn', '[evaluateRule] context.isRegionAccessible is not a function for region_check.');
           result = undefined;
         }
         break;
@@ -1026,6 +1563,42 @@ export const evaluateRule = (rule, context, depth = 0) => {
         break;
       }
 
+      case 'f_string': {
+        // Evaluate f-string formatting (e.g., "Automated {ingredient}")
+        if (!rule.parts || !Array.isArray(rule.parts)) {
+          log('warn', '[evaluateRule] f_string rule missing parts array', { rule });
+          result = undefined;
+          break;
+        }
+
+        // Build the string by evaluating each part
+        let resultStr = '';
+        for (const part of rule.parts) {
+          if (part.type === 'constant') {
+            resultStr += part.value;
+          } else if (part.type === 'formatted_value') {
+            // Evaluate the value and convert to string
+            const value = evaluateRule(part.value, context, depth + 1);
+            if (value === undefined) {
+              log('warn', '[evaluateRule] f_string formatted_value evaluated to undefined', { part });
+              result = undefined;
+              break;
+            }
+            resultStr += String(value);
+          } else {
+            log('warn', '[evaluateRule] Unknown f_string part type', { part });
+            result = undefined;
+            break;
+          }
+        }
+
+        // If we successfully built the string, return it
+        if (result !== undefined) {
+          result = resultStr;
+        }
+        break;
+      }
+
       case 'setting_check': {
         let settingName = evaluateRule(rule.setting, context, depth + 1);
         let expectedValue = evaluateRule(rule.value, context, depth + 1);
@@ -1078,10 +1651,10 @@ export const evaluateRule = (rule, context, depth = 0) => {
           } else if (testResult) {
             result = evaluateRule(rule.if_true, context, depth + 1);
           } else {
-            // Handle null if_false as true (no additional requirements)
+            // Handle null if_false as false (location not accessible)
             result =
               rule.if_false === null
-                ? true
+                ? false
                 : evaluateRule(rule.if_false, context, depth + 1);
           }
         }
@@ -1186,7 +1759,7 @@ export const evaluateRule = (rule, context, depth = 0) => {
           result = undefined;
           break;
         }
-        
+
         // Extract iterator information
         let iterable;
         if (rule.iterator_info && rule.iterator_info.iterator) {
@@ -1200,18 +1773,19 @@ export const evaluateRule = (rule, context, depth = 0) => {
           result = undefined;
           break;
         }
-        
+
         if (!Array.isArray(iterable)) {
           log('warn', '[evaluateRule] all_of iterator is not an array', { rule, iterable });
           result = false;
           break;
         }
-        
+
         result = true;
         for (const item of iterable) {
-          // For now, evaluate the element_rule directly
-          // TODO: In a full implementation, we'd need to bind the iterator variable
-          const itemResult = evaluateRule(rule.element_rule, context, depth + 1);
+          // Create a new context with the iterator variable bound
+          const boundContext = createBoundContext(context, rule.iterator_info, item);
+
+          const itemResult = evaluateRule(rule.element_rule, boundContext, depth + 1);
           if (itemResult === false) {
             result = false;
             break;
@@ -1220,6 +1794,63 @@ export const evaluateRule = (rule, context, depth = 0) => {
             result = undefined;
             break;
           }
+        }
+        break;
+      }
+
+      case 'any_of': {
+        // any_of evaluates an element_rule against items from an iterator
+        // Returns true if ANY item satisfies the element_rule (OR logic)
+        if (!rule.element_rule) {
+          log('warn', '[evaluateRule] any_of rule missing element_rule', { rule });
+          result = undefined;
+          break;
+        }
+
+        // Extract iterator information
+        let iterable;
+        if (rule.iterator_info && rule.iterator_info.iterator) {
+          // Get the iterator from the iterator_info
+          iterable = evaluateRule(rule.iterator_info.iterator, context, depth + 1);
+        } else if (rule.iterable) {
+          // Fallback for direct iterable field
+          iterable = evaluateRule(rule.iterable, context, depth + 1);
+        } else {
+          log('warn', '[evaluateRule] any_of rule missing iterator information', { rule });
+          result = undefined;
+          break;
+        }
+
+        if (!Array.isArray(iterable)) {
+          log('warn', '[evaluateRule] any_of iterator is not an array', { rule, iterable });
+          result = false;
+          break;
+        }
+
+        // If the iterable is empty, any_of should return false
+        if (iterable.length === 0) {
+          result = false;
+          break;
+        }
+
+        result = false;
+        let hasUndefined = false;
+        for (const item of iterable) {
+          // Create a new context with the iterator variable bound
+          const boundContext = createBoundContext(context, rule.iterator_info, item);
+
+          const itemResult = evaluateRule(rule.element_rule, boundContext, depth + 1);
+          if (itemResult === true) {
+            result = true;
+            break;
+          }
+          if (itemResult === undefined) {
+            hasUndefined = true;
+          }
+        }
+        // If no item returned true but some returned undefined, result is undefined
+        if (result === false && hasUndefined) {
+          result = undefined;
         }
         break;
       }
@@ -1257,6 +1888,94 @@ export const evaluateRule = (rule, context, depth = 0) => {
         break;
       }
 
+      case 'can_reach_entrance': {
+        // Check if an entrance is reachable
+        // An entrance is reachable if we can reach its source region AND satisfy its access rule
+        const entranceName = rule.entrance;
+        if (!entranceName) {
+          log('warn', '[evaluateRule] can_reach_entrance rule missing entrance name');
+          result = undefined;
+          break;
+        }
+
+        // Find the entrance in the regions data
+        let entrance = null;
+        let sourceRegion = null;
+
+        if (typeof context.getStaticData === 'function') {
+          const staticData = context.getStaticData();
+          const regionsData = staticData?.regions;
+
+          if (regionsData && regionsData instanceof Map) {
+            // staticData.regions is a Map of region name -> region data
+            // Search for the entrance in all regions
+            for (const [regionName, regionData] of regionsData.entries()) {
+              const exits = regionData.exits || [];
+              const foundExit = exits.find(exit => exit.name === entranceName);
+              if (foundExit) {
+                entrance = foundExit;
+                sourceRegion = regionName;
+                break;
+              }
+            }
+          }
+        }
+
+        if (!entrance || !sourceRegion) {
+          log('warn', `[evaluateRule] Entrance "${entranceName}" not found in regions data`);
+          result = undefined;
+          break;
+        }
+
+        // Check if source region is reachable
+        if (typeof context.isRegionReachable !== 'function') {
+          log('warn', '[evaluateRule] context.isRegionReachable is not a function for can_reach_entrance.');
+          result = undefined;
+          break;
+        }
+
+        const sourceReachable = context.isRegionReachable(sourceRegion);
+        if (!sourceReachable) {
+          result = false;
+          break;
+        }
+
+        // Evaluate the entrance's access rule
+        if (entrance.access_rule) {
+          result = evaluateRule(entrance.access_rule, context, depth + 1);
+        } else {
+          // No access rule means the entrance is accessible if the region is reachable
+          result = true;
+        }
+        break;
+      }
+
+      case 'capability': {
+        // Handle capability rules - inferred rules that check if player has a certain capability
+        // The capability name (e.g., "gain_lp_every_turn") corresponds to a helper function
+        // with "can_" prefix (e.g., "can_gain_lp_every_turn")
+        const capabilityName = rule.capability;
+        if (!capabilityName) {
+          log('warn', '[evaluateRule] Capability rule missing capability name', { rule });
+          result = undefined;
+          break;
+        }
+
+        // Convert capability name to helper function name
+        // e.g., "gain_lp_every_turn" -> "can_gain_lp_every_turn"
+        const helperName = `can_${capabilityName}`;
+
+        if (!isValidContext || typeof context.executeHelper !== 'function') {
+          log('warn', `[evaluateRule] Cannot execute capability helper '${helperName}' - invalid context`);
+          result = undefined;
+          break;
+        }
+
+        // Execute the helper function (capabilities typically don't have arguments)
+        result = context.executeHelper(helperName);
+        break;
+      }
+
       default: {
         log('warn', `[evaluateRule] Unknown rule type: ${ruleType}`, { rule });
         result = undefined;
@@ -1272,6 +1991,21 @@ export const evaluateRule = (rule, context, depth = 0) => {
       isSnapshot: isValidContext,
     });
     result = undefined;
+  }
+
+  // At depth 0 (top-level rule), convert SMBool to boolean with difficulty check
+  // This ensures difficulty is properly checked against maxDiff for SM games
+  // when the top-level rule is 'and', 'or', or any rule type returning SMBool
+  if (depth === 0 && result && typeof result === 'object' && 'bool' in result && 'difficulty' in result) {
+    let maxDiff = 50; // Default to hardcore for Super Metroid
+    if (typeof context?.getPlayerId === 'function' && typeof context?.resolveName === 'function') {
+      const playerId = context.getPlayerId();
+      const state = context.resolveName('state');
+      if (state?.smbm?.[playerId]?.maxDiff !== undefined) {
+        maxDiff = state.smbm[playerId].maxDiff;
+      }
+    }
+    result = result.bool === true && result.difficulty <= maxDiff;
   }
 
   return result;
@@ -1328,6 +2062,15 @@ export function debugRule(rule, indent = 0) {
       } else {
         log('info', `${prefix}Location (complex):`);
         debugRule(rule.location, indent + 2);
+      }
+      break;
+
+    case 'region_check':
+      if (typeof rule.region === 'string') {
+        log('info', `${prefix}Region: ${rule.region}`);
+      } else {
+        log('info', `${prefix}Region (complex):`);
+        debugRule(rule.region, indent + 2);
       }
       break;
 
@@ -1416,6 +2159,19 @@ export function debugRule(rule, indent = 0) {
         `${prefix}${rule.type.toUpperCase()} with ${
           rule.conditions.length
         } conditions:`
+      );
+      rule.conditions.forEach((cond, i) => {
+        log('info', `${prefix}  Condition ${i + 1}:`);
+        debugRule(cond, indent + 4);
+      });
+      break;
+
+    case 'count_true':
+      log(
+        'info',
+        `${prefix}COUNT_TRUE (at least ${rule.count} of ${
+          rule.conditions.length
+        } conditions):`
       );
       rule.conditions.forEach((cond, i) => {
         log('info', `${prefix}  Condition ${i + 1}:`);

@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Save File -> Spaceship",
@@ -29,13 +28,6 @@
       },
       "Spaceship": {
         "name": "Spaceship",
-        "entrances": [
-          {
-            "name": "Save File -> Spaceship",
-            "parent_region": "Menu",
-            "connected_region": "Spaceship"
-          }
-        ],
         "exits": [
           {
             "name": "Telescope -> Mafia Town",
@@ -99,10 +91,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Time Piece"
-                  },
+                  "item": "Time Piece",
                   "count": {
                     "type": "constant",
                     "value": 8
@@ -129,10 +118,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Time Piece"
-                  },
+                  "item": "Time Piece",
                   "count": {
                     "type": "constant",
                     "value": 17
@@ -165,10 +151,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Time Piece"
-                  },
+                  "item": "Time Piece",
                   "count": {
                     "type": "constant",
                     "value": 12
@@ -176,10 +159,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Time Piece"
-                  },
+                  "item": "Time Piece",
                   "count": {
                     "type": "constant",
                     "value": 17
@@ -198,13 +178,6 @@
       },
       "Time Rift - Gallery": {
         "name": "Time Rift - Gallery",
-        "entrances": [
-          {
-            "name": "Time Rift - Curly Tail Trail Portal - Entrance 1",
-            "parent_region": "Alpine Free Roam",
-            "connected_region": "Time Rift - Gallery"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -231,13 +204,6 @@
       },
       "Time Rift - The Lab": {
         "name": "Time Rift - The Lab",
-        "entrances": [
-          {
-            "name": "Time Rift - The Twilight Bell Portal - Entrance 1",
-            "parent_region": "Alpine Free Roam",
-            "connected_region": "Time Rift - The Lab"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -258,13 +224,6 @@
       },
       "Mafia Town": {
         "name": "Mafia Town",
-        "entrances": [
-          {
-            "name": "Telescope -> Mafia Town",
-            "parent_region": "Spaceship",
-            "connected_region": "Mafia Town"
-          }
-        ],
         "exits": [
           {
             "name": "Mafia Town - Act 1",
@@ -327,38 +286,6 @@
       },
       "Welcome to Mafia Town": {
         "name": "Welcome to Mafia Town",
-        "entrances": [
-          {
-            "name": "Subcon Forest - Finale",
-            "parent_region": "Subcon Forest",
-            "connected_region": "Welcome to Mafia Town"
-          },
-          {
-            "name": "Subcon Forest - Finale: Connection 1",
-            "parent_region": "Your Contract has Expired",
-            "connected_region": "Welcome to Mafia Town"
-          },
-          {
-            "name": "Subcon Forest - Finale: Connection 2",
-            "parent_region": "Dead Bird Studio Basement",
-            "connected_region": "Welcome to Mafia Town"
-          },
-          {
-            "name": "Subcon Forest - Finale: Connection 3",
-            "parent_region": "Queen Vanessa's Manor",
-            "connected_region": "Welcome to Mafia Town"
-          },
-          {
-            "name": "Subcon Forest - Finale: Connection 4",
-            "parent_region": "Down with the Mafia!",
-            "connected_region": "Welcome to Mafia Town"
-          },
-          {
-            "name": "Subcon Forest - Finale: Connection 5",
-            "parent_region": "The Big Parade",
-            "connected_region": "Welcome to Mafia Town"
-          }
-        ],
         "exits": [
           {
             "name": "Mafia Town Entrance WTMT",
@@ -386,7 +313,7 @@
             "name": "Time Rift - Bazaar Portal - Entrance 1",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -401,7 +328,7 @@
             "name": "Time Rift - Sewers Portal - Entrance 1",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -446,13 +373,6 @@
       },
       "Barrel Battle": {
         "name": "Barrel Battle",
-        "entrances": [
-          {
-            "name": "Mafia Town - Act 1",
-            "parent_region": "Mafia Town",
-            "connected_region": "Barrel Battle"
-          }
-        ],
         "exits": [
           {
             "name": "Mafia Town Entrance BB",
@@ -480,7 +400,7 @@
             "name": "Time Rift - Bazaar Portal - Entrance 2",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -495,7 +415,7 @@
             "name": "Time Rift - Sewers Portal - Entrance 2",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -542,18 +462,6 @@
       },
       "She Came from Outer Space": {
         "name": "She Came from Outer Space",
-        "entrances": [
-          {
-            "name": "Mafia Town - Act 2",
-            "parent_region": "Mafia Town",
-            "connected_region": "She Came from Outer Space"
-          },
-          {
-            "name": "Mafia Town - Act 2: Connection 1",
-            "parent_region": "Barrel Battle",
-            "connected_region": "She Came from Outer Space"
-          }
-        ],
         "exits": [
           {
             "name": "Mafia Town Entrance SCFOS",
@@ -581,7 +489,7 @@
             "name": "Time Rift - Bazaar Portal - Entrance 3",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -596,7 +504,7 @@
             "name": "Time Rift - Sewers Portal - Entrance 3",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -635,13 +543,6 @@
       },
       "Down with the Mafia!": {
         "name": "Down with the Mafia!",
-        "entrances": [
-          {
-            "name": "Subcon Forest - Act 4",
-            "parent_region": "Subcon Forest",
-            "connected_region": "Down with the Mafia!"
-          }
-        ],
         "exits": [
           {
             "name": "Mafia Town Entrance DWTM",
@@ -669,7 +570,7 @@
             "name": "Time Rift - Bazaar Portal - Entrance 4",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -684,7 +585,7 @@
             "name": "Time Rift - Sewers Portal - Entrance 4",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -702,53 +603,20 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "constant",
-                  "value": true
-                },
-                {
                   "type": "and",
                   "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Snatcher's Contract - Mail Delivery Service"
-                      }
-                    },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "constant",
-                          "value": true
-                        },
-                        {
                           "type": "and",
                           "conditions": [
-                            {
-                              "type": "item_check",
-                              "item": {
-                                "type": "constant",
-                                "value": "Snatcher's Contract - Queen Vanessa's Manor"
-                              }
-                            },
                             {
                               "type": "and",
                               "conditions": [
                                 {
-                                  "type": "constant",
-                                  "value": true
-                                },
-                                {
                                   "type": "and",
                                   "conditions": [
-                                    {
-                                      "type": "item_check",
-                                      "item": {
-                                        "type": "constant",
-                                        "value": "Snatcher's Contract - Toilet of Doom"
-                                      }
-                                    },
                                     {
                                       "type": "and",
                                       "conditions": [
@@ -759,22 +627,43 @@
                                         },
                                         {
                                           "type": "item_check",
-                                          "item": {
-                                            "type": "constant",
-                                            "value": "Snatcher's Contract - The Subcon Well"
-                                          }
+                                          "item": "Snatcher's Contract - The Subcon Well"
                                         }
                                       ]
+                                    },
+                                    {
+                                      "type": "item_check",
+                                      "item": "Snatcher's Contract - Toilet of Doom"
                                     }
                                   ]
+                                },
+                                {
+                                  "type": "constant",
+                                  "value": true
                                 }
                               ]
+                            },
+                            {
+                              "type": "item_check",
+                              "item": "Snatcher's Contract - Queen Vanessa's Manor"
                             }
                           ]
+                        },
+                        {
+                          "type": "constant",
+                          "value": true
                         }
                       ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Snatcher's Contract - Mail Delivery Service"
                     }
                   ]
+                },
+                {
+                  "type": "constant",
+                  "value": true
                 }
               ]
             }
@@ -867,23 +756,6 @@
       },
       "Heating Up Mafia Town": {
         "name": "Heating Up Mafia Town",
-        "entrances": [
-          {
-            "name": "Battle of the Birds - Act 5",
-            "parent_region": "Battle of the Birds",
-            "connected_region": "Heating Up Mafia Town"
-          },
-          {
-            "name": "Battle of the Birds - Act 5: Connection 1",
-            "parent_region": "Train Rush",
-            "connected_region": "Heating Up Mafia Town"
-          },
-          {
-            "name": "Battle of the Birds - Act 5: Connection 2",
-            "parent_region": "Mail Delivery Service",
-            "connected_region": "Heating Up Mafia Town"
-          }
-        ],
         "exits": [
           {
             "name": "Mafia Town Entrance HUMT",
@@ -897,7 +769,7 @@
             "name": "Time Rift - Bazaar Portal - Entrance 6",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -912,7 +784,7 @@
             "name": "Time Rift - Sewers Portal - Entrance 6",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -965,13 +837,6 @@
       },
       "Cheating the Race": {
         "name": "Cheating the Race",
-        "entrances": [
-          {
-            "name": "Alpine Skyline - Finale",
-            "parent_region": "Alpine Skyline",
-            "connected_region": "Cheating the Race"
-          }
-        ],
         "exits": [
           {
             "name": "Mafia Town Entrance CTR",
@@ -999,7 +864,7 @@
             "name": "Time Rift - Bazaar Portal - Entrance 5",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -1014,7 +879,7 @@
             "name": "Time Rift - Sewers Portal - Entrance 5",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -1051,23 +916,6 @@
       },
       "The Golden Vault": {
         "name": "The Golden Vault",
-        "entrances": [
-          {
-            "name": "Mafia Town - Act 4",
-            "parent_region": "Mafia Town",
-            "connected_region": "The Golden Vault"
-          },
-          {
-            "name": "Mafia Town - Act 4: Connection 1",
-            "parent_region": "She Came from Outer Space",
-            "connected_region": "The Golden Vault"
-          },
-          {
-            "name": "Mafia Town - Act 4: Connection 2",
-            "parent_region": "Contractual Obligations",
-            "connected_region": "The Golden Vault"
-          }
-        ],
         "exits": [
           {
             "name": "Mafia Town Entrance TGV",
@@ -1095,7 +943,7 @@
             "name": "Time Rift - Bazaar Portal - Entrance 7",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -1110,7 +958,7 @@
             "name": "Time Rift - Sewers Portal - Entrance 7",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -1157,13 +1005,6 @@
       },
       "Battle of the Birds": {
         "name": "Battle of the Birds",
-        "entrances": [
-          {
-            "name": "Telescope -> Battle of the Birds",
-            "parent_region": "Spaceship",
-            "connected_region": "Battle of the Birds"
-          }
-        ],
         "exits": [
           {
             "name": "Battle of the Birds - Finale A",
@@ -1226,18 +1067,6 @@
       },
       "Dead Bird Studio": {
         "name": "Dead Bird Studio",
-        "entrances": [
-          {
-            "name": "Mafia Town - Act 7",
-            "parent_region": "Mafia Town",
-            "connected_region": "Dead Bird Studio"
-          },
-          {
-            "name": "Mafia Town - Act 7: Connection 1",
-            "parent_region": "The Golden Vault",
-            "connected_region": "Dead Bird Studio"
-          }
-        ],
         "exits": [
           {
             "name": "DBS -> Elevator Area",
@@ -1284,13 +1113,6 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Umbrella"
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_use_hat",
                   "args": [
@@ -1299,6 +1121,10 @@
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Umbrella"
                 }
               ]
             }
@@ -1312,13 +1138,6 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Umbrella"
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_use_hat",
                   "args": [
@@ -1327,6 +1146,10 @@
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Umbrella"
                 }
               ]
             },
@@ -1341,13 +1164,6 @@
       },
       "Murder on the Owl Express": {
         "name": "Murder on the Owl Express",
-        "entrances": [
-          {
-            "name": "Alpine Skyline - Free Roam",
-            "parent_region": "Alpine Skyline",
-            "connected_region": "Murder on the Owl Express"
-          }
-        ],
         "exits": [
           {
             "name": "Time Rift - The Owl Express Portal - Entrance 1",
@@ -1356,24 +1172,24 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "generic_helper",
-                  "name": "can_clear_required_act",
-                  "description": "Checks if a specific act can be completed",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": "Battle of the Birds - Act 3"
-                    }
-                  ]
-                },
-                {
-                  "type": "generic_helper",
+                  "type": "helper",
                   "name": "can_clear_required_act",
                   "description": "Checks if a specific act can be completed",
                   "args": [
                     {
                       "type": "constant",
                       "value": "Battle of the Birds - Act 2"
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_clear_required_act",
+                  "description": "Checks if a specific act can be completed",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Battle of the Birds - Act 3"
                     }
                   ]
                 }
@@ -1490,18 +1306,6 @@
       },
       "Picture Perfect": {
         "name": "Picture Perfect",
-        "entrances": [
-          {
-            "name": "Mafia Town - Act 6",
-            "parent_region": "Mafia Town",
-            "connected_region": "Picture Perfect"
-          },
-          {
-            "name": "Mafia Town - Act 6: Connection 1",
-            "parent_region": "The Golden Vault",
-            "connected_region": "Picture Perfect"
-          }
-        ],
         "exits": [
           {
             "name": "PP -> Badge Seller",
@@ -1518,24 +1322,24 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "generic_helper",
-                  "name": "can_clear_required_act",
-                  "description": "Checks if a specific act can be completed",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": "Battle of the Birds - Act 5"
-                    }
-                  ]
-                },
-                {
-                  "type": "generic_helper",
+                  "type": "helper",
                   "name": "can_clear_required_act",
                   "description": "Checks if a specific act can be completed",
                   "args": [
                     {
                       "type": "constant",
                       "value": "Battle of the Birds - Act 4"
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_clear_required_act",
+                  "description": "Checks if a specific act can be completed",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Battle of the Birds - Act 5"
                     }
                   ]
                 }
@@ -1549,13 +1353,6 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Umbrella"
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_use_hat",
                   "args": [
@@ -1564,6 +1361,10 @@
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Umbrella"
                 }
               ]
             }
@@ -1616,18 +1417,6 @@
       },
       "Train Rush": {
         "name": "Train Rush",
-        "entrances": [
-          {
-            "name": "Battle of the Birds - Act 2",
-            "parent_region": "Battle of the Birds",
-            "connected_region": "Train Rush"
-          },
-          {
-            "name": "Battle of the Birds - Act 2: Connection 1",
-            "parent_region": "Toilet of Doom",
-            "connected_region": "Train Rush"
-          }
-        ],
         "exits": [
           {
             "name": "TR -> Badge Seller",
@@ -1644,16 +1433,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "can_use_hat",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": 0
-                    }
-                  ]
-                },
-                {
                   "type": "and",
                   "conditions": [
                     {
@@ -1664,6 +1443,16 @@
                       "type": "helper",
                       "name": "can_use_hookshot",
                       "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_use_hat",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": 0
                     }
                   ]
                 }
@@ -1677,16 +1466,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "can_use_hat",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": 0
-                    }
-                  ]
-                },
-                {
                   "type": "and",
                   "conditions": [
                     {
@@ -1697,6 +1476,16 @@
                       "type": "helper",
                       "name": "can_use_hookshot",
                       "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_use_hat",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": 0
                     }
                   ]
                 }
@@ -1724,13 +1513,6 @@
       },
       "The Big Parade": {
         "name": "The Big Parade",
-        "entrances": [
-          {
-            "name": "Subcon Forest - Act 5",
-            "parent_region": "Subcon Forest",
-            "connected_region": "The Big Parade"
-          }
-        ],
         "exits": [
           {
             "name": "Time Rift - The Moon Portal - Entrance 2",
@@ -1739,24 +1521,24 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "generic_helper",
-                  "name": "can_clear_required_act",
-                  "description": "Checks if a specific act can be completed",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": "Battle of the Birds - Act 5"
-                    }
-                  ]
-                },
-                {
-                  "type": "generic_helper",
+                  "type": "helper",
                   "name": "can_clear_required_act",
                   "description": "Checks if a specific act can be completed",
                   "args": [
                     {
                       "type": "constant",
                       "value": "Battle of the Birds - Act 4"
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_clear_required_act",
+                  "description": "Checks if a specific act can be completed",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Battle of the Birds - Act 5"
                     }
                   ]
                 }
@@ -1770,53 +1552,20 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "constant",
-                  "value": true
-                },
-                {
                   "type": "and",
                   "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Snatcher's Contract - Mail Delivery Service"
-                      }
-                    },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "constant",
-                          "value": true
-                        },
-                        {
                           "type": "and",
                           "conditions": [
-                            {
-                              "type": "item_check",
-                              "item": {
-                                "type": "constant",
-                                "value": "Snatcher's Contract - Queen Vanessa's Manor"
-                              }
-                            },
                             {
                               "type": "and",
                               "conditions": [
                                 {
-                                  "type": "constant",
-                                  "value": true
-                                },
-                                {
                                   "type": "and",
                                   "conditions": [
-                                    {
-                                      "type": "item_check",
-                                      "item": {
-                                        "type": "constant",
-                                        "value": "Snatcher's Contract - Toilet of Doom"
-                                      }
-                                    },
                                     {
                                       "type": "and",
                                       "conditions": [
@@ -1827,22 +1576,43 @@
                                         },
                                         {
                                           "type": "item_check",
-                                          "item": {
-                                            "type": "constant",
-                                            "value": "Snatcher's Contract - The Subcon Well"
-                                          }
+                                          "item": "Snatcher's Contract - The Subcon Well"
                                         }
                                       ]
+                                    },
+                                    {
+                                      "type": "item_check",
+                                      "item": "Snatcher's Contract - Toilet of Doom"
                                     }
                                   ]
+                                },
+                                {
+                                  "type": "constant",
+                                  "value": true
                                 }
                               ]
+                            },
+                            {
+                              "type": "item_check",
+                              "item": "Snatcher's Contract - Queen Vanessa's Manor"
                             }
                           ]
+                        },
+                        {
+                          "type": "constant",
+                          "value": true
                         }
                       ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Snatcher's Contract - Mail Delivery Service"
                     }
                   ]
+                },
+                {
+                  "type": "constant",
+                  "value": true
                 }
               ]
             }
@@ -1867,23 +1637,6 @@
       },
       "Award Ceremony": {
         "name": "Award Ceremony",
-        "entrances": [
-          {
-            "name": "Battle of the Birds - Finale A",
-            "parent_region": "Battle of the Birds",
-            "connected_region": "Award Ceremony"
-          },
-          {
-            "name": "Battle of the Birds - Finale A: Connection 1",
-            "parent_region": "Alpine Free Roam",
-            "connected_region": "Award Ceremony"
-          },
-          {
-            "name": "Battle of the Birds - Finale A: Connection 2",
-            "parent_region": "Heating Up Mafia Town",
-            "connected_region": "Award Ceremony"
-          }
-        ],
         "exits": [
           {
             "name": "Battle of the Birds - Finale B: Connection 1",
@@ -1913,13 +1666,6 @@
       },
       "Dead Bird Studio Basement": {
         "name": "Dead Bird Studio Basement",
-        "entrances": [
-          {
-            "name": "Subcon Forest - Act 2",
-            "parent_region": "Subcon Forest",
-            "connected_region": "Dead Bird Studio Basement"
-          }
-        ],
         "exits": [
           {
             "name": "DBS Basement -> Elevator Area",
@@ -1950,53 +1696,20 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "constant",
-                  "value": true
-                },
-                {
                   "type": "and",
                   "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Snatcher's Contract - Mail Delivery Service"
-                      }
-                    },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "constant",
-                          "value": true
-                        },
-                        {
                           "type": "and",
                           "conditions": [
-                            {
-                              "type": "item_check",
-                              "item": {
-                                "type": "constant",
-                                "value": "Snatcher's Contract - Queen Vanessa's Manor"
-                              }
-                            },
                             {
                               "type": "and",
                               "conditions": [
                                 {
-                                  "type": "constant",
-                                  "value": true
-                                },
-                                {
                                   "type": "and",
                                   "conditions": [
-                                    {
-                                      "type": "item_check",
-                                      "item": {
-                                        "type": "constant",
-                                        "value": "Snatcher's Contract - Toilet of Doom"
-                                      }
-                                    },
                                     {
                                       "type": "and",
                                       "conditions": [
@@ -2007,22 +1720,43 @@
                                         },
                                         {
                                           "type": "item_check",
-                                          "item": {
-                                            "type": "constant",
-                                            "value": "Snatcher's Contract - The Subcon Well"
-                                          }
+                                          "item": "Snatcher's Contract - The Subcon Well"
                                         }
                                       ]
+                                    },
+                                    {
+                                      "type": "item_check",
+                                      "item": "Snatcher's Contract - Toilet of Doom"
                                     }
                                   ]
+                                },
+                                {
+                                  "type": "constant",
+                                  "value": true
                                 }
                               ]
+                            },
+                            {
+                              "type": "item_check",
+                              "item": "Snatcher's Contract - Queen Vanessa's Manor"
                             }
                           ]
+                        },
+                        {
+                          "type": "constant",
+                          "value": true
                         }
                       ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Snatcher's Contract - Mail Delivery Service"
                     }
                   ]
+                },
+                {
+                  "type": "constant",
+                  "value": true
                 }
               ]
             }
@@ -2195,18 +1929,6 @@
       },
       "Time Rift - Dead Bird Studio": {
         "name": "Time Rift - Dead Bird Studio",
-        "entrances": [
-          {
-            "name": "Time Rift - Alpine Skyline Portal - Entrance 1",
-            "parent_region": "Alpine Free Roam",
-            "connected_region": "Time Rift - Dead Bird Studio"
-          },
-          {
-            "name": "Time Rift - Alpine Skyline Portal - Entrance 2",
-            "parent_region": "The Illness has Spread",
-            "connected_region": "Time Rift - Dead Bird Studio"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2339,13 +2061,6 @@
       },
       "Time Rift - The Owl Express": {
         "name": "Time Rift - The Owl Express",
-        "entrances": [
-          {
-            "name": "Time Rift - The Lab Portal - Entrance 1",
-            "parent_region": "Spaceship",
-            "connected_region": "Time Rift - The Owl Express"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2366,43 +2081,6 @@
       },
       "Time Rift - The Moon": {
         "name": "Time Rift - The Moon",
-        "entrances": [
-          {
-            "name": "Time Rift - Sewers Portal - Entrance 1",
-            "parent_region": "Welcome to Mafia Town",
-            "connected_region": "Time Rift - The Moon"
-          },
-          {
-            "name": "Time Rift - Sewers Portal - Entrance 2",
-            "parent_region": "Barrel Battle",
-            "connected_region": "Time Rift - The Moon"
-          },
-          {
-            "name": "Time Rift - Sewers Portal - Entrance 3",
-            "parent_region": "She Came from Outer Space",
-            "connected_region": "Time Rift - The Moon"
-          },
-          {
-            "name": "Time Rift - Sewers Portal - Entrance 4",
-            "parent_region": "Down with the Mafia!",
-            "connected_region": "Time Rift - The Moon"
-          },
-          {
-            "name": "Time Rift - Sewers Portal - Entrance 5",
-            "parent_region": "Cheating the Race",
-            "connected_region": "Time Rift - The Moon"
-          },
-          {
-            "name": "Time Rift - Sewers Portal - Entrance 6",
-            "parent_region": "Heating Up Mafia Town",
-            "connected_region": "Time Rift - The Moon"
-          },
-          {
-            "name": "Time Rift - Sewers Portal - Entrance 7",
-            "parent_region": "The Golden Vault",
-            "connected_region": "Time Rift - The Moon"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2423,18 +2101,6 @@
       },
       "Dead Bird Studio - Elevator Area": {
         "name": "Dead Bird Studio - Elevator Area",
-        "entrances": [
-          {
-            "name": "DBS -> Elevator Area",
-            "parent_region": "Dead Bird Studio",
-            "connected_region": "Dead Bird Studio - Elevator Area"
-          },
-          {
-            "name": "DBS Basement -> Elevator Area",
-            "parent_region": "Dead Bird Studio Basement",
-            "connected_region": "Dead Bird Studio - Elevator Area"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2497,13 +2163,6 @@
       },
       "Dead Bird Studio - Post Elevator Area": {
         "name": "Dead Bird Studio - Post Elevator Area",
-        "entrances": [
-          {
-            "name": "DBS -> Post Elevator Area",
-            "parent_region": "Dead Bird Studio",
-            "connected_region": "Dead Bird Studio - Post Elevator Area"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2513,13 +2172,6 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Umbrella"
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_use_hat",
                   "args": [
@@ -2528,6 +2180,10 @@
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Umbrella"
                 }
               ]
             },
@@ -2559,13 +2215,6 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Umbrella"
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_use_hat",
                   "args": [
@@ -2574,6 +2223,10 @@
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Umbrella"
                 }
               ]
             },
@@ -2591,13 +2244,6 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Umbrella"
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_use_hat",
                   "args": [
@@ -2606,6 +2252,10 @@
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Umbrella"
                 }
               ]
             },
@@ -2620,13 +2270,6 @@
       },
       "Subcon Forest": {
         "name": "Subcon Forest",
-        "entrances": [
-          {
-            "name": "Telescope -> Subcon Forest",
-            "parent_region": "Spaceship",
-            "connected_region": "Subcon Forest"
-          }
-        ],
         "exits": [
           {
             "name": "Subcon Forest - Finale",
@@ -2649,10 +2292,7 @@
             "connected_region": "Dead Bird Studio Basement",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Snatcher's Contract - The Subcon Well"
-              }
+              "item": "Snatcher's Contract - The Subcon Well"
             }
           },
           {
@@ -2660,10 +2300,7 @@
             "connected_region": "The Big Parade",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Snatcher's Contract - Mail Delivery Service"
-              }
+              "item": "Snatcher's Contract - Mail Delivery Service"
             }
           },
           {
@@ -2671,10 +2308,7 @@
             "connected_region": "Queen Vanessa's Manor",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Snatcher's Contract - Toilet of Doom"
-              }
+              "item": "Snatcher's Contract - Toilet of Doom"
             }
           },
           {
@@ -2682,10 +2316,7 @@
             "connected_region": "Down with the Mafia!",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Snatcher's Contract - Queen Vanessa's Manor"
-              }
+              "item": "Snatcher's Contract - Queen Vanessa's Manor"
             }
           }
         ],
@@ -2693,18 +2324,6 @@
       },
       "Contractual Obligations": {
         "name": "Contractual Obligations",
-        "entrances": [
-          {
-            "name": "Mafia Town - Act 3",
-            "parent_region": "Mafia Town",
-            "connected_region": "Contractual Obligations"
-          },
-          {
-            "name": "Mafia Town - Act 3: Connection 1",
-            "parent_region": "Barrel Battle",
-            "connected_region": "Contractual Obligations"
-          }
-        ],
         "exits": [
           {
             "name": "Subcon Forest Entrance CO",
@@ -2732,7 +2351,7 @@
             "name": "Time Rift - Village Portal - Entrance 1",
             "connected_region": "Time Rift - Pipe",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -2747,7 +2366,7 @@
             "name": "Time Rift - Pipe Portal - Entrance 1",
             "connected_region": "Time Rift - Bazaar",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -2814,18 +2433,6 @@
       },
       "The Subcon Well": {
         "name": "The Subcon Well",
-        "entrances": [
-          {
-            "name": "Battle of the Birds - Finale B",
-            "parent_region": "Battle of the Birds",
-            "connected_region": "The Subcon Well"
-          },
-          {
-            "name": "Battle of the Birds - Finale B: Connection 1",
-            "parent_region": "Award Ceremony",
-            "connected_region": "The Subcon Well"
-          }
-        ],
         "exits": [
           {
             "name": "Subcon Forest Entrance SW",
@@ -2853,7 +2460,7 @@
             "name": "Time Rift - Village Portal - Entrance 2",
             "connected_region": "Time Rift - Pipe",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -2868,7 +2475,7 @@
             "name": "Time Rift - Pipe Portal - Entrance 2",
             "connected_region": "Time Rift - Bazaar",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -2957,13 +2564,6 @@
       },
       "Toilet of Doom": {
         "name": "Toilet of Doom",
-        "entrances": [
-          {
-            "name": "Battle of the Birds - Act 1",
-            "parent_region": "Battle of the Birds",
-            "connected_region": "Toilet of Doom"
-          }
-        ],
         "exits": [
           {
             "name": "Subcon Forest Entrance TOD",
@@ -2991,7 +2591,7 @@
             "name": "Time Rift - Village Portal - Entrance 3",
             "connected_region": "Time Rift - Pipe",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -3006,7 +2606,7 @@
             "name": "Time Rift - Pipe Portal - Entrance 3",
             "connected_region": "Time Rift - Bazaar",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -3025,16 +2625,16 @@
               "conditions": [
                 {
                   "type": "helper",
+                  "name": "can_hit",
+                  "args": []
+                },
+                {
+                  "type": "helper",
                   "name": "can_use_hookshot",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "can_hit",
-                  "args": []
-                },
-                {
-                  "type": "generic_helper",
                   "name": "has_paintings",
                   "description": "Checks if player has enough painting unlocks",
                   "args": [
@@ -3059,16 +2659,16 @@
               "conditions": [
                 {
                   "type": "helper",
+                  "name": "can_hit",
+                  "args": []
+                },
+                {
+                  "type": "helper",
                   "name": "can_use_hookshot",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "can_hit",
-                  "args": []
-                },
-                {
-                  "type": "generic_helper",
                   "name": "has_paintings",
                   "description": "Checks if player has enough painting unlocks",
                   "args": [
@@ -3095,16 +2695,16 @@
               "conditions": [
                 {
                   "type": "helper",
+                  "name": "can_hit",
+                  "args": []
+                },
+                {
+                  "type": "helper",
                   "name": "can_use_hookshot",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "can_hit",
-                  "args": []
-                },
-                {
-                  "type": "generic_helper",
                   "name": "has_paintings",
                   "description": "Checks if player has enough painting unlocks",
                   "args": [
@@ -3145,13 +2745,6 @@
       },
       "Queen Vanessa's Manor": {
         "name": "Queen Vanessa's Manor",
-        "entrances": [
-          {
-            "name": "Subcon Forest - Act 3",
-            "parent_region": "Subcon Forest",
-            "connected_region": "Queen Vanessa's Manor"
-          }
-        ],
         "exits": [
           {
             "name": "Subcon Forest Entrance QVM",
@@ -3179,7 +2772,7 @@
             "name": "Time Rift - Village Portal - Entrance 4",
             "connected_region": "Time Rift - Pipe",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -3194,7 +2787,7 @@
             "name": "Time Rift - Pipe Portal - Entrance 4",
             "connected_region": "Time Rift - Bazaar",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -3212,53 +2805,20 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "constant",
-                  "value": true
-                },
-                {
                   "type": "and",
                   "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Snatcher's Contract - Mail Delivery Service"
-                      }
-                    },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "constant",
-                          "value": true
-                        },
-                        {
                           "type": "and",
                           "conditions": [
-                            {
-                              "type": "item_check",
-                              "item": {
-                                "type": "constant",
-                                "value": "Snatcher's Contract - Queen Vanessa's Manor"
-                              }
-                            },
                             {
                               "type": "and",
                               "conditions": [
                                 {
-                                  "type": "constant",
-                                  "value": true
-                                },
-                                {
                                   "type": "and",
                                   "conditions": [
-                                    {
-                                      "type": "item_check",
-                                      "item": {
-                                        "type": "constant",
-                                        "value": "Snatcher's Contract - Toilet of Doom"
-                                      }
-                                    },
                                     {
                                       "type": "and",
                                       "conditions": [
@@ -3269,22 +2829,43 @@
                                         },
                                         {
                                           "type": "item_check",
-                                          "item": {
-                                            "type": "constant",
-                                            "value": "Snatcher's Contract - The Subcon Well"
-                                          }
+                                          "item": "Snatcher's Contract - The Subcon Well"
                                         }
                                       ]
+                                    },
+                                    {
+                                      "type": "item_check",
+                                      "item": "Snatcher's Contract - Toilet of Doom"
                                     }
                                   ]
+                                },
+                                {
+                                  "type": "constant",
+                                  "value": true
                                 }
                               ]
+                            },
+                            {
+                              "type": "item_check",
+                              "item": "Snatcher's Contract - Queen Vanessa's Manor"
                             }
                           ]
+                        },
+                        {
+                          "type": "constant",
+                          "value": true
                         }
                       ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Snatcher's Contract - Mail Delivery Service"
                     }
                   ]
+                },
+                {
+                  "type": "constant",
+                  "value": true
                 }
               ]
             }
@@ -3365,18 +2946,6 @@
       },
       "Mail Delivery Service": {
         "name": "Mail Delivery Service",
-        "entrances": [
-          {
-            "name": "Battle of the Birds - Act 3",
-            "parent_region": "Battle of the Birds",
-            "connected_region": "Mail Delivery Service"
-          },
-          {
-            "name": "Battle of the Birds - Act 3: Connection 1",
-            "parent_region": "Toilet of Doom",
-            "connected_region": "Mail Delivery Service"
-          }
-        ],
         "exits": [
           {
             "name": "Subcon Forest Entrance MDS",
@@ -3404,7 +2973,7 @@
             "name": "Time Rift - Village Portal - Entrance 5",
             "connected_region": "Time Rift - Pipe",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -3419,7 +2988,7 @@
             "name": "Time Rift - Pipe Portal - Entrance 5",
             "connected_region": "Time Rift - Bazaar",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -3437,16 +3006,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "can_use_hat",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": 0
-                    }
-                  ]
-                },
-                {
                   "type": "and",
                   "conditions": [
                     {
@@ -3457,6 +3016,16 @@
                       "type": "helper",
                       "name": "can_use_hookshot",
                       "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_use_hat",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": 0
                     }
                   ]
                 }
@@ -3470,16 +3039,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "can_use_hat",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": 0
-                    }
-                  ]
-                },
-                {
                   "type": "and",
                   "conditions": [
                     {
@@ -3490,6 +3049,16 @@
                       "type": "helper",
                       "name": "can_use_hookshot",
                       "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_use_hat",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": 0
                     }
                   ]
                 }
@@ -3522,13 +3091,6 @@
       },
       "Your Contract has Expired": {
         "name": "Your Contract has Expired",
-        "entrances": [
-          {
-            "name": "Subcon Forest - Act 1",
-            "parent_region": "Subcon Forest",
-            "connected_region": "Your Contract has Expired"
-          }
-        ],
         "exits": [
           {
             "name": "Subcon Forest Entrance YCHE",
@@ -3553,53 +3115,20 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "constant",
-                  "value": true
-                },
-                {
                   "type": "and",
                   "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Snatcher's Contract - Mail Delivery Service"
-                      }
-                    },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "constant",
-                          "value": true
-                        },
-                        {
                           "type": "and",
                           "conditions": [
-                            {
-                              "type": "item_check",
-                              "item": {
-                                "type": "constant",
-                                "value": "Snatcher's Contract - Queen Vanessa's Manor"
-                              }
-                            },
                             {
                               "type": "and",
                               "conditions": [
                                 {
-                                  "type": "constant",
-                                  "value": true
-                                },
-                                {
                                   "type": "and",
                                   "conditions": [
-                                    {
-                                      "type": "item_check",
-                                      "item": {
-                                        "type": "constant",
-                                        "value": "Snatcher's Contract - Toilet of Doom"
-                                      }
-                                    },
                                     {
                                       "type": "and",
                                       "conditions": [
@@ -3610,22 +3139,43 @@
                                         },
                                         {
                                           "type": "item_check",
-                                          "item": {
-                                            "type": "constant",
-                                            "value": "Snatcher's Contract - The Subcon Well"
-                                          }
+                                          "item": "Snatcher's Contract - The Subcon Well"
                                         }
                                       ]
+                                    },
+                                    {
+                                      "type": "item_check",
+                                      "item": "Snatcher's Contract - Toilet of Doom"
                                     }
                                   ]
+                                },
+                                {
+                                  "type": "constant",
+                                  "value": true
                                 }
                               ]
+                            },
+                            {
+                              "type": "item_check",
+                              "item": "Snatcher's Contract - Queen Vanessa's Manor"
                             }
                           ]
+                        },
+                        {
+                          "type": "constant",
+                          "value": true
                         }
                       ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Snatcher's Contract - Mail Delivery Service"
                     }
                   ]
+                },
+                {
+                  "type": "constant",
+                  "value": true
                 }
               ]
             }
@@ -3635,21 +3185,30 @@
       },
       "Alpine Skyline": {
         "name": "Alpine Skyline",
-        "entrances": [
-          {
-            "name": "Telescope -> Alpine Skyline",
-            "parent_region": "Spaceship",
-            "connected_region": "Alpine Skyline"
-          }
-        ],
         "exits": [
           {
             "name": "Alpine Skyline - Finale",
             "connected_region": "Cheating the Race",
             "access_rule": {
-              "type": "helper",
-              "name": "can_clear_alpine",
-              "args": []
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Birdhouse Cleared"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Lava Cake Cleared"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Twilight Bell Cleared"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Windmill Cleared"
+                }
+              ]
             }
           },
           {
@@ -3665,23 +3224,6 @@
       },
       "Alpine Free Roam": {
         "name": "Alpine Free Roam",
-        "entrances": [
-          {
-            "name": "Battle of the Birds - Act 4",
-            "parent_region": "Battle of the Birds",
-            "connected_region": "Alpine Free Roam"
-          },
-          {
-            "name": "Battle of the Birds - Act 4: Connection 1",
-            "parent_region": "Train Rush",
-            "connected_region": "Alpine Free Roam"
-          },
-          {
-            "name": "Battle of the Birds - Act 4: Connection 2",
-            "parent_region": "Mail Delivery Service",
-            "connected_region": "Alpine Free Roam"
-          }
-        ],
         "exits": [
           {
             "name": "AFR -> Alpine Skyline Area",
@@ -3697,10 +3239,7 @@
             "connected_region": "Time Rift - Gallery",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Windmill Cleared"
-              }
+              "item": "Windmill Cleared"
             }
           },
           {
@@ -3714,12 +3253,12 @@
                   "conditions": [
                     {
                       "type": "helper",
-                      "name": "can_use_hookshot",
+                      "name": "can_hit",
                       "args": []
                     },
                     {
                       "type": "helper",
-                      "name": "can_hit",
+                      "name": "can_use_hookshot",
                       "args": []
                     }
                   ]
@@ -3742,10 +3281,7 @@
             "connected_region": "Time Rift - The Lab",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Twilight Bell Cleared"
-              }
+              "item": "Twilight Bell Cleared"
             }
           },
           {
@@ -3776,13 +3312,6 @@
       },
       "Alpine Skyline Area": {
         "name": "Alpine Skyline Area",
-        "entrances": [
-          {
-            "name": "AFR -> Alpine Skyline Area",
-            "parent_region": "Alpine Free Roam",
-            "connected_region": "Alpine Skyline Area"
-          }
-        ],
         "exits": [
           {
             "name": "-> Alpine Skyline Area (TIHS)",
@@ -3800,11 +3329,6 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_use_hookshot",
-                  "args": []
-                },
-                {
-                  "type": "helper",
                   "name": "can_use_hat",
                   "args": [
                     {
@@ -3812,6 +3336,11 @@
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_use_hookshot",
+                  "args": []
                 }
               ]
             }
@@ -3842,11 +3371,6 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_use_hookshot",
-                  "args": []
-                },
-                {
-                  "type": "helper",
                   "name": "can_use_hat",
                   "args": [
                     {
@@ -3854,6 +3378,11 @@
                       "value": 3
                     }
                   ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_use_hookshot",
+                  "args": []
                 }
               ]
             }
@@ -3961,18 +3490,6 @@
       },
       "Alpine Skyline Area (TIHS)": {
         "name": "Alpine Skyline Area (TIHS)",
-        "entrances": [
-          {
-            "name": "-> Alpine Skyline Area (TIHS)",
-            "parent_region": "Alpine Skyline Area",
-            "connected_region": "Alpine Skyline Area (TIHS)"
-          },
-          {
-            "name": "TIHS -> Alpine Skyline Area (TIHS)",
-            "parent_region": "The Illness has Spread",
-            "connected_region": "Alpine Skyline Area (TIHS)"
-          }
-        ],
         "exits": [
           {
             "name": "ASA -> Badge Seller",
@@ -4022,18 +3539,6 @@
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "AFR Access"
-                      }
-                    },
-                    {
-                      "type": "helper",
-                      "name": "can_use_hookshot",
-                      "args": []
-                    },
-                    {
                       "type": "helper",
                       "name": "can_hit",
                       "args": [
@@ -4042,6 +3547,15 @@
                           "value": true
                         }
                       ]
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_use_hookshot",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "AFR Access"
                     }
                   ]
                 },
@@ -4082,11 +3596,6 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_use_hookshot",
-                  "args": []
-                },
-                {
-                  "type": "helper",
                   "name": "can_use_hat",
                   "args": [
                     {
@@ -4094,6 +3603,11 @@
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_use_hookshot",
+                  "args": []
                 }
               ]
             },
@@ -4153,13 +3667,6 @@
       },
       "The Birdhouse": {
         "name": "The Birdhouse",
-        "entrances": [
-          {
-            "name": "-> The Birdhouse",
-            "parent_region": "Alpine Skyline Area",
-            "connected_region": "The Birdhouse"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4284,13 +3791,6 @@
       },
       "The Lava Cake": {
         "name": "The Lava Cake",
-        "entrances": [
-          {
-            "name": "-> The Lava Cake",
-            "parent_region": "Alpine Skyline Area",
-            "connected_region": "The Lava Cake"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4381,13 +3881,6 @@
       },
       "The Windmill": {
         "name": "The Windmill",
-        "entrances": [
-          {
-            "name": "-> The Windmill",
-            "parent_region": "Alpine Skyline Area",
-            "connected_region": "The Windmill"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4478,13 +3971,6 @@
       },
       "The Twilight Bell": {
         "name": "The Twilight Bell",
-        "entrances": [
-          {
-            "name": "-> The Twilight Bell",
-            "parent_region": "Alpine Skyline Area",
-            "connected_region": "The Twilight Bell"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4547,23 +4033,6 @@
       },
       "The Illness has Spread": {
         "name": "The Illness has Spread",
-        "entrances": [
-          {
-            "name": "Mafia Town - Act 5",
-            "parent_region": "Mafia Town",
-            "connected_region": "The Illness has Spread"
-          },
-          {
-            "name": "Mafia Town - Act 5: Connection 1",
-            "parent_region": "Picture Perfect",
-            "connected_region": "The Illness has Spread"
-          },
-          {
-            "name": "Mafia Town - Act 5: Connection 2",
-            "parent_region": "Dead Bird Studio",
-            "connected_region": "The Illness has Spread"
-          }
-        ],
         "exits": [
           {
             "name": "TIHS -> Alpine Skyline Area (TIHS)",
@@ -4622,18 +4091,6 @@
       },
       "Time Rift - Alpine Skyline": {
         "name": "Time Rift - Alpine Skyline",
-        "entrances": [
-          {
-            "name": "Time Rift - Dead Bird Studio Portal - Entrance 1",
-            "parent_region": "Dead Bird Studio",
-            "connected_region": "Time Rift - Alpine Skyline"
-          },
-          {
-            "name": "Time Rift - Dead Bird Studio Portal - Entrance 2",
-            "parent_region": "Dead Bird Studio Basement",
-            "connected_region": "Time Rift - Alpine Skyline"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4724,43 +4181,6 @@
       },
       "Time Rift - The Twilight Bell": {
         "name": "Time Rift - The Twilight Bell",
-        "entrances": [
-          {
-            "name": "Time Rift - Bazaar Portal - Entrance 1",
-            "parent_region": "Welcome to Mafia Town",
-            "connected_region": "Time Rift - The Twilight Bell"
-          },
-          {
-            "name": "Time Rift - Bazaar Portal - Entrance 2",
-            "parent_region": "Barrel Battle",
-            "connected_region": "Time Rift - The Twilight Bell"
-          },
-          {
-            "name": "Time Rift - Bazaar Portal - Entrance 3",
-            "parent_region": "She Came from Outer Space",
-            "connected_region": "Time Rift - The Twilight Bell"
-          },
-          {
-            "name": "Time Rift - Bazaar Portal - Entrance 4",
-            "parent_region": "Down with the Mafia!",
-            "connected_region": "Time Rift - The Twilight Bell"
-          },
-          {
-            "name": "Time Rift - Bazaar Portal - Entrance 5",
-            "parent_region": "Cheating the Race",
-            "connected_region": "Time Rift - The Twilight Bell"
-          },
-          {
-            "name": "Time Rift - Bazaar Portal - Entrance 6",
-            "parent_region": "Heating Up Mafia Town",
-            "connected_region": "Time Rift - The Twilight Bell"
-          },
-          {
-            "name": "Time Rift - Bazaar Portal - Entrance 7",
-            "parent_region": "The Golden Vault",
-            "connected_region": "Time Rift - The Twilight Bell"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4787,18 +4207,6 @@
       },
       "Time Rift - Curly Tail Trail": {
         "name": "Time Rift - Curly Tail Trail",
-        "entrances": [
-          {
-            "name": "Time Rift - The Moon Portal - Entrance 1",
-            "parent_region": "Picture Perfect",
-            "connected_region": "Time Rift - Curly Tail Trail"
-          },
-          {
-            "name": "Time Rift - The Moon Portal - Entrance 2",
-            "parent_region": "The Big Parade",
-            "connected_region": "Time Rift - Curly Tail Trail"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4825,38 +4233,6 @@
       },
       "Mafia Town Area": {
         "name": "Mafia Town Area",
-        "entrances": [
-          {
-            "name": "Mafia Town Entrance WTMT",
-            "parent_region": "Welcome to Mafia Town",
-            "connected_region": "Mafia Town Area"
-          },
-          {
-            "name": "Mafia Town Entrance BB",
-            "parent_region": "Barrel Battle",
-            "connected_region": "Mafia Town Area"
-          },
-          {
-            "name": "Mafia Town Entrance SCFOS",
-            "parent_region": "She Came from Outer Space",
-            "connected_region": "Mafia Town Area"
-          },
-          {
-            "name": "Mafia Town Entrance DWTM",
-            "parent_region": "Down with the Mafia!",
-            "connected_region": "Mafia Town Area"
-          },
-          {
-            "name": "Mafia Town Entrance CTR",
-            "parent_region": "Cheating the Race",
-            "connected_region": "Mafia Town Area"
-          },
-          {
-            "name": "Mafia Town Entrance TGV",
-            "parent_region": "The Golden Vault",
-            "connected_region": "Mafia Town Area"
-          }
-        ],
         "exits": [
           {
             "name": "MT Area -> MT Area (HUMT)",
@@ -4888,20 +4264,6 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Welcome to Mafia Town"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    }
-                  ]
-                },
-                {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "constant",
                       "value": "Barrel Battle"
                     },
                     {
@@ -4930,6 +4292,20 @@
                   "args": [
                     {
                       "type": "constant",
+                      "value": "Down with the Mafia!"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
                       "value": "The Golden Vault"
                     },
                     {
@@ -4944,7 +4320,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Down with the Mafia!"
+                      "value": "Welcome to Mafia Town"
                     },
                     {
                       "type": "constant",
@@ -4973,20 +4349,6 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Welcome to Mafia Town"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    }
-                  ]
-                },
-                {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "constant",
                       "value": "Barrel Battle"
                     },
                     {
@@ -5015,6 +4377,20 @@
                   "args": [
                     {
                       "type": "constant",
+                      "value": "Down with the Mafia!"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
                       "value": "The Golden Vault"
                     },
                     {
@@ -5029,7 +4405,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Down with the Mafia!"
+                      "value": "Welcome to Mafia Town"
                     },
                     {
                       "type": "constant",
@@ -5230,18 +4606,6 @@
       },
       "Mafia Town Area (HUMT)": {
         "name": "Mafia Town Area (HUMT)",
-        "entrances": [
-          {
-            "name": "MT Area -> MT Area (HUMT)",
-            "parent_region": "Mafia Town Area",
-            "connected_region": "Mafia Town Area (HUMT)"
-          },
-          {
-            "name": "Mafia Town Entrance HUMT",
-            "parent_region": "Heating Up Mafia Town",
-            "connected_region": "Mafia Town Area (HUMT)"
-          }
-        ],
         "exits": [
           {
             "name": "MT Area (HUMT) -> Badge Seller",
@@ -5321,35 +4685,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Welcome to Mafia Town"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    }
-                  ]
-                },
-                {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "constant",
                       "value": "Barrel Battle"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    }
-                  ]
-                },
-                {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": "She Came from Outer Space"
                     },
                     {
                       "type": "constant",
@@ -5391,7 +4727,35 @@
                   "args": [
                     {
                       "type": "constant",
+                      "value": "She Came from Outer Space"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
                       "value": "The Golden Vault"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Welcome to Mafia Town"
                     },
                     {
                       "type": "constant",
@@ -5567,13 +4931,6 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "HUMT Access"
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_use_hat",
                   "args": [
@@ -5582,6 +4939,10 @@
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "HUMT Access"
                 }
               ]
             },
@@ -5613,16 +4974,13 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "HUMT Access"
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_use_hookshot",
                   "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "HUMT Access"
                 }
               ]
             },
@@ -5703,20 +5061,6 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Welcome to Mafia Town"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    }
-                  ]
-                },
-                {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "constant",
                       "value": "Barrel Battle"
                     },
                     {
@@ -5731,7 +5075,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Down with the Mafia!"
+                      "value": "Cheating the Race"
                     },
                     {
                       "type": "constant",
@@ -5745,7 +5089,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Cheating the Race"
+                      "value": "Down with the Mafia!"
                     },
                     {
                       "type": "constant",
@@ -5774,6 +5118,20 @@
                     {
                       "type": "constant",
                       "value": "The Golden Vault"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Welcome to Mafia Town"
                     },
                     {
                       "type": "constant",
@@ -5816,7 +5174,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Down with the Mafia!"
+                      "value": "Cheating the Race"
                     },
                     {
                       "type": "constant",
@@ -5830,7 +5188,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Cheating the Race"
+                      "value": "Down with the Mafia!"
                     },
                     {
                       "type": "constant",
@@ -5865,38 +5223,6 @@
       },
       "Time Rift - Mafia of Cooks": {
         "name": "Time Rift - Mafia of Cooks",
-        "entrances": [
-          {
-            "name": "Time Rift - Mafia of Cooks Portal - Entrance 1",
-            "parent_region": "Welcome to Mafia Town",
-            "connected_region": "Time Rift - Mafia of Cooks"
-          },
-          {
-            "name": "Time Rift - Mafia of Cooks Portal - Entrance 2",
-            "parent_region": "Barrel Battle",
-            "connected_region": "Time Rift - Mafia of Cooks"
-          },
-          {
-            "name": "Time Rift - Mafia of Cooks Portal - Entrance 3",
-            "parent_region": "She Came from Outer Space",
-            "connected_region": "Time Rift - Mafia of Cooks"
-          },
-          {
-            "name": "Time Rift - Mafia of Cooks Portal - Entrance 4",
-            "parent_region": "Down with the Mafia!",
-            "connected_region": "Time Rift - Mafia of Cooks"
-          },
-          {
-            "name": "Time Rift - Mafia of Cooks Portal - Entrance 5",
-            "parent_region": "Cheating the Race",
-            "connected_region": "Time Rift - Mafia of Cooks"
-          },
-          {
-            "name": "Time Rift - Mafia of Cooks Portal - Entrance 6",
-            "parent_region": "The Golden Vault",
-            "connected_region": "Time Rift - Mafia of Cooks"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -6001,13 +5327,6 @@
       },
       "Time Rift - Sewers": {
         "name": "Time Rift - Sewers",
-        "entrances": [
-          {
-            "name": "Time Rift - Gallery Portal - Entrance 1",
-            "parent_region": "Spaceship",
-            "connected_region": "Time Rift - Sewers"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -6028,33 +5347,6 @@
       },
       "Time Rift - Bazaar": {
         "name": "Time Rift - Bazaar",
-        "entrances": [
-          {
-            "name": "Time Rift - Pipe Portal - Entrance 1",
-            "parent_region": "Contractual Obligations",
-            "connected_region": "Time Rift - Bazaar"
-          },
-          {
-            "name": "Time Rift - Pipe Portal - Entrance 2",
-            "parent_region": "The Subcon Well",
-            "connected_region": "Time Rift - Bazaar"
-          },
-          {
-            "name": "Time Rift - Pipe Portal - Entrance 3",
-            "parent_region": "Toilet of Doom",
-            "connected_region": "Time Rift - Bazaar"
-          },
-          {
-            "name": "Time Rift - Pipe Portal - Entrance 4",
-            "parent_region": "Queen Vanessa's Manor",
-            "connected_region": "Time Rift - Bazaar"
-          },
-          {
-            "name": "Time Rift - Pipe Portal - Entrance 5",
-            "parent_region": "Mail Delivery Service",
-            "connected_region": "Time Rift - Bazaar"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -6075,39 +5367,12 @@
       },
       "Subcon Forest Area": {
         "name": "Subcon Forest Area",
-        "entrances": [
-          {
-            "name": "Subcon Forest Entrance CO",
-            "parent_region": "Contractual Obligations",
-            "connected_region": "Subcon Forest Area"
-          },
-          {
-            "name": "Subcon Forest Entrance SW",
-            "parent_region": "The Subcon Well",
-            "connected_region": "Subcon Forest Area"
-          },
-          {
-            "name": "Subcon Forest Entrance TOD",
-            "parent_region": "Toilet of Doom",
-            "connected_region": "Subcon Forest Area"
-          },
-          {
-            "name": "Subcon Forest Entrance QVM",
-            "parent_region": "Queen Vanessa's Manor",
-            "connected_region": "Subcon Forest Area"
-          },
-          {
-            "name": "Subcon Forest Entrance MDS",
-            "parent_region": "Mail Delivery Service",
-            "connected_region": "Subcon Forest Area"
-          }
-        ],
         "exits": [
           {
             "name": "SF Area -> SF Behind Boss Firewall",
             "connected_region": "Subcon Forest Behind Boss Firewall",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "has_paintings",
               "description": "Checks if player has enough painting unlocks",
               "args": [
@@ -6718,13 +5983,6 @@
       },
       "Subcon Forest Behind Boss Firewall": {
         "name": "Subcon Forest Behind Boss Firewall",
-        "entrances": [
-          {
-            "name": "SF Area -> SF Behind Boss Firewall",
-            "parent_region": "Subcon Forest Area",
-            "connected_region": "Subcon Forest Behind Boss Firewall"
-          }
-        ],
         "exits": [
           {
             "name": "SF Behind Boss Firewall -> SF Boss Arena",
@@ -6733,16 +5991,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "TOD Access"
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_use_hookshot",
                   "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "TOD Access"
                 }
               ]
             }
@@ -6767,18 +6022,6 @@
       },
       "Subcon Forest Boss Arena": {
         "name": "Subcon Forest Boss Arena",
-        "entrances": [
-          {
-            "name": "SF Behind Boss Firewall -> SF Boss Arena",
-            "parent_region": "Subcon Forest Behind Boss Firewall",
-            "connected_region": "Subcon Forest Boss Arena"
-          },
-          {
-            "name": "Subcon Forest Entrance YCHE",
-            "parent_region": "Your Contract has Expired",
-            "connected_region": "Subcon Forest Boss Arena"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -6799,13 +6042,6 @@
       },
       "Your Contract has Expired - Post Fight": {
         "name": "Your Contract has Expired - Post Fight",
-        "entrances": [
-          {
-            "name": "YCHE -> YCHE - Post Fight",
-            "parent_region": "Your Contract has Expired",
-            "connected_region": "Your Contract has Expired - Post Fight"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -6826,33 +6062,6 @@
       },
       "Time Rift - Sleepy Subcon": {
         "name": "Time Rift - Sleepy Subcon",
-        "entrances": [
-          {
-            "name": "Time Rift - Sleepy Subcon Portal - Entrance 1",
-            "parent_region": "Contractual Obligations",
-            "connected_region": "Time Rift - Sleepy Subcon"
-          },
-          {
-            "name": "Time Rift - Sleepy Subcon Portal - Entrance 2",
-            "parent_region": "The Subcon Well",
-            "connected_region": "Time Rift - Sleepy Subcon"
-          },
-          {
-            "name": "Time Rift - Sleepy Subcon Portal - Entrance 3",
-            "parent_region": "Toilet of Doom",
-            "connected_region": "Time Rift - Sleepy Subcon"
-          },
-          {
-            "name": "Time Rift - Sleepy Subcon Portal - Entrance 4",
-            "parent_region": "Queen Vanessa's Manor",
-            "connected_region": "Time Rift - Sleepy Subcon"
-          },
-          {
-            "name": "Time Rift - Sleepy Subcon Portal - Entrance 5",
-            "parent_region": "Mail Delivery Service",
-            "connected_region": "Time Rift - Sleepy Subcon"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -6999,33 +6208,6 @@
       },
       "Time Rift - Pipe": {
         "name": "Time Rift - Pipe",
-        "entrances": [
-          {
-            "name": "Time Rift - Village Portal - Entrance 1",
-            "parent_region": "Contractual Obligations",
-            "connected_region": "Time Rift - Pipe"
-          },
-          {
-            "name": "Time Rift - Village Portal - Entrance 2",
-            "parent_region": "The Subcon Well",
-            "connected_region": "Time Rift - Pipe"
-          },
-          {
-            "name": "Time Rift - Village Portal - Entrance 3",
-            "parent_region": "Toilet of Doom",
-            "connected_region": "Time Rift - Pipe"
-          },
-          {
-            "name": "Time Rift - Village Portal - Entrance 4",
-            "parent_region": "Queen Vanessa's Manor",
-            "connected_region": "Time Rift - Pipe"
-          },
-          {
-            "name": "Time Rift - Village Portal - Entrance 5",
-            "parent_region": "Mail Delivery Service",
-            "connected_region": "Time Rift - Pipe"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7047,13 +6229,6 @@
       },
       "Time Rift - Village": {
         "name": "Time Rift - Village",
-        "entrances": [
-          {
-            "name": "Time Rift - The Owl Express Portal - Entrance 1",
-            "parent_region": "Murder on the Owl Express",
-            "connected_region": "Time Rift - Village"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7073,13 +6248,6 @@
                   ]
                 },
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Umbrella"
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_use_hat",
                   "args": [
@@ -7088,6 +6256,10 @@
                       "value": 3
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Umbrella"
                 }
               ]
             },
@@ -7102,43 +6274,6 @@
       },
       "Badge Seller": {
         "name": "Badge Seller",
-        "entrances": [
-          {
-            "name": "MT Area -> Badge Seller",
-            "parent_region": "Mafia Town Area",
-            "connected_region": "Badge Seller"
-          },
-          {
-            "name": "MT Area (HUMT) -> Badge Seller",
-            "parent_region": "Mafia Town Area (HUMT)",
-            "connected_region": "Badge Seller"
-          },
-          {
-            "name": "SF Area -> Badge Seller",
-            "parent_region": "Subcon Forest Area",
-            "connected_region": "Badge Seller"
-          },
-          {
-            "name": "DBS -> Badge Seller",
-            "parent_region": "Dead Bird Studio",
-            "connected_region": "Badge Seller"
-          },
-          {
-            "name": "PP -> Badge Seller",
-            "parent_region": "Picture Perfect",
-            "connected_region": "Badge Seller"
-          },
-          {
-            "name": "TR -> Badge Seller",
-            "parent_region": "Train Rush",
-            "connected_region": "Badge Seller"
-          },
-          {
-            "name": "ASA -> Badge Seller",
-            "parent_region": "Alpine Skyline Area (TIHS)",
-            "connected_region": "Badge Seller"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7201,13 +6336,6 @@
       },
       "Time's End": {
         "name": "Time's End",
-        "entrances": [
-          {
-            "name": "Telescope -> Time's End",
-            "parent_region": "Spaceship",
-            "connected_region": "Time's End"
-          }
-        ],
         "exits": [
           {
             "name": "Time's End - Act 1",
@@ -7222,13 +6350,6 @@
       },
       "The Finale": {
         "name": "The Finale",
-        "entrances": [
-          {
-            "name": "Time's End - Act 1",
-            "parent_region": "Time's End",
-            "connected_region": "The Finale"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7253,11 +6374,6 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_use_hookshot",
-                  "args": []
-                },
-                {
-                  "type": "helper",
                   "name": "can_use_hat",
                   "args": [
                     {
@@ -7265,6 +6381,11 @@
                       "value": 3
                     }
                   ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_use_hookshot",
+                  "args": []
                 }
               ]
             },
@@ -7283,11 +6404,6 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_use_hookshot",
-                  "args": []
-                },
-                {
-                  "type": "helper",
                   "name": "can_use_hat",
                   "args": [
                     {
@@ -7295,6 +6411,11 @@
                       "value": 3
                     }
                   ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_use_hookshot",
+                  "args": []
                 }
               ]
             },
@@ -7351,7 +6472,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7364,7 +6485,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7377,7 +6498,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7390,7 +6511,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7403,7 +6524,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7520,7 +6641,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7533,7 +6654,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7715,7 +6836,7 @@
           "Cake",
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7729,7 +6850,7 @@
           "Cake",
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7743,7 +6864,7 @@
           "Cake",
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7757,7 +6878,7 @@
           "Cake",
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7771,7 +6892,7 @@
           "Everything",
           "Necklace"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7785,7 +6906,7 @@
           "Everything",
           "Necklace"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7865,7 +6986,7 @@
         ],
         "advancement": false,
         "useful": false,
-        "trap": false,
+        "trap": true,
         "event": false,
         "type": null,
         "max_count": 1
@@ -7878,7 +6999,7 @@
         ],
         "advancement": false,
         "useful": false,
-        "trap": false,
+        "trap": true,
         "event": false,
         "type": null,
         "max_count": 1
@@ -7891,7 +7012,7 @@
         ],
         "advancement": false,
         "useful": false,
-        "trap": false,
+        "trap": true,
         "event": false,
         "type": null,
         "max_count": 1
@@ -7928,7 +7049,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7941,7 +7062,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7954,7 +7075,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7967,7 +7088,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -7980,7 +7101,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8045,7 +7166,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8058,7 +7179,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8071,7 +7192,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -8084,11 +7205,128 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
         "type": null,
+        "max_count": 1
+      },
+      "HUMT Access": {
+        "name": "HUMT Access",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "TOD Access": {
+        "name": "TOD Access",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "AFR Access": {
+        "name": "AFR Access",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "TIHS Access": {
+        "name": "TIHS Access",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Birdhouse Cleared": {
+        "name": "Birdhouse Cleared",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Lava Cake Cleared": {
+        "name": "Lava Cake Cleared",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Windmill Cleared": {
+        "name": "Windmill Cleared",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Twilight Bell Cleared": {
+        "name": "Twilight Bell Cleared",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Time Piece Cluster": {
+        "name": "Time Piece Cluster",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
         "max_count": 1
       }
     }
@@ -8162,6 +7400,7 @@
     "1": {
       "game": "A Hat in Time",
       "assume_bidirectional_exits": false,
+      "use_resolved_items": false,
       "HatItems": false,
       "UmbrellaLogic": false,
       "ShuffleSubconPaintings": false,

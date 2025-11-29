@@ -81,7 +81,8 @@ export class PathAnalyzerLogic {
       }
 
       // Get the region data using the passed staticData
-      const regionData = regionsData[currentRegion];
+      // Use Map.get() for O(1) lookup
+      const regionData = regionsData.get(currentRegion);
       if (!regionData || !regionData.exits) {
         continue;
       }
@@ -232,7 +233,7 @@ export class PathAnalyzerLogic {
     log('info', `[PathAnalyzer] Starting regions: ${startRegions.join(', ')}`);
     log(
       'info',
-      `[PathAnalyzer] Total regions in data: ${Object.keys(regionsData).length}`
+      `[PathAnalyzer] Total regions in data: ${regionsData.size}`
     );
 
     // Add iteration counter for tracking
@@ -353,7 +354,8 @@ export class PathAnalyzerLogic {
     }
 
     // Get region data
-    const regionData = regionsData[currentRegion];
+    // Use Map.get() for O(1) lookup
+    const regionData = regionsData.get(currentRegion);
     if (!regionData) return;
 
     // Explore neighbors via exits - like old version
@@ -414,7 +416,8 @@ export class PathAnalyzerLogic {
       const fromRegion = path[i];
       const toRegion = path[i + 1];
 
-      const fromRegionData = regionsData[fromRegion];
+      // Use Map.get() for O(1) lookup
+      const fromRegionData = regionsData.get(fromRegion);
       if (!fromRegionData || !fromRegionData.exits) continue;
 
       const availableExits = fromRegionData.exits.filter(
@@ -556,66 +559,66 @@ export class PathAnalyzerLogic {
       };
     }
 
-    const regionData = regionsData[regionName];
+    // Use Map.get() for O(1) lookup
+    const regionData = regionsData.get(regionName);
     const analysisData = {
       entrances: [],
       regionRules: [],
     };
 
     // 1. Analyze entrances to this region
-    Object.entries(regionsData).forEach(
-      ([otherRegionName, otherRegionData]) => {
-        if (otherRegionName === regionName) return;
+    // Use Map.entries() to iterate over Map
+    for (const [otherRegionName, otherRegionData] of regionsData.entries()) {
+      if (otherRegionName === regionName) continue;
 
-        if (otherRegionData.exits) {
-          const entrances = otherRegionData.exits.filter(
-            (exit) => exit.connected_region === regionName
-          );
+      if (otherRegionData.exits) {
+        const entrances = otherRegionData.exits.filter(
+          (exit) => exit.connected_region === regionName
+        );
 
-          if (entrances.length > 0) {
-            entrances.forEach((exit) => {
-              // Check if the exit connects TO the target region
-              // --- ADDED LOGGING --- >
-              if (exit.connected_region) {
-                // Log only if connected_region exists
-                const comparison = `Comparing ${otherRegionName}->${exit.name}'s connected_region ('${exit.connected_region}') to target ('${regionName}')`;
-                if (exit.connected_region === regionName) {
-                  this._logDebug(`${comparison} - MATCH FOUND!`);
-                } else if (
-                  exit.connected_region.toLowerCase() ===
-                  regionName.toLowerCase()
-                ) {
-                  this._logDebug(
-                    `${comparison} - Case-insensitive match found, but exact match failed.`
-                  );
-                } else {
-                  // Only log non-matches if debug level is high, or for specific regions
-                  // this._logDebug(`${comparison} - No match.`);
-                }
-              } else {
-                // Log if an exit is missing connected_region
+        if (entrances.length > 0) {
+          entrances.forEach((exit) => {
+            // Check if the exit connects TO the target region
+            // --- ADDED LOGGING --- >
+            if (exit.connected_region) {
+              // Log only if connected_region exists
+              const comparison = `Comparing ${otherRegionName}->${exit.name}'s connected_region ('${exit.connected_region}') to target ('${regionName}')`;
+              if (exit.connected_region === regionName) {
+                this._logDebug(`${comparison} - MATCH FOUND!`);
+              } else if (
+                exit.connected_region.toLowerCase() ===
+                regionName.toLowerCase()
+              ) {
                 this._logDebug(
-                  `Exit ${otherRegionName}->${exit.name} is missing connected_region field.`
+                  `${comparison} - Case-insensitive match found, but exact match failed.`
                 );
+              } else {
+                // Only log non-matches if debug level is high, or for specific regions
+                // this._logDebug(`${comparison} - No match.`);
               }
-              // < --- END LOGGING --- >
-              analysisData.entrances.push({
-                fromRegion: otherRegionName,
-                entrance: exit,
-              });
-              // Analyze nodes (pass interface)
-              const nodeResults = this.analyzeRuleForNodes(
-                exit.access_rule,
-                snapshotInterface
+            } else {
+              // Log if an exit is missing connected_region
+              this._logDebug(
+                `Exit ${otherRegionName}->${exit.name} is missing connected_region field.`
               );
-              Object.keys(allNodes).forEach((key) =>
-                allNodes[key].push(...nodeResults[key])
-              );
+            }
+            // < --- END LOGGING --- >
+            analysisData.entrances.push({
+              fromRegion: otherRegionName,
+              entrance: exit,
             });
-          }
+            // Analyze nodes (pass interface)
+            const nodeResults = this.analyzeRuleForNodes(
+              exit.access_rule,
+              snapshotInterface
+            );
+            Object.keys(allNodes).forEach((key) =>
+              allNodes[key].push(...nodeResults[key])
+            );
+          });
         }
       }
-    );
+    }
 
     // Deduplicate nodes at the end
     Object.keys(allNodes).forEach((key) => {

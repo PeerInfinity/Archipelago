@@ -1,7 +1,216 @@
 /**
- * Centralized game logic registry
- * This module handles game detection and logic module selection to eliminate
- * duplicate code throughout the state manager
+ * Game Logic Registry - Thread-Agnostic Game Detection and Logic Selection
+ *
+ * This module provides centralized game detection and logic module selection that works
+ * identically in both the web worker thread (StateManager) and main thread (UI components).
+ * It eliminates duplicate game detection code and ensures consistent helper function usage.
+ *
+ * **THREAD-AGNOSTIC DESIGN**:
+ * This file runs in BOTH thread contexts without modification:
+ * - **Worker Thread**: Used by StateManager during initialization and rule evaluation
+ * - **Main Thread**: Used by stateInterface.js for helper function selection
+ *
+ * The key to thread-agnostic design:
+ * - Pure functional exports - no side effects
+ * - No DOM or Worker-specific APIs
+ * - Static registry - no runtime state
+ * - All imports resolved at load time
+ *
+ * **DATA FLOW - WORKER THREAD PATH**:
+ *
+ * StateManager Initialization [worker thread]:
+ *   Input: JSON rules loaded, need to initialize game logic
+ *   ↓
+ * initialization.js - loadFromJSON():
+ *   Processing:
+ *     ├─> Parses jsonData.settings[playerId] to get game name
+ *     ├─> Calls initializeGameLogic(sm, jsonData, selectedPlayerId)
+ *     │
+ *   Output: Need to select appropriate game logic module
+ *   ↓
+ * initialization.js - initializeGameLogic():
+ *   Processing:
+ *     ├─> Extract game name from settings or rules
+ *     │     └─> gameName = gameSettingsFromFile.game || sm.rules?.game_name || 'UnknownGame'
+ *     ├─> Call getGameLogic(gameName) [THIS FILE]
+ *     │
+ *   Output: Request game logic for detected game
+ *   ↓
+ * getGameLogic(gameName) [THIS FILE] (worker thread):
+ *   Input:
+ *     └─> gameName: 'A Link to the Past' (or other game name)
+ *
+ *   Processing:
+ *     ├─> Lookup in GAME_REGISTRY['A Link to the Past']
+ *     │     └─> Found: {
+ *     │           logicModule: alttpStateModule,
+ *     │           helperFunctions: alttpLogic.helperFunctions,
+ *     │           worldClasses: ['ALTTPWorld'],
+ *     │           aliases: ['A Link to the Past', 'ALTTP']
+ *     │         }
+ *     ├─> Return logic configuration
+ *     │
+ *   Output:
+ *     └─> { logicModule, helperFunctions }
+ *   ↓
+ * initialization.js:
+ *   Processing:
+ *     ├─> sm.logicModule = logic.logicModule
+ *     ├─> sm.helperFunctions = logic.helperFunctions
+ *     ├─> sm.gameStateModule = sm.logicModule.initializeState()
+ *     │
+ *   Output: StateManager configured with game-specific logic
+ *   ↓
+ * StateManager Runtime:
+ *   - Uses sm.helperFunctions for rule evaluation
+ *   - Helper functions called with signature: (snapshot, staticData, ...args)
+ *
+ * **DATA FLOW - MAIN THREAD PATH**:
+ *
+ * UI Component Initialization [main thread]:
+ *   Input: LocationUI needs to evaluate rules on cached snapshots
+ *   ↓
+ * LocationUI.updateLocationDisplay():
+ *   Processing:
+ *     ├─> Gets cached snapshot from proxy
+ *     ├─> Gets cached staticData from proxy
+ *     ├─> Calls createStateSnapshotInterface(snapshot, staticData)
+ *     │
+ *   Output: Need SnapshotInterface with helper execution capability
+ *   ↓
+ * stateInterface.js - createStateSnapshotInterface():
+ *   Processing:
+ *     ├─> Detects game name from staticData
+ *     │     └─> const gameName = staticData?.game_name || snapshot?.game
+ *     ├─> Calls getGameLogic(gameName) [THIS FILE]
+ *     │
+ *   Output: Request game logic for detected game
+ *   ↓
+ * getGameLogic(gameName) [THIS FILE] (main thread):
+ *   Input:
+ *     └─> gameName: 'A Link to the Past'
+ *
+ *   Processing:
+ *     ├─> Lookup in GAME_REGISTRY['A Link to the Past']
+ *     │     └─> SAME registry as worker thread!
+ *     ├─> Return logic configuration
+ *     │
+ *   Output:
+ *     └─> { logicModule, helperFunctions }
+ *           └─> SAME helper functions as worker thread!
+ *   ↓
+ * stateInterface.js:
+ *   Processing:
+ *     ├─> Creates interface with executeHelper() method
+ *     │     └─> executeHelper(name, ...args) {
+ *     │           const selectedHelpers = getHelperFunctions(gameName);
+ *     │           return selectedHelpers[name](snapshot, staticData, ...args);
+ *     │         }
+ *     ├─> Returns SnapshotInterface
+ *     │
+ *   Output: Interface ready for rule evaluation
+ *   ↓
+ * LocationUI:
+ *   Processing:
+ *     ├─> Calls evaluateRule(location.access_rule, snapshotInterface)
+ *     ├─> Rule engine calls snapshotInterface.executeHelper('has', 'Progressive Sword')
+ *     ├─> Interface calls helperFunctions.has(snapshot, staticData, 'Progressive Sword')
+ *     │     └─> Uses CACHED snapshot data from proxy
+ *     │
+ *   Output: boolean result used for UI rendering
+ *
+ * **KEY DIFFERENCE BETWEEN PATHS**:
+ *
+ * Worker Thread:
+ *   ├─> Called once during StateManager initialization
+ *   ├─> Stores helper functions on StateManager instance
+ *   ├─> Helper functions operate on live state data
+ *   └─> Used for state computation and updates
+ *
+ * Main Thread:
+ *   ├─> Called every time SnapshotInterface is created
+ *   ├─> Gets fresh reference to helper functions each time
+ *   ├─> Helper functions operate on cached snapshot data
+ *   └─> Used for read-only UI rendering
+ *
+ * IMPORTANT: Both paths use THE SAME helper function implementations!
+ *
+ * **GAME REGISTRY STRUCTURE**:
+ * ```javascript
+ * const GAME_REGISTRY = {
+ *   'Game Name': {
+ *     logicModule: gameStateModule,      // State management (worker only)
+ *     helperFunctions: { has, count, ... }, // Rule evaluation (both threads)
+ *     worldClasses: ['WorldClassName'],  // Archipelago world class names
+ *     aliases: ['Full Name', 'Abbrev']   // Alternative names for detection
+ *   }
+ * }
+ * ```
+ *
+ * **GAME DETECTION FLOW**:
+ *
+ * determineGameName({ gameName, settings, worldClass }):
+ *   Priority order:
+ *     1. Direct gameName from rules.json (most reliable)
+ *     2. settings.game field
+ *     3. Detection from worldClass via detectGameFromWorldClass()
+ *     4. Fallback to 'Generic'
+ *
+ * detectGameFromWorldClass(worldClass):
+ *   Input: 'ALTTPWorld' (from Archipelago data)
+ *   Processing:
+ *     ├─> Lookup in WORLD_CLASS_MAPPING['ALTTPWorld']
+ *     │     └─> Returns 'A Link to the Past'
+ *     ├─> If not found, check aliases for partial matches
+ *     │
+ *   Output: Detected game name or 'Generic'
+ *
+ * **SUPPORTED GAMES**:
+ * - A Link to the Past (ALTTP)
+ * - A Hat in Time (AHIT)
+ * - Aquaria
+ * - ArchipIDLE
+ * - Blasphemous
+ * - Bomb Rush Cyberfunk
+ * - Celeste 64
+ * - Civilization VI
+ * - Castlevania - Circle of the Moon
+ * - DLCQuest
+ * - Hollow Knight
+ * - Hylics 2
+ * - Inscryption
+ * - Kingdom Hearts
+ * - Pokemon Red and Blue
+ * - Generic (fallback)
+ *
+ * **HELPER FUNCTION SIGNATURE**:
+ * All helper functions follow the standardized signature:
+ *   helperFunction(snapshot, staticData, ...args)
+ *
+ * - snapshot: Current game state (inventory, flags, events, reachability)
+ * - staticData: Static game data (items, regions, locations, settings)
+ * - ...args: Rule-specific arguments from JSON
+ *
+ * Example:
+ *   has(snapshot, staticData, itemName) {
+ *     // Check flags
+ *     if (snapshot.flags?.includes(itemName)) return true;
+ *     // Check inventory
+ *     return (snapshot.inventory[itemName] || 0) > 0;
+ *   }
+ *
+ * **ARCHITECTURE NOTES**:
+ * - Static registry built at module load time
+ * - No runtime configuration or state changes
+ * - World class mapping auto-generated from registry
+ * - Fallback to Generic for unknown games
+ * - Helper functions are pure - no side effects
+ * - Thread-safe by design (no shared mutable state)
+ *
+ * @module shared/gameLogic/gameLogicRegistry
+ * @see stateInterface.js - Uses this for helper function selection (both threads)
+ * @see stateManager/core/initialization.js - Uses this for StateManager setup (worker)
+ * @see ruleEngine.js - Calls helpers returned by this registry
  */
 
 // Import all game logic modules
@@ -22,16 +231,69 @@ import * as civ6Logic from './civ_6/civ6Logic.js';
 import { civ6StateModule } from './civ_6/civ6Logic.js';
 import { helperFunctions as cvcotmHelperFunctions } from './cvcotm/cvcotmLogic.js';
 import * as dlcquestLogic from './dlcquest/dlcquestLogic.js';
-import { dlcquestStateModule } from './dlcquest/dlcquestLogic.js';
+import { dlcquestStateModule, wrapState as dlcquestWrapState } from './dlcquest/dlcquestLogic.js';
+import * as factorioLogic from './factorio/factorioLogic.js';
+import { factorioStateModule } from './factorio/factorioLogic.js';
 import * as hkLogic from './hk/hkLogic.js';
 import { hkStateModule } from './hk/hkLogic.js';
-import * as hylics2Logic from './hylics_2/hylics2Logic.js';
-import { hylics2StateModule } from './hylics_2/hylics2Logic.js';
+import * as hylics2Logic from './hylics2/hylics2Logic.js';
+import { hylics2StateModule } from './hylics2/hylics2Logic.js';
 import * as inscryptionLogic from './inscryption/inscryptionLogic.js';
 import { inscryptionStateModule } from './inscryption/inscryptionLogic.js';
+import * as jakanddaxterLogic from './jakanddaxter/jakanddaxterLogic.js';
 import { kh1Logic } from './kh1/kh1Logic.js';
+import { helperFunctions as kh2HelperFunctions } from './kh2/kh2Logic.js';
+import * as kdl3Logic from './kdl3/kdl3Logic.js';
+import * as ladxLogic from './ladx/ladxLogic.js';
+import * as landstalkerLogic from './landstalker/landstalkerLogic.js';
+import { landstalkerStateModule } from './landstalker/landstalkerLogic.js';
+import { helperFunctions as lingoHelperFunctions } from './lingo/lingoLogic.js';
+import * as mlssLogic from './mlss/mlssLogic.js';
+import { mlssStateModule } from './mlss/mlssLogic.js';
+import * as marioland2Logic from './marioland2/marioland2Logic.js';
+import * as messengerLogic from './messenger/messengerLogic.js';
+import { messengerStateModule } from './messenger/messengerLogic.js';
+import * as mmbn3Logic from './mmbn3/mmbn3Logic.js';
+import { mmbn3StateModule } from './mmbn3/mmbn3Logic.js';
 import * as pokemon_rbLogic from './pokemon_rb/pokemon_rbLogic.js';
 import { pokemon_rbStateModule } from './pokemon_rb/pokemon_rbLogic.js';
+import * as pokemon_emeraldLogic from './pokemon_emerald/pokemon_emeraldLogic.js';
+import { pokemon_emeraldStateModule } from './pokemon_emerald/pokemon_emeraldLogic.js';
+import { helperFunctions as mm2HelperFunctions } from './mm2/mm2Logic.js';
+import * as ootLogic from './ocarina_of_time/ootLogic.js';
+import { ootStateModule } from './ocarina_of_time/ootLogic.js';
+import * as raftLogic from './raft/raftLogic.js';
+import { raftStateModule } from './raft/raftLogic.js';
+import * as sm64exLogic from './sm64ex/sm64exLogic.js';
+import { sm64exStateModule } from './sm64ex/sm64exLogic.js';
+import * as v6Logic from './v6/v6Logic.js';
+import { v6StateModule } from './v6/v6Logic.js';
+import * as yachtdiceLogic from './yachtdice/yachtdiceLogic.js';
+import { yachtdiceStateModule } from './yachtdice/yachtdiceLogic.js';
+import * as cv64Logic from './cv64/cv64Logic.js';
+import * as darkSouls3Logic from './dark_souls_3/darkSouls3Logic.js';
+import { darkSouls3StateModule } from './dark_souls_3/darkSouls3Logic.js';
+import * as overcooked2Logic from './overcooked2/overcooked2Logic.js';
+import { overcooked2StateModule } from './overcooked2/overcooked2Logic.js';
+import * as paintLogic from './paint/paintLogic.js';
+import * as soeLogic from './soe/soeLogic.js';
+import * as shapezLogic from './shapez/shapezLogic.js';
+import * as shiversLogic from './shivers/shiversLogic.js';
+import * as smz3Logic from './smz3/smz3Logic.js';
+import * as sc2Logic from './sc2/sc2Logic.js';
+import * as subnauticaLogic from './subnautica/subnauticaLogic.js';
+import { helperFunctions as smHelperFunctions, smStateModule } from './sm/smLogic.js';
+import * as stardewValleyLogic from './stardew_valley/stardewValleyLogic.js';
+import { stardewValleyStateModule } from './stardew_valley/stardewValleyLogic.js';
+import * as terrariaLogic from './terraria/terrariaLogic.js';
+import * as timespinnerLogic from './timespinner/timespinnerLogic.js';
+import * as twwLogic from './tww/twwLogic.js';
+import * as wargrooveLogic from './wargroove/wargrooveLogic.js';
+import { helperFunctions as yoshisislandHelperFunctions } from './yoshisisland/yoshisislandLogic.js';
+import * as yugioh06Logic from './yugioh06/yugioh06Logic.js';
+import { helperFunctions as osrsHelperFunctions } from './osrs/osrsLogic.js';
+import * as tlozLogic from './tloz/tlozLogic.js';
+import * as witnessLogic from './witness/witnessLogic.js';
 
 /**
  * Registry of all supported games and their logic modules
@@ -91,11 +353,30 @@ const GAME_REGISTRY = {
     worldClasses: ['CVCotMWorld'],
     aliases: ['Castlevania - Circle of the Moon', 'CvCotM', 'cvcotm']
   },
+  'Castlevania 64': {
+    logicModule: genericLogic.genericStateModule,
+    helperFunctions: cv64Logic.helperFunctions,
+    worldClasses: ['CV64World'],
+    aliases: ['Castlevania 64', 'CV64', 'cv64']
+  },
+  'Dark Souls III': {
+    logicModule: darkSouls3Logic.darkSouls3StateModule,
+    helperFunctions: darkSouls3Logic.helperFunctions,
+    worldClasses: ['DarkSouls3World'],
+    aliases: ['Dark Souls III', 'Dark Souls 3', 'dark_souls_3', 'DS3']
+  },
   'DLCQuest': {
     logicModule: dlcquestLogic.dlcquestStateModule,
     helperFunctions: dlcquestLogic.helperFunctions,
+    wrapState: dlcquestWrapState,
     worldClasses: ['DLCqworld'],
     aliases: ['DLCQuest', 'DLC Quest']
+  },
+  'Factorio': {
+    logicModule: factorioLogic.factorioStateModule,
+    helperFunctions: factorioLogic.helperFunctions,
+    worldClasses: ['FactorioWorld'],
+    aliases: ['Factorio']
   },
   'Hollow Knight': {
     logicModule: hkLogic.hkStateModule,
@@ -115,17 +396,236 @@ const GAME_REGISTRY = {
     worldClasses: ['InscryptionWorld'],
     aliases: ['Inscryption']
   },
+  'Jak and Daxter: The Precursor Legacy': {
+    logicModule: genericLogic.genericStateModule,
+    helperFunctions: jakanddaxterLogic.helperFunctions,
+    worldClasses: ['JakAndDaxterWorld'],
+    aliases: ['Jak and Daxter: The Precursor Legacy', 'Jak and Daxter']
+  },
   'Kingdom Hearts': {
     logicModule: genericLogic.genericStateModule,
     helperFunctions: kh1Logic,
     worldClasses: ['KH1World'],
     aliases: ['Kingdom Hearts', 'KH1', 'Kingdom Hearts 1']
   },
+  'Kingdom Hearts 2': {
+    logicModule: genericLogic.genericStateModule,
+    helperFunctions: kh2HelperFunctions,
+    worldClasses: ['KH2World'],
+    aliases: ['Kingdom Hearts 2', 'KH2', 'Kingdom Hearts II']
+  },
+  "Kirby's Dream Land 3": {
+    logicModule: genericLogic.genericStateModule,
+    helperFunctions: kdl3Logic.helperFunctions,
+    worldClasses: ['KDL3World'],
+    aliases: ["Kirby's Dream Land 3", 'KDL3']
+  },
+  'Mario & Luigi Superstar Saga': {
+    logicModule: mlssLogic.mlssStateModule,
+    helperFunctions: mlssLogic.helperFunctions,
+    worldClasses: ['MLSSWorld'],
+    aliases: ['Mario & Luigi Superstar Saga', 'MLSS']
+  },
+  'MegaMan Battle Network 3': {
+    logicModule: mmbn3Logic.mmbn3StateModule,
+    helperFunctions: mmbn3Logic.helperFunctions,
+    worldClasses: ['MMBN3World'],
+    aliases: ['MegaMan Battle Network 3', 'MMBN3', 'mmbn3']
+  },
+  'The Messenger': {
+    logicModule: messengerLogic.messengerStateModule,
+    helperFunctions: messengerLogic.helperFunctions,
+    worldClasses: ['MessengerWorld'],
+    aliases: ['The Messenger', 'Messenger']
+  },
   'Pokemon Red and Blue': {
     logicModule: pokemon_rbLogic.pokemon_rbStateModule,
     helperFunctions: pokemon_rbLogic.helperFunctions,
     worldClasses: ['PokemonRedBlueWorld'],
     aliases: ['Pokemon Red and Blue', 'Pokemon RB', 'pokemon_rb']
+  },
+  'Pokemon Emerald': {
+    logicModule: pokemon_emeraldLogic.pokemon_emeraldStateModule,
+    helperFunctions: pokemon_emeraldLogic.helperFunctions,
+    worldClasses: ['PokemonEmeraldWorld'],
+    aliases: ['Pokemon Emerald', 'pokemon_emerald']
+  },
+  'Landstalker - The Treasures of King Nole': {
+    logicModule: landstalkerLogic.landstalkerStateModule,
+    helperFunctions: landstalkerLogic.helperFunctions,
+    worldClasses: ['LandstalkerWorld'],
+    aliases: ['Landstalker - The Treasures of King Nole', 'Landstalker']
+  },
+  'Lingo': {
+    logicModule: genericLogic.genericStateModule,
+    helperFunctions: lingoHelperFunctions,
+    worldClasses: ['LingoWorld'],
+    aliases: ['Lingo']
+  },
+  'Links Awakening DX': {
+    logicModule: genericLogic.genericStateModule,
+    helperFunctions: ladxLogic.helperFunctions,
+    worldClasses: ['LinksAwakeningWorld'],
+    aliases: ['Links Awakening DX', 'LADX', 'links_awakening_dx']
+  },
+  'Mega Man 2': {
+    logicModule: genericLogic.genericStateModule,
+    helperFunctions: mm2HelperFunctions,
+    worldClasses: ['MM2World'],
+    aliases: ['Mega Man 2', 'MM2', 'Megaman 2']
+  },
+  'Ocarina of Time': {
+    logicModule: ootLogic.ootStateModule,
+    helperFunctions: ootLogic.helperFunctions,
+    worldClasses: ['OOTWorld'],
+    aliases: ['Ocarina of Time', 'OOT', 'Zelda: Ocarina of Time']
+  },
+  'Old School Runescape': {
+    logicModule: genericLogic.genericStateModule,
+    helperFunctions: osrsHelperFunctions,
+    worldClasses: ['OSRSWorld'],
+    aliases: ['Old School Runescape', 'OSRS', 'osrs']
+  },
+  'Paint': {
+    logicModule: genericLogic.genericStateModule,
+    helperFunctions: paintLogic.helperFunctions,
+    worldClasses: ['PaintWorld'],
+    aliases: ['Paint']
+  },
+  'Raft': {
+    logicModule: raftLogic.raftStateModule,
+    helperFunctions: raftLogic.helperFunctions,
+    worldClasses: ['RaftWorld'],
+    aliases: ['Raft']
+  },
+  'Starcraft 2': {
+    logicModule: genericLogic.genericStateModule,
+    helperFunctions: sc2Logic.helperFunctions,
+    worldClasses: ['SC2World'],
+    aliases: ['Starcraft 2', 'SC2', 'StarCraft 2', 'StarCraft II']
+  },
+  'Super Mario 64': {
+    logicModule: sm64exLogic.sm64exStateModule,
+    helperFunctions: sm64exLogic.helperFunctions,
+    worldClasses: ['SM64World'],
+    aliases: ['Super Mario 64', 'SM64', 'sm64ex']
+  },
+  'Super Mario Land 2': {
+    logicModule: genericLogic.genericStateModule,
+    helperFunctions: marioland2Logic.helperFunctions,
+    stateMethods: marioland2Logic.stateMethods,
+    worldClasses: ['MarioLand2World'],
+    aliases: ['Super Mario Land 2', 'SML2', 'marioland2']
+  },
+  'VVVVVV': {
+    logicModule: v6Logic.v6StateModule,
+    helperFunctions: v6Logic.helperFunctions,
+    worldClasses: ['V6World'],
+    aliases: ['VVVVVV', 'V6']
+  },
+  'Overcooked! 2': {
+    logicModule: overcooked2Logic.overcooked2StateModule,
+    helperFunctions: overcooked2Logic.helperFunctions,
+    worldClasses: ['Overcooked2World'],
+    aliases: ['Overcooked! 2', 'overcooked2']
+  },
+  'Yacht Dice': {
+    logicModule: yachtdiceLogic.yachtdiceStateModule,
+    helperFunctions: yachtdiceLogic.helperFunctions,
+    worldClasses: ['YachtDiceWorld'],
+    aliases: ['Yacht Dice', 'yacht_dice']
+  },
+  'Secret of Evermore': {
+    logicModule: genericLogic.genericStateModule,
+    helperFunctions: soeLogic.helperFunctions,
+    worldClasses: ['SoEWorld'],
+    aliases: ['Secret of Evermore', 'SOE', 'soe']
+  },
+  'Stardew Valley': {
+    logicModule: stardewValleyStateModule,
+    helperFunctions: stardewValleyLogic.helperFunctions,
+    worldClasses: ['StardewValleyWorld'],
+    aliases: ['Stardew Valley', 'SDV', 'stardew_valley']
+  },
+  'shapez': {
+    logicModule: genericLogic.genericStateModule,
+    helperFunctions: shapezLogic.helpers,
+    constants: shapezLogic.default.constants,
+    worldClasses: ['ShapezWorld'],
+    aliases: ['shapez']
+  },
+  'Shivers': {
+    logicModule: genericLogic.genericStateModule,
+    helperFunctions: shiversLogic.helperFunctions,
+    worldClasses: ['ShiversWorld'],
+    aliases: ['Shivers']
+  },
+  'SMZ3': {
+    logicModule: genericLogic.genericStateModule,
+    helperFunctions: smz3Logic,
+    worldClasses: ['SMZ3World'],
+    aliases: ['SMZ3', 'Super Metroid and A Link to the Past Combo Randomizer']
+  },
+  'Subnautica': {
+    logicModule: genericLogic.genericStateModule,
+    helperFunctions: subnauticaLogic.helperFunctions,
+    worldClasses: ['SubnauticaWorld'],
+    aliases: ['Subnautica']
+  },
+  'Super Metroid': {
+    logicModule: smStateModule, // Using SM-specific state module with smbm support
+    helperFunctions: smHelperFunctions,
+    worldClasses: ['SMWorld'],
+    aliases: ['Super Metroid', 'SM']
+  },
+  'Terraria': {
+    logicModule: genericLogic.genericStateModule,
+    helperFunctions: terrariaLogic.helperFunctions,
+    worldClasses: ['TerrariaWorld'],
+    aliases: ['Terraria']
+  },
+  'The Legend of Zelda': {
+    logicModule: genericLogic.genericStateModule,
+    helperFunctions: tlozLogic.helperFunctions,
+    worldClasses: ['TLoZWorld'],
+    aliases: ['The Legend of Zelda', 'TLoZ', 'TLOZ']
+  },
+  'Timespinner': {
+    logicModule: timespinnerLogic.timespinnerStateModule,
+    helperFunctions: timespinnerLogic.helperFunctions,
+    worldClasses: ['TimespinnerWorld'],
+    aliases: ['Timespinner']
+  },
+  'The Wind Waker': {
+    logicModule: genericLogic.genericStateModule, // Using generic state module for now
+    helperFunctions: twwLogic.default,
+    worldClasses: ['TWWWorld'],
+    aliases: ['The Wind Waker', 'TWW', 'Wind Waker']
+  },
+  'Wargroove': {
+    logicModule: genericLogic.genericStateModule,
+    helperFunctions: wargrooveLogic.helperFunctions,
+    stateMethods: wargrooveLogic.stateMethods,
+    worldClasses: ['WargrooveWorld'],
+    aliases: ['Wargroove', 'wargroove']
+  },
+  'The Witness': {
+    logicModule: genericLogic.genericStateModule,  // Using generic for now
+    helperFunctions: witnessLogic.helperFunctions,
+    worldClasses: ['WitnessWorld'],
+    aliases: ['The Witness', 'Witness']
+  },
+  "Yoshi's Island": {
+    logicModule: genericLogic.genericStateModule,
+    helperFunctions: yoshisislandHelperFunctions,
+    worldClasses: ['YoshisIslandWorld'],
+    aliases: ["Yoshi's Island"]
+  },
+  'Yu-Gi-Oh! 2006': {
+    logicModule: genericLogic.genericStateModule, // Using generic state module
+    helperFunctions: yugioh06Logic.helperFunctions,
+    worldClasses: ['Yugioh06World'],
+    aliases: ['Yu-Gi-Oh! 2006', 'yugioh06']
   },
   // Add more games here as they're implemented
   'Generic': {
@@ -178,22 +678,30 @@ export function detectGameFromWorldClass(worldClass) {
 /**
  * Get logic configuration for a game
  * @param {string} gameName - The name of the game
- * @returns {Object} Object containing logicModule and helperFunctions
+ * @returns {Object} Object containing logicModule, helperFunctions, and optional constants
  */
 export function getGameLogic(gameName) {
   const config = GAME_REGISTRY[gameName];
-  
+
   if (!config) {
     // Fallback to Generic for unknown games
     return {
       logicModule: GAME_REGISTRY['Generic'].logicModule,
-      helperFunctions: GAME_REGISTRY['Generic'].helperFunctions
+      helperFunctions: GAME_REGISTRY['Generic'].helperFunctions,
+      stateMethods: GAME_REGISTRY['Generic'].stateMethods,
+      stateModule: GAME_REGISTRY['Generic'].logicModule,
+      constants: GAME_REGISTRY['Generic'].constants,
+      wrapState: GAME_REGISTRY['Generic'].wrapState
     };
   }
 
   return {
     logicModule: config.logicModule,
-    helperFunctions: config.helperFunctions
+    helperFunctions: config.helperFunctions,
+    stateMethods: config.stateMethods,
+    stateModule: config.logicModule, // Expose stateModule for hooks
+    constants: config.constants,
+    wrapState: config.wrapState
   };
 }
 
@@ -268,7 +776,7 @@ export function determineGameName({ gameName, settings, worldClass }) {
  * @param {string} options.gameName - Direct game name from rules
  * @param {Object} options.settings - Game settings object
  * @param {string} options.worldClass - World class from Archipelago data
- * @returns {Object} Object containing logicModule, helperFunctions, and detectedGame
+ * @returns {Object} Object containing logicModule, helperFunctions, constants, and detectedGame
  */
 export function initializeGameLogic({ gameName, settings, worldClass }) {
   const detectedGame = determineGameName({ gameName, settings, worldClass });
@@ -277,6 +785,7 @@ export function initializeGameLogic({ gameName, settings, worldClass }) {
   return {
     logicModule: logic.logicModule,
     helperFunctions: logic.helperFunctions,
+    constants: logic.constants,
     detectedGame: detectedGame
   };
 }

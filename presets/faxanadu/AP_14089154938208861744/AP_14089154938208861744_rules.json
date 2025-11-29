@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Menu -> Eolis",
@@ -29,13 +28,6 @@
       },
       "Eolis": {
         "name": "Eolis",
-        "entrances": [
-          {
-            "name": "Menu -> Eolis",
-            "parent_region": "Menu",
-            "connected_region": "Eolis"
-          }
-        ],
         "exits": [
           {
             "name": "Eolis -> Path to Apolune",
@@ -74,19 +66,16 @@
             "name": "Eolis Key Jack",
             "id": 400101,
             "access_rule": {
-              "type": "or",
-              "conditions": [
+              "type": "state_method",
+              "method": "has_any",
+              "args": [
                 {
-                  "type": "item_check",
-                  "item": "Progressive Sword"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Deluge"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Ring of Elf"
+                  "type": "constant",
+                  "value": [
+                    "Deluge",
+                    "Progressive Sword",
+                    "Ring of Elf"
+                  ]
                 }
               ]
             },
@@ -101,19 +90,16 @@
             "name": "Eolis Hand Dagger",
             "id": 400102,
             "access_rule": {
-              "type": "or",
-              "conditions": [
+              "type": "state_method",
+              "method": "has_any",
+              "args": [
                 {
-                  "type": "item_check",
-                  "item": "Progressive Sword"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Deluge"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Ring of Elf"
+                  "type": "constant",
+                  "value": [
+                    "Deluge",
+                    "Progressive Sword",
+                    "Ring of Elf"
+                  ]
                 }
               ]
             },
@@ -128,19 +114,16 @@
             "name": "Eolis Red Potion",
             "id": 400103,
             "access_rule": {
-              "type": "or",
-              "conditions": [
+              "type": "state_method",
+              "method": "has_any",
+              "args": [
                 {
-                  "type": "item_check",
-                  "item": "Progressive Sword"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Deluge"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Ring of Elf"
+                  "type": "constant",
+                  "value": [
+                    "Deluge",
+                    "Progressive Sword",
+                    "Ring of Elf"
+                  ]
                 }
               ]
             },
@@ -155,19 +138,16 @@
             "name": "Eolis Elixir",
             "id": 400104,
             "access_rule": {
-              "type": "or",
-              "conditions": [
+              "type": "state_method",
+              "method": "has_any",
+              "args": [
                 {
-                  "type": "item_check",
-                  "item": "Progressive Sword"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Deluge"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Ring of Elf"
+                  "type": "constant",
+                  "value": [
+                    "Deluge",
+                    "Progressive Sword",
+                    "Ring of Elf"
+                  ]
                 }
               ]
             },
@@ -182,19 +162,16 @@
             "name": "Eolis Deluge",
             "id": 400105,
             "access_rule": {
-              "type": "or",
-              "conditions": [
+              "type": "state_method",
+              "method": "has_any",
+              "args": [
                 {
-                  "type": "item_check",
-                  "item": "Progressive Sword"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Deluge"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Ring of Elf"
+                  "type": "constant",
+                  "value": [
+                    "Deluge",
+                    "Progressive Sword",
+                    "Ring of Elf"
+                  ]
                 }
               ]
             },
@@ -209,13 +186,6 @@
       },
       "Path to Apolune": {
         "name": "Path to Apolune",
-        "entrances": [
-          {
-            "name": "Eolis -> Path to Apolune",
-            "parent_region": "Eolis",
-            "connected_region": "Path to Apolune"
-          }
-        ],
         "exits": [
           {
             "name": "Path to Apolune -> Apolune",
@@ -232,10 +202,7 @@
             "id": 400106,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Key King"
-              }
+              "item": "Key King"
             },
             "item": {
               "name": "Unlock Wingboots",
@@ -249,10 +216,7 @@
             "id": 400107,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Key Ace"
-              }
+              "item": "Key Ace"
             },
             "item": {
               "name": "Hourglass",
@@ -265,23 +229,13 @@
       },
       "Apolune": {
         "name": "Apolune",
-        "entrances": [
-          {
-            "name": "Path to Apolune -> Apolune",
-            "parent_region": "Path to Apolune",
-            "connected_region": "Apolune"
-          }
-        ],
         "exits": [
           {
             "name": "Apolune -> Tower of Trunk",
             "connected_region": "Tower of Trunk",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Key Jack"
-              }
+              "item": "Key Jack"
             }
           },
           {
@@ -289,10 +243,7 @@
             "connected_region": "Path to Forepaw",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Mattock"
-              }
+              "item": "Mattock"
             }
           }
         ],
@@ -358,10 +309,7 @@
             "id": 400112,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Unlock Wingboots"
-              }
+              "item": "Unlock Wingboots"
             },
             "item": {
               "name": "Wingboots",
@@ -374,13 +322,6 @@
       },
       "Tower of Trunk": {
         "name": "Tower of Trunk",
-        "entrances": [
-          {
-            "name": "Apolune -> Tower of Trunk",
-            "parent_region": "Apolune",
-            "connected_region": "Tower of Trunk"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -391,10 +332,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Deluge"
-                  },
+                  "item": "Deluge",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -402,10 +340,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Progressive Sword"
-                  },
+                  "item": "Progressive Sword",
                   "count": {
                     "type": "constant",
                     "value": 2
@@ -452,13 +387,6 @@
       },
       "Path to Forepaw": {
         "name": "Path to Forepaw",
-        "entrances": [
-          {
-            "name": "Apolune -> Path to Forepaw",
-            "parent_region": "Apolune",
-            "connected_region": "Path to Forepaw"
-          }
-        ],
         "exits": [
           {
             "name": "Path to Forepaw -> Forepaw",
@@ -511,13 +439,6 @@
       },
       "Forepaw": {
         "name": "Forepaw",
-        "entrances": [
-          {
-            "name": "Path to Forepaw -> Forepaw",
-            "parent_region": "Path to Forepaw",
-            "connected_region": "Forepaw"
-          }
-        ],
         "exits": [
           {
             "name": "Forepaw -> Trunk",
@@ -631,23 +552,13 @@
       },
       "Trunk": {
         "name": "Trunk",
-        "entrances": [
-          {
-            "name": "Forepaw -> Trunk",
-            "parent_region": "Forepaw",
-            "connected_region": "Trunk"
-          }
-        ],
         "exits": [
           {
             "name": "Trunk -> Joker Spring",
             "connected_region": "Joker Spring",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Key Joker"
-              }
+              "item": "Key Joker"
             }
           },
           {
@@ -655,10 +566,7 @@
             "connected_region": "Tower of Fortress",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Key Jack"
-              }
+              "item": "Key Jack"
             }
           },
           {
@@ -685,10 +593,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Progressive Sword"
-                  },
+                  "item": "Progressive Sword",
                   "count": {
                     "type": "constant",
                     "value": 2
@@ -732,10 +637,7 @@
             "id": 400127,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Unlock Wingboots"
-              }
+              "item": "Unlock Wingboots"
             },
             "item": {
               "name": "Red Potion",
@@ -749,10 +651,7 @@
             "id": null,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Unlock Wingboots"
-              }
+              "item": "Unlock Wingboots"
             },
             "item": {
               "name": "Sky Spring Flow",
@@ -765,13 +664,6 @@
       },
       "Joker Spring": {
         "name": "Joker Spring",
-        "entrances": [
-          {
-            "name": "Trunk -> Joker Spring",
-            "parent_region": "Trunk",
-            "connected_region": "Joker Spring"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -806,13 +698,6 @@
       },
       "Tower of Fortress": {
         "name": "Tower of Fortress",
-        "entrances": [
-          {
-            "name": "Trunk -> Tower of Fortress",
-            "parent_region": "Trunk",
-            "connected_region": "Tower of Fortress"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -904,10 +789,7 @@
             "id": 400135,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Sky Spring Flow"
-              }
+              "item": "Sky Spring Flow"
             },
             "item": {
               "name": "Progressive Sword",
@@ -921,10 +803,7 @@
             "id": null,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Spring Elixir"
-              }
+              "item": "Spring Elixir"
             },
             "item": {
               "name": "Tower of Fortress Spring Flow",
@@ -937,13 +816,6 @@
       },
       "Path to Mascon": {
         "name": "Path to Mascon",
-        "entrances": [
-          {
-            "name": "Trunk -> Path to Mascon",
-            "parent_region": "Trunk",
-            "connected_region": "Path to Mascon"
-          }
-        ],
         "exits": [
           {
             "name": "Path to Mascon -> Tower of Red Potion",
@@ -953,17 +825,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Key Queen"
-                  }
+                  "item": "Key Queen"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Red Potion"
-                  },
+                  "item": "Red Potion",
                   "count": {
                     "type": "constant",
                     "value": 4
@@ -1000,13 +866,6 @@
       },
       "Tower of Red Potion": {
         "name": "Tower of Red Potion",
-        "entrances": [
-          {
-            "name": "Path to Mascon -> Tower of Red Potion",
-            "parent_region": "Path to Mascon",
-            "connected_region": "Tower of Red Potion"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1027,13 +886,6 @@
       },
       "Mascon": {
         "name": "Mascon",
-        "entrances": [
-          {
-            "name": "Path to Mascon -> Mascon",
-            "parent_region": "Path to Mascon",
-            "connected_region": "Mascon"
-          }
-        ],
         "exits": [
           {
             "name": "Mascon -> Path to Victim",
@@ -1133,23 +985,13 @@
       },
       "Path to Victim": {
         "name": "Path to Victim",
-        "entrances": [
-          {
-            "name": "Mascon -> Path to Victim",
-            "parent_region": "Mascon",
-            "connected_region": "Path to Victim"
-          }
-        ],
         "exits": [
           {
             "name": "Path to Victim -> Tower of Suffer",
             "connected_region": "Tower of Suffer",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Key Queen"
-              }
+              "item": "Key Queen"
             }
           },
           {
@@ -1157,10 +999,7 @@
             "connected_region": "Victim",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Unlock Wingboots"
-              }
+              "item": "Unlock Wingboots"
             }
           }
         ],
@@ -1170,10 +1009,7 @@
             "id": 400144,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Unlock Wingboots"
-              }
+              "item": "Unlock Wingboots"
             },
             "item": {
               "name": "Wingboots",
@@ -1228,27 +1064,18 @@
             "name": "Misty Doctor Office",
             "id": 400148,
             "access_rule": {
-              "type": "or",
-              "conditions": [
+              "type": "state_method",
+              "method": "has_any",
+              "args": [
                 {
-                  "type": "item_check",
-                  "item": "Deluge"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Thunder"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Fire"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Death"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Tilte"
+                  "type": "constant",
+                  "value": [
+                    "Death",
+                    "Deluge",
+                    "Fire",
+                    "Thunder",
+                    "Tilte"
+                  ]
                 }
               ]
             },
@@ -1263,13 +1090,6 @@
       },
       "Tower of Suffer": {
         "name": "Tower of Suffer",
-        "entrances": [
-          {
-            "name": "Path to Victim -> Tower of Suffer",
-            "parent_region": "Path to Victim",
-            "connected_region": "Tower of Suffer"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1280,17 +1100,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Deluge"
-                  }
+                  "item": "Deluge"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Progressive Sword"
-                  },
+                  "item": "Progressive Sword",
                   "count": {
                     "type": "constant",
                     "value": 2
@@ -1337,13 +1151,6 @@
       },
       "Victim": {
         "name": "Victim",
-        "entrances": [
-          {
-            "name": "Path to Victim -> Victim",
-            "parent_region": "Path to Victim",
-            "connected_region": "Victim"
-          }
-        ],
         "exits": [
           {
             "name": "Victim -> Mist",
@@ -1374,10 +1181,7 @@
             "id": 400153,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Unlock Wingboots"
-              }
+              "item": "Unlock Wingboots"
             },
             "item": {
               "name": "Wingboots",
@@ -1432,13 +1236,6 @@
       },
       "Mist": {
         "name": "Mist",
-        "entrances": [
-          {
-            "name": "Victim -> Mist",
-            "parent_region": "Victim",
-            "connected_region": "Mist"
-          }
-        ],
         "exits": [
           {
             "name": "Mist -> Useless Tower",
@@ -1462,10 +1259,7 @@
             "connected_region": "Tower of Mist",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Key King"
-              }
+              "item": "Key King"
             }
           },
           {
@@ -1473,10 +1267,7 @@
             "connected_region": "Path to Conflate",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Key Ace"
-              }
+              "item": "Key Ace"
             }
           }
         ],
@@ -1556,10 +1347,7 @@
             "id": 400162,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Black Onyx"
-              }
+              "item": "Black Onyx"
             },
             "item": {
               "name": "Ointment",
@@ -1572,13 +1360,6 @@
       },
       "Useless Tower": {
         "name": "Useless Tower",
-        "entrances": [
-          {
-            "name": "Mist -> Useless Tower",
-            "parent_region": "Mist",
-            "connected_region": "Useless Tower"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1599,13 +1380,6 @@
       },
       "Tower of Mist": {
         "name": "Tower of Mist",
-        "entrances": [
-          {
-            "name": "Mist -> Tower of Mist",
-            "parent_region": "Mist",
-            "connected_region": "Tower of Mist"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1654,23 +1428,13 @@
       },
       "Path to Conflate": {
         "name": "Path to Conflate",
-        "entrances": [
-          {
-            "name": "Mist -> Path to Conflate",
-            "parent_region": "Mist",
-            "connected_region": "Path to Conflate"
-          }
-        ],
         "exits": [
           {
             "name": "Path to Conflate -> Helm Branch",
             "connected_region": "Helm Branch",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Key King"
-              }
+              "item": "Key King"
             }
           },
           {
@@ -1686,10 +1450,7 @@
             "connected_region": "Branches",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Key King"
-              }
+              "item": "Key King"
             }
           }
         ],
@@ -1726,13 +1487,6 @@
       },
       "Helm Branch": {
         "name": "Helm Branch",
-        "entrances": [
-          {
-            "name": "Path to Conflate -> Helm Branch",
-            "parent_region": "Path to Conflate",
-            "connected_region": "Helm Branch"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1767,13 +1521,6 @@
       },
       "Conflate": {
         "name": "Conflate",
-        "entrances": [
-          {
-            "name": "Path to Conflate -> Conflate",
-            "parent_region": "Path to Conflate",
-            "connected_region": "Conflate"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1837,10 +1584,7 @@
             "id": 400175,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Progressive Armor"
-              },
+              "item": "Progressive Armor",
               "count": {
                 "type": "constant",
                 "value": 3
@@ -1857,13 +1601,6 @@
       },
       "Branches": {
         "name": "Branches",
-        "entrances": [
-          {
-            "name": "Path to Conflate -> Branches",
-            "parent_region": "Path to Conflate",
-            "connected_region": "Branches"
-          }
-        ],
         "exits": [
           {
             "name": "Branches -> Path to Daybreak",
@@ -1908,10 +1645,7 @@
             "id": 400178,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Unlock Wingboots"
-              }
+              "item": "Unlock Wingboots"
             },
             "item": {
               "name": "Progressive Shield",
@@ -1938,13 +1672,6 @@
       },
       "Path to Daybreak": {
         "name": "Path to Daybreak",
-        "entrances": [
-          {
-            "name": "Branches -> Path to Daybreak",
-            "parent_region": "Branches",
-            "connected_region": "Path to Daybreak"
-          }
-        ],
         "exits": [
           {
             "name": "Path to Daybreak -> Daybreak",
@@ -2017,10 +1744,7 @@
             "id": 400184,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Unlock Wingboots"
-              }
+              "item": "Unlock Wingboots"
             },
             "item": {
               "name": "Tilte",
@@ -2047,23 +1771,13 @@
       },
       "Daybreak": {
         "name": "Daybreak",
-        "entrances": [
-          {
-            "name": "Path to Daybreak -> Daybreak",
-            "parent_region": "Path to Daybreak",
-            "connected_region": "Daybreak"
-          }
-        ],
         "exits": [
           {
             "name": "Daybreak -> Dartmoor Castle",
             "connected_region": "Dartmoor Castle",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Ring of Dworf"
-              }
+              "item": "Ring of Dworf"
             }
           }
         ],
@@ -2142,13 +1856,6 @@
       },
       "Dartmoor Castle": {
         "name": "Dartmoor Castle",
-        "entrances": [
-          {
-            "name": "Daybreak -> Dartmoor Castle",
-            "parent_region": "Daybreak",
-            "connected_region": "Dartmoor Castle"
-          }
-        ],
         "exits": [
           {
             "name": "Dartmoor Castle -> Dartmoor",
@@ -2171,10 +1878,7 @@
             "connected_region": "Evil Fortress",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Demons Ring"
-              }
+              "item": "Demons Ring"
             }
           }
         ],
@@ -2184,10 +1888,7 @@
             "id": 400191,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Unlock Wingboots"
-              }
+              "item": "Unlock Wingboots"
             },
             "item": {
               "name": "Poison",
@@ -2200,27 +1901,18 @@
             "name": "Dartmoor Castle Hidden Red Potion",
             "id": 400192,
             "access_rule": {
-              "type": "or",
-              "conditions": [
+              "type": "state_method",
+              "method": "has_any",
+              "args": [
                 {
-                  "type": "item_check",
-                  "item": "Deluge"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Thunder"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Fire"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Death"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Tilte"
+                  "type": "constant",
+                  "value": [
+                    "Death",
+                    "Deluge",
+                    "Fire",
+                    "Thunder",
+                    "Tilte"
+                  ]
                 }
               ]
             },
@@ -2235,13 +1927,6 @@
       },
       "Dartmoor": {
         "name": "Dartmoor",
-        "entrances": [
-          {
-            "name": "Dartmoor Castle -> Dartmoor",
-            "parent_region": "Dartmoor Castle",
-            "connected_region": "Dartmoor"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2290,13 +1975,6 @@
       },
       "Fraternal Castle": {
         "name": "Fraternal Castle",
-        "entrances": [
-          {
-            "name": "Dartmoor Castle -> Fraternal Castle",
-            "parent_region": "Dartmoor Castle",
-            "connected_region": "Fraternal Castle"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2317,27 +1995,18 @@
             "name": "Fraternal Castle Shop Hidden Ointment",
             "id": 400197,
             "access_rule": {
-              "type": "or",
-              "conditions": [
+              "type": "state_method",
+              "method": "has_any",
+              "args": [
                 {
-                  "type": "item_check",
-                  "item": "Deluge"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Thunder"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Fire"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Death"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Tilte"
+                  "type": "constant",
+                  "value": [
+                    "Death",
+                    "Deluge",
+                    "Fire",
+                    "Thunder",
+                    "Tilte"
+                  ]
                 }
               ]
             },
@@ -2423,10 +2092,7 @@
             "id": 400204,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Progressive Sword"
-              },
+              "item": "Progressive Sword",
               "count": {
                 "type": "constant",
                 "value": 4
@@ -2443,13 +2109,6 @@
       },
       "Evil Fortress": {
         "name": "Evil Fortress",
-        "entrances": [
-          {
-            "name": "Dartmoor Castle -> Evil Fortress",
-            "parent_region": "Dartmoor Castle",
-            "connected_region": "Evil Fortress"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2953,6 +2612,50 @@
         "event": false,
         "type": null,
         "max_count": 4
+      },
+      "Sky Spring Flow": {
+        "name": "Sky Spring Flow",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 1
+      },
+      "Joker Spring Flow": {
+        "name": "Joker Spring Flow",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 1
+      },
+      "Tower of Fortress Spring Flow": {
+        "name": "Tower of Fortress Spring Flow",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 1
+      },
+      "Killed Evil One": {
+        "name": "Killed Evil One",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 1
       }
     }
   },
@@ -3007,7 +2710,8 @@
   "settings": {
     "1": {
       "game": "Faxanadu",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
     }
   },
   "game_info": {

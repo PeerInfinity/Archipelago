@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "New Game",
@@ -29,13 +28,6 @@
       },
       "Misc": {
         "name": "Misc",
-        "entrances": [
-          {
-            "name": "Hideout -> Misc",
-            "parent_region": "Hideout",
-            "connected_region": "Misc"
-          }
-        ],
         "exits": [
           {
             "name": "Misc -> Hideout",
@@ -2547,33 +2539,6 @@
       },
       "Hideout": {
         "name": "Hideout",
-        "entrances": [
-          {
-            "name": "New Game",
-            "parent_region": "Menu",
-            "connected_region": "Hideout"
-          },
-          {
-            "name": "Misc -> Hideout",
-            "parent_region": "Misc",
-            "connected_region": "Hideout"
-          },
-          {
-            "name": "Versum Hill -> Hideout",
-            "parent_region": "Versum Hill",
-            "connected_region": "Hideout"
-          },
-          {
-            "name": "Versum Hill - After Roadblock -> Hideout",
-            "parent_region": "Versum Hill - After Roadblock",
-            "connected_region": "Hideout"
-          },
-          {
-            "name": "Mataan - Streets -> Hideout",
-            "parent_region": "Mataan - Streets",
-            "connected_region": "Hideout"
-          }
-        ],
         "exits": [
           {
             "name": "Hideout -> Misc",
@@ -2728,14 +2693,27 @@
             "name": "Hideout: BMX garage skateboard",
             "id": 2308008,
             "access_rule": {
-              "type": "helper",
-              "name": "bmx",
-              "args": [
-                {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
                   "type": "constant",
                   "value": 2
+                },
+                "op": "==",
+                "right": {
+                  "type": "constant",
+                  "value": 1
                 }
-              ]
+              },
+              "if_true": {
+                "type": "constant",
+                "value": true
+              },
+              "if_false": {
+                "type": "group_check",
+                "group": "bmx"
+              }
             },
             "item": {
               "name": "Skateboard (Terrence)",
@@ -2748,14 +2726,12 @@
             "name": "Hideout: Unlock phone app",
             "id": 2308009,
             "access_rule": {
-              "type": "helper",
-              "name": "current_chapter",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": 2
-                }
-              ]
+              "type": "item_check",
+              "item": "Chapter Completed",
+              "count": {
+                "type": "constant",
+                "value": 1
+              }
             },
             "item": {
               "name": "Inline Skates (Glaciers)",
@@ -2768,14 +2744,12 @@
             "name": "Hideout: Vinyl joins the crew",
             "id": 2308010,
             "access_rule": {
-              "type": "helper",
-              "name": "current_chapter",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": 4
-                }
-              ]
+              "type": "item_check",
+              "item": "Chapter Completed",
+              "count": {
+                "type": "constant",
+                "value": 3
+              }
             },
             "item": {
               "name": "Inline Skates (Red Industry)",
@@ -2788,14 +2762,12 @@
             "name": "Hideout: Solace joins the crew",
             "id": 2308011,
             "access_rule": {
-              "type": "helper",
-              "name": "current_chapter",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": 5
-                }
-              ]
+              "type": "item_check",
+              "item": "Chapter Completed",
+              "count": {
+                "type": "constant",
+                "value": 4
+              }
             },
             "item": {
               "name": "16 REP",
@@ -2808,23 +2780,6 @@
       },
       "Versum Hill": {
         "name": "Versum Hill",
-        "entrances": [
-          {
-            "name": "Hideout -> Versum Hill",
-            "parent_region": "Hideout",
-            "connected_region": "Versum Hill"
-          },
-          {
-            "name": "Versum Hill - After Roadblock -> Versum Hill",
-            "parent_region": "Versum Hill - After Roadblock",
-            "connected_region": "Versum Hill"
-          },
-          {
-            "name": "Versum Hill - Basketball Court -> Versum Hill",
-            "parent_region": "Versum Hill - Basketball Court",
-            "connected_region": "Versum Hill"
-          }
-        ],
         "exits": [
           {
             "name": "Versum Hill -> Hideout",
@@ -2896,14 +2851,27 @@
             "name": "Versum Hill: BMX gate outfit",
             "id": 2308031,
             "access_rule": {
-              "type": "helper",
-              "name": "bmx",
-              "args": [
-                {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
                   "type": "constant",
                   "value": 2
+                },
+                "op": "==",
+                "right": {
+                  "type": "constant",
+                  "value": 1
                 }
-              ]
+              },
+              "if_true": {
+                "type": "constant",
+                "value": true
+              },
+              "if_false": {
+                "type": "group_check",
+                "group": "bmx"
+              }
             },
             "item": {
               "name": "24 REP",
@@ -2916,9 +2884,8 @@
             "name": "Versum Hill: Big Polo",
             "id": 2308037,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Music (You Can Say Hi)",
@@ -2931,9 +2898,8 @@
             "name": "Versum Hill: Trash Polo",
             "id": 2308038,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Bel",
@@ -2946,33 +2912,6 @@
       },
       "Versum Hill - After Roadblock": {
         "name": "Versum Hill - After Roadblock",
-        "entrances": [
-          {
-            "name": "Versum Hill -> Versum Hill - After Roadblock",
-            "parent_region": "Versum Hill",
-            "connected_region": "Versum Hill - After Roadblock"
-          },
-          {
-            "name": "Versum Hill - Underground Mall -> Versum Hill - After Roadblock",
-            "parent_region": "Versum Hill - Underground Mall",
-            "connected_region": "Versum Hill - After Roadblock"
-          },
-          {
-            "name": "Versum Hill - Side Street -> Versum Hill - After Roadblock",
-            "parent_region": "Versum Hill - Side Street",
-            "connected_region": "Versum Hill - After Roadblock"
-          },
-          {
-            "name": "Versum Hill - Basketball Court -> Versum Hill - After Roadblock",
-            "parent_region": "Versum Hill - Basketball Court",
-            "connected_region": "Versum Hill - After Roadblock"
-          },
-          {
-            "name": "Millennium Square -> Versum Hill - After Roadblock",
-            "parent_region": "Millennium Square",
-            "connected_region": "Versum Hill - After Roadblock"
-          }
-        ],
         "exits": [
           {
             "name": "Versum Hill - After Roadblock -> Hideout",
@@ -3176,14 +3115,27 @@
             "name": "Versum Hill: Glass floor skates",
             "id": 2308032,
             "access_rule": {
-              "type": "helper",
-              "name": "inline_skates",
-              "args": [
-                {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
                   "type": "constant",
                   "value": 2
+                },
+                "op": "==",
+                "right": {
+                  "type": "constant",
+                  "value": 3
                 }
-              ]
+              },
+              "if_true": {
+                "type": "constant",
+                "value": true
+              },
+              "if_false": {
+                "type": "group_check",
+                "group": "skates"
+              }
             },
             "item": {
               "name": "8 REP",
@@ -3196,14 +3148,12 @@
             "name": "Versum Hill: Frank joins the crew",
             "id": 2308035,
             "access_rule": {
-              "type": "helper",
-              "name": "current_chapter",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": 2
-                }
-              ]
+              "type": "item_check",
+              "item": "Chapter Completed",
+              "count": {
+                "type": "constant",
+                "value": 1
+              }
             },
             "item": {
               "name": "24 REP",
@@ -3216,13 +3166,6 @@
       },
       "Versum Hill - Underground Mall": {
         "name": "Versum Hill - Underground Mall",
-        "entrances": [
-          {
-            "name": "Versum Hill - After Roadblock -> Versum Hill - Underground Mall",
-            "parent_region": "Versum Hill - After Roadblock",
-            "connected_region": "Versum Hill - Underground Mall"
-          }
-        ],
         "exits": [
           {
             "name": "Versum Hill - Underground Mall -> Versum Hill - After Roadblock",
@@ -3296,9 +3239,8 @@
             "name": "Versum Hill: Fruit stand Polo",
             "id": 2308039,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Music (GET ENUF)",
@@ -3311,13 +3253,6 @@
       },
       "Versum Hill - Side Street": {
         "name": "Versum Hill - Side Street",
-        "entrances": [
-          {
-            "name": "Versum Hill - After Roadblock -> Versum Hill - Side Street",
-            "parent_region": "Versum Hill - After Roadblock",
-            "connected_region": "Versum Hill - Side Street"
-          }
-        ],
         "exits": [
           {
             "name": "Versum Hill - Side Street -> Versum Hill - After Roadblock",
@@ -3367,13 +3302,6 @@
       },
       "Versum Hill - Basketball Court": {
         "name": "Versum Hill - Basketball Court",
-        "entrances": [
-          {
-            "name": "Versum Hill - After Roadblock -> Versum Hill - Basketball Court",
-            "parent_region": "Versum Hill - After Roadblock",
-            "connected_region": "Versum Hill - Basketball Court"
-          }
-        ],
         "exits": [
           {
             "name": "Versum Hill - Basketball Court -> Versum Hill - After Roadblock",
@@ -3432,14 +3360,12 @@
             "name": "Versum Hill: Basketball court shortcut CD",
             "id": 2308033,
             "access_rule": {
-              "type": "helper",
-              "name": "current_chapter",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": 2
-                }
-              ]
+              "type": "item_check",
+              "item": "Chapter Completed",
+              "count": {
+                "type": "constant",
+                "value": 1
+              }
             },
             "item": {
               "name": "Graffiti (M - Stacked Symbols)",
@@ -3500,38 +3426,6 @@
       },
       "Millennium Square": {
         "name": "Millennium Square",
-        "entrances": [
-          {
-            "name": "Hideout -> Millennium Square",
-            "parent_region": "Hideout",
-            "connected_region": "Millennium Square"
-          },
-          {
-            "name": "Versum Hill - After Roadblock -> Millennium Square",
-            "parent_region": "Versum Hill - After Roadblock",
-            "connected_region": "Millennium Square"
-          },
-          {
-            "name": "Brink Terminal -> Millennium Square",
-            "parent_region": "Brink Terminal",
-            "connected_region": "Millennium Square"
-          },
-          {
-            "name": "Millennium Mall -> Millennium Square",
-            "parent_region": "Millennium Mall",
-            "connected_region": "Millennium Square"
-          },
-          {
-            "name": "Pyramid Island - Base -> Millennium Square",
-            "parent_region": "Pyramid Island - Base",
-            "connected_region": "Millennium Square"
-          },
-          {
-            "name": "Mataan - Streets -> Millennium Square",
-            "parent_region": "Mataan - Streets",
-            "connected_region": "Millennium Square"
-          }
-        ],
         "exits": [
           {
             "name": "Millennium Square -> Versum Hill - After Roadblock",
@@ -3813,9 +3707,8 @@
             "name": "Millennium Square: Half pipe Polo",
             "id": 2308056,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Outfit (Red - Winter)",
@@ -3828,33 +3721,6 @@
       },
       "Brink Terminal": {
         "name": "Brink Terminal",
-        "entrances": [
-          {
-            "name": "Millennium Square -> Brink Terminal",
-            "parent_region": "Millennium Square",
-            "connected_region": "Brink Terminal"
-          },
-          {
-            "name": "Brink Terminal - Underground -> Brink Terminal",
-            "parent_region": "Brink Terminal - Underground",
-            "connected_region": "Brink Terminal"
-          },
-          {
-            "name": "Brink Terminal - Dock -> Brink Terminal",
-            "parent_region": "Brink Terminal - Dock",
-            "connected_region": "Brink Terminal"
-          },
-          {
-            "name": "Brink Terminal - Planet Plaza -> Brink Terminal",
-            "parent_region": "Brink Terminal - Planet Plaza",
-            "connected_region": "Brink Terminal"
-          },
-          {
-            "name": "Brink Terminal - Tower -> Brink Terminal",
-            "parent_region": "Brink Terminal - Tower",
-            "connected_region": "Brink Terminal"
-          }
-        ],
         "exits": [
           {
             "name": "Brink Terminal -> Millennium Square",
@@ -3985,14 +3851,27 @@
             "name": "Brink Terminal: BMX gate graffiti",
             "id": 2308063,
             "access_rule": {
-              "type": "helper",
-              "name": "bmx",
-              "args": [
-                {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
                   "type": "constant",
                   "value": 2
+                },
+                "op": "==",
+                "right": {
+                  "type": "constant",
+                  "value": 1
                 }
-              ]
+              },
+              "if_true": {
+                "type": "constant",
+                "value": true
+              },
+              "if_false": {
+                "type": "group_check",
+                "group": "bmx"
+              }
             },
             "item": {
               "name": "Skateboard (Devon)",
@@ -4061,14 +3940,12 @@
             "name": "Brink Terminal: Eclipse joins the crew",
             "id": 2308081,
             "access_rule": {
-              "type": "helper",
-              "name": "current_chapter",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": 3
-                }
-              ]
+              "type": "item_check",
+              "item": "Chapter Completed",
+              "count": {
+                "type": "constant",
+                "value": 2
+              }
             },
             "item": {
               "name": "Skateboard (Just Swell)",
@@ -4081,9 +3958,8 @@
             "name": "Brink Terminal: Behind glass Polo",
             "id": 2308082,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Graffiti (M - Pora)",
@@ -4096,13 +3972,6 @@
       },
       "Brink Terminal - Underground": {
         "name": "Brink Terminal - Underground",
-        "entrances": [
-          {
-            "name": "Brink Terminal -> Brink Terminal - Underground",
-            "parent_region": "Brink Terminal",
-            "connected_region": "Brink Terminal - Underground"
-          }
-        ],
         "exits": [
           {
             "name": "Brink Terminal - Underground -> Brink Terminal",
@@ -4147,13 +4016,6 @@
       },
       "Brink Terminal - Dock": {
         "name": "Brink Terminal - Dock",
-        "entrances": [
-          {
-            "name": "Brink Terminal -> Brink Terminal - Dock",
-            "parent_region": "Brink Terminal",
-            "connected_region": "Brink Terminal - Dock"
-          }
-        ],
         "exits": [
           {
             "name": "Brink Terminal - Dock -> Brink Terminal",
@@ -4274,18 +4136,6 @@
       },
       "Brink Terminal - Planet Plaza": {
         "name": "Brink Terminal - Planet Plaza",
-        "entrances": [
-          {
-            "name": "Brink Terminal -> Brink Terminal - Planet Plaza",
-            "parent_region": "Brink Terminal",
-            "connected_region": "Brink Terminal - Planet Plaza"
-          },
-          {
-            "name": "Brink Terminal - Tower -> Brink Terminal - Planet Plaza",
-            "parent_region": "Brink Terminal - Tower",
-            "connected_region": "Brink Terminal - Planet Plaza"
-          }
-        ],
         "exits": [
           {
             "name": "Brink Terminal - Planet Plaza -> Brink Terminal",
@@ -4325,13 +4175,6 @@
       },
       "Brink Terminal - Tower": {
         "name": "Brink Terminal - Tower",
-        "entrances": [
-          {
-            "name": "Brink Terminal - Planet Plaza -> Brink Terminal - Tower",
-            "parent_region": "Brink Terminal - Planet Plaza",
-            "connected_region": "Brink Terminal - Tower"
-          }
-        ],
         "exits": [
           {
             "name": "Brink Terminal - Tower -> Brink Terminal",
@@ -4371,14 +4214,27 @@
             "name": "Brink Terminal: Rooftop glass CD",
             "id": 2308073,
             "access_rule": {
-              "type": "helper",
-              "name": "inline_skates",
-              "args": [
-                {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
                   "type": "constant",
                   "value": 2
+                },
+                "op": "==",
+                "right": {
+                  "type": "constant",
+                  "value": 3
                 }
-              ]
+              },
+              "if_true": {
+                "type": "constant",
+                "value": true
+              },
+              "if_false": {
+                "type": "group_check",
+                "group": "skates"
+              }
             },
             "item": {
               "name": "8 REP",
@@ -4443,28 +4299,6 @@
       },
       "Millennium Mall": {
         "name": "Millennium Mall",
-        "entrances": [
-          {
-            "name": "Millennium Square -> Millennium Mall",
-            "parent_region": "Millennium Square",
-            "connected_region": "Millennium Mall"
-          },
-          {
-            "name": "Millennium Mall - Hanging Lights -> Millennium Mall",
-            "parent_region": "Millennium Mall - Hanging Lights",
-            "connected_region": "Millennium Mall"
-          },
-          {
-            "name": "Millennium Mall - Atrium -> Millennium Mall",
-            "parent_region": "Millennium Mall - Atrium",
-            "connected_region": "Millennium Mall"
-          },
-          {
-            "name": "Millennium Mall - Theater -> Millennium Mall",
-            "parent_region": "Millennium Mall - Theater",
-            "connected_region": "Millennium Mall"
-          }
-        ],
         "exits": [
           {
             "name": "Millennium Mall -> Millennium Square",
@@ -4555,14 +4389,27 @@
             "name": "Millennium Mall: Glass cylinder CD",
             "id": 2308086,
             "access_rule": {
-              "type": "helper",
-              "name": "inline_skates",
-              "args": [
-                {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
                   "type": "constant",
                   "value": 2
+                },
+                "op": "==",
+                "right": {
+                  "type": "constant",
+                  "value": 3
                 }
-              ]
+              },
+              "if_true": {
+                "type": "constant",
+                "value": true
+              },
+              "if_false": {
+                "type": "group_check",
+                "group": "skates"
+              }
             },
             "item": {
               "name": "Vinyl",
@@ -4589,13 +4436,6 @@
       },
       "Millennium Mall - Hanging Lights": {
         "name": "Millennium Mall - Hanging Lights",
-        "entrances": [
-          {
-            "name": "Millennium Mall -> Millennium Mall - Hanging Lights",
-            "parent_region": "Millennium Mall",
-            "connected_region": "Millennium Mall - Hanging Lights"
-          }
-        ],
         "exits": [
           {
             "name": "Millennium Mall - Hanging Lights -> Millennium Mall",
@@ -4626,23 +4466,6 @@
       },
       "Millennium Mall - Atrium": {
         "name": "Millennium Mall - Atrium",
-        "entrances": [
-          {
-            "name": "Millennium Mall -> Millennium Mall - Atrium",
-            "parent_region": "Millennium Mall",
-            "connected_region": "Millennium Mall - Atrium"
-          },
-          {
-            "name": "Millennium Mall - Race Track -> Millennium Mall - Atrium",
-            "parent_region": "Millennium Mall - Race Track",
-            "connected_region": "Millennium Mall - Atrium"
-          },
-          {
-            "name": "Millennium Mall - Theater -> Millennium Mall - Atrium",
-            "parent_region": "Millennium Mall - Theater",
-            "connected_region": "Millennium Mall - Atrium"
-          }
-        ],
         "exits": [
           {
             "name": "Millennium Mall - Atrium -> Millennium Mall",
@@ -4812,14 +4635,27 @@
             "name": "Millennium Mall: Atrium BMX gate BMX",
             "id": 2308097,
             "access_rule": {
-              "type": "helper",
-              "name": "bmx",
-              "args": [
-                {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
                   "type": "constant",
                   "value": 2
+                },
+                "op": "==",
+                "right": {
+                  "type": "constant",
+                  "value": 1
                 }
-              ]
+              },
+              "if_true": {
+                "type": "constant",
+                "value": true
+              },
+              "if_false": {
+                "type": "group_check",
+                "group": "bmx"
+              }
             },
             "item": {
               "name": "Tryce",
@@ -4846,14 +4682,12 @@
             "name": "Millennium Mall: DOT.EXE joins the crew",
             "id": 2308106,
             "access_rule": {
-              "type": "helper",
-              "name": "current_chapter",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": 4
-                }
-              ]
+              "type": "item_check",
+              "item": "Chapter Completed",
+              "count": {
+                "type": "constant",
+                "value": 3
+              }
             },
             "item": {
               "name": "Graffiti (L - Jd Vila Formosa)",
@@ -4866,13 +4700,6 @@
       },
       "Millennium Mall - Race Track": {
         "name": "Millennium Mall - Race Track",
-        "entrances": [
-          {
-            "name": "Millennium Mall - Atrium -> Millennium Mall - Race Track",
-            "parent_region": "Millennium Mall - Atrium",
-            "connected_region": "Millennium Mall - Race Track"
-          }
-        ],
         "exits": [
           {
             "name": "Millennium Mall - Race Track -> Millennium Mall - Atrium",
@@ -4912,13 +4739,6 @@
       },
       "Millennium Mall - Theater": {
         "name": "Millennium Mall - Theater",
-        "entrances": [
-          {
-            "name": "Millennium Mall - Atrium -> Millennium Mall - Theater",
-            "parent_region": "Millennium Mall - Atrium",
-            "connected_region": "Millennium Mall - Theater"
-          }
-        ],
         "exits": [
           {
             "name": "Millennium Mall - Theater -> Millennium Mall - Atrium",
@@ -5009,14 +4829,12 @@
             "name": "Millennium Mall: Shine joins the crew",
             "id": 2308105,
             "access_rule": {
-              "type": "helper",
-              "name": "current_chapter",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": 4
-                }
-              ]
+              "type": "item_check",
+              "item": "Chapter Completed",
+              "count": {
+                "type": "constant",
+                "value": 3
+              }
             },
             "item": {
               "name": "Oldhead",
@@ -5053,28 +4871,6 @@
       },
       "Pyramid Island - Base": {
         "name": "Pyramid Island - Base",
-        "entrances": [
-          {
-            "name": "Millennium Square -> Pyramid Island - Base",
-            "parent_region": "Millennium Square",
-            "connected_region": "Pyramid Island - Base"
-          },
-          {
-            "name": "Pyramid Island - After Gate -> Pyramid Island - Base",
-            "parent_region": "Pyramid Island - After Gate",
-            "connected_region": "Pyramid Island - Base"
-          },
-          {
-            "name": "Pyramid Island - Upper Areas -> Pyramid Island - Base",
-            "parent_region": "Pyramid Island - Upper Areas",
-            "connected_region": "Pyramid Island - Base"
-          },
-          {
-            "name": "Pyramid Island - Top -> Pyramid Island - Base",
-            "parent_region": "Pyramid Island - Top",
-            "connected_region": "Pyramid Island - Base"
-          }
-        ],
         "exits": [
           {
             "name": "Pyramid Island - Base -> Millennium Square",
@@ -5142,14 +4938,27 @@
             "name": "Pyramid Island: BMX gate BMX",
             "id": 2308110,
             "access_rule": {
-              "type": "helper",
-              "name": "bmx",
-              "args": [
-                {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
                   "type": "constant",
                   "value": 2
+                },
+                "op": "==",
+                "right": {
+                  "type": "constant",
+                  "value": 1
                 }
-              ]
+              },
+              "if_true": {
+                "type": "constant",
+                "value": true
+              },
+              "if_false": {
+                "type": "group_check",
+                "group": "bmx"
+              }
             },
             "item": {
               "name": "Outfit (Rise - Autumn)",
@@ -5162,9 +4971,8 @@
             "name": "Pyramid Island: Polo pile 1",
             "id": 2308131,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Graffiti (M - 0m33)",
@@ -5177,9 +4985,8 @@
             "name": "Pyramid Island: Polo pile 2",
             "id": 2308132,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Music (DA PEOPLE)",
@@ -5192,9 +4999,8 @@
             "name": "Pyramid Island: Polo pile 3",
             "id": 2308133,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Devil Theory",
@@ -5207,9 +5013,8 @@
             "name": "Pyramid Island: Polo pile 4",
             "id": 2308134,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Outfit (Solace - Winter)",
@@ -5222,28 +5027,6 @@
       },
       "Pyramid Island - After Gate": {
         "name": "Pyramid Island - After Gate",
-        "entrances": [
-          {
-            "name": "Pyramid Island - Base -> Pyramid Island - After Gate",
-            "parent_region": "Pyramid Island - Base",
-            "connected_region": "Pyramid Island - After Gate"
-          },
-          {
-            "name": "Pyramid Island - Maze -> Pyramid Island - After Gate",
-            "parent_region": "Pyramid Island - Maze",
-            "connected_region": "Pyramid Island - After Gate"
-          },
-          {
-            "name": "Pyramid Island - Upper Areas -> Pyramid Island - After Gate",
-            "parent_region": "Pyramid Island - Upper Areas",
-            "connected_region": "Pyramid Island - After Gate"
-          },
-          {
-            "name": "Pyramid Island - Top -> Pyramid Island - After Gate",
-            "parent_region": "Pyramid Island - Top",
-            "connected_region": "Pyramid Island - After Gate"
-          }
-        ],
         "exits": [
           {
             "name": "Pyramid Island - After Gate -> Pyramid Island - Base",
@@ -5416,13 +5199,6 @@
       },
       "Pyramid Island - Maze": {
         "name": "Pyramid Island - Maze",
-        "entrances": [
-          {
-            "name": "Pyramid Island - After Gate -> Pyramid Island - Maze",
-            "parent_region": "Pyramid Island - After Gate",
-            "connected_region": "Pyramid Island - Maze"
-          }
-        ],
         "exits": [
           {
             "name": "Pyramid Island - Maze -> Pyramid Island - After Gate",
@@ -5439,14 +5215,27 @@
             "name": "Pyramid Island: Maze outfit",
             "id": 2308128,
             "access_rule": {
-              "type": "helper",
-              "name": "skateboard",
-              "args": [
-                {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
+                  "type": "constant",
+                  "value": 2
+                },
+                "op": "==",
+                "right": {
                   "type": "constant",
                   "value": 2
                 }
-              ]
+              },
+              "if_true": {
+                "type": "constant",
+                "value": true
+              },
+              "if_false": {
+                "type": "group_check",
+                "group": "skateboard"
+              }
             },
             "item": {
               "name": "Graffiti (XL - Web Spitter)",
@@ -5459,9 +5248,8 @@
             "name": "Pyramid Island: Maze glass Polo",
             "id": 2308135,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Graffiti (XL - Gold Rush)",
@@ -5474,9 +5262,8 @@
             "name": "Pyramid Island: Maze classroom Polo",
             "id": 2308136,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Outfit (Rave - Autumn)",
@@ -5489,9 +5276,8 @@
             "name": "Pyramid Island: Maze vent Polo",
             "id": 2308137,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Music (Funk Express)",
@@ -5504,9 +5290,8 @@
             "name": "Pyramid Island: Big maze Polo",
             "id": 2308138,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "8 REP",
@@ -5519,9 +5304,8 @@
             "name": "Pyramid Island: Maze desk Polo",
             "id": 2308139,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "16 REP",
@@ -5534,9 +5318,8 @@
             "name": "Pyramid Island: Maze forklift Polo",
             "id": 2308140,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Music (watchyaback!)",
@@ -5549,18 +5332,6 @@
       },
       "Pyramid Island - Upper Areas": {
         "name": "Pyramid Island - Upper Areas",
-        "entrances": [
-          {
-            "name": "Pyramid Island - After Gate -> Pyramid Island - Upper Areas",
-            "parent_region": "Pyramid Island - After Gate",
-            "connected_region": "Pyramid Island - Upper Areas"
-          },
-          {
-            "name": "Pyramid Island - Top -> Pyramid Island - Upper Areas",
-            "parent_region": "Pyramid Island - Top",
-            "connected_region": "Pyramid Island - Upper Areas"
-          }
-        ],
         "exits": [
           {
             "name": "Pyramid Island - Upper Areas -> Pyramid Island - Base",
@@ -5609,14 +5380,27 @@
             "name": "Pyramid Island: Shortcut glass CD",
             "id": 2308121,
             "access_rule": {
-              "type": "helper",
-              "name": "inline_skates",
-              "args": [
-                {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
                   "type": "constant",
                   "value": 2
+                },
+                "op": "==",
+                "right": {
+                  "type": "constant",
+                  "value": 3
                 }
-              ]
+              },
+              "if_true": {
+                "type": "constant",
+                "value": true
+              },
+              "if_false": {
+                "type": "group_check",
+                "group": "skates"
+              }
             },
             "item": {
               "name": "Music (Trinitron)",
@@ -5685,14 +5469,12 @@
             "name": "Pyramid Island: Devil Theory joins the crew",
             "id": 2308130,
             "access_rule": {
-              "type": "helper",
-              "name": "current_chapter",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": 5
-                }
-              ]
+              "type": "item_check",
+              "item": "Chapter Completed",
+              "count": {
+                "type": "constant",
+                "value": 4
+              }
             },
             "item": {
               "name": "Music (State of Mind)",
@@ -5729,13 +5511,6 @@
       },
       "Pyramid Island - Top": {
         "name": "Pyramid Island - Top",
-        "entrances": [
-          {
-            "name": "Pyramid Island - Upper Areas -> Pyramid Island - Top",
-            "parent_region": "Pyramid Island - Upper Areas",
-            "connected_region": "Pyramid Island - Top"
-          }
-        ],
         "exits": [
           {
             "name": "Pyramid Island - Top -> Pyramid Island - Base",
@@ -5807,9 +5582,8 @@
             "name": "Pyramid Island: Rise joins the crew",
             "id": 2308129,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "16 REP",
@@ -5822,28 +5596,6 @@
       },
       "Mataan - Streets": {
         "name": "Mataan - Streets",
-        "entrances": [
-          {
-            "name": "Hideout -> Mataan - Streets",
-            "parent_region": "Hideout",
-            "connected_region": "Mataan - Streets"
-          },
-          {
-            "name": "Millennium Square -> Mataan - Streets",
-            "parent_region": "Millennium Square",
-            "connected_region": "Mataan - Streets"
-          },
-          {
-            "name": "Mataan - After Smoke Wall -> Mataan - Streets",
-            "parent_region": "Mataan - After Smoke Wall",
-            "connected_region": "Mataan - Streets"
-          },
-          {
-            "name": "Mataan - Skyscrapers -> Mataan - Streets",
-            "parent_region": "Mataan - Skyscrapers",
-            "connected_region": "Mataan - Streets"
-          }
-        ],
         "exits": [
           {
             "name": "Mataan - Streets -> Hideout",
@@ -5919,18 +5671,6 @@
       },
       "Mataan - After Smoke Wall": {
         "name": "Mataan - After Smoke Wall",
-        "entrances": [
-          {
-            "name": "Mataan - Streets -> Mataan - After Smoke Wall",
-            "parent_region": "Mataan - Streets",
-            "connected_region": "Mataan - After Smoke Wall"
-          },
-          {
-            "name": "Mataan - Deep City -> Mataan - After Smoke Wall",
-            "parent_region": "Mataan - Deep City",
-            "connected_region": "Mataan - After Smoke Wall"
-          }
-        ],
         "exits": [
           {
             "name": "Mataan - After Smoke Wall -> Mataan - Streets",
@@ -6035,9 +5775,8 @@
             "name": "Mataan: Trash Polo",
             "id": 2308167,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "8 REP",
@@ -6050,23 +5789,6 @@
       },
       "Mataan - Deep City": {
         "name": "Mataan - Deep City",
-        "entrances": [
-          {
-            "name": "Mataan - After Smoke Wall -> Mataan - Deep City",
-            "parent_region": "Mataan - After Smoke Wall",
-            "connected_region": "Mataan - Deep City"
-          },
-          {
-            "name": "Mataan - Red Light District -> Mataan - Deep City",
-            "parent_region": "Mataan - Red Light District",
-            "connected_region": "Mataan - Deep City"
-          },
-          {
-            "name": "Mataan - Lion Statue -> Mataan - Deep City",
-            "parent_region": "Mataan - Lion Statue",
-            "connected_region": "Mataan - Deep City"
-          }
-        ],
         "exits": [
           {
             "name": "Mataan - Deep City -> Mataan - After Smoke Wall",
@@ -6243,13 +5965,6 @@
       },
       "Mataan - Red Light District": {
         "name": "Mataan - Red Light District",
-        "entrances": [
-          {
-            "name": "Mataan - Deep City -> Mataan - Red Light District",
-            "parent_region": "Mataan - Deep City",
-            "connected_region": "Mataan - Red Light District"
-          }
-        ],
         "exits": [
           {
             "name": "Mataan - Red Light District -> Mataan - Deep City",
@@ -6303,13 +6018,6 @@
       },
       "Mataan - Lion Statue": {
         "name": "Mataan - Lion Statue",
-        "entrances": [
-          {
-            "name": "Mataan - Deep City -> Mataan - Lion Statue",
-            "parent_region": "Mataan - Deep City",
-            "connected_region": "Mataan - Lion Statue"
-          }
-        ],
         "exits": [
           {
             "name": "Mataan - Lion Statue -> Mataan - Deep City",
@@ -6367,13 +6075,6 @@
       },
       "Mataan - Skyscrapers": {
         "name": "Mataan - Skyscrapers",
-        "entrances": [
-          {
-            "name": "Mataan - Lion Statue -> Mataan - Skyscrapers",
-            "parent_region": "Mataan - Lion Statue",
-            "connected_region": "Mataan - Skyscrapers"
-          }
-        ],
         "exits": [
           {
             "name": "Mataan - Skyscrapers -> Mataan - Streets",
@@ -6498,9 +6199,8 @@
             "name": "Mataan: Shopping Polo",
             "id": 2308168,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Outfit (Felix - Winter)",
@@ -8669,6 +8369,32 @@
         "advancement": true,
         "useful": false,
         "trap": false
+      },
+      "Chapter Completed": {
+        "name": "Chapter Completed",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 4
+      },
+      "Victory": {
+        "name": "Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
       }
     }
   },
@@ -8880,7 +8606,8 @@
   "settings": {
     "1": {
       "game": "Bomb Rush Cyberfunk",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
     }
   },
   "game_info": {

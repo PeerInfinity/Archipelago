@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "Start Game",
@@ -29,13 +28,6 @@
       },
       "Overworld": {
         "name": "Overworld",
-        "entrances": [
-          {
-            "name": "Start Game",
-            "parent_region": "Menu",
-            "connected_region": "Overworld"
-          }
-        ],
         "exits": [
           {
             "name": "Overworld",
@@ -50,10 +42,7 @@
             "connected_region": "World 1",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "World 1 Gate"
-              }
+              "item": "World 1 Gate"
             }
           },
           {
@@ -61,10 +50,7 @@
             "connected_region": "World 2",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "World 2 Gate"
-              }
+              "item": "World 2 Gate"
             }
           },
           {
@@ -72,10 +58,7 @@
             "connected_region": "World 3",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "World 3 Gate"
-              }
+              "item": "World 3 Gate"
             }
           },
           {
@@ -83,10 +66,7 @@
             "connected_region": "World 4",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "World 4 Gate"
-              }
+              "item": "World 4 Gate"
             }
           },
           {
@@ -94,10 +74,7 @@
             "connected_region": "World 5",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "World 5 Gate"
-              }
+              "item": "World 5 Gate"
             }
           },
           {
@@ -105,10 +82,7 @@
             "connected_region": "World 6",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "World 6 Gate"
-              }
+              "item": "World 6 Gate"
             }
           }
         ],
@@ -116,18 +90,6 @@
       },
       "World 1": {
         "name": "World 1",
-        "entrances": [
-          {
-            "name": "Overworld",
-            "parent_region": "Overworld",
-            "connected_region": "World 1"
-          },
-          {
-            "name": "Overworld -> World 1",
-            "parent_region": "Overworld",
-            "connected_region": "World 1"
-          }
-        ],
         "exits": [
           {
             "name": "World 1 -> 1-1",
@@ -198,13 +160,6 @@
       },
       "World 2": {
         "name": "World 2",
-        "entrances": [
-          {
-            "name": "Overworld -> World 2",
-            "parent_region": "Overworld",
-            "connected_region": "World 2"
-          }
-        ],
         "exits": [
           {
             "name": "World 2 -> 2-1",
@@ -275,13 +230,6 @@
       },
       "World 3": {
         "name": "World 3",
-        "entrances": [
-          {
-            "name": "Overworld -> World 3",
-            "parent_region": "Overworld",
-            "connected_region": "World 3"
-          }
-        ],
         "exits": [
           {
             "name": "World 3 -> 3-1",
@@ -352,13 +300,6 @@
       },
       "World 4": {
         "name": "World 4",
-        "entrances": [
-          {
-            "name": "Overworld -> World 4",
-            "parent_region": "Overworld",
-            "connected_region": "World 4"
-          }
-        ],
         "exits": [
           {
             "name": "World 4 -> 4-1",
@@ -429,13 +370,6 @@
       },
       "World 5": {
         "name": "World 5",
-        "entrances": [
-          {
-            "name": "Overworld -> World 5",
-            "parent_region": "Overworld",
-            "connected_region": "World 5"
-          }
-        ],
         "exits": [
           {
             "name": "World 5 -> 5-1",
@@ -506,13 +440,6 @@
       },
       "World 6": {
         "name": "World 6",
-        "entrances": [
-          {
-            "name": "Overworld -> World 6",
-            "parent_region": "Overworld",
-            "connected_region": "World 6"
-          }
-        ],
         "exits": [
           {
             "name": "World 6 -> 6-1",
@@ -574,15 +501,8 @@
             "name": "World 6 -> 6-8",
             "connected_region": "6-8",
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "bosses"
-                },
-                "attr": "castle_access"
-              },
+              "type": "helper",
+              "name": "castle_access",
               "args": []
             }
           }
@@ -591,13 +511,6 @@
       },
       "1-1": {
         "name": "1-1",
-        "entrances": [
-          {
-            "name": "World 1 -> 1-1",
-            "parent_region": "World 1",
-            "connected_region": "1-1"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -675,10 +588,7 @@
             "id": 3166243,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Beanstalk"
-              }
+              "item": "Beanstalk"
             },
             "item": {
               "name": "Magnifying Glass",
@@ -691,13 +601,6 @@
       },
       "1-2": {
         "name": "1-2",
-        "entrances": [
-          {
-            "name": "World 1 -> 1-2",
-            "parent_region": "World 1",
-            "connected_region": "1-2"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -753,23 +656,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Large Spring Ball"
-                  }
+                  "type": "helper",
+                  "name": "has_midring",
+                  "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "has_midring"
-                  },
-                  "args": []
+                  "type": "item_check",
+                  "item": "Large Spring Ball"
                 }
               ]
             },
@@ -785,10 +678,7 @@
             "id": 3166247,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Large Spring Ball"
-              }
+              "item": "Large Spring Ball"
             },
             "item": {
               "name": "10-Up",
@@ -801,13 +691,6 @@
       },
       "1-3": {
         "name": "1-3",
-        "entrances": [
-          {
-            "name": "World 1 -> 1-3",
-            "parent_region": "World 1",
-            "connected_region": "1-3"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -815,10 +698,7 @@
             "id": 3166248,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Chomp Rock"
-              }
+              "item": "Chomp Rock"
             },
             "item": {
               "name": "Pocket Melon",
@@ -832,10 +712,7 @@
             "id": 3166249,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Chomp Rock"
-              }
+              "item": "Chomp Rock"
             },
             "item": {
               "name": "World 4 Gate",
@@ -876,27 +753,13 @@
       },
       "1-4": {
         "name": "1-4",
-        "entrances": [
-          {
-            "name": "World 1 -> 1-4",
-            "parent_region": "World 1",
-            "connected_region": "1-4"
-          }
-        ],
         "exits": [
           {
             "name": "1-4 -> Burt The Bashful's Boss Room",
             "connected_region": "Burt The Bashful's Boss Room",
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_14Clear"
-              },
+              "type": "helper",
+              "name": "_14Clear",
               "args": []
             }
           }
@@ -907,10 +770,7 @@
             "id": 3166252,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Spring Ball"
-              }
+              "item": "Spring Ball"
             },
             "item": {
               "name": "+20 Stars",
@@ -926,6 +786,24 @@
               "type": "and",
               "conditions": [
                 {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "combat_item",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Egg Capacity Upgrade",
+                      "count": {
+                        "type": "constant",
+                        "value": 3
+                      }
+                    }
+                  ]
+                },
+                {
                   "type": "state_method",
                   "method": "has_all",
                   "args": [
@@ -935,34 +813,6 @@
                         "Key",
                         "Spring Ball"
                       ]
-                    }
-                  ]
-                },
-                {
-                  "type": "or",
-                  "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Egg Capacity Upgrade"
-                      },
-                      "count": {
-                        "type": "constant",
-                        "value": 3
-                      }
-                    },
-                    {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "combat_item"
-                      },
-                      "args": []
                     }
                   ]
                 }
@@ -982,35 +832,22 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Spring Ball"
-                  }
-                },
-                {
                   "type": "or",
                   "conditions": [
                     {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "has_midring"
-                      },
+                      "type": "helper",
+                      "name": "has_midring",
                       "args": []
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Key"
-                      }
+                      "item": "Key"
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Spring Ball"
                 }
               ]
             },
@@ -1025,15 +862,8 @@
             "name": "Burt The Bashful's Fort: Level Clear",
             "id": 3166255,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_14CanFightBoss"
-              },
+              "type": "helper",
+              "name": "_14CanFightBoss",
               "args": []
             },
             "item": {
@@ -1047,28 +877,14 @@
       },
       "Burt The Bashful's Boss Room": {
         "name": "Burt The Bashful's Boss Room",
-        "entrances": [
-          {
-            "name": "1-4 -> Burt The Bashful's Boss Room",
-            "parent_region": "1-4",
-            "connected_region": "Burt The Bashful's Boss Room"
-          }
-        ],
         "exits": [],
         "locations": [
           {
             "name": "Burt The Bashful's Boss Room",
             "id": null,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_14Boss"
-              },
+              "type": "helper",
+              "name": "_14Boss",
               "args": []
             },
             "item": {
@@ -1082,13 +898,6 @@
       },
       "1-5": {
         "name": "1-5",
-        "entrances": [
-          {
-            "name": "World 1 -> 1-5",
-            "parent_region": "World 1",
-            "connected_region": "1-5"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1126,27 +935,13 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "has_midring"
-                  },
+                  "type": "helper",
+                  "name": "cansee_clouds",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "cansee_clouds"
-                  },
+                  "type": "helper",
+                  "name": "has_midring",
                   "args": []
                 }
               ]
@@ -1176,13 +971,6 @@
       },
       "1-6": {
         "name": "1-6",
-        "entrances": [
-          {
-            "name": "World 1 -> 1-6",
-            "parent_region": "World 1",
-            "connected_region": "1-6"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1215,10 +1003,7 @@
             "id": 3166262,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Large Spring Ball"
-              }
+              "item": "Large Spring Ball"
             },
             "item": {
               "name": "Pocket Fire Melon",
@@ -1240,23 +1025,13 @@
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "function_call",
-                          "function": {
-                            "type": "attribute",
-                            "object": {
-                              "type": "name",
-                              "name": "logic"
-                            },
-                            "attr": "has_midring"
-                          },
+                          "type": "helper",
+                          "name": "has_midring",
                           "args": []
                         },
                         {
                           "type": "item_check",
-                          "item": {
-                            "type": "constant",
-                            "value": "Tulip"
-                          }
+                          "item": "Beanstalk"
                         }
                       ]
                     },
@@ -1264,23 +1039,13 @@
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "function_call",
-                          "function": {
-                            "type": "attribute",
-                            "object": {
-                              "type": "name",
-                              "name": "logic"
-                            },
-                            "attr": "has_midring"
-                          },
+                          "type": "helper",
+                          "name": "has_midring",
                           "args": []
                         },
                         {
                           "type": "item_check",
-                          "item": {
-                            "type": "constant",
-                            "value": "Beanstalk"
-                          }
+                          "item": "Tulip"
                         }
                       ]
                     }
@@ -1288,10 +1053,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Large Spring Ball"
-                  }
+                  "item": "Large Spring Ball"
                 }
               ]
             },
@@ -1329,13 +1091,6 @@
       },
       "1-7": {
         "name": "1-7",
-        "entrances": [
-          {
-            "name": "World 1 -> 1-7",
-            "parent_region": "World 1",
-            "connected_region": "1-7"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1384,27 +1139,12 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "has_midring"
-                  },
-                  "args": []
-                },
-                {
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "logic"
-                      },
-                      "attr": "cansee_clouds"
+                      "type": "helper",
+                      "name": "cansee_clouds",
+                      "args": []
                     },
                     {
                       "type": "state_method",
@@ -1421,6 +1161,11 @@
                       ]
                     }
                   ]
+                },
+                {
+                  "type": "helper",
+                  "name": "has_midring",
+                  "args": []
                 }
               ]
             },
@@ -1449,15 +1194,8 @@
             "name": "Touch Fuzzy Get Dizzy: Gather Coins",
             "id": null,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_17Game"
-              },
+              "type": "helper",
+              "name": "_17Game",
               "args": []
             },
             "item": {
@@ -1471,27 +1209,13 @@
       },
       "1-8": {
         "name": "1-8",
-        "entrances": [
-          {
-            "name": "World 1 -> 1-8",
-            "parent_region": "World 1",
-            "connected_region": "1-8"
-          }
-        ],
         "exits": [
           {
             "name": "1-8 -> Salvo The Slime's Boss Room",
             "connected_region": "Salvo The Slime's Boss Room",
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_18Clear"
-              },
+              "type": "helper",
+              "name": "_18Clear",
               "args": []
             }
           }
@@ -1502,10 +1226,7 @@
             "id": 3166269,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Platform Ghost"
-              }
+              "item": "Platform Ghost"
             },
             "item": {
               "name": "Large Spring Ball",
@@ -1519,10 +1240,7 @@
             "id": 3166270,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Platform Ghost"
-              }
+              "item": "Platform Ghost"
             },
             "item": {
               "name": "Pocket Ice Melon",
@@ -1538,27 +1256,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "has_midring"
-                  },
+                  "type": "helper",
+                  "name": "has_midring",
                   "args": []
                 },
                 {
                   "type": "or",
                   "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Platform Ghost"
-                      }
-                    },
                     {
                       "type": "state_method",
                       "method": "has_all",
@@ -1571,6 +1275,10 @@
                           ]
                         }
                       ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Platform Ghost"
                     }
                   ]
                 }
@@ -1587,15 +1295,8 @@
             "name": "Salvo The Slime's Castle: Level Clear",
             "id": 3166272,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_18CanFightBoss"
-              },
+              "type": "helper",
+              "name": "_18CanFightBoss",
               "args": []
             },
             "item": {
@@ -1609,28 +1310,14 @@
       },
       "Salvo The Slime's Boss Room": {
         "name": "Salvo The Slime's Boss Room",
-        "entrances": [
-          {
-            "name": "1-8 -> Salvo The Slime's Boss Room",
-            "parent_region": "1-8",
-            "connected_region": "Salvo The Slime's Boss Room"
-          }
-        ],
         "exits": [],
         "locations": [
           {
             "name": "Salvo The Slime's Boss Room",
             "id": null,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_18Boss"
-              },
+              "type": "helper",
+              "name": "_18Boss",
               "args": []
             },
             "item": {
@@ -1644,13 +1331,6 @@
       },
       "2-1": {
         "name": "2-1",
-        "entrances": [
-          {
-            "name": "World 2 -> 2-1",
-            "parent_region": "World 2",
-            "connected_region": "2-1"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1707,23 +1387,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Large Spring Ball"
-                  }
+                  "type": "helper",
+                  "name": "has_midring",
+                  "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "has_midring"
-                  },
-                  "args": []
+                  "type": "item_check",
+                  "item": "Large Spring Ball"
                 }
               ]
             },
@@ -1739,10 +1409,7 @@
             "id": 3166276,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Large Spring Ball"
-              }
+              "item": "Large Spring Ball"
             },
             "item": {
               "name": "Winged Cloud Maker",
@@ -1755,13 +1422,6 @@
       },
       "2-2": {
         "name": "2-2",
-        "entrances": [
-          {
-            "name": "World 2 -> 2-2",
-            "parent_region": "World 2",
-            "connected_region": "2-2"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1826,23 +1486,13 @@
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "has_midring"
-                      },
+                      "type": "helper",
+                      "name": "has_midring",
                       "args": []
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Tulip"
-                      }
+                      "item": "Tulip"
                     }
                   ]
                 },
@@ -1899,13 +1549,6 @@
       },
       "2-3": {
         "name": "2-3",
-        "entrances": [
-          {
-            "name": "World 2 -> 2-3",
-            "parent_region": "World 2",
-            "connected_region": "2-3"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1913,10 +1556,7 @@
             "id": 3166281,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "! Switch"
-              }
+              "item": "! Switch"
             },
             "item": {
               "name": "2-Up",
@@ -1989,27 +1629,13 @@
       },
       "2-4": {
         "name": "2-4",
-        "entrances": [
-          {
-            "name": "World 2 -> 2-4",
-            "parent_region": "World 2",
-            "connected_region": "2-4"
-          }
-        ],
         "exits": [
           {
             "name": "2-4 -> Bigger Boo's Boss Room",
             "connected_region": "Bigger Boo's Boss Room",
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_24Clear"
-              },
+              "type": "helper",
+              "name": "_24Clear",
               "args": []
             }
           }
@@ -2070,6 +1696,11 @@
               "type": "and",
               "conditions": [
                 {
+                  "type": "helper",
+                  "name": "has_midring",
+                  "args": []
+                },
+                {
                   "type": "state_method",
                   "method": "has_all",
                   "args": [
@@ -2082,18 +1713,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "has_midring"
-                  },
-                  "args": []
                 }
               ]
             },
@@ -2108,15 +1727,8 @@
             "name": "Bigger Boo's Fort: Level Clear",
             "id": 3166288,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_24CanFightBoss"
-              },
+              "type": "helper",
+              "name": "_24CanFightBoss",
               "args": []
             },
             "item": {
@@ -2130,28 +1742,14 @@
       },
       "Bigger Boo's Boss Room": {
         "name": "Bigger Boo's Boss Room",
-        "entrances": [
-          {
-            "name": "2-4 -> Bigger Boo's Boss Room",
-            "parent_region": "2-4",
-            "connected_region": "Bigger Boo's Boss Room"
-          }
-        ],
         "exits": [],
         "locations": [
           {
             "name": "Bigger Boo's Boss Room",
             "id": null,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_24Boss"
-              },
+              "type": "helper",
+              "name": "_24Boss",
               "args": []
             },
             "item": {
@@ -2165,13 +1763,6 @@
       },
       "2-5": {
         "name": "2-5",
-        "entrances": [
-          {
-            "name": "World 2 -> 2-5",
-            "parent_region": "World 2",
-            "connected_region": "2-5"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2179,10 +1770,7 @@
             "id": 3166289,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Chomp Rock"
-              }
+              "item": "Chomp Rock"
             },
             "item": {
               "name": "Beanstalk",
@@ -2234,10 +1822,7 @@
             "id": 3166292,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Chomp Rock"
-              }
+              "item": "Chomp Rock"
             },
             "item": {
               "name": "Pocket Melon",
@@ -2250,13 +1835,6 @@
       },
       "2-6": {
         "name": "2-6",
-        "entrances": [
-          {
-            "name": "World 2 -> 2-6",
-            "parent_region": "World 2",
-            "connected_region": "2-6"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2264,10 +1842,7 @@
             "id": 3166293,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Large Spring Ball"
-              }
+              "item": "Large Spring Ball"
             },
             "item": {
               "name": "Winged Cloud Maker",
@@ -2306,23 +1881,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Large Spring Ball"
-                  }
+                  "type": "helper",
+                  "name": "has_midring",
+                  "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "has_midring"
-                  },
-                  "args": []
+                  "type": "item_check",
+                  "item": "Large Spring Ball"
                 }
               ]
             },
@@ -2338,10 +1903,7 @@
             "id": 3166296,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Large Spring Ball"
-              }
+              "item": "Large Spring Ball"
             },
             "item": {
               "name": "1-Up",
@@ -2354,15 +1916,8 @@
             "name": "The Cave Of the Mystery Maze: Seed Spitting Contest",
             "id": null,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_26Game"
-              },
+              "type": "helper",
+              "name": "_26Game",
               "args": []
             },
             "item": {
@@ -2376,13 +1931,6 @@
       },
       "2-7": {
         "name": "2-7",
-        "entrances": [
-          {
-            "name": "World 2 -> 2-7",
-            "parent_region": "World 2",
-            "connected_region": "2-7"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2395,6 +1943,11 @@
                   "type": "or",
                   "conditions": [
                     {
+                      "type": "helper",
+                      "name": "combat_item",
+                      "args": []
+                    },
+                    {
                       "type": "state_method",
                       "method": "has_any",
                       "args": [
@@ -2406,27 +1959,12 @@
                           ]
                         }
                       ]
-                    },
-                    {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "combat_item"
-                      },
-                      "args": []
                     }
                   ]
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Large Spring Ball"
-                  }
+                  "item": "Large Spring Ball"
                 }
               ]
             },
@@ -2444,6 +1982,20 @@
               "type": "and",
               "conditions": [
                 {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "combat_item",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Giant Eggs"
+                    }
+                  ]
+                },
+                {
                   "type": "state_method",
                   "method": "has_all",
                   "args": [
@@ -2453,30 +2005,6 @@
                         "! Switch",
                         "Large Spring Ball"
                       ]
-                    }
-                  ]
-                },
-                {
-                  "type": "or",
-                  "conditions": [
-                    {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "combat_item"
-                      },
-                      "args": []
-                    },
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Giant Eggs"
-                      }
                     }
                   ]
                 }
@@ -2496,23 +2024,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Giant Eggs"
-                  }
+                  "type": "helper",
+                  "name": "has_midring",
+                  "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "has_midring"
-                  },
-                  "args": []
+                  "type": "item_check",
+                  "item": "Giant Eggs"
                 }
               ]
             },
@@ -2550,15 +2068,8 @@
             "name": "Lakitu's Wall: Gather Coins",
             "id": null,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_27Game"
-              },
+              "type": "helper",
+              "name": "_27Game",
               "args": []
             },
             "item": {
@@ -2572,27 +2083,13 @@
       },
       "2-8": {
         "name": "2-8",
-        "entrances": [
-          {
-            "name": "World 2 -> 2-8",
-            "parent_region": "World 2",
-            "connected_region": "2-8"
-          }
-        ],
         "exits": [
           {
             "name": "2-8 -> Roger The Ghost's Boss Room",
             "connected_region": "Roger The Ghost's Boss Room",
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_28Clear"
-              },
+              "type": "helper",
+              "name": "_28Clear",
               "args": []
             }
           }
@@ -2619,10 +2116,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Egg Capacity Upgrade"
-                  },
+                  "item": "Egg Capacity Upgrade",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -2659,10 +2153,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Egg Capacity Upgrade"
-                  },
+                  "item": "Egg Capacity Upgrade",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -2684,6 +2175,11 @@
               "type": "and",
               "conditions": [
                 {
+                  "type": "helper",
+                  "name": "has_midring",
+                  "args": []
+                },
+                {
                   "type": "state_method",
                   "method": "has_all",
                   "args": [
@@ -2697,23 +2193,8 @@
                   ]
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "has_midring"
-                  },
-                  "args": []
-                },
-                {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Egg Capacity Upgrade"
-                  },
+                  "item": "Egg Capacity Upgrade",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -2732,15 +2213,8 @@
             "name": "The Potted Ghost's Castle: Level Clear",
             "id": 3166304,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_28CanFightBoss"
-              },
+              "type": "helper",
+              "name": "_28CanFightBoss",
               "args": []
             },
             "item": {
@@ -2754,28 +2228,14 @@
       },
       "Roger The Ghost's Boss Room": {
         "name": "Roger The Ghost's Boss Room",
-        "entrances": [
-          {
-            "name": "2-8 -> Roger The Ghost's Boss Room",
-            "parent_region": "2-8",
-            "connected_region": "Roger The Ghost's Boss Room"
-          }
-        ],
         "exits": [],
         "locations": [
           {
             "name": "Roger The Ghost's Boss Room",
             "id": null,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_28Boss"
-              },
+              "type": "helper",
+              "name": "_28Boss",
               "args": []
             },
             "item": {
@@ -2789,13 +2249,6 @@
       },
       "3-1": {
         "name": "3-1",
-        "entrances": [
-          {
-            "name": "World 3 -> 3-1",
-            "parent_region": "World 3",
-            "connected_region": "3-1"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2830,15 +2283,8 @@
             "name": "Welcome To Monkey World!: Stars",
             "id": 3166307,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "has_midring"
-              },
+              "type": "helper",
+              "name": "has_midring",
               "args": []
             },
             "item": {
@@ -2866,13 +2312,6 @@
       },
       "3-2": {
         "name": "3-2",
-        "entrances": [
-          {
-            "name": "World 3 -> 3-2",
-            "parent_region": "World 3",
-            "connected_region": "3-2"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2928,23 +2367,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "has_midring"
-                  },
+                  "type": "helper",
+                  "name": "has_midring",
                   "args": []
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Tulip"
-                  }
+                  "item": "Tulip"
                 }
               ]
             },
@@ -2982,13 +2411,6 @@
       },
       "3-3": {
         "name": "3-3",
-        "entrances": [
-          {
-            "name": "World 3 -> 3-3",
-            "parent_region": "World 3",
-            "connected_region": "3-3"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3044,15 +2466,8 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "has_midring"
-                  },
+                  "type": "helper",
+                  "name": "has_midring",
                   "args": []
                 },
                 {
@@ -3104,27 +2519,13 @@
       },
       "3-4": {
         "name": "3-4",
-        "entrances": [
-          {
-            "name": "World 3 -> 3-4",
-            "parent_region": "World 3",
-            "connected_region": "3-4"
-          }
-        ],
         "exits": [
           {
             "name": "3-4 -> Prince Froggy's Boss Room",
             "connected_region": "Prince Froggy's Boss Room",
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_34Clear"
-              },
+              "type": "helper",
+              "name": "_34Clear",
               "args": []
             }
           }
@@ -3135,10 +2536,7 @@
             "id": 3166317,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Submarine Morph"
-              }
+              "item": "Submarine Morph"
             },
             "item": {
               "name": "Winged Cloud Maker",
@@ -3157,36 +2555,23 @@
                   "type": "or",
                   "conditions": [
                     {
+                      "type": "helper",
+                      "name": "combat_item",
+                      "args": []
+                    },
+                    {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Egg Capacity Upgrade"
-                      },
+                      "item": "Egg Capacity Upgrade",
                       "count": {
                         "type": "constant",
                         "value": 5
                       }
-                    },
-                    {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "combat_item"
-                      },
-                      "args": []
                     }
                   ]
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Dashed Platform"
-                  }
+                  "item": "Dashed Platform"
                 }
               ]
             },
@@ -3201,15 +2586,8 @@
             "name": "Prince Froggy's Fort: Stars",
             "id": 3166319,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "has_midring"
-              },
+              "type": "helper",
+              "name": "has_midring",
               "args": []
             },
             "item": {
@@ -3223,15 +2601,8 @@
             "name": "Prince Froggy's Fort: Level Clear",
             "id": 3166320,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_34CanFightBoss"
-              },
+              "type": "helper",
+              "name": "_34CanFightBoss",
               "args": []
             },
             "item": {
@@ -3245,28 +2616,14 @@
       },
       "Prince Froggy's Boss Room": {
         "name": "Prince Froggy's Boss Room",
-        "entrances": [
-          {
-            "name": "3-4 -> Prince Froggy's Boss Room",
-            "parent_region": "3-4",
-            "connected_region": "Prince Froggy's Boss Room"
-          }
-        ],
         "exits": [],
         "locations": [
           {
             "name": "Prince Froggy's Boss Room",
             "id": null,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_34Boss"
-              },
+              "type": "helper",
+              "name": "_34Boss",
               "args": []
             },
             "item": {
@@ -3280,13 +2637,6 @@
       },
       "3-5": {
         "name": "3-5",
-        "entrances": [
-          {
-            "name": "World 3 -> 3-5",
-            "parent_region": "World 3",
-            "connected_region": "3-5"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3310,23 +2660,13 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Watermelon"
-                  }
+                  "type": "helper",
+                  "name": "melon_item",
+                  "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "melon_item"
-                  },
-                  "args": []
+                  "type": "item_check",
+                  "item": "Watermelon"
                 }
               ]
             },
@@ -3347,40 +2687,23 @@
                   "type": "and",
                   "conditions": [
                     {
+                      "type": "helper",
+                      "name": "cansee_clouds",
+                      "args": []
+                    },
+                    {
                       "type": "or",
                       "conditions": [
                         {
-                          "type": "function_call",
-                          "function": {
-                            "type": "attribute",
-                            "object": {
-                              "type": "name",
-                              "name": "logic"
-                            },
-                            "attr": "has_midring"
-                          },
+                          "type": "helper",
+                          "name": "has_midring",
                           "args": []
                         },
                         {
                           "type": "item_check",
-                          "item": {
-                            "type": "constant",
-                            "value": "Tulip"
-                          }
+                          "item": "Tulip"
                         }
                       ]
-                    },
-                    {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "cansee_clouds"
-                      },
-                      "args": []
                     }
                   ]
                 },
@@ -3388,23 +2711,13 @@
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "has_midring"
-                      },
+                      "type": "helper",
+                      "name": "has_midring",
                       "args": []
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Tulip"
-                      }
+                      "item": "Tulip"
                     }
                   ]
                 }
@@ -3435,13 +2748,6 @@
       },
       "3-6": {
         "name": "3-6",
-        "entrances": [
-          {
-            "name": "World 3 -> 3-6",
-            "parent_region": "World 3",
-            "connected_region": "3-6"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3502,6 +2808,11 @@
               "type": "and",
               "conditions": [
                 {
+                  "type": "helper",
+                  "name": "has_midring",
+                  "args": []
+                },
+                {
                   "type": "state_method",
                   "method": "has_all",
                   "args": [
@@ -3517,18 +2828,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "has_midring"
-                  },
-                  "args": []
                 }
               ]
             },
@@ -3567,13 +2866,6 @@
       },
       "3-7": {
         "name": "3-7",
-        "entrances": [
-          {
-            "name": "World 3 -> 3-7",
-            "parent_region": "World 3",
-            "connected_region": "3-7"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3629,10 +2921,7 @@
             "id": 3166331,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Large Spring Ball"
-              }
+              "item": "Large Spring Ball"
             },
             "item": {
               "name": "Anywhere Pow",
@@ -3646,10 +2935,7 @@
             "id": 3166332,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Large Spring Ball"
-              }
+              "item": "Large Spring Ball"
             },
             "item": {
               "name": "Anytime Egg",
@@ -3662,27 +2948,13 @@
       },
       "3-8": {
         "name": "3-8",
-        "entrances": [
-          {
-            "name": "World 3 -> 3-8",
-            "parent_region": "World 3",
-            "connected_region": "3-8"
-          }
-        ],
         "exits": [
           {
             "name": "3-8 -> Naval Piranha's Boss Room",
             "connected_region": "Naval Piranha's Boss Room",
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_38Clear"
-              },
+              "type": "helper",
+              "name": "_38Clear",
               "args": []
             }
           }
@@ -3695,27 +2967,17 @@
               "type": "or",
               "conditions": [
                 {
+                  "type": "helper",
+                  "name": "combat_item",
+                  "args": []
+                },
+                {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Egg Capacity Upgrade"
-                  },
+                  "item": "Egg Capacity Upgrade",
                   "count": {
                     "type": "constant",
                     "value": 3
                   }
-                },
-                {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "combat_item"
-                  },
-                  "args": []
                 }
               ]
             },
@@ -3733,27 +2995,17 @@
               "type": "or",
               "conditions": [
                 {
+                  "type": "helper",
+                  "name": "combat_item",
+                  "args": []
+                },
+                {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Egg Capacity Upgrade"
-                  },
+                  "item": "Egg Capacity Upgrade",
                   "count": {
                     "type": "constant",
                     "value": 3
                   }
-                },
-                {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "combat_item"
-                  },
-                  "args": []
                 }
               ]
             },
@@ -3771,23 +3023,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "has_midring"
-                  },
+                  "type": "helper",
+                  "name": "has_midring",
                   "args": []
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Tulip"
-                  }
+                  "item": "Tulip"
                 }
               ]
             },
@@ -3802,15 +3044,8 @@
             "name": "Naval Piranha's Castle: Level Clear",
             "id": 3166336,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_38CanFightBoss"
-              },
+              "type": "helper",
+              "name": "_38CanFightBoss",
               "args": []
             },
             "item": {
@@ -3824,28 +3059,14 @@
       },
       "Naval Piranha's Boss Room": {
         "name": "Naval Piranha's Boss Room",
-        "entrances": [
-          {
-            "name": "3-8 -> Naval Piranha's Boss Room",
-            "parent_region": "3-8",
-            "connected_region": "Naval Piranha's Boss Room"
-          }
-        ],
         "exits": [],
         "locations": [
           {
             "name": "Naval Piranha's Boss Room",
             "id": null,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_38Boss"
-              },
+              "type": "helper",
+              "name": "_38Boss",
               "args": []
             },
             "item": {
@@ -3859,13 +3080,6 @@
       },
       "4-1": {
         "name": "4-1",
-        "entrances": [
-          {
-            "name": "World 4 -> 4-1",
-            "parent_region": "World 4",
-            "connected_region": "4-1"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -3873,10 +3087,7 @@
             "id": 3166337,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Super Star"
-              }
+              "item": "Super Star"
             },
             "item": {
               "name": "1-Up",
@@ -3890,10 +3101,7 @@
             "id": 3166338,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Super Star"
-              }
+              "item": "Super Star"
             },
             "item": {
               "name": "Mole Tank Morph",
@@ -3909,40 +3117,23 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "has_midring"
-                  },
-                  "args": []
-                },
-                {
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Tulip"
-                      }
+                      "type": "helper",
+                      "name": "cansee_clouds",
+                      "args": []
                     },
                     {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "cansee_clouds"
-                      },
-                      "args": []
+                      "type": "item_check",
+                      "item": "Tulip"
                     }
                   ]
+                },
+                {
+                  "type": "helper",
+                  "name": "has_midring",
+                  "args": []
                 }
               ]
             },
@@ -3958,10 +3149,7 @@
             "id": 3166340,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Super Star"
-              }
+              "item": "Super Star"
             },
             "item": {
               "name": "3-Up",
@@ -3974,13 +3162,6 @@
       },
       "4-2": {
         "name": "4-2",
-        "entrances": [
-          {
-            "name": "World 4 -> 4-2",
-            "parent_region": "World 4",
-            "connected_region": "4-2"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4058,10 +3239,7 @@
             "id": 3166344,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Large Spring Ball"
-              }
+              "item": "Large Spring Ball"
             },
             "item": {
               "name": "2-Up",
@@ -4074,13 +3252,6 @@
       },
       "4-3": {
         "name": "4-3",
-        "entrances": [
-          {
-            "name": "World 4 -> 4-3",
-            "parent_region": "World 4",
-            "connected_region": "4-3"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4140,32 +3311,19 @@
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "has_midring"
-                      },
+                      "type": "helper",
+                      "name": "has_midring",
                       "args": []
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Tulip"
-                      }
+                      "item": "Tulip"
                     }
                   ]
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "! Switch"
-                  }
+                  "item": "! Switch"
                 }
               ]
             },
@@ -4181,10 +3339,7 @@
             "id": 3166348,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "! Switch"
-              }
+              "item": "! Switch"
             },
             "item": {
               "name": "Winged Cloud Maker",
@@ -4197,27 +3352,13 @@
       },
       "4-4": {
         "name": "4-4",
-        "entrances": [
-          {
-            "name": "World 4 -> 4-4",
-            "parent_region": "World 4",
-            "connected_region": "4-4"
-          }
-        ],
         "exits": [
           {
             "name": "4-4 -> Marching Milde's Boss Room",
             "connected_region": "Marching Milde's Boss Room",
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_44Clear"
-              },
+              "type": "helper",
+              "name": "_44Clear",
               "args": []
             }
           }
@@ -4229,6 +3370,24 @@
             "access_rule": {
               "type": "and",
               "conditions": [
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "combat_item",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Egg Capacity Upgrade",
+                      "count": {
+                        "type": "constant",
+                        "value": 1
+                      }
+                    }
+                  ]
+                },
                 {
                   "type": "state_method",
                   "method": "has_all",
@@ -4242,34 +3401,6 @@
                         "Key",
                         "Vanishing Arrow Wheel"
                       ]
-                    }
-                  ]
-                },
-                {
-                  "type": "or",
-                  "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Egg Capacity Upgrade"
-                      },
-                      "count": {
-                        "type": "constant",
-                        "value": 1
-                      }
-                    },
-                    {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "combat_item"
-                      },
-                      "args": []
                     }
                   ]
                 }
@@ -4289,6 +3420,24 @@
               "type": "and",
               "conditions": [
                 {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "combat_item",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Egg Capacity Upgrade",
+                      "count": {
+                        "type": "constant",
+                        "value": 1
+                      }
+                    }
+                  ]
+                },
+                {
                   "type": "state_method",
                   "method": "has_all",
                   "args": [
@@ -4300,34 +3449,6 @@
                         "Dashed Stairs",
                         "Vanishing Arrow Wheel"
                       ]
-                    }
-                  ]
-                },
-                {
-                  "type": "or",
-                  "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Egg Capacity Upgrade"
-                      },
-                      "count": {
-                        "type": "constant",
-                        "value": 1
-                      }
-                    },
-                    {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "combat_item"
-                      },
-                      "args": []
                     }
                   ]
                 }
@@ -4347,47 +3468,27 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Dashed Stairs"
-                  }
-                },
-                {
                   "type": "or",
                   "conditions": [
                     {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "has_midring"
-                      },
+                      "type": "helper",
+                      "name": "cansee_clouds",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_midring",
                       "args": []
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Vanishing Arrow Wheel"
-                      }
-                    },
-                    {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "cansee_clouds"
-                      },
-                      "args": []
+                      "item": "Vanishing Arrow Wheel"
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Dashed Stairs"
                 }
               ]
             },
@@ -4402,15 +3503,8 @@
             "name": "Marching Milde's Fort: Level Clear",
             "id": 3166352,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_44CanFightBoss"
-              },
+              "type": "helper",
+              "name": "_44CanFightBoss",
               "args": []
             },
             "item": {
@@ -4424,28 +3518,14 @@
       },
       "Marching Milde's Boss Room": {
         "name": "Marching Milde's Boss Room",
-        "entrances": [
-          {
-            "name": "4-4 -> Marching Milde's Boss Room",
-            "parent_region": "4-4",
-            "connected_region": "Marching Milde's Boss Room"
-          }
-        ],
         "exits": [],
         "locations": [
           {
             "name": "Marching Milde's Boss Room",
             "id": null,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_44Boss"
-              },
+              "type": "helper",
+              "name": "_44Boss",
               "args": []
             },
             "item": {
@@ -4459,13 +3539,6 @@
       },
       "4-5": {
         "name": "4-5",
-        "entrances": [
-          {
-            "name": "World 4 -> 4-5",
-            "parent_region": "World 4",
-            "connected_region": "4-5"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4559,13 +3632,6 @@
       },
       "4-6": {
         "name": "4-6",
-        "entrances": [
-          {
-            "name": "World 4 -> 4-6",
-            "parent_region": "World 4",
-            "connected_region": "4-6"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4574,6 +3640,20 @@
             "access_rule": {
               "type": "and",
               "conditions": [
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "combat_item",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Egg Plant"
+                    }
+                  ]
+                },
                 {
                   "type": "state_method",
                   "method": "has_any",
@@ -4584,30 +3664,6 @@
                         "Large Spring Ball",
                         "Spring Ball"
                       ]
-                    }
-                  ]
-                },
-                {
-                  "type": "or",
-                  "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Egg Plant"
-                      }
-                    },
-                    {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "combat_item"
-                      },
-                      "args": []
                     }
                   ]
                 }
@@ -4627,6 +3683,20 @@
               "type": "and",
               "conditions": [
                 {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "combat_item",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Egg Plant"
+                    }
+                  ]
+                },
+                {
                   "type": "state_method",
                   "method": "has_any",
                   "args": [
@@ -4636,30 +3706,6 @@
                         "Large Spring Ball",
                         "Spring Ball"
                       ]
-                    }
-                  ]
-                },
-                {
-                  "type": "or",
-                  "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Egg Plant"
-                      }
-                    },
-                    {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "combat_item"
-                      },
-                      "args": []
                     }
                   ]
                 }
@@ -4682,40 +3728,23 @@
                   "type": "or",
                   "conditions": [
                     {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "has_midring"
-                      },
-                      "args": []
-                    },
-                    {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "item_check",
-                          "item": {
-                            "type": "constant",
-                            "value": "Tulip"
-                          }
+                          "type": "helper",
+                          "name": "cansee_clouds",
+                          "args": []
                         },
                         {
-                          "type": "function_call",
-                          "function": {
-                            "type": "attribute",
-                            "object": {
-                              "type": "name",
-                              "name": "logic"
-                            },
-                            "attr": "cansee_clouds"
-                          },
-                          "args": []
+                          "type": "item_check",
+                          "item": "Tulip"
                         }
                       ]
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_midring",
+                      "args": []
                     }
                   ]
                 },
@@ -4723,23 +3752,13 @@
                   "type": "or",
                   "conditions": [
                     {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Egg Plant"
-                      }
+                      "type": "helper",
+                      "name": "combat_item",
+                      "args": []
                     },
                     {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "combat_item"
-                      },
-                      "args": []
+                      "type": "item_check",
+                      "item": "Egg Plant"
                     }
                   ]
                 }
@@ -4759,23 +3778,13 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Egg Plant"
-                  }
+                  "type": "helper",
+                  "name": "combat_item",
+                  "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "combat_item"
-                  },
-                  "args": []
+                  "type": "item_check",
+                  "item": "Egg Plant"
                 }
               ]
             },
@@ -4790,13 +3799,6 @@
       },
       "4-7": {
         "name": "4-7",
-        "entrances": [
-          {
-            "name": "World 4 -> 4-7",
-            "parent_region": "World 4",
-            "connected_region": "4-7"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -4804,10 +3806,7 @@
             "id": 3166361,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Large Spring Ball"
-              }
+              "item": "Large Spring Ball"
             },
             "item": {
               "name": "Anywhere Pow",
@@ -4821,10 +3820,7 @@
             "id": 3166362,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Large Spring Ball"
-              }
+              "item": "Large Spring Ball"
             },
             "item": {
               "name": "Anytime Egg",
@@ -4843,32 +3839,19 @@
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "has_midring"
-                      },
+                      "type": "helper",
+                      "name": "has_midring",
                       "args": []
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Helicopter Morph"
-                      }
+                      "item": "Helicopter Morph"
                     }
                   ]
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Large Spring Ball"
-                  }
+                  "item": "Large Spring Ball"
                 }
               ]
             },
@@ -4884,10 +3867,7 @@
             "id": 3166364,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Large Spring Ball"
-              }
+              "item": "Large Spring Ball"
             },
             "item": {
               "name": "Ice Melon",
@@ -4900,15 +3880,8 @@
             "name": "Ride Like The Wind: Gather Coins",
             "id": null,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_47Game"
-              },
+              "type": "helper",
+              "name": "_47Game",
               "args": []
             },
             "item": {
@@ -4922,27 +3895,13 @@
       },
       "4-8": {
         "name": "4-8",
-        "entrances": [
-          {
-            "name": "World 4 -> 4-8",
-            "parent_region": "World 4",
-            "connected_region": "4-8"
-          }
-        ],
         "exits": [
           {
             "name": "4-8 -> Hookbill The Koopa's Boss Room",
             "connected_region": "Hookbill The Koopa's Boss Room",
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_48Clear"
-              },
+              "type": "helper",
+              "name": "_48Clear",
               "args": []
             }
           }
@@ -5003,15 +3962,8 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "has_midring"
-                  },
+                  "type": "helper",
+                  "name": "has_midring",
                   "args": []
                 },
                 {
@@ -5040,15 +3992,8 @@
             "name": "Hookbill The Koopa's Castle: Level Clear",
             "id": 3166368,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_48CanFightBoss"
-              },
+              "type": "helper",
+              "name": "_48CanFightBoss",
               "args": []
             },
             "item": {
@@ -5062,28 +4007,14 @@
       },
       "Hookbill The Koopa's Boss Room": {
         "name": "Hookbill The Koopa's Boss Room",
-        "entrances": [
-          {
-            "name": "4-8 -> Hookbill The Koopa's Boss Room",
-            "parent_region": "4-8",
-            "connected_region": "Hookbill The Koopa's Boss Room"
-          }
-        ],
         "exits": [],
         "locations": [
           {
             "name": "Hookbill The Koopa's Boss Room",
             "id": null,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_48Boss"
-              },
+              "type": "helper",
+              "name": "_48Boss",
               "args": []
             },
             "item": {
@@ -5097,13 +4028,6 @@
       },
       "5-1": {
         "name": "5-1",
-        "entrances": [
-          {
-            "name": "World 5 -> 5-1",
-            "parent_region": "World 5",
-            "connected_region": "5-1"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -5150,15 +4074,8 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "cansee_clouds"
-                  },
+                  "type": "helper",
+                  "name": "cansee_clouds",
                   "args": []
                 },
                 {
@@ -5168,32 +4085,19 @@
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "function_call",
-                          "function": {
-                            "type": "attribute",
-                            "object": {
-                              "type": "name",
-                              "name": "logic"
-                            },
-                            "attr": "has_midring"
-                          },
+                          "type": "helper",
+                          "name": "has_midring",
                           "args": []
                         },
                         {
                           "type": "item_check",
-                          "item": {
-                            "type": "constant",
-                            "value": "Dashed Stairs"
-                          }
+                          "item": "Dashed Stairs"
                         }
                       ]
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Tulip"
-                      }
+                      "item": "Tulip"
                     }
                   ]
                 }
@@ -5224,13 +4128,6 @@
       },
       "5-2": {
         "name": "5-2",
-        "entrances": [
-          {
-            "name": "World 5 -> 5-2",
-            "parent_region": "World 5",
-            "connected_region": "5-2"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -5268,23 +4165,13 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "has_midring"
-                  },
+                  "type": "helper",
+                  "name": "has_midring",
                   "args": []
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Super Star"
-                  }
+                  "item": "Super Star"
                 }
               ]
             },
@@ -5313,13 +4200,6 @@
       },
       "5-3": {
         "name": "5-3",
-        "entrances": [
-          {
-            "name": "World 5 -> 5-3",
-            "parent_region": "World 5",
-            "connected_region": "5-3"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -5332,23 +4212,13 @@
                   "type": "or",
                   "conditions": [
                     {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Fire Melon"
-                      }
+                      "type": "helper",
+                      "name": "melon_item",
+                      "args": []
                     },
                     {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "melon_item"
-                      },
-                      "args": []
+                      "type": "item_check",
+                      "item": "Fire Melon"
                     }
                   ]
                 },
@@ -5387,23 +4257,13 @@
                   "type": "or",
                   "conditions": [
                     {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Fire Melon"
-                      }
+                      "type": "helper",
+                      "name": "melon_item",
+                      "args": []
                     },
                     {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "melon_item"
-                      },
-                      "args": []
+                      "type": "item_check",
+                      "item": "Fire Melon"
                     }
                   ]
                 },
@@ -5440,38 +4300,21 @@
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "has_midring"
-                      },
+                      "type": "helper",
+                      "name": "has_midring",
                       "args": []
                     },
                     {
                       "type": "or",
                       "conditions": [
                         {
-                          "type": "item_check",
-                          "item": {
-                            "type": "constant",
-                            "value": "Fire Melon"
-                          }
+                          "type": "helper",
+                          "name": "melon_item",
+                          "args": []
                         },
                         {
-                          "type": "function_call",
-                          "function": {
-                            "type": "attribute",
-                            "object": {
-                              "type": "name",
-                              "name": "logic"
-                            },
-                            "attr": "melon_item"
-                          },
-                          "args": []
+                          "type": "item_check",
+                          "item": "Fire Melon"
                         }
                       ]
                     }
@@ -5479,10 +4322,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Spring Ball"
-                  }
+                  "item": "Spring Ball"
                 }
               ]
             },
@@ -5521,27 +4361,13 @@
       },
       "5-4": {
         "name": "5-4",
-        "entrances": [
-          {
-            "name": "World 5 -> 5-4",
-            "parent_region": "World 5",
-            "connected_region": "5-4"
-          }
-        ],
         "exits": [
           {
             "name": "5-4 -> Sluggy The Unshaven's Boss Room",
             "connected_region": "Sluggy The Unshaven's Boss Room",
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_54Clear"
-              },
+              "type": "helper",
+              "name": "_54Clear",
               "args": []
             }
           }
@@ -5605,6 +4431,29 @@
                   "type": "and",
                   "conditions": [
                     {
+                      "type": "helper",
+                      "name": "cansee_clouds",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Dashed Platform"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Dashed Stairs"
+                    }
+                  ]
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "has_midring",
+                      "args": []
+                    },
+                    {
                       "type": "state_method",
                       "method": "has_all",
                       "args": [
@@ -5616,49 +4465,6 @@
                           ]
                         }
                       ]
-                    },
-                    {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "has_midring"
-                      },
-                      "args": []
-                    }
-                  ]
-                },
-                {
-                  "type": "and",
-                  "conditions": [
-                    {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "cansee_clouds"
-                      },
-                      "args": []
-                    },
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Dashed Stairs"
-                      }
-                    },
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Dashed Platform"
-                      }
                     }
                   ]
                 }
@@ -5675,15 +4481,8 @@
             "name": "Sluggy The Unshaven's Fort: Level Clear",
             "id": 3166384,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_54CanFightBoss"
-              },
+              "type": "helper",
+              "name": "_54CanFightBoss",
               "args": []
             },
             "item": {
@@ -5697,28 +4496,14 @@
       },
       "Sluggy The Unshaven's Boss Room": {
         "name": "Sluggy The Unshaven's Boss Room",
-        "entrances": [
-          {
-            "name": "5-4 -> Sluggy The Unshaven's Boss Room",
-            "parent_region": "5-4",
-            "connected_region": "Sluggy The Unshaven's Boss Room"
-          }
-        ],
         "exits": [],
         "locations": [
           {
             "name": "Sluggy The Unshaven's Boss Room",
             "id": null,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_54Boss"
-              },
+              "type": "helper",
+              "name": "_54Boss",
               "args": []
             },
             "item": {
@@ -5732,13 +4517,6 @@
       },
       "5-5": {
         "name": "5-5",
-        "entrances": [
-          {
-            "name": "World 5 -> 5-5",
-            "parent_region": "World 5",
-            "connected_region": "5-5"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -5791,15 +4569,8 @@
             "name": "Goonie Rides!: Stars",
             "id": 3166387,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "has_midring"
-              },
+              "type": "helper",
+              "name": "has_midring",
               "args": []
             },
             "item": {
@@ -5836,13 +4607,6 @@
       },
       "5-6": {
         "name": "5-6",
-        "entrances": [
-          {
-            "name": "World 5 -> 5-6",
-            "parent_region": "World 5",
-            "connected_region": "5-6"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -5880,23 +4644,13 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "has_midring"
-                  },
+                  "type": "helper",
+                  "name": "has_midring",
                   "args": []
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Tulip"
-                  }
+                  "item": "Tulip"
                 }
               ]
             },
@@ -5925,13 +4679,6 @@
       },
       "5-7": {
         "name": "5-7",
-        "entrances": [
-          {
-            "name": "World 5 -> 5-7",
-            "parent_region": "World 5",
-            "connected_region": "5-7"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -5941,27 +4688,17 @@
               "type": "or",
               "conditions": [
                 {
+                  "type": "helper",
+                  "name": "combat_item",
+                  "args": []
+                },
+                {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Egg Capacity Upgrade"
-                  },
+                  "item": "Egg Capacity Upgrade",
                   "count": {
                     "type": "constant",
                     "value": 1
                   }
-                },
-                {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "combat_item"
-                  },
-                  "args": []
                 }
               ]
             },
@@ -5979,27 +4716,17 @@
               "type": "or",
               "conditions": [
                 {
+                  "type": "helper",
+                  "name": "combat_item",
+                  "args": []
+                },
+                {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Egg Capacity Upgrade"
-                  },
+                  "item": "Egg Capacity Upgrade",
                   "count": {
                     "type": "constant",
                     "value": 1
                   }
-                },
-                {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "combat_item"
-                  },
-                  "args": []
                 }
               ]
             },
@@ -6014,15 +4741,8 @@
             "name": "Shifting Platforms Ahead: Stars",
             "id": 3166395,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "has_midring"
-              },
+              "type": "helper",
+              "name": "has_midring",
               "args": []
             },
             "item": {
@@ -6050,27 +4770,13 @@
       },
       "5-8": {
         "name": "5-8",
-        "entrances": [
-          {
-            "name": "World 5 -> 5-8",
-            "parent_region": "World 5",
-            "connected_region": "5-8"
-          }
-        ],
         "exits": [
           {
             "name": "5-8 -> Raphael The Raven's Boss Room",
             "connected_region": "Raphael The Raven's Boss Room",
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_58Clear"
-              },
+              "type": "helper",
+              "name": "_58Clear",
               "args": []
             }
           }
@@ -6129,23 +4835,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "has_midring"
-                  },
+                  "type": "helper",
+                  "name": "has_midring",
                   "args": []
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Arrow Wheel"
-                  }
+                  "item": "Arrow Wheel"
                 }
               ]
             },
@@ -6160,15 +4856,8 @@
             "name": "Raphael The Raven's Castle: Level Clear",
             "id": 3166400,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_58CanFightBoss"
-              },
+              "type": "helper",
+              "name": "_58CanFightBoss",
               "args": []
             },
             "item": {
@@ -6182,28 +4871,14 @@
       },
       "Raphael The Raven's Boss Room": {
         "name": "Raphael The Raven's Boss Room",
-        "entrances": [
-          {
-            "name": "5-8 -> Raphael The Raven's Boss Room",
-            "parent_region": "5-8",
-            "connected_region": "Raphael The Raven's Boss Room"
-          }
-        ],
         "exits": [],
         "locations": [
           {
             "name": "Raphael The Raven's Boss Room",
             "id": null,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_58Boss"
-              },
+              "type": "helper",
+              "name": "_58Boss",
               "args": []
             },
             "item": {
@@ -6217,13 +4892,6 @@
       },
       "6-1": {
         "name": "6-1",
-        "entrances": [
-          {
-            "name": "World 6 -> 6-1",
-            "parent_region": "World 6",
-            "connected_region": "6-1"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -6279,23 +4947,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Dashed Platform"
-                  }
+                  "type": "helper",
+                  "name": "has_midring",
+                  "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "has_midring"
-                  },
-                  "args": []
+                  "type": "item_check",
+                  "item": "Dashed Platform"
                 }
               ]
             },
@@ -6333,13 +4991,6 @@
       },
       "6-2": {
         "name": "6-2",
-        "entrances": [
-          {
-            "name": "World 6 -> 6-2",
-            "parent_region": "World 6",
-            "connected_region": "6-2"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -6347,10 +4998,7 @@
             "id": 3166405,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Super Star"
-              }
+              "item": "Super Star"
             },
             "item": {
               "name": "2-Up",
@@ -6364,10 +5012,7 @@
             "id": 3166406,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Super Star"
-              }
+              "item": "Super Star"
             },
             "item": {
               "name": "Pocket Ice Melon",
@@ -6383,27 +5028,13 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "cansee_clouds"
-                  },
+                  "type": "helper",
+                  "name": "cansee_clouds",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "has_midring"
-                  },
+                  "type": "helper",
+                  "name": "has_midring",
                   "args": []
                 }
               ]
@@ -6420,10 +5051,7 @@
             "id": 3166408,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Super Star"
-              }
+              "item": "Super Star"
             },
             "item": {
               "name": "Flashing Eggs",
@@ -6436,13 +5064,6 @@
       },
       "6-3": {
         "name": "6-3",
-        "entrances": [
-          {
-            "name": "World 6 -> 6-3",
-            "parent_region": "World 6",
-            "connected_region": "6-3"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -6505,27 +5126,13 @@
       },
       "6-4": {
         "name": "6-4",
-        "entrances": [
-          {
-            "name": "World 6 -> 6-4",
-            "parent_region": "World 6",
-            "connected_region": "6-4"
-          }
-        ],
         "exits": [
           {
             "name": "6-4 -> Tap-Tap The Red Nose's Boss Room",
             "connected_region": "Tap-Tap The Red Nose's Boss Room",
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_64Clear"
-              },
+              "type": "helper",
+              "name": "_64Clear",
               "args": []
             }
           }
@@ -6538,6 +5145,24 @@
               "type": "and",
               "conditions": [
                 {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "combat_item",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Egg Capacity Upgrade",
+                      "count": {
+                        "type": "constant",
+                        "value": 3
+                      }
+                    }
+                  ]
+                },
+                {
                   "type": "state_method",
                   "method": "has_all",
                   "args": [
@@ -6549,34 +5174,6 @@
                         "Large Spring Ball",
                         "Spring Ball"
                       ]
-                    }
-                  ]
-                },
-                {
-                  "type": "or",
-                  "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Egg Capacity Upgrade"
-                      },
-                      "count": {
-                        "type": "constant",
-                        "value": 3
-                      }
-                    },
-                    {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "combat_item"
-                      },
-                      "args": []
                     }
                   ]
                 }
@@ -6596,6 +5193,24 @@
               "type": "and",
               "conditions": [
                 {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "combat_item",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Egg Capacity Upgrade",
+                      "count": {
+                        "type": "constant",
+                        "value": 3
+                      }
+                    }
+                  ]
+                },
+                {
                   "type": "state_method",
                   "method": "has_all",
                   "args": [
@@ -6607,34 +5222,6 @@
                         "Large Spring Ball",
                         "Spring Ball"
                       ]
-                    }
-                  ]
-                },
-                {
-                  "type": "or",
-                  "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Egg Capacity Upgrade"
-                      },
-                      "count": {
-                        "type": "constant",
-                        "value": 3
-                      }
-                    },
-                    {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "combat_item"
-                      },
-                      "args": []
                     }
                   ]
                 }
@@ -6654,15 +5241,8 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "has_midring"
-                  },
+                  "type": "helper",
+                  "name": "has_midring",
                   "args": []
                 },
                 {
@@ -6693,15 +5273,8 @@
             "name": "Tap-Tap The Red Nose's Fort: Level Clear",
             "id": 3166416,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_64CanFightBoss"
-              },
+              "type": "helper",
+              "name": "_64CanFightBoss",
               "args": []
             },
             "item": {
@@ -6715,28 +5288,14 @@
       },
       "Tap-Tap The Red Nose's Boss Room": {
         "name": "Tap-Tap The Red Nose's Boss Room",
-        "entrances": [
-          {
-            "name": "6-4 -> Tap-Tap The Red Nose's Boss Room",
-            "parent_region": "6-4",
-            "connected_region": "Tap-Tap The Red Nose's Boss Room"
-          }
-        ],
         "exits": [],
         "locations": [
           {
             "name": "Tap-Tap The Red Nose's Boss Room",
             "id": null,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_64Boss"
-              },
+              "type": "helper",
+              "name": "_64Boss",
               "args": []
             },
             "item": {
@@ -6750,13 +5309,6 @@
       },
       "6-5": {
         "name": "6-5",
-        "entrances": [
-          {
-            "name": "World 6 -> 6-5",
-            "parent_region": "World 6",
-            "connected_region": "6-5"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -6766,39 +5318,26 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chomp Rock"
-                  }
-                },
-                {
                   "type": "or",
                   "conditions": [
                     {
+                      "type": "helper",
+                      "name": "combat_item",
+                      "args": []
+                    },
+                    {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Egg Capacity Upgrade"
-                      },
+                      "item": "Egg Capacity Upgrade",
                       "count": {
                         "type": "constant",
                         "value": 3
                       }
-                    },
-                    {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "combat_item"
-                      },
-                      "args": []
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Chomp Rock"
                 }
               ]
             },
@@ -6816,39 +5355,26 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chomp Rock"
-                  }
-                },
-                {
                   "type": "or",
                   "conditions": [
                     {
+                      "type": "helper",
+                      "name": "combat_item",
+                      "args": []
+                    },
+                    {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Egg Capacity Upgrade"
-                      },
+                      "item": "Egg Capacity Upgrade",
                       "count": {
                         "type": "constant",
                         "value": 3
                       }
-                    },
-                    {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "combat_item"
-                      },
-                      "args": []
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Chomp Rock"
                 }
               ]
             },
@@ -6866,51 +5392,31 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chomp Rock"
-                  }
+                  "type": "helper",
+                  "name": "has_midring",
+                  "args": []
                 },
                 {
                   "type": "or",
                   "conditions": [
                     {
+                      "type": "helper",
+                      "name": "combat_item",
+                      "args": []
+                    },
+                    {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Egg Capacity Upgrade"
-                      },
+                      "item": "Egg Capacity Upgrade",
                       "count": {
                         "type": "constant",
                         "value": 3
                       }
-                    },
-                    {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "combat_item"
-                      },
-                      "args": []
                     }
                   ]
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "has_midring"
-                  },
-                  "args": []
+                  "type": "item_check",
+                  "item": "Chomp Rock"
                 }
               ]
             },
@@ -6939,13 +5445,6 @@
       },
       "6-6": {
         "name": "6-6",
-        "entrances": [
-          {
-            "name": "World 6 -> 6-6",
-            "parent_region": "World 6",
-            "connected_region": "6-6"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7003,32 +5502,11 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Chomp Rock",
-                        "Key",
-                        "Tulip"
-                      ]
-                    }
-                  ]
-                },
-                {
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "logic"
-                        },
-                        "attr": "has_midring"
-                      },
+                      "type": "helper",
+                      "name": "has_midring",
                       "args": []
                     },
                     {
@@ -7043,6 +5521,20 @@
                             "Large Spring Ball"
                           ]
                         }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Chomp Rock",
+                        "Key",
+                        "Tulip"
                       ]
                     }
                   ]
@@ -7085,13 +5577,6 @@
       },
       "6-7": {
         "name": "6-7",
-        "entrances": [
-          {
-            "name": "World 6 -> 6-7",
-            "parent_region": "World 6",
-            "connected_region": "6-7"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -7101,27 +5586,17 @@
               "type": "or",
               "conditions": [
                 {
+                  "type": "helper",
+                  "name": "combat_item",
+                  "args": []
+                },
+                {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Egg Capacity Upgrade"
-                  },
+                  "item": "Egg Capacity Upgrade",
                   "count": {
                     "type": "constant",
                     "value": 1
                   }
-                },
-                {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "combat_item"
-                  },
-                  "args": []
                 }
               ]
             },
@@ -7137,10 +5612,7 @@
             "id": 3166426,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Egg Plant"
-              }
+              "item": "Egg Plant"
             },
             "item": {
               "name": "Bonus Panels",
@@ -7153,15 +5625,8 @@
             "name": "KEEP MOVING!!!!: Stars",
             "id": 3166427,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "has_midring"
-              },
+              "type": "helper",
+              "name": "has_midring",
               "args": []
             },
             "item": {
@@ -7189,27 +5654,13 @@
       },
       "6-8": {
         "name": "6-8",
-        "entrances": [
-          {
-            "name": "World 6 -> 6-8",
-            "parent_region": "World 6",
-            "connected_region": "6-8"
-          }
-        ],
         "exits": [
           {
             "name": "6-8 -> Bowser's Room",
             "connected_region": "Bowser's Room",
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "bosses"
-                },
-                "attr": "castle_clear"
-              },
+              "type": "helper",
+              "name": "castle_clear",
               "args": []
             }
           }
@@ -7222,6 +5673,11 @@
               "type": "and",
               "conditions": [
                 {
+                  "type": "helper",
+                  "name": "_68CollectibleRoute",
+                  "args": []
+                },
+                {
                   "type": "state_method",
                   "method": "has_all",
                   "args": [
@@ -7233,18 +5689,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "_68CollectibleRoute"
-                  },
-                  "args": []
                 }
               ]
             },
@@ -7262,6 +5706,11 @@
               "type": "and",
               "conditions": [
                 {
+                  "type": "helper",
+                  "name": "_68CollectibleRoute",
+                  "args": []
+                },
+                {
                   "type": "state_method",
                   "method": "has_all",
                   "args": [
@@ -7273,18 +5722,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "_68CollectibleRoute"
-                  },
-                  "args": []
                 }
               ]
             },
@@ -7302,6 +5739,11 @@
               "type": "and",
               "conditions": [
                 {
+                  "type": "helper",
+                  "name": "_68Route",
+                  "args": []
+                },
+                {
                   "type": "state_method",
                   "method": "has_all",
                   "args": [
@@ -7313,18 +5755,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "logic"
-                    },
-                    "attr": "_68Route"
-                  },
-                  "args": []
                 }
               ]
             },
@@ -7339,28 +5769,14 @@
       },
       "Bowser's Room": {
         "name": "Bowser's Room",
-        "entrances": [
-          {
-            "name": "6-8 -> Bowser's Room",
-            "parent_region": "6-8",
-            "connected_region": "Bowser's Room"
-          }
-        ],
         "exits": [],
         "locations": [
           {
             "name": "King Bowser's Castle: Level Clear",
             "id": null,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "logic"
-                },
-                "attr": "_68Clear"
-              },
+              "type": "helper",
+              "name": "_68Clear",
               "args": []
             },
             "item": {
@@ -7804,20 +6220,6 @@
         "type": null,
         "max_count": 10
       },
-      "Secret Lens": {
-        "name": "Secret Lens",
-        "id": 3154049,
-        "groups": [
-          "Everything",
-          "Items"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
       "World 1 Gate": {
         "name": "World 1 Gate",
         "id": 3154030,
@@ -8076,6 +6478,20 @@
         "groups": [
           "Everything",
           "Panels"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Secret Lens": {
+        "name": "Secret Lens",
+        "id": 3154049,
+        "groups": [
+          "Everything",
+          "Items"
         ],
         "advancement": false,
         "useful": false,
@@ -8481,7 +6897,15 @@
   "settings": {
     "1": {
       "game": "Yoshi's Island",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "StageLogic": 0,
+      "HiddenObjectVisibility": 1,
+      "ShuffleMiddleRings": 0,
+      "ItemLogic": 0,
+      "BowserDoorMode": 0,
+      "LuigiPiecesRequired": 25,
+      "CastleClearCondition": 0,
+      "CastleOpenCondition": 5
     }
   },
   "game_info": {

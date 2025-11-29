@@ -1,9 +1,163 @@
+/**
+ * State Manager Web Worker
+ *
+ * Runs StateManager in a separate thread to keep game state calculations
+ * off the main UI thread. Handles command processing via a queue system.
+ *
+ * Key responsibilities:
+ * - StateManager instance lifecycle
+ * - Command queue processing with FIFO ordering
+ * - Rule evaluation and reachability computation
+ * - Snapshot generation and transmission to main thread
+ * - Logging coordination with main thread
+ *
+ * **DATA FLOW**:
+ *
+ * Worker Initialization (initialize command):
+ *   Input: Worker configuration from proxy
+ *     ├─> rulesData: Archipelago JSON rules (optional)
+ *     ├─> playerId: Selected player ID
+ *     ├─> settings: Game settings
+ *     ├─> loggingConfig: Logging configuration from main thread
+ *
+ *   Processing:
+ *     ├─> Store workerConfig
+ *     ├─> Configure worker logger with main thread settings
+ *     ├─> Create StateManager instance with evaluateRule function
+ *     ├─> Pass CommandQueue to StateManager
+ *     ├─> Set up communication channel (postMessage callback)
+ *     ├─> Apply initial settings if provided
+ *
+ *   Output: Worker initialized
+ *     ├─> StateManager instance created
+ *     ├─> workerInitializedConfirmation sent to proxy
+ *     ├─> Ready to process commands
+ *
+ * Rules Loading (loadRules command):
+ *   Input: Rules and player info from proxy
+ *     ├─> rulesData: Full Archipelago JSON
+ *     ├─> playerInfo: { playerId, playerName }
+ *
+ *   Processing:
+ *     ├─> Call stateManager.loadFromJSON(rulesData, playerId)
+ *     ├─> StateManager processes all locations, regions, exits
+ *     ├─> Game logic module selected based on game name
+ *     ├─> Initial reachability computed
+ *     ├─> Generate initial snapshot
+ *     ├─> Collect static game data
+ *
+ *   Output: Rules loaded confirmation
+ *     ├─> rulesLoadedConfirmation message
+ *     ├─> initialSnapshot included
+ *     ├─> newStaticData (locations, regions, items, etc.)
+ *     ├─> gameName and playerId echoed back
+ *
+ * Command Queue Processing:
+ *   Input: Command message from main thread
+ *     ├─> command: Command name (string)
+ *     ├─> queryId: Unique ID for response matching
+ *     ├─> payload: Command-specific data
+ *     ├─> expectResponse: Whether command needs response
+ *
+ *   Processing (Phase 8):
+ *     ├─> Enqueue command with commandQueue.enqueue()
+ *     ├─> Process queue in FIFO order with processQueue()
+ *     ├─> Execute command via executeCommand()
+ *     ├─> Route to appropriate StateManager method in handleMessage()
+ *     ├─> Mark as completed or failed in queue
+ *     ├─> Send response if expectResponse=true
+ *
+ *   Output: Command result
+ *     ├─> queryResponse for queries
+ *     ├─> pingResponse for ping
+ *     ├─> stateSnapshot for state changes
+ *     ├─> commandCompleted/commandFailed for tracking
+ *
+ * Item Management Commands:
+ *   addItemToInventory:
+ *     Input: { item: string, quantity: number }
+ *     Processing: stateManager.addItemToInventory(item, quantity)
+ *     Output: Inventory updated, snapshot sent
+ *
+ *   removeItemFromInventory:
+ *     Input: { item: string, quantity: number }
+ *     Processing: stateManager.removeItemFromInventory(item, quantity)
+ *     Output: Inventory updated, snapshot sent
+ *
+ * Location Checking Commands:
+ *   checkLocation:
+ *     Input: { locationName: string, addItems: boolean, forceCheck: boolean }
+ *     Processing: stateManager.checkLocation(locationName, addItems, forceCheck)
+ *     Output: Location checked, item granted, snapshot sent
+ *
+ * Batch Update Commands:
+ *   beginBatchUpdate:
+ *     Input: { deferRegionComputation: boolean }
+ *     Processing: stateManager.beginBatchUpdate()
+ *     Output: Batch mode enabled, updates queued
+ *
+ *   commitBatchUpdate:
+ *     Input: None
+ *     Processing: stateManager.commitBatchUpdate()
+ *     Output: All updates applied, regions recomputed, snapshot sent
+ *
+ * State Management Commands:
+ *   applyRuntimeState:
+ *     Input: { inventory: {}, checkedLocations: [], ... }
+ *     Processing: stateManager.applyRuntimeState(payload)
+ *     Output: State restored, snapshot sent
+ *
+ *   clearStateAndReset:
+ *     Input: None
+ *     Processing: stateManager.clearState()
+ *     Output: State cleared, snapshot sent
+ *
+ *   clearEventItems:
+ *     Input: None
+ *     Processing: stateManager.clearEventItems()
+ *     Output: Event items removed, snapshot sent
+ *
+ * Query Commands:
+ *   getFullSnapshot / getFullSnapshotQuery:
+ *     Input: None
+ *     Processing: stateManager.getSnapshot()
+ *     Output: queryResponse with full snapshot
+ *
+ *   getWorkerQueueStatusQuery:
+ *     Input: None
+ *     Processing: commandQueue.getSnapshot()
+ *     Output: queryResponse with queue metrics
+ *
+ * Testing Commands:
+ *   evaluateLocationAccessibilityForTest:
+ *     Input: { locationName, requiredItems, excludedItems }
+ *     Processing: stateManager.evaluateAccessibilityForTest()
+ *     Output: queryResponse with accessibility boolean
+ *
+ *   applyTestInventoryAndEvaluate:
+ *     Input: { locationName, requiredItems, excludedItems }
+ *     Processing: Setup test inventory, evaluate location
+ *     Output: queryResponse with snapshot and result
+ *
+ * Ping/Sync Command:
+ *   ping:
+ *     Input: { queryId, payload: dataToEcho }
+ *     Processing: stateManager.ping({ queryId, payload })
+ *     Output: pingResponse with echoed payload
+ *
+ * **Architecture Notes**:
+ * - Worker runs in separate thread (Web Worker context)
+ * - No access to window, document, or DOM
+ * - All communication via postMessage
+ * - StateManager instance owned by worker
+ * - Command queue prevents race conditions
+ * - Yield points allow responsive command processing
+ *
+ * @module stateManager/worker
+ */
+
 // Initial startup message using console directly to avoid circular dependency
 // console.log('[stateManagerWorker] Worker starting...');
-
-// RACE CONDITION FIX: Command queue for serialized command processing
-let commandQueue = [];
-let isProcessingCommand = false;
 
 // ADDED: Top-level error handler for the worker
 self.onerror = function (message, source, lineno, colno, error) {
@@ -57,6 +211,8 @@ import { evaluateRule } from '../shared/ruleEngine.js';
 import { STATE_MANAGER_COMMANDS } from './stateManagerCommands.js';
 // Import universal logger
 import { initializeWorkerLogger, updateWorkerLoggerConfig, createUniversalLogger, workerLoggerInstance } from '../../app/core/universalLogger.js';
+// Import CommandQueue for Phase 8 command queue implementation
+import { CommandQueue } from './core/commandQueue.js';
 
 // Initialize worker logger with basic settings
 initializeWorkerLogger({
@@ -85,6 +241,14 @@ function log(level, message, ...data) {
 // console.log(
 //   '[stateManagerWorker] Dependencies loaded (StateManager, evaluateRule).'
 // );
+
+// Phase 8: Command Queue - Create queue instance with monitoring enabled
+const QUEUE_ENABLED = true; // Can be set to false for testing/comparison
+const commandQueue = new CommandQueue({
+  enabled: QUEUE_ENABLED,
+  maxHistorySize: 50,
+  debugMode: false // Set to true for detailed queue logging
+});
 
 let stateManagerInstance = null;
 let workerConfig = null;
@@ -119,32 +283,130 @@ function setupCommunicationChannel(instance) {
   });
 }
 
-// RACE CONDITION FIX: Command queue processing functions
-async function processCommandQueue() {
-  if (isProcessingCommand || commandQueue.length === 0) {
-    return;
+/**
+ * Phase 8: Command Queue Processing Loop
+ *
+ * Processes commands from the queue in FIFO order with yield points
+ * to allow incoming commands to be enqueued without blocking.
+ */
+async function processQueue() {
+  if (commandQueue.processing) {
+    return; // Already processing
   }
-  
-  isProcessingCommand = true;
-  
-  while (commandQueue.length > 0) {
-    const messageData = commandQueue.shift();
+
+  commandQueue.processing = true;
+
+  while (commandQueue.hasPending()) {
+    const cmd = commandQueue.getNext();
+
+    if (!cmd) break; // No more commands
+
     try {
-      await handleMessage(messageData);
-    } catch (error) {
-      log('error', '[stateManagerWorker] Error processing queued command:', error);
-      // Send error response if this was a query
-      if (messageData.queryId) {
+      // Execute command
+      await executeCommand(cmd);
+
+      // Mark as completed
+      commandQueue.markCompleted(cmd.queueId);
+
+      // Send completion response for commands that need it (like PING)
+      if (shouldSendCompletionResponse(cmd.command)) {
         self.postMessage({
-          type: 'queryResponse',
-          queryId: messageData.queryId,
-          error: error.message,
+          type: 'commandCompleted',
+          queryId: cmd.queryId,
+          queueId: cmd.queueId,
+          command: cmd.command,
+          timestamp: Date.now()
         });
       }
+
+    } catch (error) {
+      // Mark as failed
+      commandQueue.markFailed(cmd.queueId, error);
+
+      // Extract correlation ID from payload if available
+      const correlationId = cmd.payload?.correlationId;
+
+      // Get current queue status for context
+      const queueStatus = commandQueue.getSnapshot();
+
+      // Send enhanced error response with full context
+      self.postMessage({
+        type: 'commandFailed',
+        queryId: cmd.queryId,
+        queueId: cmd.queueId,
+        command: cmd.command,
+        correlationId: correlationId,
+        error: error.message,
+        stack: error.stack,
+        timestamp: Date.now(),
+        queueStatus: {
+          pending: queueStatus.pending,
+          completed: queueStatus.completed,
+          failed: queueStatus.failed,
+          processing: queueStatus.processing,
+          currentCommand: cmd.command
+        },
+        context: {
+          workerInitialized: workerInitialized,
+          stateManagerExists: !!stateManagerInstance
+        }
+      });
+
+      log('error', `[CommandQueue] Command failed: ${cmd.command}, queryId: ${cmd.queryId}, correlationId: ${correlationId}`, error);
     }
+
+    // Yield point: Allow new messages to be received
+    // This prevents the queue from blocking incoming commands
+    await new Promise(resolve => setTimeout(resolve, 0));
   }
-  
-  isProcessingCommand = false;
+
+  commandQueue.processing = false;
+}
+
+/**
+ * Phase 8: Helper Functions for Command Queue
+ */
+
+/**
+ * Determine if command should send completion response
+ * PING sends its own pingResponse, so it should NOT send commandCompleted.
+ * All query commands send queryResponse directly from handleMessage.
+ * Only commands that need explicit completion notification should return true here.
+ */
+function shouldSendCompletionResponse(command) {
+  // No commands currently need commandCompleted messages
+  // PING uses pingResponse instead
+  return false;
+}
+
+/**
+ * Fallback for direct execution (if queue disabled)
+ * Keeps existing code for comparison testing
+ */
+async function executeCommandDirectly(command, queryId, payload) {
+  // Build message object in old format
+  const message = { command, queryId, payload };
+  await handleMessage(message);
+}
+
+/**
+ * Phase 8: Execute Command
+ *
+ * Routes a command from the queue to the appropriate StateManager method.
+ * This function processes commands that have been dequeued and are ready to execute.
+ *
+ * @param {Object} cmd - Command entry from queue
+ */
+async function executeCommand(cmd) {
+  const { command, payload, queryId } = cmd;
+
+  // Extract expectResponse from payload if it was stored there
+  const expectResponse = payload?.expectResponse;
+
+  // Build message object for handleMessage (reuse existing logic)
+  // Include expectResponse so handlers know whether to send responses
+  const message = { command, payload, queryId, expectResponse };
+  await handleMessage(message);
 }
 
 // RACE CONDITION FIX: Original message handler logic moved to separate function
@@ -167,7 +429,8 @@ async function handleMessage(message) {
           'info',
           '[stateManagerWorker onmessage] Processing initialize command...'
         );
-        workerConfig = message.config;
+        // Handle both old format (message.config) and new queue format (message.payload.config)
+        workerConfig = message.config || (message.payload && message.payload.config) || message.payload;
         if (!workerConfig) {
           throw new Error('Initialization failed: workerConfig is missing.');
         }
@@ -184,8 +447,8 @@ async function handleMessage(message) {
           );
         }
 
-        // Pass the configured logger to StateManager
-        stateManagerInstance = new StateManager(evaluateRule, workerLoggerInstance);
+        // Pass the configured logger and command queue to StateManager
+        stateManagerInstance = new StateManager(evaluateRule, workerLoggerInstance, commandQueue);
         setupCommunicationChannel(stateManagerInstance);
         // Pass initial settings if available in workerConfig
         if (workerConfig.settings) {
@@ -336,12 +599,34 @@ async function handleMessage(message) {
         if (!workerInitialized || !stateManagerInstance) {
           throw new Error('Worker not initialized. Cannot process ping.');
         }
+        log('debug', `[Worker] Processing PING command for queryId ${message.queryId}`);
         // Construct the object that StateManager.ping expects
         stateManagerInstance.ping({
           queryId: message.queryId, // Pass the queryId from the incoming message
           payload: message.payload, // Pass the actual dataToEcho (e.g., 'uiSimSyncAfterClick')
         });
         // The ping method itself will post the 'pingResponse' message
+        log('debug', `[Worker] PING command completed for queryId ${message.queryId}`);
+        break;
+
+      case STATE_MANAGER_COMMANDS.GET_WORKER_QUEUE_STATUS_QUERY:
+        // Phase 8: Get command queue snapshot for debugging
+        log('info', '[Worker] Processing GET_WORKER_QUEUE_STATUS_QUERY');
+        try {
+          const queueSnapshot = commandQueue.getSnapshot();
+          self.postMessage({
+            type: 'queryResponse',
+            queryId: message.queryId,
+            result: queueSnapshot
+          });
+        } catch (error) {
+          log('error', '[Worker] Error getting queue snapshot:', error);
+          self.postMessage({
+            type: 'queryResponse',
+            queryId: message.queryId,
+            error: `Failed to get queue snapshot: ${error.message}`
+          });
+        }
         break;
 
       case 'addItemToInventory':
@@ -487,9 +772,10 @@ async function handleMessage(message) {
               log('info', `[SMW] checkLocation: try block entered.`);
               const locationName = message.payload.locationName;
               const addItems = message.payload.addItems !== undefined ? message.payload.addItems : true;
+              const forceCheck = message.payload.forceCheck !== undefined ? message.payload.forceCheck : false;
               log(
                 'info',
-                `[SMW] checkLocation: locationName extracted: "${locationName}" (type: ${typeof locationName}), addItems: ${addItems}`
+                `[SMW] checkLocation: locationName extracted: "${locationName}" (type: ${typeof locationName}), addItems: ${addItems}, forceCheck: ${forceCheck}`
               );
 
               if (typeof locationName !== 'string') {
@@ -505,29 +791,44 @@ async function handleMessage(message) {
               // LOG 5: Before calling instance.checkLocation
               log(
                 'info',
-                `[SMW] checkLocation: About to call stateManagerInstance.checkLocation("${locationName}", ${addItems})`
+                `[SMW] checkLocation: About to call stateManagerInstance.checkLocation("${locationName}", ${addItems}, ${forceCheck})`
               );
-              stateManagerInstance.checkLocation(locationName, addItems);
+              const result = stateManagerInstance.checkLocation(locationName, addItems, forceCheck);
               // LOG 6: After calling instance.checkLocation
               log(
                 'info',
-                `[SMW] checkLocation: stateManagerInstance.checkLocation completed for "${locationName}".`
+                `[SMW] checkLocation: stateManagerInstance.checkLocation completed for "${locationName}". Result:`,
+                JSON.stringify(result)
               );
 
-              // Query response still sent if queryId was present
-              log(
-                'info',
-                `[SMW] checkLocation: Sending success queryResponse for queryId ${message.queryId}`
-              );
-              self.postMessage({
-                type: 'queryResponse',
-                queryId: message.queryId,
-                result: {
-                  success: true,
-                  locationName: locationName,
-                  status: 'processed_by_state_manager',
-                },
-              });
+              // Only send query response if expectResponse is explicitly true
+              if (message.expectResponse === true) {
+                if (result && result.success) {
+                  log(
+                    'info',
+                    `[SMW] checkLocation: Sending success queryResponse for queryId ${message.queryId}`
+                  );
+                  self.postMessage({
+                    type: 'queryResponse',
+                    queryId: message.queryId,
+                    result: {
+                      success: true,
+                      locationName: locationName,
+                      status: 'processed_by_state_manager',
+                    },
+                  });
+                } else {
+                  log(
+                    'warn',
+                    `[SMW] checkLocation: Location check was rejected. Reason: ${result?.reason || 'unknown'}`
+                  );
+                  self.postMessage({
+                    type: 'queryResponse',
+                    queryId: message.queryId,
+                    error: `Location check rejected: ${result?.reason || 'unknown'}. Location was not checked.`,
+                  });
+                }
+              }
             } catch (error) {
               // LOG 7: In catch block for checkLocation
               log(
@@ -540,15 +841,18 @@ async function handleMessage(message) {
                 error.message,
                 error.stack
               );
-              log(
-                'error',
-                `[SMW] checkLocation: Sending error queryResponse for queryId ${message.queryId}`
-              );
-              self.postMessage({
-                type: 'queryResponse',
-                queryId: message.queryId,
-                error: `Error processing checkLocation: ${error.message}`,
-              });
+              // Only send error response if expectResponse is explicitly true
+              if (message.expectResponse === true) {
+                log(
+                  'error',
+                  `[SMW] checkLocation: Sending error queryResponse for queryId ${message.queryId}`
+                );
+                self.postMessage({
+                  type: 'queryResponse',
+                  queryId: message.queryId,
+                  error: `Error processing checkLocation: ${error.message}`,
+                });
+              }
             }
 
           } else {
@@ -780,7 +1084,7 @@ async function handleMessage(message) {
                   return;
 
                 const itemDef = allItemData ? allItemData[itemName] : null;
-                if (itemDef && (itemDef.event || itemDef.type === 'Event'))
+                if (itemDef && (itemDef.event || itemDef.id === 0 || itemDef.id === null))
                   return; // Skip event items
 
                 for (let i = 0; i < count; i++) {
@@ -801,7 +1105,7 @@ async function handleMessage(message) {
                   return;
 
                 const itemDef = allItemData[itemName];
-                if (itemDef && (itemDef.event || itemDef.type === 'Event'))
+                if (itemDef && (itemDef.event || itemDef.id === 0 || itemDef.id === null))
                   return; // Skip event items
                 stateManagerInstance.addItemToInventory(itemName); // Now respects batch mode
               });
@@ -877,7 +1181,13 @@ async function handleMessage(message) {
           } else {
             // Find the location object and evaluate accessibility directly
             try {
-              const locationObject = stateManagerInstance.locations.find(
+              // locations is an object, not an array, so we need to convert it
+              const locationsArray = stateManagerInstance.locations
+                ? (Array.isArray(stateManagerInstance.locations)
+                    ? stateManagerInstance.locations
+                    : Object.values(stateManagerInstance.locations))
+                : [];
+              const locationObject = locationsArray.find(
                 (loc) => loc.name === locationName
               );
               if (locationObject) {
@@ -981,6 +1291,51 @@ async function handleMessage(message) {
         }
         break;
 
+      case 'setSpoilerTestMode':
+        log(
+          'debug',
+          '[Worker] Received setSpoilerTestMode command',
+          message.payload
+        );
+        if (
+          stateManagerInstance &&
+          message.payload &&
+          typeof message.payload.enabled === 'boolean'
+        ) {
+          stateManagerInstance.setSpoilerTestMode(
+            message.payload.enabled
+          );
+        } else {
+          log(
+            'warn',
+            '[Worker] Invalid payload for setSpoilerTestMode:',
+            message.payload
+          );
+        }
+        break;
+
+      case STATE_MANAGER_COMMANDS.RECALCULATE_ACCESSIBILITY:
+        log('debug', '[Worker] Received recalculateAccessibility command');
+        if (!stateManagerInstance) {
+          log('error', '[Worker] StateManager not initialized for recalculateAccessibility');
+          break;
+        }
+        try {
+          // Invalidate the reachability cache
+          stateManagerInstance.invalidateCache();
+
+          // Recompute reachable regions (this also handles auto-collection of event items)
+          stateManagerInstance.computeReachableRegions();
+
+          // Send updated snapshot to main thread
+          stateManagerInstance._sendSnapshotUpdate();
+
+          log('info', '[Worker] Accessibility recalculated successfully');
+        } catch (error) {
+          log('error', '[Worker] Error recalculating accessibility:', error);
+        }
+        break;
+
       case 'updateWorkerLogConfig':
         log(
           'debug',
@@ -1025,23 +1380,74 @@ async function handleMessage(message) {
       message.command,
       error
     );
+
+    // Get queue status for enhanced diagnostics
+    const queueStatus = commandQueue ? commandQueue.getSnapshot() : {
+      pending: 0,
+      processing: false,
+      currentCommand: 'unknown'
+    };
+
     self.postMessage({
       type: 'workerError',
       command: message.command,
+      correlationId: message.correlationId || (message.payload && message.payload.correlationId),
       errorMessage: error.message,
       errorStack: error.stack,
       queryId: message.queryId,
+      timestamp: Date.now(),
+      queueStatus: {
+        pending: queueStatus.pending,
+        completed: queueStatus.completed,
+        failed: queueStatus.failed,
+        processing: queueStatus.processing,
+        currentCommand: message.command
+      },
+      context: {
+        workerInitialized: workerInitialized,
+        stateManagerExists: !!stateManagerInstance,
+        expectResponse: message.expectResponse
+      }
     });
   }
 }
 
-// RACE CONDITION FIX: New queue-based message handler
+/**
+ * Phase 8: Main Message Handler
+ *
+ * Receives messages from main thread and enqueues them for processing.
+ * Sends immediate acknowledgment for most commands.
+ */
 self.onmessage = async function (e) {
   const message = e.data;
-  log('info', '[stateManagerWorker onmessage] Queuing message:', message);
-  
-  commandQueue.push(message);
-  processCommandQueue();
+  const { command, queryId, payload, config, expectResponse, correlationId } = message; // Extract all fields including correlationId
+
+  log('info', '[stateManagerWorker onmessage] Received command:', command, 'queryId:', queryId, 'correlationId:', correlationId);
+
+  // Check if queue is enabled (for testing/comparison)
+  if (!QUEUE_ENABLED || !commandQueue.enabled) {
+    log('info', '[stateManagerWorker] Queue disabled, executing directly');
+    // For direct execution, pass the entire message to preserve all properties
+    const directMessage = { command, queryId, payload, config, expectResponse, correlationId };
+    await handleMessage(directMessage);
+    return;
+  }
+
+  // Enqueue command with full message data
+  // Store the entire message in payload to preserve all properties including expectResponse and correlationId
+  const fullPayload = config
+    ? { ...payload, config, expectResponse, correlationId }
+    : { ...payload, expectResponse, correlationId };
+  const entry = commandQueue.enqueue(command, queryId, fullPayload);
+
+  // NOTE: We don't send commandEnqueued acknowledgments anymore.
+  // Fire-and-forget commands (expectResponse=false) resolve immediately in the proxy.
+  // Query commands (expectResponse=true) wait for queryResponse from command execution.
+
+  // Start processing if not already running
+  if (!commandQueue.processing) {
+    processQueue();
+  }
 };
 
 // --- END: Queue-based onmessage Handler ---

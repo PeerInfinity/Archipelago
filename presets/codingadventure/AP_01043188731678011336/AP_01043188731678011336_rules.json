@@ -14,7 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [],
         "exits": [
           {
             "name": "StartLearning",
@@ -29,13 +28,6 @@
       },
       "LearningHub": {
         "name": "LearningHub",
-        "entrances": [
-          {
-            "name": "StartLearning",
-            "parent_region": "Menu",
-            "connected_region": "LearningHub"
-          }
-        ],
         "exits": [
           {
             "name": "ToVisualPath",
@@ -76,44 +68,29 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "HTML"
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "CSS"
-                  }
-                },
-                {
                   "type": "or",
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "JavaScript Basics"
-                      }
+                      "item": "Git"
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Git"
-                      }
+                      "item": "JavaScript Basics"
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Server Basics"
-                      }
+                      "item": "Server Basics"
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "CSS"
+                },
+                {
+                  "type": "item_check",
+                  "item": "HTML"
                 }
               ]
             }
@@ -123,13 +100,6 @@
       },
       "VisualPath": {
         "name": "VisualPath",
-        "entrances": [
-          {
-            "name": "ToVisualPath",
-            "parent_region": "LearningHub",
-            "connected_region": "VisualPath"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -151,10 +121,7 @@
             "id": 400000002,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "HTML"
-              }
+              "item": "HTML"
             },
             "item": {
               "name": "Vue",
@@ -168,10 +135,7 @@
             "id": 400000003,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "CSS"
-              }
+              "item": "CSS"
             },
             "item": {
               "name": "State Management",
@@ -184,13 +148,6 @@
       },
       "LogicPath": {
         "name": "LogicPath",
-        "entrances": [
-          {
-            "name": "ToLogicPath",
-            "parent_region": "LearningHub",
-            "connected_region": "LogicPath"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -212,10 +169,7 @@
             "id": 400000005,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "JavaScript Basics"
-              }
+              "item": "JavaScript Basics"
             },
             "item": {
               "name": "Django",
@@ -229,10 +183,7 @@
             "id": 400000006,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "JavaScript Basics"
-              }
+              "item": "JavaScript Basics"
             },
             "item": {
               "name": "JWT",
@@ -245,13 +196,6 @@
       },
       "ServerPath": {
         "name": "ServerPath",
-        "entrances": [
-          {
-            "name": "ToServerPath",
-            "parent_region": "LearningHub",
-            "connected_region": "ServerPath"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -273,10 +217,7 @@
             "id": 400000008,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Server Basics"
-              }
+              "item": "Server Basics"
             },
             "item": {
               "name": "State Management",
@@ -290,10 +231,7 @@
             "id": 400000009,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Server Basics"
-              }
+              "item": "Server Basics"
             },
             "item": {
               "name": "Express",
@@ -306,13 +244,6 @@
       },
       "ToolsPath": {
         "name": "ToolsPath",
-        "entrances": [
-          {
-            "name": "ToToolsPath",
-            "parent_region": "LearningHub",
-            "connected_region": "ToolsPath"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -348,10 +279,7 @@
             "id": 400000012,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Command Line"
-              }
+              "item": "Command Line"
             },
             "item": {
               "name": "Cloud Provider",
@@ -364,13 +292,6 @@
       },
       "StaticWebsiteHub": {
         "name": "StaticWebsiteHub",
-        "entrances": [
-          {
-            "name": "ToStaticWebsite",
-            "parent_region": "LearningHub",
-            "connected_region": "StaticWebsiteHub"
-          }
-        ],
         "exits": [
           {
             "name": "ToFrontendTrack",
@@ -415,17 +336,11 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Frontend Framework"
-                      }
+                      "item": "Database Basics"
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "REST APIs"
-                      }
+                      "item": "State Management"
                     }
                   ]
                 },
@@ -434,17 +349,11 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "State Management"
-                      }
+                      "item": "Frontend Framework"
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Database Basics"
-                      }
+                      "item": "REST APIs"
                     }
                   ]
                 }
@@ -471,23 +380,13 @@
       },
       "FrontendTrack": {
         "name": "FrontendTrack",
-        "entrances": [
-          {
-            "name": "ToFrontendTrack",
-            "parent_region": "StaticWebsiteHub",
-            "connected_region": "FrontendTrack"
-          }
-        ],
         "exits": [
           {
             "name": "ToReactRoute",
             "connected_region": "ReactRoute",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "DOM Manipulation"
-              }
+              "item": "DOM Manipulation"
             }
           },
           {
@@ -503,10 +402,7 @@
             "connected_region": "VanillaRoute",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Algorithms"
-              }
+              "item": "Algorithms"
             }
           }
         ],
@@ -514,13 +410,6 @@
       },
       "ReactRoute": {
         "name": "ReactRoute",
-        "entrances": [
-          {
-            "name": "ToReactRoute",
-            "parent_region": "FrontendTrack",
-            "connected_region": "ReactRoute"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -542,10 +431,7 @@
             "id": 400000015,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "React"
-              }
+              "item": "React"
             },
             "item": {
               "name": "Testing",
@@ -559,10 +445,7 @@
             "id": 400000016,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Frontend Framework"
-              }
+              "item": "Frontend Framework"
             },
             "item": {
               "name": "Database Basics",
@@ -575,13 +458,6 @@
       },
       "VueRoute": {
         "name": "VueRoute",
-        "entrances": [
-          {
-            "name": "ToVueRoute",
-            "parent_region": "FrontendTrack",
-            "connected_region": "VueRoute"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -603,10 +479,7 @@
             "id": 400000018,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Vue"
-              }
+              "item": "Vue"
             },
             "item": {
               "name": "DevOps",
@@ -620,10 +493,7 @@
             "id": 400000019,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Frontend Framework"
-              }
+              "item": "Frontend Framework"
             },
             "item": {
               "name": "Authentication",
@@ -636,13 +506,6 @@
       },
       "VanillaRoute": {
         "name": "VanillaRoute",
-        "entrances": [
-          {
-            "name": "ToVanillaRoute",
-            "parent_region": "FrontendTrack",
-            "connected_region": "VanillaRoute"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -664,10 +527,7 @@
             "id": 400000021,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Frontend Framework"
-              }
+              "item": "Frontend Framework"
             },
             "item": {
               "name": "DOM Manipulation",
@@ -680,23 +540,13 @@
       },
       "BackendTrack": {
         "name": "BackendTrack",
-        "entrances": [
-          {
-            "name": "ToBackendTrack",
-            "parent_region": "StaticWebsiteHub",
-            "connected_region": "BackendTrack"
-          }
-        ],
         "exits": [
           {
             "name": "ToExpressRoute",
             "connected_region": "ExpressRoute",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "JavaScript Basics"
-              }
+              "item": "JavaScript Basics"
             }
           },
           {
@@ -704,10 +554,7 @@
             "connected_region": "DjangoRoute",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Server Basics"
-              }
+              "item": "Server Basics"
             }
           },
           {
@@ -715,10 +562,7 @@
             "connected_region": "FlaskRoute",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Server Basics"
-              }
+              "item": "Server Basics"
             }
           }
         ],
@@ -726,13 +570,6 @@
       },
       "ExpressRoute": {
         "name": "ExpressRoute",
-        "entrances": [
-          {
-            "name": "ToExpressRoute",
-            "parent_region": "BackendTrack",
-            "connected_region": "ExpressRoute"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -754,10 +591,7 @@
             "id": 400000023,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Express"
-              }
+              "item": "Express"
             },
             "item": {
               "name": "Frontend Framework",
@@ -771,10 +605,7 @@
             "id": 400000024,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "REST APIs"
-              }
+              "item": "REST APIs"
             },
             "item": {
               "name": "Frontend Framework",
@@ -787,13 +618,6 @@
       },
       "DjangoRoute": {
         "name": "DjangoRoute",
-        "entrances": [
-          {
-            "name": "ToDjangoRoute",
-            "parent_region": "BackendTrack",
-            "connected_region": "DjangoRoute"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -815,10 +639,7 @@
             "id": 400000026,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Django"
-              }
+              "item": "Django"
             },
             "item": {
               "name": "Flask",
@@ -832,10 +653,7 @@
             "id": 400000027,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "REST APIs"
-              }
+              "item": "REST APIs"
             },
             "item": {
               "name": "UI/UX",
@@ -848,13 +666,6 @@
       },
       "FlaskRoute": {
         "name": "FlaskRoute",
-        "entrances": [
-          {
-            "name": "ToFlaskRoute",
-            "parent_region": "BackendTrack",
-            "connected_region": "FlaskRoute"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -876,10 +687,7 @@
             "id": 400000029,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Flask"
-              }
+              "item": "Flask"
             },
             "item": {
               "name": "SQL",
@@ -893,10 +701,7 @@
             "id": 400000030,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "REST APIs"
-              }
+              "item": "REST APIs"
             },
             "item": {
               "name": "Integration Tests",
@@ -909,13 +714,6 @@
       },
       "DesignTrack": {
         "name": "DesignTrack",
-        "entrances": [
-          {
-            "name": "ToDesignTrack",
-            "parent_region": "StaticWebsiteHub",
-            "connected_region": "DesignTrack"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -923,10 +721,7 @@
             "id": 400000031,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Design Systems"
-              }
+              "item": "Design Systems"
             },
             "item": {
               "name": "CDN",
@@ -940,10 +735,7 @@
             "id": 400000032,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "UI/UX"
-              }
+              "item": "UI/UX"
             },
             "item": {
               "name": "Caching",
@@ -957,10 +749,7 @@
             "id": 400000033,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Responsive Design"
-              }
+              "item": "Responsive Design"
             },
             "item": {
               "name": "Sessions",
@@ -973,13 +762,6 @@
       },
       "DataTrack": {
         "name": "DataTrack",
-        "entrances": [
-          {
-            "name": "ToDataTrack",
-            "parent_region": "StaticWebsiteHub",
-            "connected_region": "DataTrack"
-          }
-        ],
         "exits": [
           {
             "name": "ToSQLRoute",
@@ -1002,13 +784,6 @@
       },
       "SQLRoute": {
         "name": "SQLRoute",
-        "entrances": [
-          {
-            "name": "ToSQLRoute",
-            "parent_region": "DataTrack",
-            "connected_region": "SQLRoute"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1030,10 +805,7 @@
             "id": 400000035,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "SQL"
-              }
+              "item": "SQL"
             },
             "item": {
               "name": "React",
@@ -1047,10 +819,7 @@
             "id": 400000036,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Database Basics"
-              }
+              "item": "Database Basics"
             },
             "item": {
               "name": "File I/O",
@@ -1063,13 +832,6 @@
       },
       "NoSQLRoute": {
         "name": "NoSQLRoute",
-        "entrances": [
-          {
-            "name": "ToNoSQLRoute",
-            "parent_region": "DataTrack",
-            "connected_region": "NoSQLRoute"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1091,10 +853,7 @@
             "id": 400000038,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "NoSQL"
-              }
+              "item": "NoSQL"
             },
             "item": {
               "name": "Scaling Complete",
@@ -1108,10 +867,7 @@
             "id": 400000039,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Database Basics"
-              }
+              "item": "Database Basics"
             },
             "item": {
               "name": "Security Complete",
@@ -1124,13 +880,6 @@
       },
       "InteractiveAppHub": {
         "name": "InteractiveAppHub",
-        "entrances": [
-          {
-            "name": "ToInteractiveApp",
-            "parent_region": "StaticWebsiteHub",
-            "connected_region": "InteractiveAppHub"
-          }
-        ],
         "exits": [
           {
             "name": "ToAuthPath",
@@ -1171,13 +920,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Authentication"
-                  }
-                },
-                {
                   "type": "or",
                   "conditions": [
                     {
@@ -1185,17 +927,11 @@
                       "conditions": [
                         {
                           "type": "item_check",
-                          "item": {
-                            "type": "constant",
-                            "value": "Performance"
-                          }
+                          "item": "DevOps"
                         },
                         {
                           "type": "item_check",
-                          "item": {
-                            "type": "constant",
-                            "value": "Testing"
-                          }
+                          "item": "Performance"
                         }
                       ]
                     },
@@ -1204,17 +940,11 @@
                       "conditions": [
                         {
                           "type": "item_check",
-                          "item": {
-                            "type": "constant",
-                            "value": "Performance"
-                          }
+                          "item": "DevOps"
                         },
                         {
                           "type": "item_check",
-                          "item": {
-                            "type": "constant",
-                            "value": "DevOps"
-                          }
+                          "item": "Testing"
                         }
                       ]
                     },
@@ -1223,21 +953,19 @@
                       "conditions": [
                         {
                           "type": "item_check",
-                          "item": {
-                            "type": "constant",
-                            "value": "Testing"
-                          }
+                          "item": "Performance"
                         },
                         {
                           "type": "item_check",
-                          "item": {
-                            "type": "constant",
-                            "value": "DevOps"
-                          }
+                          "item": "Testing"
                         }
                       ]
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Authentication"
                 }
               ]
             }
@@ -1262,13 +990,6 @@
       },
       "AuthPath": {
         "name": "AuthPath",
-        "entrances": [
-          {
-            "name": "ToAuthPath",
-            "parent_region": "InteractiveAppHub",
-            "connected_region": "AuthPath"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1276,10 +997,7 @@
             "id": 400000041,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "HTTP Basics"
-              }
+              "item": "HTTP Basics"
             },
             "item": {
               "name": "Deployment Complete",
@@ -1293,10 +1011,7 @@
             "id": 400000042,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Sessions"
-              }
+              "item": "Sessions"
             },
             "item": {
               "name": "CI/CD",
@@ -1310,10 +1025,7 @@
             "id": 400000043,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "JWT"
-              }
+              "item": "JWT"
             },
             "item": {
               "name": "Accessibility",
@@ -1326,13 +1038,6 @@
       },
       "PerfPath": {
         "name": "PerfPath",
-        "entrances": [
-          {
-            "name": "ToPerfPath",
-            "parent_region": "InteractiveAppHub",
-            "connected_region": "PerfPath"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1343,17 +1048,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Database Basics"
-                  }
+                  "item": "Database Basics"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "REST APIs"
-                  }
+                  "item": "REST APIs"
                 }
               ]
             },
@@ -1369,10 +1068,7 @@
             "id": 400000045,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Caching"
-              }
+              "item": "Caching"
             },
             "item": {
               "name": "Horizontal Scaling",
@@ -1386,10 +1082,7 @@
             "id": 400000046,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "CDN"
-              }
+              "item": "CDN"
             },
             "item": {
               "name": "Algorithms",
@@ -1402,13 +1095,6 @@
       },
       "TestPath": {
         "name": "TestPath",
-        "entrances": [
-          {
-            "name": "ToTestPath",
-            "parent_region": "InteractiveAppHub",
-            "connected_region": "TestPath"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1430,10 +1116,7 @@
             "id": 400000048,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Unit Tests"
-              }
+              "item": "Unit Tests"
             },
             "item": {
               "name": "Server Basics",
@@ -1447,10 +1130,7 @@
             "id": 400000049,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Integration Tests"
-              }
+              "item": "Integration Tests"
             },
             "item": {
               "name": "State Management",
@@ -1463,13 +1143,6 @@
       },
       "DevOpsPath": {
         "name": "DevOpsPath",
-        "entrances": [
-          {
-            "name": "ToDevOpsPath",
-            "parent_region": "InteractiveAppHub",
-            "connected_region": "DevOpsPath"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1477,10 +1150,7 @@
             "id": 400000050,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Command Line"
-              }
+              "item": "Command Line"
             },
             "item": {
               "name": "Docker",
@@ -1497,17 +1167,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Docker"
-                  }
+                  "item": "Docker"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Git"
-                  }
+                  "item": "Git"
                 }
               ]
             },
@@ -1523,10 +1187,7 @@
             "id": 400000052,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "CI/CD"
-              }
+              "item": "CI/CD"
             },
             "item": {
               "name": "Database Integration",
@@ -1539,13 +1200,6 @@
       },
       "FullStackHub": {
         "name": "FullStackHub",
-        "entrances": [
-          {
-            "name": "ToFullStackHub",
-            "parent_region": "InteractiveAppHub",
-            "connected_region": "FullStackHub"
-          }
-        ],
         "exits": [
           {
             "name": "ToSecurityBranch",
@@ -1579,24 +1233,15 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Security Complete"
-                  }
+                  "item": "Deployment Complete"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Scaling Complete"
-                  }
+                  "item": "Scaling Complete"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Deployment Complete"
-                  }
+                  "item": "Security Complete"
                 }
               ]
             }
@@ -1621,13 +1266,6 @@
       },
       "SecurityBranch": {
         "name": "SecurityBranch",
-        "entrances": [
-          {
-            "name": "ToSecurityBranch",
-            "parent_region": "FullStackHub",
-            "connected_region": "SecurityBranch"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1649,10 +1287,7 @@
             "id": 400000055,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "HTTPS"
-              }
+              "item": "HTTPS"
             },
             "item": {
               "name": "Full-Stack Complete",
@@ -1666,10 +1301,7 @@
             "id": 400000056,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "CORS"
-              }
+              "item": "CORS"
             },
             "item": {
               "name": "Responsive Design",
@@ -1682,13 +1314,6 @@
       },
       "ScalingBranch": {
         "name": "ScalingBranch",
-        "entrances": [
-          {
-            "name": "ToScalingBranch",
-            "parent_region": "FullStackHub",
-            "connected_region": "ScalingBranch"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1696,10 +1321,7 @@
             "id": 400000057,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Performance"
-              }
+              "item": "Performance"
             },
             "item": {
               "name": "Unit Tests",
@@ -1713,10 +1335,7 @@
             "id": 400000058,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Horizontal Scaling"
-              }
+              "item": "Horizontal Scaling"
             },
             "item": {
               "name": "Database Integration",
@@ -1729,13 +1348,6 @@
       },
       "DeploymentBranch": {
         "name": "DeploymentBranch",
-        "entrances": [
-          {
-            "name": "ToDeploymentBranch",
-            "parent_region": "FullStackHub",
-            "connected_region": "DeploymentBranch"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -1743,10 +1355,7 @@
             "id": 400000059,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "DevOps"
-              }
+              "item": "DevOps"
             },
             "item": {
               "name": "Static Website Complete",
@@ -1760,10 +1369,7 @@
             "id": 400000060,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Cloud Provider"
-              }
+              "item": "Cloud Provider"
             },
             "item": {
               "name": "CORS",
@@ -1780,17 +1386,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Domain"
-                  }
+                  "item": "Domain"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "HTTPS"
-                  }
+                  "item": "HTTPS"
                 }
               ]
             },
@@ -1805,13 +1405,6 @@
       },
       "ProductionHub": {
         "name": "ProductionHub",
-        "entrances": [
-          {
-            "name": "ToProduction",
-            "parent_region": "FullStackHub",
-            "connected_region": "ProductionHub"
-          }
-        ],
         "exits": [],
         "locations": [
           {
@@ -2590,7 +2183,8 @@
   "settings": {
     "1": {
       "game": "WebDevJourney",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
     }
   },
   "game_info": {

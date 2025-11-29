@@ -395,8 +395,9 @@ export class PathAnalyzerUI {
 
       /* PERFORMANCE WARNING - DISABLED
       // Add warning for potentially complex regions
-      const regionData = stateManager.regions[regionName];
-      if (regionData && Object.keys(stateManager.regions).length > 100) {
+      const regionData = staticData.regions.get(regionName);
+      const regionCount = staticData.regions.size;
+      if (regionData && regionCount > 100) {
         const warningMessage = document.createElement('div');
         warningMessage.className = 'performance-warning';
         warningMessage.innerHTML = `
@@ -1373,7 +1374,7 @@ export class PathAnalyzerUI {
     );
 
     // Use the staticData parameter to get regionData, not the global stateManager
-    const regionData = staticData.regions[regionName];
+    const regionData = staticData.regions.get(regionName);
 
     // 1. Analyze entrances to this region
     const entrancesContainer = document.createElement('div');
@@ -1629,10 +1630,10 @@ export class PathAnalyzerUI {
         const snapshot = stateManager.getLatestStateSnapshot();
         const staticData = stateManager.getStaticData();
 
-        if (snapshot?.locationItems && staticData?.locations) {
+        if (staticData?.locationItems && staticData?.locations) {
           // Find ALL locations that have this item
           const locationInfos = [];
-          for (const [locName, itemData] of Object.entries(snapshot.locationItems)) {
+          for (const [locName, itemData] of staticData.locationItems.entries()) {
             if (itemData && itemData.name === itemName) {
               // Get the location's region from static data
               const locData = Object.values(staticData.locations).find(l => l.name === locName);
@@ -1827,8 +1828,8 @@ export class PathAnalyzerUI {
    * @param {string} text - The text to check
    */
   _appendPossibleRegionLink(container, text) {
-    // Get the list of all known regions from stateManager.regions (not getRegions)
-    const allRegions = Object.keys(stateManager.regions || {});
+    // Get the list of all known regions from staticData.regions
+    const allRegions = staticData && staticData.regions ? Array.from(staticData.regions.keys()) : [];
 
     // Check if the text matches a known region name
     if (allRegions.includes(text)) {
@@ -2173,7 +2174,7 @@ export class PathAnalyzerUI {
    * @param {Object} results - The analysis results
    */
   _storeAnalysisResults(regionName, results) {
-    // Store results in localStorage for Playwright to access
+    // Store results in window object for Playwright to access (no size limits)
     const analysisResults = {
       regionName: regionName,
       timestamp: new Date().toISOString(),
@@ -2185,32 +2186,24 @@ export class PathAnalyzerUI {
         results.isReachable !== undefined ? results.isReachable : false,
       hasDiscrepancy:
         results.hasDiscrepancy !== undefined ? results.hasDiscrepancy : false,
-      allNodes: results.allNodes || {}, // Default to empty object
+      allNodes: results.allNodes || {}, // Include full data since window has no quota
     };
 
-    // Store individual result
-    localStorage.setItem(
-      `__pathAnalysis_${regionName}__`,
-      JSON.stringify(analysisResults)
-    );
+    // Store in window object (no size limits)
+    if (typeof window !== 'undefined') {
+      // Store individual result by region name
+      if (!window.__pathAnalysisResults__) {
+        window.__pathAnalysisResults__ = {};
+      }
+      window.__pathAnalysisResults__[regionName] = analysisResults;
 
-    // Also maintain a list of all analyzed regions
-    const existingResults = JSON.parse(
-      localStorage.getItem('__pathAnalysisResults__') || '[]'
-    );
-    const updatedResults = existingResults.filter(
-      (r) => r.regionName !== regionName
-    );
-    updatedResults.push(analysisResults);
-    localStorage.setItem(
-      '__pathAnalysisResults__',
-      JSON.stringify(updatedResults)
-    );
+      // Also maintain a list format for compatibility
+      window.__pathAnalysisResultsList__ = Object.values(window.__pathAnalysisResults__);
 
-    log(
-      'info',
-      `[PathAnalyzerUI] Stored analysis results for ${regionName}:`,
-      analysisResults
-    );
+      log(
+        'info',
+        `[PathAnalyzerUI] Stored analysis results for ${regionName} in window.__pathAnalysisResults__`
+      );
+    }
   }
 }

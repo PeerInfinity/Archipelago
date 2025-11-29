@@ -1,6 +1,9 @@
 /**
  * ArchipIDLE state management module
  */
+
+import { DEFAULT_PLAYER_ID } from '../../playerIdUtils.js';
+
 export const archipidleStateModule = {
   /**
    * Initialize ArchipIDLE game state

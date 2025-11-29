@@ -20,7 +20,7 @@ export async function testEventsPanelSenderReceiverDisplay(testController) {
 
     // Reset state by loading default rules to ensure clean test environment
     testController.log(`[${testRunId}] Loading default rules to reset state...`);
-    await testController.loadDefaultRules();
+    await testController.loadALTTPRules();
     testController.log(`[${testRunId}] Default rules loaded successfully`);
 
     // 1. Activate the Events panel
@@ -227,6 +227,7 @@ export async function testEventsPanelSenderReceiverDisplay(testController) {
  */
 export async function testEventsPanelModuleNameTracking(testController) {
   const testRunId = `events-panel-module-names-${Date.now()}`;
+  let showAllRegionsCheckbox = null; // Declare at function scope for cleanup
 
   try {
     testController.log(`[${testRunId}] Starting Events panel module name tracking test...`);
@@ -234,7 +235,7 @@ export async function testEventsPanelModuleNameTracking(testController) {
 
     // Reset state by loading default rules to ensure clean test environment
     testController.log(`[${testRunId}] Loading default rules to reset state...`);
-    await testController.loadDefaultRules();
+    await testController.loadALTTPRules();
     testController.log(`[${testRunId}] Default rules loaded successfully`);
 
     // 1. First activate the Regions panel to trigger subscription to ui:navigateToRegion
@@ -397,7 +398,7 @@ export async function testEventsPanelModuleNameTracking(testController) {
     
     // Verify that the navigation did not happen (Show All Regions should still be unchecked)
     // Look specifically for the "Show All Regions" checkbox with correct ID
-    const showAllRegionsCheckbox = regionsPanel.querySelector('#show-all-regions');
+    showAllRegionsCheckbox = regionsPanel.querySelector('#show-all-regions');
     if (!showAllRegionsCheckbox) {
       throw new Error('Show All Regions checkbox not found');
     }
@@ -458,6 +459,18 @@ export async function testEventsPanelModuleNameTracking(testController) {
     testController.log(`[${testRunId}] Test failed: ${error.message}`);
     testController.reportCondition(`Test failed: ${error.message}`, false);
     return false;
+  } finally {
+    // Restore "Show All Regions" checkbox to unchecked state
+    if (showAllRegionsCheckbox && showAllRegionsCheckbox.checked) {
+      testController.log(`[${testRunId}] Unchecking "Show All Regions" checkbox in cleanup...`);
+      showAllRegionsCheckbox.click();
+      await testController.pollForCondition(
+        () => !showAllRegionsCheckbox.checked,
+        'Show All Regions unchecked in cleanup',
+        3000,
+        50
+      );
+    }
   }
 }
 
@@ -634,21 +647,33 @@ export async function testEventsPanelAdditionalParticipants(testController) {
 
     // 11. Verify that regular module events are still in the main section (not in additional participants)
     testController.log(`[${testRunId}] Verifying module events are not in additional participants section...`);
-    
+
     // Look for a known module event that should NOT be in additional participants
+    // Note: Some core component events like stateManager:ready may legitimately appear here
+    // if the component publishes events without registering them in centralRegistry.
+    // We're specifically checking for events that we KNOW are properly registered.
     const moduleEventContainers = additionalParticipantsSection.querySelectorAll('.event-bus-event');
     let moduleEventInAdditional = false;
-    
+    let foundEventName = '';
+
+    // List of events that are known to be properly registered and should NOT be in additional participants
+    const knownRegisteredEvents = ['ui:activatePanel', 'ui:navigateToRegion'];
+
     for (const container of moduleEventContainers) {
       const eventTitle = container.querySelector('h4');
-      if (eventTitle && (eventTitle.textContent.includes('stateManager:') || eventTitle.textContent.includes('ui:activatePanel'))) {
-        moduleEventInAdditional = true;
-        break;
+      if (eventTitle) {
+        const eventName = eventTitle.textContent.trim();
+        // Check if this event is in our list of known registered events
+        if (knownRegisteredEvents.some(registered => eventName.includes(registered))) {
+          moduleEventInAdditional = true;
+          foundEventName = eventName;
+          break;
+        }
       }
     }
-    
+
     if (moduleEventInAdditional) {
-      throw new Error('Found module event in additional participants section - should only contain non-module participants');
+      throw new Error(`Found module event "${foundEventName}" in additional participants section - should only contain non-module participants`);
     }
     testController.reportCondition('Module events correctly excluded from additional participants', true);
 

@@ -14,13 +14,6 @@
     "1": {
       "Menu": {
         "name": "Menu",
-        "entrances": [
-          {
-            "name": "BackToMenu",
-            "parent_region": "Kitchen",
-            "connected_region": "Menu"
-          }
-        ],
         "exits": [
           {
             "name": "StartBaking",
@@ -35,28 +28,6 @@
       },
       "Kitchen": {
         "name": "Kitchen",
-        "entrances": [
-          {
-            "name": "StartBaking",
-            "parent_region": "Menu",
-            "connected_region": "Kitchen"
-          },
-          {
-            "name": "BackToKitchenFromPrep",
-            "parent_region": "Preparation",
-            "connected_region": "Kitchen"
-          },
-          {
-            "name": "BackToKitchenFromWet",
-            "parent_region": "WetIngredients",
-            "connected_region": "Kitchen"
-          },
-          {
-            "name": "BackToKitchenFromDry",
-            "parent_region": "DryIngredients",
-            "connected_region": "Kitchen"
-          }
-        ],
         "exits": [
           {
             "name": "BackToMenu",
@@ -138,13 +109,6 @@
       },
       "Preparation": {
         "name": "Preparation",
-        "entrances": [
-          {
-            "name": "ToPreparation",
-            "parent_region": "Kitchen",
-            "connected_region": "Preparation"
-          }
-        ],
         "exits": [
           {
             "name": "BackToKitchenFromPrep",
@@ -202,18 +166,6 @@
       },
       "WetIngredients": {
         "name": "WetIngredients",
-        "entrances": [
-          {
-            "name": "ToWetIngredients",
-            "parent_region": "Kitchen",
-            "connected_region": "WetIngredients"
-          },
-          {
-            "name": "BackToWetIngredients",
-            "parent_region": "Combining",
-            "connected_region": "WetIngredients"
-          }
-        ],
         "exits": [
           {
             "name": "BackToKitchenFromWet",
@@ -231,17 +183,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Creamed Mixture"
-                  }
+                  "item": "Creamed Mixture"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Flour Mixture"
-                  }
+                  "item": "Flour Mixture"
                 }
               ]
             }
@@ -256,24 +202,15 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Softened Butter"
-                  }
+                  "item": "Electric Mixer"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Electric Mixer"
-                  }
+                  "item": "Mixing Bowls"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Mixing Bowls"
-                  }
+                  "item": "Softened Butter"
                 }
               ]
             },
@@ -289,10 +226,7 @@
             "id": 300000008,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Butter Sugar Base"
-              }
+              "item": "Butter Sugar Base"
             },
             "item": {
               "name": "Basic Dough",
@@ -306,10 +240,7 @@
             "id": 300000009,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Egg Mixture"
-              }
+              "item": "Egg Mixture"
             },
             "item": {
               "name": "Flour Mixture",
@@ -322,13 +253,6 @@
       },
       "DryIngredients": {
         "name": "DryIngredients",
-        "entrances": [
-          {
-            "name": "ToDryIngredients",
-            "parent_region": "Kitchen",
-            "connected_region": "DryIngredients"
-          }
-        ],
         "exits": [
           {
             "name": "BackToKitchenFromDry",
@@ -345,10 +269,7 @@
             "id": 300000010,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Measuring Tools"
-              }
+              "item": "Measuring Tools"
             },
             "item": {
               "name": "Preheated Oven",
@@ -362,10 +283,7 @@
             "id": 300000011,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Measured Flour"
-              }
+              "item": "Measured Flour"
             },
             "item": {
               "name": "Baked Cookies",
@@ -378,18 +296,6 @@
       },
       "Combining": {
         "name": "Combining",
-        "entrances": [
-          {
-            "name": "ToCombining",
-            "parent_region": "WetIngredients",
-            "connected_region": "Combining"
-          },
-          {
-            "name": "BackToCombining",
-            "parent_region": "Finishing",
-            "connected_region": "Combining"
-          }
-        ],
         "exits": [
           {
             "name": "BackToWetIngredients",
@@ -404,10 +310,7 @@
             "connected_region": "Finishing",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Cookie Dough"
-              }
+              "item": "Cookie Dough"
             }
           }
         ],
@@ -431,10 +334,7 @@
             "id": 300000013,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Basic Dough"
-              }
+              "item": "Basic Dough"
             },
             "item": {
               "name": "Measured Flour",
@@ -447,18 +347,6 @@
       },
       "Finishing": {
         "name": "Finishing",
-        "entrances": [
-          {
-            "name": "ToFinishing",
-            "parent_region": "Combining",
-            "connected_region": "Finishing"
-          },
-          {
-            "name": "BackToFinishing",
-            "parent_region": "Baking",
-            "connected_region": "Finishing"
-          }
-        ],
         "exits": [
           {
             "name": "BackToCombining",
@@ -473,10 +361,7 @@
             "connected_region": "Baking",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Shaped Cookies"
-              }
+              "item": "Shaped Cookies"
             }
           }
         ],
@@ -489,17 +374,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Prepared Sheets"
-                  }
+                  "item": "Cookie Dough"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Cookie Dough"
-                  }
+                  "item": "Prepared Sheets"
                 }
               ]
             },
@@ -514,13 +393,6 @@
       },
       "Baking": {
         "name": "Baking",
-        "entrances": [
-          {
-            "name": "ToBaking",
-            "parent_region": "Finishing",
-            "connected_region": "Baking"
-          }
-        ],
         "exits": [
           {
             "name": "BackToFinishing",
@@ -540,17 +412,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Preheated Oven"
-                  }
+                  "item": "Preheated Oven"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Shaped Cookies"
-                  }
+                  "item": "Shaped Cookies"
                 }
               ]
             },
@@ -566,10 +432,7 @@
             "id": null,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Baked Cookies"
-              }
+              "item": "Baked Cookies"
             },
             "item": {
               "name": "Victory",
@@ -836,7 +699,8 @@
   "settings": {
     "1": {
       "game": "ChocolateChipCookies",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
     }
   },
   "game_info": {

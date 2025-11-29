@@ -1,3 +1,82 @@
+/**
+ * State Manager Module Entry Point
+ *
+ * This module serves as the entry point for the StateManager system, coordinating
+ * initialization, event registration, and communication between the main thread
+ * and the StateManager web worker.
+ *
+ * **DATA FLOW**:
+ *
+ * Module Initialization (initialize):
+ *   Input: Module configuration from init system
+ *     ├─> moduleId: 'stateManager'
+ *     ├─> priorityIndex: Loading priority
+ *     ├─> initializationApi: Core API access
+ *
+ *   Processing:
+ *     ├─> Store initialization API reference
+ *     ├─> Subscribe to settings:changed events
+ *     ├─> StateManagerProxy singleton already exists (auto-created on import)
+ *
+ *   Output: Module registered and ready for post-initialization
+ *
+ * Post-Initialization (postInitialize):
+ *   Input: Module-specific configuration (optional)
+ *     ├─> rulesConfig: Archipelago JSON rules (optional)
+ *     ├─> playerId: Selected player ID (optional)
+ *     ├─> settings: Game settings (optional)
+ *     ├─> gameName: Game name override (optional)
+ *
+ *   Processing:
+ *     ├─> Determine rules source (config or fetch default)
+ *     ├─> Extract player info from rules
+ *     ├─> Initialize proxy singleton with config
+ *     ├─> Load rules into worker via proxy
+ *     ├─> Publish rawJsonDataLoaded event
+ *
+ *   Output: Worker initialized and ready
+ *     ├─> Proxy connected to worker
+ *     ├─> Rules loaded in worker
+ *     ├─> Initial snapshot available
+ *     ├─> stateManager:ready event published
+ *
+ * Event Handling:
+ *   User Location Check (user:locationCheck):
+ *     Input: { locationName: string } or generic check request
+ *     Processing: Forward to proxy.checkLocation()
+ *     Output: Location checked in worker, snapshot updated
+ *
+ *   User Item Check (user:itemCheck):
+ *     Input: { itemName: string, isShiftPressed: boolean }
+ *     Processing: Add or remove item via proxy
+ *     Output: Inventory updated in worker, snapshot updated
+ *
+ *   Settings Changed (settings:changed):
+ *     Input: { key: string, value: any }
+ *     Processing: If logging settings changed, update worker config
+ *     Output: Worker logging reconfigured
+ *
+ * State Persistence (JSON Module Integration):
+ *   Save State (getSaveDataFunction):
+ *     Input: Current game session
+ *     Processing: Extract inventory and checked locations from proxy
+ *     Output: Serializable state data
+ *
+ *   Load State (applyLoadedDataFunction):
+ *     Input: Previously saved state data
+ *     Processing: Send runtime state to worker via proxy
+ *     Output: Game state restored in worker
+ *
+ * **Architecture Notes**:
+ * - This module runs on the main thread
+ * - Coordinates with stateManagerProxySingleton (main thread proxy)
+ * - Proxy communicates with stateManagerWorker (web worker)
+ * - Worker contains actual StateManager instance
+ * - All state computation happens in worker thread
+ *
+ * @module stateManager/index
+ */
+
 // Remove unused legacy imports
 // import { StateManager } from './stateManager.js';
 // import stateManagerSingleton from './stateManagerSingleton.js';
@@ -8,6 +87,7 @@ import stateManagerProxySingleton from './stateManagerProxySingleton.js';
 import eventBus from '../../app/core/eventBus.js';
 import { centralRegistry } from '../../app/core/centralRegistry.js';
 import settingsManager from '../../app/core/settingsManager.js';
+import { DEFAULT_PLAYER_ID } from '../shared/playerIdUtils.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -210,18 +290,34 @@ async function postInitialize(initializationApi, moduleSpecificConfig = {}) {
     const playerNames = rulesConfigToUse.player_names || {};
 
     if (!playerIdToUse) {
-      if (playerIds.length === 0) {
-        logger.warn(
-          moduleInfo.name,
-          '[StateManager Module] No players found in rules data. Defaulting to player 1.'
-        );
-        playerIdToUse = '1';
-      } else {
-        playerIdToUse = playerIds[0];
-        logger.info(
-          moduleInfo.name,
-          `[StateManager Module] Auto-selected player ID from rules: ${playerIdToUse}`
-        );
+      // For multiworld: Try game_info field to identify this player's rules file
+      // In multiworld, game_info has a single key matching the player ID
+      if (rulesConfigToUse.game_info) {
+        const gameInfoKeys = Object.keys(rulesConfigToUse.game_info);
+        if (gameInfoKeys.length === 1) {
+          playerIdToUse = gameInfoKeys[0];
+          logger.info(
+            moduleInfo.name,
+            `[StateManager Module] Detected multiworld player ID from game_info: ${playerIdToUse}`
+          );
+        }
+      }
+
+      // Fallback to first player from player_names if game_info didn't work
+      if (!playerIdToUse) {
+        if (playerIds.length === 0) {
+          logger.warn(
+            moduleInfo.name,
+            `[StateManager Module] No players found in rules data. Defaulting to player ${DEFAULT_PLAYER_ID}.`
+          );
+          playerIdToUse = DEFAULT_PLAYER_ID;
+        } else {
+          playerIdToUse = playerIds[0];
+          logger.info(
+            moduleInfo.name,
+            `[StateManager Module] Auto-selected player ID from rules: ${playerIdToUse}`
+          );
+        }
       }
     }
     playerInfo = {
@@ -330,7 +426,9 @@ async function handleUserLocationCheckForStateManager(eventData) {
     eventData
   );
   if (eventData.locationName) {
-    await stateManagerProxySingleton.checkLocation(eventData.locationName); // Command worker
+    // Pass addItems parameter from event data (defaults to true for backward compatibility)
+    const addItems = eventData.addItems !== undefined ? eventData.addItems : true;
+    await stateManagerProxySingleton.checkLocation(eventData.locationName, addItems); // Command worker
   } else {
     // Handle "check next available" locally.
     // This requires StateManagerProxySingleton to expose a method that commands the worker
@@ -349,14 +447,14 @@ async function handleUserLocationCheckForStateManager(eventData) {
         const staticData = stateManagerProxySingleton.getStaticData();
         if (snapshot && staticData && staticData.locations) {
             const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
-            const allLocations = Object.values(staticData.locations);
+            const allLocations = Array.from(staticData.locations.values());
             let nextLocationToCheck = null;
 
             // Find the first accessible, unchecked location based on original order if available
             const originalOrder = stateManagerProxySingleton.getOriginalLocationOrder();
             if (originalOrder && originalOrder.length > 0) {
                 for (const locName of originalOrder) {
-                    const loc = staticData.locations[locName];
+                    const loc = staticData.locations.get(locName);
                     if (loc && !snapshot.checkedLocations.includes(loc.name)) {
                         const parentRegionName = loc.parent_region || loc.region;
                         const parentRegionReachable = snapshot.regionReachability?.[parentRegionName] === 'reachable' || snapshot.regionReachability?.[parentRegionName] === 'checked';

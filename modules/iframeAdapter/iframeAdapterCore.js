@@ -502,7 +502,8 @@ export class IframeAdapterCore {
                 log('debug', `stateManagerProxy is available for iframe ${iframeId}`);
                 
                 // Use pingWorker to ensure we get fresh state
-                window.stateManagerProxy.pingWorker({ requestedBy: `iframe-${iframeId}` }, 1000)
+                // Increased timeout to 10 seconds to handle complex rule evaluation
+                window.stateManagerProxy.pingWorker({ requestedBy: `iframe-${iframeId}` }, 10000)
                     .then(() => {
                         // After ping, get the fresh snapshot
                         stateSnapshot = window.stateManagerProxy.getLatestStateSnapshot();

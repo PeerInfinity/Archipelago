@@ -610,7 +610,7 @@ class EventsUI {
     Object.keys(allPublishers).forEach(eventName => {
       const eventPublishers = allPublishers[eventName];
       const registryEventPublishers = registryPublishers.get(eventName) || new Map();
-      
+
       eventPublishers.forEach((publisherInfo, publisherId) => {
         // If this publisher is not in the registry, it's additional (like an iframe)
         if (!registryEventPublishers.has(publisherId)) {
@@ -622,15 +622,15 @@ class EventsUI {
       });
     });
 
-    // Check for additional subscribers  
+    // Check for additional subscribers
     logger.debug('eventsUI', `[Additional Check] Processing ${Object.keys(allSubscribers).length} events for additional subscribers`);
     Object.keys(allSubscribers).forEach(eventName => {
       const eventSubscribers = allSubscribers[eventName];
       const registryEventSubscribers = registrySubscribers.get(eventName) || [];
       const registrySubscriberIds = new Set(registryEventSubscribers.map(s => s.moduleId));
-      
+
       logger.debug('eventsUI', `[Additional Subscribers Check] Event: ${eventName}, EventBus subscribers:`, eventSubscribers.map(s => s.moduleName), 'Registry subscribers:', Array.from(registrySubscriberIds));
-      
+
       eventSubscribers.forEach(subscriber => {
         // If this subscriber is not in the registry, it's additional
         if (!registrySubscriberIds.has(subscriber.moduleName)) {
@@ -715,7 +715,7 @@ class EventsUI {
         const allParticipantIds = new Set();
         eventPublishers.forEach((_, publisherId) => allParticipantIds.add(publisherId));
         eventSubscribers.forEach(sub => allParticipantIds.add(sub.moduleId));
-        
+
         const sortedParticipants = Array.from(allParticipantIds).sort();
 
         sortedParticipants.forEach((participantId, index) => {

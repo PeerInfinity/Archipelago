@@ -97,14 +97,29 @@ export async function register(registrationApi) {
     return sphereState.getCurrentPlayerId();
   });
 
-  registrationApi.registerPublicFunction(moduleId, 'loadSphereLog', async (filePath) => {
+  registrationApi.registerPublicFunction(moduleId, 'loadSphereLog', async (filePath, preloadedContent) => {
     const sphereState = getSphereStateSingleton();
-    return await sphereState.loadSphereLog(filePath);
+    return await sphereState.loadSphereLog(filePath, preloadedContent);
   });
 
   registrationApi.registerPublicFunction(moduleId, 'setCurrentPlayerId', (playerId) => {
     const sphereState = getSphereStateSingleton();
     return sphereState.setCurrentPlayerId(playerId);
+  });
+
+  registrationApi.registerPublicFunction(moduleId, 'isFocusedMode', () => {
+    const sphereState = getSphereStateSingleton();
+    return sphereState.isFocusedMode();
+  });
+
+  registrationApi.registerPublicFunction(moduleId, 'getFocusLocations', () => {
+    const sphereState = getSphereStateSingleton();
+    return sphereState.getFocusLocations();
+  });
+
+  registrationApi.registerPublicFunction(moduleId, 'getLogHeader', () => {
+    const sphereState = getSphereStateSingleton();
+    return sphereState.getLogHeader();
   });
 
   // Register event publishers
@@ -179,10 +194,19 @@ function handleRulesLoaded(data, propagationOptions) {
   log('info', `Rules source: ${sourceName}`);
 
   // Extract game directory and preset ID from sourceName
-  // Expected format: "./presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json"
-  const match = sourceName.match(/presets\/([^/]+)\/([^/]+)\/\2_rules\.json$/);
+  // Expected formats:
+  //   Single-player: "./presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json"
+  //   Multiworld:    "./presets/multiworld/AP_14089154938208861744/AP_14089154938208861744_P2_rules.json"
+  // The sphere log is shared and named: AP_14089154938208861744_spheres_log.jsonl (without _P{N})
+  const match = sourceName.match(/presets\/([^/]+)\/([^/]+)\/\2(?:_P\d+)?_rules\.json$/);
   if (!match) {
-    log('warn', `Could not parse sourceName format: ${sourceName}`);
+    // If sourceName indicates data loaded from localStorage, this is expected
+    const isFromLocalStorage = sourceName === 'moduleSpecificConfigProvidedRules';
+    log(
+      isFromLocalStorage ? 'info' : 'warn',
+      `Could not parse sourceName format: ${sourceName}` +
+      (isFromLocalStorage ? ' (Rules loaded from localStorage without file path)' : '')
+    );
     return;
   }
 
