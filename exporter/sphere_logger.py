@@ -54,6 +54,17 @@ def log_sphere_details(file_handler, multiworld: "MultiWorld", sphere_index: Uni
         is_fractional = _is_fractional_sphere(sphere_index)
         is_sphere_zero = str(sphere_index) == "0" or str(sphere_index) == "0.0"
 
+        # Trigger game-specific state recalculations before logging
+        # This ensures progressive items that depend on region accessibility are up-to-date
+        from exporter.games import get_game_export_handler
+        for player_id in multiworld.player_ids:
+            world = multiworld.worlds[player_id]
+            game_name = world.game
+            game_handler = get_game_export_handler(game_name, world)
+            game_handler.recalculate_collection_state_if_needed(
+                current_collection_state, player_id, world
+            )
+
         # Collect current state data for all players
         current_state_data = {}
         player_specific_data = {}
@@ -249,7 +260,11 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
         initial_collection_spheres: List[Set["Location"]] = []
         state = CollectionState(multiworld)
         sphere_candidates = set(prog_locations)
-        
+
+        # Initialize variables that are used in the finally block to avoid UnboundLocalError
+        restore_later: Dict["Location", "Item"] = {}
+        removed_precollected: List["Item"] = []
+
         logging.debug('Building up initial collection spheres for pruning.')
         while sphere_candidates:
             sphere = {location for location in sphere_candidates if state.can_reach(location)}
@@ -261,14 +276,24 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
             logging.debug('Calculated initial sphere %i, containing %i of %i progress items.',
                           len(initial_collection_spheres), len(sphere), len(prog_locations))
             if not sphere:
-                if any([multiworld.worlds[location.item.player].options.accessibility != 'minimal' for location in sphere_candidates]):
-                    raise RuntimeError(f'Not all progression items reachable ({sphere_candidates}). Something went wrong.')
-                else:
+                # When extend_sphere_log_to_all_locations is enabled, only check advancement items
+                # Non-advancement items at unreachable locations are expected and OK
+                if extend_sphere_log_to_all_locations:
+                    unreachable_advancement = [loc for loc in sphere_candidates if loc.item and loc.item.advancement]
+                    if unreachable_advancement:
+                        if any([multiworld.worlds[location.item.player].options.accessibility != 'minimal' for location in unreachable_advancement]):
+                            raise RuntimeError(f'Not all progression items reachable ({unreachable_advancement}). Something went wrong.')
+                    # Non-advancement items are OK to be unreachable in full spoilers mode
                     spoiler.unreachables = sphere_candidates
                     break
-        
+                else:
+                    if any([multiworld.worlds[location.item.player].options.accessibility != 'minimal' for location in sphere_candidates]):
+                        raise RuntimeError(f'Not all progression items reachable ({sphere_candidates}). Something went wrong.')
+                    else:
+                        spoiler.unreachables = sphere_candidates
+                        break
+
         # Pruning phase
-        restore_later: Dict["Location", "Item"] = {}
         if not extend_sphere_log_to_all_locations:
             for num, sphere in reversed(tuple(enumerate(initial_collection_spheres))):
                 to_delete: Set["Location"] = set()
@@ -293,7 +318,6 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
         # NOTE: Pruning of precollected items is disabled to ensure the sphere log matches starting_items
         # in the exported rules.json. The original pruning logic would remove unnecessary precollected items,
         # but this causes mismatches in frontend testing where starting_items lists all precollected items.
-        removed_precollected: List["Item"] = []
         # for player_id in multiworld.player_ids:
         #     if player_id in multiworld.precollected_items:
         #         player_precollected = multiworld.precollected_items[player_id]
@@ -318,13 +342,17 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
         current_playthrough_state.locations_checked.clear()
 
         if spoiler_log_file_handler:
-            # Collect precollected items into the state
-            precollected_advancement_items = sorted(
-                [item for p_items in multiworld.precollected_items.values() for item in p_items if item.advancement],
+            # Collect ALL precollected items into the state (not just advancement items)
+            # This is necessary because some games (like SMZ3) have important precollected items
+            # (such as keycards) that are marked as filler but are still needed for rule evaluation.
+            # The starting_items in rules.json includes all precollected items, so the sphere log
+            # should match by including them all.
+            precollected_items = sorted(
+                [item for p_items in multiworld.precollected_items.values() for item in p_items],
                 key=lambda item: (item.player, item.name)
             )
 
-            for item in precollected_advancement_items:
+            for item in precollected_items:
                 current_playthrough_state.collect(item, True)  # Collect into the accumulating state, prevent sweep
 
             # Log the final "sphere 0" state (contains all precollected items)

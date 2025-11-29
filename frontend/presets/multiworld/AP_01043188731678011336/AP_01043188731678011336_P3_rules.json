@@ -1,0 +1,2985 @@
+{
+  "schema_version": 3,
+  "game_name": "A Short Hike",
+  "game_directory": "shorthike",
+  "archipelago_version": "0.6.4",
+  "generation_seed": 2,
+  "player_names": {
+    "1": "Player1",
+    "2": "Player2",
+    "3": "Player3",
+    "4": "Player4"
+  },
+  "world_classes": {
+    "1": "HatInTimeWorld",
+    "2": "ALTTPWorld",
+    "3": "ShortHikeWorld",
+    "4": "AdventureWorld"
+  },
+  "regions": {
+    "3": {
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "Menu -> Hawk Peak",
+            "connected_region": "Hawk Peak",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Hawk Peak": {
+        "name": "Hawk Peak",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Start Beach Seashell",
+            "id": 83001,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Time Piece",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Beach Hut Seashell",
+            "id": 83002,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Badge Pin",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Beach Umbrella Seashell",
+            "id": 83003,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Seashell",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Sid Beach Mound Seashell",
+            "id": 83004,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "25 Coins",
+              "player": 3,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Sid Beach Seashell",
+            "id": 83005,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Relic (Blue Crayon)",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Shirley's Point Beach Seashell",
+            "id": 83006,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Magic Mirror",
+              "player": 2,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Shirley's Point Rock Seashell",
+            "id": 83007,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Bottle (Fairy)",
+              "player": 2,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Visitor's Center Beach Seashell",
+            "id": 83008,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Yarn",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "West River Seashell",
+            "id": 83009,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Yellow Key",
+              "player": 4,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "West Riverbank Seashell",
+            "id": 83010,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Health Pon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Stone Tower Riverbank Seashell",
+            "id": 83011,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "25 Pons",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "North Beach Seashell",
+            "id": 83012,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Pickaxe",
+              "player": 3,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "North Coast Seashell",
+            "id": 83013,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Umbrella",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Boat Cliff Seashell",
+            "id": 83014,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Sword",
+              "player": 4,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Boat Isle Mound Seashell",
+            "id": 83015,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "25 Pons",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "East Coast Seashell",
+            "id": 83016,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Ether",
+              "player": 2,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "House North Beach Seashell",
+            "id": 83017,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Relic (Red Crayon)",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Airstream Island North Seashell",
+            "id": 83018,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Fishing Rod",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Airstream Island South Seashell",
+            "id": 83019,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "25 Pons",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Secret Island Beach Seashell",
+            "id": 83020,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Piece of Heart",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Meteor Lake Seashell",
+            "id": 83126,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "25 Coins",
+              "player": 3,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Good Creek Path Seashell",
+            "id": 83127,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Time Piece",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Visitor's Center Shop Golden Feather 1",
+            "id": 83021,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Health Pon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Visitor's Center Shop Golden Feather 2",
+            "id": 83022,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Book of Mudora",
+              "player": 2,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Visitor's Center Shop Hat",
+            "id": 83023,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Progressive Fishing Rod"
+            },
+            "item": {
+              "name": "Golden Feather",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tough Bird Salesman Golden Feather 1",
+            "id": 83024,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Progressive Fishing Rod"
+            },
+            "item": {
+              "name": "Health Pon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tough Bird Salesman Golden Feather 2",
+            "id": 83025,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Progressive Fishing Rod"
+            },
+            "item": {
+              "name": "Time Piece",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tough Bird Salesman Golden Feather 3",
+            "id": 83026,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Progressive Fishing Rod"
+            },
+            "item": {
+              "name": "Freeincarnate",
+              "player": 4,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tough Bird Salesman Golden Feather 4",
+            "id": 83027,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Progressive Fishing Rod"
+            },
+            "item": {
+              "name": "Cape",
+              "player": 2,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tough Bird Salesman (400 Coins)",
+            "id": 83028,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Progressive Fishing Rod"
+            },
+            "item": {
+              "name": "Rupees (100)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Beachstickball (10 Hits)",
+            "id": 83029,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Stick"
+            },
+            "item": {
+              "name": "Relic (Mountain Set)",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Beachstickball (20 Hits)",
+            "id": 83030,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Stick"
+            },
+            "item": {
+              "name": "Red Boomerang",
+              "player": 2,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Beachstickball (30 Hits)",
+            "id": 83031,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Stick"
+            },
+            "item": {
+              "name": "Bombs (3)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Shovel Kid Trade",
+            "id": 83032,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Toy Shovel"
+            },
+            "item": {
+              "name": "Piece of Heart",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Compass Guy",
+            "id": 83033,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "50 Pons",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hawk Peak Bucket Rock",
+            "id": 83034,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Silver Feather",
+              "player": 3,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Orange Islands Bucket Rock",
+            "id": 83035,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Hover Badge",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bill the Walrus Fisherman",
+            "id": 83036,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Golden Feather",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Catch 3 Fish Reward",
+            "id": 83037,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Progressive Fishing Rod"
+            },
+            "item": {
+              "name": "Arrows (10)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Catch All Fish Reward",
+            "id": 83038,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Golden Feather",
+                  "count": {
+                    "type": "constant",
+                    "value": 7
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Progressive Fishing Rod",
+                  "count": {
+                    "type": "constant",
+                    "value": 2
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Random Cosmetic",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Permit Guy Bribe",
+            "id": 83039,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Rupees (300)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Catch Fish with Permit",
+            "id": 83129,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Progressive Fishing Rod"
+            },
+            "item": {
+              "name": "Seashell",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Return Camping Permit",
+            "id": 83130,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Camping Permit"
+            },
+            "item": {
+              "name": "Stick",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Blocked Mine Pickaxe 1",
+            "id": 83040,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "13 Coins",
+              "player": 3,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Blocked Mine Pickaxe 2",
+            "id": 83041,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "50 Coins",
+              "player": 3,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Blocked Mine Pickaxe 3",
+            "id": 83042,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Random Cosmetic",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Blackwood Trail Lookout Toy Shovel",
+            "id": 83043,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Time Piece",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Shirley's Point Beach Toy Shovel",
+            "id": 83044,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Relic (Green Crayon)",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Visitor's Center Beach Toy Shovel",
+            "id": 83045,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Random Cosmetic",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Blackwood Trail Rock Toy Shovel",
+            "id": 83046,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Yarn",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Beach Hut Cliff Toy Shovel",
+            "id": 83128,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Piece of Heart",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Secret Island Beach Trail Stick",
+            "id": 83047,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "25 Pons",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Below Lighthouse Walkway Stick",
+            "id": 83048,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Seashell",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Beach Hut Rocky Pool Sand Stick",
+            "id": 83049,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Boss Heart Container",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Cliff Overlooking West River Waterfall Stick",
+            "id": 83050,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Bug Catching Net",
+              "player": 2,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Trail to Tough Bird Salesman Stick",
+            "id": 83051,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Golden Feather",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "North Beach Stick",
+            "id": 83052,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Piece of Heart",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Beachstickball Court Stick",
+            "id": 83053,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "50 Pons",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Stick Under Sid Beach Umbrella",
+            "id": 83054,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Freeincarnate",
+              "player": 4,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Boat Rental",
+            "id": 83055,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Progressive Fishing Rod"
+            },
+            "item": {
+              "name": "Health Pon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Boat Challenge Reward",
+            "id": 83056,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Motorboat Key"
+            },
+            "item": {
+              "name": "25 Pons",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Outlook Point Dog Gift",
+            "id": 83057,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Glove",
+              "player": 2,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Collect 15 Seashells",
+            "id": 83058,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Seashell",
+              "count": {
+                "type": "constant",
+                "value": 15
+              }
+            },
+            "item": {
+              "name": "Yarn",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Return to Shell Kid",
+            "id": 83132,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Seashell",
+                  "count": {
+                    "type": "constant",
+                    "value": 15
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Shell Necklace"
+                }
+              ]
+            },
+            "item": {
+              "name": "25 Coins",
+              "player": 3,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Taylor the Turtle Headband Gift",
+            "id": 83059,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Arrows (10)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Sue the Rabbit Shoes Reward",
+            "id": 83060,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Headband"
+            },
+            "item": {
+              "name": "50 Pons",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Purchase Sunhat",
+            "id": 83061,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Progressive Fishing Rod"
+            },
+            "item": {
+              "name": "Arrows (10)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Blackwood Forest Golden Feather",
+            "id": 83062,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "25 Coins",
+              "player": 3,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Ranger May Shell Necklace Golden Feather",
+            "id": 83063,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Shell Necklace"
+            },
+            "item": {
+              "name": "Arrows (10)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Sand Castle Golden Feather",
+            "id": 83064,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Toy Shovel"
+            },
+            "item": {
+              "name": "13 Coins",
+              "player": 3,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Artist Golden Feather",
+            "id": 83065,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Bombs (3)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Visitor Camp Rock Golden Feather",
+            "id": 83066,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Seashell",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Outlook Cliff Golden Feather",
+            "id": 83067,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Black Key",
+              "player": 4,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Meteor Lake Cliff Golden Feather",
+            "id": 83068,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Chalice",
+              "player": 4,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Secret Island Peak",
+            "id": 83069,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Golden Feather",
+              "count": {
+                "type": "constant",
+                "value": 5
+              }
+            },
+            "item": {
+              "name": "Boss Heart Container",
+              "player": 2,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wristwatch Trade",
+            "id": 83070,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Wristwatch"
+            },
+            "item": {
+              "name": "Yarn",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lighthouse Golden Chest",
+            "id": 83071,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Bucket"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Golden Feather",
+                      "count": {
+                        "type": "constant",
+                        "value": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Golden Feather",
+                  "count": {
+                    "type": "constant",
+                    "value": 2
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Random Cosmetic",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Outlook Golden Chest",
+            "id": 83072,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "25 Pons",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Stone Tower Golden Chest",
+            "id": 83073,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Rupees (50)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "North Cliff Golden Chest",
+            "id": 83074,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Golden Feather",
+              "count": {
+                "type": "constant",
+                "value": 3
+              }
+            },
+            "item": {
+              "name": "Golden Feather",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Blackwood Cliff Chest",
+            "id": 83075,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Rupees (50)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "White Coast Trail Chest",
+            "id": 83076,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Compass",
+              "player": 3,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Sid Beach Chest",
+            "id": 83077,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Bombs (3)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Sid Beach Buried Treasure Chest",
+            "id": 83078,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Shovel"
+            },
+            "item": {
+              "name": "Yarn",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Sid Beach Cliff Chest",
+            "id": 83079,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "25 Pons",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Visitor's Center Buried Chest",
+            "id": 83080,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Shovel"
+            },
+            "item": {
+              "name": "Golden Feather",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Visitor's Center Hidden Chest",
+            "id": 83081,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Bombs (3)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Shirley's Point Chest",
+            "id": 83082,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Golden Feather",
+              "count": {
+                "type": "constant",
+                "value": 1
+              }
+            },
+            "item": {
+              "name": "Health Pon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Caravan Cliff Chest",
+            "id": 83083,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Freeincarnate",
+              "player": 4,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Caravan Arch Chest",
+            "id": 83084,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Health Pon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "King Buried Treasure Chest",
+            "id": 83085,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Shovel"
+            },
+            "item": {
+              "name": "Seashell",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Good Creek Path Buried Chest",
+            "id": 83086,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Shovel"
+            },
+            "item": {
+              "name": "25 Pons",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Good Creek Path West Chest",
+            "id": 83087,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Relic (Cow)",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Good Creek Path East Chest",
+            "id": 83088,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "50 Pons",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "West Waterfall Chest",
+            "id": 83089,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Bombs (3)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Stone Tower West Cliff Chest",
+            "id": 83090,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Time Piece",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bucket Path Chest",
+            "id": 83091,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Yarn",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bucket Cliff Chest",
+            "id": 83092,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Golden Feather",
+              "count": {
+                "type": "constant",
+                "value": 3
+              }
+            },
+            "item": {
+              "name": "Time Piece",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "In Her Shadow Buried Treasure Chest",
+            "id": 83093,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Shovel"
+            },
+            "item": {
+              "name": "Golden Feather",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Meteor Lake Buried Chest",
+            "id": 83094,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Shovel"
+            },
+            "item": {
+              "name": "Hookshot",
+              "player": 2,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Meteor Lake Chest",
+            "id": 83095,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "100 Pons",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "House North Beach Chest",
+            "id": 83096,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "33 Coins",
+              "player": 3,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "East Coast Chest",
+            "id": 83097,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "13 Coins",
+              "player": 3,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Fisherman's Boat Chest 1",
+            "id": 83099,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Rupees (20)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Fisherman's Boat Chest 2",
+            "id": 83100,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Freeincarnate",
+              "player": 4,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Airstream Island Chest",
+            "id": 83101,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Hammer",
+              "player": 2,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "West River Waterfall Head Chest",
+            "id": 83102,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Yarn",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Old Building Chest",
+            "id": 83103,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Time Piece",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Old Building West Chest",
+            "id": 83104,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Piece of Heart",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Old Building East Chest",
+            "id": 83105,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Rupees (300)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hawk Peak West Chest",
+            "id": 83106,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Golden Feather",
+              "count": {
+                "type": "constant",
+                "value": 3
+              }
+            },
+            "item": {
+              "name": "32 Coins",
+              "player": 3,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hawk Peak East Buried Chest",
+            "id": 83107,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Golden Feather",
+                  "count": {
+                    "type": "constant",
+                    "value": 3
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Shovel"
+                }
+              ]
+            },
+            "item": {
+              "name": "100 Pons",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hawk Peak Northeast Chest",
+            "id": 83108,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Golden Feather",
+              "count": {
+                "type": "constant",
+                "value": 3
+              }
+            },
+            "item": {
+              "name": "Bait",
+              "player": 3,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Northern East Coast Chest",
+            "id": 83109,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Rupees (20)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "North Coast Chest",
+            "id": 83110,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Rupees (20)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "North Coast Buried Chest",
+            "id": 83111,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Shovel"
+            },
+            "item": {
+              "name": "Rupees (20)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Small South Island Buried Chest",
+            "id": 83112,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Shovel"
+            },
+            "item": {
+              "name": "25 Coins",
+              "player": 3,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Secret Island Bottom Chest",
+            "id": 83113,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Time Piece",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Secret Island Treehouse Chest",
+            "id": 83114,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Golden Feather",
+              "count": {
+                "type": "constant",
+                "value": 1
+              }
+            },
+            "item": {
+              "name": "Rupees (300)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Sunhat Island Buried Chest",
+            "id": 83115,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Shovel"
+            },
+            "item": {
+              "name": "Time Piece",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Orange Islands South Buried Chest",
+            "id": 83116,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Shovel"
+            },
+            "item": {
+              "name": "Yarn",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Orange Islands West Chest",
+            "id": 83117,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Random Cosmetic",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Orange Islands North Buried Chest",
+            "id": 83118,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "Bucket"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Golden Feather",
+                          "count": {
+                            "type": "constant",
+                            "value": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Golden Feather",
+                      "count": {
+                        "type": "constant",
+                        "value": 1
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Shovel"
+                }
+              ]
+            },
+            "item": {
+              "name": "Cane of Byrna",
+              "player": 2,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Orange Islands East Chest",
+            "id": 83119,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Stick",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Orange Islands South Hidden Chest",
+            "id": 83120,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Relic (Burger Patty)",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "A Stormy View Buried Treasure Chest",
+            "id": 83121,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Shovel"
+            },
+            "item": {
+              "name": "Yarn",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Orange Islands Ruins Buried Chest",
+            "id": 83122,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "Bucket"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Golden Feather",
+                          "count": {
+                            "type": "constant",
+                            "value": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Golden Feather",
+                      "count": {
+                        "type": "constant",
+                        "value": 2
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Shovel"
+                }
+              ]
+            },
+            "item": {
+              "name": "Freeincarnate",
+              "player": 4,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lighthouse Race Reward",
+            "id": 83123,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Bucket"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Golden Feather",
+                      "count": {
+                        "type": "constant",
+                        "value": 1
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Golden Feather",
+                  "count": {
+                    "type": "constant",
+                    "value": 2
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Yarn",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Old Building Race Reward",
+            "id": 83124,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Bucket"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Golden Feather",
+                      "count": {
+                        "type": "constant",
+                        "value": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Golden Feather",
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "25 Pons",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hawk Peak Race Reward",
+            "id": 83125,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Golden Feather",
+              "count": {
+                "type": "constant",
+                "value": 7
+              }
+            },
+            "item": {
+              "name": "Snatcher's Contract - The Subcon Well",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lose Race Gift",
+            "id": 83131,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Piece of Heart",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "start_regions": {
+    "3": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "3": {
+      "Golden Feather": {
+        "classification": "progression",
+        "is_event": false,
+        "id": 82003,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false
+      },
+      "Bucket": {
+        "classification": "progression",
+        "is_event": false,
+        "id": 82005,
+        "groups": [
+          "Everything"
+        ]
+      },
+      "Progressive Fishing Rod": {
+        "classification": "progression",
+        "is_event": false,
+        "id": 82007,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false
+      },
+      "Shovel": {
+        "classification": "progression",
+        "is_event": false,
+        "id": 82008,
+        "groups": [
+          "Everything"
+        ]
+      },
+      "Shell Necklace": {
+        "classification": "progression",
+        "is_event": false,
+        "id": 82012,
+        "groups": [
+          "Everything"
+        ]
+      },
+      "Wristwatch": {
+        "classification": "progression",
+        "is_event": false,
+        "id": 82013,
+        "groups": [
+          "Everything"
+        ]
+      },
+      "Motorboat Key": {
+        "classification": "progression",
+        "is_event": false,
+        "id": 82014,
+        "groups": [
+          "Everything"
+        ]
+      },
+      "Headband": {
+        "classification": "progression",
+        "is_event": false,
+        "id": 82024,
+        "groups": [
+          "Everything"
+        ]
+      },
+      "Camping Permit": {
+        "classification": "progression",
+        "is_event": false,
+        "id": 82026,
+        "groups": [
+          "Everything"
+        ]
+      },
+      "Stick": {
+        "classification": "progression_skip_balancing",
+        "is_event": false,
+        "id": 82001,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false
+      },
+      "Seashell": {
+        "classification": "progression_skip_balancing",
+        "is_event": false,
+        "id": 82002,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false
+      },
+      "Toy Shovel": {
+        "classification": "progression_skip_balancing",
+        "is_event": false,
+        "id": 82009,
+        "groups": [
+          "Everything"
+        ]
+      },
+      "Silver Feather": {
+        "classification": "useful",
+        "is_event": false,
+        "id": 82004,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false
+      },
+      "Compass": {
+        "classification": "useful",
+        "is_event": false,
+        "id": 82010,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false
+      },
+      "Pickaxe": {
+        "classification": "useful",
+        "is_event": false,
+        "id": 82015,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false
+      },
+      "Fishing Journal": {
+        "classification": "useful",
+        "is_event": false,
+        "id": 82016,
+        "groups": [
+          "Everything"
+        ]
+      },
+      "Running Shoes": {
+        "classification": "useful",
+        "is_event": false,
+        "id": 82025,
+        "groups": [
+          "Everything"
+        ]
+      },
+      "Walkie Talkie": {
+        "classification": "useful",
+        "is_event": false,
+        "id": 82027,
+        "groups": [
+          "Everything"
+        ]
+      },
+      "32 Coins": {
+        "classification": "useful",
+        "is_event": false,
+        "id": 82034,
+        "groups": [
+          "Coins",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false
+      },
+      "33 Coins": {
+        "classification": "useful",
+        "is_event": false,
+        "id": 82035,
+        "groups": [
+          "Coins",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false
+      },
+      "50 Coins": {
+        "classification": "useful",
+        "is_event": false,
+        "id": 82036,
+        "groups": [
+          "Coins",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false
+      },
+      "Bait": {
+        "classification": "filler",
+        "is_event": false,
+        "id": 82006,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false
+      },
+      "Medal": {
+        "classification": "filler",
+        "is_event": false,
+        "id": 82011,
+        "groups": [
+          "Everything"
+        ]
+      },
+      "A Stormy View Map": {
+        "classification": "filler",
+        "is_event": false,
+        "id": 82017,
+        "groups": [
+          "Everything",
+          "Maps"
+        ]
+      },
+      "The King Map": {
+        "classification": "filler",
+        "is_event": false,
+        "id": 82018,
+        "groups": [
+          "Everything",
+          "Maps"
+        ]
+      },
+      "The Treasure of Sid Beach Map": {
+        "classification": "filler",
+        "is_event": false,
+        "id": 82019,
+        "groups": [
+          "Everything",
+          "Maps"
+        ]
+      },
+      "In Her Shadow Map": {
+        "classification": "filler",
+        "is_event": false,
+        "id": 82020,
+        "groups": [
+          "Everything",
+          "Maps"
+        ]
+      },
+      "Sunhat": {
+        "classification": "filler",
+        "is_event": false,
+        "id": 82021,
+        "groups": [
+          "Everything"
+        ]
+      },
+      "Baseball Cap": {
+        "classification": "filler",
+        "is_event": false,
+        "id": 82022,
+        "groups": [
+          "Everything"
+        ]
+      },
+      "Provincial Park Hat": {
+        "classification": "filler",
+        "is_event": false,
+        "id": 82023,
+        "groups": [
+          "Everything"
+        ]
+      },
+      "7 Coins": {
+        "classification": "filler",
+        "is_event": false,
+        "id": 82028,
+        "groups": [
+          "Coins",
+          "Everything"
+        ]
+      },
+      "13 Coins": {
+        "classification": "filler",
+        "is_event": false,
+        "id": 82037,
+        "groups": [
+          "Coins",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false
+      },
+      "15 Coins": {
+        "classification": "filler",
+        "is_event": false,
+        "id": 82029,
+        "groups": [
+          "Coins",
+          "Everything"
+        ]
+      },
+      "18 Coins": {
+        "classification": "filler",
+        "is_event": false,
+        "id": 82030,
+        "groups": [
+          "Coins",
+          "Everything"
+        ]
+      },
+      "21 Coins": {
+        "classification": "filler",
+        "is_event": false,
+        "id": 82031,
+        "groups": [
+          "Coins",
+          "Everything"
+        ]
+      },
+      "25 Coins": {
+        "classification": "filler",
+        "is_event": false,
+        "id": 82032,
+        "groups": [
+          "Coins",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false
+      },
+      "27 Coins": {
+        "classification": "filler",
+        "is_event": false,
+        "id": 82033,
+        "groups": [
+          "Coins",
+          "Everything"
+        ]
+      },
+      "Time Piece": {
+        "name": "Time Piece",
+        "id": 2000300002,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Badge Pin": {
+        "name": "Badge Pin",
+        "id": 2000300043,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Relic (Blue Crayon)": {
+        "name": "Relic (Blue Crayon)",
+        "id": 2000300016,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Magic Mirror": {
+        "name": "Magic Mirror",
+        "id": 26,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bottle (Fairy)": {
+        "name": "Bottle (Fairy)",
+        "id": 61,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Yarn": {
+        "name": "Yarn",
+        "id": 2000300001,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Yellow Key": {
+        "name": "Yellow Key",
+        "id": 118000011,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Health Pon": {
+        "name": "Health Pon",
+        "id": 2000300037,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "25 Pons": {
+        "name": "25 Pons",
+        "id": 2000300034,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Umbrella": {
+        "name": "Umbrella",
+        "id": 2000300033,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sword": {
+        "name": "Sword",
+        "id": 118000009,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ether": {
+        "name": "Ether",
+        "id": 16,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Relic (Red Crayon)": {
+        "name": "Relic (Red Crayon)",
+        "id": 2000300015,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Piece of Heart": {
+        "name": "Piece of Heart",
+        "id": 23,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Book of Mudora": {
+        "name": "Book of Mudora",
+        "id": 29,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Freeincarnate": {
+        "name": "Freeincarnate",
+        "id": 118000258,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cape": {
+        "name": "Cape",
+        "id": 25,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rupees (100)": {
+        "name": "Rupees (100)",
+        "id": 64,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Relic (Mountain Set)": {
+        "name": "Relic (Mountain Set)",
+        "id": 2000300008,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Red Boomerang": {
+        "name": "Red Boomerang",
+        "id": 42,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bombs (3)": {
+        "name": "Bombs (3)",
+        "id": 40,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "50 Pons": {
+        "name": "50 Pons",
+        "id": 2000300035,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hover Badge": {
+        "name": "Hover Badge",
+        "id": 2000300026,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Arrows (10)": {
+        "name": "Arrows (10)",
+        "id": 68,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Random Cosmetic": {
+        "name": "Random Cosmetic",
+        "id": 2000300044,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rupees (300)": {
+        "name": "Rupees (300)",
+        "id": 70,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Relic (Green Crayon)": {
+        "name": "Relic (Green Crayon)",
+        "id": 2000300017,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Boss Heart Container": {
+        "name": "Boss Heart Container",
+        "id": 62,
+        "groups": [],
+        "advancement": true,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bug Catching Net": {
+        "name": "Bug Catching Net",
+        "id": 33,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Glove": {
+        "name": "Progressive Glove",
+        "id": 97,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Black Key": {
+        "name": "Black Key",
+        "id": 118000013,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Chalice": {
+        "name": "Chalice",
+        "id": 118000016,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rupees (50)": {
+        "name": "Rupees (50)",
+        "id": 65,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Relic (Cow)": {
+        "name": "Relic (Cow)",
+        "id": 2000300011,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hookshot": {
+        "name": "Hookshot",
+        "id": 10,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "100 Pons": {
+        "name": "100 Pons",
+        "id": 2000300036,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rupees (20)": {
+        "name": "Rupees (20)",
+        "id": 54,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hammer": {
+        "name": "Hammer",
+        "id": 9,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cane of Byrna": {
+        "name": "Cane of Byrna",
+        "id": 24,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Relic (Burger Patty)": {
+        "name": "Relic (Burger Patty)",
+        "id": 2000300006,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Snatcher's Contract - The Subcon Well": {
+        "name": "Snatcher's Contract - The Subcon Well",
+        "id": 2000300200,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "3": [
+      "Coins",
+      "Everything",
+      "Maps"
+    ]
+  },
+  "itempool_counts": {
+    "3": {
+      "13 Coins": 24,
+      "15 Coins": 1,
+      "18 Coins": 1,
+      "21 Coins": 2,
+      "25 Coins": 12,
+      "27 Coins": 1,
+      "32 Coins": 2,
+      "33 Coins": 7,
+      "50 Coins": 2,
+      "7 Coins": 3,
+      "A Stormy View Map": 1,
+      "Bait": 3,
+      "Baseball Cap": 1,
+      "Bucket": 2,
+      "Camping Permit": 1,
+      "Compass": 2,
+      "Fishing Journal": 1,
+      "Golden Feather": 26,
+      "Headband": 1,
+      "In Her Shadow Map": 1,
+      "Medal": 3,
+      "Motorboat Key": 1,
+      "Pickaxe": 4,
+      "Progressive Fishing Rod": 3,
+      "Provincial Park Hat": 1,
+      "Running Shoes": 1,
+      "Seashell": 28,
+      "Shell Necklace": 1,
+      "Shovel": 1,
+      "Silver Feather": 3,
+      "Stick": 10,
+      "Sunhat": 1,
+      "The King Map": 1,
+      "The Treasure of Sid Beach Map": 1,
+      "Toy Shovel": 5,
+      "Walkie Talkie": 1,
+      "Wristwatch": 1
+    }
+  },
+  "progression_mapping": {
+    "3": {}
+  },
+  "starting_items": {
+    "3": []
+  },
+  "settings": {
+    "3": {
+      "game": "A Short Hike",
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
+    }
+  },
+  "game_info": {
+    "3": {
+      "name": "A Short Hike",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

@@ -6,6 +6,8 @@
  * Ported from worlds/pokemon_rb/logic.py
  */
 
+import { DEFAULT_PLAYER_ID } from '../../playerIdUtils.js';
+
 /**
  * Check if player has an item
  * @param {Object} snapshot - Canonical state snapshot
@@ -76,23 +78,19 @@ export function has_any(snapshot, staticData, items) {
 // Helper function to get world options
 function getOptions(staticData) {
   // Settings are nested by player ID
-  const playerId = staticData?.playerId || '1';
+  const playerId = staticData?.playerId || DEFAULT_PLAYER_ID;
   const settings = staticData?.settings?.[playerId] || staticData?.settings || {};
   return settings;
 }
 
 // Helper function to get game-specific data from game_info
 function getGameData(staticData, key) {
-  const playerId = staticData?.playerId || '1';
+  const playerId = staticData?.playerId || DEFAULT_PLAYER_ID;
 
-  // Try to get from game_info first (nested by player)
+  // Get from game_info (nested by player ID)
+  // Pokemon RB-specific data (extra_badges, local_poke_data, poke_data) is stored in game_info
   if (staticData?.game_info?.[playerId]?.[key]) {
     return staticData.game_info[playerId][key];
-  }
-
-  // Fallback to top-level (for backward compatibility)
-  if (staticData?.[key]) {
-    return staticData[key];
   }
 
   return null;
@@ -107,19 +105,26 @@ function getGameData(staticData, key) {
  */
 export function can_learn_hm(snapshot, staticData, move) {
   const local_poke_data = getGameData(staticData, 'local_poke_data');
-  if (!local_poke_data) return false;
+  if (!local_poke_data) {
+    return false;
+  }
 
   const moveIndex = ["Cut", "Fly", "Surf", "Strength", "Flash"].indexOf(move);
   if (moveIndex === -1) return false;
 
   for (const [pokemon, data] of Object.entries(local_poke_data)) {
-    if (has(snapshot, staticData, pokemon) && data.tms && data.tms[6]) {
+    // Check for both base Pokemon name and "Static {pokemon}" prefix
+    const hasPokemon = has(snapshot, staticData, pokemon) || has(snapshot, staticData, `Static ${pokemon}`);
+    if (hasPokemon && data.tms && data.tms[6]) {
       // Check if the Pokemon can learn this HM
-      if (data.tms[6] & (1 << (moveIndex + 2))) {
+      const bitMask = 1 << (moveIndex + 2);
+      const canLearn = (data.tms[6] & bitMask) !== 0;
+      if (canLearn) {
         return true;
       }
     }
   }
+
   return false;
 }
 
@@ -130,13 +135,13 @@ export function can_surf(snapshot, staticData) {
   const options = getOptions(staticData);
   const extra_badges = getGameData(staticData, 'extra_badges') || {};
 
-  return (
-    has(snapshot, staticData, "HM03 Surf") &&
-    can_learn_hm(snapshot, staticData, "Surf") &&
-    (has(snapshot, staticData, "Soul Badge") ||
-     has(snapshot, staticData, extra_badges["Surf"]) ||
-     options.badges_needed_for_hm_moves === 0)
-  );
+  const hasHM = has(snapshot, staticData, "HM03 Surf");
+  const canLearn = can_learn_hm(snapshot, staticData, "Surf");
+  const hasBadge = has(snapshot, staticData, "Soul Badge") ||
+                   has(snapshot, staticData, extra_badges["Surf"]) ||
+                   options.badges_needed_for_hm_moves === 0;
+
+  return hasHM && canLearn && hasBadge;
 }
 
 /**
@@ -217,7 +222,7 @@ export function can_get_hidden_items(snapshot, staticData) {
 /**
  * Check if player has a certain number of key items
  */
-export function has_key_items(snapshot, staticData, count) {
+export function has_key_items(snapshot, staticData, requiredCount) {
   const keyItemsList = [
     "Bicycle", "Silph Scope", "Item Finder", "Super Rod", "Good Rod",
     "Old Rod", "Lift Key", "Card Key", "Town Map", "Coin Case", "S.S. Ticket",
@@ -240,7 +245,7 @@ export function has_key_items(snapshot, staticData, count) {
   const progressiveCardKeys = Math.min(count(snapshot, staticData, "Progressive Card Key"), 10);
   keyItemCount += progressiveCardKeys;
 
-  return keyItemCount >= count;
+  return keyItemCount >= requiredCount;
 }
 
 /**
@@ -291,8 +296,11 @@ export function oaks_aide(snapshot, staticData, pokemonCount) {
  * Count how many different Pokemon the player has obtained
  */
 export function has_pokemon(snapshot, staticData, pokemonCount) {
-  // Get the list of all Pokemon from poke_data
-  const poke_data = getGameData(staticData, 'poke_data');
+  // Get the list of all Pokemon from local_poke_data (exported rules) or poke_data (legacy)
+  let poke_data = getGameData(staticData, 'local_poke_data');
+  if (!poke_data) {
+    poke_data = getGameData(staticData, 'poke_data');
+  }
   if (!poke_data) {
     // Fallback: just count Pokemon-like items in inventory
     // This isn't perfect but better than nothing

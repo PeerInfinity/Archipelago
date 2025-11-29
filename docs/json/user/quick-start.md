@@ -2,7 +2,9 @@
 
 This guide will help you get started using the JSON Web Client as an advanced tracker for a standard Archipelago multiworld game.
 
-**[Try the JSON Web Client Live](https://peerinfinity.github.io/Archipelago/)**
+**New here?** See the [Overview](./overview.md) for an introduction to what this project does and how to use it.
+
+**Try the JSON Web Client Live:** Either the **[Latest Stable Version](https://peerinfinity.github.io/Archipelago/)** or the **[Latest Development Version](https://peerinfinity.github.io/Archipelago-CC/)**
 
 ## Getting Started (Standard Tracking Mode)
 
@@ -19,10 +21,10 @@ To get both files, you must generate your seed using the correct version of the 
 
 ### First Steps
 
-1.  **Open the Web Client:** Navigate to the [live web client](https://peerinfinity.github.io/Archipelago/). It will load with a default "A Link to the Past" ruleset, allowing you to explore the interface immediately.
+1.  **Open the Web Client:** Navigate to the [live web client](https://peerinfinity.github.io/Archipelago/). It will load with a default "Adventure" ruleset, allowing you to explore the interface immediately.
 
 2.  **Explore the Interface:**
-    -   **Inventory Panel:** Click on items like "Progressive Sword" or "Hookshot".
+    -   **Inventory Panel:** Click on items to add them to your inventory.
     -   **Locations Panel:** Switch to the "Locations" tab and watch how the location cards change color as you acquire items. Green means accessible, red/yellow means not, and black means checked.
     -   The layout is fully customizable. You can drag, drop, and resize panels to your liking.
 

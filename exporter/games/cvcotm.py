@@ -96,22 +96,52 @@ class CvCotMGameExportHandler(BaseGameExportHandler):
         except Exception as e:
             logger.error(f"Error in postprocess_regions for CvCotM: {e}")
     
-    def post_process_regions(self, regions_data: Dict[str, Any]) -> Dict[str, Any]:
-        """Fix region data structure for CvCotM."""
-        # Check if regions are incorrectly nested under player ID
-        if '1' in regions_data and isinstance(regions_data['1'], dict):
-            # The regions are under player ID '1', extract them
-            player_regions = regions_data['1']
-            
-            # Create properly formatted regions dict
+    def post_process_regions(self, regions_data: Dict[str, Any], world_classes: Dict[str, str] = None) -> Dict[str, Any]:
+        """Fix region data structure for CvCotM.
+
+        Args:
+            regions_data: Dictionary of player_id -> regions dictionary
+            world_classes: Dictionary of player_id -> world class name, used to identify CvCotM players
+        """
+        # Determine which player IDs are playing CvCotM
+        cvcotm_player_ids = set()
+        if world_classes:
+            for player_id, world_class in world_classes.items():
+                if world_class == 'CVCotMWorld':
+                    cvcotm_player_ids.add(player_id)
+        else:
+            # Fallback: if no world_classes provided, assume we should process any player
+            # that has a 'Catacomb' region (CvCotM starting area)
+            for player_id, player_regions in regions_data.items():
+                if isinstance(player_regions, dict) and 'Catacomb' in player_regions:
+                    cvcotm_player_ids.add(player_id)
+
+        if not cvcotm_player_ids:
+            # No CvCotM players found, return data as-is
+            return regions_data
+
+        # Process only CvCotM players, preserving all other players' data
+        result = {}
+        for player_id, player_regions in regions_data.items():
+            if player_id not in cvcotm_player_ids:
+                # Not a CvCotM player, preserve their regions as-is
+                result[player_id] = player_regions
+                continue
+
+            if not isinstance(player_regions, dict):
+                result[player_id] = player_regions
+                continue
+
+            # Process CvCotM player's regions
             formatted_regions = {}
-            
+            player_int = int(player_id) if player_id.isdigit() else 1
+
             # Add Menu region if it doesn't exist
             if 'Menu' not in player_regions:
                 formatted_regions['Menu'] = {
                     'name': 'Menu',
                     'type': 'Region',
-                    'player': 1,
+                    'player': player_int,
                     'entrances': [],
                     'exits': [
                         {
@@ -131,7 +161,7 @@ class CvCotMGameExportHandler(BaseGameExportHandler):
                     'time_passes': True,
                     'provides_chest_count': True
                 }
-                
+
                 # Add entrance to Catacomb from Menu
                 if 'Catacomb' in player_regions:
                     catacomb = player_regions['Catacomb']
@@ -151,7 +181,7 @@ class CvCotMGameExportHandler(BaseGameExportHandler):
                                 'direction': None,
                                 'type': 'Entrance'
                             })
-            
+
             for region_name, region_data in player_regions.items():
                 if isinstance(region_data, dict):
                     # Ensure region has required fields
@@ -160,7 +190,7 @@ class CvCotMGameExportHandler(BaseGameExportHandler):
                     if 'type' not in region_data:
                         region_data['type'] = 'Region'
                     if 'player' not in region_data:
-                        region_data['player'] = 1
+                        region_data['player'] = player_int
                     if 'entrances' not in region_data:
                         region_data['entrances'] = []
                     if 'exits' not in region_data:
@@ -173,12 +203,10 @@ class CvCotMGameExportHandler(BaseGameExportHandler):
                         region_data['provides_chest_count'] = True
 
                     formatted_regions[region_name] = region_data
-            
-            # Return regions nested under player '1' (expected format)
-            return {'1': formatted_regions}
-        
-        # If data is already in correct format, return as-is
-        return regions_data
+
+            result[player_id] = formatted_regions
+
+        return result
     
     def get_settings_data(self, world, multiworld, player: int) -> Dict[str, Any]:
         """Export CvCotM-specific settings."""
@@ -207,6 +235,8 @@ class CvCotMGameExportHandler(BaseGameExportHandler):
         """Post-process the exported data to fix any issues."""
         # Fix region data if needed
         if 'regions' in data:
-            data['regions'] = self.post_process_regions(data['regions'])
+            # Pass world_classes so we know which players are playing CvCotM
+            world_classes = data.get('world_classes', {})
+            data['regions'] = self.post_process_regions(data['regions'], world_classes)
 
         return data

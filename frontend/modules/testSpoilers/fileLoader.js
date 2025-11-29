@@ -256,7 +256,7 @@ export class FileLoader {
     logger.debug('readFile called', { fileName: file.name });
 
     return new Promise((resolve, reject) => {
-      if (signal.aborted) {
+      if (signal?.aborted) {
         logger.info('File reading aborted before starting');
         return reject(new DOMException('Aborted by user', 'AbortError'));
       }
@@ -271,10 +271,14 @@ export class FileLoader {
         reject(new DOMException('Aborted by user', 'AbortError'));
       };
 
-      signal.addEventListener('abort', handleAbort, { once: true });
+      if (signal) {
+        signal.addEventListener('abort', handleAbort, { once: true });
+      }
 
       reader.onload = (e) => {
-        signal.removeEventListener('abort', handleAbort);
+        if (signal) {
+          signal.removeEventListener('abort', handleAbort);
+        }
         try {
           const fileContent = e.target.result;
           const parsedResult = this._parseLogText(fileContent, file.name);
@@ -297,6 +301,7 @@ export class FileLoader {
           resolve({
             success: true,
             logData: parsedResult.logData,
+            rawContent: fileContent,
             fileName: file.name
           });
         } catch (error) {
@@ -308,7 +313,9 @@ export class FileLoader {
       };
 
       reader.onerror = (e) => {
-        signal.removeEventListener('abort', handleAbort);
+        if (signal) {
+          signal.removeEventListener('abort', handleAbort);
+        }
         logger.error(`FileReader error for ${file.name}:`, e);
         reject(new Error(`FileReader error: ${e.target.error.name}`));
       };

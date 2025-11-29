@@ -258,7 +258,15 @@ class GenericGameExportHandler(BaseGameExportHandler):
                         group_name for group_name, items in world.item_name_groups.items()
                         if item_name in items
                     ]
-                
+
+                # Get custom item type from game handler if available
+                item_type = None
+                if hasattr(self, 'get_item_type_for_name'):
+                    try:
+                        item_type = self.get_item_type_for_name(item_name, world)
+                    except Exception as e:
+                        logger.debug(f"Error getting custom type for {item_name}: {e}")
+
                 item_data[item_name] = {
                     'name': item_name,
                     'id': item_id,
@@ -267,7 +275,7 @@ class GenericGameExportHandler(BaseGameExportHandler):
                     'useful': is_useful,
                     'trap': is_trap,
                     'event': False,  # Regular items are not events
-                    'type': None,
+                    'type': item_type,
                     'max_count': 1
                 }
         

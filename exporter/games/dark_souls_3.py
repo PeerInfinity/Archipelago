@@ -163,20 +163,51 @@ class DarkSouls3GameExportHandler(BaseGameExportHandler):
         return None
     
     def postprocess_rule(self, rule: Dict[str, Any]) -> Dict[str, Any]:
-        """Postprocess rules to fix self._can_get references."""
+        """Postprocess rules to fix self._can_get and self._can_go_to references."""
         if not rule or not isinstance(rule, dict):
             return rule
-            
-        # Handle function calls to self._can_get
+
+        # Handle helper type references to _can_get and _can_go_to
+        if rule.get('type') == 'helper':
+            name = rule.get('name')
+            args = rule.get('args', [])
+
+            # Handle _can_get(location) -> location_check
+            if name == '_can_get' and args and len(args) > 0:
+                location_arg = args[0]
+                if location_arg.get('type') == 'constant':
+                    return {
+                        'type': 'location_check',
+                        'location': {
+                            'type': 'constant',
+                            'value': location_arg.get('value')
+                        }
+                    }
+
+            # Handle _can_go_to(region) -> can_reach
+            elif name == '_can_go_to' and args and len(args) > 0:
+                region_arg = args[0]
+                if region_arg.get('type') == 'constant':
+                    return {
+                        'type': 'can_reach',
+                        'region': {
+                            'type': 'constant',
+                            'value': region_arg.get('value')
+                        }
+                    }
+
+        # Handle function calls to self._can_get and self._can_go_to
         if rule.get('type') == 'function_call':
             func = rule.get('function', {})
-            if (func.get('type') == 'attribute' and 
-                func.get('attr') == '_can_get' and
+            if (func.get('type') == 'attribute' and
                 func.get('object', {}).get('type') == 'name' and
                 func.get('object', {}).get('name') == 'self'):
-                # Get the location from the args
+
+                attr = func.get('attr')
                 args = rule.get('args', [])
-                if args and len(args) > 0:
+
+                # Handle self._can_get(location)
+                if attr == '_can_get' and args and len(args) > 0:
                     # Skip the state argument, get the location name
                     location_arg = args[-1] if len(args) > 1 else args[0]
                     if location_arg.get('type') == 'constant':
@@ -188,13 +219,27 @@ class DarkSouls3GameExportHandler(BaseGameExportHandler):
                                 'value': location_arg.get('value')
                             }
                         }
-        
+
+                # Handle self._can_go_to(region)
+                elif attr == '_can_go_to' and args and len(args) > 0:
+                    # Skip the state argument, get the region name
+                    region_arg = args[-1] if len(args) > 1 else args[0]
+                    if region_arg.get('type') == 'constant':
+                        # Convert to can_reach (region reachability check)
+                        return {
+                            'type': 'can_reach',
+                            'region': {
+                                'type': 'constant',
+                                'value': region_arg.get('value')
+                            }
+                        }
+
         # Recursively process nested rules
         if rule.get('type') in ['and', 'or']:
             rule['conditions'] = [self.postprocess_rule(cond) for cond in rule.get('conditions', [])]
         elif rule.get('type') == 'not':
             rule['condition'] = self.postprocess_rule(rule.get('condition'))
-            
+
         return rule
     
     def postprocess_entrance_rule(self, rule: Dict[str, Any], entrance_name: str = None) -> Dict[str, Any]:

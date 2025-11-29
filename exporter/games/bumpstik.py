@@ -19,17 +19,17 @@ class BumpStikGameExportHandler(BaseGameExportHandler):
         helper_mappings = {
             # Generic helpers that might be needed for Bumper Stickers
             'can_access_level': {
-                'type': 'generic_helper',
+                'type': 'helper',
                 'name': 'can_access_level',
                 'description': 'Requires access to specific level'
             },
             'has_enough_bumpers': {
-                'type': 'generic_helper',
+                'type': 'helper',
                 'name': 'has_enough_bumpers',
                 'description': 'Requires specific number of bumpers'
             },
             'can_score_points': {
-                'type': 'generic_helper',
+                'type': 'helper',
                 'name': 'can_score_points',
                 'description': 'Requires ability to score points'
             },

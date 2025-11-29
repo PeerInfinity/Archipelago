@@ -97,6 +97,16 @@ class MainContentUI {
     this.eventBus.subscribe('ui:printToConsole', (payload) => {
       if (payload && payload.message) {
         this.appendConsoleMessage(payload.message, payload.type || 'info');
+        // If payload includes multiple download links (new format)
+        if (payload.downloads && Array.isArray(payload.downloads)) {
+          for (const download of payload.downloads) {
+            this.appendConsoleDownloadLink(download.url, download.fileName, download.label);
+          }
+        }
+        // Legacy support: single download link
+        else if (payload.downloadUrl && payload.downloadFileName) {
+          this.appendConsoleDownloadLink(payload.downloadUrl, payload.downloadFileName);
+        }
       }
     }, 'client');
 
@@ -347,6 +357,33 @@ class MainContentUI {
 
       this.consoleHistoryElement.appendChild(messageElement);
     });
+
+    // Scroll to bottom
+    this.consoleElement.scrollTop = this.consoleElement.scrollHeight;
+  }
+
+  /**
+   * Appends a clickable download link to the console
+   * @param {string} downloadUrl - Blob URL for the download
+   * @param {string} downloadFileName - Suggested filename for the download
+   * @param {string} [label] - Optional label for the link (defaults to filename)
+   */
+  appendConsoleDownloadLink(downloadUrl, downloadFileName, label) {
+    if (!this.consoleHistoryElement) return;
+
+    const linkContainer = document.createElement('div');
+    linkContainer.className = 'console-message console-message-info';
+
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = downloadFileName;
+    link.textContent = label ? `Download: ${label}` : `Download: ${downloadFileName}`;
+    link.style.color = '#4dabf7';
+    link.style.textDecoration = 'underline';
+    link.style.cursor = 'pointer';
+
+    linkContainer.appendChild(link);
+    this.consoleHistoryElement.appendChild(linkContainer);
 
     // Scroll to bottom
     this.consoleElement.scrollTop = this.consoleElement.scrollHeight;

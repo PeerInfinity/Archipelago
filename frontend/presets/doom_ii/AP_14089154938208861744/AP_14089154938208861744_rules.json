@@ -34,10 +34,7 @@
             "connected_region": "Entryway (MAP01) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Entryway (MAP01)"
-              },
+              "item": "Entryway (MAP01)",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -49,10 +46,7 @@
             "connected_region": "Underhalls (MAP02) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Underhalls (MAP02)"
-              },
+              "item": "Underhalls (MAP02)",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -66,25 +60,11 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "The Gantlet (MAP03)"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                },
-                {
                   "type": "or",
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -92,10 +72,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -103,16 +80,21 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Super Shotgun"
-                      },
+                      "item": "Super Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
                       }
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "The Gantlet (MAP03)",
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
                 }
               ]
             }
@@ -124,25 +106,11 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "The Focus (MAP04)"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                },
-                {
                   "type": "or",
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -150,10 +118,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -161,16 +126,21 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Super Shotgun"
-                      },
+                      "item": "Super Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
                       }
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "The Focus (MAP04)",
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
                 }
               ]
             }
@@ -180,10 +150,7 @@
             "connected_region": "The Waste Tunnels (MAP05) Start",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Waste Tunnels (MAP05)"
-              },
+              "item": "The Waste Tunnels (MAP05)",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -201,10 +168,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "The Crusher (MAP06)"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -212,10 +176,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "The Crusher (MAP06)",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -228,10 +189,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -239,10 +197,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -258,10 +213,7 @@
             "connected_region": "Dead Simple (MAP07) Start",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Dead Simple (MAP07)"
-              },
+              "item": "Dead Simple (MAP07)",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -279,10 +231,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Tricks and Traps (MAP08)"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -290,10 +239,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -301,10 +247,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Super Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -312,10 +255,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Super Shotgun"
-                      },
+                      "item": "Tricks and Traps (MAP08)",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -328,10 +268,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -339,10 +276,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -350,10 +284,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -369,10 +300,7 @@
             "connected_region": "The Pit (MAP09) Start",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Pit (MAP09)"
-              },
+              "item": "The Pit (MAP09)",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -384,10 +312,7 @@
             "connected_region": "Refueling Base (MAP10) Start",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Refueling Base (MAP10)"
-              },
+              "item": "Refueling Base (MAP10)",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -405,10 +330,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Circle of Death (MAP11)"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -416,10 +338,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Circle of Death (MAP11)",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -427,10 +346,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -438,10 +354,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Super Shotgun"
-                      },
+                      "item": "Super Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -454,10 +367,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -465,10 +375,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -476,10 +383,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -495,10 +399,7 @@
             "connected_region": "The Factory (MAP12) Outdoors",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Factory (MAP12)"
-              },
+              "item": "The Factory (MAP12)",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -516,10 +417,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Downtown (MAP13)"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -527,10 +425,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Downtown (MAP13)",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -538,10 +433,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -549,10 +441,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Super Shotgun"
-                      },
+                      "item": "Super Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -565,10 +454,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -576,10 +462,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -587,10 +470,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -612,10 +492,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "The Inmost Dens (MAP14)"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -623,10 +500,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -634,10 +508,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Super Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -645,10 +516,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Super Shotgun"
-                      },
+                      "item": "The Inmost Dens (MAP14)",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -661,10 +529,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -672,10 +537,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -683,10 +545,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -708,10 +567,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Industrial Zone (MAP15)"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -719,10 +575,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Industrial Zone (MAP15)",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -730,10 +583,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -741,10 +591,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Super Shotgun"
-                      },
+                      "item": "Super Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -757,10 +604,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -768,10 +612,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -779,10 +620,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -804,10 +642,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Suburbs (MAP16)"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -815,10 +650,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -826,10 +658,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Suburbs (MAP16)",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -837,10 +666,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Super Shotgun"
-                      },
+                      "item": "Super Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -853,10 +679,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -864,10 +687,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -875,10 +695,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -900,10 +717,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Tenements (MAP17)"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -911,10 +725,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -922,10 +733,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Super Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -933,10 +741,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Super Shotgun"
-                      },
+                      "item": "Tenements (MAP17)",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -949,10 +754,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -960,10 +762,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -971,10 +770,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -996,10 +792,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "The Courtyard (MAP18)"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1007,10 +800,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1018,10 +808,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Super Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1029,10 +816,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Super Shotgun"
-                      },
+                      "item": "The Courtyard (MAP18)",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1045,10 +829,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1056,10 +837,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1067,10 +845,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1092,10 +867,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "The Citadel (MAP19)"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1103,10 +875,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1114,10 +883,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Super Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1125,10 +891,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Super Shotgun"
-                      },
+                      "item": "The Citadel (MAP19)",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1141,10 +904,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1152,10 +912,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1163,10 +920,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1188,10 +942,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Gotcha! (MAP20)"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1199,10 +950,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Gotcha! (MAP20)",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1210,10 +958,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1221,10 +966,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Super Shotgun"
-                      },
+                      "item": "Super Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1237,10 +979,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1248,10 +987,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1259,10 +995,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1278,10 +1011,7 @@
             "connected_region": "Nirvana (MAP21) Start",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Nirvana (MAP21)"
-              },
+              "item": "Nirvana (MAP21)",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -1295,25 +1025,11 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "The Catacombs (MAP22)"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                },
-                {
                   "type": "or",
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1321,10 +1037,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Super Shotgun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1332,16 +1045,21 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Super Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
                       }
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "The Catacombs (MAP22)",
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
                 }
               ]
             }
@@ -1357,10 +1075,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Barrels o' Fun (MAP23)"
-                      },
+                      "item": "Barrels o' Fun (MAP23)",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1368,10 +1083,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1379,10 +1091,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1390,10 +1099,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Super Shotgun"
-                      },
+                      "item": "Super Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1406,10 +1112,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1417,10 +1120,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1428,10 +1128,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1450,10 +1147,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "The Chasm (MAP24)"
-                  },
+                  "item": "BFG9000",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1461,10 +1155,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Shotgun"
-                  },
+                  "item": "Chaingun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1472,10 +1163,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chaingun"
-                  },
+                  "item": "Plasma gun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1483,10 +1171,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Rocket launcher"
-                  },
+                  "item": "Rocket launcher",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1494,10 +1179,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Plasma gun"
-                  },
+                  "item": "Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1505,10 +1187,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "BFG9000"
-                  },
+                  "item": "Super Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1516,10 +1195,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Super Shotgun"
-                  },
+                  "item": "The Chasm (MAP24)",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1533,10 +1209,7 @@
             "connected_region": "Bloodfalls (MAP25) Start",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Bloodfalls (MAP25)"
-              },
+              "item": "Bloodfalls (MAP25)",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -1551,10 +1224,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "The Abandoned Mines (MAP26)"
-                  },
+                  "item": "BFG9000",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1562,10 +1232,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Shotgun"
-                  },
+                  "item": "Chaingun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1573,10 +1240,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chaingun"
-                  },
+                  "item": "Plasma gun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1584,10 +1248,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Rocket launcher"
-                  },
+                  "item": "Rocket launcher",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1595,10 +1256,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "BFG9000"
-                  },
+                  "item": "Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1606,10 +1264,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Plasma gun"
-                  },
+                  "item": "Super Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1617,10 +1272,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Super Shotgun"
-                  },
+                  "item": "The Abandoned Mines (MAP26)",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1637,10 +1289,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Monster Condo (MAP27)"
-                  },
+                  "item": "BFG9000",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1648,10 +1297,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Shotgun"
-                  },
+                  "item": "Chaingun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1659,10 +1305,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chaingun"
-                  },
+                  "item": "Monster Condo (MAP27)",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1670,10 +1313,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Rocket launcher"
-                  },
+                  "item": "Plasma gun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1681,10 +1321,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Plasma gun"
-                  },
+                  "item": "Rocket launcher",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1692,10 +1329,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "BFG9000"
-                  },
+                  "item": "Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1703,10 +1337,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Super Shotgun"
-                  },
+                  "item": "Super Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1723,10 +1354,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "The Spirit World (MAP28)"
-                  },
+                  "item": "BFG9000",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1734,10 +1362,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Shotgun"
-                  },
+                  "item": "Chaingun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1745,10 +1370,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Rocket launcher"
-                  },
+                  "item": "Plasma gun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1756,10 +1378,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chaingun"
-                  },
+                  "item": "Rocket launcher",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1767,10 +1386,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Plasma gun"
-                  },
+                  "item": "Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1778,10 +1394,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "BFG9000"
-                  },
+                  "item": "Super Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1789,10 +1402,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Super Shotgun"
-                  },
+                  "item": "The Spirit World (MAP28)",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1809,10 +1419,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "The Living End (MAP29)"
-                  },
+                  "item": "BFG9000",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1820,10 +1427,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Shotgun"
-                  },
+                  "item": "Chaingun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1831,10 +1435,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chaingun"
-                  },
+                  "item": "Plasma gun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1842,10 +1443,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Rocket launcher"
-                  },
+                  "item": "Rocket launcher",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1853,10 +1451,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Plasma gun"
-                  },
+                  "item": "Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1864,10 +1459,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "BFG9000"
-                  },
+                  "item": "Super Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1875,10 +1467,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Super Shotgun"
-                  },
+                  "item": "The Living End (MAP29)",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1892,10 +1481,7 @@
             "connected_region": "Icon of Sin (MAP30) Start",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Icon of Sin (MAP30)"
-              },
+              "item": "Icon of Sin (MAP30)",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -1989,10 +1575,7 @@
             "connected_region": "Underhalls (MAP02) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Underhalls (MAP02) - Red keycard"
-              },
+              "item": "Underhalls (MAP02) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2053,10 +1636,7 @@
             "connected_region": "Underhalls (MAP02) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Underhalls (MAP02) - Blue keycard"
-              },
+              "item": "Underhalls (MAP02) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2089,10 +1669,7 @@
             "connected_region": "Underhalls (MAP02) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Underhalls (MAP02) - Blue keycard"
-              },
+              "item": "Underhalls (MAP02) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2133,10 +1710,7 @@
             "connected_region": "The Gantlet (MAP03) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Gantlet (MAP03) - Blue keycard"
-              },
+              "item": "The Gantlet (MAP03) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2275,10 +1849,7 @@
             "connected_region": "The Gantlet (MAP03) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Gantlet (MAP03) - Red keycard"
-              },
+              "item": "The Gantlet (MAP03) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2367,10 +1938,7 @@
             "connected_region": "The Focus (MAP04) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Focus (MAP04) - Red keycard"
-              },
+              "item": "The Focus (MAP04) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2382,10 +1950,7 @@
             "connected_region": "The Focus (MAP04) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Focus (MAP04) - Blue keycard"
-              },
+              "item": "The Focus (MAP04) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2461,10 +2026,7 @@
             "connected_region": "The Focus (MAP04) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Focus (MAP04) - Yellow keycard"
-              },
+              "item": "The Focus (MAP04) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2497,10 +2059,7 @@
             "connected_region": "The Focus (MAP04) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Focus (MAP04) - Yellow keycard"
-              },
+              "item": "The Focus (MAP04) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2512,10 +2071,7 @@
             "connected_region": "The Focus (MAP04) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Focus (MAP04) - Red keycard"
-              },
+              "item": "The Focus (MAP04) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2548,10 +2104,7 @@
             "connected_region": "The Waste Tunnels (MAP05) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Waste Tunnels (MAP05) - Red keycard"
-              },
+              "item": "The Waste Tunnels (MAP05) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2563,10 +2116,7 @@
             "connected_region": "The Waste Tunnels (MAP05) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Waste Tunnels (MAP05) - Blue keycard"
-              },
+              "item": "The Waste Tunnels (MAP05) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2705,10 +2255,7 @@
             "connected_region": "The Waste Tunnels (MAP05) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Waste Tunnels (MAP05) - Yellow keycard"
-              },
+              "item": "The Waste Tunnels (MAP05) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2720,10 +2267,7 @@
             "connected_region": "The Waste Tunnels (MAP05) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Waste Tunnels (MAP05) - Blue keycard"
-              },
+              "item": "The Waste Tunnels (MAP05) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2756,10 +2300,7 @@
             "connected_region": "The Waste Tunnels (MAP05) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Waste Tunnels (MAP05) - Yellow keycard"
-              },
+              "item": "The Waste Tunnels (MAP05) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2827,10 +2368,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -2838,10 +2376,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Super Shotgun"
-                      },
+                      "item": "Super Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -2854,10 +2389,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -2865,10 +2397,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -2922,10 +2451,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "The Crusher (MAP06) - Blue keycard"
-                  },
+                  "item": "Super Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -2933,10 +2459,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Super Shotgun"
-                  },
+                  "item": "The Crusher (MAP06) - Blue keycard",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -3055,10 +2578,7 @@
             "connected_region": "The Crusher (MAP06) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Crusher (MAP06) - Red keycard"
-              },
+              "item": "The Crusher (MAP06) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -3070,10 +2590,7 @@
             "connected_region": "The Crusher (MAP06) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Crusher (MAP06) - Blue keycard"
-              },
+              "item": "The Crusher (MAP06) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -3176,10 +2693,7 @@
             "connected_region": "The Crusher (MAP06) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Crusher (MAP06) - Yellow keycard"
-              },
+              "item": "The Crusher (MAP06) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -3212,10 +2726,7 @@
             "connected_region": "The Crusher (MAP06) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Crusher (MAP06) - Yellow keycard"
-              },
+              "item": "The Crusher (MAP06) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -3227,10 +2738,7 @@
             "connected_region": "The Crusher (MAP06) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Crusher (MAP06) - Red keycard"
-              },
+              "item": "The Crusher (MAP06) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -3432,10 +2940,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -3443,10 +2948,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -3454,10 +2956,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Super Shotgun"
-                      },
+                      "item": "Super Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -3470,10 +2969,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -3481,10 +2977,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -3492,10 +2985,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -3546,10 +3036,7 @@
             "connected_region": "Tricks and Traps (MAP08) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tricks and Traps (MAP08) - Red skull key"
-              },
+              "item": "Tricks and Traps (MAP08) - Red skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -3561,10 +3048,7 @@
             "connected_region": "Tricks and Traps (MAP08) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tricks and Traps (MAP08) - Yellow skull key"
-              },
+              "item": "Tricks and Traps (MAP08) - Yellow skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -3949,10 +3433,7 @@
             "connected_region": "The Pit (MAP09) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Pit (MAP09) - Yellow keycard"
-              },
+              "item": "The Pit (MAP09) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -3964,10 +3445,7 @@
             "connected_region": "The Pit (MAP09) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Pit (MAP09) - Blue keycard"
-              },
+              "item": "The Pit (MAP09) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -4196,10 +3674,7 @@
             "connected_region": "The Pit (MAP09) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Pit (MAP09) - Yellow keycard"
-              },
+              "item": "The Pit (MAP09) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -4238,10 +3713,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -4249,10 +3721,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -4260,10 +3729,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Super Shotgun"
-                      },
+                      "item": "Super Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -4276,10 +3742,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -4287,10 +3750,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -4298,10 +3758,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -4338,10 +3795,7 @@
             "connected_region": "Refueling Base (MAP10) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Refueling Base (MAP10) - Yellow keycard"
-              },
+              "item": "Refueling Base (MAP10) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -4642,10 +4096,7 @@
             "connected_region": "Refueling Base (MAP10) Yellow Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Refueling Base (MAP10) - Blue keycard"
-              },
+              "item": "Refueling Base (MAP10) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -4698,10 +4149,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -4709,10 +4157,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -4720,10 +4165,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Super Shotgun"
-                      },
+                      "item": "Super Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -4736,10 +4178,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -4747,10 +4186,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -4758,10 +4194,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -4798,10 +4231,7 @@
             "connected_region": "Circle of Death (MAP11) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Circle of Death (MAP11) - Blue keycard"
-              },
+              "item": "Circle of Death (MAP11) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -4813,10 +4243,7 @@
             "connected_region": "Circle of Death (MAP11) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Circle of Death (MAP11) - Red keycard"
-              },
+              "item": "Circle of Death (MAP11) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -5098,10 +4525,7 @@
             "connected_region": "The Factory (MAP12) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Factory (MAP12) - Yellow keycard"
-              },
+              "item": "The Factory (MAP12) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -5113,10 +4537,7 @@
             "connected_region": "The Factory (MAP12) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Factory (MAP12) - Blue keycard"
-              },
+              "item": "The Factory (MAP12) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -5307,10 +4728,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Super Shotgun"
-                  },
+                  "item": "Plasma gun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -5318,10 +4736,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Plasma gun"
-                  },
+                  "item": "Super Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -5390,10 +4805,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Super Shotgun"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -5401,10 +4813,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Super Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -5417,10 +4826,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -5428,10 +4834,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -5504,10 +4907,7 @@
             "connected_region": "Downtown (MAP13) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Downtown (MAP13) - Yellow keycard"
-              },
+              "item": "Downtown (MAP13) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -5519,10 +4919,7 @@
             "connected_region": "Downtown (MAP13) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Downtown (MAP13) - Red keycard"
-              },
+              "item": "Downtown (MAP13) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -5534,10 +4931,7 @@
             "connected_region": "Downtown (MAP13) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Downtown (MAP13) - Blue keycard"
-              },
+              "item": "Downtown (MAP13) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -5909,10 +5303,7 @@
             "connected_region": "The Inmost Dens (MAP14) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Inmost Dens (MAP14) - Red skull key"
-              },
+              "item": "The Inmost Dens (MAP14) - Red skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -6051,10 +5442,7 @@
             "connected_region": "The Inmost Dens (MAP14) Red East",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Inmost Dens (MAP14) - Blue skull key"
-              },
+              "item": "The Inmost Dens (MAP14) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -6087,10 +5475,7 @@
             "connected_region": "The Inmost Dens (MAP14) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Inmost Dens (MAP14) - Red skull key"
-              },
+              "item": "The Inmost Dens (MAP14) - Red skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -6124,10 +5509,7 @@
             "connected_region": "The Inmost Dens (MAP14) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Inmost Dens (MAP14) - Blue skull key"
-              },
+              "item": "The Inmost Dens (MAP14) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -6196,10 +5578,7 @@
             "connected_region": "Industrial Zone (MAP15) Yellow East",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Industrial Zone (MAP15) - Yellow keycard"
-              },
+              "item": "Industrial Zone (MAP15) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -6211,10 +5590,7 @@
             "connected_region": "Industrial Zone (MAP15) Yellow West",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Industrial Zone (MAP15) - Yellow keycard"
-              },
+              "item": "Industrial Zone (MAP15) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -6429,10 +5805,7 @@
             "connected_region": "Industrial Zone (MAP15) Yellow East",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Industrial Zone (MAP15) - Blue keycard"
-              },
+              "item": "Industrial Zone (MAP15) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -6465,10 +5838,7 @@
             "connected_region": "Industrial Zone (MAP15) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Industrial Zone (MAP15) - Blue keycard"
-              },
+              "item": "Industrial Zone (MAP15) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -6622,10 +5992,7 @@
             "connected_region": "Suburbs (MAP16) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Suburbs (MAP16) - Red skull key"
-              },
+              "item": "Suburbs (MAP16) - Red skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -6637,10 +6004,7 @@
             "connected_region": "Suburbs (MAP16) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Suburbs (MAP16) - Blue skull key"
-              },
+              "item": "Suburbs (MAP16) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -6963,10 +6327,7 @@
             "connected_region": "Tenements (MAP17) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tenements (MAP17) - Red keycard"
-              },
+              "item": "Tenements (MAP17) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -7191,10 +6552,7 @@
             "connected_region": "Tenements (MAP17) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tenements (MAP17) - Yellow skull key"
-              },
+              "item": "Tenements (MAP17) - Yellow skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -7206,10 +6564,7 @@
             "connected_region": "Tenements (MAP17) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tenements (MAP17) - Blue keycard"
-              },
+              "item": "Tenements (MAP17) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -7320,10 +6675,7 @@
             "connected_region": "The Courtyard (MAP18) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Courtyard (MAP18) - Yellow skull key"
-              },
+              "item": "The Courtyard (MAP18) - Yellow skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -7335,10 +6687,7 @@
             "connected_region": "The Courtyard (MAP18) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Courtyard (MAP18) - Blue skull key"
-              },
+              "item": "The Courtyard (MAP18) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -7581,10 +6930,7 @@
             "connected_region": "The Courtyard (MAP18) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Courtyard (MAP18) - Blue skull key"
-              },
+              "item": "The Courtyard (MAP18) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -7617,10 +6963,7 @@
             "connected_region": "The Courtyard (MAP18) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Courtyard (MAP18) - Yellow skull key"
-              },
+              "item": "The Courtyard (MAP18) - Yellow skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -7655,25 +6998,11 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "The Citadel (MAP19) - Red skull key"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                },
-                {
                   "type": "or",
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "The Citadel (MAP19) - Blue skull key"
-                      },
+                      "item": "The Citadel (MAP19) - Blue skull key",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -7681,16 +7010,21 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "The Citadel (MAP19) - Yellow skull key"
-                      },
+                      "item": "The Citadel (MAP19) - Yellow skull key",
                       "count": {
                         "type": "constant",
                         "value": 1
                       }
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "The Citadel (MAP19) - Red skull key",
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
                 }
               ]
             }
@@ -7919,25 +7253,11 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "The Citadel (MAP19) - Red skull key"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                },
-                {
                   "type": "or",
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "The Citadel (MAP19) - Yellow skull key"
-                      },
+                      "item": "The Citadel (MAP19) - Blue skull key",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -7945,16 +7265,21 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "The Citadel (MAP19) - Blue skull key"
-                      },
+                      "item": "The Citadel (MAP19) - Yellow skull key",
                       "count": {
                         "type": "constant",
                         "value": 1
                       }
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "The Citadel (MAP19) - Red skull key",
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
                 }
               ]
             }
@@ -8207,10 +7532,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Super Shotgun"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -8218,10 +7540,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Nirvana (MAP21) - Yellow skull key",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -8229,10 +7548,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Nirvana (MAP21) - Yellow skull key"
-                      },
+                      "item": "Super Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -8245,10 +7561,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -8256,10 +7569,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -8338,10 +7648,7 @@
             "connected_region": "Nirvana (MAP21) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Nirvana (MAP21) - Yellow skull key"
-              },
+              "item": "Nirvana (MAP21) - Yellow skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -8356,10 +7663,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Nirvana (MAP21) - Red skull key"
-                  },
+                  "item": "Nirvana (MAP21) - Blue skull key",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -8367,10 +7671,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Nirvana (MAP21) - Blue skull key"
-                  },
+                  "item": "Nirvana (MAP21) - Red skull key",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -8473,10 +7774,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Super Shotgun"
-                  },
+                  "item": "Plasma gun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -8484,10 +7782,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Plasma gun"
-                  },
+                  "item": "Super Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -8522,10 +7817,7 @@
             "connected_region": "Nirvana (MAP21) Magenta",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Nirvana (MAP21) - Red skull key"
-              },
+              "item": "Nirvana (MAP21) - Red skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -8543,10 +7835,7 @@
             "connected_region": "The Catacombs (MAP22) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Catacombs (MAP22) - Blue skull key"
-              },
+              "item": "The Catacombs (MAP22) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -8558,10 +7847,7 @@
             "connected_region": "The Catacombs (MAP22) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Catacombs (MAP22) - Red skull key"
-              },
+              "item": "The Catacombs (MAP22) - Red skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -8659,10 +7945,7 @@
             "connected_region": "The Catacombs (MAP22) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Catacombs (MAP22) - Red skull key"
-              },
+              "item": "The Catacombs (MAP22) - Red skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -8701,10 +7984,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -8712,10 +7992,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -8723,10 +8000,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Super Shotgun"
-                      },
+                      "item": "Super Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -8739,10 +8013,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -8750,10 +8021,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -8761,10 +8029,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -8843,10 +8108,7 @@
             "connected_region": "Barrels o' Fun (MAP23) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Barrels o' Fun (MAP23) - Yellow skull key"
-              },
+              "item": "Barrels o' Fun (MAP23) - Yellow skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -9019,10 +8281,7 @@
             "connected_region": "Barrels o' Fun (MAP23) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Barrels o' Fun (MAP23) - Yellow skull key"
-              },
+              "item": "Barrels o' Fun (MAP23) - Yellow skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -9055,10 +8314,7 @@
             "connected_region": "The Chasm (MAP24) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Chasm (MAP24) - Blue keycard"
-              },
+              "item": "The Chasm (MAP24) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -9175,10 +8431,7 @@
             "connected_region": "The Chasm (MAP24) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Chasm (MAP24) - Red keycard"
-              },
+              "item": "The Chasm (MAP24) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -9211,10 +8464,7 @@
             "connected_region": "The Chasm (MAP24) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Chasm (MAP24) - Red keycard"
-              },
+              "item": "The Chasm (MAP24) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -9363,25 +8613,11 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Bloodfalls (MAP25) - Blue skull key"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                },
-                {
                   "type": "or",
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -9389,10 +8625,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -9400,16 +8633,21 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
                       }
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Bloodfalls (MAP25) - Blue skull key",
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
                 }
               ]
             }
@@ -9546,10 +8784,7 @@
             "connected_region": "Bloodfalls (MAP25) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Bloodfalls (MAP25) - Blue skull key"
-              },
+              "item": "Bloodfalls (MAP25) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -9613,10 +8848,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Super Shotgun"
-                  },
+                  "item": "Chaingun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -9624,10 +8856,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chaingun"
-                  },
+                  "item": "Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -9635,10 +8864,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Shotgun"
-                  },
+                  "item": "Super Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -9673,10 +8899,7 @@
             "connected_region": "The Abandoned Mines (MAP26) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Abandoned Mines (MAP26) - Yellow keycard"
-              },
+              "item": "The Abandoned Mines (MAP26) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -9688,10 +8911,7 @@
             "connected_region": "The Abandoned Mines (MAP26) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Abandoned Mines (MAP26) - Red keycard"
-              },
+              "item": "The Abandoned Mines (MAP26) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -9703,10 +8923,7 @@
             "connected_region": "The Abandoned Mines (MAP26) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Abandoned Mines (MAP26) - Blue keycard"
-              },
+              "item": "The Abandoned Mines (MAP26) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -9837,10 +9054,7 @@
             "connected_region": "The Abandoned Mines (MAP26) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Abandoned Mines (MAP26) - Blue keycard"
-              },
+              "item": "The Abandoned Mines (MAP26) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -9873,10 +9087,7 @@
             "connected_region": "The Abandoned Mines (MAP26) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Abandoned Mines (MAP26) - Yellow keycard"
-              },
+              "item": "The Abandoned Mines (MAP26) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -9966,10 +9177,7 @@
             "connected_region": "Monster Condo (MAP27) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Monster Condo (MAP27) - Yellow skull key"
-              },
+              "item": "Monster Condo (MAP27) - Yellow skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -9981,10 +9189,7 @@
             "connected_region": "Monster Condo (MAP27) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Monster Condo (MAP27) - Red skull key"
-              },
+              "item": "Monster Condo (MAP27) - Red skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -9996,10 +9201,7 @@
             "connected_region": "Monster Condo (MAP27) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Monster Condo (MAP27) - Blue skull key"
-              },
+              "item": "Monster Condo (MAP27) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -10468,10 +9670,7 @@
             "connected_region": "Monster Condo (MAP27) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Monster Condo (MAP27) - Red skull key"
-              },
+              "item": "Monster Condo (MAP27) - Red skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -10504,10 +9703,7 @@
             "connected_region": "The Spirit World (MAP28) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Spirit World (MAP28) - Yellow skull key"
-              },
+              "item": "The Spirit World (MAP28) - Yellow skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -10519,10 +9715,7 @@
             "connected_region": "The Spirit World (MAP28) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Spirit World (MAP28) - Red skull key"
-              },
+              "item": "The Spirit World (MAP28) - Red skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -10835,10 +10028,7 @@
             "connected_region": "The Spirit World (MAP28) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Spirit World (MAP28) - Yellow skull key"
-              },
+              "item": "The Spirit World (MAP28) - Yellow skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -10871,10 +10061,7 @@
             "connected_region": "The Spirit World (MAP28) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "The Spirit World (MAP28) - Red skull key"
-              },
+              "item": "The Spirit World (MAP28) - Red skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -11225,10 +10412,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Shotgun"
-                  },
+                  "item": "BFG9000",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -11236,10 +10420,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Rocket launcher"
-                  },
+                  "item": "Chaingun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -11247,10 +10428,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Plasma gun"
-                  },
+                  "item": "Plasma gun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -11258,10 +10436,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chaingun"
-                  },
+                  "item": "Rocket launcher",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -11269,10 +10444,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "BFG9000"
-                  },
+                  "item": "Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -11280,10 +10452,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Super Shotgun"
-                  },
+                  "item": "Super Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -14086,7 +13255,8 @@
   "settings": {
     "1": {
       "game": "DOOM II",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
     }
   },
   "game_info": {

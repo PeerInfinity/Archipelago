@@ -42,7 +42,7 @@ This directory contains automation scripts for testing, building, and managing t
   # Retest failed templates
   python scripts/test/test-all-templates.py --retest
 
-  # Multiplayer tests
+  # Multiclient tests
   python scripts/test/test-all-templates.py --multiplayer
 
   # Multiworld tests
@@ -207,7 +207,7 @@ Each directory contains:
    python scripts/setup/update_host_settings.py full-spoilers
    python scripts/test/test-all-templates.py
 
-   # Multiplayer test
+   # Multiclient test
    python scripts/test/test-all-templates.py --multiplayer
    ```
 
@@ -237,7 +237,7 @@ Test templates in multiworld configurations:
 python scripts/test/test-all-templates.py                    # Spoiler minimal
 python scripts/setup/update_host_settings.py full-spoilers
 python scripts/test/test-all-templates.py                    # Spoiler full
-python scripts/test/test-all-templates.py --multiplayer      # Multiplayer
+python scripts/test/test-all-templates.py --multiplayer      # Multiclient
 
 # Then run multiworld tests
 python scripts/test/test-all-templates.py --multiworld
@@ -376,7 +376,7 @@ scripts/
 │   ├── test-seed-range.js       # Seed range testing
 │   ├── test-health-check.js     # Environment validation
 │   ├── analyze-test-results.js  # Test report generation
-│   └── run_multiplayer_test.py  # Multiplayer integration tests
+│   └── run_multiplayer_test.py  # Multiclient integration tests
 │
 ├── setup/                        # Setup and configuration
 │   ├── setup_dev_environment.py # Dev environment setup

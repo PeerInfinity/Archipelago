@@ -1,3 +1,5 @@
+import { PlayerIdUtils } from '../../shared/playerIdUtils.js';
+
 /**
  * StateManager Reachability Engine Module
  *
@@ -68,8 +70,10 @@ export function buildIndirectConnections(sm) {
   for (const region of sm.regions.values()) {
     if (!region.exits) continue;
     region.exits.forEach((exit) => {
-      if (exit.rule) {
-        const dependencies = findRegionDependencies(sm, exit.rule);
+      // Check for access_rule (JSON format) or rule (legacy format)
+      const rule = exit.access_rule || exit.rule;
+      if (rule) {
+        const dependencies = findRegionDependencies(sm, rule);
         dependencies.forEach((depRegionName) => {
           if (!sm.indirectConnections.has(depRegionName)) {
             sm.indirectConnections.set(depRegionName, new Set());
@@ -122,12 +126,40 @@ export function findRegionDependencies(sm, rule) {
         dependencies.add(dep)
       );
     });
-  } else if (typeof rule === 'object') {
-    // Recursively process object rules
-    Object.values(rule).forEach((subRule) => {
-      findRegionDependencies(sm, subRule).forEach((dep) =>
-        dependencies.add(dep)
-      );
+  } else if (typeof rule === 'object' && rule !== null) {
+    // Special handling for state_method with can_reach
+    if (rule.type === 'state_method' &&
+        (rule.method === 'can_reach' || rule.method === 'can_reach_region') &&
+        rule.args && Array.isArray(rule.args) && rule.args.length > 0) {
+      // Extract region name from first argument
+      const firstArg = rule.args[0];
+      if (firstArg && typeof firstArg === 'object' && firstArg.type === 'constant') {
+        const regionName = firstArg.value;
+        if (regionName && sm.regions && sm.regions.has(regionName)) {
+          dependencies.add(regionName);
+        }
+      }
+      // Don't recursively process args - we handled them above
+      return dependencies;
+    }
+
+    // Also check conditions array for 'and' and 'or' types
+    if (rule.conditions && Array.isArray(rule.conditions)) {
+      rule.conditions.forEach((cond) => {
+        findRegionDependencies(sm, cond).forEach((dep) =>
+          dependencies.add(dep)
+        );
+      });
+    }
+
+    // Recursively process object rules (for other nested structures)
+    // Skip conditions (already processed above) and args (handled by state_method)
+    Object.entries(rule).forEach(([key, subRule]) => {
+      if (key !== 'conditions' && key !== 'args') {
+        findRegionDependencies(sm, subRule).forEach((dep) =>
+          dependencies.add(dep)
+        );
+      }
     });
   }
 
@@ -233,8 +265,11 @@ export function computeReachableRegions(sm) {
         for (const loc of sm.eventLocations.values()) {
           if (sm.knownReachableRegions.has(loc.region)) {
             const canAccessLoc = isLocationAccessible(sm, loc);
-            // Check if location hasn't been checked yet AND item isn't already collected
-            if (canAccessLoc && !sm.checkedLocations.has(loc.name) && !sm._hasItem(loc.item.name)) {
+            // Check if location hasn't been checked yet
+            // NOTE: We only check if the location has been checked, not if we have the item
+            // This allows multiple event locations to give the same item (e.g., BRC's chapter completions,
+            // KDL3's 6 "Stage Completion" items, Overcooked! 2's Star events)
+            if (canAccessLoc && !sm.checkedLocations.has(loc.name)) {
               sm._addItemToInventory(loc.item.name, 1);
               sm.checkedLocations.add(loc.name);
               newEventCollected = true;
@@ -252,6 +287,25 @@ export function computeReachableRegions(sm) {
                     `[ReachabilityEngine] Processed event item: ${loc.item.name}`
                   );
                 }
+              }
+            }
+          }
+        }
+
+        // Auto-collect local item locations (id: null, non-events like DLCQuest coins)
+        // These are items that are automatically collected when their region is accessible
+        if (sm.localItemLocations) {
+          for (const loc of sm.localItemLocations.values()) {
+            if (sm.knownReachableRegions.has(loc.region)) {
+              const canAccessLoc = isLocationAccessible(sm, loc);
+              if (canAccessLoc && !sm.checkedLocations.has(loc.name)) {
+                sm._addItemToInventory(loc.item.name, 1);
+                sm.checkedLocations.add(loc.name);
+                newEventCollected = true;
+                continueSearching = true;
+                sm._logDebug(
+                  `[ReachabilityEngine] Auto-collected local item: ${loc.item.name} from ${loc.name}`
+                );
               }
             }
           }
@@ -345,7 +399,21 @@ export function runBFSPass(sm) {
         )
         : true; // No rule means true
 
-      const canTraverse = !exit.access_rule || ruleEvaluationResult;
+      // Handle SMBool results from SM helper functions (exit rules don't use evalSMBool wrapper)
+      // SMBool format: { bool: boolean, difficulty: number }
+      // Check difficulty against maxDiff (default 50 for hardcore)
+      let canTraverse;
+      if (!exit.access_rule) {
+        canTraverse = true;
+      } else if (ruleEvaluationResult && typeof ruleEvaluationResult === 'object' &&
+                 'bool' in ruleEvaluationResult && 'difficulty' in ruleEvaluationResult) {
+        // SMBool result - check difficulty against maxDiff
+        // Get maxDiff from gameStateModule (SM uses state.smbm[player].maxDiff)
+        const maxDiff = sm.gameStateModule?.smbm?.[sm.playerId]?.maxDiff ?? 50;
+        canTraverse = ruleEvaluationResult.bool && ruleEvaluationResult.difficulty <= maxDiff;
+      } else {
+        canTraverse = Boolean(ruleEvaluationResult);
+      }
 
       if (canTraverse) {
         // Region is now reachable
@@ -407,6 +475,7 @@ export function runBFSPass(sm) {
           // Use the indirect connections structure which maps region -> set of EXIT NAMES
           const affectedExitNames =
             sm.indirectConnections.get(targetRegion);
+
           affectedExitNames.forEach((exitName) => {
             // Find the actual connection object in blockedConnections using the exit name
             for (const blockedConn of sm.blockedConnections) {
@@ -474,7 +543,11 @@ export function getStartRegions(sm) {
  * @returns {boolean} Whether the region is reachable
  */
 export function isRegionReachable(sm, regionName) {
-  const reachableRegions = computeReachableRegions(sm);
+  // Recursion protection: if we're already computing reachable regions,
+  // use the current state instead of triggering another computation
+  const reachableRegions = sm._computing
+    ? sm.knownReachableRegions
+    : computeReachableRegions(sm);
   return reachableRegions.has(regionName);
 }
 
@@ -501,7 +574,20 @@ export function isLocationAccessible(sm, location) {
   if (!reachableRegions.has(location.region)) {
     return false;
   }
-  if (!location.access_rule) return true;
+  if (!location.access_rule) {
+    // Event locations with no access rule are only accessible if you don't already have the event item
+    // This matches Python's behavior where event items can only be collected once
+    if (location.item && location.item.event && location.item.name) {
+      // Check if we already have this event item
+      const itemCount = sm.inventory && sm.inventory[location.item.name];
+      if (itemCount && itemCount > 0) {
+        // Already have this event, location is not accessible (can't collect again)
+        return false;
+      }
+    }
+    // No access rule means accessible (for non-event locations or events we don't have yet)
+    return true;
+  }
 
   // Use the *injected* evaluateRule engine
   try {
@@ -616,34 +702,35 @@ export function getAllPaths(sm) {
  * @param {Object} sm - StateManager instance
  * @param {string} target - Name of the region/location/entrance
  * @param {string} type - Type: 'Region', 'Location', or 'Entrance'
- * @param {number} player - Player number (must match sm.playerSlot)
+ * @param {string|number|null} playerId - Player ID (defaults to sm.playerId if null)
  * @returns {boolean} True if target can be reached
  */
-export function can_reach(sm, target, type = 'Region', player = 1) {
-  // The context-aware state manager handles position-specific constraints correctly
-  if (player !== sm.playerSlot) {
-    sm._logDebug(`[ReachabilityEngine] can_reach check for wrong player (${player})`);
-    return false;
+export function can_reach(sm, target, type = 'Region', playerId = null) {
+  // Normalize player ID for comparison
+  const requestedPlayerId = PlayerIdUtils.normalize(playerId || sm.playerId);
+  const currentPlayerId = PlayerIdUtils.normalize(sm.playerId);
+
+  // Log warning if checking for different player, but continue with reachability check
+  // (Option 4 from investigation: warn but continue instead of failing)
+  if (requestedPlayerId !== currentPlayerId) {
+    sm._logDebug(`[ReachabilityEngine] can_reach check for different player (requested: ${requestedPlayerId}, current: ${currentPlayerId}) - continuing with current player's reachability`);
   }
 
   if (type === 'Region') {
     return isRegionReachable(sm, target);
   } else if (type === 'Location') {
     // Find the location object
-    // TODO PHASE 3: When locations becomes Map, use: sm.locations.get(target)
     const location = sm.locations.get(target);
     return location && isLocationAccessible(sm, location);
   } else if (type === 'Entrance') {
     // Find the entrance across all regions
-    // TODO PHASE 3: When regions becomes Map, use: for (const [regionName, regionData] of sm.regions.entries())
     for (const [regionName, regionData] of sm.regions.entries()) {
-      
+
       if (regionData.exits) {
         const exit = regionData.exits.find((e) => e.name === target);
         if (exit) {
           const snapshotInterface = sm._createSelfSnapshotInterface();
           // Set parent_region context for exit evaluation - needs to be the region object, not just the name
-          // TODO PHASE 3: When regions becomes Map, use: sm.regions.get(regionName)
           snapshotInterface.parent_region = regionData;
           // Set currentExit so get_entrance can detect self-references
           snapshotInterface.currentExit = exit.name;
@@ -669,9 +756,21 @@ export function can_reach(sm, target, type = 'Region', player = 1) {
  *
  * @param {Object} sm - StateManager instance
  * @param {string} region - Region name to check
- * @param {number} player - Player number (defaults to sm.playerSlot)
+ * @param {string|number|null} playerId - Player ID (defaults to sm.playerId if null)
  * @returns {boolean} True if region is reachable
  */
-export function can_reach_region(sm, region, player = null) {
-  return can_reach(sm, region, 'Region', player || sm.playerSlot);
+export function can_reach_region(sm, region, playerId = null) {
+  return can_reach(sm, region, 'Region', playerId || sm.playerId);
+}
+
+/**
+ * Check if a location can be reached (Python CollectionState.can_reach_location equivalent)
+ *
+ * @param {Object} sm - StateManager instance
+ * @param {string} location - Location name to check
+ * @param {string|number|null} playerId - Player ID (defaults to sm.playerId if null)
+ * @returns {boolean} True if location is reachable
+ */
+export function can_reach_location(sm, location, playerId = null) {
+  return can_reach(sm, location, 'Location', playerId || sm.playerId);
 }

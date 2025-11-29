@@ -24,6 +24,234 @@ def clear_rule_cache():
     """Clear the rule analysis cache. Call between generations."""
     _rule_analysis_cache.clear()
 
+def resolve_attribute_nodes_in_rule(rule: Dict[str, Any], world) -> Dict[str, Any]:
+    """
+    Recursively resolve attribute nodes in a rule structure to their actual values.
+    This is needed for item_check rules, helper arguments, and world option references.
+
+    Args:
+        rule: The rule dictionary to process
+        world: The world object to resolve attributes from
+
+    Returns:
+        The rule with resolved attributes
+    """
+    if not rule or not isinstance(rule, dict):
+        return rule
+
+    # Helper function to resolve a single attribute node (including nested chains)
+    def resolve_attribute(attr_node):
+        if not isinstance(attr_node, dict) or attr_node.get('type') != 'attribute':
+            return attr_node
+
+        # Recursively resolve the object part first (handles nested attributes)
+        obj_node = attr_node.get('object')
+        attr_name = attr_node.get('attr')
+
+        if not attr_name:
+            return attr_node
+
+        try:
+            # If the object is a name (e.g., 'world'), resolve it first
+            if isinstance(obj_node, dict) and obj_node.get('type') == 'name':
+                obj_name = obj_node.get('name')
+                if obj_name == 'world':
+                    # Start with world object
+                    obj = world
+                elif hasattr(world, obj_name):
+                    obj = getattr(world, obj_name)
+                elif hasattr(world, '__class__') and hasattr(world.__class__, '__module__'):
+                    # Import the world's module and look for the object there
+                    import sys
+                    world_module = sys.modules.get(world.__class__.__module__)
+                    if world_module and hasattr(world_module, obj_name):
+                        obj = getattr(world_module, obj_name)
+                    else:
+                        return attr_node
+                else:
+                    return attr_node
+            # If the object is itself an attribute (e.g., world.options), resolve it recursively
+            elif isinstance(obj_node, dict) and obj_node.get('type') == 'attribute':
+                resolved_obj_node = resolve_attribute(obj_node)
+                # If we successfully resolved to a constant, use that value as the object
+                if resolved_obj_node.get('type') == 'constant':
+                    obj = resolved_obj_node.get('value')
+                else:
+                    return attr_node
+            else:
+                return attr_node
+
+            # Now get the attribute from the resolved object
+            if obj is not None:
+                resolved_value = getattr(obj, attr_name)
+                # Resolve any basic types (str, int, bool, float)
+                if isinstance(resolved_value, (str, int, bool, float, type(None))):
+                    logger.debug(f"Resolved attribute chain to value: {resolved_value}")
+                    return {'type': 'constant', 'value': resolved_value}
+                # If it's another object (like world.options), keep it as a value for further resolution
+                else:
+                    logger.debug(f"Resolved attribute {attr_name} to object: {type(resolved_value)}")
+                    return {'type': 'constant', 'value': resolved_value}
+        except (AttributeError, KeyError, TypeError) as e:
+            logger.debug(f"Could not resolve attribute {attr_name}: {e}")
+
+        return attr_node
+
+    # Helper function to resolve subscript nodes
+    def resolve_subscript(subscript_node):
+        if not isinstance(subscript_node, dict) or subscript_node.get('type') != 'subscript':
+            return subscript_node
+
+        value_node = subscript_node.get('value')
+        index_node = subscript_node.get('index')
+
+        if not value_node or not index_node:
+            return subscript_node
+
+        try:
+            # First resolve the value (the object being subscripted)
+            resolved_value = resolve_attribute_nodes_in_rule(value_node, world)
+
+            # Then resolve the index
+            resolved_index = resolve_attribute_nodes_in_rule(index_node, world)
+
+            # If both resolved to constants, perform the subscript operation
+            if (resolved_value.get('type') == 'constant' and
+                resolved_index.get('type') == 'constant'):
+                obj = resolved_value.get('value')
+                idx = resolved_index.get('value')
+
+                if obj is not None and idx is not None:
+                    try:
+                        # Try direct subscript first
+                        result = obj[idx]
+                    except (KeyError, TypeError):
+                        # If that fails and obj is a dict, try to match Enum keys by their .value
+                        if isinstance(obj, dict):
+                            result = None
+                            for key, value in obj.items():
+                                # Check if the key is an Enum and its value matches idx
+                                if hasattr(key, 'value') and key.value == idx:
+                                    result = value
+                                    break
+                            if result is None:
+                                logger.debug(f"Could not find key {idx} in dict with keys: {list(obj.keys())}")
+                                return subscript_node
+                        else:
+                            logger.debug(f"Could not resolve subscript: {idx}")
+                            return subscript_node
+                    except (IndexError, Exception) as e:
+                        logger.debug(f"Could not resolve subscript: {e}")
+                        return subscript_node
+
+                    # Convert result to proper JSON-serializable format
+                    try:
+                        if isinstance(result, dict):
+                            logger.debug(f"Resolved subscript to dict: {result}")
+                            return {'type': 'constant', 'value': dict(result)}
+                        elif isinstance(result, (list, tuple)):
+                            logger.debug(f"Resolved subscript to list: {result}")
+                            return {'type': 'constant', 'value': list(result)}
+                        elif isinstance(result, (str, int, bool, float, type(None))):
+                            logger.debug(f"Resolved subscript to value: {result}")
+                            return {'type': 'constant', 'value': result}
+                        else:
+                            logger.debug(f"Resolved subscript to object: {type(result)}")
+                            return {'type': 'constant', 'value': result}
+                    except Exception as e:
+                        logger.debug(f"Could not convert result to JSON: {e}")
+                        return subscript_node
+        except Exception as e:
+            logger.debug(f"Error resolving subscript: {e}")
+
+        return subscript_node
+
+    # If the rule itself is an attribute node, try to resolve it
+    if rule.get('type') == 'attribute':
+        return resolve_attribute(rule)
+
+    # If the rule itself is a subscript node, try to resolve it
+    if rule.get('type') == 'subscript':
+        resolved = resolve_subscript(rule)
+        # If we resolved to a constant containing a dict/list, this might need
+        # further transformation for state_method calls
+        return resolved
+
+    # Process state_method rules with complex arguments
+    if rule.get('type') == 'state_method':
+        method = rule.get('method')
+        args = rule.get('args', [])
+
+        # Resolve args recursively first
+        if args:
+            resolved_args = [resolve_attribute_nodes_in_rule(arg, world) if isinstance(arg, dict) else arg for arg in args]
+            rule['args'] = resolved_args
+
+            # For has_all_counts and has_all, if the first arg is now a constant (dict/list),
+            # inline it into the rule structure
+            if method == 'has_all_counts' and len(resolved_args) > 0:
+                first_arg = resolved_args[0]
+                if first_arg.get('type') == 'constant' and isinstance(first_arg.get('value'), dict):
+                    # Transform to inline items dict
+                    rule['args'] = [{'type': 'constant', 'value': dict(first_arg['value'])}]
+
+            elif method == 'has_all' and len(resolved_args) > 0:
+                first_arg = resolved_args[0]
+                if first_arg.get('type') == 'constant' and isinstance(first_arg.get('value'), (list, tuple)):
+                    # Transform to inline items list
+                    rule['args'] = [{'type': 'constant', 'value': list(first_arg['value'])}]
+
+    # Process item_check rules
+    if rule.get('type') == 'item_check':
+        item = rule.get('item')
+        if isinstance(item, dict):
+            rule['item'] = resolve_attribute_nodes_in_rule(item, world)
+
+    # Process helper rules and their arguments
+    if rule.get('type') == 'helper':
+        args = rule.get('args', [])
+        if args:
+            rule['args'] = [resolve_attribute_nodes_in_rule(arg, world) if isinstance(arg, dict) else arg for arg in args]
+
+    # Recursively process nested rules
+    if rule.get('type') in ['and', 'or']:
+        rule['conditions'] = [resolve_attribute_nodes_in_rule(cond, world) for cond in rule.get('conditions', [])]
+
+    if rule.get('type') == 'not':
+        rule['condition'] = resolve_attribute_nodes_in_rule(rule.get('condition'), world)
+
+    if rule.get('type') == 'conditional':
+        rule['test'] = resolve_attribute_nodes_in_rule(rule.get('test'), world)
+        if rule.get('if_true') is not None:
+            rule['if_true'] = resolve_attribute_nodes_in_rule(rule.get('if_true'), world)
+        if rule.get('if_false') is not None:
+            rule['if_false'] = resolve_attribute_nodes_in_rule(rule.get('if_false'), world)
+
+        # Eliminate constant conditionals after resolving attributes
+        test = rule.get('test')
+        if test and test.get('type') == 'constant':
+            test_value = test.get('value')
+            if test_value:  # Truthy - return if_true branch
+                return rule.get('if_true')
+            else:  # Falsy - return if_false branch
+                return rule.get('if_false')
+
+    # Process compare rules
+    if rule.get('type') == 'compare':
+        if rule.get('left'):
+            rule['left'] = resolve_attribute_nodes_in_rule(rule['left'], world)
+        if rule.get('right'):
+            rule['right'] = resolve_attribute_nodes_in_rule(rule['right'], world)
+
+    # Process binary_op rules
+    if rule.get('type') == 'binary_op':
+        if rule.get('left'):
+            rule['left'] = resolve_attribute_nodes_in_rule(rule['left'], world)
+        if rule.get('right'):
+            rule['right'] = resolve_attribute_nodes_in_rule(rule['right'], world)
+
+    return rule
+
 @lru_cache(maxsize=128)
 def get_world_directory_name(game_name: str) -> str:
     """
@@ -62,39 +290,123 @@ def get_world_directory_name(game_name: str) -> str:
                 import re
                 pattern = r'game:\s*ClassVar\[str\]\s*=\s*"([^"]*)"'
                 match = re.search(pattern, content)
-                
+
                 if match:
                     found_game_name = match.group(1)
                     if found_game_name == game_name:
                         return world_dir_name
-                
+
                 # Fallback pattern for single quotes
                 pattern = r'game:\s*ClassVar\[str\]\s*=\s*\'([^\']*)\''
                 match = re.search(pattern, content)
-                
+
                 if match:
                     found_game_name = match.group(1)
                     if found_game_name == game_name:
                         return world_dir_name
-                
+
+                # Pattern for type-annotated declarations: game: str = "Game Name"
+                # This matches ClassVar[str], str, or any other type annotation
+                pattern = r'game:\s*[A-Za-z_]\w*(?:\[[^\]]*\])?\s*=\s*"([^"]*)"'
+                match = re.search(pattern, content)
+
+                if match:
+                    found_game_name = match.group(1)
+                    if found_game_name == game_name:
+                        return world_dir_name
+
+                # Fallback pattern for single quotes with type annotations
+                pattern = r'game:\s*[A-Za-z_]\w*(?:\[[^\]]*\])?\s*=\s*\'([^\']*)\''
+                match = re.search(pattern, content)
+
+                if match:
+                    found_game_name = match.group(1)
+                    if found_game_name == game_name:
+                        return world_dir_name
+
                 # Fallback: look for simpler pattern: game = "Game Name"
                 pattern = r'game\s*=\s*"([^"]*)"'
                 match = re.search(pattern, content)
-                
+
                 if match:
                     found_game_name = match.group(1)
                     if found_game_name == game_name:
                         return world_dir_name
-                
+
                 # Fallback pattern for single quotes
                 pattern = r'game\s*=\s*\'([^\']*)\''
                 match = re.search(pattern, content)
-                
+
                 if match:
                     found_game_name = match.group(1)
                     if found_game_name == game_name:
                         return world_dir_name
-                        
+
+                # NEW: Handle case where game = CONSTANT_NAME (e.g., game = LINKS_AWAKENING or game = jak1_name)
+                # First, look for game = <identifier> (not a string)
+                # Match both uppercase constants and lowercase identifiers
+                pattern = r'game\s*=\s*([A-Za-z_][A-Za-z0-9_]*)\s*(?:#|$)'
+                match = re.search(pattern, content, re.MULTILINE)
+
+                if match:
+                    constant_name = match.group(1)
+
+                    # Try to find the constant definition in the same file
+                    const_pattern = rf'{constant_name}\s*=\s*"([^"]*)"'
+                    const_match = re.search(const_pattern, content)
+
+                    if const_match:
+                        found_game_name = const_match.group(1)
+                        if found_game_name == game_name:
+                            return world_dir_name
+
+                    # Try to find the constant in imported modules within the same world directory
+                    # Look for: from .ModuleName import CONSTANT_NAME, from .ModuleName import *, or from . import ModuleName
+                    # Pattern 1: Specific import - from .ModuleName import CONSTANT_NAME
+                    import_pattern = rf'from\s+\.(\w+)\s+import.*\b{constant_name}\b'
+                    import_match = re.search(import_pattern, content)
+
+                    if import_match:
+                        module_name = import_match.group(1)
+                        module_file = os.path.join(world_path, f'{module_name}.py')
+
+                        if os.path.exists(module_file):
+                            try:
+                                with open(module_file, 'r', encoding='utf-8') as mf:
+                                    module_content = mf.read()
+                                    const_pattern = rf'{constant_name}\s*=\s*"([^"]*)"'
+                                    const_match = re.search(const_pattern, module_content)
+
+                                    if const_match:
+                                        found_game_name = const_match.group(1)
+                                        if found_game_name == game_name:
+                                            return world_dir_name
+                            except (IOError, UnicodeDecodeError):
+                                pass
+
+                    # Pattern 2: Wildcard import - from .ModuleName import *
+                    # Find all wildcard imports and check each module
+                    wildcard_pattern = r'from\s+\.(\w+)\s+import\s+\*'
+                    wildcard_matches = re.finditer(wildcard_pattern, content)
+
+                    for wc_match in wildcard_matches:
+                        module_name = wc_match.group(1)
+                        module_file = os.path.join(world_path, f'{module_name}.py')
+
+                        if os.path.exists(module_file):
+                            try:
+                                with open(module_file, 'r', encoding='utf-8') as mf:
+                                    module_content = mf.read()
+                                    const_pattern = rf'{constant_name}\s*=\s*"([^"]*)"'
+                                    const_match = re.search(const_pattern, module_content)
+
+                                    if const_match:
+                                        found_game_name = const_match.group(1)
+                                        if found_game_name == game_name:
+                                            return world_dir_name
+                            except (IOError, UnicodeDecodeError):
+                                pass
+
             except (IOError, UnicodeDecodeError):
                 continue
         
@@ -134,13 +446,25 @@ def make_serializable(obj):
     # Handle basic types directly
     if obj is None or isinstance(obj, (bool, int, float, str)):
         return obj
-    
+
+    # Handle callable objects (functions, lambdas, methods) before other checks
+    # These should not be serialized with memory addresses as that causes inconsistency
+    if callable(obj):
+        # Get a consistent representation that doesn't include memory addresses
+        obj_str = str(obj)
+        # Remove memory address portion (e.g., "at 0x7ea5d7e49ee0")
+        if ' at 0x' in obj_str:
+            # Split on ' at 0x' and take everything before it, then add the closing '>'
+            base_repr = obj_str.rsplit(' at 0x', 1)[0]
+            return base_repr + '>'
+        return obj_str
+
     # Handle dictionaries
     if isinstance(obj, dict):
         serialized_dict = {str(k): make_serializable(v) for k, v in obj.items()}
-        
+
         return serialized_dict
-    
+
     # Handle lists, tuples, sets, and frozensets
     if isinstance(obj, (list, tuple, set, frozenset)):
         result = [make_serializable(i) for i in obj]
@@ -148,20 +472,20 @@ def make_serializable(obj):
         if isinstance(obj, (set, frozenset)):
             return sorted(result)
         return result
-    
+
     # Handle objects with __dict__ attribute (custom classes)
     if hasattr(obj, '__dict__'):
         # First check for value attribute (common in enums)
         if hasattr(obj, 'value'):
             return make_serializable(obj.value)
-        
+
         # Try to extract value from string representation like "Type(Value)"
         str_rep = str(obj)
         if '(' in str_rep and ')' in str_rep:
             try:
                 # Extract value inside parentheses
                 extracted = str_rep.split('(', 1)[1].split(')', 1)[0]
-                
+
                 # Try to convert to appropriate type
                 if extracted.lower() in ('yes', 'no', 'true', 'false'):
                     return extracted.lower() == 'yes' or extracted.lower() == 'true'
@@ -172,15 +496,107 @@ def make_serializable(obj):
             except Exception as e:
                 # If extraction fails, log and use string representation
                 return str_rep
-        
+
         # If no special handling applies, use string representation
         return str_rep
-    
+
     # If all else fails, convert to string
     if not is_serializable(obj):
         return str(obj)
-    
+
     return obj
+
+
+def sort_rule_for_consistency(rule):
+    """
+    Recursively sort rule structures for consistent JSON output.
+
+    This function sorts:
+    - 'and'/'or' conditions lists by item names
+    - Dictionary values in 'has_all_counts' and 'has_all' args (for consistent key ordering)
+    - Normalizes lambda function strings to remove memory addresses
+
+    Args:
+        rule: The rule structure to sort
+
+    Returns:
+        The sorted rule structure
+    """
+    if rule is None or isinstance(rule, (bool, int, float)):
+        return rule
+
+    # Normalize lambda function strings by removing memory addresses
+    if isinstance(rule, str):
+        import re
+        # Pattern: <function name at 0xABCD1234> -> <function name>
+        return re.sub(r'(<function .+?) at 0x[0-9a-f]+>', r'\1>', rule)
+
+    if isinstance(rule, dict):
+        # Recursively process all values
+        sorted_rule = {k: sort_rule_for_consistency(v) for k, v in rule.items()}
+
+        # Special handling for 'and'/'or' conditions
+        if sorted_rule.get('type') in ['and', 'or'] and 'conditions' in sorted_rule:
+            conditions = sorted_rule['conditions']
+            if isinstance(conditions, list) and conditions:
+                # Sort conditions by a stable key
+                # Use a tuple of (item value if present, method name, type, full dict as string) for stability
+                def condition_sort_key(cond):
+                    if not isinstance(cond, dict):
+                        return ('', '', str(cond), str(cond))
+
+                    # For item_check conditions, sort by the item value
+                    if cond.get('type') == 'item_check':
+                        item = cond.get('item')
+                        if isinstance(item, dict):
+                            # Handle nested item structures (e.g., {"type": "constant", "value": "..."})
+                            item_value = item.get('value', str(item))
+                        else:
+                            item_value = item
+                        return (str(item_value) if item_value is not None else '', '', 'item_check', str(cond))
+
+                    # For state_method conditions, sort by method name
+                    if cond.get('type') == 'state_method':
+                        method = cond.get('method', '')
+                        return ('', method, 'state_method', str(cond))
+
+                    # For other condition types, sort by type then full representation
+                    return ('', '', cond.get('type', ''), str(cond))
+
+                sorted_rule['conditions'] = sorted(conditions, key=condition_sort_key)
+
+        # Special handling for state_method calls with dict/list args that need sorting
+        if sorted_rule.get('type') == 'state_method':
+            method = sorted_rule.get('method')
+            args = sorted_rule.get('args', [])
+
+            # For has_all_counts, sort the dictionary keys in the argument
+            if method in ['has_all_counts', 'has_all'] and args:
+                sorted_args = []
+                for arg in args:
+                    if isinstance(arg, dict) and arg.get('type') == 'constant':
+                        value = arg.get('value')
+                        # If the value is a dict, sort its keys
+                        if isinstance(value, dict):
+                            sorted_value = {k: value[k] for k in sorted(value.keys())}
+                            sorted_args.append({'type': 'constant', 'value': sorted_value})
+                        # If the value is a list, sort it (for has_all)
+                        elif isinstance(value, list):
+                            sorted_value = sorted(value)
+                            sorted_args.append({'type': 'constant', 'value': sorted_value})
+                        else:
+                            sorted_args.append(arg)
+                    else:
+                        sorted_args.append(sort_rule_for_consistency(arg))
+                sorted_rule['args'] = sorted_args
+
+        return sorted_rule
+
+    if isinstance(rule, list):
+        # Recursively process list items (this will also normalize lambda strings in lists)
+        return [sort_rule_for_consistency(item) for item in rule]
+
+    return rule
 
 
 def write_field_by_field(export_data, filepath):
@@ -339,32 +755,37 @@ def prepare_export_data(multiworld) -> Dict[str, Any]:
 
         # Start regions
         try:
-            # Try to get Menu region first (common default)
-            default_start_region = 'Menu'
-            try:
-                menu_region = multiworld.get_region('Menu', player)
-            except Exception as e:
-                # Menu region doesn't exist, need to find actual starting region
-                logger.debug(f"Menu region not found for player {player}, looking for actual starting region")
-                menu_region = None
-                
-                # Find the actual starting region
-                player_regions = [
-                    region for region in multiworld.get_regions() 
-                    if region.player == player
-                ]
-                
-                # For single-region games, use that region as the starting region
-                if len(player_regions) == 1:
-                    default_start_region = player_regions[0].name
-                    logger.debug(f"Using single region '{default_start_region}' as starting region for player {player}")
-                else:
-                    # Look for regions with no entrances (typically starting regions)
-                    for region in player_regions:
-                        if not region.entrances:
-                            default_start_region = region.name
-                            logger.debug(f"Found region '{default_start_region}' with no entrances as starting region for player {player}")
-                            break
+            # First, check if the world has an origin_region_name attribute
+            default_start_region = 'Menu'  # Default fallback
+            if hasattr(world, 'origin_region_name') and world.origin_region_name:
+                default_start_region = world.origin_region_name
+                logger.debug(f"Using world.origin_region_name '{default_start_region}' as starting region for player {player}")
+            else:
+                # Try to get Menu region first (common default)
+                try:
+                    menu_region = multiworld.get_region('Menu', player)
+                except Exception as e:
+                    # Menu region doesn't exist, need to find actual starting region
+                    logger.debug(f"Menu region not found for player {player}, looking for actual starting region")
+                    menu_region = None
+
+                    # Find the actual starting region
+                    player_regions = [
+                        region for region in multiworld.get_regions()
+                        if region.player == player
+                    ]
+
+                    # For single-region games, use that region as the starting region
+                    if len(player_regions) == 1:
+                        default_start_region = player_regions[0].name
+                        logger.debug(f"Using single region '{default_start_region}' as starting region for player {player}")
+                    else:
+                        # Look for regions with no entrances (typically starting regions)
+                        for region in player_regions:
+                            if not region.entrances:
+                                default_start_region = region.name
+                                logger.debug(f"Found region '{default_start_region}' with no entrances as starting region for player {player}")
+                                break
 
             available_regions = []
             player_regions = [
@@ -485,10 +906,15 @@ def process_regions(multiworld, player: int, game_handler=None, location_name_to
             if cache_key in _rule_analysis_cache:
                 return _rule_analysis_cache[cache_key]
 
-            # Check if game handler has an override for rule analysis (e.g., Blasphemous)
+            # Check if game handler has an override for rule analysis (e.g., Blasphemous, Terraria)
             if game_handler and hasattr(game_handler, 'override_rule_analysis'):
                 override_result = game_handler.override_rule_analysis(rule_func, rule_target_name)
                 if override_result:
+                    # Check for Terraria's sentinel value for "always accessible"
+                    if isinstance(override_result, dict) and override_result.get('__terraria_handled__'):
+                        actual_result = override_result.get('__value__')
+                        _rule_analysis_cache[cache_key] = actual_result
+                        return actual_result
                     # Cache the override result before returning
                     _rule_analysis_cache[cache_key] = override_result
                     return override_result
@@ -522,8 +948,13 @@ def process_regions(multiworld, player: int, game_handler=None, location_name_to
             if world is not None:
                 closure_vars['world'] = world
 
+            # Allow game handler to prepare/modify closure_vars before analysis
+            if hasattr(game_handler, 'prepare_closure_vars'):
+                closure_vars = game_handler.prepare_closure_vars(rule_func, closure_vars)
+
             # Directly call analyze_rule, which handles recursion internally for combined rules
-            analysis_result = analyze_rule(rule_func=rule_func, closure_vars=closure_vars, game_handler=game_handler, player_context=player)
+            context_info = f"{target_type} '{rule_target_name or 'unknown'}'"
+            analysis_result = analyze_rule(rule_func=rule_func, closure_vars=closure_vars, game_handler=game_handler, player_context=player, context_info=context_info)
             
             if analysis_result and analysis_result.get('type') != 'error':
 
@@ -532,6 +963,10 @@ def process_regions(multiworld, player: int, game_handler=None, location_name_to
                     analysis_result = game_handler.apply_chapter_costs_to_rule(analysis_result, rule_target_name, world)
 
                 expanded = game_handler.expand_rule(analysis_result)
+
+                # Resolve any attribute nodes in item_check rules
+                if expanded:
+                    expanded = resolve_attribute_nodes_in_rule(expanded, world)
 
                 # Cache the result before returning
                 if expanded:
@@ -704,7 +1139,18 @@ def process_regions(multiworld, player: int, game_handler=None, location_name_to
 
                                 # Post-process the entrance rule if the game handler supports it
                                 if expanded_rule and game_handler and hasattr(game_handler, 'postprocess_entrance_rule'):
-                                    expanded_rule = game_handler.postprocess_entrance_rule(expanded_rule, entrance_name)
+                                    # Check if the handler supports the new signature with connected_region
+                                    import inspect
+                                    sig = inspect.signature(game_handler.postprocess_entrance_rule)
+                                    params = list(sig.parameters.keys())
+
+                                    if 'connected_region' in params:
+                                        # Use new signature with connected_region
+                                        connected_region_name = getattr(entrance.connected_region, 'name', None) if hasattr(entrance, 'connected_region') else None
+                                        expanded_rule = game_handler.postprocess_entrance_rule(expanded_rule, entrance_name, connected_region_name)
+                                    else:
+                                        # Use old signature
+                                        expanded_rule = game_handler.postprocess_entrance_rule(expanded_rule, entrance_name)
                                 # Also call general postprocess_rule if available
                                 elif expanded_rule and game_handler and hasattr(game_handler, 'postprocess_rule'):
                                     expanded_rule = game_handler.postprocess_rule(expanded_rule)
@@ -721,25 +1167,45 @@ def process_regions(multiworld, player: int, game_handler=None, location_name_to
 
                 # Process exits
                 if hasattr(region, 'exits'):
+                    # Set region context before processing exits (for handlers that need source region)
+                    region_name = getattr(region, 'name', 'Unknown')
+                    if hasattr(game_handler, 'set_context'):
+                        game_handler.set_context(region_name)
+
                     for exit in region.exits:
                         try:
                             expanded_rule = None
                             exit_name = getattr(exit, 'name', None)
+
+                            # Set exit context for game handlers that need it (e.g., SM for 'ret' variable resolution)
+                            if game_handler and hasattr(game_handler, 'set_exit_context'):
+                                game_handler.set_exit_context(exit_name)
+
                             if hasattr(exit, 'access_rule') and exit.access_rule:
-                                # Set context for game handlers that need it (e.g., metamath)
-                                if hasattr(game_handler, 'set_context'):
-                                    game_handler.set_context(exit_name)
+                                # Check if the game handler can provide an unwrapped version of the lambda
+                                # (e.g., SM unwraps Cache.ldeco decorators to avoid 'ret' variables)
+                                rule_to_analyze = exit.access_rule
+                                if game_handler:
+                                    if hasattr(game_handler, 'get_unwrapped_exit_lambda'):
+                                        unwrapped = game_handler.get_unwrapped_exit_lambda(exit_name, exit.access_rule)
+                                        if unwrapped:
+                                            rule_to_analyze = unwrapped
+                                    elif game_name == "Super Metroid":
+                                        logger.warning(f"SM: game_handler exists but doesn't have get_unwrapped_exit_lambda method! Handler type: {type(game_handler)}")
+
                                 # Try special handling first for complex exit rules
                                 if game_handler and hasattr(game_handler, 'handle_complex_exit_rule'):
-                                    special_rule = game_handler.handle_complex_exit_rule(exit_name, exit.access_rule)
+                                    special_rule = game_handler.handle_complex_exit_rule(exit_name, rule_to_analyze)
                                     if special_rule:
                                         expanded_rule = game_handler.expand_rule(special_rule)
+                                        # Resolve any attribute nodes in item_check rules
+                                        expanded_rule = resolve_attribute_nodes_in_rule(expanded_rule, world)
 
                                 # If no special handling, use normal analysis
                                 if expanded_rule is None:
                                     expanded_rule = safe_expand_rule(
                                         game_handler,
-                                        exit.access_rule,
+                                        rule_to_analyze,
                                         exit_name,
                                         target_type='Exit',
                                         world=world
@@ -747,7 +1213,18 @@ def process_regions(multiworld, player: int, game_handler=None, location_name_to
 
                                     # Post-process the exit rule if the game handler supports it
                                     if expanded_rule and game_handler and hasattr(game_handler, 'postprocess_entrance_rule'):
-                                        expanded_rule = game_handler.postprocess_entrance_rule(expanded_rule, exit_name)
+                                        # Check if the handler supports the connected_region parameter
+                                        import inspect
+                                        sig = inspect.signature(game_handler.postprocess_entrance_rule)
+                                        params = list(sig.parameters.keys())
+
+                                        if 'connected_region' in params:
+                                            # Pass connected_region for games that need it (e.g., Lingo)
+                                            connected_region_name = getattr(exit.connected_region, 'name', None) if hasattr(exit, 'connected_region') else None
+                                            expanded_rule = game_handler.postprocess_entrance_rule(expanded_rule, exit_name, connected_region_name)
+                                        else:
+                                            # Use old signature for games that don't need connected_region
+                                            expanded_rule = game_handler.postprocess_entrance_rule(expanded_rule, exit_name)
                                     # Also call general postprocess_rule if available
                                     elif expanded_rule and game_handler and hasattr(game_handler, 'postprocess_rule'):
                                         expanded_rule = game_handler.postprocess_rule(expanded_rule)
@@ -760,6 +1237,10 @@ def process_regions(multiworld, player: int, game_handler=None, location_name_to
                             region_data['exits'].append(exit_data)
                         except Exception as e:
                             logger.error(f"Error processing exit {getattr(exit, 'name', 'Unknown')}: {str(e)}")
+                        finally:
+                            # Clear exit context after processing
+                            if game_handler and hasattr(game_handler, 'set_exit_context'):
+                                game_handler.set_exit_context(None)
 
                 # Process locations
                 if hasattr(region, 'locations'):
@@ -773,17 +1254,34 @@ def process_regions(multiworld, player: int, game_handler=None, location_name_to
                             
                             # First check if game handler has special handling for this location
                             if hasattr(location, 'access_rule') and location.access_rule:
-                                # Set context for game handlers that need it (e.g., Bomb Rush Cyberfunk)
+                                # Set context for game handlers that need it (e.g., Bomb Rush Cyberfunk, Super Metroid)
                                 if hasattr(game_handler, 'set_context'):
                                     game_handler.set_context(location_name)
-                                # Use normal analysis
-                                access_rule_result = safe_expand_rule(
-                                    game_handler,
-                                    location.access_rule,
-                                    location_name,
-                                    target_type='Location',
-                                    world=world
-                                )
+                                if hasattr(game_handler, 'set_location_context'):
+                                    game_handler.set_location_context(location_name)
+                                # Check if game handler can extract custom access rule (e.g., Zillion)
+                                if game_handler and hasattr(game_handler, 'get_custom_location_access_rule'):
+                                    custom_rule = game_handler.get_custom_location_access_rule(location, world)
+                                    if custom_rule:
+                                        access_rule_result = game_handler.expand_rule(custom_rule)
+                                    else:
+                                        # Fall back to normal analysis
+                                        access_rule_result = safe_expand_rule(
+                                            game_handler,
+                                            location.access_rule,
+                                            location_name,
+                                            target_type='Location',
+                                            world=world
+                                        )
+                                else:
+                                    # Use normal analysis
+                                    access_rule_result = safe_expand_rule(
+                                        game_handler,
+                                        location.access_rule,
+                                        location_name,
+                                        target_type='Location',
+                                        world=world
+                                    )
                                 
                                 # Post-process the rule if the game handler supports it
                                 if access_rule_result and game_handler and hasattr(game_handler, 'postprocess_rule'):
@@ -822,7 +1320,11 @@ def process_regions(multiworld, player: int, game_handler=None, location_name_to
                                     'advancement': getattr(location.item, 'advancement', False),
                                     'type': effective_type
                                 }
-                            
+
+                            # Allow game handler to post-process location data before adding to region
+                            if game_handler and hasattr(game_handler, 'post_process_location_data'):
+                                location_data = game_handler.post_process_location_data(location_data, location_name)
+
                             region_data['locations'].append(location_data)
                         except Exception as e:
                             logger.error(f"Error processing location {getattr(location, 'name', 'Unknown')}: {str(e)}")
@@ -833,6 +1335,10 @@ def process_regions(multiworld, player: int, game_handler=None, location_name_to
                 logger.error(f"Error processing region {getattr(region, 'name', 'Unknown')}: {str(e)}")
                 logger.exception("Full traceback:")
                 continue
+
+        # Sort all rules for consistency
+        regions_data = sort_rule_for_consistency(regions_data)
+        dungeons_data = sort_rule_for_consistency(dungeons_data)
 
         return regions_data, dungeons_data
 
@@ -896,23 +1402,74 @@ def process_items(multiworld, player: int, itempool_counts: Dict[str, int]) -> D
 
     # 3. Update classification flags from placed items (use values from placed items if not set by handler)
     for location in multiworld.get_locations(player):
-        if location.item and location.item.name in items_data:
-            item_data = items_data[location.item.name]
-            # Only update flags if they are still default (False)
-            if not item_data.get('advancement'):
-                item_data['advancement'] = getattr(location.item, 'advancement', False)
-            if not item_data.get('useful'):
-                 item_data['useful'] = getattr(location.item, 'useful', False)
-            if not item_data.get('trap'):
-                 item_data['trap'] = getattr(location.item, 'trap', False)
-            # Event flag likely comes from type, less critical to update here unless specific logic requires it
+        if location.item:
+            item_name = location.item.name
+            # Add event items that aren't in items_data yet (items with code=None)
+            if item_name not in items_data:
+                # Extract type value
+                type_obj = getattr(location.item, 'type', None)
+                if type_obj is not None:
+                    if hasattr(type_obj, 'value'):
+                        item_type = type_obj.value
+                    else:
+                        item_type = str(type_obj)
+                else:
+                    item_type = None
+
+                # This is likely an event item - create an entry for it
+                items_data[item_name] = {
+                    'name': item_name,
+                    'id': getattr(location.item, 'code', None),
+                    'groups': [],
+                    'advancement': getattr(location.item, 'advancement', False),
+                    'useful': getattr(location.item, 'useful', False),
+                    'trap': getattr(location.item, 'trap', False),
+                    'event': True if getattr(location.item, 'code', None) is None else False,
+                    'type': item_type,
+                    'max_count': 1
+                }
+            else:
+                # Item already exists, update flags if they are still default (False)
+                item_data = items_data[item_name]
+                if not item_data.get('advancement'):
+                    item_data['advancement'] = getattr(location.item, 'advancement', False)
+                if not item_data.get('useful'):
+                     item_data['useful'] = getattr(location.item, 'useful', False)
+                if not item_data.get('trap'):
+                     item_data['trap'] = getattr(location.item, 'trap', False)
+                # Event flag likely comes from type, less critical to update here unless specific logic requires it
 
     # 3b. Also check precollected items for advancement status
     if player in multiworld.precollected_items:
         for item in multiworld.precollected_items[player]:
-            if item.name in items_data:
-                item_data = items_data[item.name]
-                # Only update flags if they are still default (False)
+            item_name = item.name
+            # Add event items that aren't in items_data yet (items with code=None)
+            if item_name not in items_data:
+                # Extract type value
+                type_obj = getattr(item, 'type', None)
+                if type_obj is not None:
+                    if hasattr(type_obj, 'value'):
+                        item_type = type_obj.value
+                    else:
+                        item_type = str(type_obj)
+                else:
+                    item_type = None
+
+                # This is likely an event item - create an entry for it
+                items_data[item_name] = {
+                    'name': item_name,
+                    'id': getattr(item, 'code', None),
+                    'groups': [],
+                    'advancement': getattr(item, 'advancement', False),
+                    'useful': getattr(item, 'useful', False),
+                    'trap': getattr(item, 'trap', False),
+                    'event': True if getattr(item, 'code', None) is None else False,
+                    'type': item_type,
+                    'max_count': 1
+                }
+            else:
+                # Item already exists, update flags if they are still default (False)
+                item_data = items_data[item_name]
                 if not item_data.get('advancement'):
                     item_data['advancement'] = getattr(item, 'advancement', False)
                 if not item_data.get('useful'):
@@ -941,6 +1498,26 @@ def process_items(multiworld, player: int, itempool_counts: Dict[str, int]) -> D
                 if pool_count and pool_count > 1:
                     # ... then update max_count to match the pool count.
                     item_data['max_count'] = pool_count
+
+    # 5. Add groups from item_name_groups to ALL items (including events)
+    # This ensures event items and other items not in item_id_to_name get their groups
+    item_name_groups = getattr(world, 'item_name_groups', {})
+    if item_name_groups:
+        for group_name, group_items in item_name_groups.items():
+            for item_name in group_items:
+                if item_name in items_data:
+                    # Ensure groups key exists
+                    if 'groups' not in items_data[item_name] or not isinstance(items_data[item_name]['groups'], list):
+                        items_data[item_name]['groups'] = []
+
+                    # Add group if not already present
+                    if group_name not in items_data[item_name]['groups']:
+                        items_data[item_name]['groups'].append(group_name)
+
+        # Sort groups for consistency
+        for item_data in items_data.values():
+            if 'groups' in item_data and isinstance(item_data['groups'], list):
+                item_data['groups'].sort()
 
     return items_data
 

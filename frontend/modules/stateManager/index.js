@@ -87,6 +87,7 @@ import stateManagerProxySingleton from './stateManagerProxySingleton.js';
 import eventBus from '../../app/core/eventBus.js';
 import { centralRegistry } from '../../app/core/centralRegistry.js';
 import settingsManager from '../../app/core/settingsManager.js';
+import { DEFAULT_PLAYER_ID } from '../shared/playerIdUtils.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -307,9 +308,9 @@ async function postInitialize(initializationApi, moduleSpecificConfig = {}) {
         if (playerIds.length === 0) {
           logger.warn(
             moduleInfo.name,
-            '[StateManager Module] No players found in rules data. Defaulting to player 1.'
+            `[StateManager Module] No players found in rules data. Defaulting to player ${DEFAULT_PLAYER_ID}.`
           );
-          playerIdToUse = '1';
+          playerIdToUse = DEFAULT_PLAYER_ID;
         } else {
           playerIdToUse = playerIds[0];
           logger.info(

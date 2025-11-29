@@ -4,6 +4,8 @@
  * without modifying the state
  */
 
+import { DEFAULT_PLAYER_ID } from '../../playerIdUtils.js';
+
 /**
  * Check if player has an item, handling progressive items
  * @param {Object} snapshot - Canonical state snapshot
@@ -83,7 +85,8 @@ export function has_paintings(snapshot, staticData, countRequired, allowSkip = t
   }
 
   // Check for painting skip options based on difficulty
-  const settings = staticData?.settings?.[1];
+  const playerSlot = snapshot?.player?.id || snapshot?.player?.slot || staticData?.playerId || DEFAULT_PLAYER_ID;
+  const settings = staticData?.settings?.[playerSlot];
   const noPaintingSkips = settings?.NoPaintingSkips ?? false;
 
   if (!noPaintingSkips && allowSkip) {
@@ -109,7 +112,8 @@ export function has_paintings(snapshot, staticData, countRequired, allowSkip = t
  */
 export function painting_logic(snapshot, staticData, itemName) {
   // Check world.options.ShuffleSubconPaintings from staticData
-  const settings = staticData?.settings?.[1];
+  const playerSlot = snapshot?.player?.id || snapshot?.player?.slot || staticData?.playerId || DEFAULT_PLAYER_ID;
+  const settings = staticData?.settings?.[playerSlot];
   return settings?.ShuffleSubconPaintings ?? false;
 }
 
@@ -123,7 +127,8 @@ export function painting_logic(snapshot, staticData, itemName) {
  */
 export function get_difficulty(snapshot, staticData, itemName) {
   // Check world.options.LogicDifficulty from staticData
-  const settings = staticData?.settings?.[1];
+  const playerSlot = snapshot?.player?.id || snapshot?.player?.slot || staticData?.playerId || DEFAULT_PLAYER_ID;
+  const settings = staticData?.settings?.[playerSlot];
   return settings?.LogicDifficulty ?? -1;
 }
 
@@ -290,16 +295,18 @@ export function can_clear_required_act(snapshot, staticData, actEntrance) {
  */
 /**
  * Get the yarn cost for a specific hat based on craft order
+ * @param {Object} snapshot - Canonical state snapshot (for player slot)
  * @param {Object} staticData - Static game data
  * @param {number} hatType - The hat type to check cost for
  * @returns {number} Total yarn cost
  */
-export function get_hat_cost(staticData, hatType) {
-  if (!staticData || !staticData.game_info || !staticData.game_info['1'] || !staticData.game_info['1'].hat_info) {
+export function get_hat_cost(snapshot, staticData, hatType) {
+  const playerSlot = snapshot?.player?.id || snapshot?.player?.slot || staticData?.playerId || DEFAULT_PLAYER_ID;
+  if (!staticData || !staticData.game_info || !staticData.game_info[playerSlot] || !staticData.game_info[playerSlot].hat_info) {
     return 0;
   }
 
-  const hatInfo = staticData.game_info['1'].hat_info;
+  const hatInfo = staticData.game_info[playerSlot].hat_info;
   const hatYarnCosts = hatInfo.hat_yarn_costs || {};
   const hatCraftOrder = hatInfo.hat_craft_order || [];
 
@@ -363,14 +370,15 @@ export function can_use_hat(snapshot, staticData, hatType) {
   }
 
   // Check if HatItems option is enabled (hats are separate items)
-  const hatItemsEnabled = staticData?.settings?.['1']?.HatItems;
+  const playerSlot = snapshot?.player?.id || snapshot?.player?.slot || staticData?.playerId || DEFAULT_PLAYER_ID;
+  const hatItemsEnabled = staticData?.settings?.[playerSlot]?.HatItems;
   if (hatItemsEnabled) {
     return has(snapshot, staticData, itemName);
   }
 
   // HatItems is disabled, check Yarn count instead
   if (hatTypeNum !== undefined) {
-    const hatInfo = staticData?.game_info?.['1']?.hat_info;
+    const hatInfo = staticData?.game_info?.[playerSlot]?.hat_info;
     if (hatInfo && hatInfo.hat_yarn_costs) {
       // Keys in JSON are strings, so convert hatTypeNum to string
       const hatYarnCost = hatInfo.hat_yarn_costs[String(hatTypeNum)];
@@ -380,7 +388,7 @@ export function can_use_hat(snapshot, staticData, hatType) {
       }
 
       // Check if player has enough Yarn to craft this hat
-      const requiredYarn = get_hat_cost(staticData, hatTypeNum);
+      const requiredYarn = get_hat_cost(snapshot, staticData, hatTypeNum);
       const yarnCount = count(snapshot, staticData, 'Yarn');
       return yarnCount >= requiredYarn;
     }
@@ -412,7 +420,8 @@ export function can_use_hookshot(snapshot, staticData, itemName) {
  */
 export function can_hit(snapshot, staticData, umbrellaOnly) {
   // Check if UmbrellaLogic option is enabled
-  const umbrellaLogic = staticData?.settings?.['1']?.UmbrellaLogic;
+  const playerSlot = snapshot?.player?.id || snapshot?.player?.slot || staticData?.playerId || DEFAULT_PLAYER_ID;
+  const umbrellaLogic = staticData?.settings?.[playerSlot]?.UmbrellaLogic;
 
   // If UmbrellaLogic is disabled, hitting is always allowed
   if (umbrellaLogic === false) {
@@ -472,7 +481,8 @@ export function can_clear_metro(snapshot, staticData, itemName) {
  * @returns {boolean}
  */
 export function zipline_logic(snapshot, staticData, itemName) {
-  const settings = staticData?.settings?.[1];
+  const playerSlot = snapshot?.player?.id || snapshot?.player?.slot || staticData?.playerId || DEFAULT_PLAYER_ID;
+  const settings = staticData?.settings?.[playerSlot];
   return settings?.ShuffleAlpineZiplines ?? false;
 }
 
@@ -508,7 +518,8 @@ export function get_relic_count(snapshot, staticData, relicGroup) {
  */
 export function has_relic_combo(snapshot, staticData, relicGroup) {
   // Get the relic group from staticData
-  const relicGroups = staticData?.game_info?.['1']?.relic_groups;
+  const playerSlot = snapshot?.player?.id || snapshot?.player?.slot || staticData?.playerId || DEFAULT_PLAYER_ID;
+  const relicGroups = staticData?.game_info?.[playerSlot]?.relic_groups;
   if (!relicGroups || !relicGroups[relicGroup]) {
     return false;
   }

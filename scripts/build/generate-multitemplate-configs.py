@@ -460,8 +460,9 @@ def main():
     args = parser.parse_args()
 
     # Determine paths
+    # Script is at scripts/build/generate-multitemplate-configs.py, go up 2 levels to reach project root
     script_dir = Path(__file__).parent
-    project_root = script_dir.parent
+    project_root = script_dir.parent.parent
 
     # Default template path
     if args.template:

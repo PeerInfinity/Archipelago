@@ -14,11 +14,12 @@
  *   Input: Location name and options
  *     ├─> locationName: string (name of location to check)
  *     ├─> addItems: boolean (whether to add location's item to inventory)
+ *     ├─> forceCheck: boolean (whether to bypass accessibility check)
  *
  *   Validation:
  *     ├─> Check if location already checked (reject if so)
  *     ├─> Check if location exists in locations map
- *     ├─> Check if location is accessible (reachable)
+ *     ├─> Check if location is accessible (reachable) - skipped if forceCheck=true
  *
  *   Processing (if accessible):
  *     ├─> Add location to checkedLocations set
@@ -73,13 +74,16 @@ export function isLocationChecked(sm, locationName) {
  * @param {Object} sm - StateManager instance
  * @param {string} locationName - Name of the location to check
  * @param {boolean} addItems - Whether to add the location's item to inventory (default: true)
+ * @param {boolean} forceCheck - Whether to bypass accessibility check (default: false)
  */
-export function checkLocation(sm, locationName, addItems = true) {
+export function checkLocation(sm, locationName, addItems = true, forceCheck = false) {
   let locationWasActuallyChecked = false;
+  let rejectionReason = null;
 
   // First check if location is already checked
   if (sm.checkedLocations.has(locationName)) {
     sm._logDebug(`[StateManager Class] Location ${locationName} is already checked, ignoring.`);
+    rejectionReason = 'already_checked';
 
     // Publish event to notify UI that location check was rejected due to already being checked
     sm._publishEvent('locationCheckRejected', {
@@ -91,6 +95,7 @@ export function checkLocation(sm, locationName, addItems = true) {
     const location = sm.locations.get(locationName);
     if (!location) {
       sm._logDebug(`[StateManager Class] Location ${locationName} not found in locations data.`);
+      rejectionReason = 'location_not_found';
 
       // Publish event to notify UI that location check was rejected due to location not found
       sm._publishEvent('locationCheckRejected', {
@@ -98,9 +103,11 @@ export function checkLocation(sm, locationName, addItems = true) {
         reason: 'location_not_found'
       });
     } else {
-      // Validate that the location is accessible before checking
-      if (!sm.isLocationAccessible(location)) {
+      // Validate that the location is accessible before checking (unless forceCheck is true)
+      const isAccessible = sm.isLocationAccessible(location);
+      if (!isAccessible && !forceCheck) {
         sm._logDebug(`[StateManager Class] Location ${locationName} is not accessible, cannot check.`);
+        rejectionReason = 'not_accessible';
 
         // Publish event to notify UI that location check was rejected due to inaccessibility
         sm._publishEvent('locationCheckRejected', {
@@ -108,7 +115,10 @@ export function checkLocation(sm, locationName, addItems = true) {
           reason: 'not_accessible'
         });
       } else {
-        // Location is accessible, proceed with checking
+        // Location is accessible (or forceCheck is true), proceed with checking
+        if (!isAccessible && forceCheck) {
+          sm._logDebug(`[StateManager Class] Location ${locationName} force-checked despite being inaccessible.`);
+        }
         sm.checkedLocations.add(locationName);
         sm._logDebug(`[StateManager Class] Checked location: ${locationName}`);
         locationWasActuallyChecked = true;
@@ -121,18 +131,20 @@ export function checkLocation(sm, locationName, addItems = true) {
 
           // Check if item is for a different player (multiworld)
           const itemPlayerId = location.item.player;
-          const currentPlayerId = sm.playerSlot;
-          const isCrossPlayerItem = itemPlayerId !== undefined && itemPlayerId !== currentPlayerId;
+          const currentPlayerId = sm.playerId;
+          const isCrossPlayerItem = itemPlayerId !== undefined && String(itemPlayerId) !== String(currentPlayerId);
 
           if (isCrossPlayerItem) {
             sm._logDebug(
               `[StateManager Class] Skipping ${location.item.name} - cross-player item for Player ${itemPlayerId} (current player is ${currentPlayerId}).`
             );
           } else {
-            // In spoiler test mode, only add advancement items to inventory (matching Python's CollectionState behavior)
-            // Python's state.count() only counts items where location.item.advancement is true
-            // In normal gameplay, add all items
-            const shouldAddItem = !sm.spoilerTestMode || location.item.advancement !== false;
+            // In spoiler test mode, determine whether to add non-advancement items
+            // Most games: only add advancement items (Python's state.count() behavior)
+            // Some games (e.g., Super Metroid): need non-advancement items for logic (Missiles open red doors)
+            // Check game setting 'count_non_advancement_items' to determine behavior
+            const countNonAdvancement = sm.rules?.settings?.[currentPlayerId]?.count_non_advancement_items ?? false;
+            const shouldAddItem = !sm.spoilerTestMode || location.item.advancement !== false || countNonAdvancement;
 
             if (shouldAddItem) {
               sm._addItemToInventory(location.item.name, 1);
@@ -171,6 +183,13 @@ export function checkLocation(sm, locationName, addItems = true) {
   // Always send a snapshot update so the UI knows the operation completed
   // This ensures pending states are cleared even if the location wasn't actually checked
   sm._sendSnapshotUpdate();
+
+  // Return result object indicating success/failure
+  return {
+    success: locationWasActuallyChecked,
+    locationName: locationName,
+    reason: rejectionReason
+  };
 }
 
 /**

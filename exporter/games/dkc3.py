@@ -50,7 +50,7 @@ class DKC3GameExportHandler(BaseGameExportHandler):
         
     def expand_rule(self, rule: Dict[str, Any]) -> Dict[str, Any]:
         """Recursively expand DKC3 rule functions."""
-        if not rule:
+        if not rule or not isinstance(rule, dict):
             return rule
         
         # Handle attribute access for LocationName/ItemName

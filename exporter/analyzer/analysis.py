@@ -21,7 +21,8 @@ def analyze_rule(rule_func: Optional[Callable[[Any], bool]] = None,
                  seen_funcs: Optional[Dict[int, int]] = None,
                  ast_node: Optional[ast.AST] = None,
                  game_handler=None,
-                 player_context: Optional[int] = None) -> Dict[str, Any]:
+                 player_context: Optional[int] = None,
+                 context_info: Optional[str] = None) -> Dict[str, Any]:
     """
     Analyzes a rule function or an AST node representing a rule.
 
@@ -73,13 +74,14 @@ def analyze_rule(rule_func: Optional[Callable[[Any], bool]] = None,
             func_id = id(rule_func)
             # More permissive recursion check
             current_seen_count = seen_funcs.get(func_id, 0)
-            # Allow more recursion depth for multiline lambdas (increased from 2 to 3)
-            if current_seen_count >= 3:
+            # Allow deep recursion for complex games like Super Metroid with cache decorators
+            # SM uses VARIA randomizer with nested cache decorators requiring deeper expansion
+            if current_seen_count >= 10:
                 recursion_msg = (
                     f'Recursion detected: Already analyzing function {rule_func} '
                     f'{current_seen_count+1} times'
                 )
-                logging.warning(
+                logging.debug(
                     f"analyze_rule: Function {rule_func} (id={func_id}) seen "
                     f"{current_seen_count+1} times, stopping recursion."
                 )
@@ -117,6 +119,26 @@ def analyze_rule(rule_func: Optional[Callable[[Any], bool]] = None,
             if hasattr(rule_func, '__self__') and 'self' not in local_closure_vars:
                 local_closure_vars['self'] = rule_func.__self__
                 logging.debug("Added 'self' to local closure vars from method binding.")
+
+            # Extract default parameter values and add to closure vars
+            # This handles cases like: lambda state, loc=q_loc: (loc.can_reach(state))
+            try:
+                if hasattr(rule_func, '__defaults__') and rule_func.__defaults__:
+                    if hasattr(rule_func, '__code__'):
+                        arg_names = rule_func.__code__.co_varnames[:rule_func.__code__.co_argcount]
+                        defaults = rule_func.__defaults__
+
+                        # Map default values to parameter names (defaults apply to last N parameters)
+                        if len(defaults) > 0:
+                            default_start = len(arg_names) - len(defaults)
+                            for i, default_value in enumerate(defaults):
+                                param_name = arg_names[default_start + i]
+                                # Don't override existing closure vars and skip state/player
+                                if param_name not in local_closure_vars and param_name not in ('state', 'player'):
+                                    local_closure_vars[param_name] = default_value
+                                    logging.debug(f"Added default parameter '{param_name}' to closure vars: {default_value}")
+            except Exception as def_err:
+                logging.warning(f"Error extracting default parameters: {def_err}")
 
             # Clean the source
             cleaned_source = _clean_source(rule_func)
@@ -207,10 +229,11 @@ def analyze_rule(rule_func: Optional[Callable[[Any], bool]] = None,
             final_result = error_result
         elif analysis_result is None:
             # If no errors but result is still None, it means analysis didn't produce a rule structure
-            logging.warning("Analysis finished without errors but produced no result (None).")
+            context_str = f" for {context_info}" if context_info else ""
+            logging.warning(f"Analysis finished without errors but produced no result (None){context_str}.")
             final_result = {
                 'type': 'error',
-                'message': 'Analysis did not produce a result structure (returned None).',
+                'message': f'Analysis did not produce a result structure (returned None){context_str}.',
                 'subtype': 'no_result',
                 'debug_log': analyzer.debug_log,
                 'error_log': analyzer.error_log

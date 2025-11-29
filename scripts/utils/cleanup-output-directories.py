@@ -12,7 +12,7 @@ from pathlib import Path
 DIRECTORIES = [
     "output/spoiler-minimal",
     "output/spoiler-full",
-    "output/multiplayer",
+    "output/multiclient",
     "output/multiworld",
     "output/multitemplate-minimal",
     "output/multitemplate-full"

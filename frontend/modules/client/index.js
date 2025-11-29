@@ -9,6 +9,7 @@ import messageHandler, {
   handleUserItemCheckForClient,
 } from './core/messageHandler.js';
 import LocationManager from './core/locationManager.js';
+import stateManagerProxySingleton from '../stateManager/stateManagerProxySingleton.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -414,16 +415,39 @@ export async function postInitialize(api, config) {
       }
     }
 
-    // Attempt to connect
-    log('info', `[Client Module] Auto-connecting to ${serverAddress}...`);
-    setTimeout(() => {
-      if (coreConnection) {
-        log('info', '[Client Module] Calling requestConnect...');
-        coreConnection.requestConnect(serverAddress);
+    // Wait for stateManager to be ready before connecting
+    // This ensures player-specific rules are fully loaded in multiworld scenarios
+    log('info', '[Client Module] Waiting for stateManager to be ready before auto-connecting...');
+
+    // Use ensureReady() which waits for the worker to confirm rules are loaded
+    try {
+      const isReady = await stateManagerProxySingleton.ensureReady(15000);
+
+      if (isReady) {
+        const gameName = stateManagerProxySingleton.getGameName();
+        log('info', `[Client Module] StateManager is ready (game: ${gameName}). Auto-connecting to ${serverAddress}...`);
+
+        // Small delay to ensure all UI components have processed the ready state
+        setTimeout(() => {
+          if (coreConnection) {
+            coreConnection.requestConnect(serverAddress);
+          } else {
+            log('error', '[Client Module] Cannot auto-connect: coreConnection not available');
+          }
+        }, 100);
       } else {
-        log('error', '[Client Module] Cannot auto-connect: coreConnection not available');
+        log('warn', '[Client Module] StateManager did not become ready within timeout. Attempting connection anyway...');
+        if (coreConnection) {
+          coreConnection.requestConnect(serverAddress);
+        }
       }
-    }, 500); // Small delay to ensure everything is fully initialized
+    } catch (ensureReadyError) {
+      log('error', '[Client Module] ensureReady() threw an error:', ensureReadyError);
+      // Try to connect anyway
+      if (coreConnection) {
+        coreConnection.requestConnect(serverAddress);
+      }
+    }
   } else {
     log('info', '[Client Module] autoConnect not enabled (autoConnect=' + autoConnect + ')');
   }

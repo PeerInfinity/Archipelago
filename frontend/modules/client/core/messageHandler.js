@@ -10,6 +10,12 @@ import {
   initializeMappingsFromDataPackage,
   loadMappingsFromStorage,
 } from '../utils/idMapping.js';
+import {
+  generateInaccessibleLocationSphereLog,
+  generateRegressionTestSphereLog,
+  createSphereLogDownloadUrl,
+  generateSphereLogFilename,
+} from '../utils/debugSphereLogger.js';
 import { sharedClientState } from './sharedState.js';
 import { stateManagerProxySingleton } from '../../stateManager/index.js';
 import { getClientModuleDispatcher, moduleInfo } from '../index.js';
@@ -182,11 +188,19 @@ export class MessageHandler {
 
     this.clientSlotName = slotName;
 
-    // Determine the game name from RoomInfo
-    // The game name should come from the slot info for the player we're connecting as
-    let gameName = 'A Link to the Past'; // Default fallback
+    // Determine the game name - prefer stateManager's loaded rules over RoomInfo
+    // This ensures multiworld scenarios use the correct player-specific game
+    let gameName = null;
 
-    // Log RoomInfo structure to understand what data is available
+    // First, try to get game name from stateManager (most reliable for multiworld)
+    if (stateManagerProxySingleton) {
+      gameName = stateManagerProxySingleton.getGameName();
+      if (gameName) {
+        log('info', `[MessageHandler] Using game name from stateManager: ${gameName}`);
+      }
+    }
+
+    // Log RoomInfo structure for debugging
     log('info', `[MessageHandler] RoomInfo keys:`, Object.keys(data));
     if (data.games) {
       log('info', `[MessageHandler] RoomInfo.games:`, data.games);
@@ -198,15 +212,20 @@ export class MessageHandler {
       log('info', `[MessageHandler] RoomInfo.players:`, data.players);
     }
 
-    // RoomInfo might only have a 'games' array listing all available games
-    // We may need to just pick the first non-Archipelago game
-    if (data.games && Array.isArray(data.games) && data.games.length > 0) {
+    // Fallback: if stateManager didn't have the game name, try RoomInfo
+    if (!gameName && data.games && Array.isArray(data.games) && data.games.length > 0) {
       // Filter out 'Archipelago' which is the meta-game
       const actualGames = data.games.filter(g => g !== 'Archipelago');
       if (actualGames.length > 0) {
         gameName = actualGames[0];
-        log('info', `[MessageHandler] Using first available game: ${gameName}`);
+        log('info', `[MessageHandler] Fallback: using first available game from RoomInfo: ${gameName}`);
       }
+    }
+
+    // Final fallback
+    if (!gameName) {
+      gameName = 'A Link to the Past';
+      log('warn', `[MessageHandler] No game name found, using default: ${gameName}`);
     }
 
     // Store the game name for this client
@@ -622,7 +641,10 @@ export class MessageHandler {
     // Save to storage
     if (data.data.version !== 0) {
       storage.setItem('dataPackageVersion', data.data.version);
-      storage.setItem('dataPackage', JSON.stringify(data.data));
+      // Full data package storage is optional - it may exceed localStorage quota
+      // for large games or multiworld sessions. The app fetches fresh data each connection,
+      // so this is just a cache optimization. Use silent mode to avoid warning on quota errors.
+      storage.setItem('dataPackage', JSON.stringify(data.data), { silent: true });
 
       // Initialize mappings, passing the client's game name to avoid ID collisions in multiworld
       const initSuccess = initializeMappingsFromDataPackage(data.data, this.clientGameName);
@@ -641,6 +663,8 @@ export class MessageHandler {
 
   /**
    * Sync locations from server to stateManager
+   * Detects and logs when the server reports a location as checked that the frontend
+   * logic says should be inaccessible, but force-checks it anyway to maintain sync.
    * @param {number[]} serverLocationIds - Array of server location IDs
    */
   async _syncLocationsFromServer(serverLocationIds) {
@@ -656,30 +680,115 @@ export class MessageHandler {
       `Syncing ${serverLocationIds.length} checked locations from server to stateManager`
     );
 
-          if (serverLocationIds && serverLocationIds.length > 0) {
-        let locationsMarked = 0;
+    if (serverLocationIds && serverLocationIds.length > 0) {
+      let locationsMarked = 0;
 
-        for (const id of serverLocationIds) {
-          const name = getLocationNameFromServerId(id, stateManager);
-          if (name && name !== `Location ${id}`) {
-            // Mark each location individually using RoomUpdate approach (without adding items)
+      for (const id of serverLocationIds) {
+        const name = getLocationNameFromServerId(id, stateManager);
+        if (name && name !== `Location ${id}`) {
+          // Get current snapshot to check accessibility BEFORE attempting the check
+          const snapshotBefore = stateManager.getSnapshot();
+          const locationReachability = snapshotBefore?.locationReachability || {};
+
+          // Check if this location is already checked (skip if so)
+          if (locationReachability[name] === 'checked') {
+            // Already checked, no need to do anything
+            continue;
+          }
+
+          // Check if location is accessible according to frontend logic
+          const isAccessible = locationReachability[name] === 'reachable';
+
+          if (!isAccessible) {
+            // Location is inaccessible according to frontend logic, but server says it was checked
+            // Capture state before force-checking
+            const stateBefore = {
+              inventory: { ...(snapshotBefore?.inventory || {}) },
+              accessibleLocations: Object.entries(locationReachability)
+                .filter(([, status]) => status === 'reachable')
+                .map(([locName]) => locName),
+              accessibleRegions: Object.entries(snapshotBefore?.regionReachability || {})
+                .filter(([, status]) => status === 'reachable')
+                .map(([regName]) => regName)
+            };
+
+            // Force-check the location to maintain server sync
+            await stateManager.checkLocation(name, false, true); // forceCheck = true
+            locationsMarked++;
+
+            // Get state after the force-check
+            const snapshotAfter = stateManager.getSnapshot();
+            const locationReachabilityAfter = snapshotAfter?.locationReachability || {};
+            const stateAfter = {
+              inventory: { ...(snapshotAfter?.inventory || {}) },
+              accessibleLocations: Object.entries(locationReachabilityAfter)
+                .filter(([, status]) => status === 'reachable')
+                .map(([locName]) => locName),
+              accessibleRegions: Object.entries(snapshotAfter?.regionReachability || {})
+                .filter(([, status]) => status === 'reachable')
+                .map(([regName]) => regName)
+            };
+
+            // Generate sphere logs for debugging
+            const playerId = snapshotBefore?.player?.id || '1';
+            const sphereLogOptions = {
+              locationName: name,
+              playerId,
+              stateBefore,
+              stateAfter
+            };
+
+            // 1. Diagnostic log: Shows actual state (with the bug)
+            const diagnosticLogContent = generateInaccessibleLocationSphereLog(sphereLogOptions);
+            const diagnosticDownloadUrl = createSphereLogDownloadUrl(diagnosticLogContent);
+            const diagnosticFileName = generateSphereLogFilename(name, 'diagnostic');
+
+            // 2. Regression test log: Shows expected state (location should be accessible)
+            const regressionLogContent = generateRegressionTestSphereLog(sphereLogOptions);
+            const regressionDownloadUrl = createSphereLogDownloadUrl(regressionLogContent);
+            const regressionFileName = generateSphereLogFilename(name, 'regression');
+
+            // Log detailed error message
+            const errorMessage = `[INACCESSIBLE LOCATION DETECTED]
+Location: ${name}
+Server ID: ${id}
+The server says this location was checked, but frontend logic says it should be inaccessible.
+Location was force-checked to maintain server sync.`;
+
+            log('error', errorMessage);
+            log('error', `Download diagnostic sphere log: ${diagnosticDownloadUrl}`);
+            log('error', `Download regression test sphere log: ${regressionDownloadUrl}`);
+
+            // Publish to console UI with both download links
+            this.eventBus?.publish('ui:printToConsole', {
+              message: errorMessage,
+              type: 'error',
+              downloads: [
+                { url: diagnosticDownloadUrl, fileName: diagnosticFileName, label: 'Diagnostic Log (actual state)' },
+                { url: regressionDownloadUrl, fileName: regressionFileName, label: 'Regression Test (expected state)' }
+              ]
+            }, 'client');
+
+          } else {
+            // Normal case - location is accessible, check it normally
             await stateManager.checkLocation(name, false);
             locationsMarked++;
-          } else {
-            log(
-              'warn',
-              `[MessageHandler _syncLocationsFromServer] Could not map server location ID ${id} to a known name.`
-            );
           }
-        }
-
-        if (locationsMarked > 0) {
+        } else {
           log(
-            'info',
-            `Location sync complete: Marked ${locationsMarked} locations as checked via RoomUpdate.`
+            'warn',
+            `[MessageHandler _syncLocationsFromServer] Could not map server location ID ${id} to a known name.`
           );
         }
       }
+
+      if (locationsMarked > 0) {
+        log(
+          'info',
+          `Location sync complete: Marked ${locationsMarked} locations as checked via RoomUpdate.`
+        );
+      }
+    }
   }
 
   // Helper methods

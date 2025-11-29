@@ -112,7 +112,13 @@ export async function loadCombinedModeData(options) {
   baseCombinedData.modeName = currentActiveMode;
 
   // Handle rules override from URL parameters
-  let rulesOverride = await resolveRulesOverride(urlParams, fetchJson, logger);
+  const { rulesOverride, playerId } = await resolveRulesOverride(urlParams, fetchJson, logger);
+
+  // Store playerId for later use by stateManager initialization
+  if (playerId !== null) {
+    baseCombinedData.playerId = playerId;
+    logger.info('init', `Player ID from URL parameter: ${playerId}`);
+  }
 
   // Load config files for the current mode
   const currentModeFileConfigs = modesConfig?.[currentActiveMode];
@@ -175,6 +181,7 @@ export async function loadCombinedModeData(options) {
 
 /**
  * Resolves rules override from URL parameters
+ * @returns {Object} Object with rulesOverride and playerId properties
  */
 async function resolveRulesOverride(urlParams, fetchJson, logger) {
   let rulesOverride = urlParams.get('rules');
@@ -221,7 +228,11 @@ async function resolveRulesOverride(urlParams, fetchJson, logger) {
     );
   }
 
-  return rulesOverride;
+  // Return both rulesOverride and playerId for use by stateManager initialization
+  return {
+    rulesOverride,
+    playerId: playerParam ? parseInt(playerParam, 10) : null
+  };
 }
 
 /**
@@ -622,20 +633,38 @@ function prepareStateManagerConfig(baseCombinedData, dataSources, log) {
           rulesConfig: baseCombinedData.rulesConfig,
           sourceName: sourcePath,
         };
-        log(
-          'info',
-          `[Init] Created stateManager module_config with sourceName: ${sourcePath} (source: ${dataSources.rulesConfig.source})`
-        );
+        // Add playerId if it was provided via URL parameter
+        if (baseCombinedData.playerId !== undefined) {
+          baseCombinedData.module_configs.stateManager.playerId = baseCombinedData.playerId;
+          log(
+            'info',
+            `[Init] Created stateManager module_config with sourceName: ${sourcePath}, playerId: ${baseCombinedData.playerId} (source: ${dataSources.rulesConfig.source})`
+          );
+        } else {
+          log(
+            'info',
+            `[Init] Created stateManager module_config with sourceName: ${sourcePath} (source: ${dataSources.rulesConfig.source})`
+          );
+        }
       } else if (
         baseCombinedData.module_configs.stateManager.rulesConfig &&
         !baseCombinedData.module_configs.stateManager.sourceName &&
         !baseCombinedData.module_configs.stateManager.id
       ) {
         baseCombinedData.module_configs.stateManager.sourceName = sourcePath;
-        log(
-          'info',
-          `[Init] Updated stateManager module_config with sourceName: ${sourcePath} (source: ${dataSources.rulesConfig.source})`
-        );
+        // Add playerId if it was provided via URL parameter and not already set
+        if (baseCombinedData.playerId !== undefined && baseCombinedData.module_configs.stateManager.playerId === undefined) {
+          baseCombinedData.module_configs.stateManager.playerId = baseCombinedData.playerId;
+          log(
+            'info',
+            `[Init] Updated stateManager module_config with sourceName: ${sourcePath}, playerId: ${baseCombinedData.playerId} (source: ${dataSources.rulesConfig.source})`
+          );
+        } else {
+          log(
+            'info',
+            `[Init] Updated stateManager module_config with sourceName: ${sourcePath} (source: ${dataSources.rulesConfig.source})`
+          );
+        }
       }
     } else {
       log(

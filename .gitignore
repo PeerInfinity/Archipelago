@@ -35,7 +35,6 @@
 
 setups
 build
-!scripts/build/
 bundle/components.wxs
 dist
 /prof/
@@ -54,7 +53,7 @@ _persistent_storage.yaml
 mystery_result_*.yaml
 *-errors.txt
 success.txt
-/output/
+output/
 Output Logs/
 /factorio/
 /WebHostLib/static/generated
@@ -78,14 +77,12 @@ __pycache__/
 # Distribution / packaging
 .Python
 build/
-!scripts/build/
 develop-eggs/
 dist/
 downloads/
 eggs/
 .eggs/
 lib/
-!scripts/lib/
 lib64/
 parts/
 sdist/
@@ -167,9 +164,6 @@ shell.nix
 # mkdocs documentation
 /site
 
-# JSDoc generated API documentation
-/docs/json/api/
-
 # mypy
 .mypy_cache/
 .dmypy.json
@@ -201,6 +195,9 @@ _speedups.html
 .LSOverride
 Thumbs.db
 [Dd]esktop.ini
+
+# JSDoc generated API documentation
+/docs/json/api/
 
 # Don't ignore these in frontend and its subfolders
 !frontend/**/*.archipelago
@@ -239,24 +236,23 @@ node_modules/*
 test-results/*
 set.mm
 
-# Ignore everything in output directories
-scripts/output/spoiler-minimal/*
-scripts/output/spoiler-full/*
-scripts/output/multiplayer/*
-scripts/output/multiworld/*
-scripts/output/multitemplate-minimal/*
-scripts/output/multitemplate-full/*
+/output/
 
-# But keep test-results.json files
-!scripts/output/spoiler-minimal/test-results.json
-!scripts/output/spoiler-full/test-results.json
-!scripts/output/multiplayer/test-results.json
-!scripts/output/multiworld/test-results.json
-!scripts/output/multitemplate-minimal/test-results.json
-!scripts/output/multitemplate-full/test-results.json
+!scripts/build/
+!scripts/lib/
 
-# Archipelago-CC fork-specific files
-CC/
+scripts/output/spoiler-minimal/test-results-*
+scripts/output/spoiler-minimal/test-results_*
+scripts/output/spoiler-full/test-results-*
+scripts/output/spoiler-full/test-results_*
+scripts/output/multiclient/test-results-*
+scripts/output/multiclient/test-results_*
+scripts/output/multiworld/test-results-*
+scripts/output/multiworld/test-results_*
+scripts/output/multitemplate-minimal/test-results-*
+scripts/output/multitemplate-minimal/test-results_*
+scripts/output/multitemplate-full/test-results-*
+scripts/output/multitemplate-full/test-results_*
 
 test1/
 test2/
@@ -264,3 +260,4 @@ test3/
 test4/
 frontend/modules/mazeGame-iframe/
 .git.disabled/
+CC/

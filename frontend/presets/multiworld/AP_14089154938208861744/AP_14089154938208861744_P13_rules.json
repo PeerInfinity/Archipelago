@@ -1,0 +1,1200 @@
+{
+  "schema_version": 3,
+  "game_name": "ChecksFinder",
+  "game_directory": "checksfinder",
+  "archipelago_version": "0.6.4",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1",
+    "2": "Player2",
+    "3": "Player3",
+    "4": "Player4",
+    "5": "Player5",
+    "6": "Player6",
+    "7": "Player7",
+    "8": "Player8",
+    "9": "Player9",
+    "10": "Player10",
+    "11": "Player11",
+    "12": "Player12",
+    "13": "Player13",
+    "14": "Player14",
+    "15": "Player15",
+    "16": "Player16",
+    "17": "Player17",
+    "18": "Player18",
+    "19": "Player19",
+    "20": "Player20",
+    "21": "Player21",
+    "22": "Player22",
+    "23": "Player23",
+    "24": "Player24",
+    "25": "Player25",
+    "26": "Player26",
+    "27": "Player27",
+    "28": "Player28",
+    "29": "Player29",
+    "30": "Player30",
+    "31": "Player31",
+    "32": "Player32",
+    "33": "Player33",
+    "34": "Player34",
+    "35": "Player35",
+    "36": "Player36",
+    "37": "Player37",
+    "38": "Player38",
+    "39": "Player39",
+    "40": "Player40",
+    "41": "Player41",
+    "42": "Player42",
+    "43": "Player43",
+    "44": "Player44",
+    "45": "Player45",
+    "46": "Player46",
+    "47": "Player47",
+    "48": "Player48",
+    "49": "Player49",
+    "50": "Player50",
+    "51": "Player51",
+    "52": "Player52",
+    "53": "Player53",
+    "54": "Player54",
+    "55": "Player55",
+    "56": "Player56",
+    "57": "Player57",
+    "58": "Player58",
+    "59": "Player59",
+    "60": "Player60",
+    "61": "Player61",
+    "62": "Player62",
+    "63": "Player63",
+    "64": "Player64",
+    "65": "Player65",
+    "66": "Player66",
+    "67": "Player67",
+    "68": "Player68",
+    "69": "Player69",
+    "70": "Player70",
+    "71": "Player71",
+    "72": "Player72",
+    "73": "Player73",
+    "74": "Player74",
+    "75": "Player75"
+  },
+  "world_classes": {
+    "1": "HatInTimeWorld",
+    "2": "ALTTPWorld",
+    "3": "ShortHikeWorld",
+    "4": "AdventureWorld",
+    "5": "AquariaWorld",
+    "6": "ArchipIDLEWorld",
+    "7": "BlasphemousWorld",
+    "8": "BombRushCyberfunkWorld",
+    "9": "BumpStikWorld",
+    "10": "CVCotMWorld",
+    "11": "CV64World",
+    "12": "Celeste64World",
+    "13": "ChecksFinderWorld",
+    "14": "ChocolateChipCookiesWorld",
+    "15": "CivVIWorld",
+    "16": "DarkSouls3World",
+    "17": "DLCqworld",
+    "18": "DKC3World",
+    "19": "DOOM1993World",
+    "20": "DOOM2World",
+    "21": "Factorio",
+    "22": "FaxanaduWorld",
+    "23": "FFMQWorld",
+    "24": "HereticWorld",
+    "25": "Hylics2World",
+    "26": "InscryptionWorld",
+    "27": "JakAndDaxterWorld",
+    "28": "KH2World",
+    "29": "KH1World",
+    "30": "KDL3World",
+    "31": "LandstalkerWorld",
+    "32": "LingoWorld",
+    "33": "LinksAwakeningWorld",
+    "34": "L2ACWorld",
+    "35": "MLSSWorld",
+    "36": "MathProof2p2e4World",
+    "37": "MM2World",
+    "38": "MMBN3World",
+    "39": "MeritousWorld",
+    "40": "MetamathWorld",
+    "41": "MuseDashWorld",
+    "42": "NoitaWorld",
+    "43": "OSRSWorld",
+    "44": "Overcooked2World",
+    "45": "PaintWorld",
+    "46": "PokemonEmeraldWorld",
+    "47": "PokemonRedBlueWorld",
+    "48": "RaftWorld",
+    "49": "RiskOfRainWorld",
+    "50": "SavingPrincessWorld",
+    "51": "SoEWorld",
+    "52": "ShapezWorld",
+    "53": "ShiversWorld",
+    "54": "SA2BWorld",
+    "55": "SC2World",
+    "56": "StardewValleyWorld",
+    "57": "SubnauticaWorld",
+    "58": "SM64World",
+    "59": "MarioLand2World",
+    "60": "SMWWorld",
+    "61": "SMWorld",
+    "62": "TerrariaWorld",
+    "63": "TLoZWorld",
+    "64": "MessengerWorld",
+    "65": "TWWWorld",
+    "66": "WitnessWorld",
+    "67": "TimespinnerWorld",
+    "68": "TunicWorld",
+    "69": "UndertaleWorld",
+    "70": "V6World",
+    "71": "WargrooveWorld",
+    "72": "WebDevJourneyWorld",
+    "73": "YachtDiceWorld",
+    "74": "YoshisIslandWorld",
+    "75": "Yugioh06World"
+  },
+  "regions": {
+    "13": {
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "New Board",
+            "connected_region": "Board",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Board": {
+        "name": "Board",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Tile 1",
+            "id": 81000,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Bike Voucher",
+              "player": 47,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 2",
+            "id": 81001,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Mine Elevator",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 3",
+            "id": 81002,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Egg Capacity Upgrade",
+              "player": 74,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 4",
+            "id": 81003,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Sword Upgrade",
+              "player": 68,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 5",
+            "id": 81004,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Arctic Key",
+              "player": 50,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 6",
+            "id": 81005,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Map Width",
+                    "Map Height",
+                    "Map Bombs"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 1
+                }
+              ]
+            },
+            "item": {
+              "name": "Thor",
+              "player": 55,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 7",
+            "id": 81006,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Map Width",
+                    "Map Height",
+                    "Map Bombs"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 2
+                }
+              ]
+            },
+            "item": {
+              "name": "Bead Mail",
+              "player": 46,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 8",
+            "id": 81007,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Map Width",
+                    "Map Height",
+                    "Map Bombs"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 3
+                }
+              ]
+            },
+            "item": {
+              "name": "Heart Star",
+              "player": 30,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 9",
+            "id": 81008,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Map Width",
+                    "Map Height",
+                    "Map Bombs"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 4
+                }
+              ]
+            },
+            "item": {
+              "name": "Monochrome",
+              "player": 28,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 10",
+            "id": 81009,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Map Width",
+                    "Map Height",
+                    "Map Bombs"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 5
+                }
+              ]
+            },
+            "item": {
+              "name": "Chuckle Bean",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 11",
+            "id": 81010,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Map Width",
+                    "Map Height",
+                    "Map Bombs"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 6
+                }
+              ]
+            },
+            "item": {
+              "name": "Money x40",
+              "player": 68,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 12",
+            "id": 81011,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Map Width",
+                    "Map Height",
+                    "Map Bombs"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 7
+                }
+              ]
+            },
+            "item": {
+              "name": "Sea ring",
+              "player": 34,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 13",
+            "id": 81012,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Map Width",
+                    "Map Height",
+                    "Map Bombs"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 8
+                }
+              ]
+            },
+            "item": {
+              "name": "Soul of High Lord Wolnir",
+              "player": 16,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 14",
+            "id": 81013,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Map Width",
+                    "Map Height",
+                    "Map Bombs"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 9
+                }
+              ]
+            },
+            "item": {
+              "name": "1000 Exp",
+              "player": 49,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 15",
+            "id": 81014,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Map Width",
+                    "Map Height",
+                    "Map Bombs"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 10
+                }
+              ]
+            },
+            "item": {
+              "name": "Pierce Shield",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 16",
+            "id": 81015,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Map Width",
+                    "Map Height",
+                    "Map Bombs"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 11
+                }
+              ]
+            },
+            "item": {
+              "name": "High Explosive Munition (Spider Mine)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 17",
+            "id": 81016,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Map Width",
+                    "Map Height",
+                    "Map Bombs"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 12
+                }
+              ]
+            },
+            "item": {
+              "name": "Badge Pin",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 18",
+            "id": 81017,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Map Width",
+                    "Map Height",
+                    "Map Bombs"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 13
+                }
+              ]
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 39,
+              "advancement": false,
+              "type": "Enhancement"
+            }
+          },
+          {
+            "name": "Tile 19",
+            "id": 81018,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Map Width",
+                    "Map Height",
+                    "Map Bombs"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 14
+                }
+              ]
+            },
+            "item": {
+              "name": "Titanite Shard",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 20",
+            "id": 81019,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Map Width",
+                    "Map Height",
+                    "Map Bombs"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 15
+                }
+              ]
+            },
+            "item": {
+              "name": "Reward: Trifold Map",
+              "player": 62,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 21",
+            "id": 81020,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Map Width",
+                    "Map Height",
+                    "Map Bombs"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 16
+                }
+              ]
+            },
+            "item": {
+              "name": "Blueprint Shapes Bundle",
+              "player": 52,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 22",
+            "id": 81021,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Map Width",
+                    "Map Height",
+                    "Map Bombs"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 17
+                }
+              ]
+            },
+            "item": {
+              "name": "Music (AGUA)",
+              "player": 8,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 23",
+            "id": 81022,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Map Width",
+                    "Map Height",
+                    "Map Bombs"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 18
+                }
+              ]
+            },
+            "item": {
+              "name": "Combo Master",
+              "player": 29,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 24",
+            "id": 81023,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Map Width",
+                    "Map Height",
+                    "Map Bombs"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 19
+                }
+              ]
+            },
+            "item": {
+              "name": "Ember",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 25",
+            "id": 81024,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Map Width",
+                    "Map Height",
+                    "Map Bombs"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 20
+                }
+              ]
+            },
+            "item": {
+              "name": "8 REP",
+              "player": 8,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "start_regions": {
+    "13": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "13": {
+      "Map Width": {
+        "name": "Map Width",
+        "id": 80000,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 5
+      },
+      "Map Height": {
+        "name": "Map Height",
+        "id": 80001,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 5
+      },
+      "Map Bombs": {
+        "name": "Map Bombs",
+        "id": 80002,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 15
+      },
+      "Bike Voucher": {
+        "name": "Bike Voucher",
+        "id": 172000045,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Mine Elevator": {
+        "name": "Progressive Mine Elevator",
+        "id": 717072,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Egg Capacity Upgrade": {
+        "name": "Egg Capacity Upgrade",
+        "id": 3154029,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sword Upgrade": {
+        "name": "Sword Upgrade",
+        "id": 509342424,
+        "groups": [],
+        "advancement": true,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Arctic Key": {
+        "name": "Arctic Key",
+        "id": 91630179862873,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Thor": {
+        "name": "Thor",
+        "id": 1017,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bead Mail": {
+        "name": "Bead Mail",
+        "id": 3860127,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Heart Star": {
+        "name": "Heart Star",
+        "id": 7798816,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Monochrome": {
+        "name": "Monochrome",
+        "id": 1245293,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Chuckle Bean": {
+        "name": "Chuckle Bean",
+        "id": 77771020,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Money x40": {
+        "name": "Money x40",
+        "id": 509342494,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sea ring": {
+        "name": "Sea ring",
+        "id": 11288933,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Soul of High Lord Wolnir": {
+        "name": "Soul of High Lord Wolnir",
+        "id": 100881,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "1000 Exp": {
+        "name": "1000 Exp",
+        "id": 37303,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Pierce Shield": {
+        "name": "Pierce Shield",
+        "id": 100254,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "High Explosive Munition (Spider Mine)": {
+        "name": "High Explosive Munition (Spider Mine)",
+        "id": 1262,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Badge Pin": {
+        "name": "Badge Pin",
+        "id": 2000300043,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Circuit Refill upgrade": {
+        "name": "Circuit Refill upgrade",
+        "id": 593003,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Enhancement",
+        "max_count": 1
+      },
+      "Titanite Shard": {
+        "name": "Titanite Shard",
+        "id": 100890,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Reward: Trifold Map": {
+        "name": "Reward: Trifold Map",
+        "id": 8257652,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Blueprint Shapes Bundle": {
+        "name": "Blueprint Shapes Bundle",
+        "id": 20010760,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Music (AGUA)": {
+        "name": "Music (AGUA)",
+        "id": 2308013,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Combo Master": {
+        "name": "Combo Master",
+        "id": 2643065,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ember": {
+        "name": "Ember",
+        "id": 100863,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "8 REP": {
+        "name": "8 REP",
+        "id": 2308159,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      " coins": {
+        "name": " coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      },
+      " coins freemium": {
+        "name": " coins freemium",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      }
+    }
+  },
+  "item_groups": {
+    "13": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "13": {
+      "Map Bombs": 15,
+      "Map Height": 5,
+      "Map Width": 5
+    }
+  },
+  "progression_mapping": {
+    "13": {}
+  },
+  "starting_items": {
+    "13": []
+  },
+  "settings": {
+    "13": {
+      "game": "ChecksFinder",
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
+    }
+  },
+  "game_info": {
+    "13": {
+      "name": "ChecksFinder",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

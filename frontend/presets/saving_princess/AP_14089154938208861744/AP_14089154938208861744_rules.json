@@ -77,10 +77,7 @@
             "id": 91630179862865,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Clip Extension"
-              }
+              "item": "Clip Extension"
             },
             "item": {
               "name": "Volcanic Key",
@@ -108,10 +105,7 @@
             "id": 91630179862887,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Clip Extension"
-              }
+              "item": "Clip Extension"
             },
             "item": {
               "name": "Clip Extension",
@@ -133,26 +127,8 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Ice Spreadshot"
-                  }
-                },
-                {
                   "type": "and",
                   "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Faster Reload"
-                      },
-                      "count": {
-                        "type": "constant",
-                        "value": 4
-                      }
-                    },
                     {
                       "type": "state_method",
                       "method": "has_any",
@@ -166,8 +142,20 @@
                           ]
                         }
                       ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Faster Reload",
+                      "count": {
+                        "type": "constant",
+                        "value": 4
+                      }
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Ice Spreadshot"
                 }
               ]
             },
@@ -214,28 +202,19 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Life Extension"
-                  }
+                  "item": "Clip Extension"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Clip Extension"
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Faster Reload"
-                  },
+                  "item": "Faster Reload",
                   "count": {
                     "type": "constant",
                     "value": 2
                   }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Life Extension"
                 }
               ]
             },
@@ -254,28 +233,19 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Life Extension"
-                  }
+                  "item": "Clip Extension"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Clip Extension"
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Faster Reload"
-                  },
+                  "item": "Faster Reload",
                   "count": {
                     "type": "constant",
                     "value": 2
                   }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Life Extension"
                 }
               ]
             },
@@ -325,10 +295,7 @@
             "id": 91630179862872,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Flamethrower"
-              }
+              "item": "Flamethrower"
             },
             "item": {
               "name": "Faster Reload",
@@ -345,28 +312,19 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Life Extension"
-                  }
+                  "item": "Clip Extension"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Clip Extension"
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Faster Reload"
-                  },
+                  "item": "Faster Reload",
                   "count": {
                     "type": "constant",
                     "value": 2
                   }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Life Extension"
                 }
               ]
             },
@@ -382,10 +340,7 @@
             "id": 91630179862874,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Flamethrower"
-              }
+              "item": "Flamethrower"
             },
             "item": {
               "name": "Ice Trap",
@@ -402,28 +357,19 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Life Extension"
-                  }
+                  "item": "Clip Extension"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Clip Extension"
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Faster Reload"
-                  },
+                  "item": "Faster Reload",
                   "count": {
                     "type": "constant",
                     "value": 2
                   }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Life Extension"
                 }
               ]
             },
@@ -452,10 +398,7 @@
             "connected_region": "Volcanic",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Powered Blaster"
-              }
+              "item": "Powered Blaster"
             }
           },
           {
@@ -463,10 +406,7 @@
             "connected_region": "Arctic",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Powered Blaster"
-              }
+              "item": "Powered Blaster"
             }
           },
           {
@@ -474,183 +414,78 @@
             "connected_region": "Swamp",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Powered Blaster"
-              }
+              "item": "Powered Blaster"
             }
           },
           {
             "name": "Electrical entrance",
             "connected_region": "Electrical",
             "access_rule": {
-              "type": "conditional",
-              "test": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "world"
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "state_method",
+                      "method": "has_any",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": [
+                            "Flamethrower",
+                            "Ice Spreadshot",
+                            "Volt Laser"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Clip Extension",
+                      "count": {
+                        "type": "constant",
+                        "value": 2
+                      }
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Faster Reload",
+                      "count": {
+                        "type": "constant",
+                        "value": 4
+                      }
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Life Extension",
+                      "count": {
+                        "type": "constant",
+                        "value": 2
+                      }
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Powered Blaster"
+                    }
+                  ]
                 },
-                "attr": "is_pool_expanded"
-              },
-              "if_true": {
-                "type": "and",
-                "conditions": [
-                  {
-                    "type": "state_method",
-                    "method": "has_all",
-                    "args": [
-                      {
-                        "type": "constant",
-                        "value": [
-                          "Arctic Key",
-                          "Cave Key",
-                          "Swamp Key",
-                          "Volcanic Key"
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "type": "and",
-                    "conditions": [
-                      {
-                        "type": "item_check",
-                        "item": {
-                          "type": "constant",
-                          "value": "Life Extension"
-                        },
-                        "count": {
-                          "type": "constant",
-                          "value": 2
-                        }
-                      },
-                      {
-                        "type": "item_check",
-                        "item": {
-                          "type": "constant",
-                          "value": "Clip Extension"
-                        },
-                        "count": {
-                          "type": "constant",
-                          "value": 2
-                        }
-                      },
-                      {
-                        "type": "item_check",
-                        "item": {
-                          "type": "constant",
-                          "value": "Faster Reload"
-                        },
-                        "count": {
-                          "type": "constant",
-                          "value": 4
-                        }
-                      },
-                      {
-                        "type": "item_check",
-                        "item": {
-                          "type": "constant",
-                          "value": "Powered Blaster"
-                        }
-                      },
-                      {
-                        "type": "state_method",
-                        "method": "has_any",
-                        "args": [
-                          {
-                            "type": "constant",
-                            "value": [
-                              "Flamethrower",
-                              "Ice Spreadshot",
-                              "Volt Laser"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              "if_false": {
-                "type": "and",
-                "conditions": [
-                  {
-                    "type": "state_method",
-                    "method": "has_all",
-                    "args": [
-                      {
-                        "type": "constant",
-                        "value": [
-                          "Ace neutralized",
-                          "Cliff neutralized",
-                          "Guard neutralized",
-                          "Snake neutralized"
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "type": "and",
-                    "conditions": [
-                      {
-                        "type": "item_check",
-                        "item": {
-                          "type": "constant",
-                          "value": "Life Extension"
-                        },
-                        "count": {
-                          "type": "constant",
-                          "value": 2
-                        }
-                      },
-                      {
-                        "type": "item_check",
-                        "item": {
-                          "type": "constant",
-                          "value": "Clip Extension"
-                        },
-                        "count": {
-                          "type": "constant",
-                          "value": 2
-                        }
-                      },
-                      {
-                        "type": "item_check",
-                        "item": {
-                          "type": "constant",
-                          "value": "Faster Reload"
-                        },
-                        "count": {
-                          "type": "constant",
-                          "value": 4
-                        }
-                      },
-                      {
-                        "type": "item_check",
-                        "item": {
-                          "type": "constant",
-                          "value": "Powered Blaster"
-                        }
-                      },
-                      {
-                        "type": "state_method",
-                        "method": "has_any",
-                        "args": [
-                          {
-                            "type": "constant",
-                            "value": [
-                              "Flamethrower",
-                              "Ice Spreadshot",
-                              "Volt Laser"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Arctic Key",
+                        "Cave Key",
+                        "Swamp Key",
+                        "Volcanic Key"
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
           }
         ],
@@ -660,10 +495,7 @@
             "id": 91630179862875,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Powered Blaster"
-              }
+              "item": "Powered Blaster"
             },
             "item": {
               "name": "Faster Reload",
@@ -719,10 +551,7 @@
             "id": 91630179862891,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Cave Key"
-              }
+              "item": "Cave Key"
             },
             "item": {
               "name": "Life Extension",
@@ -744,17 +573,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Faster Reload"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 4
-                  }
-                },
-                {
                   "type": "state_method",
                   "method": "has_any",
                   "args": [
@@ -767,6 +585,14 @@
                       ]
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Faster Reload",
+                  "count": {
+                    "type": "constant",
+                    "value": 4
+                  }
                 }
               ]
             },
@@ -813,28 +639,19 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Life Extension"
-                  }
+                  "item": "Clip Extension"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Clip Extension"
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Faster Reload"
-                  },
+                  "item": "Faster Reload",
                   "count": {
                     "type": "constant",
                     "value": 2
                   }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Life Extension"
                 }
               ]
             },
@@ -853,28 +670,19 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Life Extension"
-                  }
+                  "item": "Clip Extension"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Clip Extension"
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Faster Reload"
-                  },
+                  "item": "Faster Reload",
                   "count": {
                     "type": "constant",
                     "value": 2
                   }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Life Extension"
                 }
               ]
             },
@@ -895,25 +703,7 @@
             "connected_region": "Electrical (Power On)",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "conditional",
-                "test": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "world"
-                  },
-                  "attr": "is_pool_expanded"
-                },
-                "if_true": {
-                  "type": "constant",
-                  "value": "System Power"
-                },
-                "if_false": {
-                  "type": "constant",
-                  "value": "Power restored"
-                }
-              }
+              "item": "System Power"
             }
           }
         ],
@@ -965,10 +755,7 @@
             "id": 91630179862894,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Volt Laser"
-              }
+              "item": "Volt Laser"
             },
             "item": {
               "name": "Jacket",
@@ -1435,7 +1222,8 @@
   "settings": {
     "1": {
       "game": "Saving Princess",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
     }
   },
   "game_info": {

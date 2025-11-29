@@ -166,6 +166,196 @@ def extract_test_data_for_game(template_name: str, template_data: Dict[str, Any]
     return result_data
 
 
+def extract_spoiler_test_status(template_data: Dict[str, Any]) -> Dict[str, Any]:
+    """Extract pass/fail status from spoiler test results."""
+    # Check if this is seed range data
+    if 'seed_range' in template_data:
+        seeds_passed = template_data.get('seeds_passed', 0)
+        seeds_failed = template_data.get('seeds_failed', 0)
+        total_seeds = template_data.get('total_seeds_tested', 0)
+        first_failure_seed = template_data.get('first_failure_seed')
+
+        # Passed only if all seeds passed
+        passed = seeds_failed == 0 and seeds_passed > 0
+
+        return {
+            'passed': passed,
+            'seeds_passed': seeds_passed,
+            'seeds_failed': seeds_failed,
+            'total_seeds': total_seeds,
+            'first_failure_seed': first_failure_seed,
+            'seed_range': template_data.get('seed_range', ''),
+        }
+    else:
+        # Single seed result
+        spoiler_result = template_data.get('spoiler_test', {})
+        pass_fail = spoiler_result.get('pass_fail', 'unknown')
+        gen_errors = template_data.get('generation', {}).get('error_count', 0)
+        max_spheres = spoiler_result.get('total_spheres', 0)
+
+        # Apply strict criteria: must pass spoiler test, have 0 gen errors, and max_spheres > 0
+        passed = (pass_fail.lower() == 'passed' and gen_errors == 0 and max_spheres > 0)
+
+        return {
+            'passed': passed,
+            'seeds_passed': 1 if passed else 0,
+            'seeds_failed': 0 if passed else 1,
+            'total_seeds': 1,
+            'first_failure_seed': None if passed else 1,
+            'seed_range': '1',
+        }
+
+
+def extract_multiclient_test_status(template_data: Dict[str, Any]) -> Dict[str, Any]:
+    """Extract pass/fail status from multiclient test results."""
+    multiclient_result = template_data.get('multiclient_test', {})
+
+    if not multiclient_result:
+        return None
+
+    success = multiclient_result.get('success', False)
+    client1_passed = multiclient_result.get('client1_passed', False)
+    client2_passed = multiclient_result.get('client2_passed', False)
+
+    # Overall passed if success is true and both clients passed
+    passed = success and client1_passed and client2_passed
+
+    return {
+        'passed': passed,
+        'client1_passed': client1_passed,
+        'client2_passed': client2_passed,
+        'locations_checked': multiclient_result.get('locations_checked', 0),
+        'total_locations': multiclient_result.get('total_locations', 0),
+    }
+
+
+def extract_multiworld_test_status(template_data: Dict[str, Any]) -> Dict[str, Any]:
+    """Extract pass/fail status from multiworld test results."""
+    multiworld_result = template_data.get('multiworld_test', {})
+
+    if not multiworld_result:
+        return None
+
+    success = multiworld_result.get('success', False)
+    players_passed = multiworld_result.get('players_passed', 0)
+    players_failed = multiworld_result.get('players_failed', 0)
+    total_players = multiworld_result.get('total_players_tested', 0)
+
+    # Overall passed if success is true and no players failed
+    passed = success and players_failed == 0
+
+    return {
+        'passed': passed,
+        'players_passed': players_passed,
+        'players_failed': players_failed,
+        'total_players': total_players,
+        'first_failure_player': multiworld_result.get('first_failure_player'),
+    }
+
+
+def update_preset_files_with_all_test_data(preset_files: Dict[str, Any], all_test_results: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
+    """Update preset_files with test result data from all test types."""
+    updated_preset_files = preset_files
+
+    # Track which games were updated
+    updated_games = set()
+    games_by_test_type = {test_type: [] for test_type in all_test_results.keys()}
+
+    # Process each test type
+    for test_type, test_results in all_test_results.items():
+        if 'results' not in test_results:
+            print(f"No results found in {test_type} test data")
+            continue
+
+        for template_name, template_data in test_results['results'].items():
+            expected_game_name = template_name.replace('.yaml', '')
+
+            # Find the corresponding game in preset_files
+            found_game_id = find_game_in_preset_files(expected_game_name, updated_preset_files)
+
+            if found_game_id:
+                # Initialize test_results structure if needed
+                if 'test_results' not in updated_preset_files[found_game_id]:
+                    updated_preset_files[found_game_id]['test_results'] = {}
+
+                # Extract status based on test type
+                if test_type in ['minimal_spoiler', 'full_spoiler']:
+                    status = extract_spoiler_test_status(template_data)
+                elif test_type == 'multiclient':
+                    status = extract_multiclient_test_status(template_data)
+                elif test_type == 'multiworld':
+                    status = extract_multiworld_test_status(template_data)
+                else:
+                    status = None
+
+                if status:
+                    updated_preset_files[found_game_id]['test_results'][test_type] = status
+                    updated_games.add(found_game_id)
+                    games_by_test_type[test_type].append(found_game_id)
+
+    # Add metadata about the update
+    if 'metadata' not in updated_preset_files:
+        updated_preset_files['metadata'] = {}
+
+    # Find games in preset_files that didn't get any test data
+    all_game_ids = [game_id for game_id in updated_preset_files.keys()
+                    if game_id not in ['metadata', 'multiworld']]
+    games_without_test_data = [game_id for game_id in all_game_ids if game_id not in updated_games]
+
+    updated_preset_files['metadata'].update({
+        'test_data_updated': datetime.now().isoformat(),
+        'games_with_test_data': len(updated_games),
+        'total_games': len(all_game_ids),
+        'games_without_test_data': len(games_without_test_data),
+        'test_types_loaded': list(all_test_results.keys()),
+    })
+
+    # Report summary
+    print(f"\nSummary:")
+    print(f"- Updated {len(updated_games)} games with test data")
+    for test_type, games in games_by_test_type.items():
+        print(f"  - {test_type}: {len(games)} games")
+
+    if games_without_test_data:
+        print(f"\nGames without any test data ({len(games_without_test_data)}):")
+        for game_id in games_without_test_data[:10]:
+            game_name = updated_preset_files[game_id].get('name', game_id)
+            print(f"  - {game_name}")
+        if len(games_without_test_data) > 10:
+            print(f"  ... and {len(games_without_test_data) - 10} more")
+
+    return updated_preset_files
+
+
+def find_game_in_preset_files(expected_game_name: str, preset_files: Dict[str, Any]) -> str:
+    """Find a game in preset_files by name, with fuzzy matching fallback."""
+    # First try exact match on name field
+    for game_id, game_data in preset_files.items():
+        if game_id == 'metadata':
+            continue
+        if not isinstance(game_data, dict):
+            continue
+
+        preset_game_name = game_data.get('name', '')
+        if preset_game_name == expected_game_name:
+            return game_id
+
+    # Try case-insensitive fuzzy matching as fallback
+    for game_id, game_data in preset_files.items():
+        if game_id == 'metadata':
+            continue
+        if not isinstance(game_data, dict):
+            continue
+
+        preset_game_name = game_data.get('name', '')
+        if (preset_game_name.lower() == expected_game_name.lower() or
+            preset_game_name.lower().replace(':', '').replace(' ', '') ==
+            expected_game_name.lower().replace(':', '').replace(' ', '')):
+            return game_id
+
+    return None
+
+
 def update_preset_files_with_test_data(preset_files: Dict[str, Any], test_results: Dict[str, Any]) -> Dict[str, Any]:
     """Update preset_files with test result data, preserving original order."""
     # Use the original preset_files to preserve order
@@ -295,13 +485,31 @@ def save_preset_files(preset_files: Dict[str, Any], output_path: str):
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Update preset_files.json with test results data from test-results.json'
+        description='Update preset_files.json with test results data from multiple test result files'
     )
     parser.add_argument(
-        '--test-results',
+        '--test-results-minimal',
+        type=str,
+        default='scripts/output/spoiler-minimal/test-results.json',
+        help='Minimal spoiler test results JSON file (default: scripts/output/spoiler-minimal/test-results.json)'
+    )
+    parser.add_argument(
+        '--test-results-full',
         type=str,
         default='scripts/output/spoiler-full/test-results.json',
-        help='Input test results JSON file (default: scripts/output/spoiler-full/test-results.json)'
+        help='Full spoiler test results JSON file (default: scripts/output/spoiler-full/test-results.json)'
+    )
+    parser.add_argument(
+        '--test-results-multiclient',
+        type=str,
+        default='scripts/output/multiclient/test-results.json',
+        help='Multiclient test results JSON file (default: scripts/output/multiclient/test-results.json)'
+    )
+    parser.add_argument(
+        '--test-results-multiworld',
+        type=str,
+        default='scripts/output/multiworld/test-results.json',
+        help='Multiworld test results JSON file (default: scripts/output/multiworld/test-results.json)'
     )
     parser.add_argument(
         '--preset-files',
@@ -321,43 +529,56 @@ def main():
     )
     
     args = parser.parse_args()
-    
+
     # Determine project root and resolve paths
-    project_root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-    test_results_path = os.path.join(project_root, args.test_results)
+    # Script is in scripts/docs/, so go up two levels to get to project root
+    project_root = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+
+    # Build paths for all test result files
+    test_results_paths = {
+        'minimal_spoiler': os.path.join(project_root, args.test_results_minimal),
+        'full_spoiler': os.path.join(project_root, args.test_results_full),
+        'multiclient': os.path.join(project_root, args.test_results_multiclient),
+        'multiworld': os.path.join(project_root, args.test_results_multiworld),
+    }
+
     preset_files_path = os.path.join(project_root, args.preset_files)
     output_path = args.output if args.output else preset_files_path
     if args.output:
         output_path = os.path.join(project_root, args.output)
-    
-    # Check if input files exist
-    if not os.path.exists(test_results_path):
-        print(f"Error: Test results file not found: {test_results_path}")
-        print("Please run test-all-templates.py first to generate the results file.")
-        return 1
-    
+
+    # Check if preset files exist
     if not os.path.exists(preset_files_path):
         print(f"Error: Preset files not found: {preset_files_path}")
         return 1
-    
-    # Load input files
-    print(f"Loading test results from: {test_results_path}")
-    test_results = load_test_results(test_results_path)
-    
-    if not test_results:
-        print("Failed to load test results.")
+
+    # Load all test result files (missing files are okay - we'll show unknown status)
+    all_test_results = {}
+    for test_type, path in test_results_paths.items():
+        if os.path.exists(path):
+            print(f"Loading {test_type} test results from: {path}")
+            results = load_test_results(path)
+            if results:
+                all_test_results[test_type] = results
+            else:
+                print(f"Warning: Failed to load {test_type} test results from {path}")
+        else:
+            print(f"Warning: {test_type} test results file not found: {path}")
+
+    if not all_test_results:
+        print("Error: No test results files could be loaded.")
         return 1
-    
+
     print(f"Loading preset files from: {preset_files_path}")
     preset_files = load_preset_files(preset_files_path)
-    
+
     if not preset_files:
         print("Failed to load preset files.")
         return 1
-    
-    # Update preset files with test data
+
+    # Update preset files with test data from all sources
     print(f"\nUpdating preset files with test data...")
-    updated_preset_files = update_preset_files_with_test_data(preset_files, test_results)
+    updated_preset_files = update_preset_files_with_all_test_data(preset_files, all_test_results)
     
     # Save or display results
     if args.dry_run:

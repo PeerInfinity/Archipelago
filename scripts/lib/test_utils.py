@@ -8,7 +8,7 @@ This module provides common utility functions used across testing scripts includ
 - World/game name mapping and normalization
 - Error/warning parsing
 - Command execution
-- Test result parsing (multiplayer and spoiler tests)
+- Test result parsing (multiclient and spoiler tests)
 """
 
 import json
@@ -35,26 +35,74 @@ def read_host_yaml_config(project_root: str) -> Dict:
         return {}
 
 
+def load_template_exclude_list(project_root: str = None, include_reasons: bool = False):
+    """
+    Load the default template exclude list from scripts/data/template-exclude-list.json.
+
+    Args:
+        project_root: Optional project root path. If not provided, will be inferred.
+        include_reasons: If True, returns list of dicts with 'name' and 'reason' keys.
+                        If False, returns list of template filenames only.
+
+    Returns:
+        List[str] if include_reasons=False: List of template filenames to exclude
+        List[Dict] if include_reasons=True: List of dicts with 'name' and 'reason' keys
+        Returns default list if file not found or malformed.
+    """
+    if project_root is None:
+        # Infer project root from this file's location (scripts/lib/test_utils.py)
+        project_root = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+
+    exclude_list_file = os.path.join(project_root, 'scripts', 'data', 'template-exclude-list.json')
+
+    # Default fallback list (old format)
+    default_exclude_list = ['Archipelago.yaml', 'Universal Tracker.yaml', 'Final Fantasy.yaml', 'Sudoku.yaml']
+
+    try:
+        with open(exclude_list_file, 'r') as f:
+            data = json.load(f)
+            exclude_list = data.get('exclude_list', default_exclude_list)
+
+            # Check if the list contains dictionaries (new format) or strings (old format)
+            if exclude_list and isinstance(exclude_list[0], dict):
+                # New format: list of objects with 'name' and 'reason'
+                if include_reasons:
+                    return exclude_list
+                else:
+                    return [item['name'] for item in exclude_list]
+            else:
+                # Old format: list of strings
+                if include_reasons:
+                    # Convert to new format with empty reasons
+                    return [{'name': name, 'reason': ''} for name in exclude_list]
+                else:
+                    return exclude_list
+    except (FileNotFoundError, json.JSONDecodeError, KeyError) as e:
+        # If file doesn't exist or is malformed, return default list
+        if include_reasons:
+            return [{'name': name, 'reason': ''} for name in default_exclude_list]
+        else:
+            return default_exclude_list
+
+
 def build_and_load_world_mapping(project_root: str) -> Dict[str, Dict]:
     """Build world mapping and load it."""
     mapping_file = os.path.join(project_root, 'scripts', 'data', 'world-mapping.json')
-    build_script = os.path.join(project_root, 'scripts', 'build-world-mapping.py')
+    build_script = os.path.join(project_root, 'scripts', 'build', 'build-world-mapping.py')
 
     # Always build the mapping to ensure it's current
-    try:
-        print("Building world mapping...")
-        result = subprocess.run([sys.executable, build_script],
-                              cwd=project_root,
-                              capture_output=True,
-                              text=True)
-        if result.returncode != 0:
-            print(f"Warning: Failed to build world mapping: {result.stderr}")
-            return {}
-        else:
-            print("World mapping built successfully")
-    except Exception as e:
-        print(f"Warning: Failed to build world mapping: {e}")
+    print("Building world mapping...")
+    return_code, stdout, stderr = run_command(
+        [sys.executable, build_script],
+        cwd=project_root,
+        timeout=120  # 2 minute timeout for building world mapping
+    )
+
+    if return_code != 0:
+        print(f"Warning: Failed to build world mapping: {stderr}")
         return {}
+    else:
+        print("World mapping built successfully")
 
     # Load the mapping
     try:
@@ -177,14 +225,14 @@ def get_world_info(template_file: str, templates_dir: str, world_mapping: Dict[s
     if game_name and game_name in world_mapping:
         world_info = world_mapping[game_name].copy()
         world_info['game_name_from_yaml'] = game_name
-        world_info['normalized_name'] = normalize_game_name(template_file)
+        world_info['game_name_from_filename'] = normalize_game_name(template_file)
         return world_info
     else:
         # Fallback to normalized name
-        normalized_name = normalize_game_name(template_file)
+        game_name_from_filename = normalize_game_name(template_file)
         return {
             'game_name_from_yaml': game_name,
-            'normalized_name': normalized_name,
+            'game_name_from_filename': game_name_from_filename,
             'world_directory': None,
             'has_custom_exporter': False,
             'has_custom_game_logic': False,
@@ -249,7 +297,8 @@ def count_errors_and_warnings(text: str) -> Tuple[int, int, Optional[str], Optio
         # Skip lines that are false positives
         if (line_stripped.startswith('[SKIP]') or
             'error logs:' in line_lower or
-            'no errors detected' in line_lower):
+            'no errors detected' in line_lower or
+            'analysis finished without errors but produced no result' in line_lower):
             continue
 
         if 'error' in line_lower:
@@ -296,20 +345,67 @@ def run_command(cmd: List[str], cwd: str = None, timeout: int = 300, env: Dict =
     """
     Run a command and return (return_code, stdout, stderr).
     Closes stdin to prevent the subprocess from waiting for user input.
+    Uses process groups to ensure all child processes are terminated on timeout.
     """
+    import signal
+    import os as os_module
+
     try:
-        result = subprocess.run(
-            cmd,
-            cwd=cwd,
-            env=env,
-            stdin=subprocess.DEVNULL,
-            capture_output=True,
-            text=True,
-            timeout=timeout
-        )
-        return result.returncode, result.stdout, result.stderr
-    except subprocess.TimeoutExpired:
-        return -1, "", "Command timed out"
+        # On Unix systems, use process groups to ensure we can kill the entire process tree
+        if os_module.name != 'nt':  # Unix/Linux/Mac
+            process = subprocess.Popen(
+                cmd,
+                cwd=cwd,
+                env=env,
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                preexec_fn=os_module.setpgrp  # Create new process group
+            )
+        else:  # Windows
+            process = subprocess.Popen(
+                cmd,
+                cwd=cwd,
+                env=env,
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                creationflags=subprocess.CREATE_NEW_PROCESS_GROUP
+            )
+
+        try:
+            stdout, stderr = process.communicate(timeout=timeout)
+            return process.returncode, stdout, stderr
+        except subprocess.TimeoutExpired:
+            # Kill the entire process group on timeout
+            if os_module.name != 'nt':  # Unix/Linux/Mac
+                try:
+                    os_module.killpg(os_module.getpgid(process.pid), signal.SIGTERM)
+                    # Give it 5 seconds to terminate gracefully
+                    try:
+                        process.wait(timeout=5)
+                    except subprocess.TimeoutExpired:
+                        # Force kill if still running
+                        os_module.killpg(os_module.getpgid(process.pid), signal.SIGKILL)
+                except ProcessLookupError:
+                    pass  # Process already terminated
+            else:  # Windows
+                process.terminate()
+                try:
+                    process.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    process.kill()
+
+            # Try to get any output that was generated before timeout
+            try:
+                stdout, stderr = process.communicate(timeout=1)
+            except:
+                stdout, stderr = "", ""
+
+            return -1, stdout, f"Command timed out after {timeout} seconds\n{stderr}"
+
     except Exception as e:
         return -1, "", str(e)
 
@@ -375,23 +471,38 @@ def count_total_spheres(spheres_log_path: str, player_num: int = None) -> float:
         return 0
 
 
-def parse_multiplayer_test_results(test_results_dir: str) -> Dict:
-    """Parse multiplayer test results from JSON files for both clients."""
+def parse_multiclient_test_results(test_results_dir: str, single_client: bool = False) -> Dict:
+    """Parse multiclient test results from JSON files for both clients.
+
+    Args:
+        test_results_dir: Directory containing test result JSON files
+        single_client: If True, only check Client 1 results (no Client 2 required)
+    """
     result = {
         'success': False,
         'client1_passed': False,
         'client2_passed': False,
         'client1_locations_checked': 0,
+        'client1_total_locations': 0,
         'client1_manually_checkable': 0,
+        'client1_manually_checkable_checked': 0,
+        'client1_event_locations': 0,
+        'client1_event_locations_checked': 0,
         'client2_locations_received': 0,
         'client2_total_locations': 0,
-        'error_message': None
+        'error_message': None,
+        'single_client_mode': single_client
     }
 
     # Find the most recent test result files for both clients
     try:
         from pathlib import Path
-        client1_files = list(Path(test_results_dir).glob('client1-timer-*.json'))
+        # In single-client mode, look for 'client1-timer-single-*.json' files
+        # In dual-client mode, look for 'client1-timer-send-*.json' files
+        if single_client:
+            client1_files = list(Path(test_results_dir).glob('client1-timer-single-*.json'))
+        else:
+            client1_files = list(Path(test_results_dir).glob('client1-timer-send-*.json'))
         client2_files = list(Path(test_results_dir).glob('client2-timer-*.json'))
 
         if not client1_files:
@@ -414,7 +525,11 @@ def parse_multiplayer_test_results(test_results_dir: str) -> Dict:
         if test_details:
             logs = test_details[0].get('logs', [])
             locations_checked_val = 0
+            total_locations_val = 0
             manually_checkable_val = 0
+            manually_checkable_checked_val = 0
+            event_locations_val = 0
+            event_locations_checked_val = 0
 
             for log_entry in logs:
                 message = log_entry.get('message', '')
@@ -425,14 +540,42 @@ def parse_multiplayer_test_results(test_results_dir: str) -> Dict:
                     if match:
                         locations_checked_val = int(match.group(1))
 
-                # Look for "Manually-checkable locations: X"
-                if 'manually-checkable locations' in message.lower():
+                # Look for "Total locations: X"
+                if 'total locations:' in message.lower():
+                    match = re.search(r'total locations:\s*(\d+)', message, re.IGNORECASE)
+                    if match:
+                        total_locations_val = int(match.group(1))
+
+                # Look for "Manually-checkable locations: X" (total)
+                if 'manually-checkable locations:' in message.lower() and 'checked' not in message.lower():
                     match = re.search(r'manually-checkable locations:\s*(\d+)', message, re.IGNORECASE)
                     if match:
                         manually_checkable_val = int(match.group(1))
 
+                # Look for "Manually-checkable locations checked: X"
+                if 'manually-checkable locations checked:' in message.lower():
+                    match = re.search(r'manually-checkable locations checked:\s*(\d+)', message, re.IGNORECASE)
+                    if match:
+                        manually_checkable_checked_val = int(match.group(1))
+
+                # Look for "Event locations: X" (total)
+                if 'event locations:' in message.lower() and 'checked' not in message.lower():
+                    match = re.search(r'event locations:\s*(\d+)', message, re.IGNORECASE)
+                    if match:
+                        event_locations_val = int(match.group(1))
+
+                # Look for "Event locations checked: X"
+                if 'event locations checked:' in message.lower():
+                    match = re.search(r'event locations checked:\s*(\d+)', message, re.IGNORECASE)
+                    if match:
+                        event_locations_checked_val = int(match.group(1))
+
             result['client1_locations_checked'] = locations_checked_val
+            result['client1_total_locations'] = total_locations_val
             result['client1_manually_checkable'] = manually_checkable_val
+            result['client1_manually_checkable_checked'] = manually_checkable_checked_val
+            result['client1_event_locations'] = event_locations_val
+            result['client1_event_locations_checked'] = event_locations_checked_val
 
         # Parse Client 2 results if available
         if client2_files:
@@ -451,6 +594,7 @@ def parse_multiplayer_test_results(test_results_dir: str) -> Dict:
                 logs2 = test_details2[0].get('logs', [])
                 expecting_val = 0
                 final_state_val = 0
+                last_received_val = 0
 
                 for log_entry in logs2:
                     message = log_entry.get('message', '')
@@ -461,6 +605,12 @@ def parse_multiplayer_test_results(test_results_dir: str) -> Dict:
                         if match:
                             expecting_val = int(match.group(1))
 
+                    # Look for "Received X/Y location checks" progress messages
+                    if 'received' in message.lower() and 'location checks' in message.lower():
+                        match = re.search(r'received\s+(\d+)/\d+\s+location', message, re.IGNORECASE)
+                        if match:
+                            last_received_val = int(match.group(1))
+
                     # Look for "Final state: X locations marked as checked"
                     if 'final state' in message.lower() and 'locations marked as checked' in message.lower():
                         match = re.search(r'(\d+)\s+locations?\s+marked', message)
@@ -468,16 +618,24 @@ def parse_multiplayer_test_results(test_results_dir: str) -> Dict:
                             final_state_val = int(match.group(1))
 
                 result['client2_total_locations'] = expecting_val
-                result['client2_locations_received'] = final_state_val
+                # Use final_state_val if available, otherwise fall back to last progress message
+                result['client2_locations_received'] = final_state_val if final_state_val > 0 else last_received_val
 
         # Test passes if:
-        # - Client 1 passed (sent all manually-checkable locations)
-        # - Client 2 passed (received all locations)
-        # - Client 2 received all expected locations
-        result['success'] = (result['client1_passed'] and
-                            result['client2_passed'] and
-                            result['client2_locations_received'] >= result['client2_total_locations'] and
-                            result['client2_total_locations'] > 0)
+        # - In single-client mode: Client 1 passed and checked all locations
+        # - In dual-client mode: Client 1 passed AND Client 2 passed and received all locations
+        if single_client:
+            # Single-client mode: only Client 1 needs to pass
+            # Check that all locations were checked (checked >= manually_checkable)
+            result['success'] = (result['client1_passed'] and
+                                result['client1_locations_checked'] >= result['client1_manually_checkable'] and
+                                result['client1_manually_checkable'] > 0)
+        else:
+            # Dual-client mode: both clients must pass
+            result['success'] = (result['client1_passed'] and
+                                result['client2_passed'] and
+                                result['client2_locations_received'] >= result['client2_total_locations'] and
+                                result['client2_total_locations'] > 0)
 
     except Exception as e:
         result['error_message'] = f"Error parsing test results: {str(e)}"
@@ -507,23 +665,30 @@ def parse_playwright_analysis(analysis_text: str) -> Dict:
     result['first_warning_line'] = first_warning
 
     # Parse for sphere information and pass/fail status
+    # Track if we've seen an explicit failure - failures should never be overwritten
+    seen_explicit_fail = False
+
     lines = analysis_text.split('\n')
     for line in lines:
         line_stripped = line.strip()
         line_upper = line_stripped.upper()
 
         # Look for pass/fail status - check for [PASS] or [FAIL] in test results
-        if '[PASS]' in line_upper:
-            result['pass_fail'] = 'passed'
-        elif '[FAIL]' in line_upper:
+        # Once we see a [FAIL], don't let anything override it
+        if '[FAIL]' in line_upper:
             result['pass_fail'] = 'failed'
-        elif 'PASSED:' in line_upper or 'FAILED:' in line_upper:
-            if 'PASSED:' in line_upper:
+            seen_explicit_fail = True
+        elif not seen_explicit_fail:
+            # Only set to passed if we haven't seen an explicit failure
+            if '[PASS]' in line_upper:
                 result['pass_fail'] = 'passed'
-            else:
+            elif 'NO ERRORS DETECTED' in line_upper:
+                result['pass_fail'] = 'passed'
+            # Check for "Failed: N" summary lines - if N > 0, it's a failure
+            # Match patterns like "Failed: 1" or "Failed: 10" but not "Failed: 0"
+            elif re.match(r'FAILED:\s*[1-9]', line_upper):
                 result['pass_fail'] = 'failed'
-        elif 'NO ERRORS DETECTED' in line_upper:
-            result['pass_fail'] = 'passed'
+                seen_explicit_fail = True
 
         # Look for sphere information
         sphere_match = re.search(r'sphere\s+(\d+(?:\.\d+)?)', line_stripped.lower())

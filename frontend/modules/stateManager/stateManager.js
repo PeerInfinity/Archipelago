@@ -16,6 +16,7 @@ import {
   detectGameFromWorldClass
 } from '../shared/gameLogic/gameLogicRegistry.js';
 import { createStateSnapshotInterface } from '../shared/stateInterface.js';
+import { DEFAULT_PLAYER_ID, PlayerIdUtils } from '../shared/playerIdUtils.js';
 
 // Import universal logger for consistent logging across contexts
 import { createUniversalLogger } from '../../app/core/universalLogger.js';
@@ -96,7 +97,7 @@ export class StateManager {
     // --- END Check ---
 
     // Player identification
-    this.playerSlot = 1; // Default player slot to 1 for single-player/offline
+    this.playerId = DEFAULT_PLAYER_ID; // Default player ID to '1' for single-player/offline
     this.team = 0; // Default team
 
     // Region and location data (Phase 3: Converted to Maps for O(1) lookups)
@@ -104,6 +105,7 @@ export class StateManager {
     this.regions = new Map(); // Map of region name -> region data
     this.dungeons = new Map(); // Map of dungeon name -> dungeon data
     this.eventLocations = new Map(); // Map of location name -> event location data
+    this.localItemLocations = new Map(); // Map of location name -> location data for id:null non-event items (e.g., coins)
 
     // Enhance the indirectConnections to match Python implementation
     this.indirectConnections = new Map(); // Map of region name -> set of entrances affected by that region
@@ -205,10 +207,23 @@ export class StateManager {
         '[StateManager] Received ping, sending pong with data:',
         data
       );
+
+      // Get queue status if available
+      let queueStatus = null;
+      if (this.commandQueue) {
+        const snapshot = this.commandQueue.getSnapshot();
+        queueStatus = {
+          pending: snapshot.queueLength,
+          processing: snapshot.processing,
+          currentCommand: snapshot.currentCommand?.command || null
+        };
+      }
+
       this.postMessageCallback({
         type: 'pingResponse',
         queryId: data.queryId, // queryId at the top level
         payload: data.payload, // The actual echoed payload at the top level
+        queueStatus: queueStatus // Include queue status for debugging
       });
     } else {
       log(
@@ -548,9 +563,10 @@ export class StateManager {
    * Mark a location as checked
    * @param {string} locationName - Name of the location to check
    * @param {boolean} addItems - Whether to add the location's item to inventory (default: true)
+   * @param {boolean} forceCheck - Whether to bypass accessibility check (default: false)
    */
-  checkLocation(locationName, addItems = true) {
-    LocationCheckingModule.checkLocation(this, locationName, addItems);
+  checkLocation(locationName, addItems = true, forceCheck = false) {
+    return LocationCheckingModule.checkLocation(this, locationName, addItems, forceCheck);
   }
 
   /**
@@ -671,12 +687,16 @@ export class StateManager {
   }
 
   // Delegate can_reach methods to ReachabilityModule (Python API compatibility)
-  can_reach(target, type = 'Region', player = 1) {
-    return ReachabilityModule.can_reach(this, target, type, player);
+  can_reach(target, type = 'Region', playerId = null) {
+    return ReachabilityModule.can_reach(this, target, type, playerId);
   }
 
-  can_reach_region(region, player = null) {
-    return ReachabilityModule.can_reach_region(this, region, player);
+  can_reach_region(region, playerId = null) {
+    return ReachabilityModule.can_reach_region(this, region, playerId);
+  }
+
+  can_reach_location(location, playerId = null) {
+    return ReachabilityModule.can_reach_location(this, location, playerId);
   }
 
   /**
@@ -765,6 +785,10 @@ export class StateManager {
 
   has_from_list(items, count) {
     return InventoryModule.has_from_list(this, items, count);
+  }
+
+  has_group_unique(groupName, count = 1) {
+    return InventoryModule.has_group_unique(this, groupName, count);
   }
 
   applyRuntimeState(payload) {

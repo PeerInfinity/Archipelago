@@ -1,0 +1,1798 @@
+{
+  "schema_version": 3,
+  "game_name": "Saving Princess",
+  "game_directory": "saving_princess",
+  "archipelago_version": "0.6.4",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1",
+    "2": "Player2",
+    "3": "Player3",
+    "4": "Player4",
+    "5": "Player5",
+    "6": "Player6",
+    "7": "Player7",
+    "8": "Player8",
+    "9": "Player9",
+    "10": "Player10",
+    "11": "Player11",
+    "12": "Player12",
+    "13": "Player13",
+    "14": "Player14",
+    "15": "Player15",
+    "16": "Player16",
+    "17": "Player17",
+    "18": "Player18",
+    "19": "Player19",
+    "20": "Player20",
+    "21": "Player21",
+    "22": "Player22",
+    "23": "Player23",
+    "24": "Player24",
+    "25": "Player25",
+    "26": "Player26",
+    "27": "Player27",
+    "28": "Player28",
+    "29": "Player29",
+    "30": "Player30",
+    "31": "Player31",
+    "32": "Player32",
+    "33": "Player33",
+    "34": "Player34",
+    "35": "Player35",
+    "36": "Player36",
+    "37": "Player37",
+    "38": "Player38",
+    "39": "Player39",
+    "40": "Player40",
+    "41": "Player41",
+    "42": "Player42",
+    "43": "Player43",
+    "44": "Player44",
+    "45": "Player45",
+    "46": "Player46",
+    "47": "Player47",
+    "48": "Player48",
+    "49": "Player49",
+    "50": "Player50",
+    "51": "Player51",
+    "52": "Player52",
+    "53": "Player53",
+    "54": "Player54",
+    "55": "Player55",
+    "56": "Player56",
+    "57": "Player57",
+    "58": "Player58",
+    "59": "Player59",
+    "60": "Player60",
+    "61": "Player61",
+    "62": "Player62",
+    "63": "Player63",
+    "64": "Player64",
+    "65": "Player65",
+    "66": "Player66",
+    "67": "Player67",
+    "68": "Player68",
+    "69": "Player69",
+    "70": "Player70",
+    "71": "Player71",
+    "72": "Player72",
+    "73": "Player73",
+    "74": "Player74",
+    "75": "Player75"
+  },
+  "world_classes": {
+    "1": "HatInTimeWorld",
+    "2": "ALTTPWorld",
+    "3": "ShortHikeWorld",
+    "4": "AdventureWorld",
+    "5": "AquariaWorld",
+    "6": "ArchipIDLEWorld",
+    "7": "BlasphemousWorld",
+    "8": "BombRushCyberfunkWorld",
+    "9": "BumpStikWorld",
+    "10": "CVCotMWorld",
+    "11": "CV64World",
+    "12": "Celeste64World",
+    "13": "ChecksFinderWorld",
+    "14": "ChocolateChipCookiesWorld",
+    "15": "CivVIWorld",
+    "16": "DarkSouls3World",
+    "17": "DLCqworld",
+    "18": "DKC3World",
+    "19": "DOOM1993World",
+    "20": "DOOM2World",
+    "21": "Factorio",
+    "22": "FaxanaduWorld",
+    "23": "FFMQWorld",
+    "24": "HereticWorld",
+    "25": "Hylics2World",
+    "26": "InscryptionWorld",
+    "27": "JakAndDaxterWorld",
+    "28": "KH2World",
+    "29": "KH1World",
+    "30": "KDL3World",
+    "31": "LandstalkerWorld",
+    "32": "LingoWorld",
+    "33": "LinksAwakeningWorld",
+    "34": "L2ACWorld",
+    "35": "MLSSWorld",
+    "36": "MathProof2p2e4World",
+    "37": "MM2World",
+    "38": "MMBN3World",
+    "39": "MeritousWorld",
+    "40": "MetamathWorld",
+    "41": "MuseDashWorld",
+    "42": "NoitaWorld",
+    "43": "OSRSWorld",
+    "44": "Overcooked2World",
+    "45": "PaintWorld",
+    "46": "PokemonEmeraldWorld",
+    "47": "PokemonRedBlueWorld",
+    "48": "RaftWorld",
+    "49": "RiskOfRainWorld",
+    "50": "SavingPrincessWorld",
+    "51": "SoEWorld",
+    "52": "ShapezWorld",
+    "53": "ShiversWorld",
+    "54": "SA2BWorld",
+    "55": "SC2World",
+    "56": "StardewValleyWorld",
+    "57": "SubnauticaWorld",
+    "58": "SM64World",
+    "59": "MarioLand2World",
+    "60": "SMWWorld",
+    "61": "SMWorld",
+    "62": "TerrariaWorld",
+    "63": "TLoZWorld",
+    "64": "MessengerWorld",
+    "65": "TWWWorld",
+    "66": "WitnessWorld",
+    "67": "TimespinnerWorld",
+    "68": "TunicWorld",
+    "69": "UndertaleWorld",
+    "70": "V6World",
+    "71": "WargrooveWorld",
+    "72": "WebDevJourneyWorld",
+    "73": "YachtDiceWorld",
+    "74": "YoshisIslandWorld",
+    "75": "Yugioh06World"
+  },
+  "regions": {
+    "50": {
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "Hub entrance",
+            "connected_region": "Hub",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Cave": {
+        "name": "Cave",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Cave: After Wallboss",
+            "id": 91630179862862,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Very Funny Joke",
+              "player": 6,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Cave: Balcony",
+            "id": 91630179862863,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "progressive-flamethrower",
+              "player": 21,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Cave: Spike pit",
+            "id": 91630179862864,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Poison",
+              "player": 22,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Cave: Powered Blaster chest",
+            "id": 91630179862865,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Clip Extension"
+            },
+            "item": {
+              "name": "Box of shotgun shells",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Cave: Wallboss (Boss)",
+            "id": 91630179862886,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Pandemonium (E3M3)",
+              "player": 19,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Cave: Guard (Boss)",
+            "id": 91630179862887,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Clip Extension"
+            },
+            "item": {
+              "name": "Quartz Flask",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Volcanic": {
+        "name": "Volcanic",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Volcanic: Hot coals",
+            "id": 91630179862866,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "state_method",
+                      "method": "has_any",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": [
+                            "Flamethrower",
+                            "Ice Spreadshot",
+                            "Volt Laser"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Faster Reload",
+                      "count": {
+                        "type": "constant",
+                        "value": 4
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Ice Spreadshot"
+                }
+              ]
+            },
+            "item": {
+              "name": "Red Potion",
+              "player": 22,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Volcanic: Under bridge",
+            "id": 91630179862867,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Time Shard (500)",
+              "player": 64,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Volcanic: Behind wall",
+            "id": 91630179862868,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "MULTI STEM CELL",
+              "player": 25,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Volcanic: Flamethrower chest",
+            "id": 91630179862869,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Clip Extension"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Faster Reload",
+                  "count": {
+                    "type": "constant",
+                    "value": 2
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Life Extension"
+                }
+              ]
+            },
+            "item": {
+              "name": "Graffiti (L - wild rush)",
+              "player": 8,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Volcanic: Cliff (Boss)",
+            "id": 91630179862888,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Clip Extension"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Faster Reload",
+                  "count": {
+                    "type": "constant",
+                    "value": 2
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Life Extension"
+                }
+              ]
+            },
+            "item": {
+              "name": "Hoo Bean",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Arctic": {
+        "name": "Arctic",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Arctic: Before pipes",
+            "id": 91630179862870,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Furniture",
+              "player": 57,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Arctic: After Guard",
+            "id": 91630179862871,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Emblem",
+              "player": 54,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Arctic: Under snow",
+            "id": 91630179862872,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Flamethrower"
+            },
+            "item": {
+              "name": "Lucky Emblem",
+              "player": 28,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Arctic: Ice Spreadshot chest",
+            "id": 91630179862873,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Clip Extension"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Faster Reload",
+                  "count": {
+                    "type": "constant",
+                    "value": 2
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Life Extension"
+                }
+              ]
+            },
+            "item": {
+              "name": "Effigy",
+              "player": 68,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Arctic: Jacket chest",
+            "id": 91630179862874,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Flamethrower"
+            },
+            "item": {
+              "name": "Small Key",
+              "player": 63,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Arctic: Ace (Boss)",
+            "id": 91630179862889,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Clip Extension"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Faster Reload",
+                  "count": {
+                    "type": "constant",
+                    "value": 2
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Life Extension"
+                }
+              ]
+            },
+            "item": {
+              "name": "DEEP KEY",
+              "player": 25,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Hub": {
+        "name": "Hub",
+        "exits": [
+          {
+            "name": "Cave entrance",
+            "connected_region": "Cave",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Volcanic entrance",
+            "connected_region": "Volcanic",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Powered Blaster"
+            }
+          },
+          {
+            "name": "Arctic entrance",
+            "connected_region": "Arctic",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Powered Blaster"
+            }
+          },
+          {
+            "name": "Swamp entrance",
+            "connected_region": "Swamp",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Powered Blaster"
+            }
+          },
+          {
+            "name": "Electrical entrance",
+            "connected_region": "Electrical",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "state_method",
+                      "method": "has_any",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": [
+                            "Flamethrower",
+                            "Ice Spreadshot",
+                            "Volt Laser"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Clip Extension",
+                      "count": {
+                        "type": "constant",
+                        "value": 2
+                      }
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Faster Reload",
+                      "count": {
+                        "type": "constant",
+                        "value": 4
+                      }
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Life Extension",
+                      "count": {
+                        "type": "constant",
+                        "value": 2
+                      }
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Powered Blaster"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Arctic Key",
+                        "Cave Key",
+                        "Swamp Key",
+                        "Volcanic Key"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Hub: Hidden near Arctic",
+            "id": 91630179862875,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Powered Blaster"
+            },
+            "item": {
+              "name": "Box of rockets",
+              "player": 19,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hub: Hidden near Cave",
+            "id": 91630179862876,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Agrabah",
+              "player": 29,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hub: Hidden near Swamp",
+            "id": 91630179862877,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Big Belt Upgrade",
+              "player": 52,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hub: Console login",
+            "id": 91630179862890,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Lucky Emblem",
+              "player": 28,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hub: Ninja scare (Boss?)",
+            "id": 91630179862891,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Cave Key"
+            },
+            "item": {
+              "name": "Traveling Merchant Stock Size",
+              "player": 56,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Swamp": {
+        "name": "Swamp",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Swamp: Bramble room",
+            "id": 91630179862878,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "has_any",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Flamethrower",
+                        "Ice Spreadshot",
+                        "Volt Laser"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Faster Reload",
+                  "count": {
+                    "type": "constant",
+                    "value": 4
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Income Boost",
+              "player": 71,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Swamp: Down the chimney",
+            "id": 91630179862879,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Central Processing (E1M6) - Yellow keycard",
+              "player": 19,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Swamp: Wall maze",
+            "id": 91630179862880,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Immortal",
+              "player": 55,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Swamp: Special Extension chest",
+            "id": 91630179862881,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Clip Extension"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Faster Reload",
+                  "count": {
+                    "type": "constant",
+                    "value": 2
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Life Extension"
+                }
+              ]
+            },
+            "item": {
+              "name": "Titanite Chunk",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Swamp: Snake (Boss)",
+            "id": 91630179862892,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Clip Extension"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Faster Reload",
+                  "count": {
+                    "type": "constant",
+                    "value": 2
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Life Extension"
+                }
+              ]
+            },
+            "item": {
+              "name": "Enchanted Shield",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Electrical": {
+        "name": "Electrical",
+        "exits": [
+          {
+            "name": "Electrical (Power On) entrance",
+            "connected_region": "Electrical (Power On)",
+            "access_rule": {
+              "type": "item_check",
+              "item": "System Power"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Elevator: Ninja (Boss)",
+            "id": 91630179862893,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cyclops Engine Fragment",
+              "player": 57,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Electrical: Volt Laser chest",
+            "id": 91630179862885,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Dragon Tooth",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Electrical: Generator (Boss)",
+            "id": 91630179862895,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Empty Bile Vessel",
+              "player": 7,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Electrical: Tesla orb",
+            "id": 91630179862894,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Volt Laser"
+            },
+            "item": {
+              "name": "Sunlight Straight Sword",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Electrical (Power On)": {
+        "name": "Electrical (Power On)",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Electrical: Near generator",
+            "id": 91630179862882,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Zerg Missile Attack",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Electrical: Behind wall",
+            "id": 91630179862883,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "progressive-mining-productivity",
+              "player": 21,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Electrical: Before Malakhov",
+            "id": 91630179862884,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Baby Nautilus",
+              "player": 5,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Electrical: Malakhov (Boss)",
+            "id": 91630179862896,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Fire Bomb x3",
+              "player": 68,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Electrical: BRAINOS (Boss)",
+            "id": 91630179862897,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Flamethrower",
+                    "Ice Spreadshot",
+                    "Volt Laser"
+                  ]
+                }
+              ]
+            },
+            "item": {
+              "name": "Ocular Implants (Ghost)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mission objective",
+            "id": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Flamethrower",
+                    "Ice Spreadshot",
+                    "Volt Laser"
+                  ]
+                }
+              ]
+            },
+            "item": {
+              "name": "PRINCESS",
+              "player": 50,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "start_regions": {
+    "50": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "50": {
+      "Powered Blaster": {
+        "name": "Powered Blaster",
+        "id": 91630179862862,
+        "groups": [
+          "Everything",
+          "Weapons"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Flamethrower": {
+        "name": "Flamethrower",
+        "id": 91630179862863,
+        "groups": [
+          "Everything",
+          "Weapons"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ice Spreadshot": {
+        "name": "Ice Spreadshot",
+        "id": 91630179862864,
+        "groups": [
+          "Everything",
+          "Weapons"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Volt Laser": {
+        "name": "Volt Laser",
+        "id": 91630179862865,
+        "groups": [
+          "Everything",
+          "Weapons"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Life Extension": {
+        "name": "Life Extension",
+        "id": 91630179862866,
+        "groups": [
+          "Everything",
+          "Upgrades"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 6
+      },
+      "Clip Extension": {
+        "name": "Clip Extension",
+        "id": 91630179862867,
+        "groups": [
+          "Everything",
+          "Upgrades"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 6
+      },
+      "Faster Reload": {
+        "name": "Faster Reload",
+        "id": 91630179862868,
+        "groups": [
+          "Everything",
+          "Upgrades"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 6
+      },
+      "Special Extension": {
+        "name": "Special Extension",
+        "id": 91630179862869,
+        "groups": [
+          "Everything",
+          "Upgrades"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Jacket": {
+        "name": "Jacket",
+        "id": 91630179862870,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cave Key": {
+        "name": "Cave Key",
+        "id": 91630179862871,
+        "groups": [
+          "Everything",
+          "Keys"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Volcanic Key": {
+        "name": "Volcanic Key",
+        "id": 91630179862872,
+        "groups": [
+          "Everything",
+          "Keys"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Arctic Key": {
+        "name": "Arctic Key",
+        "id": 91630179862873,
+        "groups": [
+          "Everything",
+          "Keys"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Swamp Key": {
+        "name": "Swamp Key",
+        "id": 91630179862874,
+        "groups": [
+          "Everything",
+          "Keys"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "System Power": {
+        "name": "System Power",
+        "id": 91630179862875,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Full Heal": {
+        "name": "Full Heal",
+        "id": 91630179862876,
+        "groups": [
+          "Everything",
+          "Filler"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Quick-fire Mode": {
+        "name": "Quick-fire Mode",
+        "id": 91630179862877,
+        "groups": [
+          "Everything",
+          "Filler"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Active Camouflage": {
+        "name": "Active Camouflage",
+        "id": 91630179862878,
+        "groups": [
+          "Everything",
+          "Filler"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Ice Trap": {
+        "name": "Ice Trap",
+        "id": 91630179862879,
+        "groups": [
+          "Everything",
+          "Traps"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Shake Trap": {
+        "name": "Shake Trap",
+        "id": 91630179862880,
+        "groups": [
+          "Everything",
+          "Traps"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Ninja Trap": {
+        "name": "Ninja Trap",
+        "id": 91630179862881,
+        "groups": [
+          "Everything",
+          "Traps"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "PRINCESS": {
+        "name": "PRINCESS",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Very Funny Joke": {
+        "name": "Very Funny Joke",
+        "id": 9001,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "progressive-flamethrower": {
+        "name": "progressive-flamethrower",
+        "id": 131268,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Poison": {
+        "name": "Poison",
+        "id": 400028,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": true,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Box of shotgun shells": {
+        "name": "Box of shotgun shells",
+        "id": 360018,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Pandemonium (E3M3)": {
+        "name": "Pandemonium (E3M3)",
+        "id": 350074,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Quartz Flask": {
+        "name": "Quartz Flask",
+        "id": 370010,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Red Potion": {
+        "name": "Red Potion",
+        "id": 400024,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Time Shard (500)": {
+        "name": "Time Shard (500)",
+        "id": 11391004,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "MULTI STEM CELL": {
+        "name": "MULTI STEM CELL",
+        "id": 200651,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Graffiti (L - wild rush)": {
+        "name": "Graffiti (L - wild rush)",
+        "id": 2308072,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hoo Bean": {
+        "name": "Hoo Bean",
+        "id": 77771019,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Furniture": {
+        "name": "Furniture",
+        "id": 35100,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Emblem": {
+        "name": "Emblem",
+        "id": 16711680,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lucky Emblem": {
+        "name": "Lucky Emblem",
+        "id": 1245422,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Effigy": {
+        "name": "Effigy",
+        "id": 509342414,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Small Key": {
+        "name": "Small Key",
+        "id": 7126,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "DEEP KEY": {
+        "name": "DEEP KEY",
+        "id": 200648,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Box of rockets": {
+        "name": "Box of rockets",
+        "id": 350115,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Agrabah": {
+        "name": "Agrabah",
+        "id": 2647005,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Big Belt Upgrade": {
+        "name": "Big Belt Upgrade",
+        "id": 20010734,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Traveling Merchant Stock Size": {
+        "name": "Traveling Merchant Stock Size",
+        "id": 717120,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Income Boost": {
+        "name": "Income Boost",
+        "id": 52023,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Central Processing (E1M6) - Yellow keycard": {
+        "name": "Central Processing (E1M6) - Yellow keycard",
+        "id": 350020,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Immortal": {
+        "name": "Immortal",
+        "id": 1704,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Titanite Chunk": {
+        "name": "Titanite Chunk",
+        "id": 100895,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Enchanted Shield": {
+        "name": "Enchanted Shield",
+        "id": 370017,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cyclops Engine Fragment": {
+        "name": "Cyclops Engine Fragment",
+        "id": 35021,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dragon Tooth": {
+        "name": "Dragon Tooth",
+        "id": 100133,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Empty Bile Vessel": {
+        "name": "Empty Bile Vessel",
+        "id": 1909100,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sunlight Straight Sword": {
+        "name": "Sunlight Straight Sword",
+        "id": 100046,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Zerg Missile Attack": {
+        "name": "Progressive Zerg Missile Attack",
+        "id": 2101,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "progressive-mining-productivity": {
+        "name": "progressive-mining-productivity",
+        "id": 131278,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Baby Nautilus": {
+        "name": "Baby Nautilus",
+        "id": 698021,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fire Bomb x3": {
+        "name": "Fire Bomb x3",
+        "id": 509342406,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ocular Implants (Ghost)": {
+        "name": "Ocular Implants (Ghost)",
+        "id": 1320,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      " coins": {
+        "name": " coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      },
+      " coins freemium": {
+        "name": " coins freemium",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      }
+    }
+  },
+  "item_groups": {
+    "50": [
+      "Everything",
+      "Filler",
+      "Keys",
+      "Traps",
+      "Upgrades",
+      "Weapons"
+    ]
+  },
+  "itempool_counts": {
+    "50": {
+      "Active Camouflage": 2,
+      "Arctic Key": 1,
+      "Cave Key": 1,
+      "Clip Extension": 6,
+      "Faster Reload": 6,
+      "Flamethrower": 1,
+      "Full Heal": 1,
+      "Ice Spreadshot": 1,
+      "Jacket": 1,
+      "Life Extension": 6,
+      "Ninja Trap": 1,
+      "PRINCESS": 1,
+      "Powered Blaster": 1,
+      "Quick-fire Mode": 1,
+      "Shake Trap": 2,
+      "Special Extension": 1,
+      "Swamp Key": 1,
+      "System Power": 1,
+      "Volcanic Key": 1,
+      "Volt Laser": 1
+    }
+  },
+  "progression_mapping": {
+    "50": {}
+  },
+  "starting_items": {
+    "50": []
+  },
+  "settings": {
+    "50": {
+      "game": "Saving Princess",
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
+    }
+  },
+  "game_info": {
+    "50": {
+      "name": "Saving Princess",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

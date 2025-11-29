@@ -10,7 +10,8 @@ def update_host_yaml(settings=None):
     """Update specific settings in host.yaml"""
     # Get the project root directory (parent of scripts directory)
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    project_root = os.path.dirname(script_dir)
+    # Go up two levels: setup -> scripts -> project root
+    project_root = os.path.dirname(os.path.dirname(script_dir))
     host_yaml_path = os.path.join(project_root, "host.yaml")
     
     if not os.path.exists(host_yaml_path):

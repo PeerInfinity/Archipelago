@@ -185,6 +185,7 @@
 import { evaluateRule } from './ruleEngine.js';
 import { getGameLogic } from './gameLogic/gameLogicRegistry.js';
 import { helperFunctions as genericLogic } from './gameLogic/generic/genericLogic.js';
+import { DEFAULT_PLAYER_ID } from './playerIdUtils.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -205,9 +206,23 @@ function getHelperFunctions(gameName) {
   if (!gameName) {
     return genericLogic; // Default to generic
   }
-  
+
   const gameLogic = getGameLogic(gameName);
   return gameLogic.helperFunctions || genericLogic;
+}
+
+/**
+ * Get state methods for a game
+ * @param {string} gameName - The name of the game
+ * @returns {Object} Object containing game-specific state methods, or empty object if none
+ */
+function getStateMethods(gameName) {
+  if (!gameName) {
+    return {}; // No state methods for generic
+  }
+
+  const gameLogic = getGameLogic(gameName);
+  return gameLogic.stateMethods || {};
 }
 
 /**
@@ -221,7 +236,8 @@ function getHelperFunctions(gameName) {
 export function createStateSnapshotInterface(
   snapshot,
   staticData,
-  contextVariables = {}
+  contextVariables = {},
+  stateManager = null
 ) {
   // Legacy snapshotHelpersInstance removed - using agnostic helpers directly
   const gameName = staticData?.game_name || snapshot?.game; // Get game name from static data or snapshot
@@ -283,12 +299,22 @@ export function createStateSnapshotInterface(
         case 'flags':
           return snapshot?.flags;
         case 'state':
+          // Return snapshot, optionally wrapped by game-specific logic
+          if (!snapshot) return {};
+
+          // Check if the game has a custom wrapState function
+          const gameLogicForState = getGameLogic(gameName);
+          if (gameLogicForState.wrapState) {
+            return gameLogicForState.wrapState(snapshot);
+          }
+
+          // Default: return snapshot as-is
           return snapshot;
         case 'self':
           // In Python rules, 'self' refers to the game's rules class instance
           // which has attributes like nerf_roc_wing from the world options
           // We return the settings for the current player from staticData
-          const selfPlayerId = snapshot?.player?.slot || staticData?.playerId || contextVariables?.playerId || '1';
+          const selfPlayerId = snapshot?.player?.id || snapshot?.player?.slot || staticData?.playerId || contextVariables?.playerId || DEFAULT_PLAYER_ID;
           return staticData?.settings?.[selfPlayerId] || staticData?.settings || {};
         case 'regions':
           return staticData?.regions;
@@ -302,17 +328,18 @@ export function createStateSnapshotInterface(
         case 'dungeons':
           return staticData?.dungeons;
         case 'player':
-          return snapshot?.player?.slot || staticData?.playerId || contextVariables?.playerId || '1';
+          return snapshot?.player?.id || snapshot?.player?.slot || staticData?.playerId || contextVariables?.playerId || DEFAULT_PLAYER_ID;
         case 'world':
           // Return an object with player and options properties
-          const playerId = snapshot?.player?.slot || staticData?.playerId || contextVariables?.playerId || '1';
+          const playerId = snapshot?.player?.id || snapshot?.player?.slot || staticData?.playerId || contextVariables?.playerId || DEFAULT_PLAYER_ID;
           return {
             player: playerId,
             options: staticData?.settings?.[playerId] || staticData?.settings || {}
           };
         case 'logic':
+        case 'StateLogic':
           // Return game-specific helper functions as an object
-          // This allows code like logic.can_surf(...) to work
+          // This allows code like logic.can_surf(...) or StateLogic.hammers(...) to work
           const selectedHelpers = getHelperFunctions(gameName);
           if (selectedHelpers) {
             // Wrap each helper to accept the right parameters
@@ -325,7 +352,63 @@ export function createStateSnapshotInterface(
             return logicObject;
           }
           return undefined;
+        case 'Bosses':
+          // SM-specific Bosses object for checking boss defeat status
+          // Used by rules like Bosses.bossDead(sm, "BossName")
+          const bossHelpers = getHelperFunctions(gameName);
+          if (bossHelpers?.bossDead) {
+            return {
+              bossDead: (sm, bossName) => {
+                // The 'sm' argument is the SMBoolManager reference from Python, which we don't need
+                // We just need the bossName to check if that boss item is in inventory
+                return bossHelpers.bossDead(snapshot, staticData, bossName);
+              }
+            };
+          }
+          return undefined;
+        case 'sm':
+        case 'smbm':
+          // SM-specific SMBoolManager reference used in rules like sm.getDmgReduction()
+          // Return an object with all helper functions wrapped for the current state
+          const smHelpers = getHelperFunctions(gameName);
+          if (smHelpers) {
+            const smObject = {};
+            for (const [helperName, helperFunction] of Object.entries(smHelpers)) {
+              smObject[helperName] = (...args) => {
+                return helperFunction(snapshot, staticData, ...args);
+              };
+            }
+            return smObject;
+          }
+          return undefined;
         default:
+          // Check if this is a game-specific variable (e.g., required_technologies for Factorio)
+          const currentPlayerId = snapshot?.player?.id || snapshot?.player?.slot || staticData?.playerId || contextVariables?.playerId || DEFAULT_PLAYER_ID;
+          if (staticData?.game_info?.[currentPlayerId]?.variables && staticData.game_info[currentPlayerId].variables[name]) {
+            return staticData.game_info[currentPlayerId].variables[name];
+          }
+
+          // Check if this is a game-specific constant (e.g., OPTIONS for shapez)
+          const gameLogic = getGameLogic(gameName);
+          if (gameLogic.constants && gameLogic.constants[name]) {
+            return gameLogic.constants[name];
+          }
+
+          // Game-specific location variable extraction hook
+          // For variables not found in context, try to extract from location name
+          if (contextVariables && contextVariables.location) {
+            const locationName = contextVariables.location.name || '';
+            const selectedHelpers = getHelperFunctions(gameName);
+
+            // Check if the game has a custom extractor for this variable
+            const extractorName = `extract${name.charAt(0).toUpperCase()}${name.slice(1)}`;
+            if (selectedHelpers && typeof selectedHelpers[extractorName] === 'function') {
+              const extractedValue = selectedHelpers[extractorName](locationName);
+              if (extractedValue !== null && extractedValue !== undefined) {
+                return extractedValue;
+              }
+            }
+          }
           return undefined;
       }
     },
@@ -366,15 +449,15 @@ export function createStateSnapshotInterface(
         return 0;
       }
       let count = 0;
-      const playerSlot = snapshot?.player?.slot || '1'; // Default to '1' if not specified
+      const playerId = snapshot?.player?.id || snapshot?.player?.slot || DEFAULT_PLAYER_ID;
 
       // First check if we have item_groups (ALTTP-style with group names as array)
-      const playerItemGroups = staticData?.item_groups?.[playerSlot] || staticData?.item_groups;
+      const playerItemGroups = staticData?.item_groups?.[playerId] || staticData?.item_groups;
 
       if (Array.isArray(playerItemGroups)) {
         // ALTTP uses array of group names
         // This logic assumes staticData.itemsByPlayer is available and structured per player
-        const playerItemsData = staticData.itemsByPlayer && staticData.itemsByPlayer[playerSlot];
+        const playerItemsData = staticData.itemsByPlayer && staticData.itemsByPlayer[playerId];
         if (playerItemsData) {
           for (const itemName in playerItemsData) {
             if (playerItemsData[itemName]?.groups?.includes(groupName)) {
@@ -383,7 +466,7 @@ export function createStateSnapshotInterface(
             }
           }
         } else {
-          log('error', `[countGroup] playerItemsData not found for player ${playerSlot}. staticData.itemsByPlayer:`, staticData?.itemsByPlayer);
+          log('error', `[countGroup] playerItemsData not found for player ${playerId}. staticData.itemsByPlayer:`, staticData?.itemsByPlayer);
         }
       } else if (
         typeof playerItemGroups === 'object' &&
@@ -396,7 +479,7 @@ export function createStateSnapshotInterface(
         }
       } else if (staticData?.groups) {
         // Fallback to old groups structure if available
-        const playerGroups = staticData.groups[playerSlot] || staticData.groups;
+        const playerGroups = staticData.groups[playerId] || staticData.groups;
         if (
           typeof playerGroups === 'object' &&
           playerGroups[groupName] &&
@@ -413,6 +496,14 @@ export function createStateSnapshotInterface(
       !!(snapshot?.flags && snapshot.flags.includes(flagName)),
     getSetting: (settingName) => snapshot?.settings?.[settingName],
     isRegionReachable: (regionName) => {
+      // During BFS (when stateManager is provided and _computing is true),
+      // check the LIVE knownReachableRegions being built, not the frozen snapshot.
+      // This allows circular dependencies to resolve as BFS progresses.
+      if (stateManager && stateManager._computing && stateManager.knownReachableRegions) {
+        return stateManager.knownReachableRegions.has(regionName);
+      }
+
+      // Otherwise, use the frozen snapshot data
       const status = snapshot?.regionReachability?.[regionName];
       if (status === 'reachable' || status === 'checked') return true;
       if (status === 'unreachable') return false;
@@ -442,6 +533,10 @@ export function createStateSnapshotInterface(
       });
       return evaluateRule(locData.access_rule, locationContext);
     },
+    // Alias for isRegionReachable to match naming convention used in region_check rules
+    isRegionAccessible: function (regionName) {
+      return this.isRegionReachable(regionName);
+    },
     getPlayerSlot: () => snapshot?.player?.slot,
     getGameMode: () => snapshot?.gameMode,
     getDifficultyRequirements: () => snapshot?.difficultyRequirements,
@@ -458,6 +553,7 @@ export function createStateSnapshotInterface(
       locations: staticData.locationData || staticData.locations,
       regions: staticData.regions, // Use the main regions property for rule engine compatibility
       dungeons: staticData.dungeonData || staticData.dungeons,
+      game_info: staticData.game_info, // Include game_info for variable resolution
     }),
     getStateValue: (pathString) => {
       if (!snapshot) return undefined;
@@ -541,6 +637,7 @@ export function createStateSnapshotInterface(
     _isSnapshotInterface: true,
     inventory: snapshot?.inventory || {},
     events: snapshot?.events || {},
+    prog_items: snapshot?.prog_items || {},
     ...rawInterfaceForHelpers,
     // Add context variables to the interface (e.g., currentLocation for boss defeat rules)
     ...contextVariables,
@@ -580,6 +677,20 @@ export function createStateSnapshotInterface(
           return finalSnapshotInterface.isLocationAccessible(targetName);
       }
 
+      // Handle can_reach_region method (Python alias for can_reach with Region type)
+      if (methodName === 'can_reach_region' && args.length >= 1) {
+        const regionName = args[0];
+        // args[1] would be player_id in Python but we ignore it in single-player context
+        return finalSnapshotInterface.isRegionReachable(regionName);
+      }
+
+      // Handle can_reach_location method (Python alias for can_reach with Location type)
+      if (methodName === 'can_reach_location' && args.length >= 1) {
+        const locationName = args[0];
+        // args[1] would be player_id in Python but we ignore it in single-player context
+        return finalSnapshotInterface.isLocationAccessible(locationName);
+      }
+
       // Handle StateManager inventory methods
       if (methodName === 'has_any' && args.length >= 1) {
         const items = args[0];
@@ -616,6 +727,111 @@ export function createStateSnapshotInterface(
           itemsFound += (finalSnapshotInterface.countItem(itemName) || 0);
         }
         return itemsFound >= count;
+      }
+
+      // Handle has_from_list_unique - counts unique items from a list (ignores duplicates)
+      if (methodName === 'has_from_list_unique' && args.length >= 2) {
+        const items = args[0];
+        const count = args[1];
+        if (!Array.isArray(items)) return false;
+        if (typeof count !== 'number' || count < 0) return false;
+
+        // Count unique items from the list (items with count > 0)
+        let uniqueItemsFound = 0;
+        for (const itemName of items) {
+          if ((finalSnapshotInterface.countItem(itemName) || 0) > 0) {
+            uniqueItemsFound++;
+          }
+        }
+        return uniqueItemsFound >= count;
+      }
+
+      // Handle count_from_list_unique - returns the count of unique items from a list (ignores duplicates)
+      if (methodName === 'count_from_list_unique' && args.length >= 1) {
+        const items = args[0];
+        if (!Array.isArray(items)) return 0;
+
+        // Count unique items from the list (items with count > 0)
+        let uniqueItemsFound = 0;
+        for (const itemName of items) {
+          if ((finalSnapshotInterface.countItem(itemName) || 0) > 0) {
+            uniqueItemsFound++;
+          }
+        }
+        return uniqueItemsFound;
+      }
+
+      // Handle has_group_unique - counts unique items from a group (ignores duplicates)
+      if (methodName === 'has_group_unique' && args.length >= 2) {
+        const groupName = args[0];
+        const requiredCount = args[1];
+        if (typeof groupName !== 'string') return false;
+        if (typeof requiredCount !== 'number' || requiredCount < 0) return false;
+
+        const playerId = snapshot?.player?.id || snapshot?.player?.slot || DEFAULT_PLAYER_ID;
+        const playerItemGroups = staticData?.item_groups?.[playerId] || staticData?.item_groups;
+
+        let uniqueItemsFound = 0;
+
+        if (Array.isArray(playerItemGroups)) {
+          // ALTTP-style with group names as array
+          const playerItemsData = staticData.itemsByPlayer && staticData.itemsByPlayer[playerId];
+          if (playerItemsData) {
+            for (const itemName in playerItemsData) {
+              if (playerItemsData[itemName]?.groups?.includes(groupName)) {
+                const itemCount = snapshot.inventory[itemName] || 0;
+                if (itemCount > 0) {
+                  uniqueItemsFound++;
+                  if (uniqueItemsFound >= requiredCount) {
+                    return true;
+                  }
+                }
+              }
+            }
+          }
+        } else if (
+          typeof playerItemGroups === 'object' &&
+          playerItemGroups[groupName] &&
+          Array.isArray(playerItemGroups[groupName])
+        ) {
+          // Item_groups is an object { groupName: [itemNames...] }
+          for (const itemInGroup of playerItemGroups[groupName]) {
+            const itemCount = snapshot.inventory[itemInGroup] || 0;
+            if (itemCount > 0) {
+              uniqueItemsFound++;
+              if (uniqueItemsFound >= requiredCount) {
+                return true;
+              }
+            }
+          }
+        } else if (staticData?.groups) {
+          // Fallback to old groups structure if available
+          const playerGroups = staticData.groups[playerId] || staticData.groups;
+          if (
+            typeof playerGroups === 'object' &&
+            playerGroups[groupName] &&
+            Array.isArray(playerGroups[groupName])
+          ) {
+            for (const itemInGroup of playerGroups[groupName]) {
+              const itemCount = snapshot.inventory[itemInGroup] || 0;
+              if (itemCount > 0) {
+                uniqueItemsFound++;
+                if (uniqueItemsFound >= requiredCount) {
+                  return true;
+                }
+              }
+            }
+          }
+        }
+
+        return uniqueItemsFound >= requiredCount;
+      }
+
+      // Check for game-specific state methods first
+      const selectedStateMethods = getStateMethods(gameName);
+
+      if (selectedStateMethods && selectedStateMethods[methodName]) {
+        return selectedStateMethods[methodName](snapshot, staticData, ...args);
       }
 
       // Use game-specific agnostic helpers for all helper methods

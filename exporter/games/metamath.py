@@ -412,6 +412,76 @@ class MetamathGameExportHandler(BaseGameExportHandler):
 
         return rule
 
+    def override_rule_analysis(self, rule_func, rule_target_name: str = None):
+        """
+        Override rule analysis for Metamath to handle dynamically created lambdas.
+
+        Metamath creates lambda rules dynamically using:
+            lambda state, p=player, items=item_names: state.has_all(items, p)
+
+        These can't be analyzed from source, so we build the rules manually
+        using the cached dependencies.
+        """
+        # Check if this is a location, entrance, or exit we need to handle
+        if not rule_target_name:
+            return None
+
+        # Try to find dependencies in our caches
+        item_list = None
+
+        # Check location dependencies
+        if rule_target_name in self._dependency_cache:
+            item_list = self._dependency_cache[rule_target_name]
+            logger.debug(f"Override rule analysis for location {rule_target_name}: {item_list}")
+
+        # Check entrance dependencies
+        elif hasattr(self, '_entrance_dependency_cache') and rule_target_name in self._entrance_dependency_cache:
+            item_list = self._entrance_dependency_cache[rule_target_name]
+            logger.debug(f"Override rule analysis for entrance {rule_target_name}: {item_list}")
+
+        # Check exit dependencies
+        elif hasattr(self, '_exit_dependency_cache') and rule_target_name in self._exit_dependency_cache:
+            item_list = self._exit_dependency_cache[rule_target_name]
+            logger.debug(f"Override rule analysis for exit {rule_target_name}: {item_list}")
+
+        # If we found dependencies, create the rule
+        if item_list:
+            if len(item_list) == 1:
+                # Single item - simple check
+                return {
+                    'type': 'item_check',
+                    'item': {
+                        'type': 'constant',
+                        'value': item_list[0]
+                    },
+                    'count': {
+                        'type': 'constant',
+                        'value': 1
+                    }
+                }
+            else:
+                # Multiple items - create AND conditions
+                conditions = []
+                for item_name in item_list:
+                    conditions.append({
+                        'type': 'item_check',
+                        'item': {
+                            'type': 'constant',
+                            'value': item_name
+                        },
+                        'count': {
+                            'type': 'constant',
+                            'value': 1
+                        }
+                    })
+                return {
+                    'type': 'and',
+                    'conditions': conditions
+                }
+
+        # If no dependencies found, return None to use default analysis
+        return None
+
     def expand_rule(self, rule: Dict[str, Any]) -> Dict[str, Any]:
         """Expand rules - call parent implementation then postprocess."""
         expanded = super().expand_rule(rule)

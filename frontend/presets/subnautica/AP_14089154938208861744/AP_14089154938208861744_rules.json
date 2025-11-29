@@ -20,10 +20,23 @@
             "name": "Blood Kelp Trench Wreck - Outside Databox",
             "id": 33000,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Blood Kelp Trench Wreck - Outside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1234.3,
+                      "y": -349.7,
+                      "z": -396.0
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Cyclops Engine Fragment",
@@ -36,10 +49,23 @@
             "name": "Blood Kelp Trench Wreck - Inside Databox",
             "id": 33001,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Blood Kelp Trench Wreck - Inside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1208.0,
+                      "y": -349.6,
+                      "z": -383.0
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Spotlight",
@@ -52,10 +78,23 @@
             "name": "Blood Kelp Trench Wreck - PDA",
             "id": 33002,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Blood Kelp Trench Wreck - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1210.6,
+                      "y": -340.7,
+                      "z": -393.4
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Large Room",
@@ -68,10 +107,23 @@
             "name": "Bulb Zone West Wreck - Outside Databox",
             "id": 33003,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Bulb Zone West Wreck - Outside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 903.8,
+                      "y": -220.3,
+                      "z": 590.9
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Cyclops Fire Suppression System",
@@ -84,10 +136,23 @@
             "name": "Bulb Zone West Wreck - Under Databox",
             "id": 33004,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Bulb Zone West Wreck - Under Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 910.9,
+                      "y": -201.8,
+                      "z": 623.5
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Laser Cutter Fragment",
@@ -100,10 +165,23 @@
             "name": "Bulb Zone West Wreck - Inside Databox",
             "id": 33005,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Bulb Zone West Wreck - Inside Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": 914.9,
+                      "y": -202.1,
+                      "z": 611.8
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Cyclops Shield Generator",
@@ -116,10 +194,23 @@
             "name": "Bulb Zone West Wreck - PDA",
             "id": 33006,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Bulb Zone West Wreck - PDA",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": 912.6,
+                      "y": -202.0,
+                      "z": 609.5
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Crystalline Sulfur",
@@ -132,10 +223,23 @@
             "name": "Bulb Zone East Wreck - Databox",
             "id": 33007,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Bulb Zone East Wreck - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 1327.1,
+                      "y": -234.9,
+                      "z": 575.8
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Beacon Fragment",
@@ -148,10 +252,23 @@
             "name": "Dunes North Wreck - Outside Databox",
             "id": 33008,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Dunes North Wreck - Outside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1407.7,
+                      "y": -344.2,
+                      "z": 721.5
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Creature Decoy",
@@ -164,10 +281,23 @@
             "name": "Dunes North Wreck - Office Databox",
             "id": 33009,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Dunes North Wreck - Office Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1393.9,
+                      "y": -329.7,
+                      "z": 733.5
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Cyclops Bridge Fragment",
@@ -180,10 +310,23 @@
             "name": "Dunes North Wreck - PDA",
             "id": 33010,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Dunes North Wreck - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1396.3,
+                      "y": -330.8,
+                      "z": 730.0
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Cyclops Engine Fragment",
@@ -196,10 +339,23 @@
             "name": "Dunes North Wreck - Cargo Databox",
             "id": 33011,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Dunes North Wreck - Cargo Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": -1409.8,
+                      "y": -332.4,
+                      "z": 706.9
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Bioreactor Fragment",
@@ -212,10 +368,23 @@
             "name": "Dunes West Wreck - Databox",
             "id": 33012,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Dunes West Wreck - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1626.2,
+                      "y": -357.5,
+                      "z": 99.5
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Cyclops Hull Fragment",
@@ -228,10 +397,23 @@
             "name": "Dunes East Wreck - Outside Databox",
             "id": 33013,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Dunes East Wreck - Outside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1196.3,
+                      "y": -223.0,
+                      "z": 12.5
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Power Cell Charger Fragment",
@@ -244,10 +426,23 @@
             "name": "Dunes East Wreck - Inside Databox",
             "id": 33014,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Dunes East Wreck - Inside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1206.4,
+                      "y": -225.6,
+                      "z": 4.0
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Cyclops Thermal Reactor Module",
@@ -260,10 +455,23 @@
             "name": "Grand Reef North Wreck - Outside Databox",
             "id": 33015,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grand Reef North Wreck - Outside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -269.7,
+                      "y": -262.8,
+                      "z": -764.3
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Seaglide Fragment",
@@ -276,10 +484,23 @@
             "name": "Grand Reef North Wreck - Elevator Databox",
             "id": 33016,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grand Reef North Wreck - Elevator Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": -285.8,
+                      "y": -240.2,
+                      "z": -786.5
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Seamoth Fragment",
@@ -292,10 +513,23 @@
             "name": "Grand Reef North Wreck - Bottom Databox",
             "id": 33017,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grand Reef North Wreck - Bottom Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -285.2,
+                      "y": -262.4,
+                      "z": -788.4
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Alien Containment",
@@ -308,10 +542,23 @@
             "name": "Grand Reef North Wreck - Hangar PDA",
             "id": 33018,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grand Reef North Wreck - Hangar PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -272.5,
+                      "y": -254.7,
+                      "z": -788.5
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Thermal Plant Fragment",
@@ -324,10 +571,23 @@
             "name": "Grand Reef South Wreck - Trench Databox",
             "id": 33019,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grand Reef South Wreck - Trench Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -850.9,
+                      "y": -473.2,
+                      "z": -1414.6
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Grav Trap Fragment",
@@ -340,10 +600,23 @@
             "name": "Grand Reef South Wreck - Comms Databox",
             "id": 33020,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grand Reef South Wreck - Comms Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": -889.4,
+                      "y": -433.8,
+                      "z": -1424.8
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Cyclops Hull Fragment",
@@ -356,10 +629,23 @@
             "name": "Grand Reef South Wreck - Outside Databox",
             "id": 33021,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grand Reef South Wreck - Outside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -862.4,
+                      "y": -437.5,
+                      "z": -1444.1
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Modification Station Fragment",
@@ -372,10 +658,23 @@
             "name": "Grand Reef South Wreck - PDA",
             "id": 33022,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grand Reef South Wreck - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -887.9,
+                      "y": -446.0,
+                      "z": -1422.7
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Resources Bundle",
@@ -388,10 +687,23 @@
             "name": "Grassy Plateaus South Wreck - Databox",
             "id": 33023,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grassy Plateaus South Wreck - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -23.3,
+                      "y": -105.8,
+                      "z": -604.2
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Seaglide Fragment",
@@ -404,10 +716,23 @@
             "name": "Grassy Plateaus South Wreck - PDA",
             "id": 33024,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grassy Plateaus South Wreck - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -27.3,
+                      "y": -106.8,
+                      "z": -607.2
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Cyclops Decoy Tube Upgrade",
@@ -420,10 +745,23 @@
             "name": "Grassy Plateaus East Wreck - Breach Databox",
             "id": 33025,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": true,
+                    "name": "Grassy Plateaus East Wreck - Breach Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": 313.9,
+                      "y": -91.8,
+                      "z": 432.6
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Prawn Suit Fragment",
@@ -436,10 +774,23 @@
             "name": "Grassy Plateaus East Wreck - Hangar Databox",
             "id": 33026,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": true,
+                    "name": "Grassy Plateaus East Wreck - Hangar Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": 319.4,
+                      "y": -104.3,
+                      "z": 441.5
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Exterior Growbed",
@@ -452,10 +803,23 @@
             "name": "Grassy Plateaus West Wreck - Locker PDA",
             "id": 33027,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grassy Plateaus West Wreck - Locker PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -632.3,
+                      "y": -75.0,
+                      "z": -8.9
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Lightweight High Capacity Tank",
@@ -468,10 +832,23 @@
             "name": "Grassy Plateaus West Wreck - Data Terminal",
             "id": 33028,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grassy Plateaus West Wreck - Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -664.4,
+                      "y": -97.8,
+                      "z": -8.0
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Mobile Vehicle Bay Fragment",
@@ -484,10 +861,23 @@
             "name": "Grassy Plateaus Southwest Wreck - Databox",
             "id": 33029,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grassy Plateaus Southwest Wreck - Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": -421.4,
+                      "y": -107.8,
+                      "z": -266.5
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Moonpool Fragment",
@@ -500,10 +890,23 @@
             "name": "Safe Shallows Wreck - PDA",
             "id": 33030,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Safe Shallows Wreck - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -44.0,
+                      "y": -29.1,
+                      "z": -403.6
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Cyclops Bridge Fragment",
@@ -516,10 +919,23 @@
             "name": "Kelp Forest Wreck - Databox",
             "id": 33031,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Kelp Forest Wreck - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -317.6,
+                      "y": -78.8,
+                      "z": 247.4
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Seaglide Fragment",
@@ -532,10 +948,23 @@
             "name": "Kelp Forest Wreck - PDA",
             "id": 33032,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Kelp Forest Wreck - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 63.2,
+                      "y": -38.5,
+                      "z": 382.9
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Seamoth Fragment",
@@ -548,10 +977,23 @@
             "name": "Mountains West Wreck - Outside Databox",
             "id": 33033,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Mountains West Wreck - Outside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 740.3,
+                      "y": -389.2,
+                      "z": 1179.8
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Propulsion Cannon Fragment",
@@ -564,10 +1006,23 @@
             "name": "Mountains West Wreck - Data Terminal",
             "id": 33034,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Mountains West Wreck - Data Terminal",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": 703.7,
+                      "y": -365.9,
+                      "z": 1199.3
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Mobile Vehicle Bay Fragment",
@@ -580,10 +1035,23 @@
             "name": "Mountains West Wreck - Hangar Databox",
             "id": 33035,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Mountains West Wreck - Hangar Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": 698.2,
+                      "y": -350.8,
+                      "z": 1186.9
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Moonpool Fragment",
@@ -596,10 +1064,23 @@
             "name": "Mountains West Wreck - Office Databox",
             "id": 33036,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Mountains West Wreck - Office Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 676.3,
+                      "y": -343.6,
+                      "z": 1204.6
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Nuclear Reactor Fragment",
@@ -612,10 +1093,23 @@
             "name": "Mountains East Wreck - Comms Databox",
             "id": 33037,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Mountains East Wreck - Comms Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 1068.5,
+                      "y": -283.4,
+                      "z": 1345.3
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Cyclops Hull Fragment",
@@ -628,10 +1122,23 @@
             "name": "Mountains East Wreck - Outside Databox",
             "id": 33038,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Mountains East Wreck - Outside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 1075.7,
+                      "y": -288.9,
+                      "z": 1321.8
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Cyclops Bridge Fragment",
@@ -644,10 +1151,23 @@
             "name": "Northwestern Mushroom Forest Wreck - Cargo Databox",
             "id": 33039,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Northwestern Mushroom Forest Wreck - Cargo Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": -655.1,
+                      "y": -109.6,
+                      "z": 791.0
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Stasis Rifle Fragment",
@@ -660,10 +1180,23 @@
             "name": "Northwestern Mushroom Forest Wreck - Office Databox",
             "id": 33040,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Northwestern Mushroom Forest Wreck - Office Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -663.4,
+                      "y": -111.9,
+                      "z": 777.9
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Exterior Growbed",
@@ -676,10 +1209,23 @@
             "name": "Northwestern Mushroom Forest Wreck - PDA",
             "id": 33041,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Northwestern Mushroom Forest Wreck - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -662.2,
+                      "y": -113.4,
+                      "z": 777.7
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Ultra High Capacity Tank",
@@ -692,10 +1238,23 @@
             "name": "Sea Treader's Path Wreck - Outside Databox",
             "id": 33042,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Sea Treader's Path Wreck - Outside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1161.1,
+                      "y": -191.7,
+                      "z": -758.3
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Scanner Room Fragment",
@@ -708,10 +1267,23 @@
             "name": "Sea Treader's Path Wreck - Hangar Databox",
             "id": 33043,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Sea Treader's Path Wreck - Hangar Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": -1129.5,
+                      "y": -155.2,
+                      "z": -729.3
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Moonpool Fragment",
@@ -724,10 +1296,23 @@
             "name": "Sea Treader's Path Wreck - Lobby Databox",
             "id": 33044,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Sea Treader's Path Wreck - Lobby Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1115.9,
+                      "y": -175.3,
+                      "z": -724.5
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Propulsion Cannon Fragment",
@@ -740,10 +1325,23 @@
             "name": "Sea Treader's Path Wreck - PDA",
             "id": 33045,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Sea Treader's Path Wreck - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1136.8,
+                      "y": -157.0,
+                      "z": -734.6
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Cyclops Depth Module MK1",
@@ -756,10 +1354,23 @@
             "name": "Sparse Reef Wreck - Locker Databox",
             "id": 33046,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Sparse Reef Wreck - Locker Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": -789.8,
+                      "y": -216.1,
+                      "z": -711.0
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Swim Charge Fins",
@@ -772,10 +1383,23 @@
             "name": "Sparse Reef Wreck - Outside Databox",
             "id": 33047,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Sparse Reef Wreck - Outside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -810.7,
+                      "y": -209.3,
+                      "z": -685.5
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Prawn Suit Propulsion Cannon Fragment",
@@ -788,10 +1412,23 @@
             "name": "Sparse Reef Wreck - Lab Databox",
             "id": 33048,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Sparse Reef Wreck - Lab Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": -795.5,
+                      "y": -204.1,
+                      "z": -774.7
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Modification Station Fragment",
@@ -804,10 +1441,23 @@
             "name": "Underwater Islands Wreck - Outside Databox",
             "id": 33049,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Underwater Islands Wreck - Outside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -170.8,
+                      "y": -187.6,
+                      "z": 880.7
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Scanner Room Fragment",
@@ -820,10 +1470,23 @@
             "name": "Underwater Islands Wreck - Hangar Databox",
             "id": 33050,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Underwater Islands Wreck - Hangar Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": -138.4,
+                      "y": -193.6,
+                      "z": 888.7
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Laser Cutter Fragment",
@@ -836,10 +1499,23 @@
             "name": "Underwater Islands Wreck - Data Terminal",
             "id": 33051,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Underwater Islands Wreck - Data Terminal",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": -130.7,
+                      "y": -193.2,
+                      "z": 883.3
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Power Transmitter Fragment",
@@ -852,10 +1528,23 @@
             "name": "Underwater Islands Wreck - Cable Databox",
             "id": 33052,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Underwater Islands Wreck - Cable Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -137.8,
+                      "y": -193.4,
+                      "z": 879.4
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Battery Charger fragment",
@@ -868,10 +1557,24 @@
             "name": "Underwater Islands Wreck - Pipes Databox 1",
             "id": 33053,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Underwater Islands Wreck - Pipes Databox 1",
+                    "need_laser_cutter": false,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": -124.4,
+                      "y": -200.7,
+                      "z": 853.0
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Power Cell Charger Fragment",
@@ -884,10 +1587,24 @@
             "name": "Underwater Islands Wreck - Pipes Databox 2",
             "id": 33054,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Underwater Islands Wreck - Pipes Databox 2",
+                    "need_laser_cutter": false,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": -126.8,
+                      "y": -201.1,
+                      "z": 852.1
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Ultra Glide Fins",
@@ -900,10 +1617,23 @@
             "name": "Degasi Seabase - Deep Grand Reef - Bedroom Databox",
             "id": 33055,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Deep Grand Reef - Bedroom Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -643.8,
+                      "y": -509.9,
+                      "z": -941.9
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Prawn Suit Propulsion Cannon Fragment",
@@ -916,10 +1646,23 @@
             "name": "Degasi Seabase - Deep Grand Reef - Observatory Databox",
             "id": 33056,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Deep Grand Reef - Observatory Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -635.1,
+                      "y": -502.7,
+                      "z": -951.4
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Scanner Room Fragment",
@@ -932,10 +1675,23 @@
             "name": "Degasi Seabase - Deep Grand Reef - Bedroom PDA",
             "id": 33057,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Deep Grand Reef - Bedroom PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -645.8,
+                      "y": -508.7,
+                      "z": -943.0
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Neptune Cockpit",
@@ -948,10 +1704,23 @@
             "name": "Degasi Seabase - Deep Grand Reef - Outside PDA",
             "id": 33058,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Deep Grand Reef - Outside PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -630.5,
+                      "y": -511.1,
+                      "z": -936.1
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Laser Cutter Fragment",
@@ -964,10 +1733,23 @@
             "name": "Degasi Seabase - Deep Grand Reef - Observatory PDA",
             "id": 33059,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Deep Grand Reef - Observatory PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -647.7,
+                      "y": -502.6,
+                      "z": -935.8
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Modification Station Fragment",
@@ -980,10 +1762,23 @@
             "name": "Degasi Seabase - Deep Grand Reef - Lab PDA",
             "id": 33060,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Deep Grand Reef - Lab PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -639.6,
+                      "y": -505.9,
+                      "z": -946.6
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Cyclops Engine Fragment",
@@ -996,10 +1791,23 @@
             "name": "Floating Island - Lake PDA",
             "id": 33061,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Floating Island - Lake PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -707.2,
+                      "y": 0.5,
+                      "z": -1096.7
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Mobile Vehicle Bay Fragment",
@@ -1012,10 +1820,23 @@
             "name": "Degasi Seabase - Floating Island - Databox",
             "id": 33062,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Floating Island - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -765.7,
+                      "y": 17.6,
+                      "z": -1116.4
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Modification Station Fragment",
@@ -1028,10 +1849,23 @@
             "name": "Degasi Seabase - Floating Island - Room PDA",
             "id": 33063,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Floating Island - Room PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -754.9,
+                      "y": 14.6,
+                      "z": -1108.9
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Beacon Fragment",
@@ -1044,10 +1878,23 @@
             "name": "Degasi Seabase - Floating Island - Green Wall PDA",
             "id": 33064,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Floating Island - Green Wall PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -765.3,
+                      "y": 14.1,
+                      "z": -1115.0
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Ion Power Cell",
@@ -1060,10 +1907,23 @@
             "name": "Degasi Seabase - Floating Island - Corridor PDA",
             "id": 33065,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Floating Island - Corridor PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -758.6,
+                      "y": 14.1,
+                      "z": -1111.3
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Prawn Suit Torpedo Arm Fragment",
@@ -1076,10 +1936,23 @@
             "name": "Degasi Seabase - Floating Island - North Observatory PDA",
             "id": 33066,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Floating Island - North Observatory PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -805.4,
+                      "y": 76.9,
+                      "z": -1055.7
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Prawn Suit Torpedo Arm Fragment",
@@ -1092,10 +1965,23 @@
             "name": "Degasi Seabase - Floating Island - South Observatory PDA",
             "id": 33067,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Floating Island - South Observatory PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -715.9,
+                      "y": 75.4,
+                      "z": -1168.8
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Prawn Suit Grappling Arm Fragment",
@@ -1108,10 +1994,23 @@
             "name": "Jellyshroom Cave - PDA",
             "id": 33068,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Jellyshroom Cave - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -540.5,
+                      "y": -250.8,
+                      "z": -83.4
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Crystalline Sulfur",
@@ -1124,10 +2023,23 @@
             "name": "Degasi Seabase - Jellyshroom Cave - Bedroom Databox",
             "id": 33069,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Jellyshroom Cave - Bedroom Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 110.6,
+                      "y": -264.9,
+                      "z": -369.0
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Mobile Vehicle Bay Fragment",
@@ -1140,10 +2052,23 @@
             "name": "Degasi Seabase - Jellyshroom Cave - Detached PDA",
             "id": 33070,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Jellyshroom Cave - Detached PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 80.6,
+                      "y": -268.6,
+                      "z": -358.3
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Mobile Vehicle Bay Fragment",
@@ -1156,10 +2081,23 @@
             "name": "Degasi Seabase - Jellyshroom Cave - Office PDA",
             "id": 33071,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Jellyshroom Cave - Office PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 78.2,
+                      "y": -265.0,
+                      "z": -373.4
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Gold",
@@ -1172,10 +2110,23 @@
             "name": "Degasi Seabase - Jellyshroom Cave - Locker PDA",
             "id": 33072,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Jellyshroom Cave - Locker PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 85.1,
+                      "y": -264.1,
+                      "z": -372.8
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Seamoth Fragment",
@@ -1188,10 +2139,23 @@
             "name": "Degasi Seabase - Jellyshroom Cave - Bedroom PDA",
             "id": 33073,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Jellyshroom Cave - Bedroom PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 112.3,
+                      "y": -264.9,
+                      "z": -369.3
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Silver Ore",
@@ -1204,10 +2168,23 @@
             "name": "Degasi Seabase - Jellyshroom Cave - Observatory PDA",
             "id": 33074,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Jellyshroom Cave - Observatory PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 95.5,
+                      "y": -258.9,
+                      "z": -366.5
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Neptune Gantry",
@@ -1220,10 +2197,23 @@
             "name": "Lifepod 2 - Databox",
             "id": 33075,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 2 - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -483.6,
+                      "y": -504.7,
+                      "z": 1326.6
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Observatory",
@@ -1236,10 +2226,23 @@
             "name": "Lifepod 2 - PDA",
             "id": 33076,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 2 - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -481.4,
+                      "y": -503.6,
+                      "z": 1324.1
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Cyclops Engine Fragment",
@@ -1252,10 +2255,23 @@
             "name": "Lifepod 3 - Databox",
             "id": 33077,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 3 - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -34.2,
+                      "y": -22.4,
+                      "z": 410.5
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Bioreactor Fragment",
@@ -1268,10 +2284,23 @@
             "name": "Lifepod 3 - PDA",
             "id": 33078,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 3 - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -33.8,
+                      "y": -22.5,
+                      "z": 408.8
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Seamoth Fragment",
@@ -1284,10 +2313,23 @@
             "name": "Lifepod 4 - Databox",
             "id": 33079,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 4 - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 712.4,
+                      "y": -3.4,
+                      "z": 160.8
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Prawn Suit Drill Arm Fragment",
@@ -1300,10 +2342,23 @@
             "name": "Lifepod 4 - PDA",
             "id": 33080,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 4 - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 712.0,
+                      "y": -3.5,
+                      "z": 161.5
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Repulsion Cannon",
@@ -1316,10 +2371,23 @@
             "name": "Lifepod 6 - Databox",
             "id": 33081,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 6 - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 358.7,
+                      "y": -117.1,
+                      "z": 306.8
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Neptune Fuel Reserve",
@@ -1332,10 +2400,23 @@
             "name": "Lifepod 6 - Inside PDA",
             "id": 33082,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 6 - Inside PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 361.8,
+                      "y": -116.2,
+                      "z": 309.5
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Furniture",
@@ -1348,10 +2429,23 @@
             "name": "Lifepod 6 - Outside PDA",
             "id": 33083,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 6 - Outside PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 359.9,
+                      "y": -117.0,
+                      "z": 312.1
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Nuclear Reactor Fragment",
@@ -1364,10 +2458,23 @@
             "name": "Lifepod 7 - PDA",
             "id": 33084,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 7 - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -56.0,
+                      "y": -182.0,
+                      "z": -1039.0
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Multipurpose Room",
@@ -1380,10 +2487,23 @@
             "name": "Lifepod 12 - Databox",
             "id": 33085,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 12 - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 1119.5,
+                      "y": -271.7,
+                      "z": 561.7
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Resources Bundle",
@@ -1396,10 +2516,23 @@
             "name": "Lifepod 12 - PDA",
             "id": 33086,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 12 - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 1116.1,
+                      "y": -271.3,
+                      "z": 566.9
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Salt Deposit",
@@ -1412,10 +2545,23 @@
             "name": "Lifepod 13 - Databox",
             "id": 33087,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 13 - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -926.4,
+                      "y": -185.2,
+                      "z": 501.8
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Seamoth Fragment",
@@ -1428,10 +2574,23 @@
             "name": "Lifepod 13 - PDA",
             "id": 33088,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 13 - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -926.8,
+                      "y": -184.4,
+                      "z": 506.6
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Kyanite",
@@ -1444,10 +2603,23 @@
             "name": "Lifepod 17 - PDA",
             "id": 33089,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 17 - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -514.5,
+                      "y": -98.1,
+                      "z": -56.5
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Prawn Suit Fragment",
@@ -1460,10 +2632,23 @@
             "name": "Lifepod 19 - Databox",
             "id": 33090,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 19 - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -809.8,
+                      "y": -302.2,
+                      "z": -876.9
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Seamoth Fragment",
@@ -1476,10 +2661,23 @@
             "name": "Lifepod 19 - Outside PDA",
             "id": 33091,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 19 - Outside PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -806.1,
+                      "y": -294.1,
+                      "z": -866.0
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Compass",
@@ -1492,10 +2690,23 @@
             "name": "Lifepod 19 - Inside PDA",
             "id": 33092,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 19 - Inside PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -810.5,
+                      "y": -299.4,
+                      "z": -873.1
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Prawn Suit Fragment",
@@ -1508,10 +2719,24 @@
             "name": "Aurora Seamoth Bay - Upgrade Console",
             "id": 33093,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora Seamoth Bay - Upgrade Console",
+                    "need_laser_cutter": false,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 903.5,
+                      "y": -0.2,
+                      "z": 16.1
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Prawn Suit Fragment",
@@ -1524,10 +2749,24 @@
             "name": "Aurora Drive Room - Upgrade Console",
             "id": 33094,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora Drive Room - Upgrade Console",
+                    "need_laser_cutter": false,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 872.5,
+                      "y": 2.7,
+                      "z": -0.7
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Titanium",
@@ -1540,10 +2779,24 @@
             "name": "Aurora Prawn Suit Bay - Upgrade Console",
             "id": 33095,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora Prawn Suit Bay - Upgrade Console",
+                    "need_laser_cutter": true,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 991.6,
+                      "y": 3.2,
+                      "z": -31.0
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Nuclear Reactor Fragment",
@@ -1556,10 +2809,23 @@
             "name": "Aurora - Office PDA",
             "id": 33096,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Office PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 952.1,
+                      "y": 41.2,
+                      "z": 113.9
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Water Filtration Machine",
@@ -1572,10 +2838,23 @@
             "name": "Aurora - Corridor PDA",
             "id": 33097,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Corridor PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 977.2,
+                      "y": 39.1,
+                      "z": 83.0
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Bulkhead",
@@ -1588,10 +2867,24 @@
             "name": "Aurora - Cargo Bay PDA",
             "id": 33098,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Cargo Bay PDA",
+                    "need_laser_cutter": false,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 954.9,
+                      "y": 11.2,
+                      "z": 3.4
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Cyclops Docking Bay Repair Module",
@@ -1604,10 +2897,24 @@
             "name": "Aurora - Seamoth Bay PDA",
             "id": 33099,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Seamoth Bay PDA",
+                    "need_laser_cutter": false,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 907.1,
+                      "y": -1.5,
+                      "z": 15.3
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Cyclops Bridge Fragment",
@@ -1620,10 +2927,24 @@
             "name": "Aurora - Medkit Locker PDA",
             "id": 33100,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Medkit Locker PDA",
+                    "need_laser_cutter": true,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 951.8,
+                      "y": -2.3,
+                      "z": -34.7
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Seaglide Fragment",
@@ -1636,10 +2957,24 @@
             "name": "Aurora - Locker PDA",
             "id": 33101,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Locker PDA",
+                    "need_laser_cutter": true,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 952.0,
+                      "y": -3.7,
+                      "z": -23.4
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Cyclops Bridge Fragment",
@@ -1652,10 +2987,24 @@
             "name": "Aurora - Canteen PDA",
             "id": 33102,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Canteen PDA",
+                    "need_laser_cutter": true,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 986.5,
+                      "y": 9.6,
+                      "z": -48.6
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Grav Trap Fragment",
@@ -1668,10 +3017,24 @@
             "name": "Aurora - Cabin 4 PDA",
             "id": 33103,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Cabin 4 PDA",
+                    "need_laser_cutter": true,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 951.3,
+                      "y": 11.2,
+                      "z": -51.0
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Furniture",
@@ -1684,10 +3047,24 @@
             "name": "Aurora - Cabin 7 PDA",
             "id": 33104,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Cabin 7 PDA",
+                    "need_laser_cutter": true,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 967.1,
+                      "y": 10.4,
+                      "z": -47.4
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Cyclops Hull Fragment",
@@ -1700,10 +3077,24 @@
             "name": "Aurora - Cabin 1 PDA",
             "id": 33105,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Cabin 1 PDA",
+                    "need_laser_cutter": true,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 964.1,
+                      "y": 11.1,
+                      "z": -61.9
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Thermal Plant Fragment",
@@ -1716,10 +3107,24 @@
             "name": "Aurora - Captain PDA",
             "id": 33106,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Captain PDA",
+                    "need_laser_cutter": true,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 971.2,
+                      "y": 10.8,
+                      "z": -70.4
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Water Filtration Suit",
@@ -1732,10 +3137,24 @@
             "name": "Aurora - Ring PDA",
             "id": 33107,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Ring PDA",
+                    "need_laser_cutter": false,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 1033.6,
+                      "y": -8.5,
+                      "z": 16.2
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Prawn Suit Fragment",
@@ -1748,10 +3167,24 @@
             "name": "Aurora - Lab PDA",
             "id": 33108,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Lab PDA",
+                    "need_laser_cutter": false,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 1032.5,
+                      "y": -7.8,
+                      "z": 32.4
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Laser Cutter Fragment",
@@ -1764,10 +3197,23 @@
             "name": "Aurora - Office Data Terminal",
             "id": 33109,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Office Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 945.8,
+                      "y": 40.8,
+                      "z": 115.1
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Lithium",
@@ -1780,10 +3226,24 @@
             "name": "Aurora - Captain Data Terminal",
             "id": 33110,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Captain Data Terminal",
+                    "need_laser_cutter": true,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 974.8,
+                      "y": 10.0,
+                      "z": -77.0
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Neptune Launch Platform",
@@ -1796,10 +3256,24 @@
             "name": "Aurora - Battery Room Data Terminal",
             "id": 33111,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Battery Room Data Terminal",
+                    "need_laser_cutter": true,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 1040.8,
+                      "y": -11.4,
+                      "z": -3.4
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Ion Battery",
@@ -1812,10 +3286,24 @@
             "name": "Aurora - Lab Data Terminal",
             "id": 33112,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Lab Data Terminal",
+                    "need_laser_cutter": false,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 1029.5,
+                      "y": -8.7,
+                      "z": 35.9
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Battery Charger fragment",
@@ -1828,10 +3316,23 @@
             "name": "Quarantine Enforcement Platform's - Upper Alien Data Terminal",
             "id": 33113,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Quarantine Enforcement Platform's - Upper Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 432.2,
+                      "y": 3.0,
+                      "z": 1193.2
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Cyclops Engine Fragment",
@@ -1844,10 +3345,23 @@
             "name": "Quarantine Enforcement Platform's - Mid Alien Data Terminal",
             "id": 33114,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Quarantine Enforcement Platform's - Mid Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 474.4,
+                      "y": -4.5,
+                      "z": 1224.4
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Vehicle Upgrade Console",
@@ -1860,10 +3374,23 @@
             "name": "Dunes Sanctuary - Alien Data Terminal",
             "id": 33115,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Dunes Sanctuary - Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1224.2,
+                      "y": -400.4,
+                      "z": 1057.9
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Silver Ore",
@@ -1876,10 +3403,23 @@
             "name": "Deep Sparse Reef Sanctuary - Alien Data Terminal",
             "id": 33116,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Deep Sparse Reef Sanctuary - Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -895.5,
+                      "y": -311.6,
+                      "z": -838.1
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Cyclops Hull Fragment",
@@ -1892,10 +3432,23 @@
             "name": "Northern Blood Kelp Zone Sanctuary - Alien Data Terminal",
             "id": 33117,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Northern Blood Kelp Zone Sanctuary - Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -642.9,
+                      "y": -563.5,
+                      "z": 1485.5
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Stasis Rifle Fragment",
@@ -1908,10 +3461,23 @@
             "name": "Lost River Laboratory Cache - Alien Data Terminal",
             "id": 33118,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lost River Laboratory Cache - Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1112.3,
+                      "y": -687.3,
+                      "z": -695.5
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Neptune Boosters",
@@ -1924,10 +3490,23 @@
             "name": "Disease Research Facility - Upper Alien Data Terminal",
             "id": 33119,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Disease Research Facility - Upper Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -280.2,
+                      "y": -804.3,
+                      "z": 305.1
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Prawn Suit Fragment",
@@ -1940,10 +3519,23 @@
             "name": "Disease Research Facility - Mid Alien Data Terminal",
             "id": 33120,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Disease Research Facility - Mid Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -267.9,
+                      "y": -806.6,
+                      "z": 250.0
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Radiation Suit",
@@ -1956,10 +3548,23 @@
             "name": "Disease Research Facility - Lower Alien Data Terminal",
             "id": 33121,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Disease Research Facility - Lower Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -286.2,
+                      "y": -815.6,
+                      "z": 297.8
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Cyclops Sonar Upgrade",
@@ -1972,10 +3577,23 @@
             "name": "Alien Thermal Plant - Entrance Alien Data Terminal",
             "id": 33122,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Alien Thermal Plant - Entrance Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -71.3,
+                      "y": -1227.2,
+                      "z": 104.8
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Prawn Suit Fragment",
@@ -1988,10 +3606,23 @@
             "name": "Alien Thermal Plant - Green Alien Data Terminal",
             "id": 33123,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Alien Thermal Plant - Green Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -38.7,
+                      "y": -1226.6,
+                      "z": 111.8
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Floodlight",
@@ -2004,10 +3635,23 @@
             "name": "Alien Thermal Plant - Yellow Alien Data Terminal",
             "id": 33124,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Alien Thermal Plant - Yellow Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -30.4,
+                      "y": -1220.3,
+                      "z": 111.8
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Prawn Suit Grappling Arm Fragment",
@@ -2020,10 +3664,23 @@
             "name": "Primary Containment Facility's Antechamber - Alien Data Terminal",
             "id": 33125,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Primary Containment Facility's Antechamber - Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 245.8,
+                      "y": -1430.6,
+                      "z": -311.5
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Farming",
@@ -2036,10 +3693,23 @@
             "name": "Primary Containment Facility's Egg Laboratory - Alien Data Terminal",
             "id": 33126,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Primary Containment Facility's Egg Laboratory - Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 165.5,
+                      "y": -1442.4,
+                      "z": -385.8
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Diamond",
@@ -2052,10 +3722,23 @@
             "name": "Primary Containment Facility's Pipe Room - Alien Data Terminal",
             "id": 33127,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Primary Containment Facility's Pipe Room - Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 348.7,
+                      "y": -1443.5,
+                      "z": -291.9
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Farming",
@@ -2068,10 +3751,23 @@
             "name": "Grassy Plateaus West Wreck - Beam PDA",
             "id": 33128,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grassy Plateaus West Wreck - Beam PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -641.8,
+                      "y": -111.3,
+                      "z": -19.7
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Mobile Vehicle Bay Fragment",
@@ -2084,10 +3780,23 @@
             "name": "Floating Island - Cave Entrance PDA",
             "id": 33129,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Floating Island - Cave Entrance PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -748.9,
+                      "y": 14.4,
+                      "z": -1179.5
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Reinforced Dive Suit",
@@ -2100,10 +3809,23 @@
             "name": "Degasi Seabase - Jellyshroom Cave - Outside PDA",
             "id": 33130,
             "access_rule": {
-              "type": "capability",
-              "capability": "access_location",
-              "inferred": true,
-              "description": "Requires ability to access location"
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Jellyshroom Cave - Outside PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 83.2,
+                      "y": -276.4,
+                      "z": -345.5
+                    }
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Prawn Suit Drill Arm Fragment",
@@ -2132,65 +3854,42 @@
                   }
                 },
                 {
-                  "type": "item_check",
-                  "item": "Mobile_Vehicle_Bay",
-                  "inferred": true,
-                  "description": "Requires having Mobile Vehicle Bay"
+                  "type": "helper",
+                  "name": "has_cyclops_shield",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_mobile_vehicle_bay",
+                  "args": []
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Neptune Launch Platform"
-                  }
+                  "item": "Ion Battery"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Neptune Gantry"
-                  }
+                  "item": "Ion Power Cell"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Neptune Boosters"
-                  }
+                  "item": "Neptune Boosters"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Neptune Fuel Reserve"
-                  }
+                  "item": "Neptune Cockpit"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Neptune Cockpit"
-                  }
+                  "item": "Neptune Fuel Reserve"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Ion Power Cell"
-                  }
+                  "item": "Neptune Gantry"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Ion Battery"
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": "Cyclops_Shield",
-                  "inferred": true,
-                  "description": "Requires having Cyclops Shield"
+                  "item": "Neptune Launch Platform"
                 }
               ]
             },
@@ -2251,16 +3950,18 @@
             "name": "Repair Aurora Drive",
             "id": null,
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "room"
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Aurora Drive Room - Upgrade Console"
                 },
-                "attr": "can_reach"
-              },
-              "args": []
+                {
+                  "type": "constant",
+                  "value": "Location"
+                }
+              ]
             },
             "item": {
               "name": "Repair Aurora Drive",
@@ -3781,7 +5482,8 @@
   "settings": {
     "1": {
       "game": "Subnautica",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
     }
   },
   "game_info": {

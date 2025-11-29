@@ -183,7 +183,21 @@ export function clearInventory(sm) {
       }
     }
   }
-  sm._logDebug('[InventoryManager] Inventory cleared.');
+
+  // Also clear prog_items accumulator values
+  if (sm.prog_items) {
+    for (const playerId in sm.prog_items) {
+      if (Object.hasOwn(sm.prog_items, playerId)) {
+        for (const itemName in sm.prog_items[playerId]) {
+          if (Object.hasOwn(sm.prog_items[playerId], itemName)) {
+            sm.prog_items[playerId][itemName] = 0;
+          }
+        }
+      }
+    }
+  }
+
+  sm._logDebug('[InventoryManager] Inventory and prog_items cleared.');
 
   // Only invalidate cache and recompute if NOT in batch mode
   if (!sm._batchMode) {
@@ -268,6 +282,58 @@ export function _addItemToInventory(sm, itemName, count = 1) {
       }
     }
   }
+
+  // Process event items using game-specific logic module (e.g., for Timespinner boss kills)
+  if (sm.gameStateModule && sm.logicModule && sm.logicModule.processEventItem) {
+    const updatedState = sm.logicModule.processEventItem(sm.gameStateModule, itemName);
+    if (updatedState && updatedState !== sm.gameStateModule) {
+      sm.gameStateModule = updatedState;
+    }
+  }
+
+  // Handle prog_items accumulation based on game metadata (generic for all games)
+  const gameInfo = sm.gameInfo?.[sm.playerId]; // gameInfo uses string keys from Python export
+  if (gameInfo?.accumulator_rules && sm.prog_items) {
+    const playerId = sm.playerId; // prog_items uses string keys
+
+    for (const rule of gameInfo.accumulator_rules) {
+      const match = itemName.match(new RegExp(rule.pattern));
+      if (match) {
+        // Extract value (default to count if not extracting from pattern)
+        const extractedValue = rule.extract_value && match[1]
+          ? parseInt(match[1], 10)
+          : 1;
+        const totalValue = extractedValue * count;
+
+        // Determine target accumulator (could be dynamic based on discriminator)
+        const target = rule.discriminator
+          ? rule.discriminator(itemName, sm)
+          : rule.target;
+
+        // Ensure structure exists
+        if (!sm.prog_items[playerId]) {
+          sm.prog_items[playerId] = {};
+        }
+        if (!(target in sm.prog_items[playerId])) {
+          sm.prog_items[playerId][target] = 0;
+        }
+
+        // Accumulate
+        sm.prog_items[playerId][target] += totalValue;
+
+        sm._logDebug(
+          `[InventoryManager] Accumulated ${totalValue} into prog_items["${playerId}"]["${target}"] (now ${sm.prog_items[playerId][target]})`
+        );
+
+        break; // Only apply first matching rule
+      }
+    }
+  }
+
+  // Call game-specific hook for item addition (e.g., Stardew Valley progression tracking)
+  if (sm.logicModule && typeof sm.logicModule.afterItemAdded === 'function') {
+    sm.logicModule.afterItemAdded(sm, itemName, count);
+  }
 }
 
 /**
@@ -308,6 +374,51 @@ export function _removeItemFromInventory(sm, itemName, count = 1) {
       }
     }
   }
+
+  // Handle prog_items removal based on game metadata (generic for all games)
+  const gameInfo = sm.gameInfo?.[sm.playerId]; // gameInfo uses string keys from Python export
+  if (gameInfo?.accumulator_rules && sm.prog_items) {
+    const playerId = sm.playerId; // prog_items uses string keys
+
+    for (const rule of gameInfo.accumulator_rules) {
+      const match = itemName.match(new RegExp(rule.pattern));
+      if (match) {
+        // Extract value (default to count if not extracting from pattern)
+        const extractedValue = rule.extract_value && match[1]
+          ? parseInt(match[1], 10)
+          : 1;
+        const totalValue = extractedValue * count;
+
+        // Determine target accumulator
+        const target = rule.discriminator
+          ? rule.discriminator(itemName, sm)
+          : rule.target;
+
+        // Ensure structure exists
+        if (!sm.prog_items[playerId]) {
+          sm.prog_items[playerId] = {};
+        }
+
+        if (target in sm.prog_items[playerId]) {
+          sm.prog_items[playerId][target] = Math.max(
+            0,
+            sm.prog_items[playerId][target] - totalValue
+          );
+
+          sm._logDebug(
+            `[InventoryManager] Removed ${totalValue} from prog_items["${playerId}"]["${target}"] (now ${sm.prog_items[playerId][target]})`
+          );
+        }
+
+        break; // Only apply first matching rule
+      }
+    }
+  }
+
+  // Call game-specific hook for item removal (e.g., Stardew Valley progression tracking)
+  if (sm.logicModule && typeof sm.logicModule.afterItemRemoved === 'function') {
+    sm.logicModule.afterItemRemoved(sm, itemName, count);
+  }
 }
 
 /**
@@ -318,7 +429,38 @@ export function _removeItemFromInventory(sm, itemName, count = 1) {
  * @returns {boolean} True if item count > 0
  */
 export function hasItem(sm, itemName) {
-  return (sm.inventory[itemName] || 0) > 0;
+  // First check if the item is directly in inventory
+  if ((sm.inventory[itemName] || 0) > 0) {
+    return true;
+  }
+
+  // Check if this item is part of a progressive item sequence
+  // For example, if checking for "logistic-science-pack" and player has "progressive-science-pack",
+  // we need to check if they have enough progressive items to have reached this level
+  if (sm.progressionMapping) {
+    for (const [progressiveItemName, mapping] of Object.entries(sm.progressionMapping)) {
+      // Skip additive progression (like "rep"), only handle sequential progression
+      if (mapping.type === 'additive') {
+        continue;
+      }
+
+      // Check if this item is in the progression sequence
+      if (mapping.items && Array.isArray(mapping.items)) {
+        const itemLevel = mapping.items.findIndex(levelItem => levelItem.name === itemName);
+        if (itemLevel !== -1) {
+          // Found the item in this progressive sequence
+          // Check if player has enough of the progressive item to have reached this level
+          const progressiveCount = sm.inventory[progressiveItemName] || 0;
+          // Levels are 1-indexed, findIndex is 0-indexed, so level 1 is at index 0
+          if (progressiveCount > itemLevel) {
+            return true;
+          }
+        }
+      }
+    }
+  }
+
+  return false;
 }
 
 /**
@@ -329,7 +471,36 @@ export function hasItem(sm, itemName) {
  * @returns {number} Item count
  */
 export function countItem(sm, itemName) {
-  return sm.inventory[itemName] || 0;
+  // First check if the item is directly in inventory
+  const directCount = sm.inventory[itemName] || 0;
+  if (directCount > 0) {
+    return directCount;
+  }
+
+  // Check if this item is part of a progressive item sequence
+  // For progressive items, we return 1 if the player has reached this level
+  if (sm.progressionMapping) {
+    for (const [progressiveItemName, mapping] of Object.entries(sm.progressionMapping)) {
+      // Skip additive progression (like "rep"), only handle sequential progression
+      if (mapping.type === 'additive') {
+        continue;
+      }
+
+      // Check if this item is in the progression sequence
+      if (mapping.items && Array.isArray(mapping.items)) {
+        const itemLevel = mapping.items.findIndex(levelItem => levelItem.name === itemName);
+        if (itemLevel !== -1) {
+          // Found the item in this progressive sequence
+          // Check if player has enough of the progressive item to have reached this level
+          const progressiveCount = sm.inventory[progressiveItemName] || 0;
+          // Return 1 if player has reached this level, 0 otherwise
+          return progressiveCount > itemLevel ? 1 : 0;
+        }
+      }
+    }
+  }
+
+  return 0;
 }
 
 /**
@@ -459,4 +630,50 @@ export function has_from_list(sm, items, count) {
   }
 
   return itemsFound >= count;
+}
+
+/**
+ * Checks if inventory has at least N unique items from a group
+ * Counts each item type only once (ignores duplicates)
+ * Python equivalent: state.has_group_unique("groupName", player, count)
+ *
+ * DATA FLOW:
+ *   Input: groupName, required count
+ *   Processing: Count unique items from group where count > 0
+ *   Output: True if unique count >= required count
+ *
+ * @param {Object} sm - StateManager instance
+ * @param {string} groupName - Name of the item group
+ * @param {number} count - Minimum number of unique items required
+ * @returns {boolean} True if unique items from group >= count
+ */
+export function has_group_unique(sm, groupName, count = 1) {
+  if (typeof groupName !== 'string') {
+    console.warn('[InventoryManager has_group_unique] groupName is not a string:', groupName);
+    return false;
+  }
+  if (typeof count !== 'number' || count < 0) {
+    console.warn('[InventoryManager has_group_unique] count is not a valid number:', count);
+    return false;
+  }
+
+  // Count unique items from the group (items with count > 0)
+  let uniqueItemsFound = 0;
+  if (sm.itemData) {
+    for (const itemName in sm.itemData) {
+      const itemInfo = sm.itemData[itemName];
+      if (itemInfo?.groups?.includes(groupName)) {
+        const itemCount = sm.inventory[itemName] || 0;
+        if (itemCount > 0) {
+          uniqueItemsFound++;
+          // Early exit if we've found enough unique items
+          if (uniqueItemsFound >= count) {
+            return true;
+          }
+        }
+      }
+    }
+  }
+
+  return uniqueItemsFound >= count;
 }

@@ -2,12 +2,17 @@
 
 This guide provides the necessary steps to set up a local development environment for the Archipelago JSON Export Tools project. It is intended for developers who want to contribute to the project, add new features, or debug existing functionality.
 
+**Windows Users:** See the **[Windows-specific setup guide](./getting-started-windows.md)** for streamlined instructions tailored to Windows development environments.
+
 ## Prerequisites
 
 ### Required Software
 
 - **Git**: For version control.
-- **Python 3.8+**: For running the backend rule exporter and a local web server.
+- **Python 3.11.9+**: For full functionality including the backend rule exporter, testing pipeline, and local web server.
+  - **Windows/macOS**: Requires Python 3.11.9 or newer
+  - **Linux**: Requires Python 3.11.0 or newer
+  - **Note**: Python 3.8+ may work for basic frontend development (HTTP server only), but 3.11.9+ is recommended
 - **A Modern Web Browser**: Chrome, Firefox, or Edge, with support for ES6 modules and Web Workers.
 
 ### Recommended Tools
@@ -328,7 +333,7 @@ general_options:
 
 ## Next Steps
 
-You are now ready to start developing! Refer to the following documents for more detailed information:
+You are now ready to start developing. Refer to the following documents for more detailed information:
 
 -   **[System Architecture](./architecture.md)**: For a high-level understanding of how the project is structured.
 -   **[Creating Modules](./guides/creating-modules.md)**: For a practical guide on adding new features.

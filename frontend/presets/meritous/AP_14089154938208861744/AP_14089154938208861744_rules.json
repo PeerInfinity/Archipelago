@@ -23,16 +23,18 @@
               "conditions": [
                 {
                   "type": "group_check",
-                  "group": {
+                  "group": "Important Artifacts",
+                  "count": {
                     "type": "constant",
-                    "value": "PSI Keys"
+                    "value": 1
                   }
                 },
                 {
                   "type": "group_check",
-                  "group": {
+                  "group": "PSI Keys",
+                  "count": {
                     "type": "constant",
-                    "value": "Important Artifacts"
+                    "value": 1
                   }
                 }
               ]
@@ -403,16 +405,18 @@
               "conditions": [
                 {
                   "type": "group_check",
-                  "group": {
+                  "group": "Important Artifacts",
+                  "count": {
                     "type": "constant",
-                    "value": "PSI Keys"
+                    "value": 2
                   }
                 },
                 {
                   "type": "group_check",
-                  "group": {
+                  "group": "PSI Keys",
+                  "count": {
                     "type": "constant",
-                    "value": "Important Artifacts"
+                    "value": 2
                   }
                 }
               ]
@@ -783,16 +787,18 @@
               "conditions": [
                 {
                   "type": "group_check",
-                  "group": {
+                  "group": "Important Artifacts",
+                  "count": {
                     "type": "constant",
-                    "value": "PSI Keys"
+                    "value": 3
                   }
                 },
                 {
                   "type": "group_check",
-                  "group": {
+                  "group": "PSI Keys",
+                  "count": {
                     "type": "constant",
-                    "value": "Important Artifacts"
+                    "value": 3
                   }
                 }
               ]
@@ -1160,10 +1166,7 @@
             "connected_region": "Final Boss",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Cursed Seal"
-              }
+              "item": "Cursed Seal"
             }
           },
           {
@@ -1559,10 +1562,7 @@
             "connected_region": "Second Quarter",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Meridian Defeated"
-              }
+              "item": "Meridian Defeated"
             }
           }
         ],
@@ -1605,10 +1605,7 @@
             "connected_region": "Third Quarter",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Ataraxia Defeated"
-              }
+              "item": "Ataraxia Defeated"
             }
           }
         ],
@@ -1651,10 +1648,7 @@
             "connected_region": "Last Quarter",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Merodach Defeated"
-              }
+              "item": "Merodach Defeated"
             }
           }
         ],
@@ -2178,7 +2172,8 @@
   "settings": {
     "1": {
       "game": "Meritous",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
     }
   },
   "game_info": {

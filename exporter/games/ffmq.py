@@ -24,44 +24,68 @@ class FFMQGameExportHandler(BaseGameExportHandler):
         if not rule or not isinstance(rule, dict):
             return rule
             
-        # Handle binary operations like "w" + "s" to build item group names
+        # Handle binary operations like "Bomb" + "s" to build item group names
         if rule.get('type') == 'binary_op':
             left = rule.get('left', {})
             right = rule.get('right', {})
             op = rule.get('op')
-            
-            # Resolve name references  
-            if left.get('type') == 'name' and left.get('name') == 'w':
-                # w is likely a closure variable meaning "Weapon"
-                # The sphere log shows mixed behavior - some locations accept bombs, some don't
-                # For now, use the full Weapons group to match most cases
-                if right.get('type') == 'constant' and right.get('value') == 's':
-                    # "w" + "s" builds "Weapons" group name
-                    return {
-                        'type': 'constant',
-                        'value': 'Weapons'
-                    }
-                elif right.get('type') == 'constant' and isinstance(right.get('value'), str):
-                    # For other suffixes, try constructing group name
-                    group_suffix = right.get('value')
-                    # Try different patterns
-                    possible_groups = [
-                        f"Weapon{group_suffix}",  # e.g., "Weapons"
-                        f"w{group_suffix}",        # e.g., "ws"
-                        group_suffix               # Just the suffix
-                    ]
-                    # Check which one exists in item_groups
-                    for group_name in possible_groups:
-                        if group_name in self.item_groups:
-                            return {
-                                'type': 'constant',
-                                'value': group_name
-                            }
-                    # Default to Weapon + suffix pattern
-                    return {
-                        'type': 'constant',
-                        'value': f"Weapon{group_suffix}"
-                    }
+
+            # First recursively expand left and right operands
+            expanded_left = self.expand_rule(left)
+            expanded_right = self.expand_rule(right)
+
+            # Handle string concatenation ('+' operator)
+            if op == '+':
+                # If both sides are constants, concatenate them
+                if (expanded_left.get('type') == 'constant' and
+                    expanded_right.get('type') == 'constant'):
+                    left_val = expanded_left.get('value')
+                    right_val = expanded_right.get('value')
+
+                    # String concatenation
+                    if isinstance(left_val, str) and isinstance(right_val, str):
+                        concatenated = left_val + right_val
+                        return {
+                            'type': 'constant',
+                            'value': concatenated
+                        }
+                    # Numeric addition
+                    elif isinstance(left_val, (int, float)) and isinstance(right_val, (int, float)):
+                        return {
+                            'type': 'constant',
+                            'value': left_val + right_val
+                        }
+
+                # Handle special case of "w" variable (closure variable for "Weapon")
+                if expanded_left.get('type') == 'name' and expanded_left.get('name') == 'w':
+                    if expanded_right.get('type') == 'constant' and isinstance(expanded_right.get('value'), str):
+                        group_suffix = expanded_right.get('value')
+                        # Try different patterns
+                        possible_groups = [
+                            f"Weapon{group_suffix}",  # e.g., "Weapons"
+                            f"w{group_suffix}",        # e.g., "ws"
+                            group_suffix               # Just the suffix
+                        ]
+                        # Check which one exists in item_groups
+                        for group_name in possible_groups:
+                            if group_name in self.item_groups:
+                                return {
+                                    'type': 'constant',
+                                    'value': group_name
+                                }
+                        # Default to Weapon + suffix pattern
+                        return {
+                            'type': 'constant',
+                            'value': f"Weapon{group_suffix}"
+                        }
+
+            # Return binary_op with expanded operands if we couldn't fully resolve
+            return {
+                'type': 'binary_op',
+                'left': expanded_left,
+                'op': op,
+                'right': expanded_right
+            }
                     
         # Handle subscript operations for item_groups access
         if rule.get('type') == 'subscript':
@@ -171,15 +195,18 @@ class FFMQGameExportHandler(BaseGameExportHandler):
                 elif hasattr(FFMQItems, 'trap_items') and item_name in FFMQItems.trap_items:
                     is_trap = True
 
+                # Items with id=None are event items (e.g., "Barrel Pushed", "Long Spine Bombed")
+                is_event = item_data.id is None
+
                 ffmq_items_data[item_name] = {
                     'name': item_name,
                     'id': item_data.id,
-                    'groups': sorted(groups),
-                    'advancement': is_advancement,
+                    'groups': sorted(groups) if not is_event else ['Event'],
+                    'advancement': is_advancement or is_event,  # Events are progression
                     'useful': is_useful,
                     'trap': is_trap,
-                    'event': False,
-                    'type': None,
+                    'event': is_event,
+                    'type': 'Event' if is_event else None,
                     'max_count': 1
                 }
                 

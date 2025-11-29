@@ -22,13 +22,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Item 2 - Rocket"
-                  }
-                },
-                {
                   "type": "state_method",
                   "method": "has_all",
                   "args": [
@@ -39,6 +32,10 @@
                       ]
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Item 2 - Rocket"
                 }
               ]
             }
@@ -98,13 +95,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Time Stopper"
-                  }
-                },
-                {
                   "type": "state_method",
                   "method": "has_all",
                   "args": [
@@ -115,6 +105,10 @@
                       ]
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Time Stopper"
                 }
               ]
             }
@@ -865,10 +859,7 @@
             "id": 8913436,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Crash Bomber"
-              }
+              "item": "Crash Bomber"
             },
             "item": {
               "name": "Weapon Energy (L)",
@@ -882,10 +873,7 @@
             "id": 8913437,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Crash Bomber"
-              }
+              "item": "Crash Bomber"
             },
             "item": {
               "name": "Leaf Shield",
@@ -950,10 +938,7 @@
             "id": 8913440,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Crash Bomber"
-              }
+              "item": "Crash Bomber"
             },
             "item": {
               "name": "Weapon Energy (L)",
@@ -992,13 +977,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Crash Bomber"
-                  }
-                },
-                {
                   "type": "state_method",
                   "method": "has_any",
                   "args": [
@@ -1009,6 +987,10 @@
                       ]
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Crash Bomber"
                 }
               ]
             },
@@ -1026,13 +1008,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Crash Bomber"
-                  }
-                },
-                {
                   "type": "state_method",
                   "method": "has_any",
                   "args": [
@@ -1043,6 +1018,10 @@
                       ]
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Crash Bomber"
                 }
               ]
             },
@@ -1108,10 +1087,29 @@
             "name": "Wily Machine 2 - Defeated",
             "id": 8912909,
             "access_rule": {
-              "type": "capability",
-              "capability": "defeat_enough_rbms",
-              "inferred": true,
-              "description": "Requires ability to defeat enough rbms"
+              "type": "helper",
+              "name": "can_defeat_enough_rbms",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": 8
+                },
+                {
+                  "type": "constant",
+                  "value": {
+                    "0": [],
+                    "1": [],
+                    "2": [],
+                    "3": [],
+                    "4": [],
+                    "5": [],
+                    "6": [],
+                    "7": [],
+                    "12": []
+                  }
+                }
+              ],
+              "description": "Requires defeating enough robot masters for Wily Stage 5"
             },
             "item": {
               "name": "E-Tank",
@@ -1124,10 +1122,29 @@
             "name": "Wily Stage 5 - Completed",
             "id": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "defeat_enough_rbms",
-              "inferred": true,
-              "description": "Requires ability to defeat enough rbms"
+              "type": "helper",
+              "name": "can_defeat_enough_rbms",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": 8
+                },
+                {
+                  "type": "constant",
+                  "value": {
+                    "0": [],
+                    "1": [],
+                    "2": [],
+                    "3": [],
+                    "4": [],
+                    "5": [],
+                    "6": [],
+                    "7": [],
+                    "12": []
+                  }
+                }
+              ],
+              "description": "Requires defeating enough robot masters for Wily Stage 5"
             },
             "item": {
               "name": "Wily Stage 5 - Completed",
@@ -1290,6 +1307,100 @@
         "type": null,
         "max_count": 2
       },
+      "Item 1 - Propeller": {
+        "name": "Item 1 - Propeller",
+        "id": 8912913,
+        "groups": [
+          "Everything",
+          "Items"
+        ],
+        "advancement": true,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Item 2 - Rocket": {
+        "name": "Item 2 - Rocket",
+        "id": 8912914,
+        "groups": [
+          "Everything",
+          "Items"
+        ],
+        "advancement": true,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Item 3 - Bouncy": {
+        "name": "Item 3 - Bouncy",
+        "id": 8912915,
+        "groups": [
+          "Everything",
+          "Items"
+        ],
+        "advancement": true,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "1-Up": {
+        "name": "1-Up",
+        "id": 8912928,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 10
+      },
+      "Weapon Energy (L)": {
+        "name": "Weapon Energy (L)",
+        "id": 8912929,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 28
+      },
+      "Health Energy (L)": {
+        "name": "Health Energy (L)",
+        "id": 8912930,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 6
+      },
+      "E-Tank": {
+        "name": "E-Tank",
+        "id": 8912931,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 8
+      },
       "Heat Man Access Codes": {
         "name": "Heat Man Access Codes",
         "id": 8913153,
@@ -1401,100 +1512,6 @@
         "event": false,
         "type": null,
         "max_count": 2
-      },
-      "Item 1 - Propeller": {
-        "name": "Item 1 - Propeller",
-        "id": 8912913,
-        "groups": [
-          "Everything",
-          "Items"
-        ],
-        "advancement": true,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "Item 2 - Rocket": {
-        "name": "Item 2 - Rocket",
-        "id": 8912914,
-        "groups": [
-          "Everything",
-          "Items"
-        ],
-        "advancement": true,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "Item 3 - Bouncy": {
-        "name": "Item 3 - Bouncy",
-        "id": 8912915,
-        "groups": [
-          "Everything",
-          "Items"
-        ],
-        "advancement": true,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "1-Up": {
-        "name": "1-Up",
-        "id": 8912928,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 10
-      },
-      "Weapon Energy (L)": {
-        "name": "Weapon Energy (L)",
-        "id": 8912929,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 28
-      },
-      "Health Energy (L)": {
-        "name": "Health Energy (L)",
-        "id": 8912930,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 6
-      },
-      "E-Tank": {
-        "name": "E-Tank",
-        "id": 8912931,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 8
       },
       "Wily Stage 1 - Completed": {
         "name": "Wily Stage 1 - Completed",
@@ -1628,7 +1645,20 @@
   "settings": {
     "1": {
       "game": "Mega Man 2",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": true,
+      "wily_5_requirement": 8,
+      "wily_5_weapons": {
+        "0": [],
+        "1": [],
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": [],
+        "6": [],
+        "7": [],
+        "12": []
+      }
     }
   },
   "game_info": {

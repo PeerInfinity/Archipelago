@@ -271,7 +271,7 @@ class ArchipIDLEGameExportHandler(BaseGameExportHandler):
             
         # Generic helper description when we can't infer more
         return {
-            'type': 'generic_helper',
+            'type': 'helper',
             'name': helper_name,
             'args': args,
             'description': f"Requires {helper_name.replace('_', ' ')}"

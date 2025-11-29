@@ -9,10 +9,69 @@ import ast
 import inspect
 import re
 import logging
+import tokenize
+import io
 from typing import Optional, Callable
 import astunparse
 
 from .cache import file_content_cache, ast_cache
+
+
+def remove_comments_from_source(source: str) -> str:
+    """
+    Remove Python comments from source code while preserving # characters in string literals.
+
+    Uses tokenize to properly distinguish between comments and string content.
+
+    Args:
+        source: Source code string
+
+    Returns:
+        Source code with comments removed
+    """
+    try:
+        # Convert source to bytes for tokenize
+        source_bytes = source.encode('utf-8')
+        tokens = tokenize.tokenize(io.BytesIO(source_bytes).readline)
+
+        result = []
+        prev_end = (1, 0)
+
+        for tok in tokens:
+            # Skip comments
+            if tok.type == tokenize.COMMENT:
+                continue
+
+            # Handle newlines and indentation
+            if tok.type in (tokenize.NEWLINE, tokenize.NL):
+                result.append(tok.string)
+                prev_end = tok.end
+                continue
+
+            # Add any whitespace between tokens
+            if tok.start[0] > prev_end[0]:
+                # New line - add newline only if previous token wasn't NL/NEWLINE
+                # (since those tokens already include the newline character)
+                if result and not result[-1].endswith('\n'):
+                    result.append('\n')
+                # Preserve indentation on the new line
+                if tok.start[1] > 0 and tok.type != tokenize.INDENT:
+                    result.append(' ' * tok.start[1])
+            elif tok.start[1] > prev_end[1] and tok.type != tokenize.INDENT:
+                # Same line, add spaces
+                result.append(' ' * (tok.start[1] - prev_end[1]))
+
+            # Add the token
+            if tok.type not in (tokenize.ENCODING, tokenize.ENDMARKER):
+                result.append(tok.string)
+
+            prev_end = tok.end
+
+        return ''.join(result).strip()
+    except Exception as e:
+        # Fallback to simple regex if tokenization fails
+        logging.warning(f"Tokenization failed for comment removal: {e}. Using fallback regex.")
+        return re.sub(r'#.*$', '', source, flags=re.MULTILINE).strip()
 
 
 class LambdaLineFinder(ast.NodeVisitor):
@@ -65,7 +124,7 @@ def get_multiline_lambda_source(func: Callable) -> Optional[str]:
                 source_code = file_content_cache[filename]
             else:
                 # 3. Read from disk as a last resort
-                with open(filename, 'r', encoding='utf-8') as f:
+                with open(filename, 'r', encoding='utf-8-sig') as f:
                     source_code = f.read()
                 file_content_cache[filename] = source_code
 
@@ -115,7 +174,7 @@ def _read_multiline_lambda(func: Callable) -> Optional[str]:
             logging.debug(f"_read_multiline_lambda: Using cached content for {filename}")
         else:
             logging.debug(f"_read_multiline_lambda: Reading and caching content for {filename}")
-            with open(filename, 'r') as f:
+            with open(filename, 'r', encoding='utf-8-sig') as f:
                 # Read the file line by line
                 lines = f.readlines()
             file_content_cache[filename] = lines  # Store in cache
@@ -175,8 +234,8 @@ def _read_multiline_lambda(func: Callable) -> Optional[str]:
         # Clean up the lambda text
         lambda_text = lambda_text.strip()
 
-        # Strip "#" and anything after it
-        lambda_text = re.sub(r'#.*$', '', lambda_text, flags=re.MULTILINE)
+        # Remove comments while preserving # in string literals
+        lambda_text = remove_comments_from_source(lambda_text)
 
         return lambda_text
     except Exception as e:
@@ -203,8 +262,9 @@ def _clean_source(func: Callable) -> Optional[str]:
         if source is None:
             return None
 
-        # Remove comments from the source
-        source = re.sub(r'#.*$', '', source, flags=re.MULTILINE)
+        # Note: No need to remove comments here - astunparse already strips them
+        # since it works from the AST. Removing comments with tokenize would break
+        # explicit line continuations (\).
         source = source.strip()
         logging.debug(f"_clean_source: Got source from AST = {repr(source)}")
     except (TypeError, OSError) as e:

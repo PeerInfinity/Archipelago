@@ -2693,14 +2693,27 @@
             "name": "Hideout: BMX garage skateboard",
             "id": 2308008,
             "access_rule": {
-              "type": "helper",
-              "name": "bmx",
-              "args": [
-                {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
                   "type": "constant",
                   "value": 2
+                },
+                "op": "==",
+                "right": {
+                  "type": "constant",
+                  "value": 1
                 }
-              ]
+              },
+              "if_true": {
+                "type": "constant",
+                "value": true
+              },
+              "if_false": {
+                "type": "group_check",
+                "group": "bmx"
+              }
             },
             "item": {
               "name": "Skateboard (Terrence)",
@@ -2713,14 +2726,12 @@
             "name": "Hideout: Unlock phone app",
             "id": 2308009,
             "access_rule": {
-              "type": "helper",
-              "name": "current_chapter",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": 2
-                }
-              ]
+              "type": "item_check",
+              "item": "Chapter Completed",
+              "count": {
+                "type": "constant",
+                "value": 1
+              }
             },
             "item": {
               "name": "Inline Skates (Glaciers)",
@@ -2733,14 +2744,12 @@
             "name": "Hideout: Vinyl joins the crew",
             "id": 2308010,
             "access_rule": {
-              "type": "helper",
-              "name": "current_chapter",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": 4
-                }
-              ]
+              "type": "item_check",
+              "item": "Chapter Completed",
+              "count": {
+                "type": "constant",
+                "value": 3
+              }
             },
             "item": {
               "name": "Inline Skates (Red Industry)",
@@ -2753,14 +2762,12 @@
             "name": "Hideout: Solace joins the crew",
             "id": 2308011,
             "access_rule": {
-              "type": "helper",
-              "name": "current_chapter",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": 5
-                }
-              ]
+              "type": "item_check",
+              "item": "Chapter Completed",
+              "count": {
+                "type": "constant",
+                "value": 4
+              }
             },
             "item": {
               "name": "16 REP",
@@ -2844,14 +2851,27 @@
             "name": "Versum Hill: BMX gate outfit",
             "id": 2308031,
             "access_rule": {
-              "type": "helper",
-              "name": "bmx",
-              "args": [
-                {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
                   "type": "constant",
                   "value": 2
+                },
+                "op": "==",
+                "right": {
+                  "type": "constant",
+                  "value": 1
                 }
-              ]
+              },
+              "if_true": {
+                "type": "constant",
+                "value": true
+              },
+              "if_false": {
+                "type": "group_check",
+                "group": "bmx"
+              }
             },
             "item": {
               "name": "24 REP",
@@ -2864,9 +2884,8 @@
             "name": "Versum Hill: Big Polo",
             "id": 2308037,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Music (You Can Say Hi)",
@@ -2879,9 +2898,8 @@
             "name": "Versum Hill: Trash Polo",
             "id": 2308038,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Bel",
@@ -3097,14 +3115,27 @@
             "name": "Versum Hill: Glass floor skates",
             "id": 2308032,
             "access_rule": {
-              "type": "helper",
-              "name": "inline_skates",
-              "args": [
-                {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
                   "type": "constant",
                   "value": 2
+                },
+                "op": "==",
+                "right": {
+                  "type": "constant",
+                  "value": 3
                 }
-              ]
+              },
+              "if_true": {
+                "type": "constant",
+                "value": true
+              },
+              "if_false": {
+                "type": "group_check",
+                "group": "skates"
+              }
             },
             "item": {
               "name": "8 REP",
@@ -3117,14 +3148,12 @@
             "name": "Versum Hill: Frank joins the crew",
             "id": 2308035,
             "access_rule": {
-              "type": "helper",
-              "name": "current_chapter",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": 2
-                }
-              ]
+              "type": "item_check",
+              "item": "Chapter Completed",
+              "count": {
+                "type": "constant",
+                "value": 1
+              }
             },
             "item": {
               "name": "24 REP",
@@ -3210,9 +3239,8 @@
             "name": "Versum Hill: Fruit stand Polo",
             "id": 2308039,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Music (GET ENUF)",
@@ -3332,14 +3360,12 @@
             "name": "Versum Hill: Basketball court shortcut CD",
             "id": 2308033,
             "access_rule": {
-              "type": "helper",
-              "name": "current_chapter",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": 2
-                }
-              ]
+              "type": "item_check",
+              "item": "Chapter Completed",
+              "count": {
+                "type": "constant",
+                "value": 1
+              }
             },
             "item": {
               "name": "Graffiti (M - Stacked Symbols)",
@@ -3681,9 +3707,8 @@
             "name": "Millennium Square: Half pipe Polo",
             "id": 2308056,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Outfit (Red - Winter)",
@@ -3826,14 +3851,27 @@
             "name": "Brink Terminal: BMX gate graffiti",
             "id": 2308063,
             "access_rule": {
-              "type": "helper",
-              "name": "bmx",
-              "args": [
-                {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
                   "type": "constant",
                   "value": 2
+                },
+                "op": "==",
+                "right": {
+                  "type": "constant",
+                  "value": 1
                 }
-              ]
+              },
+              "if_true": {
+                "type": "constant",
+                "value": true
+              },
+              "if_false": {
+                "type": "group_check",
+                "group": "bmx"
+              }
             },
             "item": {
               "name": "Skateboard (Devon)",
@@ -3902,14 +3940,12 @@
             "name": "Brink Terminal: Eclipse joins the crew",
             "id": 2308081,
             "access_rule": {
-              "type": "helper",
-              "name": "current_chapter",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": 3
-                }
-              ]
+              "type": "item_check",
+              "item": "Chapter Completed",
+              "count": {
+                "type": "constant",
+                "value": 2
+              }
             },
             "item": {
               "name": "Skateboard (Just Swell)",
@@ -3922,9 +3958,8 @@
             "name": "Brink Terminal: Behind glass Polo",
             "id": 2308082,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Graffiti (M - Pora)",
@@ -4179,14 +4214,27 @@
             "name": "Brink Terminal: Rooftop glass CD",
             "id": 2308073,
             "access_rule": {
-              "type": "helper",
-              "name": "inline_skates",
-              "args": [
-                {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
                   "type": "constant",
                   "value": 2
+                },
+                "op": "==",
+                "right": {
+                  "type": "constant",
+                  "value": 3
                 }
-              ]
+              },
+              "if_true": {
+                "type": "constant",
+                "value": true
+              },
+              "if_false": {
+                "type": "group_check",
+                "group": "skates"
+              }
             },
             "item": {
               "name": "8 REP",
@@ -4341,14 +4389,27 @@
             "name": "Millennium Mall: Glass cylinder CD",
             "id": 2308086,
             "access_rule": {
-              "type": "helper",
-              "name": "inline_skates",
-              "args": [
-                {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
                   "type": "constant",
                   "value": 2
+                },
+                "op": "==",
+                "right": {
+                  "type": "constant",
+                  "value": 3
                 }
-              ]
+              },
+              "if_true": {
+                "type": "constant",
+                "value": true
+              },
+              "if_false": {
+                "type": "group_check",
+                "group": "skates"
+              }
             },
             "item": {
               "name": "Vinyl",
@@ -4574,14 +4635,27 @@
             "name": "Millennium Mall: Atrium BMX gate BMX",
             "id": 2308097,
             "access_rule": {
-              "type": "helper",
-              "name": "bmx",
-              "args": [
-                {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
                   "type": "constant",
                   "value": 2
+                },
+                "op": "==",
+                "right": {
+                  "type": "constant",
+                  "value": 1
                 }
-              ]
+              },
+              "if_true": {
+                "type": "constant",
+                "value": true
+              },
+              "if_false": {
+                "type": "group_check",
+                "group": "bmx"
+              }
             },
             "item": {
               "name": "Tryce",
@@ -4608,14 +4682,12 @@
             "name": "Millennium Mall: DOT.EXE joins the crew",
             "id": 2308106,
             "access_rule": {
-              "type": "helper",
-              "name": "current_chapter",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": 4
-                }
-              ]
+              "type": "item_check",
+              "item": "Chapter Completed",
+              "count": {
+                "type": "constant",
+                "value": 3
+              }
             },
             "item": {
               "name": "Graffiti (L - Jd Vila Formosa)",
@@ -4757,14 +4829,12 @@
             "name": "Millennium Mall: Shine joins the crew",
             "id": 2308105,
             "access_rule": {
-              "type": "helper",
-              "name": "current_chapter",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": 4
-                }
-              ]
+              "type": "item_check",
+              "item": "Chapter Completed",
+              "count": {
+                "type": "constant",
+                "value": 3
+              }
             },
             "item": {
               "name": "Oldhead",
@@ -4868,14 +4938,27 @@
             "name": "Pyramid Island: BMX gate BMX",
             "id": 2308110,
             "access_rule": {
-              "type": "helper",
-              "name": "bmx",
-              "args": [
-                {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
                   "type": "constant",
                   "value": 2
+                },
+                "op": "==",
+                "right": {
+                  "type": "constant",
+                  "value": 1
                 }
-              ]
+              },
+              "if_true": {
+                "type": "constant",
+                "value": true
+              },
+              "if_false": {
+                "type": "group_check",
+                "group": "bmx"
+              }
             },
             "item": {
               "name": "Outfit (Rise - Autumn)",
@@ -4888,9 +4971,8 @@
             "name": "Pyramid Island: Polo pile 1",
             "id": 2308131,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Graffiti (M - 0m33)",
@@ -4903,9 +4985,8 @@
             "name": "Pyramid Island: Polo pile 2",
             "id": 2308132,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Music (DA PEOPLE)",
@@ -4918,9 +4999,8 @@
             "name": "Pyramid Island: Polo pile 3",
             "id": 2308133,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Devil Theory",
@@ -4933,9 +5013,8 @@
             "name": "Pyramid Island: Polo pile 4",
             "id": 2308134,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Outfit (Solace - Winter)",
@@ -5136,14 +5215,27 @@
             "name": "Pyramid Island: Maze outfit",
             "id": 2308128,
             "access_rule": {
-              "type": "helper",
-              "name": "skateboard",
-              "args": [
-                {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
+                  "type": "constant",
+                  "value": 2
+                },
+                "op": "==",
+                "right": {
                   "type": "constant",
                   "value": 2
                 }
-              ]
+              },
+              "if_true": {
+                "type": "constant",
+                "value": true
+              },
+              "if_false": {
+                "type": "group_check",
+                "group": "skateboard"
+              }
             },
             "item": {
               "name": "Graffiti (XL - Web Spitter)",
@@ -5156,9 +5248,8 @@
             "name": "Pyramid Island: Maze glass Polo",
             "id": 2308135,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Graffiti (XL - Gold Rush)",
@@ -5171,9 +5262,8 @@
             "name": "Pyramid Island: Maze classroom Polo",
             "id": 2308136,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Outfit (Rave - Autumn)",
@@ -5186,9 +5276,8 @@
             "name": "Pyramid Island: Maze vent Polo",
             "id": 2308137,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Music (Funk Express)",
@@ -5201,9 +5290,8 @@
             "name": "Pyramid Island: Big maze Polo",
             "id": 2308138,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "8 REP",
@@ -5216,9 +5304,8 @@
             "name": "Pyramid Island: Maze desk Polo",
             "id": 2308139,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "16 REP",
@@ -5231,9 +5318,8 @@
             "name": "Pyramid Island: Maze forklift Polo",
             "id": 2308140,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Music (watchyaback!)",
@@ -5294,14 +5380,27 @@
             "name": "Pyramid Island: Shortcut glass CD",
             "id": 2308121,
             "access_rule": {
-              "type": "helper",
-              "name": "inline_skates",
-              "args": [
-                {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
                   "type": "constant",
                   "value": 2
+                },
+                "op": "==",
+                "right": {
+                  "type": "constant",
+                  "value": 3
                 }
-              ]
+              },
+              "if_true": {
+                "type": "constant",
+                "value": true
+              },
+              "if_false": {
+                "type": "group_check",
+                "group": "skates"
+              }
             },
             "item": {
               "name": "Music (Trinitron)",
@@ -5370,14 +5469,12 @@
             "name": "Pyramid Island: Devil Theory joins the crew",
             "id": 2308130,
             "access_rule": {
-              "type": "helper",
-              "name": "current_chapter",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": 5
-                }
-              ]
+              "type": "item_check",
+              "item": "Chapter Completed",
+              "count": {
+                "type": "constant",
+                "value": 4
+              }
             },
             "item": {
               "name": "Music (State of Mind)",
@@ -5485,9 +5582,8 @@
             "name": "Pyramid Island: Rise joins the crew",
             "id": 2308129,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "16 REP",
@@ -5679,9 +5775,8 @@
             "name": "Mataan: Trash Polo",
             "id": 2308167,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "8 REP",
@@ -6104,9 +6199,8 @@
             "name": "Mataan: Shopping Polo",
             "id": 2308168,
             "access_rule": {
-              "type": "helper",
-              "name": "camera",
-              "args": []
+              "type": "item_check",
+              "item": "Camera App"
             },
             "item": {
               "name": "Outfit (Felix - Winter)",
@@ -8275,6 +8369,32 @@
         "advancement": true,
         "useful": false,
         "trap": false
+      },
+      "Chapter Completed": {
+        "name": "Chapter Completed",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 4
+      },
+      "Victory": {
+        "name": "Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
       }
     }
   },
@@ -8486,7 +8606,8 @@
   "settings": {
     "1": {
       "game": "Bomb Rush Cyberfunk",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
     }
   },
   "game_info": {

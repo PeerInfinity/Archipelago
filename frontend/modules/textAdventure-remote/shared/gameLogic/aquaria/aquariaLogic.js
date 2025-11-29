@@ -76,7 +76,7 @@ export function _has_fish_form(snapshot, staticData, itemName) {
  * Corresponds to _has_hot_soup in worlds/aquaria/Regions.py
  */
 export function _has_hot_soup(snapshot, staticData, itemName) {
-  return has(snapshot, staticData, 'Hot Soup') || has(snapshot, staticData, 'Hot Soup x2');
+  return has(snapshot, staticData, 'Hot Soup') || has(snapshot, staticData, 'Hot Soup x 2');
 }
 
 /**
@@ -92,7 +92,7 @@ export function _has_tongue_cleared(snapshot, staticData, itemName) {
  * Corresponds to _has_sun_crystal in worlds/aquaria/Regions.py
  */
 export function _has_sun_crystal(snapshot, staticData, itemName) {
-  return has(snapshot, staticData, 'Has sun crystal') && _has_bind_song(snapshot, staticData, itemName);
+  return has(snapshot, staticData, 'Has Sun Crystal') && _has_bind_song(snapshot, staticData, itemName);
 }
 
 /**

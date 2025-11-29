@@ -4,11 +4,11 @@ Comprehensive automation script for testing Archipelago template files through g
 
 ## Overview
 
-`test-all-templates.py` is the main test automation framework for the Archipelago JSON Export Tools project. It iterates through YAML template files, runs the generation script (Generate.py) for each template, and executes validation tests including spoiler tests, multiplayer tests, and multiworld tests.
+`test-all-templates.py` is the main test automation framework for the Archipelago JSON Export Tools project. It iterates through YAML template files, runs the generation script (Generate.py) for each template, and executes validation tests including spoiler tests, multiclient tests, and multiworld tests.
 
 ## Features
 
-- **Multiple Test Modes**: Spoiler tests, multiplayer tests, and multiworld tests
+- **Multiple Test Modes**: Spoiler tests, multiclient tests, and multiworld tests
 - **Seed Range Testing**: Test templates across multiple seeds to detect flaky tests
 - **Retest Mode**: Intelligently retest only previously failed templates
 - **Incremental Results**: Results saved after each template for safe interruption
@@ -41,8 +41,8 @@ python scripts/test/test-all-templates.py --skip-list "Archipelago.yaml" "Univer
 # Spoiler tests (default)
 python scripts/test/test-all-templates.py
 
-# Multiplayer tests
-python scripts/test/test-all-templates.py --multiplayer
+# Multiclient tests
+python scripts/test/test-all-templates.py --multiclient
 
 # Multiworld tests
 python scripts/test/test-all-templates.py --multiworld
@@ -62,13 +62,13 @@ The output directory depends on the `extend_sphere_log_to_all_locations` setting
 - `true`: Results in `output/spoiler-full/` (tests all locations)
 - `false`: Results in `output/spoiler-minimal/` (tests advancement items only)
 
-### Multiplayer Tests
+### Multiclient Tests
 
-Tests the multiplayer timer functionality:
+Tests the multiclient timer functionality:
 - Starts Archipelago server with template
 - Connects players via Playwright
-- Validates multiplayer timer display and updates
-- Results saved to `scripts/output/multiplayer/`
+- Validates multiclient timer display and updates
+- Results saved to `scripts/output/multiclient/`
 
 Options:
 - `--single-client`: Use single-client mode (simpler test, one browser)
@@ -82,7 +82,7 @@ Tests templates in multiworld configurations:
 - Results saved to `scripts/output/multiworld/`
 
 Requirements:
-- All other test types (spoiler minimal, spoiler full, multiplayer) must pass first
+- All other test types (spoiler minimal, spoiler full, multiclient) must pass first
 - Templates must have passing prerequisite tests
 
 Options:
@@ -229,7 +229,7 @@ python scripts/test/test-all-templates.py --output-file scripts/custom-output/re
 
 Default varies by test mode:
 - Spoiler: `scripts/output/spoiler-{minimal|full}/test-results.json`
-- Multiplayer: `scripts/output/multiplayer/test-results.json`
+- Multiclient: `scripts/output/multiclient/test-results.json`
 - Multiworld: `scripts/output/multiworld/test-results.json`
 - Multitemplate: `scripts/output/multitemplate-{minimal|full}/test-results.json`
 
@@ -286,16 +286,16 @@ python scripts/test/test-all-templates.py --templates-dir Players/presets/multit
 
 Requires `--templates-dir` to be specified. Results are nested by game name and template name.
 
-### Multiplayer-Specific Options
+### Multiclient-Specific Options
 
 #### `--single-client`
-Use single-client mode for multiplayer tests.
+Use single-client mode for multiclient tests.
 
 ```bash
-python scripts/test/test-all-templates.py --multiplayer --single-client
+python scripts/test/test-all-templates.py --multiclient --single-client
 ```
 
-Only valid with `--multiplayer`. Simpler test with one browser instance.
+Only valid with `--multiclient`. Simpler test with one browser instance.
 
 ### Browser Options
 
@@ -356,7 +356,7 @@ Results are organized under `scripts/output/` by test type:
   - Used when `extend_sphere_log_to_all_locations = false` in host.yaml
 - **`output/spoiler-full/`** - Spoiler tests with all locations
   - Used when `extend_sphere_log_to_all_locations = true` in host.yaml
-- **`output/multiplayer/`** - Multiplayer timer tests
+- **`output/multiclient/`** - Multiclient timer tests
 - **`output/multiworld/`** - Multiworld integration tests
 - **`output/multitemplate-minimal/`** - Multi-template tests (minimal)
 - **`output/multitemplate-full/`** - Multi-template tests (full)
@@ -400,7 +400,7 @@ When the script runs:
 
    The script will auto-start the server if not running.
 
-3. **Archipelago Server** (for multiplayer tests only)
+3. **Archipelago Server** (for multiclient tests only)
    ```bash
    python scripts/setup/setup_ap_server.py --game <game> --seed <seed>
    ```
@@ -474,16 +474,16 @@ python scripts/test/test-all-templates.py --retest
 python scripts/test/test-all-templates.py --retest --retest-continue 10
 ```
 
-### Multiplayer Testing
+### Multiclient Testing
 
-**Test all templates in multiplayer mode:**
+**Test all templates in multiclient mode:**
 ```bash
-python scripts/test/test-all-templates.py --multiplayer
+python scripts/test/test-all-templates.py --multiclient
 ```
 
 **Test with single client (simpler):**
 ```bash
-python scripts/test/test-all-templates.py --multiplayer --single-client
+python scripts/test/test-all-templates.py --multiclient --single-client
 ```
 
 ### Multiworld Testing
@@ -497,7 +497,7 @@ python scripts/test/test-all-templates.py
 python scripts/setup/update_host_settings.py full-spoilers
 python scripts/test/test-all-templates.py
 
-python scripts/test/test-all-templates.py --multiplayer
+python scripts/test/test-all-templates.py --multiclient
 
 # 2. Run multiworld tests
 python scripts/test/test-all-templates.py --multiworld
@@ -543,7 +543,7 @@ python scripts/test/test-all-templates.py --include-list "Adventure.yaml" --head
 The script validates mutually exclusive options and will exit with an error if conflicting options are specified:
 
 - `--export-only` and `--test-only`
-- `--multiplayer` and `--multiworld`
+- `--multiclient` and `--multiworld`
 - `--seed` and `--seed-range`
 - `--retest` and `--include-list`
 - `--retest` and `--start-from`

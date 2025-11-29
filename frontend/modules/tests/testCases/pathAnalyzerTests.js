@@ -173,19 +173,19 @@ export async function testPathAnalyzerPanel(testController) {
 
     // Step 6: Click the analyze button
     testController.log(`[${testRunId}] Step 6: Clicking analyze button...`);
-    
-    // Debug: Check localStorage and button state before clicking
-    const beforeKeys = Object.keys(localStorage).filter(key => key.startsWith('__pathAnalysis'));
-    testController.log(`[${testRunId}] localStorage keys before click: ${beforeKeys.length ? beforeKeys.join(', ') : 'none'}`);
+
+    // Debug: Check window.__pathAnalysisResults__ and button state before clicking
+    const beforeResults = window.__pathAnalysisResults__ ? Object.keys(window.__pathAnalysisResults__) : [];
+    testController.log(`[${testRunId}] window.__pathAnalysisResults__ keys before click: ${beforeResults.length ? beforeResults.join(', ') : 'none'}`);
     testController.log(`[${testRunId}] Button disabled: ${pathAnalyzerAnalyzeButton.disabled}, text: "${pathAnalyzerAnalyzeButton.textContent}"`);
-    
+
     pathAnalyzerAnalyzeButton.click();
     testController.reportCondition('Clicked "Analyze Paths" button', true);
-    
+
     // Debug: Check immediate changes after click
     await new Promise(resolve => setTimeout(resolve, 200));
-    const afterKeys = Object.keys(localStorage).filter(key => key.startsWith('__pathAnalysis'));
-    testController.log(`[${testRunId}] localStorage keys 200ms after click: ${afterKeys.length ? afterKeys.join(', ') : 'none'}`);
+    const afterResults = window.__pathAnalysisResults__ ? Object.keys(window.__pathAnalysisResults__) : [];
+    testController.log(`[${testRunId}] window.__pathAnalysisResults__ keys 200ms after click: ${afterResults.length ? afterResults.join(', ') : 'none'}`);
     testController.log(`[${testRunId}] Button state after click - disabled: ${pathAnalyzerAnalyzeButton.disabled}, text: "${pathAnalyzerAnalyzeButton.textContent}"`);
 
     // Step 7: Wait for analysis to complete
@@ -245,26 +245,21 @@ export async function testPathAnalyzerPanel(testController) {
     if (!analysisStartedOrCompleted) {
       throw new Error('Analysis state could not be determined');
     }
-    
-    // Finally, verify localStorage was populated
-    const localStorageKey = '__pathAnalysis_Kings Grave__';
-    const rawData = localStorage.getItem(localStorageKey);
+
+    // Finally, verify window.__pathAnalysisResults__ was populated
+    const regionToCheck = 'Kings Grave';
     let analysisData = null;
-    if (rawData) {
-      try {
-        analysisData = JSON.parse(rawData);
-        if (!(analysisData && analysisData.paths && Array.isArray(analysisData.paths))) {
-          throw new Error('localStorage data missing paths array');
-        }
-      } catch (e) {
-        throw new Error(`Error parsing localStorage data: ${e.message}`);
+    if (window.__pathAnalysisResults__ && window.__pathAnalysisResults__[regionToCheck]) {
+      analysisData = window.__pathAnalysisResults__[regionToCheck];
+      if (!(analysisData && analysisData.paths && Array.isArray(analysisData.paths))) {
+        throw new Error('window.__pathAnalysisResults__ data missing paths array');
       }
     } else {
-      throw new Error('No localStorage data found after analysis completion');
+      throw new Error('No data found in window.__pathAnalysisResults__ after analysis completion');
     }
-    
+
     testController.reportCondition(
-      `Analysis results for "Kings Grave" found in localStorage`,
+      `Analysis results for "Kings Grave" found in window.__pathAnalysisResults__`,
       true
     );
 
@@ -275,15 +270,15 @@ export async function testPathAnalyzerPanel(testController) {
       Array.isArray(analysisData.paths)
     ) {
       testController.reportCondition(
-        `localStorage data for "Kings Grave" has expected structure (paths array)`,
+        `window.__pathAnalysisResults__ data for "Kings Grave" has expected structure (paths array)`,
         true
       );
       testController.log(
-        `[${testRunId}] Found ${analysisData.paths.length} paths in localStorage for Kings Grave.`
+        `[${testRunId}] Found ${analysisData.paths.length} paths in window.__pathAnalysisResults__ for Kings Grave.`
       );
     } else {
       testController.reportCondition(
-        `localStorage data for "Kings Grave" has UNEXPECTED structure`,
+        `window.__pathAnalysisResults__ data for "Kings Grave" has UNEXPECTED structure`,
         false
       );
       overallResult = false;
@@ -301,7 +296,7 @@ export async function testPathAnalyzerPanel(testController) {
         // If stringify fails, use the basic string conversion.
       }
       testController.log(
-        `[${testRunId}] Unexpected structure for localStorage data. Expected 'paths' key to be an array. Actual keys: ${actualKeys}. Full data: ${fullDataString}`,
+        `[${testRunId}] Unexpected structure for window.__pathAnalysisResults__ data. Expected 'paths' key to be an array. Actual keys: ${actualKeys}. Full data: ${fullDataString}`,
         'error'
       );
     }
@@ -722,19 +717,19 @@ export async function testPathAnalyzerUILibrary(testController) {
 
     // Step 5: Click the analyze button
     testController.log(`[${testRunId}] Clicking analyze button...`);
-    
-    // Debug: Check localStorage and button state before clicking
-    const beforeKeys = Object.keys(localStorage).filter(key => key.startsWith('__pathAnalysis'));
-    testController.log(`[${testRunId}] localStorage keys before click: ${beforeKeys.length ? beforeKeys.join(', ') : 'none'}`);
+
+    // Debug: Check window.__pathAnalysisResults__ and button state before clicking
+    const beforeResults = window.__pathAnalysisResults__ ? Object.keys(window.__pathAnalysisResults__) : [];
+    testController.log(`[${testRunId}] window.__pathAnalysisResults__ keys before click: ${beforeResults.length ? beforeResults.join(', ') : 'none'}`);
     testController.log(`[${testRunId}] Button disabled: ${analyzeButton.disabled}, text: "${analyzeButton.textContent}"`);
-    
+
     analyzeButton.click();
     testController.reportCondition('Analyze button clicked', true);
-    
+
     // Debug: Check immediate changes after click
     await new Promise(resolve => setTimeout(resolve, 100));
-    const afterKeys = Object.keys(localStorage).filter(key => key.startsWith('__pathAnalysis'));
-    testController.log(`[${testRunId}] localStorage keys after click: ${afterKeys.length ? afterKeys.join(', ') : 'none'}`);
+    const afterResults = window.__pathAnalysisResults__ ? Object.keys(window.__pathAnalysisResults__) : [];
+    testController.log(`[${testRunId}] window.__pathAnalysisResults__ keys after click: ${afterResults.length ? afterResults.join(', ') : 'none'}`);
     testController.log(`[${testRunId}] Button state after click - disabled: ${analyzeButton.disabled}, text: "${analyzeButton.textContent}"`);
 
     // Step 6: Wait for analysis results

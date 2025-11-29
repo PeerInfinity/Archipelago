@@ -5,8 +5,8 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Use relative path from scripts directory
-const projectRoot = path.join(__dirname, '..');
+// Use relative path from scripts/docs directory
+const projectRoot = path.join(__dirname, '..', '..');
 const modulesDir = path.join(projectRoot, 'frontend', 'modules');
 
 // Function to extract moduleInfo from a file

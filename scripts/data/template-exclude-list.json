@@ -1,0 +1,33 @@
+{
+  "comment": "Default list of template files to exclude from testing and prompt generation. To modify the default exclude list, edit the 'exclude_list' array below. This list is loaded by scripts/test/test-all-templates.py and CC/scripts/prompt-all-templates.py",
+  "exclude_list": [
+    {
+      "name": "Archipelago.yaml",
+      "reason": "Not a game"
+    },
+    {
+      "name": "Final Fantasy.yaml",
+      "reason": "Requires manual configuration and is not compatible with automated testing"
+    },
+    {
+      "name": "Hollow Knight.yaml",
+      "reason": "The spoiler test currently freezes"
+    },
+    {
+      "name": "Ocarina of Time.yaml",
+      "reason": "The default yaml file fails to generate"
+    },
+    {
+      "name": "Sudoku.yaml",
+      "reason": "Cannot be used for generating worlds"
+    },
+    {
+      "name": "Universal Tracker.yaml",
+      "reason": "Not a game"
+    },
+    {
+      "name": "Zillion.yaml",
+      "reason": "Uses the external zilliandomizer tool for its logic, which is not compatible with this system"
+    }
+  ]
+}

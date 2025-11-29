@@ -1,6 +1,7 @@
 // frontend/modules/tests/testController.js
 import { stateManagerProxySingleton } from '../stateManager/index.js';
 import { createStateSnapshotInterface } from '../shared/stateInterface.js';
+import { DEFAULT_PLAYER_ID } from '../shared/playerIdUtils.js';
 
 // --- TestController Class ---
 export class TestController {
@@ -108,10 +109,10 @@ export class TestController {
           this.log('Calling StateManager.loadRules...');
           try {
             const playerInfo = {
-              playerId: actionDetails.playerId || '1',
+              playerId: actionDetails.playerId || DEFAULT_PLAYER_ID,
               playerName:
                 actionDetails.playerName ||
-                `TestPlayer${actionDetails.playerId || '1'}`,
+                `TestPlayer${actionDetails.playerId || DEFAULT_PLAYER_ID}`,
             };
 
             // Set up the event listener BEFORE calling loadRules to avoid race condition
@@ -303,7 +304,7 @@ export class TestController {
           try {
             const pongPayload = await this.stateManager.pingWorker(
               actionDetails.payload,
-              2000
+              5000
             );
             this.log(`Received pong from worker with payload: ${pongPayload}`);
             return pongPayload;
@@ -445,8 +446,8 @@ export class TestController {
             // Determine if it's a file path or direct data
             let rulesData;
             let playerInfo = {
-              playerId: actionDetails.playerId || '1',
-              playerName: actionDetails.playerName || `TestPlayer${actionDetails.playerId || '1'}`,
+              playerId: actionDetails.playerId || DEFAULT_PLAYER_ID,
+              playerName: actionDetails.playerName || `TestPlayer${actionDetails.playerId || DEFAULT_PLAYER_ID}`,
             };
 
             if (typeof currentSource === 'string' && currentSource.includes('.json')) {
@@ -501,8 +502,8 @@ export class TestController {
           try {
             let rulesData;
             let playerInfo = {
-              playerId: actionDetails.playerId || '1',
-              playerName: actionDetails.playerName || `TestPlayer${actionDetails.playerId || '1'}`,
+              playerId: actionDetails.playerId || DEFAULT_PLAYER_ID,
+              playerName: actionDetails.playerName || `TestPlayer${actionDetails.playerId || DEFAULT_PLAYER_ID}`,
             };
 
             // Fetch the ALTTP rules data
@@ -553,8 +554,8 @@ export class TestController {
           try {
             let rulesData;
             let playerInfo = {
-              playerId: actionDetails.playerId || '1',
-              playerName: actionDetails.playerName || `TestPlayer${actionDetails.playerId || '1'}`,
+              playerId: actionDetails.playerId || DEFAULT_PLAYER_ID,
+              playerName: actionDetails.playerName || `TestPlayer${actionDetails.playerId || DEFAULT_PLAYER_ID}`,
             };
 
             // Fetch the rules data from the specified file
@@ -790,8 +791,8 @@ export class TestController {
   async reloadCurrentRules(options = {}) {
     return await this.performAction({
       type: 'RELOAD_CURRENT_RULES',
-      playerId: options.playerId || '1',
-      playerName: options.playerName || `TestPlayer${options.playerId || '1'}`
+      playerId: options.playerId || DEFAULT_PLAYER_ID,
+      playerName: options.playerName || `TestPlayer${options.playerId || DEFAULT_PLAYER_ID}`
     });
   }
 
@@ -808,8 +809,8 @@ export class TestController {
   async loadALTTPRules(options = {}) {
     return await this.performAction({
       type: 'LOAD_ALTTP_RULES',
-      playerId: options.playerId || '1',
-      playerName: options.playerName || `TestPlayer${options.playerId || '1'}`
+      playerId: options.playerId || DEFAULT_PLAYER_ID,
+      playerName: options.playerName || `TestPlayer${options.playerId || DEFAULT_PLAYER_ID}`
     });
   }
 
@@ -827,8 +828,8 @@ export class TestController {
     return await this.performAction({
       type: 'LOAD_RULES_FROM_FILE',
       rulesPath: rulesPath,
-      playerId: options.playerId || '1',
-      playerName: options.playerName || `TestPlayer${options.playerId || '1'}`
+      playerId: options.playerId || DEFAULT_PLAYER_ID,
+      playerName: options.playerName || `TestPlayer${options.playerId || DEFAULT_PLAYER_ID}`
     });
   }
 

@@ -465,17 +465,18 @@ export class ExitUI {
     }
 
     if (!this.originalExitOrder || this.originalExitOrder.length === 0) {
-      log('warn', 
-        '[ExitUI updateExitDisplay] Original exit order not yet available. Exits might appear unsorted or panel might wait for re-render.'
-      );
+      // Try to fetch from stateManager
       const freshlyFetchedOrder = stateManager.getOriginalExitOrder();
       if (freshlyFetchedOrder && freshlyFetchedOrder.length > 0) {
         this.originalExitOrder = freshlyFetchedOrder;
-        log('info', 
-          `[ExitUI updateExitDisplay] Fallback fetch for originalExitOrder succeeded: ${this.originalExitOrder.length} items.`
+        log('info',
+          `[ExitUI updateExitDisplay] Fetched originalExitOrder: ${this.originalExitOrder.length} items.`
         );
-      } else {
-        // Potentially show specific loading for order, or allow to proceed with default/name sort.
+      } else if (staticData.exits && staticData.exits.size > 0) {
+        // Only warn if there are exits but we can't get the order
+        log('warn',
+          '[ExitUI updateExitDisplay] Original exit order not available. Exits might appear unsorted.'
+        );
       }
     }
 

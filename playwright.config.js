@@ -5,9 +5,10 @@ export default defineConfig({
   testDir: './tests/e2e',
 
   // Timeout for each test (in milliseconds)
-  // Increased from default 30s to 150s to accommodate running many in-app tests,
+  // Increased from default 30s to 300s to accommodate running many in-app tests,
   // especially if the app or tests are slow to initialize in CI environments.
-  timeout: 150000,
+  // Yu-Gi-Oh! 2006 with 968 events requires longer timeout.
+  timeout: 300000,
 
   // Expectations timeout (how long to wait for expect() conditions to be met)
   expect: {
@@ -51,7 +52,8 @@ export default defineConfig({
         '--no-sandbox',
         '--disable-setuid-sandbox',
         '--disable-gpu',
-        '--single-process', // May help in constrained environments
+        // Only use --single-process for non-multiclient tests (it's incompatible with multi-context tests)
+        ...(process.env.TEST_GAME && !process.env.DISABLE_SINGLE_PROCESS ? ['--single-process'] : []),
       ],
     },
   },
@@ -79,7 +81,7 @@ export default defineConfig({
   webServer: {
     command: 'python -m http.server 8000',
     url: 'http://localhost:8000',
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: true, // Always reuse existing server (workflow starts it before tests)
     timeout: 120 * 1000, // Timeout for web server to start
   },
 });

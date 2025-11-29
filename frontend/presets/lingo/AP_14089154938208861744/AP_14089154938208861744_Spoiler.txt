@@ -211,15 +211,22 @@ Playthrough:
 2: {
   Hallway Room - First Room: Purple
   Hallway Room - Fourth Room: Black
+  Outside The Undeterred - PEN: Green
 }
 3: {
   The Agreeable - Achievement: Red
 }
 4: {
+  Outside The Initiated - OXEN: Pilgrim Room - Sun Painting
   Outside The Initiated - UNCOVER: Orange
+  The Initiated - Achievement: Gray
 }
 5: {
+  Outside The Wanderer - WANDERLUST: Yellow
   The End (Solved): Victory
+}
+6: {
+  The Colorful - Blue: Brown
 }
 
 Paths:
@@ -243,6 +250,13 @@ Hallway Room - Fourth Room
    =>   Hallway Room (2) -> Hallway Room (2) to Hallway Room (3) (through Hallway Room (2) - Exit)
    =>   Hallway Room (3) -> Hallway Room (3) to Hallway Room (4) (through Hallway Room (3) - Exit)
    =>   Hallway Room (4)
+Outside The Initiated - OXEN
+        Menu -> Menu to Starting Room
+   =>   Starting Room -> Starting Room to Hidden Room (through Starting Room - Back Right Door)
+   =>   Hidden Room -> Hidden Room to Knight Night (Outer Ring) (through Hidden Room - Knight Night Entrance)
+   =>   Knight Night (Outer Ring) -> Knight Night (Outer Ring) to Knight Night Exit (through Knight Night (Final) - Exit)
+   =>   Knight Night Exit -> Knight Night Exit to Outside The Initiated (through Knight Night (Final) - Exit)
+   =>   Outside The Initiated
 Outside The Initiated - UNCOVER
         Menu -> Menu to Starting Room
    =>   Starting Room -> Starting Room to Hidden Room (through Starting Room - Back Right Door)
@@ -250,6 +264,25 @@ Outside The Initiated - UNCOVER
    =>   Knight Night (Outer Ring) -> Knight Night (Outer Ring) to Knight Night Exit (through Knight Night (Final) - Exit)
    =>   Knight Night Exit -> Knight Night Exit to Outside The Initiated (through Knight Night (Final) - Exit)
    =>   Outside The Initiated
+Outside The Undeterred - PEN
+        Menu -> Menu to Starting Room
+   =>   Starting Room -> Starting Room to Second Room (through Starting Room - Main Door)
+   =>   Second Room -> Second Room to Hub Room (through Second Room - Exit Door)
+   =>   Hub Room -> Hub Room to Dead End Area (through Hub Room - Near RAT Door)
+   =>   Dead End Area -> Dead End Area to The Artistic (Smiley)
+   =>   The Artistic (Smiley) -> The Artistic (Smiley) to Outside The Undeterred
+   =>   Outside The Undeterred
+Outside The Wanderer - WANDERLUST
+        Menu -> Menu to Starting Room
+   =>   Starting Room -> Starting Room to Hidden Room (through Starting Room - Back Right Door)
+   =>   Hidden Room -> Hidden Room to Knight Night (Outer Ring) (through Hidden Room - Knight Night Entrance)
+   =>   Knight Night (Outer Ring) -> Knight Night (Outer Ring) to Knight Night Exit (through Knight Night (Final) - Exit)
+   =>   Knight Night Exit -> Knight Night Exit to Orange Tower Third Floor (through Knight Night (Final) - Exit)
+   =>   Orange Tower Third Floor -> Orange Tower Third Floor to Rhyme Room (Smiley) (through Orange Tower Third Floor - Rhyme Room Entrance)
+   =>   Rhyme Room (Smiley) -> Rhyme Room (Smiley) to Rhyme Room (Target) (through Rhyme Room (Smiley) - Door to Target)
+   =>   Rhyme Room (Target) -> Rhyme Room (Target) to Rhyme Room (Cross) (through Rhyme Room (Target) - Door to Cross)
+   =>   Rhyme Room (Cross) -> Rhyme Room (Cross) to Outside The Wanderer (through Rhyme Room (Cross) - Exit)
+   =>   Outside The Wanderer
 The Agreeable - Achievement
         Menu -> Menu to Starting Room
    =>   Starting Room -> Starting Room to Second Room (through Starting Room - Main Door)
@@ -258,6 +291,20 @@ The Agreeable - Achievement
    =>   Crossroads -> Crossroads to Outside The Agreeable
    =>   Outside The Agreeable -> Outside The Agreeable to The Agreeable (through Outside The Agreeable - Agreeable Entrance)
    =>   The Agreeable
+The Colorful - Blue
+        Menu -> Menu to Starting Room
+   =>   Starting Room -> Starting Room to Hidden Room (through Starting Room - Back Right Door)
+   =>   Hidden Room -> Hidden Room to Knight Night (Outer Ring) (through Hidden Room - Knight Night Entrance)
+   =>   Knight Night (Outer Ring) -> Knight Night (Outer Ring) to Knight Night Exit (through Knight Night (Final) - Exit)
+   =>   Knight Night Exit -> Knight Night Exit to Orange Tower Third Floor (through Knight Night (Final) - Exit)
+   =>   Orange Tower Third Floor -> Orange Tower Third Floor to Orange Tower Fourth Floor (through Orange Tower - Fourth Floor)
+   =>   Orange Tower Fourth Floor -> Orange Tower Fourth Floor to Courtyard
+   =>   Courtyard -> Courtyard to The Colorful (White)
+   =>   The Colorful (White) -> The Colorful (White) to The Colorful (Black) (through The Colorful (White) - Progress Door)
+   =>   The Colorful (Black) -> The Colorful (Black) to The Colorful (Red) (through The Colorful (Black) - Progress Door)
+   =>   The Colorful (Red) -> The Colorful (Red) to The Colorful (Yellow) (through The Colorful (Red) - Progress Door)
+   =>   The Colorful (Yellow) -> The Colorful (Yellow) to The Colorful (Blue) (through The Colorful (Yellow) - Progress Door)
+   =>   The Colorful (Blue)
 The End (Solved)
         Menu -> Menu to Starting Room
    =>   Starting Room -> Starting Room to Hidden Room (through Starting Room - Back Right Door)
@@ -278,3 +325,11 @@ The Eyes They See - NEAR
    =>   Outside The Agreeable -> Outside The Agreeable to Directional Gallery (through Sunwarps - 6 Sunwarp)
    =>   Directional Gallery -> Directional Gallery to The Eyes They See
    =>   The Eyes They See
+The Initiated - Achievement
+        Menu -> Menu to Starting Room
+   =>   Starting Room -> Starting Room to Hidden Room (through Starting Room - Back Right Door)
+   =>   Hidden Room -> Hidden Room to Knight Night (Outer Ring) (through Hidden Room - Knight Night Entrance)
+   =>   Knight Night (Outer Ring) -> Knight Night (Outer Ring) to Knight Night Exit (through Knight Night (Final) - Exit)
+   =>   Knight Night Exit -> Knight Night Exit to Outside The Initiated (through Knight Night (Final) - Exit)
+   =>   Outside The Initiated -> Outside The Initiated to The Initiated (through Outside The Initiated - Initiated Entrance)
+   =>   The Initiated

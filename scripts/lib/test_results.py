@@ -15,14 +15,14 @@ from datetime import datetime
 from typing import Dict, List
 
 
-def is_test_passing(template_file: str, test_results: Dict, multiplayer: bool = False) -> bool:
+def is_test_passing(template_file: str, test_results: Dict, multiclient: bool = False) -> bool:
     """
     Check if a template test is passing based on test results.
 
     Args:
         template_file: Name of the template file
         test_results: The results dictionary loaded from test-results.json
-        multiplayer: If True, check multiplayer test results; otherwise check spoiler test results
+        multiclient: If True, check multiclient test results; otherwise check spoiler test results
 
     Returns:
         True if the test is passing, False otherwise
@@ -35,26 +35,89 @@ def is_test_passing(template_file: str, test_results: Dict, multiplayer: bool = 
     if not isinstance(result, dict):
         return result if isinstance(result, bool) else False
 
+    # Check for failures first (more reliable than summary field)
+    if 'first_failure_seed' in result and result['first_failure_seed'] is not None:
+        return False  # Has a failing seed
+
+    if 'seeds_failed' in result and result['seeds_failed'] > 0:
+        return False  # Has failed seeds
+
     # Check if this is a seed range result
     if 'summary' in result and 'all_passed' in result['summary']:
         return result['summary']['all_passed']
 
     # Check individual test result
-    if multiplayer:
-        multiplayer_test = result.get('multiplayer_test', {})
-        return multiplayer_test.get('success', False)
+    if multiclient:
+        multiclient_test = result.get('multiclient_test', {})
+        return multiclient_test.get('success', False)
     else:
         spoiler_test = result.get('spoiler_test', {})
         return spoiler_test.get('pass_fail') == 'passed'
 
 
-def get_failed_templates(test_results: Dict, multiplayer: bool = False) -> List[str]:
+def is_seed_failing(template_file: str, test_results: Dict, seed: int, multiclient: bool = False) -> bool:
+    """
+    Check if a specific seed is failing for a template.
+
+    Args:
+        template_file: Name of the template file
+        test_results: The results dictionary loaded from test-results.json
+        seed: The seed number to check
+        multiclient: If True, check multiclient test results; otherwise check spoiler test results
+
+    Returns:
+        True if the specific seed is failing, False otherwise
+    """
+    if template_file not in test_results:
+        return False
+
+    result = test_results[template_file]
+
+    if not isinstance(result, dict):
+        return False
+
+    # Check if this has individual_results for different seeds
+    individual_results = result.get('individual_results', {})
+    if individual_results and str(seed) in individual_results:
+        seed_result = individual_results[str(seed)]
+        # Check the specific seed's result
+        if multiclient:
+            return not seed_result.get('multiclient_test', {}).get('success', False)
+        else:
+            return seed_result.get('spoiler_test', {}).get('pass_fail') != 'passed'
+
+    # Check if this is a seed range result with first_failure_seed
+    first_failure_seed = result.get('first_failure_seed')
+    if first_failure_seed is not None:
+        # Template failed at a specific seed - check if it's this one
+        return seed == first_failure_seed
+
+    # Check if this is a single seed result and matches our seed
+    result_seed = result.get('seed')
+    if result_seed is not None:
+        try:
+            result_seed_num = int(result_seed)
+            if result_seed_num == seed:
+                # This is the same seed, check if it's failing
+                if multiclient:
+                    return not result.get('multiclient_test', {}).get('success', False)
+                else:
+                    return result.get('spoiler_test', {}).get('pass_fail') != 'passed'
+        except (ValueError, TypeError):
+            pass
+
+    # Can't determine seed-specific failure
+    return False
+
+
+def get_failed_templates(test_results: Dict, multiclient: bool = False, specific_seed: int = None) -> List[str]:
     """
     Get a list of template files that have failing tests, sorted alphabetically.
 
     Args:
         test_results: The results dictionary loaded from test-results.json
-        multiplayer: If True, check multiplayer test results; otherwise check spoiler test results
+        multiclient: If True, check multiclient test results; otherwise check spoiler test results
+        specific_seed: If provided, only return templates that failed on this specific seed
 
     Returns:
         List of template file names that are failing
@@ -62,20 +125,26 @@ def get_failed_templates(test_results: Dict, multiplayer: bool = False) -> List[
     failed_templates = []
 
     for template_file, result in test_results.items():
-        if not is_test_passing(template_file, test_results, multiplayer):
-            failed_templates.append(template_file)
+        if specific_seed is not None:
+            # Check if this specific seed is failing
+            if is_seed_failing(template_file, test_results, specific_seed, multiclient):
+                failed_templates.append(template_file)
+        else:
+            # Check if any test is failing
+            if not is_test_passing(template_file, test_results, multiclient):
+                failed_templates.append(template_file)
 
     return sorted(failed_templates)
 
 
-def get_failing_seed_info(template_file: str, test_results: Dict, multiplayer: bool = False) -> Dict:
+def get_failing_seed_info(template_file: str, test_results: Dict, multiclient: bool = False) -> Dict:
     """
     Get information about which seed is failing for a template.
 
     Args:
         template_file: Name of the template file
         test_results: The results dictionary loaded from test-results.json
-        multiplayer: If True, check multiplayer test results; otherwise check spoiler test results
+        multiclient: If True, check multiclient test results; otherwise check spoiler test results
 
     Returns:
         Dictionary with keys:
@@ -116,7 +185,28 @@ def get_failing_seed_info(template_file: str, test_results: Dict, multiplayer: b
             'has_seed_range_data': has_seed_range_data
         }
 
-    # Single seed test or no seed range info
+    # Single seed test - check if this specific seed failed
+    result_seed = result.get('seed')
+    if result_seed is not None:
+        try:
+            seed_num = int(result_seed)
+            # Check if this single-seed test failed
+            if multiclient:
+                test_failed = not result.get('multiclient_test', {}).get('success', False)
+            else:
+                test_failed = result.get('spoiler_test', {}).get('pass_fail') != 'passed'
+
+            if test_failed:
+                return {
+                    'failing_seed': seed_num,
+                    'last_passing_seed': None,
+                    'seed_range_tested': str(seed_num),
+                    'has_seed_range_data': False
+                }
+        except (ValueError, TypeError):
+            pass
+
+    # No seed range info and no failing seed
     return {'failing_seed': None, 'last_passing_seed': None, 'seed_range_tested': None, 'has_seed_range_data': False}
 
 
@@ -127,7 +217,7 @@ def load_existing_results(results_file: str) -> Dict:
             with open(results_file, 'r') as f:
                 data = json.load(f)
 
-                # Check if this is an old-format file (list-based results from old multiplayer script)
+                # Check if this is an old-format file (list-based results from old multiclient script)
                 if isinstance(data.get('results'), list):
                     # Convert old format to new format
                     print("Converting old-format results file to new format...")

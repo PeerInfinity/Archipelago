@@ -36,33 +36,21 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
+                  "type": "and",
+                  "conditions": [
                     {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic",
-                            "Lantern"
-                          ]
-                        }
-                      ]
+                      "type": "item_check",
+                      "item": "Axe Magic"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Lantern"
                     }
                   ]
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 }
               ]
             }
@@ -74,32 +62,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": []
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Swamp Shrine"
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "event_visited_swamp_shrine"
                 }
               ]
             }
@@ -238,33 +206,21 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
+                  "type": "and",
+                  "conditions": [
                     {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic",
-                            "Lantern"
-                          ]
-                        }
-                      ]
+                      "type": "item_check",
+                      "item": "Axe Magic"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Lantern"
                     }
                   ]
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 }
               ]
             }
@@ -341,32 +297,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Idol Stone"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Idol Stone"
                 }
               ]
             }
@@ -478,32 +414,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Idol Stone"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Idol Stone"
                 }
               ]
             }
@@ -710,32 +626,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": []
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Swamp Shrine"
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "event_visited_swamp_shrine"
                 }
               ]
             }
@@ -850,34 +746,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Einstein Whistle"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Einstein Whistle"
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Massan"
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "event_visited_massan"
                 }
               ]
             }
@@ -889,32 +763,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Safety Pass"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Safety Pass"
                 }
               ]
             }
@@ -1068,32 +922,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": []
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Thieves Hideout (after keydoor)"
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "event_visited_thieves_hideout_post_key"
                 }
               ]
             }
@@ -1105,32 +939,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Sun Stone"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Sun Stone"
                 }
               ]
             }
@@ -1289,32 +1103,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Sun Stone"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Sun Stone"
                 }
               ]
             }
@@ -1369,32 +1163,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Key"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Key"
                 }
               ]
             }
@@ -1722,34 +1496,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Einstein Whistle"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Einstein Whistle"
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Massan"
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "event_visited_massan"
                 }
               ]
             }
@@ -1796,32 +1548,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Safety Pass"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Safety Pass"
                 }
               ]
             }
@@ -1849,32 +1581,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Buyer Card"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Buyer Card"
                 }
               ]
             }
@@ -1886,32 +1598,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Casino Ticket"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Casino Ticket"
                 }
               ]
             }
@@ -1931,32 +1623,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Key"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Key"
                 }
               ]
             }
@@ -1968,32 +1640,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": []
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Ryuma (repaired lighthouse)"
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "event_visited_ryuma_lighthouse_repaired"
                 }
               ]
             }
@@ -2186,14 +1838,12 @@
             "name": "Mercator: Fahl's dojo challenge reward",
             "id": 4343,
             "access_rule": {
-              "type": "helper",
-              "name": "_landstalker_has_health",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": 15
-                }
-              ]
+              "type": "item_check",
+              "item": "Life Stock",
+              "count": {
+                "type": "constant",
+                "value": 15
+              }
             },
             "item": {
               "name": "Restoration",
@@ -2271,32 +1921,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Casino Ticket"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Casino Ticket"
                 }
               ]
             }
@@ -2485,32 +2115,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Buyer Card"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Buyer Card"
                 }
               ]
             }
@@ -2601,32 +2211,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Axe Magic"
                 }
               ]
             }
@@ -2638,32 +2228,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Axe Magic"
                 }
               ]
             }
@@ -2675,32 +2245,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Armlet"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Armlet"
                 }
               ]
             }
@@ -2712,32 +2262,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": []
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Verla Mines"
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "event_visited_verla_mines"
                 }
               ]
             }
@@ -2812,32 +2342,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Axe Magic"
                 }
               ]
             }
@@ -2870,32 +2380,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Axe Magic"
                 }
               ]
             }
@@ -2993,32 +2483,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Garlic"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Garlic"
                 }
               ]
             }
@@ -3354,32 +2824,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Einstein Whistle"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Einstein Whistle"
                 }
               ]
             }
@@ -3391,32 +2841,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "EkeEke"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "EkeEke"
                 }
               ]
             }
@@ -3428,32 +2858,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Axe Magic"
                 }
               ]
             }
@@ -3584,32 +2994,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "EkeEke"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "EkeEke"
                 }
               ]
             }
@@ -3672,32 +3062,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Einstein Whistle"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Einstein Whistle"
                 }
               ]
             }
@@ -3782,32 +3152,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": []
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Verla Mines"
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "event_visited_verla_mines"
                 }
               ]
             }
@@ -3913,32 +3263,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": []
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Verla Mines"
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "event_visited_verla_mines"
                 }
               ]
             }
@@ -4013,32 +3343,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": []
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Verla Mines"
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "event_visited_verla_mines"
                 }
               ]
             }
@@ -4109,32 +3419,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Fireproof"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Fireproof"
                 }
               ]
             }
@@ -4321,32 +3611,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Fireproof"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Fireproof"
                 }
               ]
             }
@@ -4961,32 +4231,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Sword of Gaia"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Sword of Gaia"
                 }
               ]
             }
@@ -5103,32 +4353,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Axe Magic"
                 }
               ]
             }
@@ -5514,32 +4744,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Axe Magic"
                 }
               ]
             }
@@ -5559,32 +4769,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Axe Magic"
                 }
               ]
             }
@@ -5596,32 +4786,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Gola's Eye"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Gola's Eye"
                 }
               ]
             }
@@ -5864,32 +5034,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Gola's Eye"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Gola's Eye"
                 }
               ]
             }
@@ -5909,36 +5059,33 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
+                  "type": "and",
+                  "conditions": [
                     {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Red Jewel",
-                            "Purple Jewel",
-                            "Green Jewel",
-                            "Blue Jewel",
-                            "Yellow Jewel"
-                          ]
-                        }
-                      ]
+                      "type": "item_check",
+                      "item": "Blue Jewel"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Green Jewel"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Purple Jewel"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Red Jewel"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Yellow Jewel"
                     }
                   ]
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 }
               ]
             }
@@ -6142,32 +5289,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Key"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Key"
                 }
               ]
             }
@@ -6179,32 +5306,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Iron Boots"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Iron Boots"
                 }
               ]
             }
@@ -6301,32 +5408,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Snow Spikes"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Snow Spikes"
                 }
               ]
             }
@@ -6338,32 +5425,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Snow Spikes"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Snow Spikes"
                 }
               ]
             }
@@ -6375,34 +5442,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Axe Magic"
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "King Nole's Labyrinth (raft entrance)"
-                      ]
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "event_visited_king_nole_labyrinth_raft_entrance"
                 }
               ]
             }
@@ -6659,32 +5704,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Axe Magic"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Axe Magic"
                 }
               ]
             }
@@ -6754,32 +5779,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Logs"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Logs"
                 }
               ]
             }
@@ -7004,34 +6009,25 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
+                  "type": "and",
+                  "conditions": [
                     {
-                      "type": "helper",
-                      "name": "set",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Gola's Fang",
-                            "Gola's Horn",
-                            "Gola's Nail"
-                          ]
-                        }
-                      ]
+                      "type": "item_check",
+                      "item": "Gola's Fang"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Gola's Horn"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Gola's Nail"
                     }
                   ]
                 },
                 {
-                  "type": "helper",
-                  "name": "_landstalker_has_visited_regions",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": []
-                    }
-                  ]
+                  "type": "constant",
+                  "value": true
                 }
               ]
             }
@@ -8094,7 +7090,8 @@
   "settings": {
     "1": {
       "game": "Landstalker - The Treasures of King Nole",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": true
     }
   },
   "game_info": {

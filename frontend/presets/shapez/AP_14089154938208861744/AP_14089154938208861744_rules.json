@@ -20,10 +20,7 @@
             "connected_region": "Shape transportation",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Belt"
-              }
+              "item": "Belt"
             }
           },
           {
@@ -48,10 +45,7 @@
             "connected_region": "Achievements with wires",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Wires"
-              }
+              "item": "Wires"
             }
           },
           {
@@ -185,10 +179,9 @@
             "name": "Cutting with half cutter",
             "connected_region": "Achievements with half cutter",
             "access_rule": {
-              "type": "capability",
-              "capability": "cut_half",
-              "inferred": true,
-              "description": "Requires ability to cut half"
+              "type": "helper",
+              "name": "can_cut_half",
+              "args": []
             }
           },
           {
@@ -196,20 +189,16 @@
             "connected_region": "Achievements with clockwise rotator",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Rotator"
-              }
+              "item": "Rotator"
             }
           },
           {
             "name": "Stacking shapes",
             "connected_region": "Achievements with stacker",
             "access_rule": {
-              "type": "capability",
-              "capability": "stack",
-              "inferred": true,
-              "description": "Requires ability to stack"
+              "type": "helper",
+              "name": "can_stack",
+              "args": []
             }
           },
           {
@@ -217,10 +206,7 @@
             "connected_region": "Achievements with storage",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Storage"
-              }
+              "item": "Storage"
             }
           },
           {
@@ -228,10 +214,7 @@
             "connected_region": "Achievements with trash",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Trash"
-              }
+              "item": "Trash"
             }
           }
         ],
@@ -264,29 +247,28 @@
               "type": "and",
               "conditions": [
                 {
+                  "type": "helper",
+                  "name": "can_make_stitched_shape",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": false
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_mix_colors",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_paint",
+                  "args": []
+                },
+                {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Blueprints"
-                  }
-                },
-                {
-                  "type": "capability",
-                  "capability": "make_stitched_shape",
-                  "inferred": true,
-                  "description": "Requires ability to make stitched shape"
-                },
-                {
-                  "type": "capability",
-                  "capability": "paint",
-                  "inferred": true,
-                  "description": "Requires ability to paint"
-                },
-                {
-                  "type": "capability",
-                  "capability": "mix_colors",
-                  "inferred": true,
-                  "description": "Requires ability to mix colors"
+                  "item": "Blueprints"
                 }
               ]
             }
@@ -295,10 +277,14 @@
             "name": "Building a MAM",
             "connected_region": "Achievements needing a MAM",
             "access_rule": {
-              "type": "capability",
-              "capability": "build_mam",
-              "inferred": true,
-              "description": "Requires ability to build mam"
+              "type": "helper",
+              "name": "can_build_mam",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": false
+                }
+              ]
             }
           },
           {
@@ -308,22 +294,24 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "make_stitched_shape",
-                  "inferred": true,
-                  "description": "Requires ability to make stitched shape"
+                  "type": "helper",
+                  "name": "can_make_stitched_shape",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": false
+                    }
+                  ]
                 },
                 {
-                  "type": "capability",
-                  "capability": "paint",
-                  "inferred": true,
-                  "description": "Requires ability to paint"
+                  "type": "helper",
+                  "name": "can_mix_colors",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "mix_colors",
-                  "inferred": true,
-                  "description": "Requires ability to mix colors"
+                  "type": "helper",
+                  "name": "can_paint",
+                  "args": []
                 }
               ]
             }
@@ -332,20 +320,56 @@
             "name": "Using first level building",
             "connected_region": "Levels with 1 building",
             "access_rule": {
-              "type": "item_check",
-              "item": "Logic_List_Building",
-              "inferred": true,
-              "description": "Requires having Logic List Building"
+              "type": "helper",
+              "name": "has_logic_list_building",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Cutter",
+                    "Rotator",
+                    "Painter",
+                    "Color Mixer",
+                    "Stacker"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 0
+                },
+                {
+                  "type": "constant",
+                  "value": false
+                }
+              ]
             }
           },
           {
             "name": "Using first upgrade building",
             "connected_region": "Upgrades with 1 building",
             "access_rule": {
-              "type": "item_check",
-              "item": "Logic_List_Building",
-              "inferred": true,
-              "description": "Requires having Logic List Building"
+              "type": "helper",
+              "name": "has_logic_list_building",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Stacker",
+                    "Cutter",
+                    "Rotator",
+                    "Painter",
+                    "Color Mixer"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 0
+                },
+                {
+                  "type": "constant",
+                  "value": false
+                }
+              ]
             }
           },
           {
@@ -360,10 +384,9 @@
             "name": "Cutting in single half",
             "connected_region": "Shapesanity Half Uncolored",
             "access_rule": {
-              "type": "capability",
-              "capability": "make_half_shape",
-              "inferred": true,
-              "description": "Requires ability to make half shape"
+              "type": "helper",
+              "name": "can_make_half_shape",
+              "args": []
             }
           },
           {
@@ -376,25 +399,20 @@
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "capability",
-                      "capability": "cut_half",
-                      "inferred": true,
-                      "description": "Requires ability to cut half"
+                      "type": "helper",
+                      "name": "can_cut_half",
+                      "args": []
                     },
                     {
-                      "type": "capability",
-                      "capability": "rotate_90",
-                      "inferred": true,
-                      "description": "Requires ability to rotate 90"
+                      "type": "helper",
+                      "name": "can_rotate_90",
+                      "args": []
                     }
                   ]
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Quad Cutter"
-                  }
+                  "item": "Quad Cutter"
                 }
               ]
             }
@@ -403,30 +421,32 @@
             "name": "Cutting and stacking into two halves",
             "connected_region": "Shapesanity Half-Half Uncolored",
             "access_rule": {
-              "type": "capability",
-              "capability": "make_half_half_shape",
-              "inferred": true,
-              "description": "Requires ability to make half half shape"
+              "type": "helper",
+              "name": "can_make_half_half_shape",
+              "args": []
             }
           },
           {
             "name": "Stitching complex shapes",
             "connected_region": "Shapesanity Stitched Uncolored",
             "access_rule": {
-              "type": "capability",
-              "capability": "make_stitched_shape",
-              "inferred": true,
-              "description": "Requires ability to make stitched shape"
+              "type": "helper",
+              "name": "can_make_stitched_shape",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": false
+                }
+              ]
             }
           },
           {
             "name": "Rotating and stitching a single windmill half",
             "connected_region": "Shapesanity East Windmill Uncolored",
             "access_rule": {
-              "type": "capability",
-              "capability": "make_east_windmill",
-              "inferred": true,
-              "description": "Requires ability to make east windmill"
+              "type": "helper",
+              "name": "can_make_east_windmill",
+              "args": []
             }
           },
           {
@@ -436,16 +456,19 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "make_stitched_shape",
-                  "inferred": true,
-                  "description": "Requires ability to make stitched shape"
+                  "type": "helper",
+                  "name": "can_make_stitched_shape",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": false
+                    }
+                  ]
                 },
                 {
-                  "type": "capability",
-                  "capability": "use_quad_painter",
-                  "inferred": true,
-                  "description": "Requires ability to use quad painter"
+                  "type": "helper",
+                  "name": "can_use_quad_painter",
+                  "args": []
                 }
               ]
             }
@@ -457,25 +480,27 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "make_stitched_shape",
-                  "inferred": true,
-                  "description": "Requires ability to make stitched shape"
-                },
-                {
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "capability",
-                      "capability": "use_quad_painter",
-                      "inferred": true,
-                      "description": "Requires ability to use quad painter"
+                      "type": "helper",
+                      "name": "can_make_east_windmill",
+                      "args": []
                     },
                     {
-                      "type": "capability",
-                      "capability": "make_east_windmill",
-                      "inferred": true,
-                      "description": "Requires ability to make east windmill"
+                      "type": "helper",
+                      "name": "can_use_quad_painter",
+                      "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_make_stitched_shape",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": false
                     }
                   ]
                 }
@@ -489,25 +514,27 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "make_stitched_shape",
-                  "inferred": true,
-                  "description": "Requires ability to make stitched shape"
-                },
-                {
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "capability",
-                      "capability": "use_quad_painter",
-                      "inferred": true,
-                      "description": "Requires ability to use quad painter"
+                      "type": "helper",
+                      "name": "can_make_half_half_shape",
+                      "args": []
                     },
                     {
-                      "type": "capability",
-                      "capability": "make_half_half_shape",
-                      "inferred": true,
-                      "description": "Requires ability to make half half shape"
+                      "type": "helper",
+                      "name": "can_use_quad_painter",
+                      "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_make_stitched_shape",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": false
                     }
                   ]
                 }
@@ -521,25 +548,27 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "make_stitched_shape",
-                  "inferred": true,
-                  "description": "Requires ability to make stitched shape"
-                },
-                {
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "capability",
-                      "capability": "use_quad_painter",
-                      "inferred": true,
-                      "description": "Requires ability to use quad painter"
+                      "type": "helper",
+                      "name": "can_make_half_shape",
+                      "args": []
                     },
                     {
-                      "type": "capability",
-                      "capability": "make_half_shape",
-                      "inferred": true,
-                      "description": "Requires ability to make half shape"
+                      "type": "helper",
+                      "name": "can_use_quad_painter",
+                      "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_make_stitched_shape",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": false
                     }
                   ]
                 }
@@ -697,10 +726,28 @@
             "name": "Using second level building",
             "connected_region": "Levels with 2 buildings",
             "access_rule": {
-              "type": "item_check",
-              "item": "Logic_List_Building",
-              "inferred": true,
-              "description": "Requires having Logic List Building"
+              "type": "helper",
+              "name": "has_logic_list_building",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Cutter",
+                    "Rotator",
+                    "Painter",
+                    "Color Mixer",
+                    "Stacker"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 1
+                },
+                {
+                  "type": "constant",
+                  "value": false
+                }
+              ]
             }
           }
         ],
@@ -770,10 +817,36 @@
             "name": "Using third level building",
             "connected_region": "Levels with 3 buildings",
             "access_rule": {
-              "type": "item_check",
-              "item": "Logic_List_Building",
-              "inferred": true,
-              "description": "Requires having Logic List Building"
+              "type": "helper",
+              "name": "has_logic_list_building",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Cutter",
+                    "Rotator",
+                    "Painter",
+                    "Color Mixer",
+                    "Stacker"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 2
+                },
+                {
+                  "type": "compare",
+                  "left": {
+                    "type": "constant",
+                    "value": "3_buildings"
+                  },
+                  "op": "==",
+                  "right": {
+                    "type": "constant",
+                    "value": "3_buildings"
+                  }
+                }
+              ]
             }
           }
         ],
@@ -843,10 +916,28 @@
             "name": "Using fourth level building",
             "connected_region": "Levels with 4 buildings",
             "access_rule": {
-              "type": "item_check",
-              "item": "Logic_List_Building",
-              "inferred": true,
-              "description": "Requires having Logic List Building"
+              "type": "helper",
+              "name": "has_logic_list_building",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Cutter",
+                    "Rotator",
+                    "Painter",
+                    "Color Mixer",
+                    "Stacker"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 3
+                },
+                {
+                  "type": "constant",
+                  "value": false
+                }
+              ]
             }
           }
         ],
@@ -916,10 +1007,36 @@
             "name": "Using fifth level building",
             "connected_region": "Levels with 5 buildings",
             "access_rule": {
-              "type": "item_check",
-              "item": "Logic_List_Building",
-              "inferred": true,
-              "description": "Requires having Logic List Building"
+              "type": "helper",
+              "name": "has_logic_list_building",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Cutter",
+                    "Rotator",
+                    "Painter",
+                    "Color Mixer",
+                    "Stacker"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 4
+                },
+                {
+                  "type": "compare",
+                  "left": {
+                    "type": "constant",
+                    "value": "3_buildings"
+                  },
+                  "op": "==",
+                  "right": {
+                    "type": "constant",
+                    "value": "5_buildings"
+                  }
+                }
+              ]
             }
           }
         ],
@@ -1135,10 +1252,28 @@
             "name": "Using second upgrade building",
             "connected_region": "Upgrades with 2 buildings",
             "access_rule": {
-              "type": "item_check",
-              "item": "Logic_List_Building",
-              "inferred": true,
-              "description": "Requires having Logic List Building"
+              "type": "helper",
+              "name": "has_logic_list_building",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Stacker",
+                    "Cutter",
+                    "Rotator",
+                    "Painter",
+                    "Color Mixer"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 1
+                },
+                {
+                  "type": "constant",
+                  "value": false
+                }
+              ]
             }
           }
         ],
@@ -1208,10 +1343,36 @@
             "name": "Using third upgrade building",
             "connected_region": "Upgrades with 3 buildings",
             "access_rule": {
-              "type": "item_check",
-              "item": "Logic_List_Building",
-              "inferred": true,
-              "description": "Requires having Logic List Building"
+              "type": "helper",
+              "name": "has_logic_list_building",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Stacker",
+                    "Cutter",
+                    "Rotator",
+                    "Painter",
+                    "Color Mixer"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 2
+                },
+                {
+                  "type": "compare",
+                  "left": {
+                    "type": "constant",
+                    "value": "3_buildings"
+                  },
+                  "op": "==",
+                  "right": {
+                    "type": "constant",
+                    "value": "3_buildings"
+                  }
+                }
+              ]
             }
           }
         ],
@@ -1281,10 +1442,28 @@
             "name": "Using fourth upgrade building",
             "connected_region": "Upgrades with 4 buildings",
             "access_rule": {
-              "type": "item_check",
-              "item": "Logic_List_Building",
-              "inferred": true,
-              "description": "Requires having Logic List Building"
+              "type": "helper",
+              "name": "has_logic_list_building",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Stacker",
+                    "Cutter",
+                    "Rotator",
+                    "Painter",
+                    "Color Mixer"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 3
+                },
+                {
+                  "type": "constant",
+                  "value": false
+                }
+              ]
             }
           }
         ],
@@ -1368,10 +1547,36 @@
             "name": "Using fifth upgrade building",
             "connected_region": "Upgrades with 5 buildings",
             "access_rule": {
-              "type": "item_check",
-              "item": "Logic_List_Building",
-              "inferred": true,
-              "description": "Requires having Logic List Building"
+              "type": "helper",
+              "name": "has_logic_list_building",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Stacker",
+                    "Cutter",
+                    "Rotator",
+                    "Painter",
+                    "Color Mixer"
+                  ]
+                },
+                {
+                  "type": "constant",
+                  "value": 4
+                },
+                {
+                  "type": "compare",
+                  "left": {
+                    "type": "constant",
+                    "value": "3_buildings"
+                  },
+                  "op": "==",
+                  "right": {
+                    "type": "constant",
+                    "value": "5_buildings"
+                  }
+                }
+              ]
             }
           }
         ],
@@ -1795,10 +2000,14 @@
             "name": "Delivering per second with 1.6x belt speed",
             "connected_region": "Achievements with x1.6 belt speed",
             "access_rule": {
-              "type": "item_check",
-              "item": "X_Belt_Multiplier",
-              "inferred": true,
-              "description": "Requires having X Belt Multiplier"
+              "type": "helper",
+              "name": "has_x_belt_multiplier",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": 1.6
+                }
+              ]
             }
           }
         ],
@@ -1986,10 +2195,9 @@
             "name": "Painting a full shape",
             "connected_region": "Shapesanity Full Painted",
             "access_rule": {
-              "type": "capability",
-              "capability": "paint",
-              "inferred": true,
-              "description": "Requires ability to paint"
+              "type": "helper",
+              "name": "can_paint",
+              "args": []
             }
           }
         ],
@@ -2045,10 +2253,9 @@
             "name": "Mixing colors for a full shape",
             "connected_region": "Shapesanity Full Mixed",
             "access_rule": {
-              "type": "capability",
-              "capability": "mix_colors",
-              "inferred": true,
-              "description": "Requires ability to mix colors"
+              "type": "helper",
+              "name": "can_mix_colors",
+              "args": []
             }
           }
         ],
@@ -2096,10 +2303,9 @@
             "name": "Painting a half shape",
             "connected_region": "Shapesanity Half Painted",
             "access_rule": {
-              "type": "capability",
-              "capability": "paint",
-              "inferred": true,
-              "description": "Requires ability to paint"
+              "type": "helper",
+              "name": "can_paint",
+              "args": []
             }
           }
         ],
@@ -2112,10 +2318,9 @@
             "name": "Mixing colors for a half shape",
             "connected_region": "Shapesanity Half Mixed",
             "access_rule": {
-              "type": "capability",
-              "capability": "mix_colors",
-              "inferred": true,
-              "description": "Requires ability to mix colors"
+              "type": "helper",
+              "name": "can_mix_colors",
+              "args": []
             }
           }
         ],
@@ -2191,10 +2396,9 @@
             "name": "Painting a piece shape",
             "connected_region": "Shapesanity Piece Painted",
             "access_rule": {
-              "type": "capability",
-              "capability": "paint",
-              "inferred": true,
-              "description": "Requires ability to paint"
+              "type": "helper",
+              "name": "can_paint",
+              "args": []
             }
           }
         ],
@@ -2207,10 +2411,9 @@
             "name": "Mixing colors for a piece shape",
             "connected_region": "Shapesanity Piece Mixed",
             "access_rule": {
-              "type": "capability",
-              "capability": "mix_colors",
-              "inferred": true,
-              "description": "Requires ability to mix colors"
+              "type": "helper",
+              "name": "can_mix_colors",
+              "args": []
             }
           }
         ],
@@ -2314,10 +2517,9 @@
             "name": "Painting a stitched shape",
             "connected_region": "Shapesanity Stitched Painted",
             "access_rule": {
-              "type": "capability",
-              "capability": "paint",
-              "inferred": true,
-              "description": "Requires ability to paint"
+              "type": "helper",
+              "name": "can_paint",
+              "args": []
             }
           }
         ],
@@ -2345,10 +2547,9 @@
             "name": "Mixing colors for a stitched shape",
             "connected_region": "Shapesanity Stitched Mixed",
             "access_rule": {
-              "type": "capability",
-              "capability": "mix_colors",
-              "inferred": true,
-              "description": "Requires ability to mix colors"
+              "type": "helper",
+              "name": "can_mix_colors",
+              "args": []
             }
           }
         ],
@@ -2718,10 +2919,9 @@
             "name": "Painting a east windmill shape",
             "connected_region": "Shapesanity East Windmill Painted",
             "access_rule": {
-              "type": "capability",
-              "capability": "paint",
-              "inferred": true,
-              "description": "Requires ability to paint"
+              "type": "helper",
+              "name": "can_paint",
+              "args": []
             }
           }
         ],
@@ -2749,10 +2949,9 @@
             "name": "Mixing colors for a east windmill shape",
             "connected_region": "Shapesanity East Windmill Mixed",
             "access_rule": {
-              "type": "capability",
-              "capability": "mix_colors",
-              "inferred": true,
-              "description": "Requires ability to mix colors"
+              "type": "helper",
+              "name": "can_mix_colors",
+              "args": []
             }
           }
         ],
@@ -2800,10 +2999,9 @@
             "name": "Painting a half-half shape",
             "connected_region": "Shapesanity Half-Half Painted",
             "access_rule": {
-              "type": "capability",
-              "capability": "paint",
-              "inferred": true,
-              "description": "Requires ability to paint"
+              "type": "helper",
+              "name": "can_paint",
+              "args": []
             }
           }
         ],
@@ -2816,10 +3014,9 @@
             "name": "Mixing colors for a half-half shape",
             "connected_region": "Shapesanity Half-Half Mixed",
             "access_rule": {
-              "type": "capability",
-              "capability": "mix_colors",
-              "inferred": true,
-              "description": "Requires ability to mix colors"
+              "type": "helper",
+              "name": "can_mix_colors",
+              "args": []
             }
           }
         ],
@@ -2852,10 +3049,9 @@
             "name": "Painting a colorful east windmill shape",
             "connected_region": "Shapesanity Colorful East Windmill Painted",
             "access_rule": {
-              "type": "capability",
-              "capability": "paint",
-              "inferred": true,
-              "description": "Requires ability to paint"
+              "type": "helper",
+              "name": "can_paint",
+              "args": []
             }
           }
         ],
@@ -2868,10 +3064,9 @@
             "name": "Mixing colors for a colorful east windmill shape",
             "connected_region": "Shapesanity Colorful East Windmill Mixed",
             "access_rule": {
-              "type": "capability",
-              "capability": "mix_colors",
-              "inferred": true,
-              "description": "Requires ability to mix colors"
+              "type": "helper",
+              "name": "can_mix_colors",
+              "args": []
             }
           }
         ],
@@ -2884,10 +3079,9 @@
             "name": "Painting a colorful half-half shape",
             "connected_region": "Shapesanity Colorful Half-Half Painted",
             "access_rule": {
-              "type": "capability",
-              "capability": "paint",
-              "inferred": true,
-              "description": "Requires ability to paint"
+              "type": "helper",
+              "name": "can_paint",
+              "args": []
             }
           }
         ],
@@ -2900,10 +3094,9 @@
             "name": "Mixing colors for a colorful half-half shape",
             "connected_region": "Shapesanity Colorful Half-Half Mixed",
             "access_rule": {
-              "type": "capability",
-              "capability": "mix_colors",
-              "inferred": true,
-              "description": "Requires ability to mix colors"
+              "type": "helper",
+              "name": "can_mix_colors",
+              "args": []
             }
           }
         ],
@@ -2950,10 +3143,9 @@
             "name": "Painting a colorful full shape",
             "connected_region": "Shapesanity Colorful Full Painted",
             "access_rule": {
-              "type": "capability",
-              "capability": "paint",
-              "inferred": true,
-              "description": "Requires ability to paint"
+              "type": "helper",
+              "name": "can_paint",
+              "args": []
             }
           }
         ],
@@ -2966,10 +3158,9 @@
             "name": "Mixing colors for a colorful full shape",
             "connected_region": "Shapesanity Colorful Full Mixed",
             "access_rule": {
-              "type": "capability",
-              "capability": "mix_colors",
-              "inferred": true,
-              "description": "Requires ability to mix colors"
+              "type": "helper",
+              "name": "can_mix_colors",
+              "args": []
             }
           }
         ],
@@ -3030,10 +3221,9 @@
             "name": "Painting a colorful half shape",
             "connected_region": "Shapesanity Colorful Half Painted",
             "access_rule": {
-              "type": "capability",
-              "capability": "paint",
-              "inferred": true,
-              "description": "Requires ability to paint"
+              "type": "helper",
+              "name": "can_paint",
+              "args": []
             }
           }
         ],
@@ -3046,10 +3236,9 @@
             "name": "Mixing colors for a colorful half shape",
             "connected_region": "Shapesanity Colorful Half Mixed",
             "access_rule": {
-              "type": "capability",
-              "capability": "mix_colors",
-              "inferred": true,
-              "description": "Requires ability to mix colors"
+              "type": "helper",
+              "name": "can_mix_colors",
+              "args": []
             }
           }
         ],
@@ -4147,7 +4336,8 @@
   "settings": {
     "1": {
       "game": "shapez",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
     }
   },
   "game_info": {

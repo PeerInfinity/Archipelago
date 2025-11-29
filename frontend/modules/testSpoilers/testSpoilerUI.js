@@ -262,6 +262,14 @@ export class TestSpoilerUI {
 
     this.log('info', 'Test Spoiler UI Initializing...');
 
+    // Read player ID from URL parameter early (for multiworld tests)
+    const urlParams = new URLSearchParams(window.location.search);
+    const playerParam = urlParams.get('player');
+    if (playerParam) {
+      this.playerId = parseInt(playerParam, 10);
+      this.log('info', `Player ID set from URL parameter: ${this.playerId}`);
+    }
+
     // Clear container and set up basic structure initially
     this.testSpoilersContainer.innerHTML = '';
     this.ensureLogContainerReady();
@@ -410,8 +418,36 @@ export class TestSpoilerUI {
 
       // Handle success case
       this.clearTestState(); // Clear previous test state
-      this.spoilerLogData = result.logData;
+      // Filter out non-state_update events (like log_header) - these are handled by sphereState
+      this.spoilerLogData = result.logData.filter(event => event.type === 'state_update');
       this.currentSpoilerLogPath = result.logPath;
+
+      // Extract playerId from multiworld rules filename (e.g., "AP_xxx_P2_rules.json")
+      if (rulesetPath && this.playerId === null) {
+        const playerIdMatch = rulesetPath.match(/_P(\d+)_rules\.json$/);
+        if (playerIdMatch) {
+          this.playerId = parseInt(playerIdMatch[1], 10);
+          this.log('info', `Extracted playerId ${this.playerId} from multiworld rules filename: ${rulesetPath}`);
+        }
+      }
+
+      // Infer playerId from spoiler log if not already set
+      // NOTE: In multiworld mode, playerId should already be set from the rules file (P{N}_rules.json)
+      // Only infer if truly null to avoid overriding the correct player ID in multiworld
+      if (this.playerId === null && this.spoilerLogData && this.spoilerLogData.length > 0) {
+        const firstEvent = this.spoilerLogData[0];
+        if (firstEvent && firstEvent.player_data) {
+          const playerIds = Object.keys(firstEvent.player_data);
+          if (playerIds.length > 0) {
+            // Use the first player ID found (typically "1" for single-player)
+            this.playerId = parseInt(playerIds[0], 10);
+            this.log('warning', `Inferred playerId from spoiler log: ${this.playerId}`);
+          }
+        }
+      } else if (this.playerId !== null) {
+        this.log('info', `playerId already set to ${this.playerId}, not overriding from spoiler log`);
+      }
+
       await this.prepareSpoilerTest(true);
     } catch (error) {
       logger.warn(
@@ -632,7 +668,8 @@ export class TestSpoilerUI {
       this.spoilerLogData,
       this.playerId,
       this.currentSpoilerLogPath,
-      isAutoLoad
+      isAutoLoad,
+      this.spoilerLogRawContent
     );
     this._syncStateFromOrchestrator();
     return prepareSuccess;
@@ -906,9 +943,28 @@ export class TestSpoilerUI {
       }
 
       // Store results
-      this.spoilerLogData = result.logData;
+      // Filter out non-state_update events (like log_header) - these are handled by sphereState
+      this.spoilerLogData = result.logData.filter(event => event.type === 'state_update');
+      this.spoilerLogRawContent = result.rawContent;
       this.currentSpoilerFile = file;
       this.currentSpoilerLogPath = file.name;
+
+      // Infer playerId from spoiler log if not already set
+      // NOTE: In multiworld mode, playerId should already be set from the rules file (P{N}_rules.json)
+      // Only infer if truly null to avoid overriding the correct player ID in multiworld
+      if (this.playerId === null && this.spoilerLogData && this.spoilerLogData.length > 0) {
+        const firstEvent = this.spoilerLogData[0];
+        if (firstEvent && firstEvent.player_data) {
+          const playerIds = Object.keys(firstEvent.player_data);
+          if (playerIds.length > 0) {
+            // Use the first player ID found (typically "1" for single-player)
+            this.playerId = parseInt(playerIds[0], 10);
+            this.log('info', `Inferred playerId from spoiler log: ${this.playerId}`);
+          }
+        }
+      } else if (this.playerId !== null) {
+        this.log('warning', `playerId already set to ${this.playerId}, not overriding from spoiler log`);
+      }
 
       return true; // Indicate success to caller
     } catch (error) {

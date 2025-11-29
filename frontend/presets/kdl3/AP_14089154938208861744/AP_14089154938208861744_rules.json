@@ -2234,17 +2234,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Heart Star"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 3
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_reach_boss",
                   "args": [
@@ -2311,6 +2300,14 @@
                       }
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Heart Star",
+                  "count": {
+                    "type": "constant",
+                    "value": 3
+                  }
                 }
               ]
             },
@@ -2346,17 +2343,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Heart Star"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 3
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_reach_boss",
                   "args": [
@@ -2423,6 +2409,14 @@
                       }
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Heart Star",
+                  "count": {
+                    "type": "constant",
+                    "value": 3
+                  }
                 }
               ]
             },
@@ -2728,12 +2722,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_reach_pitch",
+                  "name": "can_reach_clean",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "can_reach_clean",
+                  "name": "can_reach_pitch",
                   "args": []
                 }
               ]
@@ -2896,12 +2890,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_reach_kine",
+                  "name": "can_reach_chuchu",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "can_reach_chuchu",
+                  "name": "can_reach_kine",
                   "args": []
                 }
               ]
@@ -3343,12 +3337,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_reach_kine",
+                  "name": "can_reach_chuchu",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "can_reach_chuchu",
+                  "name": "can_reach_kine",
                   "args": []
                 }
               ]
@@ -3652,12 +3646,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_reach_kine",
+                  "name": "can_reach_chuchu",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "can_reach_chuchu",
+                  "name": "can_reach_kine",
                   "args": []
                 }
               ]
@@ -3929,12 +3923,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_reach_kine",
+                  "name": "can_reach_chuchu",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "can_reach_chuchu",
+                  "name": "can_reach_kine",
                   "args": []
                 }
               ]
@@ -3954,12 +3948,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_reach_kine",
+                  "name": "can_reach_chuchu",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "can_reach_chuchu",
+                  "name": "can_reach_kine",
                   "args": []
                 }
               ]
@@ -4338,12 +4332,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_reach_kine",
+                  "name": "can_reach_chuchu",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "can_reach_chuchu",
+                  "name": "can_reach_kine",
                   "args": []
                 }
               ]
@@ -4363,12 +4357,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_reach_kine",
+                  "name": "can_reach_chuchu",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "can_reach_chuchu",
+                  "name": "can_reach_kine",
                   "args": []
                 }
               ]
@@ -4426,12 +4420,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_reach_kine",
+                  "name": "can_reach_chuchu",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "can_reach_chuchu",
+                  "name": "can_reach_kine",
                   "args": []
                 }
               ]
@@ -4451,12 +4445,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_reach_kine",
+                  "name": "can_reach_chuchu",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "can_reach_chuchu",
+                  "name": "can_reach_kine",
                   "args": []
                 }
               ]
@@ -4758,7 +4752,7 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_reach_pitch",
+                  "name": "can_reach_burning",
                   "args": []
                 },
                 {
@@ -4768,7 +4762,7 @@
                 },
                 {
                   "type": "helper",
-                  "name": "can_reach_burning",
+                  "name": "can_reach_pitch",
                   "args": []
                 },
                 {
@@ -5380,17 +5374,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Heart Star"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 6
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_reach_boss",
                   "args": [
@@ -5457,6 +5440,14 @@
                       }
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Heart Star",
+                  "count": {
+                    "type": "constant",
+                    "value": 6
+                  }
                 }
               ]
             },
@@ -5492,17 +5483,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Heart Star"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 6
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_reach_boss",
                   "args": [
@@ -5569,6 +5549,14 @@
                       }
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Heart Star",
+                  "count": {
+                    "type": "constant",
+                    "value": 6
+                  }
                 }
               ]
             },
@@ -7345,12 +7333,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_reach_kine",
+                  "name": "can_reach_chuchu",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "can_reach_chuchu",
+                  "name": "can_reach_kine",
                   "args": []
                 }
               ]
@@ -7370,12 +7358,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_reach_kine",
+                  "name": "can_reach_chuchu",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "can_reach_chuchu",
+                  "name": "can_reach_kine",
                   "args": []
                 }
               ]
@@ -7395,12 +7383,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_reach_kine",
+                  "name": "can_reach_chuchu",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "can_reach_chuchu",
+                  "name": "can_reach_kine",
                   "args": []
                 }
               ]
@@ -7420,12 +7408,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_reach_kine",
+                  "name": "can_reach_chuchu",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "can_reach_chuchu",
+                  "name": "can_reach_kine",
                   "args": []
                 }
               ]
@@ -10522,17 +10510,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Heart Star"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 9
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_reach_boss",
                   "args": [
@@ -10599,6 +10576,14 @@
                       }
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Heart Star",
+                  "count": {
+                    "type": "constant",
+                    "value": 9
+                  }
                 }
               ]
             },
@@ -10634,17 +10619,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Heart Star"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 9
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_reach_boss",
                   "args": [
@@ -10711,6 +10685,14 @@
                       }
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Heart Star",
+                  "count": {
+                    "type": "constant",
+                    "value": 9
+                  }
                 }
               ]
             },
@@ -11268,12 +11250,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_reach_coo",
+                  "name": "can_reach_clean",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "can_reach_clean",
+                  "name": "can_reach_coo",
                   "args": []
                 }
               ]
@@ -13788,17 +13770,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Heart Star"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 12
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_reach_boss",
                   "args": [
@@ -13865,6 +13836,14 @@
                       }
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Heart Star",
+                  "count": {
+                    "type": "constant",
+                    "value": 12
+                  }
                 }
               ]
             },
@@ -13900,17 +13879,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Heart Star"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 12
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_reach_boss",
                   "args": [
@@ -13977,6 +13945,14 @@
                       }
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Heart Star",
+                  "count": {
+                    "type": "constant",
+                    "value": 12
+                  }
                 }
               ]
             },
@@ -15939,12 +15915,12 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_reach_coo",
+                  "name": "can_reach_burning",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "can_reach_burning",
+                  "name": "can_reach_coo",
                   "args": []
                 }
               ]
@@ -15964,17 +15940,17 @@
               "conditions": [
                 {
                   "type": "helper",
+                  "name": "can_reach_burning",
+                  "args": []
+                },
+                {
+                  "type": "helper",
                   "name": "can_reach_chuchu",
                   "args": []
                 },
                 {
                   "type": "helper",
                   "name": "can_reach_coo",
-                  "args": []
-                },
-                {
-                  "type": "helper",
-                  "name": "can_reach_burning",
                   "args": []
                 }
               ]
@@ -16217,17 +16193,17 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_reach_coo",
-                  "args": []
-                },
-                {
-                  "type": "helper",
                   "name": "can_reach_burning",
                   "args": []
                 },
                 {
                   "type": "helper",
                   "name": "can_reach_chuchu",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_reach_coo",
                   "args": []
                 }
               ]
@@ -18507,17 +18483,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Heart Star"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 15
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_reach_boss",
                   "args": [
@@ -18584,6 +18549,14 @@
                       }
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Heart Star",
+                  "count": {
+                    "type": "constant",
+                    "value": 15
+                  }
                 }
               ]
             },
@@ -18619,17 +18592,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Heart Star"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 15
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_reach_boss",
                   "args": [
@@ -18696,6 +18658,14 @@
                       }
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Heart Star",
+                  "count": {
+                    "type": "constant",
+                    "value": 15
+                  }
                 }
               ]
             },
@@ -18743,10 +18713,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Heart Star"
-                  },
+                  "item": "Heart Star",
                   "count": {
                     "type": "constant",
                     "value": 15
@@ -18825,11 +18792,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": "Level 1 Boss Purified"
+                  "item": "Level 1 Boss Defeated"
                 },
                 {
                   "type": "item_check",
-                  "item": "Level 1 Boss Defeated"
+                  "item": "Level 1 Boss Purified"
                 }
               ]
             }
@@ -18904,11 +18871,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": "Level 2 Boss Purified"
+                  "item": "Level 2 Boss Defeated"
                 },
                 {
                   "type": "item_check",
-                  "item": "Level 2 Boss Defeated"
+                  "item": "Level 2 Boss Purified"
                 }
               ]
             }
@@ -18983,11 +18950,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": "Level 3 Boss Purified"
+                  "item": "Level 3 Boss Defeated"
                 },
                 {
                   "type": "item_check",
-                  "item": "Level 3 Boss Defeated"
+                  "item": "Level 3 Boss Purified"
                 }
               ]
             }
@@ -19062,11 +19029,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": "Level 4 Boss Purified"
+                  "item": "Level 4 Boss Defeated"
                 },
                 {
                   "type": "item_check",
-                  "item": "Level 4 Boss Defeated"
+                  "item": "Level 4 Boss Purified"
                 }
               ]
             }
@@ -19493,6 +19460,347 @@
         "event": false,
         "type": null,
         "max_count": 6
+      },
+      "No Ability": {
+        "name": "No Ability",
+        "id": null,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 190
+      },
+      "Cutter Ability": {
+        "name": "Cutter Ability",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 22
+      },
+      "Spark Ability": {
+        "name": "Spark Ability",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 22
+      },
+      "Parasol Ability": {
+        "name": "Parasol Ability",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 21
+      },
+      "Nago Spawn": {
+        "name": "Nago Spawn",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 16
+      },
+      "Rick Spawn": {
+        "name": "Rick Spawn",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 20
+      },
+      "Stone Ability": {
+        "name": "Stone Ability",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 19
+      },
+      "Clean Ability": {
+        "name": "Clean Ability",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 23
+      },
+      "Burning Ability": {
+        "name": "Burning Ability",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 26
+      },
+      "ChuChu Spawn": {
+        "name": "ChuChu Spawn",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 17
+      },
+      "Pitch Spawn": {
+        "name": "Pitch Spawn",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 15
+      },
+      "Needle Ability": {
+        "name": "Needle Ability",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 22
+      },
+      "Kine Spawn": {
+        "name": "Kine Spawn",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 13
+      },
+      "Coo Spawn": {
+        "name": "Coo Spawn",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 17
+      },
+      "Level 1 Boss Defeated": {
+        "name": "Level 1 Boss Defeated",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 1
+      },
+      "Level 1 Boss Purified": {
+        "name": "Level 1 Boss Purified",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 1
+      },
+      "Level 2 Boss Defeated": {
+        "name": "Level 2 Boss Defeated",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 1
+      },
+      "Level 2 Boss Purified": {
+        "name": "Level 2 Boss Purified",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 1
+      },
+      "Ice Ability": {
+        "name": "Ice Ability",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 18
+      },
+      "Level 3 Boss Defeated": {
+        "name": "Level 3 Boss Defeated",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 1
+      },
+      "Level 3 Boss Purified": {
+        "name": "Level 3 Boss Purified",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 1
+      },
+      "Level 4 Boss Defeated": {
+        "name": "Level 4 Boss Defeated",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 1
+      },
+      "Level 4 Boss Purified": {
+        "name": "Level 4 Boss Purified",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 1
+      },
+      "Level 5 Boss Defeated": {
+        "name": "Level 5 Boss Defeated",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 1
+      },
+      "Level 5 Boss Purified": {
+        "name": "Level 5 Boss Purified",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 1
+      },
+      "Grass Land - Stage Completion": {
+        "name": "Grass Land - Stage Completion",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 6
+      },
+      "Ripple Field - Stage Completion": {
+        "name": "Ripple Field - Stage Completion",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 6
+      },
+      "Sand Canyon - Stage Completion": {
+        "name": "Sand Canyon - Stage Completion",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 6
+      },
+      "Cloudy Park - Stage Completion": {
+        "name": "Cloudy Park - Stage Completion",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 6
+      },
+      "Iceberg - Stage Completion": {
+        "name": "Iceberg - Stage Completion",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 6
+      },
+      "Love-Love Rod": {
+        "name": "Love-Love Rod",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": null,
+        "max_count": 1
       }
     }
   },
@@ -19568,7 +19876,83 @@
   "settings": {
     "1": {
       "game": "Kirby's Dream Land 3",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false,
+      "copy_abilities": {
+        "Waddle Dee": "No Ability",
+        "Bronto Burt": "No Ability",
+        "Rocky": "Stone Ability",
+        "Bobo": "Burning Ability",
+        "Chilly": "Ice Ability",
+        "Poppy Bros Jr.": "No Ability",
+        "Sparky": "Spark Ability",
+        "Polof": "No Ability",
+        "Broom Hatter": "Clean Ability",
+        "Cappy": "No Ability",
+        "Bouncy": "No Ability",
+        "Nruff": "No Ability",
+        "Glunk": "No Ability",
+        "Togezo": "Needle Ability",
+        "Kabu": "No Ability",
+        "Mony": "No Ability",
+        "Blipper": "No Ability",
+        "Squishy": "No Ability",
+        "Gabon": "No Ability",
+        "Oro": "No Ability",
+        "Galbo": "Burning Ability",
+        "Sir Kibble": "Cutter Ability",
+        "Nidoo": "No Ability",
+        "Kany": "No Ability",
+        "Sasuke": "Parasol Ability",
+        "Yaban": "No Ability",
+        "Boten": "Needle Ability",
+        "Coconut": "No Ability",
+        "Doka": "No Ability",
+        "Icicle": "No Ability",
+        "Pteran": "No Ability",
+        "Loud": "No Ability",
+        "Como": "No Ability",
+        "Klinko": "Parasol Ability",
+        "Babut": "No Ability",
+        "Wappa": "Ice Ability",
+        "Mariel": "No Ability",
+        "Tick": "Needle Ability",
+        "Apolo": "No Ability",
+        "Popon Ball": "No Ability",
+        "KeKe": "Clean Ability",
+        "Magoo": "Burning Ability",
+        "Raft Waddle Dee": "No Ability",
+        "Madoo": "No Ability",
+        "Corori": "No Ability",
+        "Kapar": "Cutter Ability",
+        "Batamon": "No Ability",
+        "Peran": "No Ability",
+        "Bobin": "Spark Ability",
+        "Mopoo": "No Ability",
+        "Gansan": "Stone Ability",
+        "Bukiset (Burning)": "Burning Ability",
+        "Bukiset (Stone)": "Stone Ability",
+        "Bukiset (Ice)": "Ice Ability",
+        "Bukiset (Needle)": "Needle Ability",
+        "Bukiset (Clean)": "Clean Ability",
+        "Bukiset (Parasol)": "Parasol Ability",
+        "Bukiset (Spark)": "Spark Ability",
+        "Bukiset (Cutter)": "Cutter Ability",
+        "Waddle Dee Drawing": "No Ability",
+        "Bronto Burt Drawing": "No Ability",
+        "Bouncy Drawing": "No Ability",
+        "Kabu (Dekabu)": "No Ability",
+        "Wapod": "No Ability",
+        "Propeller": "No Ability",
+        "Dogon": "No Ability",
+        "Joe": "No Ability",
+        "Captain Stitch": "Needle Ability",
+        "Yuki": "Ice Ability",
+        "Blocky": "Stone Ability",
+        "Jumper Shoot": "Parasol Ability",
+        "Boboo": "Burning Ability",
+        "Haboki": "Clean Ability"
+      }
     }
   },
   "game_info": {

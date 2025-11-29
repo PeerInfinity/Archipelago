@@ -1,0 +1,3409 @@
+{
+  "schema_version": 3,
+  "game_name": "Undertale",
+  "game_directory": "undertale",
+  "archipelago_version": "0.6.4",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1",
+    "2": "Player2",
+    "3": "Player3",
+    "4": "Player4",
+    "5": "Player5",
+    "6": "Player6",
+    "7": "Player7",
+    "8": "Player8",
+    "9": "Player9",
+    "10": "Player10",
+    "11": "Player11",
+    "12": "Player12",
+    "13": "Player13",
+    "14": "Player14",
+    "15": "Player15",
+    "16": "Player16",
+    "17": "Player17",
+    "18": "Player18",
+    "19": "Player19",
+    "20": "Player20",
+    "21": "Player21",
+    "22": "Player22",
+    "23": "Player23",
+    "24": "Player24",
+    "25": "Player25",
+    "26": "Player26",
+    "27": "Player27",
+    "28": "Player28",
+    "29": "Player29",
+    "30": "Player30",
+    "31": "Player31",
+    "32": "Player32",
+    "33": "Player33",
+    "34": "Player34",
+    "35": "Player35",
+    "36": "Player36",
+    "37": "Player37",
+    "38": "Player38",
+    "39": "Player39",
+    "40": "Player40",
+    "41": "Player41",
+    "42": "Player42",
+    "43": "Player43",
+    "44": "Player44",
+    "45": "Player45",
+    "46": "Player46",
+    "47": "Player47",
+    "48": "Player48",
+    "49": "Player49",
+    "50": "Player50",
+    "51": "Player51",
+    "52": "Player52",
+    "53": "Player53",
+    "54": "Player54",
+    "55": "Player55",
+    "56": "Player56",
+    "57": "Player57",
+    "58": "Player58",
+    "59": "Player59",
+    "60": "Player60",
+    "61": "Player61",
+    "62": "Player62",
+    "63": "Player63",
+    "64": "Player64",
+    "65": "Player65",
+    "66": "Player66",
+    "67": "Player67",
+    "68": "Player68",
+    "69": "Player69",
+    "70": "Player70",
+    "71": "Player71",
+    "72": "Player72",
+    "73": "Player73",
+    "74": "Player74",
+    "75": "Player75"
+  },
+  "world_classes": {
+    "1": "HatInTimeWorld",
+    "2": "ALTTPWorld",
+    "3": "ShortHikeWorld",
+    "4": "AdventureWorld",
+    "5": "AquariaWorld",
+    "6": "ArchipIDLEWorld",
+    "7": "BlasphemousWorld",
+    "8": "BombRushCyberfunkWorld",
+    "9": "BumpStikWorld",
+    "10": "CVCotMWorld",
+    "11": "CV64World",
+    "12": "Celeste64World",
+    "13": "ChecksFinderWorld",
+    "14": "ChocolateChipCookiesWorld",
+    "15": "CivVIWorld",
+    "16": "DarkSouls3World",
+    "17": "DLCqworld",
+    "18": "DKC3World",
+    "19": "DOOM1993World",
+    "20": "DOOM2World",
+    "21": "Factorio",
+    "22": "FaxanaduWorld",
+    "23": "FFMQWorld",
+    "24": "HereticWorld",
+    "25": "Hylics2World",
+    "26": "InscryptionWorld",
+    "27": "JakAndDaxterWorld",
+    "28": "KH2World",
+    "29": "KH1World",
+    "30": "KDL3World",
+    "31": "LandstalkerWorld",
+    "32": "LingoWorld",
+    "33": "LinksAwakeningWorld",
+    "34": "L2ACWorld",
+    "35": "MLSSWorld",
+    "36": "MathProof2p2e4World",
+    "37": "MM2World",
+    "38": "MMBN3World",
+    "39": "MeritousWorld",
+    "40": "MetamathWorld",
+    "41": "MuseDashWorld",
+    "42": "NoitaWorld",
+    "43": "OSRSWorld",
+    "44": "Overcooked2World",
+    "45": "PaintWorld",
+    "46": "PokemonEmeraldWorld",
+    "47": "PokemonRedBlueWorld",
+    "48": "RaftWorld",
+    "49": "RiskOfRainWorld",
+    "50": "SavingPrincessWorld",
+    "51": "SoEWorld",
+    "52": "ShapezWorld",
+    "53": "ShiversWorld",
+    "54": "SA2BWorld",
+    "55": "SC2World",
+    "56": "StardewValleyWorld",
+    "57": "SubnauticaWorld",
+    "58": "SM64World",
+    "59": "MarioLand2World",
+    "60": "SMWWorld",
+    "61": "SMWorld",
+    "62": "TerrariaWorld",
+    "63": "TLoZWorld",
+    "64": "MessengerWorld",
+    "65": "TWWWorld",
+    "66": "WitnessWorld",
+    "67": "TimespinnerWorld",
+    "68": "TunicWorld",
+    "69": "UndertaleWorld",
+    "70": "V6World",
+    "71": "WargrooveWorld",
+    "72": "WebDevJourneyWorld",
+    "73": "YachtDiceWorld",
+    "74": "YoshisIslandWorld",
+    "75": "Yugioh06World"
+  },
+  "regions": {
+    "69": {
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "New Game",
+            "connected_region": "Hub",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "??? Exit",
+            "connected_region": "???",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "???": {
+        "name": "???",
+        "exits": [],
+        "locations": []
+      },
+      "Hub": {
+        "name": "Hub",
+        "exits": [
+          {
+            "name": "Ruins Hub",
+            "connected_region": "Ruins",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Ruins Key"
+            }
+          },
+          {
+            "name": "Snowdin Hub",
+            "connected_region": "Snowdin Forest",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Snowdin Key"
+            }
+          },
+          {
+            "name": "Waterfall Hub",
+            "connected_region": "Waterfall",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Waterfall Key"
+            }
+          },
+          {
+            "name": "Hotland Hub",
+            "connected_region": "Hotland",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Hotland Key"
+            }
+          },
+          {
+            "name": "Core Hub",
+            "connected_region": "Core",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Core Key"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Ruins": {
+        "name": "Ruins",
+        "exits": [
+          {
+            "name": "Ruins Exit",
+            "connected_region": "Old Home",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Candy 1",
+            "id": 79014,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cat Claw",
+              "player": 23,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Candy 2",
+            "id": 79015,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Flut Flut",
+              "player": 27,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Candy 3",
+            "id": 79016,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Carthus Flame Arc",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Candy 4",
+            "id": 79017,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Thief",
+              "player": 71,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Donut Sale",
+            "id": 79018,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Pumpkin Zone Progression",
+              "player": 59,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Cider Sale",
+            "id": 79019,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cryst shield",
+              "player": 34,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Ribbon Cracks",
+            "id": 79020,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Time Stopper",
+              "player": 37,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Toy Knife Edge",
+            "id": 79021,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Select",
+              "player": 45,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "B.Scotch Pie Given",
+            "id": 79022,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Mining Level",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Old Home": {
+        "name": "Old Home",
+        "exits": [],
+        "locations": []
+      },
+      "Snowdin Forest": {
+        "name": "Snowdin Forest",
+        "exits": [
+          {
+            "name": "Snowdin Forest Exit",
+            "connected_region": "Snowdin Town",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Snowman",
+            "id": 79100,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Snowdin Town"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Moonpool Fragment",
+              "player": 57,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Nicecream Snowdin",
+            "id": 79001,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Snowdin Town"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Emblem",
+              "player": 54,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Snowdin Town": {
+        "name": "Snowdin Town",
+        "exits": [
+          {
+            "name": "Papyrus\" Home Entrance",
+            "connected_region": "Papyrus\" Home",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Bunny 1",
+            "id": 79034,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Snowdin Town"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Box of bullets",
+              "player": 19,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bunny 2",
+            "id": 79035,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Snowdin Town"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Nyx-Class Cloaking Module (Spectre)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bunny 3",
+            "id": 79036,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Snowdin Town"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Emblem",
+              "player": 54,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bunny 4",
+            "id": 79037,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Snowdin Town"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Campaign Tier 1 Column 2",
+              "player": 75,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Papyrus\" Home": {
+        "name": "Papyrus\" Home",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Papyrus Date",
+            "id": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Papyrus Date",
+              "player": 69,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Waterfall": {
+        "name": "Waterfall",
+        "exits": [
+          {
+            "name": "Undyne\"s Home Entrance",
+            "connected_region": "Undyne\"s Home",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Nicecream Waterfall",
+            "id": 79002,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 66,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Nicecream Punch Card",
+            "id": 79003,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Waterfall"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Punch Card",
+                  "count": {
+                    "type": "constant",
+                    "value": 3
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Stray Cat",
+              "player": 6,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Quiche Bench",
+            "id": 79004,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Ring of Elf",
+              "player": 22,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tutu Hidden",
+            "id": 79005,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Additional Palette Color",
+              "player": 45,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Card Reward",
+            "id": 79006,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Cyclops Hull Fragment",
+              "player": 57,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Grass Shoes",
+            "id": 79007,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Child of Moonlight",
+              "player": 7,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Astro 1",
+            "id": 79023,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Fool Trap",
+              "player": 68,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Astro 2",
+            "id": 79024,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Additional Starting Minerals",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Gerson 1",
+            "id": 79038,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "TM19 Seismic Toss",
+              "player": 47,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Gerson 2",
+            "id": 79039,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Hoo Bean",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Gerson 3",
+            "id": 79040,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Money x100",
+              "player": 68,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Gerson 4",
+            "id": 79041,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Dire Hit",
+              "player": 46,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TemmieShop 1",
+            "id": 79050,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Five Rupees",
+              "player": 63,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TemmieShop 2",
+            "id": 79051,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Fairy",
+              "player": 68,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TemmieShop 3",
+            "id": 79052,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Very Funny Joke",
+              "player": 6,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TemmieShop 4",
+            "id": 79053,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Waterfall"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "1000G",
+                  "count": {
+                    "type": "constant",
+                    "value": 2
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Beanlet 4",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Undyne\"s Home": {
+        "name": "Undyne\"s Home",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Undyne Date",
+            "id": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Undyne Date",
+              "player": 69,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Hotland": {
+        "name": "Hotland",
+        "exits": [
+          {
+            "name": "Cooking Show Entrance",
+            "connected_region": "Cooking Show",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Lab Elevator",
+            "connected_region": "True Lab",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Noodles Fridge",
+            "id": 79008,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Hotland"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Green Eco Pill",
+              "player": 27,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Pan Hidden",
+            "id": 79009,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Hotland"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Box of rockets",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Apron Hidden",
+            "id": 79010,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Cooking Show"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": ":)",
+              "player": 32,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bratty Catty 1",
+            "id": 79042,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "News Show"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Heart Max Up",
+              "player": 10,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bratty Catty 2",
+            "id": 79043,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "News Show"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Resource Pack: 5 MetalOre",
+              "player": 48,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bratty Catty 3",
+            "id": 79044,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "News Show"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Tricks and Traps (MAP08) - Yellow skull key",
+              "player": 20,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bratty Catty 4",
+            "id": 79045,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "News Show"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Long Life Soup",
+              "player": 5,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Burgerpants 1",
+            "id": 79046,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "News Show"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Power Star",
+              "player": 58,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Burgerpants 2",
+            "id": 79047,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "News Show"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Jackpot",
+              "player": 29,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Burgerpants 3",
+            "id": 79048,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "News Show"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Max HP",
+              "player": 67,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Burgerpants 4",
+            "id": 79049,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "News Show"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Scout Fly - Forbidden Jungle",
+              "player": 27,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Alphys Date",
+            "id": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Alphys Date",
+              "player": 69,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Cooking Show": {
+        "name": "Cooking Show",
+        "exits": [
+          {
+            "name": "News Show Entrance",
+            "connected_region": "News Show",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "News Show": {
+        "name": "News Show",
+        "exits": [],
+        "locations": []
+      },
+      "True Lab": {
+        "name": "True Lab",
+        "exits": [],
+        "locations": []
+      },
+      "Core": {
+        "name": "Core",
+        "exits": [
+          {
+            "name": "Core Exit",
+            "connected_region": "New Home",
+            "access_rule": {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
+                  "type": "constant",
+                  "value": "Mettaton Plush"
+                },
+                "op": "==",
+                "right": {
+                  "type": "constant",
+                  "value": "Complete Skeleton"
+                }
+              },
+              "if_true": {
+                "type": "item_check",
+                "item": "Complete Skeleton"
+              },
+              "if_false": {
+                "type": "conditional",
+                "test": {
+                  "type": "compare",
+                  "left": {
+                    "type": "constant",
+                    "value": "Mettaton Plush"
+                  },
+                  "op": "==",
+                  "right": {
+                    "type": "constant",
+                    "value": "Fish"
+                  }
+                },
+                "if_true": {
+                  "type": "item_check",
+                  "item": "Fish"
+                },
+                "if_false": {
+                  "type": "conditional",
+                  "test": {
+                    "type": "compare",
+                    "left": {
+                      "type": "constant",
+                      "value": "Mettaton Plush"
+                    },
+                    "op": "==",
+                    "right": {
+                      "type": "constant",
+                      "value": "Mettaton Plush"
+                    }
+                  },
+                  "if_true": {
+                    "type": "item_check",
+                    "item": "Mettaton Plush"
+                  },
+                  "if_false": {
+                    "type": "conditional",
+                    "test": {
+                      "type": "compare",
+                      "left": {
+                        "type": "constant",
+                        "value": "Mettaton Plush"
+                      },
+                      "op": "==",
+                      "right": {
+                        "type": "constant",
+                        "value": "DT Extractor"
+                      }
+                    },
+                    "if_true": {
+                      "type": "item_check",
+                      "item": "DT Extractor"
+                    },
+                    "if_false": null
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Trash Burger",
+            "id": 79011,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Core"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Embossed Mask of Crescente",
+              "player": 7,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mettaton Plot",
+            "id": 79062,
+            "access_rule": {
+              "type": "can_reach_entrance",
+              "entrance": "Core Exit"
+            },
+            "item": {
+              "name": "Time Shard (300)",
+              "player": 64,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "New Home": {
+        "name": "New Home",
+        "exits": [
+          {
+            "name": "New Home Exit",
+            "connected_region": "Last Corridor",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Left Home Key"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Right Home Key"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Key Piece",
+                  "count": {
+                    "type": "constant",
+                    "value": 5
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Present Knife",
+            "id": 79012,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "New Home"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "QuickGge",
+              "player": 38,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Present Locket",
+            "id": 79013,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "New Home"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Fireproof",
+              "player": 31,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Left New Home Key",
+            "id": 79064,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "New Home"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Plasma Geyser",
+              "player": 67,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Right New Home Key",
+            "id": 79065,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "New Home"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "item": {
+              "name": "Dragonslayer Helm",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Last Corridor": {
+        "name": "Last Corridor",
+        "exits": [
+          {
+            "name": "Last Corridor Exit",
+            "connected_region": "Barrier",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Barrier": {
+        "name": "Barrier",
+        "exits": [],
+        "locations": []
+      }
+    }
+  },
+  "start_regions": {
+    "69": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "69": {
+      "Key Piece": {
+        "name": "Key Piece",
+        "id": 77000,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Monster Candy": {
+        "name": "Monster Candy",
+        "id": 77001,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Croquet Roll": {
+        "name": "Croquet Roll",
+        "id": 77002,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Stick": {
+        "name": "Stick",
+        "id": 77003,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bandage": {
+        "name": "Bandage",
+        "id": 77004,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rock Candy": {
+        "name": "Rock Candy",
+        "id": 77005,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Pumpkin Rings": {
+        "name": "Pumpkin Rings",
+        "id": 77006,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Spider Donut": {
+        "name": "Spider Donut",
+        "id": 77007,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Stoic Onion": {
+        "name": "Stoic Onion",
+        "id": 77008,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ghost Fruit": {
+        "name": "Ghost Fruit",
+        "id": 77009,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Spider Cider": {
+        "name": "Spider Cider",
+        "id": 77010,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Butterscotch Pie": {
+        "name": "Butterscotch Pie",
+        "id": 77011,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Faded Ribbon": {
+        "name": "Faded Ribbon",
+        "id": 77012,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Toy Knife": {
+        "name": "Toy Knife",
+        "id": 77013,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Tough Glove": {
+        "name": "Tough Glove",
+        "id": 77014,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Manly Bandanna": {
+        "name": "Manly Bandanna",
+        "id": 77015,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Snowman Piece": {
+        "name": "Snowman Piece",
+        "id": 77016,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Nice Cream": {
+        "name": "Nice Cream",
+        "id": 77017,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Puppydough Icecream": {
+        "name": "Puppydough Icecream",
+        "id": 77018,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bisicle": {
+        "name": "Bisicle",
+        "id": 77019,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Unisicle": {
+        "name": "Unisicle",
+        "id": 77020,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cinnamon Bun": {
+        "name": "Cinnamon Bun",
+        "id": 77021,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Temmie Flakes": {
+        "name": "Temmie Flakes",
+        "id": 77022,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Abandoned Quiche": {
+        "name": "Abandoned Quiche",
+        "id": 77023,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Old Tutu": {
+        "name": "Old Tutu",
+        "id": 77024,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ballet Shoes": {
+        "name": "Ballet Shoes",
+        "id": 77025,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Punch Card": {
+        "name": "Punch Card",
+        "id": 77026,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "Annoying Dog": {
+        "name": "Annoying Dog",
+        "id": 77027,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dog Salad": {
+        "name": "Dog Salad",
+        "id": 77028,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dog Residue": {
+        "name": "Dog Residue",
+        "id": 77029,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Astronaut Food": {
+        "name": "Astronaut Food",
+        "id": 77035,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Instant Noodles": {
+        "name": "Instant Noodles",
+        "id": 77036,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Crab Apple": {
+        "name": "Crab Apple",
+        "id": 77037,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hot Dog...?": {
+        "name": "Hot Dog...?",
+        "id": 77038,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hot Cat": {
+        "name": "Hot Cat",
+        "id": 77039,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Glamburger": {
+        "name": "Glamburger",
+        "id": 77040,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sea Tea": {
+        "name": "Sea Tea",
+        "id": 77041,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Starfait": {
+        "name": "Starfait",
+        "id": 77042,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Legendary Hero": {
+        "name": "Legendary Hero",
+        "id": 77043,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cloudy Glasses": {
+        "name": "Cloudy Glasses",
+        "id": 77044,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Torn Notebook": {
+        "name": "Torn Notebook",
+        "id": 77045,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Stained Apron": {
+        "name": "Stained Apron",
+        "id": 77046,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Burnt Pan": {
+        "name": "Burnt Pan",
+        "id": 77047,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cowboy Hat": {
+        "name": "Cowboy Hat",
+        "id": 77048,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Empty Gun": {
+        "name": "Empty Gun",
+        "id": 77049,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Heart Locket": {
+        "name": "Heart Locket",
+        "id": 77050,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Worn Dagger": {
+        "name": "Worn Dagger",
+        "id": 77051,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Real Knife": {
+        "name": "Real Knife",
+        "id": 77052,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "The Locket": {
+        "name": "The Locket",
+        "id": 77053,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bad Memory": {
+        "name": "Bad Memory",
+        "id": 77054,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dream": {
+        "name": "Dream",
+        "id": 77055,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Undyne's Letter": {
+        "name": "Undyne's Letter",
+        "id": 77056,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Undyne Letter EX": {
+        "name": "Undyne Letter EX",
+        "id": 77057,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Popato Chisps": {
+        "name": "Popato Chisps",
+        "id": 77058,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Junk Food": {
+        "name": "Junk Food",
+        "id": 77059,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mystery Key": {
+        "name": "Mystery Key",
+        "id": 77060,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Face Steak": {
+        "name": "Face Steak",
+        "id": 77061,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hush Puppy": {
+        "name": "Hush Puppy",
+        "id": 77062,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Snail Pie": {
+        "name": "Snail Pie",
+        "id": 77063,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "temy armor": {
+        "name": "temy armor",
+        "id": 77064,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "ATK Up": {
+        "name": "ATK Up",
+        "id": 77065,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "DEF Up": {
+        "name": "DEF Up",
+        "id": 77066,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "HP Up": {
+        "name": "HP Up",
+        "id": 77067,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "FIGHT": {
+        "name": "FIGHT",
+        "id": 77077,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "ACT": {
+        "name": "ACT",
+        "id": 77078,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "ITEM": {
+        "name": "ITEM",
+        "id": 77079,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "MERCY": {
+        "name": "MERCY",
+        "id": 77080,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ruins Key": {
+        "name": "Ruins Key",
+        "id": 77081,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Snowdin Key": {
+        "name": "Snowdin Key",
+        "id": 77082,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Waterfall Key": {
+        "name": "Waterfall Key",
+        "id": 77083,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotland Key": {
+        "name": "Hotland Key",
+        "id": 77084,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Core Key": {
+        "name": "Core Key",
+        "id": 77085,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Plot": {
+        "name": "Progressive Plot",
+        "id": 77700,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Weapons": {
+        "name": "Progressive Weapons",
+        "id": 77701,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Armor": {
+        "name": "Progressive Armor",
+        "id": 77702,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Complete Skeleton": {
+        "name": "Complete Skeleton",
+        "id": 77779,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fish": {
+        "name": "Fish",
+        "id": 77780,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "DT Extractor": {
+        "name": "DT Extractor",
+        "id": 77782,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mettaton Plush": {
+        "name": "Mettaton Plush",
+        "id": 77786,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Left Home Key": {
+        "name": "Left Home Key",
+        "id": 77787,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "LOVE": {
+        "name": "LOVE",
+        "id": 77788,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Right Home Key": {
+        "name": "Right Home Key",
+        "id": 77789,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "1000G": {
+        "name": "1000G",
+        "id": 77997,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "500G": {
+        "name": "500G",
+        "id": 77998,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "100G": {
+        "name": "100G",
+        "id": 77999,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Papyrus Date": {
+        "name": "Papyrus Date",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Undyne Date": {
+        "name": "Undyne Date",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Alphys Date": {
+        "name": "Alphys Date",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Cat Claw": {
+        "name": "Cat Claw",
+        "id": 4325414,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Flut Flut": {
+        "name": "Flut Flut",
+        "id": 741002065,
+        "groups": [],
+        "advancement": true,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Carthus Flame Arc": {
+        "name": "Carthus Flame Arc",
+        "id": 101026,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Thief": {
+        "name": "Thief",
+        "id": 52016,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Pumpkin Zone Progression": {
+        "name": "Pumpkin Zone Progression",
+        "id": 10,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cryst shield": {
+        "name": "Cryst shield",
+        "id": 11288841,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Time Stopper": {
+        "name": "Time Stopper",
+        "id": 8912902,
+        "groups": [],
+        "advancement": true,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Select": {
+        "name": "Select",
+        "id": 198507,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mining Level": {
+        "name": "Mining Level",
+        "id": 717076,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Moonpool Fragment": {
+        "name": "Moonpool Fragment",
+        "id": 35028,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Emblem": {
+        "name": "Emblem",
+        "id": 16711680,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Box of bullets": {
+        "name": "Box of bullets",
+        "id": 350114,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Nyx-Class Cloaking Module (Spectre)": {
+        "name": "Nyx-Class Cloaking Module (Spectre)",
+        "id": 1323,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Campaign Tier 1 Column 2": {
+        "name": "Campaign Tier 1 Column 2",
+        "id": 5730144,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Speed Boost": {
+        "name": "Speed Boost",
+        "id": 158500,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Stray Cat": {
+        "name": "Stray Cat",
+        "id": 9203,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ring of Elf": {
+        "name": "Ring of Elf",
+        "id": 400020,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Additional Palette Color": {
+        "name": "Additional Palette Color",
+        "id": 198523,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cyclops Hull Fragment": {
+        "name": "Cyclops Hull Fragment",
+        "id": 35022,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Child of Moonlight": {
+        "name": "Child of Moonlight",
+        "id": 1909178,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fool Trap": {
+        "name": "Fool Trap",
+        "id": 509342485,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": true,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Additional Starting Minerals": {
+        "name": "Additional Starting Minerals",
+        "id": 1800,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "TM19 Seismic Toss": {
+        "name": "TM19 Seismic Toss",
+        "id": 172000219,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hoo Bean": {
+        "name": "Hoo Bean",
+        "id": 77771019,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Money x100": {
+        "name": "Money x100",
+        "id": 509342498,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dire Hit": {
+        "name": "Dire Hit",
+        "id": 3860074,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Five Rupees": {
+        "name": "Five Rupees",
+        "id": 7129,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fairy": {
+        "name": "Fairy",
+        "id": 509342421,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Very Funny Joke": {
+        "name": "Very Funny Joke",
+        "id": 9001,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Beanlet 4": {
+        "name": "Beanlet 4",
+        "id": 77771066,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Green Eco Pill": {
+        "name": "Green Eco Pill",
+        "id": 741999999,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Box of rockets": {
+        "name": "Box of rockets",
+        "id": 360017,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      ":)": {
+        "name": ":)",
+        "id": 444409,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Heart Max Up": {
+        "name": "Heart Max Up",
+        "id": 3579634688,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Resource Pack: 5 MetalOre": {
+        "name": "Resource Pack: 5 MetalOre",
+        "id": 47270,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Tricks and Traps (MAP08) - Yellow skull key": {
+        "name": "Tricks and Traps (MAP08) - Yellow skull key",
+        "id": 360213,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Long Life Soup": {
+        "name": "Long Life Soup",
+        "id": 698059,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Power Star": {
+        "name": "Power Star",
+        "id": 3626000,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Jackpot": {
+        "name": "Jackpot",
+        "id": 2643027,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Max HP": {
+        "name": "Max HP",
+        "id": 1337179,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Scout Fly - Forbidden Jungle": {
+        "name": "Scout Fly - Forbidden Jungle",
+        "id": 741001031,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Embossed Mask of Crescente": {
+        "name": "Embossed Mask of Crescente",
+        "id": 1909107,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Time Shard (300)": {
+        "name": "Time Shard (300)",
+        "id": 11391003,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "QuickGge": {
+        "name": "QuickGge",
+        "id": 11735187,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fireproof": {
+        "name": "Fireproof",
+        "id": 4005,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Plasma Geyser": {
+        "name": "Plasma Geyser",
+        "id": 1337150,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dragonslayer Helm": {
+        "name": "Dragonslayer Helm",
+        "id": 100567,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      " coins": {
+        "name": " coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      },
+      " coins freemium": {
+        "name": " coins freemium",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      }
+    }
+  },
+  "item_groups": {
+    "69": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "69": {
+      "1000G": 2,
+      "100G": 1,
+      "500G": 3,
+      "ACT": 1,
+      "Abandoned Quiche": 1,
+      "Alphys Date": 1,
+      "Astronaut Food": 2,
+      "Ballet Shoes": 1,
+      "Bisicle": 2,
+      "Burnt Pan": 1,
+      "Butterscotch Pie": 1,
+      "Cinnamon Bun": 1,
+      "Cloudy Glasses": 1,
+      "Core Key": 1,
+      "Cowboy Hat": 1,
+      "Crab Apple": 1,
+      "Empty Gun": 1,
+      "FIGHT": 1,
+      "Face Steak": 1,
+      "Faded Ribbon": 1,
+      "Glamburger": 1,
+      "Heart Locket": 1,
+      "Hotland Key": 1,
+      "ITEM": 1,
+      "Instant Noodles": 1,
+      "Junk Food": 1,
+      "Left Home Key": 1,
+      "MERCY": 1,
+      "Manly Bandanna": 1,
+      "Mettaton Plush": 1,
+      "Old Tutu": 1,
+      "Papyrus Date": 1,
+      "Punch Card": 3,
+      "Right Home Key": 1,
+      "Ruins Key": 1,
+      "Snowdin Key": 1,
+      "Snowman Piece": 1,
+      "Spider Cider": 1,
+      "Spider Donut": 1,
+      "Stained Apron": 1,
+      "Starfait": 2,
+      "Torn Notebook": 1,
+      "Tough Glove": 1,
+      "Toy Knife": 1,
+      "Undyne Date": 1,
+      "Waterfall Key": 1,
+      "Worn Dagger": 1,
+      "temy armor": 1
+    }
+  },
+  "progression_mapping": {
+    "69": {}
+  },
+  "starting_items": {
+    "69": [
+      "ITEM",
+      "FIGHT",
+      "ACT",
+      "MERCY",
+      "Ruins Key"
+    ]
+  },
+  "settings": {
+    "69": {
+      "game": "Undertale",
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
+    }
+  },
+  "game_info": {
+    "69": {
+      "name": "Undertale",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

@@ -22,7 +22,6 @@
  *     ├─> Build inventory snapshot (copy)
  *     ├─> Build region reachability map
  *     ├─> Build location reachability map
- *     ├─> Convert eventLocations Map to object
  *
  *   Output: Snapshot object
  *     ├─> inventory: {itemName: count}
@@ -72,6 +71,7 @@
  */
 
 import { initializeGameLogic, getGameLogic } from '../../shared/gameLogic/gameLogicRegistry.js';
+import { DEFAULT_PLAYER_ID } from '../../shared/playerIdUtils.js';
 
 // Module-level helper for logging
 function log(level, message, ...data) {
@@ -140,36 +140,48 @@ export function getSnapshot(sm) {
   }
 
   // 4. LocationItems - REMOVED: Now in static data
-
-  // 5. Convert eventLocations Map to plain object
-  const eventLocationsObject = {};
-  if (sm.eventLocations && sm.eventLocations instanceof Map) {
-    for (const [
-      locationName,
-      locationData,
-    ] of sm.eventLocations.entries()) {
-      eventLocationsObject[locationName] = locationData;
-    }
-  }
+  // 5. eventLocations - REMOVED: Now in static data
 
   // Increment snapshot counter
   sm.snapshotCount++;
 
-  // 6. Assemble Snapshot
+  // 6. Get game-specific state if the module provides getStateForSnapshot
+  let gameSpecificState = {};
+  if (sm.logicModule && typeof sm.logicModule.getStateForSnapshot === 'function') {
+    try {
+      gameSpecificState = sm.logicModule.getStateForSnapshot(sm.gameStateModule || {});
+    } catch (error) {
+      log('warn', '[StateManager getSnapshot] Error calling getStateForSnapshot:', error);
+      // Fallback to default game state extraction
+      gameSpecificState = {
+        flags: sm.gameStateModule?.flags || [],
+        events: sm.gameStateModule?.events || [],
+      };
+    }
+  } else {
+    // Fallback for games without getStateForSnapshot
+    gameSpecificState = {
+      flags: sm.gameStateModule?.flags || [],
+      events: sm.gameStateModule?.events || [],
+    };
+  }
+
+  // 7. Assemble Snapshot
   // REFACTOR: Duplication removed - using single source of truth for all fields
   const snapshot = {
     snapshotCount: sm.snapshotCount,
     inventory: inventorySnapshot,
-    // All games now use gameStateModule flags
-    flags: sm.gameStateModule?.flags || [],
+    // Merge game-specific state (flags, events, and any other game-specific fields like age)
+    ...gameSpecificState,
     checkedLocations: Array.from(sm.checkedLocations || []),
     // REFACTOR: Separated region and location reachability to prevent name conflicts
     regionReachability: regionReachability,
     locationReachability: locationReachability,
     // serverProvidedUncheckedLocations: Array.from(sm.serverProvidedUncheckedLocations || []), // Optionally expose if UI needs it directly
     player: {
-      name: sm.settings?.playerName || `Player ${sm.playerSlot}`,
-      slot: sm.playerSlot,
+      name: sm.settings?.playerName || `Player ${sm.playerId}`,
+      id: sm.playerId,
+      slot: sm.playerId, // Deprecated: use 'id' instead
       team: sm.team, // Assuming sm.team exists on StateManager
     },
     game: sm.rules?.game_name || sm.settings?.game || 'Unknown', // Single game identifier
@@ -177,12 +189,12 @@ export function getSnapshot(sm) {
     difficultyRequirements: sm.gameStateModule?.difficultyRequirements,
     shops: sm.gameStateModule?.shops,
     gameMode: sm.gameStateModule?.gameMode || sm.mode,
-    events: sm.gameStateModule?.events || [],
     // REFACTOR: Add missing properties for canonical state
     debugMode: sm.debugMode || false,
     autoCollectEventsEnabled: sm.autoCollectEventsEnabled !== false, // Default true
-    eventLocations: eventLocationsObject,
     startRegions: sm.startRegions || ['Menu'],
+    // Progressive items tracking (used by games like DLCQuest for coin accumulation)
+    prog_items: sm.prog_items || {},
 
     // Note: We don't include progressionMapping, itemData, groupData, etc. here
     // because they are static data already available in staticDataCache
@@ -200,7 +212,6 @@ export function getSnapshot(sm) {
         flagsCount: snapshot.flags.length,
         checkedLocationsCount: snapshot.checkedLocations.length,
         eventsCount: snapshot.events.length,
-        eventLocationsCount: Object.keys(snapshot.eventLocations).length,
         regionReachabilityCount: Object.keys(snapshot.regionReachability).length,
         locationReachabilityCount: Object.keys(snapshot.locationReachability).length,
       }
@@ -264,11 +275,15 @@ export function _createSelfSnapshotInterface(sm) {
             inventory: sm.inventory,
             flags: sm.gameStateModule?.flags || [],
             events: sm.gameStateModule?.events || [],
-            player: { slot: sm.playerSlot }
+            player: { id: sm.playerId, slot: sm.playerId }
           };
+          // Include all game-specific data needed by helpers (e.g., Pokemon local_poke_data)
           const staticData = {
             progressionMapping: sm.progressionMapping,
-            items: sm.itemData
+            items: sm.itemData,
+            game_info: sm.gameInfo,
+            settings: sm.settings,
+            playerId: sm.playerId
           };
           return sm.helperFunctions.has(snapshot, staticData, itemName);
         } catch (e) {
@@ -288,11 +303,15 @@ export function _createSelfSnapshotInterface(sm) {
             inventory: sm.inventory,
             flags: sm.gameStateModule?.flags || [],
             events: sm.gameStateModule?.events || [],
-            player: { slot: sm.playerSlot }
+            player: { id: sm.playerId, slot: sm.playerId }
           };
+          // Include all game-specific data needed by helpers (e.g., Pokemon local_poke_data)
           const staticData = {
             progressionMapping: sm.progressionMapping,
-            items: sm.itemData
+            items: sm.itemData,
+            game_info: sm.gameInfo,
+            settings: sm.settings,
+            playerId: sm.playerId
           };
           return sm.helperFunctions.count(snapshot, staticData, itemName);
         } catch (e) {
@@ -326,7 +345,36 @@ export function _createSelfSnapshotInterface(sm) {
       sm.settings ? sm.settings[settingName] : undefined,
     getAllSettings: () => sm.settings,
     isRegionReachable: (regionName) => sm.isRegionReachable(regionName),
+    isRegionAccessible: (regionName) => sm.isRegionReachable(regionName), // Alias for isRegionReachable
     isLocationChecked: (locName) => sm.isLocationChecked(locName),
+    isLocationAccessible: (locationOrName) => {
+      // Check if a location is accessible (reachable and rules pass)
+      const locationName = typeof locationOrName === 'string' ? locationOrName : locationOrName?.name;
+      if (!locationName) return undefined;
+
+      // Find the location data
+      const location = sm.locations.get(locationName);
+      if (!location) return undefined;
+
+      // Check if the parent region is reachable
+      const regionName = location.region;
+      if (!regionName) return undefined;
+
+      const parentRegionIsReachable = sm.isRegionReachable(regionName);
+      if (parentRegionIsReachable === undefined) return undefined;
+      if (parentRegionIsReachable === false) return false;
+
+      // If no access rule, location is accessible if region is reachable
+      if (!location.access_rule) return true;
+
+      // Evaluate the access rule
+      // Create a context with the location set
+      const locationContext = sm._createSelfSnapshotInterface();
+      locationContext.location = location;
+      locationContext.currentLocation = location;
+
+      return sm.evaluateRuleFromEngine(location.access_rule, locationContext);
+    },
     executeHelper: (name, ...args) => {
       // Just delegate to the new centralized method
       return sm.executeHelper(name, ...args);
@@ -338,7 +386,8 @@ export function _createSelfSnapshotInterface(sm) {
     getAllItems: () => sm.itemData,
     getAllLocations: () => Array.from(sm.locations.values()),
     getAllRegions: () => sm.regions,
-    getPlayerSlot: () => sm.playerSlot,
+    getPlayerId: () => sm.playerId,
+    getPlayerSlot: () => sm.playerId, // Deprecated: use getPlayerId
     helpers: sm.helpers,
     resolveName: (name) => {
       // Standard constants
@@ -346,14 +395,14 @@ export function _createSelfSnapshotInterface(sm) {
       if (name === 'False') return false;
       if (name === 'None') return null;
 
-      // Player slot
-      if (name === 'player') return sm.playerSlot;
+      // Player ID
+      if (name === 'player') return sm.playerId;
 
       // World object (commonly used in helper functions)
       if (name === 'world') {
         return {
-          player: sm.playerSlot,
-          options: sm.settings?.[sm.playerSlot] || sm.settings || {}
+          player: sm.playerId,
+          options: sm.settings?.[sm.playerId] || sm.settings || {}
         };
       }
 
@@ -410,25 +459,36 @@ export function _createSelfSnapshotInterface(sm) {
 
       // Core StateManager components often accessed by rules
       if (name === 'inventory') return sm.inventory; // The inventory instance
-      // Return gameStateModule for ALTTP, state for others
+      // Return gameStateModule with optional game-specific transformation
       if (name === 'state') {
-        if (sm.gameStateModule && sm.settings?.game === 'A Link to the Past') {
-          // For ALTTP, return a state object that includes the multiworld structure for compatibility with Python rules
-          return {
-            ...sm.gameStateModule,
-            multiworld: {
-              worlds: {
-                [sm.playerSlot]: {
-                  options: {
-                    ...sm.settings // Include all settings as options (now properly exported from Python)
-                  }
-                }
-              }
-            }
-          };
+        let stateObject;
+        if (sm.gameStateModule && sm.settings?.game) {
+          // Check if the game has a custom state builder hook
+          const gameLogic = getGameLogic(sm.settings.game);
+          if (gameLogic?.stateModule?.buildStateWithMultiworld) {
+            stateObject = gameLogic.stateModule.buildStateWithMultiworld(
+              sm.gameStateModule,
+              sm.settings,
+              sm.playerId
+            );
+          } else {
+            // Fallback: return gameStateModule as-is
+            stateObject = sm.gameStateModule;
+          }
         } else {
-          return sm.state; // For other games, return the state instance
+          stateObject = sm.state; // For other games, return the state instance
         }
+
+        // Always include prog_items in the state object for games that use it
+        // This allows rules to access state.prog_items[playerId][itemName]
+        if (sm.prog_items && Object.keys(sm.prog_items).length > 0) {
+          return {
+            ...stateObject,
+            prog_items: sm.prog_items
+          };
+        }
+
+        return stateObject;
       }
       if (name === 'settings') return sm.settings; // The settings object for the current game
       // Note: 'helpers' itself is usually not resolved by name directly in rules this way,
@@ -465,6 +525,37 @@ export function _createSelfSnapshotInterface(sm) {
         Object.prototype.hasOwnProperty.call(sm.settings, name)
       ) {
         return sm.settings[name];
+      }
+
+      // Check if this is a game-specific variable (e.g., required_technologies for Factorio)
+      // These are stored in game_info[playerId].variables in the rules.json
+      const staticData = getStaticGameData(sm);
+      const currentPlayerId = sm.playerId || DEFAULT_PLAYER_ID;
+      if (staticData?.game_info?.[currentPlayerId]?.variables &&
+          staticData.game_info[currentPlayerId].variables[name]) {
+        return staticData.game_info[currentPlayerId].variables[name];
+      }
+
+      // Game-specific location variable extraction hook
+      // For variables not found elsewhere, try to extract from current location name
+      const currentLoc = anInterface.currentLocation || anInterface.location;
+      if (currentLoc && currentLoc.name) {
+        const locationName = currentLoc.name;
+        const gameName = sm.rules?.game_name;
+
+        if (gameName) {
+          const gameLogic = getGameLogic(gameName);
+          const selectedHelpers = gameLogic?.helperFunctions;
+
+          // Check if the game has a custom extractor for this variable
+          const extractorName = `extract${name.charAt(0).toUpperCase()}${name.slice(1)}`;
+          if (selectedHelpers && typeof selectedHelpers[extractorName] === 'function') {
+            const extractedValue = selectedHelpers[extractorName](locationName);
+            if (extractedValue !== null && extractedValue !== undefined) {
+              return extractedValue;
+            }
+          }
+        }
       }
 
       // log('warn', `[StateManager SelfSnapshotInterface resolveName] Unhandled name: ${name}`);
@@ -564,24 +655,27 @@ export function getStaticGameData(sm) {
   return {
     game_name: sm.rules?.game_name,
     game_directory: sm.rules?.game_directory,
-    playerId: String(sm.playerSlot),
+    playerId: sm.playerId, // String player ID
     locations: sm.locations || new Map(),  // Return Map directly
     regions: sm.regions || new Map(),      // Return Map directly
     exits: sm.exits,
     dungeons: sm.dungeons || new Map(),    // Return Map directly
     items: sm.itemData,  // Direct access for UI components
-    itemsByPlayer: { [String(sm.playerSlot)]: sm.itemData },  // Provide items indexed by player slot for stateInterface
+    itemsByPlayer: { [sm.playerId]: sm.itemData },  // Provide items indexed by player ID for stateInterface
     itemData: sm.itemData,  // Keep for backwards compatibility
     groups: sm.groupData,
     groupData: sm.groupData,
-    item_groups: { [String(sm.playerSlot)]: sm.groupData },  // Provide item_groups for stateInterface.countGroup
+    item_groups: { [sm.playerId]: sm.groupData },  // Provide item_groups for stateInterface.countGroup
     progressionMapping: sm.progressionMapping,
+    progression_mapping: sm.rules?.progression_mapping,  // Add snake_case version for compatibility with game helpers
     itempoolCounts: sm.itempoolCounts,
     startRegions: sm.startRegions,
     mode: sm.mode,
     // Game-specific information
     game_info: sm.gameInfo,
     settings: sm.rules?.settings,
+    // Starting items (precollected items)
+    starting_items: sm.rules?.starting_items,
     // ID mappings
     locationNameToId: sm.locationNameToId,
     itemNameToId: sm.itemNameToId,
@@ -829,6 +923,19 @@ export function clearState(sm, options = { recomputeAndSendUpdate: true }) {
         sm.inventory[virtualItemName] = 0;
       }
     }
+
+    // Also clear prog_items accumulator values (for games like DLCQuest that track coins)
+    if (sm.prog_items) {
+      for (const playerId in sm.prog_items) {
+        if (Object.hasOwn(sm.prog_items, playerId)) {
+          for (const itemName in sm.prog_items[playerId]) {
+            if (Object.hasOwn(sm.prog_items[playerId], itemName)) {
+              sm.prog_items[playerId][itemName] = 0;
+            }
+          }
+        }
+      }
+    }
   } else if (!sm.inventory) {
     // If inventory doesn't exist, create it
     sm.inventory = sm._createInventoryInstance(
@@ -899,8 +1006,20 @@ export function clearEventItems(sm, options = { recomputeAndSendUpdate: true }) 
     return;
   }
 
+  // Items that should never be cleared (managed by game-specific hooks)
+  const preservedItems = new Set([
+    'Received Progression Item',    // Stardew Valley - cumulative progression count
+    'Received Progression Percent',  // Stardew Valley - computed from progression count
+  ]);
+
   // Remove all event items from inventory and uncheck their locations
   for (const itemName in sm.itemData) {
+    // Skip preserved items that are managed by game-specific hooks
+    if (preservedItems.has(itemName)) {
+      sm._logDebug(`[StateManager] Preserving hook-managed event item: ${itemName}`);
+      continue;
+    }
+
     if (sm.itemData[itemName]?.event || sm.itemData[itemName]?.id === 0 || sm.itemData[itemName]?.id === null) {
       if (sm.inventory[itemName] > 0) {
         sm._logDebug(`[StateManager] Clearing event item: ${itemName}`);

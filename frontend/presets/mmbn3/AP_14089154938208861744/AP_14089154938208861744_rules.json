@@ -42,10 +42,7 @@
             "connected_region": "SciLab Overworld",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "SubPET"
-              }
+              "item": "SubPET"
             }
           },
           {
@@ -53,10 +50,7 @@
             "connected_region": "Yoka Overworld",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Needle"
-              }
+              "item": "Needle"
             }
           },
           {
@@ -64,10 +58,7 @@
             "connected_region": "Beach Overworld",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "PETCase"
-              }
+              "item": "PETCase"
             }
           }
         ],
@@ -77,10 +68,7 @@
             "id": 11735185,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "SonicWav W"
-              }
+              "item": "SonicWav W"
             },
             "item": {
               "name": "Unlocker",
@@ -94,10 +82,7 @@
             "id": 11735186,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Bubbler C"
-              }
+              "item": "Bubbler C"
             },
             "item": {
               "name": "10 BugFrags",
@@ -111,10 +96,7 @@
             "id": 11735187,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Recov120 S"
-              }
+              "item": "Recov120 S"
             },
             "item": {
               "name": "Needle",
@@ -563,15 +545,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -593,15 +568,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -623,15 +591,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -653,15 +614,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -683,15 +637,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -713,15 +660,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -743,15 +683,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -773,15 +706,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -803,15 +729,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -833,15 +752,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -863,15 +775,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -893,15 +798,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -923,15 +821,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -953,15 +844,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -983,15 +867,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -1013,15 +890,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -1043,15 +913,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -1073,15 +936,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -1103,15 +959,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -1133,15 +982,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -1163,15 +1005,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -1193,15 +1028,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -1223,15 +1051,8 @@
             "access_rule": {
               "type": "compare",
               "left": {
-                "type": "function_call",
-                "function": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "explore_score"
-                },
+                "type": "helper",
+                "name": "explore_score",
                 "args": []
               },
               "op": ">",
@@ -1329,7 +1150,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "SciLab Overworld"
+                      "value": "SciLab Cyberworld"
                     }
                   ]
                 },
@@ -1339,7 +1160,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "SciLab Cyberworld"
+                      "value": "SciLab Overworld"
                     }
                   ]
                 },
@@ -1355,10 +1176,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Unlocker"
-                  },
+                  "item": "Unlocker",
                   "count": {
                     "type": "constant",
                     "value": 8
@@ -1385,13 +1203,6 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "CSciPass"
-                  }
-                },
-                {
                   "type": "state_method",
                   "method": "can_reach_region",
                   "args": [
@@ -1400,6 +1211,10 @@
                       "value": "SciLab Overworld"
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "CSciPass"
                 }
               ]
             }
@@ -1410,13 +1225,6 @@
             "access_rule": {
               "type": "or",
               "conditions": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "CYokaPas"
-                  }
-                },
                 {
                   "type": "and",
                   "conditions": [
@@ -1432,12 +1240,13 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Press"
-                      }
+                      "item": "Press"
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "CYokaPas"
                 }
               ]
             }
@@ -1449,13 +1258,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "CBeacPas"
-                  }
-                },
-                {
                   "type": "state_method",
                   "method": "can_reach_region",
                   "args": [
@@ -1464,6 +1266,10 @@
                       "value": "Yoka Overworld"
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "CBeacPas"
                 }
               ]
             }
@@ -1513,7 +1319,7 @@
                       "args": [
                         {
                           "type": "constant",
-                          "value": "SciLab Overworld"
+                          "value": "SciLab Cyberworld"
                         }
                       ]
                     },
@@ -1523,7 +1329,7 @@
                       "args": [
                         {
                           "type": "constant",
-                          "value": "SciLab Cyberworld"
+                          "value": "SciLab Overworld"
                         }
                       ]
                     },
@@ -1539,10 +1345,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Unlocker"
-                      },
+                      "item": "Unlocker",
                       "count": {
                         "type": "constant",
                         "value": 8
@@ -1552,10 +1355,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "WWW ID"
-                  }
+                  "item": "WWW ID"
                 }
               ]
             },
@@ -1634,13 +1434,6 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "CSciPass"
-                  }
-                },
-                {
                   "type": "state_method",
                   "method": "can_reach_region",
                   "args": [
@@ -1649,6 +1442,10 @@
                       "value": "SciLab Overworld"
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "CSciPass"
                 }
               ]
             }
@@ -1666,10 +1463,7 @@
             "connected_region": "Yoka Overworld",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Needle"
-              }
+              "item": "Needle"
             }
           },
           {
@@ -1677,10 +1471,7 @@
             "connected_region": "Beach Overworld",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "PETCase"
-              }
+              "item": "PETCase"
             }
           }
         ],
@@ -1690,10 +1481,7 @@
             "id": 11735188,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Shake1 S"
-              }
+              "item": "Shake1 S"
             },
             "item": {
               "name": "BowlMan V2 B",
@@ -1784,7 +1572,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "SciLab Overworld"
+                      "value": "SciLab Cyberworld"
                     }
                   ]
                 },
@@ -1794,7 +1582,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "SciLab Cyberworld"
+                      "value": "SciLab Overworld"
                     }
                   ]
                 },
@@ -1810,10 +1598,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Unlocker"
-                  },
+                  "item": "Unlocker",
                   "count": {
                     "type": "constant",
                     "value": 8
@@ -1840,7 +1625,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "ACDC Overworld"
+                      "value": "ACDC Cyberworld"
                     }
                   ]
                 },
@@ -1850,7 +1635,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "ACDC Cyberworld"
+                      "value": "ACDC Overworld"
                     }
                   ]
                 }
@@ -1868,10 +1653,7 @@
             "id": 11735216,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Recov30 *"
-              }
+              "item": "Recov30 *"
             },
             "item": {
               "name": "Unlocker",
@@ -1892,7 +1674,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Yoka Overworld"
+                      "value": "ACDC Cyberworld"
                     }
                   ]
                 },
@@ -1902,7 +1684,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "ACDC Cyberworld"
+                      "value": "Yoka Overworld"
                     }
                   ]
                 }
@@ -1982,7 +1764,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Yoka Overworld"
+                      "value": "Yoka Cyberworld"
                     }
                   ]
                 },
@@ -1992,7 +1774,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Yoka Cyberworld"
+                      "value": "Yoka Overworld"
                     }
                   ]
                 }
@@ -2057,7 +1839,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Yoka Overworld"
+                      "value": "ACDC Cyberworld"
                     }
                   ]
                 },
@@ -2077,7 +1859,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "ACDC Cyberworld"
+                      "value": "Yoka Overworld"
                     }
                   ]
                 }
@@ -2122,7 +1904,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Yoka Overworld"
+                      "value": "ACDC Overworld"
                     }
                   ]
                 },
@@ -2142,7 +1924,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "ACDC Overworld"
+                      "value": "Yoka Overworld"
                     }
                   ]
                 }
@@ -2248,10 +2030,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Press"
-                  }
+                  "item": "Press"
                 }
               ]
             },
@@ -2304,7 +2083,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Undernet"
+                      "value": "Deep Undernet"
                     }
                   ]
                 },
@@ -2314,7 +2093,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Deep Undernet"
+                      "value": "Undernet"
                     }
                   ]
                 },
@@ -2348,21 +2127,21 @@
               "conditions": [
                 {
                   "type": "state_method",
-                  "method": "can_reach_region",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": "ACDC Overworld"
-                    }
-                  ]
-                },
-                {
-                  "type": "state_method",
                   "method": "can_reach_location",
                   "args": [
                     {
                       "type": "constant",
                       "value": "Job: Legendary Tomes"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach_region",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "ACDC Overworld"
                     }
                   ]
                 }
@@ -2527,7 +2306,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Beach Overworld"
+                      "value": "ACDC Cyberworld"
                     }
                   ]
                 },
@@ -2537,7 +2316,17 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "ACDC Cyberworld"
+                      "value": "Beach Cyberworld"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach_region",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Beach Overworld"
                     }
                   ]
                 },
@@ -2558,16 +2347,6 @@
                     {
                       "type": "constant",
                       "value": "Yoka Cyberworld"
-                    }
-                  ]
-                },
-                {
-                  "type": "state_method",
-                  "method": "can_reach_region",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": "Beach Cyberworld"
                     }
                   ]
                 }
@@ -2592,16 +2371,6 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "ACDC Overworld"
-                    }
-                  ]
-                },
-                {
-                  "type": "state_method",
-                  "method": "can_reach_region",
-                  "args": [
-                    {
-                      "type": "constant",
                       "value": "ACDC Cyberworld"
                     }
                   ]
@@ -2612,17 +2381,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Yoka Overworld"
-                    }
-                  ]
-                },
-                {
-                  "type": "state_method",
-                  "method": "can_reach_region",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": "Yoka Cyberworld"
+                      "value": "ACDC Overworld"
                     }
                   ]
                 },
@@ -2643,6 +2402,26 @@
                     {
                       "type": "constant",
                       "value": "Undernet"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach_region",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Yoka Cyberworld"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach_region",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Yoka Overworld"
                     }
                   ]
                 }
@@ -2675,13 +2454,6 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "CYokaPas"
-                  }
-                },
-                {
                   "type": "and",
                   "conditions": [
                     {
@@ -2696,12 +2468,13 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Press"
-                      }
+                      "item": "Press"
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "CYokaPas"
                 }
               ]
             }
@@ -2713,13 +2486,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "CBeacPas"
-                  }
-                },
-                {
                   "type": "state_method",
                   "method": "can_reach_region",
                   "args": [
@@ -2728,6 +2494,10 @@
                       "value": "Yoka Overworld"
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "CBeacPas"
                 }
               ]
             }
@@ -2761,10 +2531,7 @@
             "id": 11735046,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "WWW ID"
-              }
+              "item": "WWW ID"
             },
             "item": {
               "name": "Muramasa M",
@@ -2813,13 +2580,6 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "CYokaPas"
-                  }
-                },
-                {
                   "type": "and",
                   "conditions": [
                     {
@@ -2834,12 +2594,13 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Press"
-                      }
+                      "item": "Press"
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "CYokaPas"
                 }
               ]
             }
@@ -2857,10 +2618,7 @@
             "connected_region": "SciLab Overworld",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "SubPET"
-              }
+              "item": "SubPET"
             }
           },
           {
@@ -2868,10 +2626,7 @@
             "connected_region": "Beach Overworld",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "PETCase"
-              }
+              "item": "PETCase"
             }
           },
           {
@@ -2883,15 +2638,8 @@
                 {
                   "type": "compare",
                   "left": {
-                    "type": "function_call",
-                    "function": {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "explore_score"
-                    },
+                    "type": "helper",
+                    "name": "explore_score",
                     "args": []
                   },
                   "op": ">",
@@ -2902,10 +2650,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Hammer"
-                  }
+                  "item": "Hammer"
                 }
               ]
             }
@@ -2945,10 +2690,7 @@
             "id": 11735189,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "FireSwrd P"
-              }
+              "item": "FireSwrd P"
             },
             "item": {
               "name": "Bass+ X",
@@ -2997,7 +2739,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "SciLab Overworld"
+                      "value": "SciLab Cyberworld"
                     }
                   ]
                 },
@@ -3007,7 +2749,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "SciLab Cyberworld"
+                      "value": "SciLab Overworld"
                     }
                   ]
                 },
@@ -3023,10 +2765,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Unlocker"
-                  },
+                  "item": "Unlocker",
                   "count": {
                     "type": "constant",
                     "value": 8
@@ -3333,7 +3072,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "SciLab Overworld"
+                      "value": "SciLab Cyberworld"
                     }
                   ]
                 },
@@ -3343,7 +3082,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "SciLab Cyberworld"
+                      "value": "SciLab Overworld"
                     }
                   ]
                 },
@@ -3359,10 +3098,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Unlocker"
-                  },
+                  "item": "Unlocker",
                   "count": {
                     "type": "constant",
                     "value": 8
@@ -3382,10 +3118,7 @@
             "id": 11735195,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Humor"
-              }
+              "item": "Humor"
             },
             "item": {
               "name": "Snctuary C",
@@ -3862,13 +3595,6 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "CSciPass"
-                  }
-                },
-                {
                   "type": "state_method",
                   "method": "can_reach_region",
                   "args": [
@@ -3877,6 +3603,10 @@
                       "value": "SciLab Overworld"
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "CSciPass"
                 }
               ]
             }
@@ -3888,13 +3618,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "CBeacPas"
-                  }
-                },
-                {
                   "type": "state_method",
                   "method": "can_reach_region",
                   "args": [
@@ -3903,6 +3626,10 @@
                       "value": "Yoka Overworld"
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "CBeacPas"
                 }
               ]
             }
@@ -3928,10 +3655,7 @@
             "id": 11735051,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "WWW ID"
-              }
+              "item": "WWW ID"
             },
             "item": {
               "name": "OilBody",
@@ -3955,7 +3679,7 @@
                       "args": [
                         {
                           "type": "constant",
-                          "value": "SciLab Overworld"
+                          "value": "SciLab Cyberworld"
                         }
                       ]
                     },
@@ -3965,7 +3689,7 @@
                       "args": [
                         {
                           "type": "constant",
-                          "value": "SciLab Cyberworld"
+                          "value": "SciLab Overworld"
                         }
                       ]
                     },
@@ -3981,10 +3705,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Unlocker"
-                      },
+                      "item": "Unlocker",
                       "count": {
                         "type": "constant",
                         "value": 8
@@ -3994,10 +3715,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Press"
-                  }
+                  "item": "Press"
                 }
               ]
             },
@@ -4027,10 +3745,7 @@
             "id": 11735052,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Press"
-              }
+              "item": "Press"
             },
             "item": {
               "name": "ModTools",
@@ -4057,10 +3772,7 @@
             "connected_region": "SciLab Overworld",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "SubPET"
-              }
+              "item": "SubPET"
             }
           },
           {
@@ -4068,10 +3780,7 @@
             "connected_region": "Yoka Overworld",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Needle"
-              }
+              "item": "Needle"
             }
           },
           {
@@ -4079,10 +3788,7 @@
             "connected_region": "WWW Island",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Progressive Undernet Rank"
-              },
+              "item": "Progressive Undernet Rank",
               "count": {
                 "type": "constant",
                 "value": 8
@@ -4124,10 +3830,7 @@
             "id": 11735190,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "DynaWave V"
-              }
+              "item": "DynaWave V"
             },
             "item": {
               "name": "StepSwrd M",
@@ -4141,10 +3844,7 @@
             "id": 11735191,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "WideSwrd C"
-              }
+              "item": "WideSwrd C"
             },
             "item": {
               "name": "HPMemory",
@@ -4158,10 +3858,7 @@
             "id": 11735192,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "HoleMetr H"
-              }
+              "item": "HoleMetr H"
             },
             "item": {
               "name": "SpinBlue",
@@ -4175,10 +3872,7 @@
             "id": 11735193,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Shadow J"
-              }
+              "item": "Shadow J"
             },
             "item": {
               "name": "HP+200 (Yellow)",
@@ -4192,10 +3886,7 @@
             "id": 11735194,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "GrabBack K"
-              }
+              "item": "GrabBack K"
             },
             "item": {
               "name": "Unlocker",
@@ -4349,10 +4040,7 @@
             "id": 11735102,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Press"
-              }
+              "item": "Press"
             },
             "item": {
               "name": "SubMem",
@@ -4695,7 +4383,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "SciLab Overworld"
+                      "value": "SciLab Cyberworld"
                     }
                   ]
                 },
@@ -4705,7 +4393,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "SciLab Cyberworld"
+                      "value": "SciLab Overworld"
                     }
                   ]
                 },
@@ -4721,10 +4409,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Unlocker"
-                  },
+                  "item": "Unlocker",
                   "count": {
                     "type": "constant",
                     "value": 8
@@ -4751,7 +4436,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "SciLab Overworld"
+                      "value": "SciLab Cyberworld"
                     }
                   ]
                 },
@@ -4761,7 +4446,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "SciLab Cyberworld"
+                      "value": "SciLab Overworld"
                     }
                   ]
                 },
@@ -4777,10 +4462,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Unlocker"
-                  },
+                  "item": "Unlocker",
                   "count": {
                     "type": "constant",
                     "value": 8
@@ -4829,13 +4511,6 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "CSciPass"
-                  }
-                },
-                {
                   "type": "state_method",
                   "method": "can_reach_region",
                   "args": [
@@ -4844,6 +4519,10 @@
                       "value": "SciLab Overworld"
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "CSciPass"
                 }
               ]
             }
@@ -4854,13 +4533,6 @@
             "access_rule": {
               "type": "or",
               "conditions": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "CYokaPas"
-                  }
-                },
                 {
                   "type": "and",
                   "conditions": [
@@ -4876,12 +4548,13 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Press"
-                      }
+                      "item": "Press"
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "CYokaPas"
                 }
               ]
             }
@@ -4895,15 +4568,8 @@
                 {
                   "type": "compare",
                   "left": {
-                    "type": "function_call",
-                    "function": {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "explore_score"
-                    },
+                    "type": "helper",
+                    "name": "explore_score",
                     "args": []
                   },
                   "op": ">",
@@ -4914,10 +4580,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Press"
-                  }
+                  "item": "Press"
                 }
               ]
             }
@@ -4950,7 +4613,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "SciLab Overworld"
+                      "value": "SciLab Cyberworld"
                     }
                   ]
                 },
@@ -4960,7 +4623,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "SciLab Cyberworld"
+                      "value": "SciLab Overworld"
                     }
                   ]
                 },
@@ -4976,10 +4639,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Unlocker"
-                  },
+                  "item": "Unlocker",
                   "count": {
                     "type": "constant",
                     "value": 8
@@ -4999,10 +4659,7 @@
             "id": 11735056,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Press"
-              }
+              "item": "Press"
             },
             "item": {
               "name": "SneakRun",
@@ -5030,10 +4687,7 @@
             "id": 11735196,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "BlckMnd"
-              }
+              "item": "BlckMnd"
             },
             "item": {
               "name": "GrabBack K",
@@ -5067,10 +4721,7 @@
             "id": 11735058,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "WWW ID"
-              }
+              "item": "WWW ID"
             },
             "item": {
               "name": "QuickGge",
@@ -5265,7 +4916,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "SciLab Overworld"
+                      "value": "SciLab Cyberworld"
                     }
                   ]
                 },
@@ -5275,7 +4926,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "SciLab Cyberworld"
+                      "value": "SciLab Overworld"
                     }
                   ]
                 },
@@ -5291,10 +4942,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Unlocker"
-                  },
+                  "item": "Unlocker",
                   "count": {
                     "type": "constant",
                     "value": 8
@@ -5648,10 +5296,7 @@
             "id": 11735081,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Press"
-              }
+              "item": "Press"
             },
             "item": {
               "name": "1 BugFrag",
@@ -5679,10 +5324,7 @@
             "id": 11735082,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Press"
-              }
+              "item": "Press"
             },
             "item": {
               "name": "Fire+30 *",
@@ -6055,62 +5697,6 @@
         "type": null,
         "max_count": 4
       },
-      "SubPET": {
-        "name": "SubPET",
-        "id": 11735217,
-        "groups": [
-          "Everything",
-          "Key Items"
-        ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "Needle": {
-        "name": "Needle",
-        "id": 11735218,
-        "groups": [
-          "Everything",
-          "Key Items"
-        ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "PETCase": {
-        "name": "PETCase",
-        "id": 11735219,
-        "groups": [
-          "Everything",
-          "Key Items"
-        ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "Hammer": {
-        "name": "Hammer",
-        "id": 11735263,
-        "groups": [
-          "Everything",
-          "Key Items"
-        ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
       "Unlocker": {
         "name": "Unlocker",
         "id": 11735064,
@@ -6180,21 +5766,6 @@
         "event": false,
         "type": null,
         "max_count": 6
-      },
-      "SneakRun": {
-        "name": "SneakRun",
-        "id": 11735189,
-        "groups": [
-          "Everything",
-          "Programs",
-          "Subchips"
-        ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
       },
       "AirShoes *": {
         "name": "AirShoes *",
@@ -7624,6 +7195,567 @@
         "type": null,
         "max_count": 2
       },
+      "Airshoes": {
+        "name": "Airshoes",
+        "id": 11735172,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Attack+1 (White)": {
+        "name": "Attack+1 (White)",
+        "id": 11735173,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Attack+1 (Pink)": {
+        "name": "Attack+1 (Pink)",
+        "id": 11735174,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "BrkChrg": {
+        "name": "BrkChrg",
+        "id": 11735175,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Charge+1 (Pink)": {
+        "name": "Charge+1 (Pink)",
+        "id": 11735176,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "Charge+1 (White)": {
+        "name": "Charge+1 (White)",
+        "id": 11735177,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "Collect": {
+        "name": "Collect",
+        "id": 11735178,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "GigFldr1": {
+        "name": "GigFldr1",
+        "id": 11735179,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "HP+100 (Pink)": {
+        "name": "HP+100 (Pink)",
+        "id": 11735180,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "HP+100 (Yellow)": {
+        "name": "HP+100 (Yellow)",
+        "id": 11735181,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "HP+200 (Yellow)": {
+        "name": "HP+200 (Yellow)",
+        "id": 11735182,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "HP+500 (Yellow)": {
+        "name": "HP+500 (Yellow)",
+        "id": 11735183,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "HubBatc": {
+        "name": "HubBatc",
+        "id": 11735184,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Jungle": {
+        "name": "Jungle",
+        "id": 11735185,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "OilBody": {
+        "name": "OilBody",
+        "id": 11735186,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "QuickGge": {
+        "name": "QuickGge",
+        "id": 11735187,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "SetSand": {
+        "name": "SetSand",
+        "id": 11735188,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "SneakRun": {
+        "name": "SneakRun",
+        "id": 11735189,
+        "groups": [
+          "Everything",
+          "Programs",
+          "Subchips"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Speed+1 (Yellow)": {
+        "name": "Speed+1 (Yellow)",
+        "id": 11735190,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "WpnLV+1 (White)": {
+        "name": "WpnLV+1 (White)",
+        "id": 11735191,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "WpnLV+1 (Pink)": {
+        "name": "WpnLV+1 (Pink)",
+        "id": 11735192,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "WpnLV+1 (Yellow)": {
+        "name": "WpnLV+1 (Yellow)",
+        "id": 11735193,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Press": {
+        "name": "Press",
+        "id": 11735194,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "200z": {
+        "name": "200z",
+        "id": 11735195,
+        "groups": [
+          "Everything",
+          "Zenny"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "500z": {
+        "name": "500z",
+        "id": 11735196,
+        "groups": [
+          "Everything",
+          "Zenny"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "600z": {
+        "name": "600z",
+        "id": 11735197,
+        "groups": [
+          "Everything",
+          "Zenny"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "800z": {
+        "name": "800z",
+        "id": 11735198,
+        "groups": [
+          "Everything",
+          "Zenny"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "900z": {
+        "name": "900z",
+        "id": 11735199,
+        "groups": [
+          "Everything",
+          "Zenny"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "1000z": {
+        "name": "1000z",
+        "id": 11735200,
+        "groups": [
+          "Everything",
+          "Zenny"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "1200z": {
+        "name": "1200z",
+        "id": 11735201,
+        "groups": [
+          "Everything",
+          "Zenny"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "1400z": {
+        "name": "1400z",
+        "id": 11735202,
+        "groups": [
+          "Everything",
+          "Zenny"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "1600z": {
+        "name": "1600z",
+        "id": 11735203,
+        "groups": [
+          "Everything",
+          "Zenny"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "1800z": {
+        "name": "1800z",
+        "id": 11735204,
+        "groups": [
+          "Everything",
+          "Zenny"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "2000z": {
+        "name": "2000z",
+        "id": 11735205,
+        "groups": [
+          "Everything",
+          "Zenny"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "3000z": {
+        "name": "3000z",
+        "id": 11735206,
+        "groups": [
+          "Everything",
+          "Zenny"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "9000z": {
+        "name": "9000z",
+        "id": 11735207,
+        "groups": [
+          "Everything",
+          "Zenny"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "10000z": {
+        "name": "10000z",
+        "id": 11735208,
+        "groups": [
+          "Everything",
+          "Zenny"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "30000z": {
+        "name": "30000z",
+        "id": 11735209,
+        "groups": [
+          "Everything",
+          "Zenny"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "50000z": {
+        "name": "50000z",
+        "id": 11735210,
+        "groups": [
+          "Everything",
+          "Zenny"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "30 BugFrags": {
+        "name": "30 BugFrags",
+        "id": 11735211,
+        "groups": [
+          "BugFrags",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
       "SonicWav W": {
         "name": "SonicWav W",
         "id": 11735212,
@@ -7689,6 +7821,90 @@
         ],
         "advancement": true,
         "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "SubPET": {
+        "name": "SubPET",
+        "id": 11735217,
+        "groups": [
+          "Everything",
+          "Key Items"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Needle": {
+        "name": "Needle",
+        "id": 11735218,
+        "groups": [
+          "Everything",
+          "Key Items"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "PETCase": {
+        "name": "PETCase",
+        "id": 11735219,
+        "groups": [
+          "Everything",
+          "Key Items"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "10 BugFrags": {
+        "name": "10 BugFrags",
+        "id": 11735221,
+        "groups": [
+          "BugFrags",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 6
+      },
+      "1 BugFrag": {
+        "name": "1 BugFrag",
+        "id": 11735222,
+        "groups": [
+          "BugFrags",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 12
+      },
+      "UnderSht": {
+        "name": "UnderSht",
+        "id": 11735223,
+        "groups": [
+          "Everything",
+          "Programs"
+        ],
+        "advancement": false,
+        "useful": true,
         "trap": false,
         "event": false,
         "type": null,
@@ -8279,323 +8495,15 @@
         "type": null,
         "max_count": 2
       },
-      "Airshoes": {
-        "name": "Airshoes",
-        "id": 11735172,
+      "Hammer": {
+        "name": "Hammer",
+        "id": 11735263,
         "groups": [
           "Everything",
-          "Programs"
-        ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "Attack+1 (White)": {
-        "name": "Attack+1 (White)",
-        "id": 11735173,
-        "groups": [
-          "Everything",
-          "Programs"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "Attack+1 (Pink)": {
-        "name": "Attack+1 (Pink)",
-        "id": 11735174,
-        "groups": [
-          "Everything",
-          "Programs"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "BrkChrg": {
-        "name": "BrkChrg",
-        "id": 11735175,
-        "groups": [
-          "Everything",
-          "Programs"
-        ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "Charge+1 (Pink)": {
-        "name": "Charge+1 (Pink)",
-        "id": 11735176,
-        "groups": [
-          "Everything",
-          "Programs"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 4
-      },
-      "Charge+1 (White)": {
-        "name": "Charge+1 (White)",
-        "id": 11735177,
-        "groups": [
-          "Everything",
-          "Programs"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 4
-      },
-      "Collect": {
-        "name": "Collect",
-        "id": 11735178,
-        "groups": [
-          "Everything",
-          "Programs"
-        ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "GigFldr1": {
-        "name": "GigFldr1",
-        "id": 11735179,
-        "groups": [
-          "Everything",
-          "Programs"
-        ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "HP+100 (Pink)": {
-        "name": "HP+100 (Pink)",
-        "id": 11735180,
-        "groups": [
-          "Everything",
-          "Programs"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "HP+100 (Yellow)": {
-        "name": "HP+100 (Yellow)",
-        "id": 11735181,
-        "groups": [
-          "Everything",
-          "Programs"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "HP+200 (Yellow)": {
-        "name": "HP+200 (Yellow)",
-        "id": 11735182,
-        "groups": [
-          "Everything",
-          "Programs"
-        ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "HP+500 (Yellow)": {
-        "name": "HP+500 (Yellow)",
-        "id": 11735183,
-        "groups": [
-          "Everything",
-          "Programs"
-        ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "HubBatc": {
-        "name": "HubBatc",
-        "id": 11735184,
-        "groups": [
-          "Everything",
-          "Programs"
-        ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "Jungle": {
-        "name": "Jungle",
-        "id": 11735185,
-        "groups": [
-          "Everything",
-          "Programs"
-        ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "OilBody": {
-        "name": "OilBody",
-        "id": 11735186,
-        "groups": [
-          "Everything",
-          "Programs"
-        ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "QuickGge": {
-        "name": "QuickGge",
-        "id": 11735187,
-        "groups": [
-          "Everything",
-          "Programs"
-        ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "SetSand": {
-        "name": "SetSand",
-        "id": 11735188,
-        "groups": [
-          "Everything",
-          "Programs"
-        ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "Speed+1 (Yellow)": {
-        "name": "Speed+1 (Yellow)",
-        "id": 11735190,
-        "groups": [
-          "Everything",
-          "Programs"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "WpnLV+1 (White)": {
-        "name": "WpnLV+1 (White)",
-        "id": 11735191,
-        "groups": [
-          "Everything",
-          "Programs"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "WpnLV+1 (Pink)": {
-        "name": "WpnLV+1 (Pink)",
-        "id": 11735192,
-        "groups": [
-          "Everything",
-          "Programs"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "WpnLV+1 (Yellow)": {
-        "name": "WpnLV+1 (Yellow)",
-        "id": 11735193,
-        "groups": [
-          "Everything",
-          "Programs"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Press": {
-        "name": "Press",
-        "id": 11735194,
-        "groups": [
-          "Everything",
-          "Programs"
+          "Key Items"
         ],
         "advancement": true,
         "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "UnderSht": {
-        "name": "UnderSht",
-        "id": 11735223,
-        "groups": [
-          "Everything",
-          "Programs"
-        ],
-        "advancement": false,
-        "useful": true,
         "trap": false,
         "event": false,
         "type": null,
@@ -8628,272 +8536,6 @@
         "event": false,
         "type": null,
         "max_count": 2
-      },
-      "200z": {
-        "name": "200z",
-        "id": 11735195,
-        "groups": [
-          "Everything",
-          "Zenny"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "500z": {
-        "name": "500z",
-        "id": 11735196,
-        "groups": [
-          "Everything",
-          "Zenny"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "600z": {
-        "name": "600z",
-        "id": 11735197,
-        "groups": [
-          "Everything",
-          "Zenny"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "800z": {
-        "name": "800z",
-        "id": 11735198,
-        "groups": [
-          "Everything",
-          "Zenny"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 4
-      },
-      "900z": {
-        "name": "900z",
-        "id": 11735199,
-        "groups": [
-          "Everything",
-          "Zenny"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "1000z": {
-        "name": "1000z",
-        "id": 11735200,
-        "groups": [
-          "Everything",
-          "Zenny"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "1200z": {
-        "name": "1200z",
-        "id": 11735201,
-        "groups": [
-          "Everything",
-          "Zenny"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "1400z": {
-        "name": "1400z",
-        "id": 11735202,
-        "groups": [
-          "Everything",
-          "Zenny"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "1600z": {
-        "name": "1600z",
-        "id": 11735203,
-        "groups": [
-          "Everything",
-          "Zenny"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "1800z": {
-        "name": "1800z",
-        "id": 11735204,
-        "groups": [
-          "Everything",
-          "Zenny"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "2000z": {
-        "name": "2000z",
-        "id": 11735205,
-        "groups": [
-          "Everything",
-          "Zenny"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "3000z": {
-        "name": "3000z",
-        "id": 11735206,
-        "groups": [
-          "Everything",
-          "Zenny"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "9000z": {
-        "name": "9000z",
-        "id": 11735207,
-        "groups": [
-          "Everything",
-          "Zenny"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "10000z": {
-        "name": "10000z",
-        "id": 11735208,
-        "groups": [
-          "Everything",
-          "Zenny"
-        ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "30000z": {
-        "name": "30000z",
-        "id": 11735209,
-        "groups": [
-          "Everything",
-          "Zenny"
-        ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "50000z": {
-        "name": "50000z",
-        "id": 11735210,
-        "groups": [
-          "Everything",
-          "Zenny"
-        ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 2
-      },
-      "30 BugFrags": {
-        "name": "30 BugFrags",
-        "id": 11735211,
-        "groups": [
-          "BugFrags",
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "10 BugFrags": {
-        "name": "10 BugFrags",
-        "id": 11735221,
-        "groups": [
-          "BugFrags",
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 6
-      },
-      "1 BugFrag": {
-        "name": "1 BugFrag",
-        "id": 11735222,
-        "groups": [
-          "BugFrags",
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 12
       },
       "Victory": {
         "name": "Victory",
@@ -9128,7 +8770,8 @@
   "settings": {
     "1": {
       "game": "MegaMan Battle Network 3",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
     }
   },
   "game_info": {

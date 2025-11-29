@@ -34,10 +34,7 @@
             "connected_region": "Hangar (E1M1) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Hangar (E1M1)"
-              },
+              "item": "Hangar (E1M1)",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -51,25 +48,11 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Nuclear Plant (E1M2)"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                },
-                {
                   "type": "or",
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -77,16 +60,21 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
                       }
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Nuclear Plant (E1M2)",
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
                 }
               ]
             }
@@ -96,10 +84,7 @@
             "connected_region": "Toxin Refinery (E1M3) Start",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Toxin Refinery (E1M3)"
-              },
+              "item": "Toxin Refinery (E1M3)",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -111,10 +96,7 @@
             "connected_region": "Command Control (E1M4) Start",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Command Control (E1M4)"
-              },
+              "item": "Command Control (E1M4)",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -129,10 +111,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Phobos Lab (E1M5)"
-                  },
+                  "item": "Chaingun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -140,10 +119,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Shotgun"
-                  },
+                  "item": "Phobos Lab (E1M5)",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -151,10 +127,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chaingun"
-                  },
+                  "item": "Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -171,10 +144,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Central Processing (E1M6)"
-                  },
+                  "item": "Central Processing (E1M6)",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -182,10 +152,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Shotgun"
-                  },
+                  "item": "Chaingun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -193,10 +160,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chaingun"
-                  },
+                  "item": "Rocket launcher",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -204,10 +168,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Rocket launcher"
-                  },
+                  "item": "Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -221,10 +182,7 @@
             "connected_region": "Computer Station (E1M7) Start",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Computer Station (E1M7)"
-              },
+              "item": "Computer Station (E1M7)",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -242,10 +200,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Phobos Anomaly (E1M8)"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -253,10 +208,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Phobos Anomaly (E1M8)",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -264,10 +216,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -280,10 +229,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -291,10 +237,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -302,10 +245,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -324,10 +264,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Military Base (E1M9)"
-                  },
+                  "item": "Chaingun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -335,10 +272,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chaingun"
-                  },
+                  "item": "Military Base (E1M9)",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -346,10 +280,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Shotgun"
-                  },
+                  "item": "Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -363,10 +294,7 @@
             "connected_region": "Deimos Anomaly (E2M1) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Deimos Anomaly (E2M1)"
-              },
+              "item": "Deimos Anomaly (E2M1)",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -384,10 +312,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Containment Area (E2M2)"
-                      },
+                      "item": "Containment Area (E2M2)",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -395,10 +320,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -411,10 +333,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -422,10 +341,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -447,10 +363,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Refinery (E2M3)"
-                      },
+                      "item": "Refinery (E2M3)",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -458,10 +371,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -474,10 +384,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -485,10 +392,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -504,10 +408,7 @@
             "connected_region": "Deimos Lab (E2M4) Start",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Deimos Lab (E2M4)"
-              },
+              "item": "Deimos Lab (E2M4)",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -522,10 +423,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Command Center (E2M5)"
-                  },
+                  "item": "Chaingun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -533,10 +431,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Shotgun"
-                  },
+                  "item": "Command Center (E2M5)",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -544,10 +439,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chaingun"
-                  },
+                  "item": "Plasma gun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -555,10 +447,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Plasma gun"
-                  },
+                  "item": "Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -575,10 +464,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Halls of the Damned (E2M6)"
-                  },
+                  "item": "Chaingun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -586,10 +472,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chaingun"
-                  },
+                  "item": "Halls of the Damned (E2M6)",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -597,10 +480,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Shotgun"
-                  },
+                  "item": "Plasma gun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -608,10 +488,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Plasma gun"
-                  },
+                  "item": "Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -628,10 +505,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Spawning Vats (E2M7)"
-                  },
+                  "item": "Chaingun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -639,10 +513,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Shotgun"
-                  },
+                  "item": "Plasma gun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -650,10 +521,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chaingun"
-                  },
+                  "item": "Rocket launcher",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -661,10 +529,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Plasma gun"
-                  },
+                  "item": "Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -672,10 +537,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Rocket launcher"
-                  },
+                  "item": "Spawning Vats (E2M7)",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -689,10 +551,7 @@
             "connected_region": "Tower of Babel (E2M8) Start",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Tower of Babel (E2M8)"
-              },
+              "item": "Tower of Babel (E2M8)",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -710,10 +569,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Fortress of Mystery (E2M9)"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -721,10 +577,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Fortress of Mystery (E2M9)",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -732,10 +585,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -748,10 +598,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -759,10 +606,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -770,10 +614,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -789,10 +630,7 @@
             "connected_region": "Hell Keep (E3M1) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Hell Keep (E3M1)"
-              },
+              "item": "Hell Keep (E3M1)",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -806,25 +644,11 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Slough of Despair (E3M2)"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                },
-                {
                   "type": "or",
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -832,16 +656,21 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
                       }
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Slough of Despair (E3M2)",
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
                 }
               ]
             }
@@ -857,10 +686,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Pandemonium (E3M3)"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -868,10 +694,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Pandemonium (E3M3)",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -879,10 +702,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -895,10 +715,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -906,10 +723,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -917,10 +731,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -942,10 +753,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "House of Pain (E3M4)"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -953,10 +761,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "House of Pain (E3M4)",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -964,10 +769,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -980,10 +782,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -991,10 +790,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1002,10 +798,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1021,10 +814,7 @@
             "connected_region": "Unholy Cathedral (E3M5) Start",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Unholy Cathedral (E3M5)"
-              },
+              "item": "Unholy Cathedral (E3M5)",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -1039,10 +829,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Mt. Erebus (E3M6)"
-                  },
+                  "item": "Chaingun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1050,10 +837,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Shotgun"
-                  },
+                  "item": "Mt. Erebus (E3M6)",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1061,10 +845,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chaingun"
-                  },
+                  "item": "Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1084,10 +865,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Limbo (E3M7)"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1095,10 +873,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Limbo (E3M7)",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1106,10 +881,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1122,10 +894,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1133,10 +902,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1144,10 +910,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1169,10 +932,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Dis (E3M8)"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1180,10 +940,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Dis (E3M8)",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1191,10 +948,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1207,10 +961,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1218,10 +969,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1229,10 +977,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1254,10 +999,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Warrens (E3M9)"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1265,10 +1007,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1276,10 +1015,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1287,10 +1023,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Warrens (E3M9)",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1303,10 +1036,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1314,10 +1044,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -1401,10 +1128,7 @@
             "connected_region": "Nuclear Plant (E1M2) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Nuclear Plant (E1M2) - Red keycard"
-              },
+              "item": "Nuclear Plant (E1M2) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -1521,10 +1245,7 @@
             "connected_region": "Nuclear Plant (E1M2) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Nuclear Plant (E1M2) - Red keycard"
-              },
+              "item": "Nuclear Plant (E1M2) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -1613,10 +1334,7 @@
             "connected_region": "Toxin Refinery (E1M3) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Toxin Refinery (E1M3) - Blue keycard"
-              },
+              "item": "Toxin Refinery (E1M3) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -1769,10 +1487,7 @@
             "connected_region": "Toxin Refinery (E1M3) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Toxin Refinery (E1M3) - Yellow keycard"
-              },
+              "item": "Toxin Refinery (E1M3) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -1784,10 +1499,7 @@
             "connected_region": "Toxin Refinery (E1M3) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Toxin Refinery (E1M3) - Blue keycard"
-              },
+              "item": "Toxin Refinery (E1M3) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -1848,10 +1560,7 @@
             "connected_region": "Toxin Refinery (E1M3) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Toxin Refinery (E1M3) - Yellow keycard"
-              },
+              "item": "Toxin Refinery (E1M3) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -1915,10 +1624,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Shotgun"
-                  },
+                  "item": "Chaingun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1926,10 +1632,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chaingun"
-                  },
+                  "item": "Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1967,10 +1670,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Command Control (E1M4) - Blue keycard"
-                  },
+                  "item": "Command Control (E1M4) - Blue keycard",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1978,10 +1678,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Command Control (E1M4) - Yellow keycard"
-                  },
+                  "item": "Command Control (E1M4) - Yellow keycard",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -1998,10 +1695,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Command Control (E1M4) - Blue keycard"
-                  },
+                  "item": "Command Control (E1M4) - Blue keycard",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -2009,10 +1703,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Command Control (E1M4) - Yellow keycard"
-                  },
+                  "item": "Command Control (E1M4) - Yellow keycard",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -2136,10 +1827,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Command Control (E1M4) - Yellow keycard"
-                  },
+                  "item": "Command Control (E1M4) - Blue keycard",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -2147,10 +1835,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Command Control (E1M4) - Blue keycard"
-                  },
+                  "item": "Command Control (E1M4) - Yellow keycard",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -2261,10 +1946,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Shotgun"
-                  },
+                  "item": "Chaingun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -2272,10 +1954,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chaingun"
-                  },
+                  "item": "Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -2310,10 +1989,7 @@
             "connected_region": "Phobos Lab (E1M5) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Phobos Lab (E1M5) - Yellow keycard"
-              },
+              "item": "Phobos Lab (E1M5) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2438,10 +2114,7 @@
             "connected_region": "Phobos Lab (E1M5) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Phobos Lab (E1M5) - Blue keycard"
-              },
+              "item": "Phobos Lab (E1M5) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2524,10 +2197,7 @@
             "connected_region": "Phobos Lab (E1M5) Green",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Phobos Lab (E1M5) - Blue keycard"
-              },
+              "item": "Phobos Lab (E1M5) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2576,10 +2246,7 @@
             "connected_region": "Phobos Lab (E1M5) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Phobos Lab (E1M5) - Blue keycard"
-              },
+              "item": "Phobos Lab (E1M5) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2668,10 +2335,7 @@
             "connected_region": "Central Processing (E1M6) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Central Processing (E1M6) - Yellow keycard"
-              },
+              "item": "Central Processing (E1M6) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2683,10 +2347,7 @@
             "connected_region": "Central Processing (E1M6) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Central Processing (E1M6) - Red keycard"
-              },
+              "item": "Central Processing (E1M6) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2698,10 +2359,7 @@
             "connected_region": "Central Processing (E1M6) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Central Processing (E1M6) - Blue keycard"
-              },
+              "item": "Central Processing (E1M6) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2713,10 +2371,7 @@
             "connected_region": "Central Processing (E1M6) Nukage",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Central Processing (E1M6) - Blue keycard"
-              },
+              "item": "Central Processing (E1M6) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -2989,10 +2644,7 @@
             "connected_region": "Central Processing (E1M6) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Central Processing (E1M6) - Yellow keycard"
-              },
+              "item": "Central Processing (E1M6) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -3082,10 +2734,7 @@
             "connected_region": "Computer Station (E1M7) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Computer Station (E1M7) - Red keycard"
-              },
+              "item": "Computer Station (E1M7) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -3097,10 +2746,7 @@
             "connected_region": "Computer Station (E1M7) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Computer Station (E1M7) - Yellow keycard"
-              },
+              "item": "Computer Station (E1M7) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -3155,10 +2801,7 @@
             "connected_region": "Computer Station (E1M7) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Computer Station (E1M7) - Blue keycard"
-              },
+              "item": "Computer Station (E1M7) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -3205,10 +2848,7 @@
             "connected_region": "Computer Station (E1M7) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Computer Station (E1M7) - Red keycard"
-              },
+              "item": "Computer Station (E1M7) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -3241,10 +2881,7 @@
             "connected_region": "Computer Station (E1M7) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Computer Station (E1M7) - Blue keycard"
-              },
+              "item": "Computer Station (E1M7) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -3259,10 +2896,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Computer Station (E1M7) - Yellow keycard"
-                  },
+                  "item": "Computer Station (E1M7) - Red keycard",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -3270,10 +2904,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Computer Station (E1M7) - Red keycard"
-                  },
+                  "item": "Computer Station (E1M7) - Yellow keycard",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -3428,10 +3059,7 @@
             "connected_region": "Computer Station (E1M7) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Computer Station (E1M7) - Yellow keycard"
-              },
+              "item": "Computer Station (E1M7) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -3467,10 +3095,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Shotgun"
-                  },
+                  "item": "Chaingun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -3478,10 +3103,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Rocket launcher"
-                  },
+                  "item": "Rocket launcher",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -3489,10 +3111,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chaingun"
-                  },
+                  "item": "Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -3659,10 +3278,7 @@
             "connected_region": "Military Base (E1M9) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Military Base (E1M9) - Blue keycard"
-              },
+              "item": "Military Base (E1M9) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -3674,10 +3290,7 @@
             "connected_region": "Military Base (E1M9) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Military Base (E1M9) - Yellow keycard"
-              },
+              "item": "Military Base (E1M9) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -3689,10 +3302,7 @@
             "connected_region": "Military Base (E1M9) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Military Base (E1M9) - Red keycard"
-              },
+              "item": "Military Base (E1M9) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -3767,10 +3377,7 @@
             "connected_region": "Military Base (E1M9) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Military Base (E1M9) - Blue keycard"
-              },
+              "item": "Military Base (E1M9) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -3874,10 +3481,7 @@
             "connected_region": "Military Base (E1M9) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Military Base (E1M9) - Yellow keycard"
-              },
+              "item": "Military Base (E1M9) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -3910,10 +3514,7 @@
             "connected_region": "Deimos Anomaly (E2M1) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Deimos Anomaly (E2M1) - Red keycard"
-              },
+              "item": "Deimos Anomaly (E2M1) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -3925,10 +3526,7 @@
             "connected_region": "Deimos Anomaly (E2M1) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Deimos Anomaly (E2M1) - Blue keycard"
-              },
+              "item": "Deimos Anomaly (E2M1) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -4031,10 +3629,7 @@
             "connected_region": "Deimos Anomaly (E2M1) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Deimos Anomaly (E2M1) - Blue keycard"
-              },
+              "item": "Deimos Anomaly (E2M1) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -4067,10 +3662,7 @@
             "connected_region": "Deimos Anomaly (E2M1) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Deimos Anomaly (E2M1) - Red keycard"
-              },
+              "item": "Deimos Anomaly (E2M1) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -4117,10 +3709,7 @@
             "connected_region": "Containment Area (E2M2) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Containment Area (E2M2) - Yellow keycard"
-              },
+              "item": "Containment Area (E2M2) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -4132,10 +3721,7 @@
             "connected_region": "Containment Area (E2M2) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Containment Area (E2M2) - Blue keycard"
-              },
+              "item": "Containment Area (E2M2) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -4147,10 +3733,7 @@
             "connected_region": "Containment Area (E2M2) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Containment Area (E2M2) - Red keycard"
-              },
+              "item": "Containment Area (E2M2) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -4379,10 +3962,7 @@
             "connected_region": "Containment Area (E2M2) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Containment Area (E2M2) - Blue keycard"
-              },
+              "item": "Containment Area (E2M2) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -4415,10 +3995,7 @@
             "connected_region": "Containment Area (E2M2) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Containment Area (E2M2) - Red keycard"
-              },
+              "item": "Containment Area (E2M2) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -4521,10 +4098,7 @@
             "connected_region": "Refinery (E2M3) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Refinery (E2M3) - Blue keycard"
-              },
+              "item": "Refinery (E2M3) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -4669,10 +4243,7 @@
             "connected_region": "Refinery (E2M3) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Refinery (E2M3) - Blue keycard"
-              },
+              "item": "Refinery (E2M3) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -4733,10 +4304,7 @@
             "connected_region": "Deimos Lab (E2M4) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Deimos Lab (E2M4) - Blue keycard"
-              },
+              "item": "Deimos Lab (E2M4) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -4925,10 +4493,7 @@
             "connected_region": "Deimos Lab (E2M4) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Deimos Lab (E2M4) - Yellow keycard"
-              },
+              "item": "Deimos Lab (E2M4) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -5035,10 +4600,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Shotgun"
-                  },
+                  "item": "Chaingun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -5046,10 +4608,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Plasma gun"
-                  },
+                  "item": "Plasma gun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -5057,10 +4616,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chaingun"
-                  },
+                  "item": "Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -5258,10 +4814,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Halls of the Damned (E2M6) - Blue skull key"
-                  },
+                  "item": "Halls of the Damned (E2M6) - Blue skull key",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -5269,10 +4822,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Halls of the Damned (E2M6) - Yellow skull key"
-                  },
+                  "item": "Halls of the Damned (E2M6) - Red skull key",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -5280,10 +4830,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Halls of the Damned (E2M6) - Red skull key"
-                  },
+                  "item": "Halls of the Damned (E2M6) - Yellow skull key",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -5297,10 +4844,7 @@
             "connected_region": "Halls of the Damned (E2M6) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Halls of the Damned (E2M6) - Yellow skull key"
-              },
+              "item": "Halls of the Damned (E2M6) - Yellow skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -5312,10 +4856,7 @@
             "connected_region": "Halls of the Damned (E2M6) One way Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Halls of the Damned (E2M6) - Yellow skull key"
-              },
+              "item": "Halls of the Damned (E2M6) - Yellow skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -5562,10 +5103,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Halls of the Damned (E2M6) - Blue skull key"
-                  },
+                  "item": "Halls of the Damned (E2M6) - Blue skull key",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -5573,10 +5111,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Halls of the Damned (E2M6) - Yellow skull key"
-                  },
+                  "item": "Halls of the Damned (E2M6) - Red skull key",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -5584,10 +5119,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Halls of the Damned (E2M6) - Red skull key"
-                  },
+                  "item": "Halls of the Damned (E2M6) - Yellow skull key",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -5622,10 +5154,7 @@
             "connected_region": "Halls of the Damned (E2M6) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Halls of the Damned (E2M6) - Yellow skull key"
-              },
+              "item": "Halls of the Damned (E2M6) - Yellow skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -5672,10 +5201,7 @@
             "connected_region": "Spawning Vats (E2M7) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Spawning Vats (E2M7) - Blue keycard"
-              },
+              "item": "Spawning Vats (E2M7) - Blue keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -5690,10 +5216,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Spawning Vats (E2M7) - Blue keycard"
-                  },
+                  "item": "Spawning Vats (E2M7) - Blue keycard",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -5701,10 +5224,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Spawning Vats (E2M7) - Red keycard"
-                  },
+                  "item": "Spawning Vats (E2M7) - Red keycard",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -5718,10 +5238,7 @@
             "connected_region": "Spawning Vats (E2M7) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Spawning Vats (E2M7) - Red keycard"
-              },
+              "item": "Spawning Vats (E2M7) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -5733,10 +5250,7 @@
             "connected_region": "Spawning Vats (E2M7) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Spawning Vats (E2M7) - Yellow keycard"
-              },
+              "item": "Spawning Vats (E2M7) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -5966,10 +5480,7 @@
             "connected_region": "Spawning Vats (E2M7) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Spawning Vats (E2M7) - Yellow keycard"
-              },
+              "item": "Spawning Vats (E2M7) - Yellow keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -6002,10 +5513,7 @@
             "connected_region": "Spawning Vats (E2M7) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Spawning Vats (E2M7) - Red keycard"
-              },
+              "item": "Spawning Vats (E2M7) - Red keycard",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -6049,10 +5557,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Spawning Vats (E2M7) - Blue keycard"
-                  },
+                  "item": "Spawning Vats (E2M7) - Blue keycard",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -6060,10 +5565,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Spawning Vats (E2M7) - Red keycard"
-                  },
+                  "item": "Spawning Vats (E2M7) - Red keycard",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -6180,10 +5682,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -6191,10 +5690,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -6207,10 +5703,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -6218,10 +5711,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -6229,10 +5719,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -6269,10 +5756,7 @@
             "connected_region": "Fortress of Mystery (E2M9) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Fortress of Mystery (E2M9) - Blue skull key"
-              },
+              "item": "Fortress of Mystery (E2M9) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -6284,10 +5768,7 @@
             "connected_region": "Fortress of Mystery (E2M9) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Fortress of Mystery (E2M9) - Red skull key"
-              },
+              "item": "Fortress of Mystery (E2M9) - Red skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -6299,10 +5780,7 @@
             "connected_region": "Fortress of Mystery (E2M9) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Fortress of Mystery (E2M9) - Yellow skull key"
-              },
+              "item": "Fortress of Mystery (E2M9) - Yellow skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -6461,10 +5939,7 @@
             "connected_region": "Fortress of Mystery (E2M9) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Fortress of Mystery (E2M9) - Blue skull key"
-              },
+              "item": "Fortress of Mystery (E2M9) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -6497,10 +5972,7 @@
             "connected_region": "Fortress of Mystery (E2M9) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Fortress of Mystery (E2M9) - Red skull key"
-              },
+              "item": "Fortress of Mystery (E2M9) - Red skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -6533,10 +6005,7 @@
             "connected_region": "Fortress of Mystery (E2M9) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Fortress of Mystery (E2M9) - Yellow skull key"
-              },
+              "item": "Fortress of Mystery (E2M9) - Yellow skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -6572,10 +6041,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Chaingun"
-                  },
+                  "item": "Chaingun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -6583,10 +6049,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Shotgun"
-                  },
+                  "item": "Shotgun",
                   "count": {
                     "type": "constant",
                     "value": 1
@@ -6664,10 +6127,7 @@
             "connected_region": "Slough of Despair (E3M2) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Slough of Despair (E3M2) - Blue skull key"
-              },
+              "item": "Slough of Despair (E3M2) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -6812,10 +6272,7 @@
             "connected_region": "Slough of Despair (E3M2) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Slough of Despair (E3M2) - Blue skull key"
-              },
+              "item": "Slough of Despair (E3M2) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -6848,10 +6305,7 @@
             "connected_region": "Pandemonium (E3M3) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Pandemonium (E3M3) - Blue skull key"
-              },
+              "item": "Pandemonium (E3M3) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -7066,10 +6520,7 @@
             "connected_region": "Pandemonium (E3M3) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Pandemonium (E3M3) - Blue skull key"
-              },
+              "item": "Pandemonium (E3M3) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -7102,10 +6553,7 @@
             "connected_region": "House of Pain (E3M4) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "House of Pain (E3M4) - Blue skull key"
-              },
+              "item": "House of Pain (E3M4) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -7250,10 +6698,7 @@
             "connected_region": "House of Pain (E3M4) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "House of Pain (E3M4) - Blue skull key"
-              },
+              "item": "House of Pain (E3M4) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -7265,10 +6710,7 @@
             "connected_region": "House of Pain (E3M4) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "House of Pain (E3M4) - Yellow skull key"
-              },
+              "item": "House of Pain (E3M4) - Yellow skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -7280,10 +6722,7 @@
             "connected_region": "House of Pain (E3M4) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "House of Pain (E3M4) - Red skull key"
-              },
+              "item": "House of Pain (E3M4) - Red skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -7386,10 +6825,7 @@
             "connected_region": "House of Pain (E3M4) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "House of Pain (E3M4) - Red skull key"
-              },
+              "item": "House of Pain (E3M4) - Red skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -7450,10 +6886,7 @@
             "connected_region": "House of Pain (E3M4) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "House of Pain (E3M4) - Yellow skull key"
-              },
+              "item": "House of Pain (E3M4) - Yellow skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -7486,10 +6919,7 @@
             "connected_region": "Unholy Cathedral (E3M5) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Unholy Cathedral (E3M5) - Yellow skull key"
-              },
+              "item": "Unholy Cathedral (E3M5) - Yellow skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -7501,10 +6931,7 @@
             "connected_region": "Unholy Cathedral (E3M5) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Unholy Cathedral (E3M5) - Blue skull key"
-              },
+              "item": "Unholy Cathedral (E3M5) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -7671,10 +7098,7 @@
             "connected_region": "Unholy Cathedral (E3M5) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Unholy Cathedral (E3M5) - Blue skull key"
-              },
+              "item": "Unholy Cathedral (E3M5) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -7721,10 +7145,7 @@
             "connected_region": "Unholy Cathedral (E3M5) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Unholy Cathedral (E3M5) - Yellow skull key"
-              },
+              "item": "Unholy Cathedral (E3M5) - Yellow skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -7777,10 +7198,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Chaingun"
-                      },
+                      "item": "Chaingun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -7788,10 +7206,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Shotgun"
-                      },
+                      "item": "Shotgun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -7804,10 +7219,7 @@
                   "conditions": [
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Plasma gun"
-                      },
+                      "item": "BFG9000",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -7815,10 +7227,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Rocket launcher"
-                      },
+                      "item": "Plasma gun",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -7826,10 +7235,7 @@
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "BFG9000"
-                      },
+                      "item": "Rocket launcher",
                       "count": {
                         "type": "constant",
                         "value": 1
@@ -7866,10 +7272,7 @@
             "connected_region": "Mt. Erebus (E3M6) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Mt. Erebus (E3M6) - Blue skull key"
-              },
+              "item": "Mt. Erebus (E3M6) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -8126,10 +7529,7 @@
             "connected_region": "Mt. Erebus (E3M6) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Mt. Erebus (E3M6) - Blue skull key"
-              },
+              "item": "Mt. Erebus (E3M6) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -8162,10 +7562,7 @@
             "connected_region": "Limbo (E3M7) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Limbo (E3M7) - Red skull key"
-              },
+              "item": "Limbo (E3M7) - Red skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -8177,10 +7574,7 @@
             "connected_region": "Limbo (E3M7) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Limbo (E3M7) - Blue skull key"
-              },
+              "item": "Limbo (E3M7) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -8192,10 +7586,7 @@
             "connected_region": "Limbo (E3M7) Pink",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Limbo (E3M7) - Blue skull key"
-              },
+              "item": "Limbo (E3M7) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -8349,10 +7740,7 @@
             "connected_region": "Limbo (E3M7) Yellow",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Limbo (E3M7) - Yellow skull key"
-              },
+              "item": "Limbo (E3M7) - Yellow skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -8422,10 +7810,7 @@
             "connected_region": "Limbo (E3M7) Green",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Limbo (E3M7) - Red skull key"
-              },
+              "item": "Limbo (E3M7) - Red skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -8564,10 +7949,7 @@
             "connected_region": "Warrens (E3M9) Blue",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Warrens (E3M9) - Blue skull key"
-              },
+              "item": "Warrens (E3M9) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -8579,10 +7961,7 @@
             "connected_region": "Warrens (E3M9) Blue trigger",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Warrens (E3M9) - Blue skull key"
-              },
+              "item": "Warrens (E3M9) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -8635,10 +8014,7 @@
             "connected_region": "Warrens (E3M9) Main",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Warrens (E3M9) - Blue skull key"
-              },
+              "item": "Warrens (E3M9) - Blue skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -8650,10 +8026,7 @@
             "connected_region": "Warrens (E3M9) Red",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Warrens (E3M9) - Red skull key"
-              },
+              "item": "Warrens (E3M9) - Red skull key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -11755,7 +11128,8 @@
   "settings": {
     "1": {
       "game": "DOOM 1993",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
     }
   },
   "game_info": {

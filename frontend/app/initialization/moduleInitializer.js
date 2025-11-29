@@ -371,6 +371,23 @@ function prepareStateManagerConfig(genericModuleSpecificConfig, combinedModeData
     );
   }
 
+  // Pass playerId from URL parameter if available
+  // This is critical for multiworld scenarios where each player has different rules
+  if (combinedModeData.playerId !== undefined) {
+    smConfig.playerId = combinedModeData.playerId;
+    log(
+      'info',
+      `[Init _postInitializeSingleModule] Including playerId from URL parameter: ${smConfig.playerId}`
+    );
+  } else if (genericModuleSpecificConfig.playerId !== undefined) {
+    // Fallback to playerId from module_configs if not in combinedModeData directly
+    smConfig.playerId = genericModuleSpecificConfig.playerId;
+    log(
+      'info',
+      `[Init _postInitializeSingleModule] Including playerId from module_configs: ${smConfig.playerId}`
+    );
+  }
+
   // If smConfig was populated with rulesConfig, use it
   if (smConfig.rulesConfig) {
     return smConfig;

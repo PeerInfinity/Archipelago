@@ -63,10 +63,136 @@ class BlasphemousGameExportHandler(BaseGameExportHandler):
 
         settings_dict['difficulty'] = difficulty_value
 
+        # Blasphemous uses resolved_items instead of base_items for sphere inventory
+        # This is because Blasphemous has complex event items that are computed dynamically
+        settings_dict['use_resolved_items'] = True
+
+        # Blasphemous needs items from the sphere log to be added upfront to the inventory
+        # (especially starting items in sphere 0 that don't come from checking locations)
+        # Most other games should get items naturally from checking locations
+        settings_dict['add_sphere_items_upfront'] = True
+
         return settings_dict
 
     def override_rule_analysis(self, rule_func, rule_target_name: str = None) -> Optional[Dict[str, Any]]:
         """Override rule analysis for Blasphemous to reconstruct from original logic data."""
+        # Check if this is a boss check method - these need special handling to preserve boss names
+        if hasattr(rule_func, '__name__'):
+            func_name = rule_func.__name__
+
+            # Explicit rule definitions for Amanecida boss methods
+            # These have complex AND/OR region requirements that can't be auto-detected
+            explicit_boss_rules = {
+                'can_beat_graveyard_boss': {
+                    'type': 'and',
+                    'conditions': [
+                        {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'amanecida'}]},
+                        {'type': 'helper', 'name': 'wall_climb', 'args': []},
+                        {'type': 'state_method', 'method': 'can_reach_region', 'args': [{'type': 'constant', 'value': 'D01Z06S01[Santos]'}]},
+                        {'type': 'state_method', 'method': 'can_reach_region', 'args': [{'type': 'constant', 'value': 'D02Z03S18[NW]'}]},
+                        {'type': 'state_method', 'method': 'can_reach_region', 'args': [{'type': 'constant', 'value': 'D02Z02S03[NE]'}]}
+                    ]
+                },
+                'can_beat_jondo_boss': {
+                    'type': 'and',
+                    'conditions': [
+                        {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'amanecida'}]},
+                        {'type': 'state_method', 'method': 'can_reach_region', 'args': [{'type': 'constant', 'value': 'D01Z06S01[Santos]'}]},
+                        {
+                            'type': 'or',
+                            'conditions': [
+                                {'type': 'state_method', 'method': 'can_reach_region', 'args': [{'type': 'constant', 'value': 'D20Z01S06[NE]'}]},
+                                {'type': 'state_method', 'method': 'can_reach_region', 'args': [{'type': 'constant', 'value': 'D20Z01S04[W]'}]}
+                            ]
+                        },
+                        {
+                            'type': 'or',
+                            'conditions': [
+                                {'type': 'state_method', 'method': 'can_reach_region', 'args': [{'type': 'constant', 'value': 'D03Z01S04[E]'}]},
+                                {'type': 'state_method', 'method': 'can_reach_region', 'args': [{'type': 'constant', 'value': 'D03Z02S10[N]'}]}
+                            ]
+                        }
+                    ]
+                },
+                'can_beat_patio_boss': {
+                    'type': 'and',
+                    'conditions': [
+                        {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'amanecida'}]},
+                        {'type': 'state_method', 'method': 'can_reach_region', 'args': [{'type': 'constant', 'value': 'D01Z06S01[Santos]'}]},
+                        {'type': 'state_method', 'method': 'can_reach_region', 'args': [{'type': 'constant', 'value': 'D06Z01S02[W]'}]},
+                        {
+                            'type': 'or',
+                            'conditions': [
+                                {'type': 'state_method', 'method': 'can_reach_region', 'args': [{'type': 'constant', 'value': 'D04Z01S03[E]'}]},
+                                {'type': 'state_method', 'method': 'can_reach_region', 'args': [{'type': 'constant', 'value': 'D04Z01S01[W]'}]},
+                                {'type': 'state_method', 'method': 'can_reach_region', 'args': [{'type': 'constant', 'value': 'D06Z01S18[-Cherubs]'}]}
+                            ]
+                        }
+                    ]
+                },
+                'can_beat_wall_boss': {
+                    'type': 'and',
+                    'conditions': [
+                        {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'amanecida'}]},
+                        {'type': 'state_method', 'method': 'can_reach_region', 'args': [{'type': 'constant', 'value': 'D01Z06S01[Santos]'}]},
+                        {'type': 'state_method', 'method': 'can_reach_region', 'args': [{'type': 'constant', 'value': 'D09Z01S09[Cell24]'}]},
+                        {
+                            'type': 'or',
+                            'conditions': [
+                                {'type': 'state_method', 'method': 'can_reach_region', 'args': [{'type': 'constant', 'value': 'D09Z01S11[E]'}]},
+                                {'type': 'state_method', 'method': 'can_reach_region', 'args': [{'type': 'constant', 'value': 'D06Z01S13[W]'}]}
+                            ]
+                        }
+                    ]
+                },
+                'can_beat_hall_boss': {
+                    'type': 'and',
+                    'conditions': [
+                        {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'laudes'}]},
+                        {
+                            'type': 'or',
+                            'conditions': [
+                                {'type': 'state_method', 'method': 'can_reach_region', 'args': [{'type': 'constant', 'value': 'D08Z01S02[NE]'}]},
+                                {'type': 'state_method', 'method': 'can_reach_region', 'args': [{'type': 'constant', 'value': 'D08Z03S02[NW]'}]}
+                            ]
+                        }
+                    ]
+                },
+                'can_beat_mourning_boss': {
+                    'type': 'and',
+                    'conditions': [
+                        {'type': 'helper', 'name': 'has_boss_strength', 'args': [{'type': 'constant', 'value': 'sierpes'}]},
+                        {'type': 'state_method', 'method': 'can_reach_region', 'args': [{'type': 'constant', 'value': 'D20Z02S07[W]'}]}
+                    ]
+                }
+            }
+
+            # Return explicit rule if defined
+            if func_name in explicit_boss_rules:
+                return explicit_boss_rules[func_name]
+
+            # Simple boss mappings for other bosses (no region requirements in their methods)
+            simple_boss_mapping = {
+                'can_beat_brotherhood_boss': 'warden',
+                'can_beat_mercy_boss': 'ten-piedad',
+                'can_beat_convent_boss': 'charred-visage',
+                'can_beat_grievance_boss': 'tres-angustias',
+                'can_beat_bridge_boss': 'esdras',
+                'can_beat_mothers_boss': 'melquiades',
+                'can_beat_canvases_boss': 'exposito',
+                'can_beat_prison_boss': 'quirce',
+                'can_beat_rooftops_boss': 'crisanta',
+                'can_beat_ossuary_boss': 'isidora',
+            }
+
+            if func_name in simple_boss_mapping:
+                boss_name = simple_boss_mapping[func_name]
+                return {
+                    'type': 'helper',
+                    'name': 'has_boss_strength',
+                    'args': [{'type': 'constant', 'value': boss_name}]
+                }
+
         # First try to extract from closure variables if this is a lambda with clauses
         closure_result = self._try_extract_from_closure(rule_func)
         if closure_result:
@@ -332,6 +458,12 @@ class BlasphemousGameExportHandler(BaseGameExportHandler):
         if not rule:
             return rule
 
+        # Handle incorrect "Boss Strength" item checks - these should be helper calls
+        if rule.get('type') == 'item_check' and rule.get('item') == 'Boss Strength':
+            # This is actually a has_boss_strength call that the analyzer misinterpreted
+            # For now, return a helper call without boss name (generic boss strength check)
+            return {'type': 'helper', 'name': 'has_boss_strength', 'args': []}
+
         # Handle attribute access chains like self.world.options.difficulty
         if rule.get('type') == 'attribute':
             obj = rule.get('object', {})
@@ -504,16 +636,16 @@ class BlasphemousGameExportHandler(BaseGameExportHandler):
             'incorrupt_hand': {'type': 'item_check', 'item': 'Incorrupt Hand of the Fraternal Master'},
             'olive': {'type': 'item_check', 'item': 'Olive Seeds'},
             'blessing': {'type': 'item_check', 'item': 'Quicksilver'},
-            # Skill count methods - these return counts, not booleans
-            'charged': {'type': 'count_check', 'item': 'Charged Skill'},
-            'ranged': {'type': 'count_check', 'item': 'Ranged Skill'},
-            'dive': {'type': 'count_check', 'item': 'Dive Skill'},
-            'lunge': {'type': 'count_check', 'item': 'Lunge Skill'},
-            'upward': {'type': 'count_check', 'item': 'Upward Skill'},
-            'combo': {'type': 'count_check', 'item': 'Combo Skill'},
-            # Bead count methods
-            'red_wax': {'type': 'count_check', 'item': 'Bead of Red Wax'},
-            'blue_wax': {'type': 'count_check', 'item': 'Bead of Blue Wax'},
+            # Skill count methods - these return counts, not booleans, so use helper type
+            'charged': {'type': 'helper', 'name': 'charged'},
+            'ranged': {'type': 'helper', 'name': 'ranged'},
+            'dive': {'type': 'helper', 'name': 'dive'},
+            'lunge': {'type': 'helper', 'name': 'lunge'},
+            'upward': {'type': 'helper', 'name': 'upward'},
+            'combo': {'type': 'helper', 'name': 'combo'},
+            # Bead count methods - these return counts, not booleans, so use helper type
+            'red_wax': {'type': 'helper', 'name': 'red_wax'},
+            'blue_wax': {'type': 'helper', 'name': 'blue_wax'},
             # Prayer methods
             'debla': {'type': 'item_check', 'item': 'Debla of the Lights'},
             'taranto': {'type': 'item_check', 'item': 'Taranto to my Sister'},
@@ -622,11 +754,11 @@ class BlasphemousGameExportHandler(BaseGameExportHandler):
             
             # Prayer/relic helpers
             'has_prayer': {
-                'type': 'generic_helper',
+                'type': 'helper',
                 'description': 'Requires having prayer ability'
             },
             'has_relic': {
-                'type': 'generic_helper', 
+                'type': 'helper',
                 'description': 'Requires having relic'
             },
             
@@ -666,43 +798,43 @@ class BlasphemousGameExportHandler(BaseGameExportHandler):
         
     def _expand_dynamic_helper(self, helper_name: str):
         """Expand helpers based on common Blasphemous patterns."""
-        
+
+        # All helpers should be returned as helper function calls
+        # that will be looked up in blasphemousLogic.js
+        # The JavaScript helper functions will handle the actual logic
+
         # Boss defeat patterns
         if helper_name.startswith('defeated_'):
-            boss_name = helper_name.replace('defeated_', '').replace('_', ' ').title()
             return {
-                'type': 'boss_check',
-                'boss': boss_name,
-                'description': f'Requires defeating {boss_name}'
+                'type': 'helper',
+                'name': helper_name,
+                'description': f'Requires defeating {helper_name}'
             }
-            
-        # Area access patterns  
+
+        # Area access patterns
         if helper_name.startswith('can_reach_'):
-            area_name = helper_name.replace('can_reach_', '').replace('_', ' ').title()
             return {
-                'type': 'can_reach',
-                'region': area_name,
-                'description': f'Requires access to {area_name}'
+                'type': 'helper',
+                'name': helper_name,
+                'description': f'Requires region access helper: {helper_name}'
             }
-            
-        # Item requirement patterns
+
+        # Item requirement patterns with has_ prefix
         if helper_name.startswith('has_'):
-            item_name = helper_name.replace('has_', '').replace('_', ' ').title()
             return {
-                'type': 'item_check',
-                'item': item_name,
-                'description': f'Requires having {item_name}'
+                'type': 'helper',
+                'name': helper_name,
+                'description': f'Requires item helper: {helper_name}'
             }
-            
+
         # Ability patterns
         if helper_name.startswith('can_'):
-            ability = helper_name.replace('can_', '').replace('_', ' ')
             return {
-                'type': 'capability',
-                'capability': ability,
-                'description': f'Requires ability to {ability}'
+                'type': 'helper',
+                'name': helper_name,
+                'description': f'Requires ability helper: {helper_name}'
             }
-            
+
         # Default to preserving unknown helpers
         return None
         
@@ -772,8 +904,13 @@ class BlasphemousGameExportHandler(BaseGameExportHandler):
 
         blasphemous_items_data = {}
 
-        # Process regular items from item_table
-        for item_name, item_data in item_table.items():
+        # Process regular items from item_table (which is a list of dicts in Blasphemous)
+        for item_data in item_table:
+            # item_data is a dict with 'name', 'count', and 'classification' keys
+            item_name = item_data.get('name')
+            if not item_name:
+                continue
+
             # Get groups this item belongs to
             groups = [
                 group_name for group_name, items in getattr(world, 'item_name_groups', {}).items()
@@ -781,7 +918,7 @@ class BlasphemousGameExportHandler(BaseGameExportHandler):
             ]
 
             try:
-                item_classification = getattr(item_data, 'classification', None)
+                item_classification = item_data.get('classification')
                 is_advancement = item_classification == ItemClassification.progression if item_classification else False
                 is_useful = item_classification == ItemClassification.useful if item_classification else False
                 is_trap = item_classification == ItemClassification.trap if item_classification else False
@@ -793,14 +930,14 @@ class BlasphemousGameExportHandler(BaseGameExportHandler):
 
             blasphemous_items_data[item_name] = {
                 'name': item_name,
-                'id': getattr(item_data, 'code', None),
+                'id': None,  # Blasphemous items in item_table don't have codes
                 'groups': sorted(groups),
                 'advancement': is_advancement,
                 'useful': is_useful,
                 'trap': is_trap,
                 'event': False,  # Regular items are not events
                 'type': None,
-                'max_count': 1
+                'max_count': item_data.get('count', 1)
             }
 
         # Handle dynamically created event items that are placed at locations

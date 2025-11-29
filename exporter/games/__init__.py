@@ -91,10 +91,19 @@ def get_game_export_handler(game_name: str, world=None) -> BaseGameExportHandler
 
         # Try to instantiate with world parameter first, fall back to no params
         try:
-            _handler_cache[cache_key] = handler_class(world)
+            handler = handler_class(world)
         except TypeError:
             # Handler doesn't accept world parameter
-            _handler_cache[cache_key] = handler_class()
+            handler = handler_class()
+
+        # Call initialization methods if they exist (e.g., build_rule_string_map for OOT)
+        if hasattr(handler, 'build_rule_string_map') and world is not None:
+            try:
+                handler.build_rule_string_map(world)
+            except Exception as e:
+                logger.warning(f"Failed to build rule string map for {game_name}: {e}")
+
+        _handler_cache[cache_key] = handler
 
     return _handler_cache[cache_key]
 

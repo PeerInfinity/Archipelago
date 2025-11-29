@@ -4,23 +4,23 @@
 
 [← Back to Test Results Summary](./test-results-summary.md)
 
-**Generated:** 2025-11-04 22:15:41
+**Generated:** 2025-11-29 08:48:24
 
-**Source Data Created:** 2025-11-04T16:11:04.595013
+**Source Data Created:** 2025-11-28T06:26:50.224150
 
-**Source Data Last Updated:** 2025-11-04T22:15:41.491227
+**Source Data Last Updated:** 2025-11-28T06:26:50.224157
 
 ## Summary
 
 - **Total Games:** 1
 - **Total Template Configurations:** 174
-- **Passed Configurations:** 138 (79.3%)
-- **Failed Configurations:** 32 (18.4%)
+- **Passed Configurations:** 136 (78.2%)
+- **Failed Configurations:** 34 (19.5%)
 - **Invalid Configurations:** 4 (2.3%)
 
 ## A Link to the Past
 
-**Results:** 138/174 passed (79.3%)  
+**Results:** 136/174 passed (78.2%)  
 **Custom Exporter:** ✅ Yes | **Custom GameLogic:** ✅ Yes
 
 | Template | Test Result | Gen Errors | Sphere Reached | Max Spheres | Progress |
@@ -71,12 +71,12 @@
 | enemy_health_hard | ✅ Passed | 0 | 22.1 | 22.1 | 100.0% |
 | enemy_shuffle_false | ✅ Passed | 0 | 22.1 | 22.1 | 100.0% |
 | enemy_shuffle_true | ❌ Failed | 0 | 0 | 24.1 | 0.0% |
-| entrance_shuffle_crossed | ❌ Failed | 0 | 0 | 16.1 | 0.0% |
-| entrance_shuffle_dungeons_crossed | ❌ Failed | 0 | 0 | 26.1 | 0.0% |
-| entrance_shuffle_dungeons_full | ❌ Failed | 0 | 0 | 20.1 | 0.0% |
+| entrance_shuffle_crossed | ❌ No Spheres | 0 | 0 | 0 | N/A |
+| entrance_shuffle_dungeons_crossed | ❌ No Spheres | 0 | 0 | 0 | N/A |
+| entrance_shuffle_dungeons_full | ❌ No Spheres | 0 | 0 | 0 | N/A |
 | entrance_shuffle_dungeons_simple | ✅ Passed | 0 | 24.2 | 24.2 | 100.0% |
-| entrance_shuffle_full | ❌ Failed | 0 | 0 | 23.2 | 0.0% |
-| entrance_shuffle_insanity | ❌ Failed | 0 | 0 | 18.1 | 0.0% |
+| entrance_shuffle_full | ❌ No Spheres | 0 | 0 | 0 | N/A |
+| entrance_shuffle_insanity | ❌ No Spheres | 0 | 0 | 0 | N/A |
 | entrance_shuffle_restricted | ✅ Passed | 0 | 33.2 | 33.2 | 100.0% |
 | entrance_shuffle_simple | ✅ Passed | 0 | 28.2 | 28.2 | 100.0% |
 | entrance_shuffle_vanilla | ✅ Passed | 0 | 22.1 | 22.1 | 100.0% |
@@ -84,21 +84,21 @@
 | fully_randomized | ❌ Failed | 0 | 0 | 14.1 | 0.0% |
 | glitch_boots_false | ✅ Passed | 0 | 22.1 | 22.1 | 100.0% |
 | glitch_boots_true | ✅ Passed | 0 | 22.1 | 22.1 | 100.0% |
-| glitched_logic | ❌ Failed | 0 | 0 | 15.1 | 0.0% |
-| glitches_required_hybrid_major_glitches | ❌ Failed | 0 | 0 | 14.1 | 0.0% |
+| glitched_logic | ❌ Failed | 0 | 0.1 | 15.1 | 0.7% |
+| glitches_required_hybrid_major_glitches | ❌ Failed | 0 | 0.1 | 14.1 | 0.7% |
 | glitches_required_minor_glitches | ❌ Failed | 0 | 0.3 | 22.1 | 1.4% |
 | glitches_required_no_glitches | ✅ Passed | 0 | 22.1 | 22.1 | 100.0% |
 | glitches_required_no_logic | ✅ Passed | 0 | 0.131 | 0.131 | 100.0% |
-| glitches_required_overworld_glitches | ❌ Failed | 0 | 0 | 14.1 | 0.0% |
+| glitches_required_overworld_glitches | ❌ Failed | 0 | 0.1 | 14.1 | 0.7% |
 | goal_bosses | ✅ Passed | 0 | 22.1 | 22.1 | 100.0% |
 | goal_crystals | ❌ Failed | 0 | 6.1 | 21.3 | 28.6% |
 | goal_ganon | ✅ Passed | 0 | 22.1 | 22.1 | 100.0% |
 | goal_ganon_pedestal | ❌ Failed | 0 | 6.1 | 21.3 | 28.6% |
 | goal_ganon_triforce_hunt | ❌ Failed | 0 | 1.9 | 17.1 | 11.1% |
 | goal_local_ganon_triforce_hunt | ❌ Failed | 0 | 1.9 | 17.1 | 11.1% |
-| goal_local_triforce_hunt | ✅ Passed | 0 | 17.1 | 17.1 | 100.0% |
+| goal_local_triforce_hunt | ❌ Failed | 0 | 4.1 | 17.1 | 24.0% |
 | goal_pedestal | ✅ Passed | 0 | 25.3 | 25.3 | 100.0% |
-| goal_triforce_hunt | ✅ Passed | 0 | 17.1 | 17.1 | 100.0% |
+| goal_triforce_hunt | ❌ Failed | 0 | 4.1 | 17.1 | 24.0% |
 | hard_mode | ✅ Passed | 0 | 22.1 | 22.1 | 100.0% |
 | hints_full | ✅ Passed | 0 | 22.1 | 22.1 | 100.0% |
 | hints_off | ✅ Passed | 0 | 22.1 | 22.1 | 100.0% |
@@ -131,7 +131,7 @@
 | mode_inverted | ❌ Failed | 0 | 9.1 | 26.1 | 34.9% |
 | mode_open | ✅ Passed | 0 | 22.1 | 22.1 | 100.0% |
 | mode_standard | ✅ Passed | 0 | 27.1 | 27.1 | 100.0% |
-| open_inverted | ❌ Failed | 0 | 3.2 | 26.1 | 12.3% |
+| open_inverted | ❌ No Spheres | 0 | 0 | 0 | N/A |
 | open_pyramid_auto | ✅ Passed | 0 | 22.1 | 22.1 | 100.0% |
 | open_pyramid_closed | ✅ Passed | 0 | 22.1 | 22.1 | 100.0% |
 | open_pyramid_goal | ✅ Passed | 0 | 22.1 | 22.1 | 100.0% |
@@ -172,7 +172,7 @@
 | shuffle_prizes_off | ✅ Passed | 0 | 22.1 | 22.1 | 100.0% |
 | shuffle_shop_inventories_false | ✅ Passed | 0 | 22.1 | 22.1 | 100.0% |
 | shuffle_shop_inventories_true | ✅ Passed | 0 | 22.1 | 22.1 | 100.0% |
-| shuffled_everything | ❌ Failed | 0 | 0 | 13.1 | 0.0% |
+| shuffled_everything | ❌ No Spheres | 0 | 0 | 0 | N/A |
 | small_key_shuffle_any_world | ✅ Passed | 0 | 19.2 | 19.2 | 100.0% |
 | small_key_shuffle_different_world | ✅ Passed | 0 | 19.2 | 19.2 | 100.0% |
 | small_key_shuffle_original_dungeon | ✅ Passed | 0 | 22.1 | 22.1 | 100.0% |

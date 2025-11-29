@@ -13,6 +13,31 @@ function log(level, message, ...data) {
   }
 }
 
+/**
+ * Determines if a location is an "event location" that should be auto-collected.
+ * Event locations are those whose items have event=true in the item data.
+ *
+ * This is different from locations with id=null, which in Archipelago just means
+ * the location is not reported to the multiworld server. For example, DLCQuest's
+ * coin pickup locations have id=null but should be manually checkable because
+ * their items have event=false.
+ *
+ * @param {Object} loc - The location object
+ * @param {Object} itemData - Map or object of item name -> item data
+ * @returns {boolean} True if this is an event location (auto-collected)
+ */
+function isEventLocation(loc, itemData) {
+  if (!loc.item || !loc.item.name) {
+    return false;
+  }
+
+  const fullItemData = itemData instanceof Map
+    ? itemData.get(loc.item.name)
+    : itemData[loc.item.name];
+
+  return fullItemData && fullItemData.event === true;
+}
+
 export class TimerLogic {
   constructor(dependencies) {
     if (
@@ -167,9 +192,11 @@ export class TimerLogic {
             // staticData.locations is always a Map after initialization
             const locationsArray = Array.from(staticData.locations.values());
 
-            // Get list of manually-checkable locations (exclude event locations with id=0)
+            // Get list of manually-checkable locations (exclude event locations)
+            // Event locations are determined by the item's event flag, NOT by location.id
+            // Locations with id=null may still be manually checkable (e.g., DLCQuest coin pickups)
             const manuallyCheckableLocations = locationsArray.filter(
-              loc => loc.id !== null && loc.id !== undefined && loc.id !== 0
+              loc => !isEventLocation(loc, staticData.items)
             );
             const totalCheckable = manuallyCheckableLocations.length;
 
@@ -228,8 +255,9 @@ export class TimerLogic {
               // staticData.locations is always a Map after initialization
               const locationsArray = Array.from(staticData.locations.values());
 
+              // Use item's event flag to determine manually-checkable locations
               const manuallyCheckableLocations = locationsArray.filter(
-                loc => loc.id !== null && loc.id !== undefined && loc.id !== 0
+                loc => !isEventLocation(loc, staticData.items)
               );
               const checkedSet = new Set(snapshot.checkedLocations || []);
               const checkedManualLocations = manuallyCheckableLocations.filter(
@@ -407,8 +435,9 @@ export class TimerLogic {
       const isChecked = snapshot.checkedLocations?.includes(loc.name);
       if (isChecked) continue;
 
-      // Skip locations with invalid IDs (ID 0 or null means not recognized by server)
-      if (loc.id === 0 || loc.id === null || loc.id === undefined) {
+      // Skip event locations (determined by item's event flag, not location.id)
+      // Locations with id=null may still be manually checkable (e.g., DLCQuest coin pickups)
+      if (isEventLocation(loc, staticData.items)) {
         skippedEventCount++;
         continue;
       }
@@ -492,7 +521,8 @@ export class TimerLogic {
             const isChecked = updatedSnapshot.checkedLocations?.includes(loc.name);
             if (isChecked) continue;
 
-            if (loc.id === 0 || loc.id === null || loc.id === undefined) continue;
+            // Skip event locations (determined by item's event flag)
+            if (isEventLocation(loc, updatedStaticData.items)) continue;
             if (this.attemptedChecks.has(loc.name)) continue;
 
             const isAccessible = updatedSnapshotInterface.isLocationAccessible(loc.name);

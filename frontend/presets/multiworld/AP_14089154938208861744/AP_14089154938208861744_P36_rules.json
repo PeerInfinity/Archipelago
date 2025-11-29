@@ -1,0 +1,686 @@
+{
+  "schema_version": 3,
+  "game_name": "MathProof2p2e4",
+  "game_directory": "mathadventure",
+  "archipelago_version": "0.6.4",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1",
+    "2": "Player2",
+    "3": "Player3",
+    "4": "Player4",
+    "5": "Player5",
+    "6": "Player6",
+    "7": "Player7",
+    "8": "Player8",
+    "9": "Player9",
+    "10": "Player10",
+    "11": "Player11",
+    "12": "Player12",
+    "13": "Player13",
+    "14": "Player14",
+    "15": "Player15",
+    "16": "Player16",
+    "17": "Player17",
+    "18": "Player18",
+    "19": "Player19",
+    "20": "Player20",
+    "21": "Player21",
+    "22": "Player22",
+    "23": "Player23",
+    "24": "Player24",
+    "25": "Player25",
+    "26": "Player26",
+    "27": "Player27",
+    "28": "Player28",
+    "29": "Player29",
+    "30": "Player30",
+    "31": "Player31",
+    "32": "Player32",
+    "33": "Player33",
+    "34": "Player34",
+    "35": "Player35",
+    "36": "Player36",
+    "37": "Player37",
+    "38": "Player38",
+    "39": "Player39",
+    "40": "Player40",
+    "41": "Player41",
+    "42": "Player42",
+    "43": "Player43",
+    "44": "Player44",
+    "45": "Player45",
+    "46": "Player46",
+    "47": "Player47",
+    "48": "Player48",
+    "49": "Player49",
+    "50": "Player50",
+    "51": "Player51",
+    "52": "Player52",
+    "53": "Player53",
+    "54": "Player54",
+    "55": "Player55",
+    "56": "Player56",
+    "57": "Player57",
+    "58": "Player58",
+    "59": "Player59",
+    "60": "Player60",
+    "61": "Player61",
+    "62": "Player62",
+    "63": "Player63",
+    "64": "Player64",
+    "65": "Player65",
+    "66": "Player66",
+    "67": "Player67",
+    "68": "Player68",
+    "69": "Player69",
+    "70": "Player70",
+    "71": "Player71",
+    "72": "Player72",
+    "73": "Player73",
+    "74": "Player74",
+    "75": "Player75"
+  },
+  "world_classes": {
+    "1": "HatInTimeWorld",
+    "2": "ALTTPWorld",
+    "3": "ShortHikeWorld",
+    "4": "AdventureWorld",
+    "5": "AquariaWorld",
+    "6": "ArchipIDLEWorld",
+    "7": "BlasphemousWorld",
+    "8": "BombRushCyberfunkWorld",
+    "9": "BumpStikWorld",
+    "10": "CVCotMWorld",
+    "11": "CV64World",
+    "12": "Celeste64World",
+    "13": "ChecksFinderWorld",
+    "14": "ChocolateChipCookiesWorld",
+    "15": "CivVIWorld",
+    "16": "DarkSouls3World",
+    "17": "DLCqworld",
+    "18": "DKC3World",
+    "19": "DOOM1993World",
+    "20": "DOOM2World",
+    "21": "Factorio",
+    "22": "FaxanaduWorld",
+    "23": "FFMQWorld",
+    "24": "HereticWorld",
+    "25": "Hylics2World",
+    "26": "InscryptionWorld",
+    "27": "JakAndDaxterWorld",
+    "28": "KH2World",
+    "29": "KH1World",
+    "30": "KDL3World",
+    "31": "LandstalkerWorld",
+    "32": "LingoWorld",
+    "33": "LinksAwakeningWorld",
+    "34": "L2ACWorld",
+    "35": "MLSSWorld",
+    "36": "MathProof2p2e4World",
+    "37": "MM2World",
+    "38": "MMBN3World",
+    "39": "MeritousWorld",
+    "40": "MetamathWorld",
+    "41": "MuseDashWorld",
+    "42": "NoitaWorld",
+    "43": "OSRSWorld",
+    "44": "Overcooked2World",
+    "45": "PaintWorld",
+    "46": "PokemonEmeraldWorld",
+    "47": "PokemonRedBlueWorld",
+    "48": "RaftWorld",
+    "49": "RiskOfRainWorld",
+    "50": "SavingPrincessWorld",
+    "51": "SoEWorld",
+    "52": "ShapezWorld",
+    "53": "ShiversWorld",
+    "54": "SA2BWorld",
+    "55": "SC2World",
+    "56": "StardewValleyWorld",
+    "57": "SubnauticaWorld",
+    "58": "SM64World",
+    "59": "MarioLand2World",
+    "60": "SMWWorld",
+    "61": "SMWorld",
+    "62": "TerrariaWorld",
+    "63": "TLoZWorld",
+    "64": "MessengerWorld",
+    "65": "TWWWorld",
+    "66": "WitnessWorld",
+    "67": "TimespinnerWorld",
+    "68": "TunicWorld",
+    "69": "UndertaleWorld",
+    "70": "V6World",
+    "71": "WargrooveWorld",
+    "72": "WebDevJourneyWorld",
+    "73": "YachtDiceWorld",
+    "74": "YoshisIslandWorld",
+    "75": "Yugioh06World"
+  },
+  "regions": {
+    "36": {
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "StartProof",
+            "connected_region": "Definitions",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Definitions": {
+        "name": "Definitions",
+        "exits": [
+          {
+            "name": "ToAxioms",
+            "connected_region": "Axioms",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToBasicProperties",
+            "connected_region": "BasicProperties",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToOperations",
+            "connected_region": "ArithmeticOperations",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "df-2"
+                },
+                {
+                  "type": "item_check",
+                  "item": "df-3"
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Definition of 2",
+            "id": 200000001,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "df-2",
+              "player": 36,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Definition of 3",
+            "id": 200000002,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "df-3",
+              "player": 36,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Definition of 4",
+            "id": 200000003,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "df-4",
+              "player": 36,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Axioms": {
+        "name": "Axioms",
+        "exits": [
+          {
+            "name": "BackToDefinitions",
+            "connected_region": "Definitions",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "1 is Complex",
+            "id": 200000004,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "ax-1cn",
+              "player": 36,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "BasicProperties": {
+        "name": "BasicProperties",
+        "exits": [
+          {
+            "name": "BackToDefinitionsFromProperties",
+            "connected_region": "Definitions",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "2 is Complex",
+            "id": 200000005,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "2cn",
+              "player": 36,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "ArithmeticOperations": {
+        "name": "ArithmeticOperations",
+        "exits": [
+          {
+            "name": "ToProofCompletion",
+            "connected_region": "ProofCompletion",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "addassi"
+                },
+                {
+                  "type": "item_check",
+                  "item": "oveq2i"
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Equality Substitution Right",
+            "id": 200000006,
+            "access_rule": {
+              "type": "item_check",
+              "item": "df-2"
+            },
+            "item": {
+              "name": "oveq2i",
+              "player": 36,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Equality Substitution Left",
+            "id": 200000007,
+            "access_rule": {
+              "type": "item_check",
+              "item": "df-3"
+            },
+            "item": {
+              "name": "oveq1i",
+              "player": 36,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Addition Associativity",
+            "id": 200000008,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "2cn"
+                },
+                {
+                  "type": "item_check",
+                  "item": "ax-1cn"
+                }
+              ]
+            },
+            "item": {
+              "name": "addassi",
+              "player": 36,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "ProofCompletion": {
+        "name": "ProofCompletion",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Triple Equality Transitivity",
+            "id": 200000009,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "addassi"
+                },
+                {
+                  "type": "item_check",
+                  "item": "df-4"
+                },
+                {
+                  "type": "item_check",
+                  "item": "oveq1i"
+                }
+              ]
+            },
+            "item": {
+              "name": "3eqtri",
+              "player": 36,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Final Equality",
+            "id": 200000010,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "3eqtri"
+                },
+                {
+                  "type": "item_check",
+                  "item": "oveq2i"
+                }
+              ]
+            },
+            "item": {
+              "name": "eqtr4i",
+              "player": 36,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Theorem: 2+2=4",
+            "id": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": "eqtr4i"
+            },
+            "item": {
+              "name": "Victory",
+              "player": 36,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "start_regions": {
+    "36": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "36": {
+      "df-2": {
+        "name": "df-2",
+        "id": 200100001,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "df-3": {
+        "name": "df-3",
+        "id": 200100002,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "df-4": {
+        "name": "df-4",
+        "id": 200100003,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "ax-1cn": {
+        "name": "ax-1cn",
+        "id": 200100004,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "2cn": {
+        "name": "2cn",
+        "id": 200100005,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "oveq2i": {
+        "name": "oveq2i",
+        "id": 200100006,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "oveq1i": {
+        "name": "oveq1i",
+        "id": 200100007,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "addassi": {
+        "name": "addassi",
+        "id": 200100008,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "3eqtri": {
+        "name": "3eqtri",
+        "id": 200100009,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "eqtr4i": {
+        "name": "eqtr4i",
+        "id": 200100010,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Victory": {
+        "name": "Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      " coins": {
+        "name": " coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      },
+      " coins freemium": {
+        "name": " coins freemium",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      }
+    }
+  },
+  "item_groups": {
+    "36": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "36": {
+      "2cn": 1,
+      "3eqtri": 1,
+      "Victory": 1,
+      "addassi": 1,
+      "ax-1cn": 1,
+      "df-2": 1,
+      "df-3": 1,
+      "df-4": 1,
+      "eqtr4i": 1,
+      "oveq1i": 1,
+      "oveq2i": 1
+    }
+  },
+  "progression_mapping": {
+    "36": {}
+  },
+  "starting_items": {
+    "36": []
+  },
+  "settings": {
+    "36": {
+      "game": "MathProof2p2e4",
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
+    }
+  },
+  "game_info": {
+    "36": {
+      "name": "MathProof2p2e4",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

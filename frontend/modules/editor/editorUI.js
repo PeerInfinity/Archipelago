@@ -11,6 +11,17 @@ function log(level, message, ...data) {
   }
 }
 
+// Custom JSON replacer to handle Maps and Sets for display
+function jsonReplacer(key, value) {
+  if (value instanceof Map) {
+    return Object.fromEntries(value);
+  }
+  if (value instanceof Set) {
+    return Array.from(value);
+  }
+  return value;
+}
+
 // REMOVED: Unnecessary import
 // import { setEditorInstance } from './index.js';
 
@@ -707,7 +718,7 @@ class EditorUI {
         try {
           this.contentSources.staticData.text = JSON.stringify(
             staticData,
-            null,
+            jsonReplacer,
             2
           );
           this.contentSources.staticData.loaded = true;

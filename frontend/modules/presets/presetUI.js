@@ -1,5 +1,6 @@
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
 import eventBus from '../../app/core/eventBus.js';
+import { DEFAULT_PLAYER_ID } from '../shared/playerIdUtils.js';
 
 
 // Helper function for logging with fallback
@@ -148,6 +149,16 @@ export class PresetUI {
         <button id="load-json-button" class="button" style="margin-left: 10px;">Load JSON File</button>
       </div>
       <div class="presets-container">
+        <div class="game-row game-row-header">
+          <div class="game-name-header">Game</div>
+          <div class="game-presets-header">Seeds</div>
+          <div class="test-headers">
+            <span class="test-header" title="Minimal Spoiler Test">MS</span>
+            <span class="test-header" title="Full Spoiler Test">FS</span>
+            <span class="test-header" title="Multi-client Test">MC</span>
+            <span class="test-header" title="Multi-world Test">MW</span>
+          </div>
+        </div>
     `;
 
     // Process each game
@@ -251,48 +262,63 @@ export class PresetUI {
           min-width: 200px;
           flex-shrink: 0;
         }
-        .test-badge {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 6px 12px;
-          border-radius: 6px;
+        .game-row-header {
+          background-color: rgba(0, 0, 0, 0.3);
+          border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+          padding: 8px 16px;
+          font-weight: 600;
+          color: #aaa;
           font-size: 0.85em;
-          font-weight: 500;
-          white-space: nowrap;
-          cursor: help;
+        }
+        .game-name-header {
+          min-width: 200px;
           flex-shrink: 0;
         }
-        .test-badge-passed {
+        .game-presets-header {
+          flex: 1;
+          text-align: center;
+        }
+        .test-headers {
+          display: flex;
+          gap: 4px;
+          flex-shrink: 0;
+        }
+        .test-header {
+          width: 24px;
+          text-align: center;
+          cursor: help;
+        }
+        .test-badges-container {
+          display: flex;
+          gap: 4px;
+          flex-shrink: 0;
+        }
+        .test-badge-mini {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 24px;
+          height: 24px;
+          border-radius: 4px;
+          cursor: help;
+        }
+        .test-badge-mini.test-badge-passed {
           background-color: rgba(76, 175, 80, 0.2);
           border: 1px solid rgba(76, 175, 80, 0.5);
           color: #a5d6a7;
         }
-        .test-badge-failed {
+        .test-badge-mini.test-badge-failed {
           background-color: rgba(244, 67, 54, 0.2);
           border: 1px solid rgba(244, 67, 54, 0.5);
           color: #ef9a9a;
         }
-        .test-badge-unknown {
+        .test-badge-mini.test-badge-unknown {
           background-color: rgba(158, 158, 158, 0.2);
           border: 1px solid rgba(158, 158, 158, 0.5);
           color: #bdbdbd;
         }
-        .test-icon {
-          font-size: 1.1em;
-        }
-        .test-details {
-          display: flex;
-          flex-direction: column;
-          gap: 2px;
-          line-height: 1.2;
-        }
-        .test-status {
-          font-weight: 600;
-        }
-        .test-progress, .test-errors {
+        .test-icon-mini {
           font-size: 0.9em;
-          opacity: 0.8;
         }
         .game-presets {
           display: flex;
@@ -532,7 +558,7 @@ export class PresetUI {
       )
     ) {
       // This is a rough way to check, ideally jsonData structure would be validated.
-      const playerId = '1'; // Default or determine from JSON if possible (e.g., if not multiworld)
+      const playerId = DEFAULT_PLAYER_ID; // Default or determine from JSON if possible (e.g., if not multiworld)
       // We need a way to call the core logic of loadRulesFile without assuming a preset structure.
       // This might involve refactoring parts of loadRulesFile or creating a new shared method.
       log('info', 
@@ -543,7 +569,7 @@ export class PresetUI {
     }
   }
 
-  async processManuallyLoadedRules(rulesData, fileName, playerId = '1') {
+  async processManuallyLoadedRules(rulesData, fileName, playerId = DEFAULT_PLAYER_ID) {
     log('info', 
       `Processing manually loaded rules: ${fileName} for player ${playerId}`
     );
@@ -763,7 +789,7 @@ export class PresetUI {
     }
   }
 
-  async loadRulesFile(gameDirectory, seedName, rulesFile, playerId = '1') {
+  async loadRulesFile(gameDirectory, seedName, rulesFile, playerId = DEFAULT_PLAYER_ID) {
     const fullPath = `./presets/${gameDirectory}/${seedName}/${rulesFile}`;
     log('info', `Loading rules file: ${fullPath}`);
     try {
@@ -919,141 +945,59 @@ export class PresetUI {
   }
 
   renderTestResultBadge(gameData) {
-    let testResult = gameData.test_result;
-    if (!testResult) {
-      return '<div class="test-badge test-badge-unknown">No Test Data</div>';
-    }
+    const testResults = gameData.test_results;
 
-    // Handle multiple test results - pick first failure or first pass
-    if (Array.isArray(testResult)) {
-      // Look for the first failure
-      const firstFailure = testResult.find(result => result.status && result.status.toLowerCase() === 'failed');
-      if (firstFailure) {
-        testResult = firstFailure;
-      } else {
-        // No failures found, use the first pass (or first result if none passed)
-        const firstPass = testResult.find(result => result.status && result.status.toLowerCase() === 'passed');
-        testResult = firstPass || testResult[0];
-      }
-      
-      // If still no valid result, return unknown
-      if (!testResult) {
-        return '<div class="test-badge test-badge-unknown">No Test Data</div>';
-      }
-    }
+    // Define the four test types with their labels and full names for tooltips
+    const testTypes = [
+      { key: 'minimal_spoiler', fullName: 'Minimal Spoiler Test' },
+      { key: 'full_spoiler', fullName: 'Full Spoiler Test' },
+      { key: 'multiclient', fullName: 'Multi-client Test' },
+      { key: 'multiworld', fullName: 'Multi-world Test' },
+    ];
 
-    const status = testResult.status || 'unknown';
-    const seedRangeInfo = testResult.seed_range_info;
-    
+    // Build badges for each test type
+    const badges = testTypes.map(testType => {
+      const result = testResults ? testResults[testType.key] : null;
+      return this.renderSingleTestBadge(result, testType.fullName);
+    }).join('');
+
+    return `<div class="test-badges-container">${badges}</div>`;
+  }
+
+  renderSingleTestBadge(result, fullName) {
+    let icon = '❓';
     let badgeClass = 'test-badge-unknown';
-    let statusText = 'Unknown';
-    let statusIcon = '❓';
+    let tooltipContent = `${fullName}: No data`;
 
-    // Check if this is seed range data
-    if (seedRangeInfo) {
-      // Handle seed range results
-      if (status.toLowerCase() === 'passed') {
+    if (result) {
+      if (result.passed) {
+        icon = '✅';
         badgeClass = 'test-badge-passed';
-        statusText = `Passed seeds ${seedRangeInfo.seed_range}`;
-        statusIcon = '✅';
-      } else if (status.toLowerCase() === 'failed') {
+        tooltipContent = `${fullName}: Passed`;
+      } else {
+        icon = '❌';
         badgeClass = 'test-badge-failed';
-        if (seedRangeInfo.first_failure_seed) {
-          statusText = `Failed seed ${seedRangeInfo.first_failure_seed}`;
-        } else {
-          statusText = `Failed (${seedRangeInfo.seeds_failed}/${seedRangeInfo.total_seeds_tested})`;
-        }
-        statusIcon = '❌';
+        tooltipContent = `${fullName}: Failed`;
       }
-    } else {
-      // Handle single seed results (original logic)
-      switch (status.toLowerCase()) {
-        case 'passed':
-          badgeClass = 'test-badge-passed';
-          statusText = 'Passed';
-          statusIcon = '✅';
-          break;
-        case 'failed':
-          badgeClass = 'test-badge-failed';
-          statusText = 'Failed';
-          statusIcon = '❌';
-          break;
-        default:
-          statusText = 'Unknown';
-          statusIcon = '❓';
-      }
-    }
 
-    // Build detailed tooltip content
-    let tooltipContent = `Status: ${statusText}`;
-    
-    // Add seed range specific info to tooltip
-    if (seedRangeInfo) {
-      tooltipContent += `\nSeed Range: ${seedRangeInfo.seed_range}`;
-      tooltipContent += `\nSeeds Passed: ${seedRangeInfo.seeds_passed}/${seedRangeInfo.total_seeds_tested}`;
-      if (seedRangeInfo.consecutive_passes_before_failure > 0) {
-        tooltipContent += `\nConsecutive Passes: ${seedRangeInfo.consecutive_passes_before_failure}`;
-      }
-      if (seedRangeInfo.first_failure_seed) {
-        tooltipContent += `\nFirst Failure: Seed ${seedRangeInfo.first_failure_seed}`;
-      }
-    }
-    
-    if (testResult.generation_errors > 0) {
-      tooltipContent += `\nGeneration Errors: ${testResult.generation_errors}`;
-    }
-    if (testResult.generation_warnings > 0) {
-      tooltipContent += `\nGeneration Warnings: ${testResult.generation_warnings}`;
-    }
-    if (testResult.max_spheres > 0) {
-      tooltipContent += `\nProgress: ${testResult.sphere_reached}/${testResult.max_spheres} spheres (${testResult.progress_percent}%)`;
-    }
-    if (testResult.has_custom_exporter) {
-      tooltipContent += `\nCustom Exporter: Yes`;
-    }
-    if (testResult.has_custom_game_logic) {
-      tooltipContent += `\nCustom Game Logic: Yes`;
-    }
-
-    // Build the badge display content
-    let badgeDisplayText = statusText;
-    let progressDisplay = '';
-    let errorDisplay = '';
-    
-    // For seed ranges, show cleaner format
-    if (seedRangeInfo) {
-      if (status.toLowerCase() === 'passed') {
-        badgeDisplayText = 'Passed';
-        progressDisplay = `<div class="test-progress">Seeds ${seedRangeInfo.seed_range}</div>`;
-      } else if (status.toLowerCase() === 'failed') {
-        badgeDisplayText = 'Failed';
-        if (seedRangeInfo.first_failure_seed) {
-          progressDisplay = `<div class="test-progress">Seed ${seedRangeInfo.first_failure_seed}</div>`;
-        } else {
-          // Fallback if no first_failure_seed is specified
-          progressDisplay = `<div class="test-progress">${seedRangeInfo.seeds_failed} failed</div>`;
+      // Add seed/player count info to tooltip if available
+      if (result.total_seeds !== undefined && result.total_seeds > 1) {
+        tooltipContent += `\nSeeds: ${result.seeds_passed}/${result.total_seeds} passed`;
+        if (result.first_failure_seed) {
+          tooltipContent += `\nFirst failure: Seed ${result.first_failure_seed}`;
         }
       }
-    } else {
-      // Single seed display (original)
-      badgeDisplayText = statusText;
-      if (testResult.max_spheres > 0) {
-        progressDisplay = `<div class="test-progress">${testResult.sphere_reached}/${testResult.max_spheres}</div>`;
+      if (result.first_failure_player) {
+        tooltipContent += `\nFirst failure: Player ${result.first_failure_player}`;
       }
-    }
-    
-    if (testResult.generation_errors > 0) {
-      errorDisplay = `<div class="test-errors">${testResult.generation_errors} errors</div>`;
+      if (result.total_locations !== undefined) {
+        tooltipContent += `\nLocations: ${result.locations_checked}/${result.total_locations} checked`;
+      }
     }
 
     return `
-      <div class="test-badge ${badgeClass}" title="${this.escapeHtml(tooltipContent)}">
-        <span class="test-icon">${statusIcon}</span>
-        <div class="test-details">
-          <div class="test-status">${badgeDisplayText}</div>
-          ${progressDisplay}
-          ${errorDisplay}
-        </div>
+      <div class="test-badge-mini ${badgeClass}" title="${this.escapeHtml(tooltipContent)}">
+        <span class="test-icon-mini">${icon}</span>
       </div>
     `;
   }

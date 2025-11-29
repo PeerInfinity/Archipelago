@@ -26,6 +26,7 @@
  */
 
 import { getGameLogic } from '../../shared/gameLogic/gameLogicRegistry.js';
+import { PlayerIdUtils } from '../../shared/playerIdUtils.js';
 
 /**
  * Loads and processes JSON rules data for a specific player
@@ -42,6 +43,11 @@ export function loadFromJSON(stateManager, jsonData, selectedPlayerId) {
   sm.invalidateCache();
   sm.clearCheckedLocations({ sendUpdate: false });
 
+  // Warn if playerId was not explicitly provided
+  if (selectedPlayerId === undefined || selectedPlayerId === null) {
+    sm.logger.warn('StateManager', '[Initialization] No playerId provided - defaulting to player 1. Consider explicitly specifying playerId for multiworld support.');
+  }
+
   sm._logDebug(
     `[Initialization] Loading JSON for player ${selectedPlayerId}...`
   );
@@ -57,9 +63,9 @@ export function loadFromJSON(stateManager, jsonData, selectedPlayerId) {
   // Validate input
   validateJSONData(jsonData, selectedPlayerId);
 
-  // Set player slot
-  sm.playerSlot = parseInt(selectedPlayerId, 10);
-  sm.logger.info('StateManager', `Player slot set to: ${sm.playerSlot}`);
+  // Set player ID (normalized to string)
+  sm.playerId = PlayerIdUtils.normalize(selectedPlayerId);
+  sm.logger.info('StateManager', `Player ID set to: ${sm.playerId}`);
 
   // Store rules and log game info
   sm.rules = jsonData;
@@ -76,11 +82,25 @@ export function loadFromJSON(stateManager, jsonData, selectedPlayerId) {
   // Create inventory instance
   sm.inventory = createInventoryInstance(sm, sm.settings.game);
 
+  // Load game-specific data from game_info (e.g., total_progression_items for Stardew Valley)
+  const playerGameInfo = sm.gameInfo?.[selectedPlayerId];
+  if (playerGameInfo?.total_progression_items) {
+    sm.totalProgressionItems = playerGameInfo.total_progression_items;
+    sm._logDebug(`[Initialization] Loaded totalProgressionItems: ${sm.totalProgressionItems}`);
+  }
+
   // Load shops if applicable
   loadShops(sm, jsonData, selectedPlayerId);
 
   // Process starting items
   processStartingItems(sm, jsonData, selectedPlayerId);
+
+  // Initialize game-specific virtual items AFTER starting items are processed
+  // (e.g., Stardew Valley progression tracking needs to count starting advancement items)
+  if (sm.logicModule && typeof sm.logicModule.initializeVirtualItems === 'function') {
+    sm.logicModule.initializeVirtualItems(sm);
+    sm._logDebug('[Initialization] Initialized game-specific virtual items');
+  }
 
   // Compute initial reachability
   sm.buildIndirectConnections();
@@ -182,6 +202,28 @@ function loadPlayerData(sm, jsonData, selectedPlayerId) {
   sm.progressionMapping = jsonData.progression_mapping?.[selectedPlayerId] || {};
   sm.gameInfo = jsonData.game_info || {};
 
+  // Initialize prog_items for games that use accumulated/progressive items
+  // Structure: prog_items[playerId][itemName] = accumulated_count
+  if (!sm.prog_items) {
+    sm.prog_items = {};
+  }
+  if (!sm.prog_items[selectedPlayerId]) {
+    sm.prog_items[selectedPlayerId] = {};
+  }
+
+  // Initialize accumulators from game_info metadata (generic for all games)
+  const gameInfo = jsonData.game_info?.[selectedPlayerId];
+  if (gameInfo?.prog_items_init) {
+    for (const [accumulatorName, initialValue] of Object.entries(gameInfo.prog_items_init)) {
+      if (!(accumulatorName in sm.prog_items[selectedPlayerId])) {
+        sm.prog_items[selectedPlayerId][accumulatorName] = initialValue;
+      }
+    }
+    sm._logDebug(`[Initialization] Initialized ${Object.keys(gameInfo.prog_items_init).length} prog_items accumulators from game_info`);
+  }
+
+  sm._logDebug('[Initialization] Initialized prog_items structure');
+
   // Load locations
   loadLocations(sm, selectedPlayerId);
 
@@ -258,12 +300,18 @@ function loadLocations(sm, selectedPlayerId) {
         sm.originalLocationOrder.push(descriptiveName);
 
         // Track event locations
-        if (
-          locationDataItem.id === 0 ||
-          locationDataItem.id === null ||
-          locationDataItem.id === undefined
-        ) {
-          sm.eventLocations.set(descriptiveName, locationObject);
+        // Event locations are those with event=true in their item
+        // Look up the full item data from sm.itemData to get the event flag
+        // Note: Must explicitly check === true to exclude items with event=false
+        if (locationDataItem.item && locationDataItem.item.name) {
+          const fullItemData = sm.itemData[locationDataItem.item.name];
+          if (fullItemData && fullItemData.event === true) {
+            sm.eventLocations.set(descriptiveName, locationObject);
+          } else if (locationDataItem.id === null || locationDataItem.id === 0) {
+            // Track local item locations (id: null or 0, but NOT events)
+            // These are items like coins in DLCQuest that are auto-collected when region is accessible
+            sm.localItemLocations.set(descriptiveName, locationObject);
+          }
         }
 
         // Store location ID mapping
@@ -313,8 +361,8 @@ function loadExits(sm, selectedPlayerId) {
           access_rule: originalExitObject.access_rule,
           parentRegion: regionName,
           player: originalExitObject.player !== undefined
-            ? originalExitObject.player
-            : sm.playerSlot,
+            ? PlayerIdUtils.normalize(originalExitObject.player)
+            : sm.playerId,
           type: originalExitObject.type || 'Exit',
         };
 
@@ -356,6 +404,7 @@ function initializeGameLogic(sm, jsonData, selectedPlayerId) {
   const logic = getGameLogic(gameName);
   sm.logicModule = logic.logicModule;
   sm.helperFunctions = logic.helperFunctions;
+  sm.stateMethods = logic.stateMethods; // For game-specific state methods (e.g., has_from_list_unique for Mario Land 2)
 
   // Initialize state
   sm.gameStateModule = sm.logicModule.initializeState();
@@ -444,7 +493,8 @@ function processStartingItems(sm, jsonData, selectedPlayerId) {
     sm.beginBatchUpdate(true);
 
     startingItems.forEach((itemName) => {
-      if (sm.itemData && sm.itemData[itemName]) {
+      // itemData is indexed by item name
+      if (sm.itemData?.[itemName]) {
         sm.addItemToInventory(itemName);
       } else {
         sm.logger.warn(

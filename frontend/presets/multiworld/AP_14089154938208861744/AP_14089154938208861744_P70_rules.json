@@ -1,0 +1,1339 @@
+{
+  "schema_version": 3,
+  "game_name": "VVVVVV",
+  "game_directory": "v6",
+  "archipelago_version": "0.6.4",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1",
+    "2": "Player2",
+    "3": "Player3",
+    "4": "Player4",
+    "5": "Player5",
+    "6": "Player6",
+    "7": "Player7",
+    "8": "Player8",
+    "9": "Player9",
+    "10": "Player10",
+    "11": "Player11",
+    "12": "Player12",
+    "13": "Player13",
+    "14": "Player14",
+    "15": "Player15",
+    "16": "Player16",
+    "17": "Player17",
+    "18": "Player18",
+    "19": "Player19",
+    "20": "Player20",
+    "21": "Player21",
+    "22": "Player22",
+    "23": "Player23",
+    "24": "Player24",
+    "25": "Player25",
+    "26": "Player26",
+    "27": "Player27",
+    "28": "Player28",
+    "29": "Player29",
+    "30": "Player30",
+    "31": "Player31",
+    "32": "Player32",
+    "33": "Player33",
+    "34": "Player34",
+    "35": "Player35",
+    "36": "Player36",
+    "37": "Player37",
+    "38": "Player38",
+    "39": "Player39",
+    "40": "Player40",
+    "41": "Player41",
+    "42": "Player42",
+    "43": "Player43",
+    "44": "Player44",
+    "45": "Player45",
+    "46": "Player46",
+    "47": "Player47",
+    "48": "Player48",
+    "49": "Player49",
+    "50": "Player50",
+    "51": "Player51",
+    "52": "Player52",
+    "53": "Player53",
+    "54": "Player54",
+    "55": "Player55",
+    "56": "Player56",
+    "57": "Player57",
+    "58": "Player58",
+    "59": "Player59",
+    "60": "Player60",
+    "61": "Player61",
+    "62": "Player62",
+    "63": "Player63",
+    "64": "Player64",
+    "65": "Player65",
+    "66": "Player66",
+    "67": "Player67",
+    "68": "Player68",
+    "69": "Player69",
+    "70": "Player70",
+    "71": "Player71",
+    "72": "Player72",
+    "73": "Player73",
+    "74": "Player74",
+    "75": "Player75"
+  },
+  "world_classes": {
+    "1": "HatInTimeWorld",
+    "2": "ALTTPWorld",
+    "3": "ShortHikeWorld",
+    "4": "AdventureWorld",
+    "5": "AquariaWorld",
+    "6": "ArchipIDLEWorld",
+    "7": "BlasphemousWorld",
+    "8": "BombRushCyberfunkWorld",
+    "9": "BumpStikWorld",
+    "10": "CVCotMWorld",
+    "11": "CV64World",
+    "12": "Celeste64World",
+    "13": "ChecksFinderWorld",
+    "14": "ChocolateChipCookiesWorld",
+    "15": "CivVIWorld",
+    "16": "DarkSouls3World",
+    "17": "DLCqworld",
+    "18": "DKC3World",
+    "19": "DOOM1993World",
+    "20": "DOOM2World",
+    "21": "Factorio",
+    "22": "FaxanaduWorld",
+    "23": "FFMQWorld",
+    "24": "HereticWorld",
+    "25": "Hylics2World",
+    "26": "InscryptionWorld",
+    "27": "JakAndDaxterWorld",
+    "28": "KH2World",
+    "29": "KH1World",
+    "30": "KDL3World",
+    "31": "LandstalkerWorld",
+    "32": "LingoWorld",
+    "33": "LinksAwakeningWorld",
+    "34": "L2ACWorld",
+    "35": "MLSSWorld",
+    "36": "MathProof2p2e4World",
+    "37": "MM2World",
+    "38": "MMBN3World",
+    "39": "MeritousWorld",
+    "40": "MetamathWorld",
+    "41": "MuseDashWorld",
+    "42": "NoitaWorld",
+    "43": "OSRSWorld",
+    "44": "Overcooked2World",
+    "45": "PaintWorld",
+    "46": "PokemonEmeraldWorld",
+    "47": "PokemonRedBlueWorld",
+    "48": "RaftWorld",
+    "49": "RiskOfRainWorld",
+    "50": "SavingPrincessWorld",
+    "51": "SoEWorld",
+    "52": "ShapezWorld",
+    "53": "ShiversWorld",
+    "54": "SA2BWorld",
+    "55": "SC2World",
+    "56": "StardewValleyWorld",
+    "57": "SubnauticaWorld",
+    "58": "SM64World",
+    "59": "MarioLand2World",
+    "60": "SMWWorld",
+    "61": "SMWorld",
+    "62": "TerrariaWorld",
+    "63": "TLoZWorld",
+    "64": "MessengerWorld",
+    "65": "TWWWorld",
+    "66": "WitnessWorld",
+    "67": "TimespinnerWorld",
+    "68": "TunicWorld",
+    "69": "UndertaleWorld",
+    "70": "V6World",
+    "71": "WargrooveWorld",
+    "72": "WebDevJourneyWorld",
+    "73": "YachtDiceWorld",
+    "74": "YoshisIslandWorld",
+    "75": "Yugioh06World"
+  },
+  "regions": {
+    "70": {
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "Menu -> Laboratory",
+            "connected_region": "Laboratory",
+            "access_rule": {
+              "type": "helper",
+              "name": "_has_trinket_range",
+              "args": [
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "constant",
+                    "value": 3
+                  },
+                  "op": "*",
+                  "right": {
+                    "type": "binary_op",
+                    "left": {
+                      "type": "constant",
+                      "value": 1
+                    },
+                    "op": "-",
+                    "right": {
+                      "type": "constant",
+                      "value": 1
+                    }
+                  }
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "constant",
+                    "value": 3
+                  },
+                  "op": "*",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "Menu -> The Tower",
+            "connected_region": "The Tower",
+            "access_rule": {
+              "type": "helper",
+              "name": "_has_trinket_range",
+              "args": [
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "constant",
+                    "value": 3
+                  },
+                  "op": "*",
+                  "right": {
+                    "type": "binary_op",
+                    "left": {
+                      "type": "constant",
+                      "value": 2
+                    },
+                    "op": "-",
+                    "right": {
+                      "type": "constant",
+                      "value": 1
+                    }
+                  }
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "constant",
+                    "value": 3
+                  },
+                  "op": "*",
+                  "right": {
+                    "type": "constant",
+                    "value": 2
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "Menu -> Space Station 2",
+            "connected_region": "Space Station 2",
+            "access_rule": {
+              "type": "helper",
+              "name": "_has_trinket_range",
+              "args": [
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "constant",
+                    "value": 3
+                  },
+                  "op": "*",
+                  "right": {
+                    "type": "binary_op",
+                    "left": {
+                      "type": "constant",
+                      "value": 3
+                    },
+                    "op": "-",
+                    "right": {
+                      "type": "constant",
+                      "value": 1
+                    }
+                  }
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "constant",
+                    "value": 3
+                  },
+                  "op": "*",
+                  "right": {
+                    "type": "constant",
+                    "value": 3
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "Menu -> Warp Zone",
+            "connected_region": "Warp Zone",
+            "access_rule": {
+              "type": "helper",
+              "name": "_has_trinket_range",
+              "args": [
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "constant",
+                    "value": 3
+                  },
+                  "op": "*",
+                  "right": {
+                    "type": "binary_op",
+                    "left": {
+                      "type": "constant",
+                      "value": 4
+                    },
+                    "op": "-",
+                    "right": {
+                      "type": "constant",
+                      "value": 1
+                    }
+                  }
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "constant",
+                    "value": 3
+                  },
+                  "op": "*",
+                  "right": {
+                    "type": "constant",
+                    "value": 4
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Overworld (Pipe-shaped Segment)",
+            "id": 2515013,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Refinery (E2M3)",
+              "player": 19,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Overworld (Left of Ship)",
+            "id": 2515015,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Prisoner Chief's Ashes",
+              "player": 16,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Overworld (Square Room)",
+            "id": 2515016,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Pepper Seeds",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Overworld (Sad Elephant)",
+            "id": 2515017,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Sonic - Flame Ring",
+              "player": 54,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "It's a Secret to Nobody",
+            "id": 2515000,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "3 Call beads",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Trench Warfare",
+            "id": 2515001,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Quiver of Ethereal Arrows",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "NPC Trinket",
+            "id": 2515018,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "state_method",
+                      "method": "can_reach",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": "Space Station 2"
+                        },
+                        {
+                          "type": "constant",
+                          "value": "Region"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "state_method",
+                      "method": "can_reach",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": "The Tower"
+                        },
+                        {
+                          "type": "constant",
+                          "value": "Region"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "state_method",
+                      "method": "can_reach",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": "Warp Zone"
+                        },
+                        {
+                          "type": "constant",
+                          "value": "Region"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Laboratory"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                }
+              ]
+            },
+            "item": {
+              "name": "Time Piece",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "V",
+            "id": 2515019,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Laboratory"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Space Station 2"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "The Tower"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Warp Zone"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                }
+              ]
+            },
+            "item": {
+              "name": "Trendy Jacket",
+              "player": 67,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Laboratory": {
+        "name": "Laboratory",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Young Man, It's Worth the Challenge",
+            "id": 2515009,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Iron",
+              "player": 46,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Overworld (Outside Entanglement Generator)",
+            "id": 2515014,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Medikit",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Tantalizing Trinket",
+            "id": 2515010,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Crystal Geode",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Purest Unobtainium",
+            "id": 2515011,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Greater Runes",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "The Tower": {
+        "name": "The Tower",
+        "exits": [],
+        "locations": [
+          {
+            "name": "The Tower 1",
+            "id": 2515007,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "HP+100 (Pink)",
+              "player": 38,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Tower 2",
+            "id": 2515008,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "7 Kerrigan Levels",
+              "player": 55,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Space Station 2": {
+        "name": "Space Station 2",
+        "exits": [],
+        "locations": [
+          {
+            "name": "One Way Room",
+            "id": 2515002,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Invulnerability",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "You Just Keep Coming Back",
+            "id": 2515003,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Silver Shield",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Clarion Call",
+            "id": 2515004,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Swarm Scourge (Scourge)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Prize for the Reckless",
+            "id": 2515006,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 18,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Doing things the hard way",
+            "id": 2515005,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Pages 52-53 (Icebolt)",
+              "player": 68,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Warp Zone": {
+        "name": "Warp Zone",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Edge Games",
+            "id": 2515012,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Petal",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "start_regions": {
+    "70": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "70": {
+      "Trinket 01": {
+        "name": "Trinket 01",
+        "id": 2515000,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trinket 02": {
+        "name": "Trinket 02",
+        "id": 2515001,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trinket 03": {
+        "name": "Trinket 03",
+        "id": 2515002,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trinket 04": {
+        "name": "Trinket 04",
+        "id": 2515003,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trinket 05": {
+        "name": "Trinket 05",
+        "id": 2515004,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trinket 06": {
+        "name": "Trinket 06",
+        "id": 2515005,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trinket 07": {
+        "name": "Trinket 07",
+        "id": 2515006,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trinket 08": {
+        "name": "Trinket 08",
+        "id": 2515007,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trinket 09": {
+        "name": "Trinket 09",
+        "id": 2515008,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trinket 10": {
+        "name": "Trinket 10",
+        "id": 2515009,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trinket 11": {
+        "name": "Trinket 11",
+        "id": 2515010,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trinket 12": {
+        "name": "Trinket 12",
+        "id": 2515011,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trinket 13": {
+        "name": "Trinket 13",
+        "id": 2515012,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trinket 14": {
+        "name": "Trinket 14",
+        "id": 2515013,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trinket 15": {
+        "name": "Trinket 15",
+        "id": 2515014,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trinket 16": {
+        "name": "Trinket 16",
+        "id": 2515015,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trinket 17": {
+        "name": "Trinket 17",
+        "id": 2515016,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trinket 18": {
+        "name": "Trinket 18",
+        "id": 2515017,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trinket 19": {
+        "name": "Trinket 19",
+        "id": 2515018,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trinket 20": {
+        "name": "Trinket 20",
+        "id": 2515019,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Refinery (E2M3)": {
+        "name": "Refinery (E2M3)",
+        "id": 350043,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Prisoner Chief's Ashes": {
+        "name": "Prisoner Chief's Ashes",
+        "id": 100973,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Pepper Seeds": {
+        "name": "Pepper Seeds",
+        "id": 717143,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sonic - Flame Ring": {
+        "name": "Sonic - Flame Ring",
+        "id": 16711685,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "3 Call beads": {
+        "name": "3 Call beads",
+        "id": 64279,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Quiver of Ethereal Arrows": {
+        "name": "Quiver of Ethereal Arrows",
+        "id": 370023,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Time Piece": {
+        "name": "Time Piece",
+        "id": 2000300002,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trendy Jacket": {
+        "name": "Trendy Jacket",
+        "id": 1337017,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Iron": {
+        "name": "Iron",
+        "id": 3860065,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Medikit": {
+        "name": "Medikit",
+        "id": 360015,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Crystal Geode": {
+        "name": "Crystal Geode",
+        "id": 370018,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Greater Runes": {
+        "name": "Greater Runes",
+        "id": 370020,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "HP+100 (Pink)": {
+        "name": "HP+100 (Pink)",
+        "id": 11735180,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "7 Kerrigan Levels": {
+        "name": "7 Kerrigan Levels",
+        "id": 2503,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Invulnerability": {
+        "name": "Invulnerability",
+        "id": 360011,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Silver Shield": {
+        "name": "Silver Shield",
+        "id": 370016,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Swarm Scourge (Scourge)": {
+        "name": "Swarm Scourge (Scourge)",
+        "id": 2225,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bonus Coin": {
+        "name": "Bonus Coin",
+        "id": 14430211,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Pages 52-53 (Icebolt)": {
+        "name": "Pages 52-53 (Icebolt)",
+        "id": 509342528,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Petal": {
+        "name": "Petal",
+        "id": 64101,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      " coins": {
+        "name": " coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      },
+      " coins freemium": {
+        "name": " coins freemium",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      }
+    }
+  },
+  "item_groups": {
+    "70": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "70": {
+      "Trinket 01": 1,
+      "Trinket 02": 1,
+      "Trinket 03": 1,
+      "Trinket 04": 1,
+      "Trinket 05": 1,
+      "Trinket 06": 1,
+      "Trinket 07": 1,
+      "Trinket 08": 1,
+      "Trinket 09": 1,
+      "Trinket 10": 1,
+      "Trinket 11": 1,
+      "Trinket 12": 1,
+      "Trinket 13": 1,
+      "Trinket 14": 1,
+      "Trinket 15": 1,
+      "Trinket 16": 1,
+      "Trinket 17": 1,
+      "Trinket 18": 1,
+      "Trinket 19": 1,
+      "Trinket 20": 1
+    }
+  },
+  "progression_mapping": {
+    "70": {}
+  },
+  "starting_items": {
+    "70": []
+  },
+  "settings": {
+    "70": {
+      "game": "VVVVVV",
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false,
+      "door_cost": 3,
+      "area_cost_map": {
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4,
+        "0": 0
+      }
+    }
+  },
+  "game_info": {
+    "70": {
+      "name": "VVVVVV",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

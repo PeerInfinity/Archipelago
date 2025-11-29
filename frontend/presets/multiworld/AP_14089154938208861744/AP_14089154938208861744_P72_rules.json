@@ -1,0 +1,2372 @@
+{
+  "schema_version": 3,
+  "game_name": "WebDevJourney",
+  "game_directory": "codingadventure",
+  "archipelago_version": "0.6.4",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1",
+    "2": "Player2",
+    "3": "Player3",
+    "4": "Player4",
+    "5": "Player5",
+    "6": "Player6",
+    "7": "Player7",
+    "8": "Player8",
+    "9": "Player9",
+    "10": "Player10",
+    "11": "Player11",
+    "12": "Player12",
+    "13": "Player13",
+    "14": "Player14",
+    "15": "Player15",
+    "16": "Player16",
+    "17": "Player17",
+    "18": "Player18",
+    "19": "Player19",
+    "20": "Player20",
+    "21": "Player21",
+    "22": "Player22",
+    "23": "Player23",
+    "24": "Player24",
+    "25": "Player25",
+    "26": "Player26",
+    "27": "Player27",
+    "28": "Player28",
+    "29": "Player29",
+    "30": "Player30",
+    "31": "Player31",
+    "32": "Player32",
+    "33": "Player33",
+    "34": "Player34",
+    "35": "Player35",
+    "36": "Player36",
+    "37": "Player37",
+    "38": "Player38",
+    "39": "Player39",
+    "40": "Player40",
+    "41": "Player41",
+    "42": "Player42",
+    "43": "Player43",
+    "44": "Player44",
+    "45": "Player45",
+    "46": "Player46",
+    "47": "Player47",
+    "48": "Player48",
+    "49": "Player49",
+    "50": "Player50",
+    "51": "Player51",
+    "52": "Player52",
+    "53": "Player53",
+    "54": "Player54",
+    "55": "Player55",
+    "56": "Player56",
+    "57": "Player57",
+    "58": "Player58",
+    "59": "Player59",
+    "60": "Player60",
+    "61": "Player61",
+    "62": "Player62",
+    "63": "Player63",
+    "64": "Player64",
+    "65": "Player65",
+    "66": "Player66",
+    "67": "Player67",
+    "68": "Player68",
+    "69": "Player69",
+    "70": "Player70",
+    "71": "Player71",
+    "72": "Player72",
+    "73": "Player73",
+    "74": "Player74",
+    "75": "Player75"
+  },
+  "world_classes": {
+    "1": "HatInTimeWorld",
+    "2": "ALTTPWorld",
+    "3": "ShortHikeWorld",
+    "4": "AdventureWorld",
+    "5": "AquariaWorld",
+    "6": "ArchipIDLEWorld",
+    "7": "BlasphemousWorld",
+    "8": "BombRushCyberfunkWorld",
+    "9": "BumpStikWorld",
+    "10": "CVCotMWorld",
+    "11": "CV64World",
+    "12": "Celeste64World",
+    "13": "ChecksFinderWorld",
+    "14": "ChocolateChipCookiesWorld",
+    "15": "CivVIWorld",
+    "16": "DarkSouls3World",
+    "17": "DLCqworld",
+    "18": "DKC3World",
+    "19": "DOOM1993World",
+    "20": "DOOM2World",
+    "21": "Factorio",
+    "22": "FaxanaduWorld",
+    "23": "FFMQWorld",
+    "24": "HereticWorld",
+    "25": "Hylics2World",
+    "26": "InscryptionWorld",
+    "27": "JakAndDaxterWorld",
+    "28": "KH2World",
+    "29": "KH1World",
+    "30": "KDL3World",
+    "31": "LandstalkerWorld",
+    "32": "LingoWorld",
+    "33": "LinksAwakeningWorld",
+    "34": "L2ACWorld",
+    "35": "MLSSWorld",
+    "36": "MathProof2p2e4World",
+    "37": "MM2World",
+    "38": "MMBN3World",
+    "39": "MeritousWorld",
+    "40": "MetamathWorld",
+    "41": "MuseDashWorld",
+    "42": "NoitaWorld",
+    "43": "OSRSWorld",
+    "44": "Overcooked2World",
+    "45": "PaintWorld",
+    "46": "PokemonEmeraldWorld",
+    "47": "PokemonRedBlueWorld",
+    "48": "RaftWorld",
+    "49": "RiskOfRainWorld",
+    "50": "SavingPrincessWorld",
+    "51": "SoEWorld",
+    "52": "ShapezWorld",
+    "53": "ShiversWorld",
+    "54": "SA2BWorld",
+    "55": "SC2World",
+    "56": "StardewValleyWorld",
+    "57": "SubnauticaWorld",
+    "58": "SM64World",
+    "59": "MarioLand2World",
+    "60": "SMWWorld",
+    "61": "SMWorld",
+    "62": "TerrariaWorld",
+    "63": "TLoZWorld",
+    "64": "MessengerWorld",
+    "65": "TWWWorld",
+    "66": "WitnessWorld",
+    "67": "TimespinnerWorld",
+    "68": "TunicWorld",
+    "69": "UndertaleWorld",
+    "70": "V6World",
+    "71": "WargrooveWorld",
+    "72": "WebDevJourneyWorld",
+    "73": "YachtDiceWorld",
+    "74": "YoshisIslandWorld",
+    "75": "Yugioh06World"
+  },
+  "regions": {
+    "72": {
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "StartLearning",
+            "connected_region": "LearningHub",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "LearningHub": {
+        "name": "LearningHub",
+        "exits": [
+          {
+            "name": "ToVisualPath",
+            "connected_region": "VisualPath",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToLogicPath",
+            "connected_region": "LogicPath",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToServerPath",
+            "connected_region": "ServerPath",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToToolsPath",
+            "connected_region": "ToolsPath",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToStaticWebsite",
+            "connected_region": "StaticWebsiteHub",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Git"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "JavaScript Basics"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Server Basics"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "CSS"
+                },
+                {
+                  "type": "item_check",
+                  "item": "HTML"
+                }
+              ]
+            }
+          }
+        ],
+        "locations": []
+      },
+      "VisualPath": {
+        "name": "VisualPath",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn HTML",
+            "id": 400000001,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "HTML",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Learn CSS",
+            "id": 400000002,
+            "access_rule": {
+              "type": "item_check",
+              "item": "HTML"
+            },
+            "item": {
+              "name": "CSS",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Learn Design Systems",
+            "id": 400000003,
+            "access_rule": {
+              "type": "item_check",
+              "item": "CSS"
+            },
+            "item": {
+              "name": "Design Systems",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "LogicPath": {
+        "name": "LogicPath",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn JavaScript",
+            "id": 400000004,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "JavaScript Basics",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Learn DOM Manipulation",
+            "id": 400000005,
+            "access_rule": {
+              "type": "item_check",
+              "item": "JavaScript Basics"
+            },
+            "item": {
+              "name": "DOM Manipulation",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Learn Algorithms",
+            "id": 400000006,
+            "access_rule": {
+              "type": "item_check",
+              "item": "JavaScript Basics"
+            },
+            "item": {
+              "name": "Algorithms",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "ServerPath": {
+        "name": "ServerPath",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Choose Server Language",
+            "id": 400000007,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Server Basics",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Learn File I/O",
+            "id": 400000008,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Server Basics"
+            },
+            "item": {
+              "name": "File I/O",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Learn HTTP Basics",
+            "id": 400000009,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Server Basics"
+            },
+            "item": {
+              "name": "HTTP Basics",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "ToolsPath": {
+        "name": "ToolsPath",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn Git",
+            "id": 400000010,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Git",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Learn Command Line",
+            "id": 400000011,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Command Line",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Learn Package Managers",
+            "id": 400000012,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Command Line"
+            },
+            "item": {
+              "name": "Package Managers",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "StaticWebsiteHub": {
+        "name": "StaticWebsiteHub",
+        "exits": [
+          {
+            "name": "ToFrontendTrack",
+            "connected_region": "FrontendTrack",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToBackendTrack",
+            "connected_region": "BackendTrack",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToDesignTrack",
+            "connected_region": "DesignTrack",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToDataTrack",
+            "connected_region": "DataTrack",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToInteractiveApp",
+            "connected_region": "InteractiveAppHub",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Database Basics"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "State Management"
+                    }
+                  ]
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Frontend Framework"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "REST APIs"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Static Website Milestone",
+            "id": 400000013,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Static Website Complete",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "FrontendTrack": {
+        "name": "FrontendTrack",
+        "exits": [
+          {
+            "name": "ToReactRoute",
+            "connected_region": "ReactRoute",
+            "access_rule": {
+              "type": "item_check",
+              "item": "DOM Manipulation"
+            }
+          },
+          {
+            "name": "ToVueRoute",
+            "connected_region": "VueRoute",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToVanillaRoute",
+            "connected_region": "VanillaRoute",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Algorithms"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "ReactRoute": {
+        "name": "ReactRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn React",
+            "id": 400000014,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "React",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "React Components",
+            "id": 400000015,
+            "access_rule": {
+              "type": "item_check",
+              "item": "React"
+            },
+            "item": {
+              "name": "Frontend Framework",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Redux",
+            "id": 400000016,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Frontend Framework"
+            },
+            "item": {
+              "name": "State Management",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "VueRoute": {
+        "name": "VueRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn Vue",
+            "id": 400000017,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Vue",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Vue Components",
+            "id": 400000018,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Vue"
+            },
+            "item": {
+              "name": "Frontend Framework",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Vuex",
+            "id": 400000019,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Frontend Framework"
+            },
+            "item": {
+              "name": "State Management",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "VanillaRoute": {
+        "name": "VanillaRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Advanced Vanilla JS",
+            "id": 400000020,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Frontend Framework",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Custom State System",
+            "id": 400000021,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Frontend Framework"
+            },
+            "item": {
+              "name": "State Management",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "BackendTrack": {
+        "name": "BackendTrack",
+        "exits": [
+          {
+            "name": "ToExpressRoute",
+            "connected_region": "ExpressRoute",
+            "access_rule": {
+              "type": "item_check",
+              "item": "JavaScript Basics"
+            }
+          },
+          {
+            "name": "ToDjangoRoute",
+            "connected_region": "DjangoRoute",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Server Basics"
+            }
+          },
+          {
+            "name": "ToFlaskRoute",
+            "connected_region": "FlaskRoute",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Server Basics"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "ExpressRoute": {
+        "name": "ExpressRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn Express",
+            "id": 400000022,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Express",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Build REST APIs",
+            "id": 400000023,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Express"
+            },
+            "item": {
+              "name": "REST APIs",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "MongoDB Integration",
+            "id": 400000024,
+            "access_rule": {
+              "type": "item_check",
+              "item": "REST APIs"
+            },
+            "item": {
+              "name": "Database Integration",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "DjangoRoute": {
+        "name": "DjangoRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn Django",
+            "id": 400000025,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Django",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Django REST Framework",
+            "id": 400000026,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Django"
+            },
+            "item": {
+              "name": "REST APIs",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Django ORM",
+            "id": 400000027,
+            "access_rule": {
+              "type": "item_check",
+              "item": "REST APIs"
+            },
+            "item": {
+              "name": "Database Integration",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "FlaskRoute": {
+        "name": "FlaskRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn Flask",
+            "id": 400000028,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Flask",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Flask-RESTful",
+            "id": 400000029,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Flask"
+            },
+            "item": {
+              "name": "REST APIs",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SQLAlchemy",
+            "id": 400000030,
+            "access_rule": {
+              "type": "item_check",
+              "item": "REST APIs"
+            },
+            "item": {
+              "name": "Database Integration",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "DesignTrack": {
+        "name": "DesignTrack",
+        "exits": [],
+        "locations": [
+          {
+            "name": "UI/UX Principles",
+            "id": 400000031,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Design Systems"
+            },
+            "item": {
+              "name": "UI/UX",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Responsive Design",
+            "id": 400000032,
+            "access_rule": {
+              "type": "item_check",
+              "item": "UI/UX"
+            },
+            "item": {
+              "name": "Responsive Design",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Accessibility",
+            "id": 400000033,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Responsive Design"
+            },
+            "item": {
+              "name": "Accessibility",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "DataTrack": {
+        "name": "DataTrack",
+        "exits": [
+          {
+            "name": "ToSQLRoute",
+            "connected_region": "SQLRoute",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToNoSQLRoute",
+            "connected_region": "NoSQLRoute",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "SQLRoute": {
+        "name": "SQLRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn SQL",
+            "id": 400000034,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "SQL",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "PostgreSQL",
+            "id": 400000035,
+            "access_rule": {
+              "type": "item_check",
+              "item": "SQL"
+            },
+            "item": {
+              "name": "Database Basics",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Query Optimization",
+            "id": 400000036,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Database Basics"
+            },
+            "item": {
+              "name": "Query Optimization",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "NoSQLRoute": {
+        "name": "NoSQLRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn NoSQL",
+            "id": 400000037,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "NoSQL",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "MongoDB",
+            "id": 400000038,
+            "access_rule": {
+              "type": "item_check",
+              "item": "NoSQL"
+            },
+            "item": {
+              "name": "Database Basics",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Indexing Strategies",
+            "id": 400000039,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Database Basics"
+            },
+            "item": {
+              "name": "Query Optimization",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "InteractiveAppHub": {
+        "name": "InteractiveAppHub",
+        "exits": [
+          {
+            "name": "ToAuthPath",
+            "connected_region": "AuthPath",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToPerfPath",
+            "connected_region": "PerfPath",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToTestPath",
+            "connected_region": "TestPath",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToDevOpsPath",
+            "connected_region": "DevOpsPath",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToFullStackHub",
+            "connected_region": "FullStackHub",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "DevOps"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Performance"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "DevOps"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Testing"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "Performance"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Testing"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Authentication"
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Interactive App Milestone",
+            "id": 400000040,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Interactive App Complete",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "AuthPath": {
+        "name": "AuthPath",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Sessions",
+            "id": 400000041,
+            "access_rule": {
+              "type": "item_check",
+              "item": "HTTP Basics"
+            },
+            "item": {
+              "name": "Sessions",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "JWT",
+            "id": 400000042,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Sessions"
+            },
+            "item": {
+              "name": "JWT",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "OAuth",
+            "id": 400000043,
+            "access_rule": {
+              "type": "item_check",
+              "item": "JWT"
+            },
+            "item": {
+              "name": "Authentication",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "PerfPath": {
+        "name": "PerfPath",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Caching",
+            "id": 400000044,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Database Basics"
+                },
+                {
+                  "type": "item_check",
+                  "item": "REST APIs"
+                }
+              ]
+            },
+            "item": {
+              "name": "Caching",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CDN",
+            "id": 400000045,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Caching"
+            },
+            "item": {
+              "name": "CDN",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Load Balancing",
+            "id": 400000046,
+            "access_rule": {
+              "type": "item_check",
+              "item": "CDN"
+            },
+            "item": {
+              "name": "Performance",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "TestPath": {
+        "name": "TestPath",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Unit Tests",
+            "id": 400000047,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Unit Tests",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Integration Tests",
+            "id": 400000048,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Unit Tests"
+            },
+            "item": {
+              "name": "Integration Tests",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "E2E Tests",
+            "id": 400000049,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Integration Tests"
+            },
+            "item": {
+              "name": "Testing",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "DevOpsPath": {
+        "name": "DevOpsPath",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Docker",
+            "id": 400000050,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Command Line"
+            },
+            "item": {
+              "name": "Docker",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CI/CD",
+            "id": 400000051,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Docker"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Git"
+                }
+              ]
+            },
+            "item": {
+              "name": "CI/CD",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Monitoring",
+            "id": 400000052,
+            "access_rule": {
+              "type": "item_check",
+              "item": "CI/CD"
+            },
+            "item": {
+              "name": "DevOps",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "FullStackHub": {
+        "name": "FullStackHub",
+        "exits": [
+          {
+            "name": "ToSecurityBranch",
+            "connected_region": "SecurityBranch",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToScalingBranch",
+            "connected_region": "ScalingBranch",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToDeploymentBranch",
+            "connected_region": "DeploymentBranch",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToProduction",
+            "connected_region": "ProductionHub",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Deployment Complete"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Scaling Complete"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Security Complete"
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Full-Stack Integration Milestone",
+            "id": 400000053,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Full-Stack Complete",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "SecurityBranch": {
+        "name": "SecurityBranch",
+        "exits": [],
+        "locations": [
+          {
+            "name": "HTTPS",
+            "id": 400000054,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "HTTPS",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CORS",
+            "id": 400000055,
+            "access_rule": {
+              "type": "item_check",
+              "item": "HTTPS"
+            },
+            "item": {
+              "name": "CORS",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Input Validation",
+            "id": 400000056,
+            "access_rule": {
+              "type": "item_check",
+              "item": "CORS"
+            },
+            "item": {
+              "name": "Security Complete",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "ScalingBranch": {
+        "name": "ScalingBranch",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Horizontal Scaling",
+            "id": 400000057,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Performance"
+            },
+            "item": {
+              "name": "Horizontal Scaling",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Microservices",
+            "id": 400000058,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Horizontal Scaling"
+            },
+            "item": {
+              "name": "Scaling Complete",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "DeploymentBranch": {
+        "name": "DeploymentBranch",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Cloud Provider",
+            "id": 400000059,
+            "access_rule": {
+              "type": "item_check",
+              "item": "DevOps"
+            },
+            "item": {
+              "name": "Cloud Provider",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Domain Setup",
+            "id": 400000060,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Cloud Provider"
+            },
+            "item": {
+              "name": "Domain",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SSL Certificate",
+            "id": 400000061,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Domain"
+                },
+                {
+                  "type": "item_check",
+                  "item": "HTTPS"
+                }
+              ]
+            },
+            "item": {
+              "name": "Deployment Complete",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "ProductionHub": {
+        "name": "ProductionHub",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Production Deployment",
+            "id": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Victory",
+              "player": 72,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "start_regions": {
+    "72": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "72": {
+      "HTML": {
+        "name": "HTML",
+        "id": 400100001,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "CSS": {
+        "name": "CSS",
+        "id": 400100002,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Design Systems": {
+        "name": "Design Systems",
+        "id": 400100003,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "JavaScript Basics": {
+        "name": "JavaScript Basics",
+        "id": 400100004,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "DOM Manipulation": {
+        "name": "DOM Manipulation",
+        "id": 400100005,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Algorithms": {
+        "name": "Algorithms",
+        "id": 400100006,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Server Basics": {
+        "name": "Server Basics",
+        "id": 400100007,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "File I/O": {
+        "name": "File I/O",
+        "id": 400100008,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "HTTP Basics": {
+        "name": "HTTP Basics",
+        "id": 400100009,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Git": {
+        "name": "Git",
+        "id": 400100010,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Command Line": {
+        "name": "Command Line",
+        "id": 400100011,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Package Managers": {
+        "name": "Package Managers",
+        "id": 400100012,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Static Website Complete": {
+        "name": "Static Website Complete",
+        "id": 400100013,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "React": {
+        "name": "React",
+        "id": 400100014,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Vue": {
+        "name": "Vue",
+        "id": 400100015,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Frontend Framework": {
+        "name": "Frontend Framework",
+        "id": 400100016,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "State Management": {
+        "name": "State Management",
+        "id": 400100017,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "Express": {
+        "name": "Express",
+        "id": 400100018,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Django": {
+        "name": "Django",
+        "id": 400100019,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Flask": {
+        "name": "Flask",
+        "id": 400100020,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "REST APIs": {
+        "name": "REST APIs",
+        "id": 400100021,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "Database Integration": {
+        "name": "Database Integration",
+        "id": 400100022,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "UI/UX": {
+        "name": "UI/UX",
+        "id": 400100023,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Responsive Design": {
+        "name": "Responsive Design",
+        "id": 400100024,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Accessibility": {
+        "name": "Accessibility",
+        "id": 400100025,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "SQL": {
+        "name": "SQL",
+        "id": 400100026,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "NoSQL": {
+        "name": "NoSQL",
+        "id": 400100027,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Database Basics": {
+        "name": "Database Basics",
+        "id": 400100028,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Query Optimization": {
+        "name": "Query Optimization",
+        "id": 400100029,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Interactive App Complete": {
+        "name": "Interactive App Complete",
+        "id": 400100030,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sessions": {
+        "name": "Sessions",
+        "id": 400100031,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "JWT": {
+        "name": "JWT",
+        "id": 400100032,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Authentication": {
+        "name": "Authentication",
+        "id": 400100033,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Caching": {
+        "name": "Caching",
+        "id": 400100034,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "CDN": {
+        "name": "CDN",
+        "id": 400100035,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Performance": {
+        "name": "Performance",
+        "id": 400100036,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Unit Tests": {
+        "name": "Unit Tests",
+        "id": 400100037,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Integration Tests": {
+        "name": "Integration Tests",
+        "id": 400100038,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Testing": {
+        "name": "Testing",
+        "id": 400100039,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Docker": {
+        "name": "Docker",
+        "id": 400100040,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "CI/CD": {
+        "name": "CI/CD",
+        "id": 400100041,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "DevOps": {
+        "name": "DevOps",
+        "id": 400100042,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Full-Stack Complete": {
+        "name": "Full-Stack Complete",
+        "id": 400100043,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "HTTPS": {
+        "name": "HTTPS",
+        "id": 400100044,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "CORS": {
+        "name": "CORS",
+        "id": 400100045,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Security Complete": {
+        "name": "Security Complete",
+        "id": 400100046,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Horizontal Scaling": {
+        "name": "Horizontal Scaling",
+        "id": 400100047,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Scaling Complete": {
+        "name": "Scaling Complete",
+        "id": 400100048,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cloud Provider": {
+        "name": "Cloud Provider",
+        "id": 400100049,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Domain": {
+        "name": "Domain",
+        "id": 400100050,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Deployment Complete": {
+        "name": "Deployment Complete",
+        "id": 400100051,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Victory": {
+        "name": "Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      " coins": {
+        "name": " coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      },
+      " coins freemium": {
+        "name": " coins freemium",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      }
+    }
+  },
+  "item_groups": {
+    "72": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "72": {
+      "Accessibility": 1,
+      "Algorithms": 1,
+      "Authentication": 1,
+      "CDN": 1,
+      "CI/CD": 1,
+      "CORS": 1,
+      "CSS": 1,
+      "Caching": 1,
+      "Cloud Provider": 1,
+      "Command Line": 1,
+      "DOM Manipulation": 1,
+      "Database Basics": 2,
+      "Database Integration": 3,
+      "Deployment Complete": 1,
+      "Design Systems": 1,
+      "DevOps": 1,
+      "Django": 1,
+      "Docker": 1,
+      "Domain": 1,
+      "Express": 1,
+      "File I/O": 1,
+      "Flask": 1,
+      "Frontend Framework": 3,
+      "Full-Stack Complete": 1,
+      "Git": 1,
+      "HTML": 1,
+      "HTTP Basics": 1,
+      "HTTPS": 1,
+      "Horizontal Scaling": 1,
+      "Integration Tests": 1,
+      "Interactive App Complete": 1,
+      "JWT": 1,
+      "JavaScript Basics": 1,
+      "NoSQL": 1,
+      "Package Managers": 1,
+      "Performance": 1,
+      "Query Optimization": 2,
+      "REST APIs": 3,
+      "React": 1,
+      "Responsive Design": 1,
+      "SQL": 1,
+      "Scaling Complete": 1,
+      "Security Complete": 1,
+      "Server Basics": 1,
+      "Sessions": 1,
+      "State Management": 3,
+      "Static Website Complete": 1,
+      "Testing": 1,
+      "UI/UX": 1,
+      "Unit Tests": 1,
+      "Victory": 1,
+      "Vue": 1
+    }
+  },
+  "progression_mapping": {
+    "72": {}
+  },
+  "starting_items": {
+    "72": []
+  },
+  "settings": {
+    "72": {
+      "game": "WebDevJourney",
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
+    }
+  },
+  "game_info": {
+    "72": {
+      "name": "WebDevJourney",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

@@ -72,41 +72,41 @@ The entire pipeline can be run automatically from the command line using Playwri
 
 This end-to-end pipeline ensures a high degree of confidence that the frontend client is a faithful and accurate implementation of Archipelago's game progression logic.
 
-### Multiplayer Testing
+### Multiclient Testing
 
-The project includes end-to-end multiplayer tests that verify client-server communication and location check synchronization between multiple clients.
+The project includes end-to-end multiclient tests that verify client-server communication and location check synchronization between multiple clients.
 
 **Test Configurations:**
 
-The multiplayer tests (`tests/e2e/multiplayer.spec.js`) support two configurations:
+The multiclient tests (`tests/e2e/multiclient.spec.js`) support two configurations:
 
 1. **Multi-Client Test (Default)**: Tests both clients simultaneously
    - Client 1: Sends location checks via automatic timer
    - Client 2: Receives location checks from the server
    - Verifies that both clients stay synchronized
-   - Run with: `npx playwright test tests/e2e/multiplayer.spec.js`
+   - Run with: `npx playwright test tests/e2e/multiclient.spec.js`
 
 2. **Single-Client Test**: Tests only one client
    - Useful for debugging client connection and timer functionality
-   - Run with: `ENABLE_SINGLE_CLIENT=true npx playwright test tests/e2e/multiplayer.spec.js`
+   - Run with: `ENABLE_SINGLE_CLIENT=true npx playwright test tests/e2e/multiclient.spec.js`
 
-**Running Multiplayer Tests:**
+**Running Multiclient Tests:**
 
 ```bash
 # Run multi-client test (default)
-npx playwright test tests/e2e/multiplayer.spec.js
+npx playwright test tests/e2e/multiclient.spec.js
 
 # Run multi-client test in headed mode (visible browser)
-npx playwright test tests/e2e/multiplayer.spec.js --headed
+npx playwright test tests/e2e/multiclient.spec.js --headed
 
 # Run single-client test
-ENABLE_SINGLE_CLIENT=true npx playwright test tests/e2e/multiplayer.spec.js
+ENABLE_SINGLE_CLIENT=true npx playwright test tests/e2e/multiclient.spec.js
 
 # Run single-client test in headed mode
-ENABLE_SINGLE_CLIENT=true npx playwright test tests/e2e/multiplayer.spec.js --headed
+ENABLE_SINGLE_CLIENT=true npx playwright test tests/e2e/multiclient.spec.js --headed
 
 # Run specific test by name
-npx playwright test tests/e2e/multiplayer.spec.js -g "multiplayer timer test"
+npx playwright test tests/e2e/multiclient.spec.js -g "multiclient timer test"
 ```
 
 **What the Tests Verify:**
@@ -120,10 +120,10 @@ npx playwright test tests/e2e/multiplayer.spec.js -g "multiplayer timer test"
 
 **Test Architecture:**
 
-- Tests use URL parameters to configure clients: `?mode=test-multiplayer-client1&autoConnect=true&server=ws://localhost:38281&playerName=Player1`
+- Tests use URL parameters to configure clients: `?mode=test-multiclient-client1&autoConnect=true&server=ws://localhost:38281&playerName=Player1`
 - Each test mode loads a specific test configuration (`playwright_tests_config-client1.json` or `playwright_tests_config-client2.json`)
 - The tests automatically handle server lifecycle (start before test, stop after test)
-- Results are saved to `test_results/multiplayer/` with detailed logs and summaries
+- Results are saved to `test_results/multiclient/` with detailed logs and summaries
 
 **Prerequisites:**
 

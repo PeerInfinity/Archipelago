@@ -196,35 +196,66 @@ Playthrough:
   Missile (Crateria gauntlet right): Wave Beam
 }
 5: {
+  Bomb: Spazer
   Charge Beam: Ice Beam
   Energy Tank, Brinstar Gate: Grappling Beam
+  Energy Tank, Etecoons: Energy Tank
   Kraid: Kraid
+  Missile (Hi-Jump Boots): Energy Tank
   Missile (Kraid): Energy Tank
   Missile (blue Brinstar top): Missile
+  Missile (green Brinstar below super missile): Energy Tank
+  Missile (green Brinstar pipe): Space Jump
   Power Bomb (Crateria surface): Varia Suit
   Reserve Tank, Brinstar: Charge Beam
+  Spore Spawn: Spore Spawn
 }
 6: {
+  Crocomire: Crocomire
   Missile (Speed Booster): Missile
+  Missile (Wave Beam): Reserve Tank
   Missile (outside Wrecked Ship bottom): Hi-Jump Boots
   Phantoon: Phantoon
+  Reserve Tank, Norfair: Spring Ball
 }
 7: {
   Botwoon: Botwoon
+  Energy Tank, Crocomire: Reserve Tank
   Energy Tank, Mama turtle: Gravity Suit
+  Energy Tank, Wrecked Ship: Screw Attack
+  Golden Torizo: Golden Torizo
+  Grapple Beam: Reserve Tank
+  Gravity Suit: X-Ray Scope
+  Missile (Mickey Mouse room): Energy Tank
+  Missile (below Crocomire): Power Bomb
+  Missile (green Maridia tatori): Plasma Beam
+  Missile (outside Wrecked Ship top): Speed Booster
+  Missile (yellow Maridia super missile): Energy Tank
+  Power Bomb (Crocomire): Energy Tank
+  Power Bomb (Power Bombs of shame): Power Bomb
   Power Bomb (lower Norfair above fire flea room): Missile
   Ridley: Ridley
 }
 8: {
   Draygon: Draygon
+  Energy Tank, Waterway: Energy Tank
+  Missile (right Maridia sand pit room): Energy Tank
+  Power Bomb (right Maridia sand pit room): Energy Tank
+  Reserve Tank, Maridia: Energy Tank
   Spring Ball: Super Missile
 }
 9: {
   Mother Brain: Mother Brain
+  Plasma Beam: Energy Tank
+  Space Jump: Energy Tank
 }
 
 Paths:
 
+Bomb
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Bomb
+   =>   Bomb
 Botwoon
         Menu -> StartAP
    =>   Landing Site -> Landing Site->Keyhunter Room Bottom
@@ -246,6 +277,20 @@ Charge Beam
    =>   Green Brinstar Elevator -> Green Brinstar Elevator->Big Pink
    =>   Big Pink -> Big Pink->Charge Beam
    =>   Charge Beam
+Crocomire
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Keyhunter Room Bottom
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Red Brinstar Elevator
+   =>   Red Brinstar Elevator -> Red Brinstar Elevator->Red Tower Top Left
+   =>   Red Tower Top Left -> Red Tower Top Left->East Tunnel Right
+   =>   East Tunnel Right -> East Tunnel Right->Warehouse Entrance Left
+   =>   Warehouse Entrance Left -> Warehouse Entrance Left->Business Center
+   =>   Business Center -> Business Center->Bubble Mountain
+   =>   Bubble Mountain -> Bubble Mountain->Bubble Mountain Bottom
+   =>   Bubble Mountain Bottom -> Bubble Mountain Bottom->Crocomire Speedway Bottom
+   =>   Crocomire Speedway Bottom -> Crocomire Speedway Bottom->Crocomire Room Top
+   =>   Crocomire Room Top -> Crocomire Room Top->Crocomire
+   =>   Crocomire
 Draygon
         Menu -> StartAP
    =>   Landing Site -> Landing Site->Keyhunter Room Bottom
@@ -273,6 +318,27 @@ Energy Tank, Brinstar Gate
    =>   Green Brinstar Elevator -> Green Brinstar Elevator->Big Pink
    =>   Big Pink -> Big Pink->Energy Tank, Brinstar Gate
    =>   Energy Tank, Brinstar Gate
+Energy Tank, Crocomire
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Keyhunter Room Bottom
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Red Brinstar Elevator
+   =>   Red Brinstar Elevator -> Red Brinstar Elevator->Red Tower Top Left
+   =>   Red Tower Top Left -> Red Tower Top Left->East Tunnel Right
+   =>   East Tunnel Right -> East Tunnel Right->Warehouse Entrance Left
+   =>   Warehouse Entrance Left -> Warehouse Entrance Left->Business Center
+   =>   Business Center -> Business Center->Bubble Mountain
+   =>   Bubble Mountain -> Bubble Mountain->Bubble Mountain Bottom
+   =>   Bubble Mountain Bottom -> Bubble Mountain Bottom->Crocomire Speedway Bottom
+   =>   Crocomire Speedway Bottom -> Crocomire Speedway Bottom->Crocomire Room Top
+   =>   Crocomire Room Top -> Crocomire Room Top->Energy Tank, Crocomire
+   =>   Energy Tank, Crocomire
+Energy Tank, Etecoons
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Lower Mushrooms Left
+   =>   Lower Mushrooms Left -> Lower Mushrooms Left->Green Brinstar Elevator
+   =>   Green Brinstar Elevator -> Green Brinstar Elevator->Etecoons Bottom
+   =>   Etecoons Bottom -> Etecoons Bottom->Energy Tank, Etecoons
+   =>   Energy Tank, Etecoons
 Energy Tank, Gauntlet
         Menu -> StartAP
    =>   Landing Site -> Landing Site->Energy Tank, Gauntlet
@@ -291,6 +357,62 @@ Energy Tank, Terminator
         Menu -> StartAP
    =>   Landing Site -> Landing Site->Energy Tank, Terminator
    =>   Energy Tank, Terminator
+Energy Tank, Waterway
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Lower Mushrooms Left
+   =>   Lower Mushrooms Left -> Lower Mushrooms Left->Green Brinstar Elevator
+   =>   Green Brinstar Elevator -> Green Brinstar Elevator->Big Pink
+   =>   Big Pink -> Big Pink->Energy Tank, Waterway
+   =>   Energy Tank, Waterway
+Energy Tank, Wrecked Ship
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Keyhunter Room Bottom
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Moat Left
+   =>   Moat Left -> Moat Left->Moat Right
+   =>   Moat Right -> Moat Right->West Ocean Left
+   =>   West Ocean Left -> West Ocean Left->Wrecked Ship Main
+   =>   Wrecked Ship Main -> Wrecked Ship Main->Wrecked Ship Back
+   =>   Wrecked Ship Back -> Wrecked Ship Back->Energy Tank, Wrecked Ship
+   =>   Energy Tank, Wrecked Ship
+Golden Torizo
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Keyhunter Room Bottom
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Red Brinstar Elevator
+   =>   Red Brinstar Elevator -> Red Brinstar Elevator->Red Tower Top Left
+   =>   Red Tower Top Left -> Red Tower Top Left->East Tunnel Right
+   =>   East Tunnel Right -> East Tunnel Right->Warehouse Entrance Left
+   =>   Warehouse Entrance Left -> Warehouse Entrance Left->Business Center
+   =>   Business Center -> Business Center->Bubble Mountain
+   =>   Bubble Mountain -> Bubble Mountain->Bubble Mountain Bottom
+   =>   Bubble Mountain Bottom -> Bubble Mountain Bottom->Kronic Boost Room Bottom Left
+   =>   Kronic Boost Room Bottom Left -> Kronic Boost Room Bottom Left->Lava Dive Right
+   =>   Lava Dive Right -> Lava Dive Right->LN Entrance
+   =>   LN Entrance -> LN Entrance->Screw Attack Bottom
+   =>   Screw Attack Bottom -> Screw Attack Bottom->Golden Torizo
+   =>   Golden Torizo
+Grapple Beam
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Keyhunter Room Bottom
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Red Brinstar Elevator
+   =>   Red Brinstar Elevator -> Red Brinstar Elevator->Red Tower Top Left
+   =>   Red Tower Top Left -> Red Tower Top Left->East Tunnel Right
+   =>   East Tunnel Right -> East Tunnel Right->Warehouse Entrance Left
+   =>   Warehouse Entrance Left -> Warehouse Entrance Left->Business Center
+   =>   Business Center -> Business Center->Bubble Mountain
+   =>   Bubble Mountain -> Bubble Mountain->Bubble Mountain Bottom
+   =>   Bubble Mountain Bottom -> Bubble Mountain Bottom->Crocomire Speedway Bottom
+   =>   Crocomire Speedway Bottom -> Crocomire Speedway Bottom->Crocomire Room Top
+   =>   Crocomire Room Top -> Crocomire Room Top->Grapple Beam
+   =>   Grapple Beam
+Gravity Suit
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Keyhunter Room Bottom
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Moat Left
+   =>   Moat Left -> Moat Left->Moat Right
+   =>   Moat Right -> Moat Right->West Ocean Left
+   =>   West Ocean Left -> West Ocean Left->Wrecked Ship Main
+   =>   Wrecked Ship Main -> Wrecked Ship Main->Gravity Suit
+   =>   Gravity Suit
 Kraid
         Menu -> StartAP
    =>   Landing Site -> Landing Site->Keyhunter Room Bottom
@@ -312,6 +434,16 @@ Missile (Crateria gauntlet right)
         Menu -> StartAP
    =>   Landing Site -> Landing Site->Missile (Crateria gauntlet right)
    =>   Missile (Crateria gauntlet right)
+Missile (Hi-Jump Boots)
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Keyhunter Room Bottom
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Red Brinstar Elevator
+   =>   Red Brinstar Elevator -> Red Brinstar Elevator->Red Tower Top Left
+   =>   Red Tower Top Left -> Red Tower Top Left->East Tunnel Right
+   =>   East Tunnel Right -> East Tunnel Right->Warehouse Entrance Left
+   =>   Warehouse Entrance Left -> Warehouse Entrance Left->Business Center
+   =>   Business Center -> Business Center->Missile (Hi-Jump Boots)
+   =>   Missile (Hi-Jump Boots)
 Missile (Kraid)
         Menu -> StartAP
    =>   Landing Site -> Landing Site->Keyhunter Room Bottom
@@ -323,6 +455,21 @@ Missile (Kraid)
    =>   Warehouse Entrance Right -> Warehouse Entrance Right->Warehouse Zeela Room Left
    =>   Warehouse Zeela Room Left -> Warehouse Zeela Room Left->Missile (Kraid)
    =>   Missile (Kraid)
+Missile (Mickey Mouse room)
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Keyhunter Room Bottom
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Red Brinstar Elevator
+   =>   Red Brinstar Elevator -> Red Brinstar Elevator->Red Tower Top Left
+   =>   Red Tower Top Left -> Red Tower Top Left->East Tunnel Right
+   =>   East Tunnel Right -> East Tunnel Right->Warehouse Entrance Left
+   =>   Warehouse Entrance Left -> Warehouse Entrance Left->Business Center
+   =>   Business Center -> Business Center->Bubble Mountain
+   =>   Bubble Mountain -> Bubble Mountain->Bubble Mountain Bottom
+   =>   Bubble Mountain Bottom -> Bubble Mountain Bottom->Kronic Boost Room Bottom Left
+   =>   Kronic Boost Room Bottom Left -> Kronic Boost Room Bottom Left->Lava Dive Right
+   =>   Lava Dive Right -> Lava Dive Right->LN Entrance
+   =>   LN Entrance -> LN Entrance->Missile (Mickey Mouse room)
+   =>   Missile (Mickey Mouse room)
 Missile (Speed Booster)
         Menu -> StartAP
    =>   Landing Site -> Landing Site->Keyhunter Room Bottom
@@ -335,6 +482,32 @@ Missile (Speed Booster)
    =>   Bubble Mountain -> Bubble Mountain->Bubble Mountain Top
    =>   Bubble Mountain Top -> Bubble Mountain Top->Missile (Speed Booster)
    =>   Missile (Speed Booster)
+Missile (Wave Beam)
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Keyhunter Room Bottom
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Red Brinstar Elevator
+   =>   Red Brinstar Elevator -> Red Brinstar Elevator->Red Tower Top Left
+   =>   Red Tower Top Left -> Red Tower Top Left->East Tunnel Right
+   =>   East Tunnel Right -> East Tunnel Right->Warehouse Entrance Left
+   =>   Warehouse Entrance Left -> Warehouse Entrance Left->Business Center
+   =>   Business Center -> Business Center->Bubble Mountain
+   =>   Bubble Mountain -> Bubble Mountain->Bubble Mountain Top
+   =>   Bubble Mountain Top -> Bubble Mountain Top->Missile (Wave Beam)
+   =>   Missile (Wave Beam)
+Missile (below Crocomire)
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Keyhunter Room Bottom
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Red Brinstar Elevator
+   =>   Red Brinstar Elevator -> Red Brinstar Elevator->Red Tower Top Left
+   =>   Red Tower Top Left -> Red Tower Top Left->East Tunnel Right
+   =>   East Tunnel Right -> East Tunnel Right->Warehouse Entrance Left
+   =>   Warehouse Entrance Left -> Warehouse Entrance Left->Business Center
+   =>   Business Center -> Business Center->Bubble Mountain
+   =>   Bubble Mountain -> Bubble Mountain->Bubble Mountain Bottom
+   =>   Bubble Mountain Bottom -> Bubble Mountain Bottom->Crocomire Speedway Bottom
+   =>   Crocomire Speedway Bottom -> Crocomire Speedway Bottom->Crocomire Room Top
+   =>   Crocomire Room Top -> Crocomire Room Top->Missile (below Crocomire)
+   =>   Missile (below Crocomire)
 Missile (blue Brinstar bottom)
         Menu -> StartAP
    =>   Landing Site -> Landing Site->Blue Brinstar Elevator Bottom
@@ -350,6 +523,30 @@ Missile (blue Brinstar top)
    =>   Landing Site -> Landing Site->Blue Brinstar Elevator Bottom
    =>   Blue Brinstar Elevator Bottom -> Blue Brinstar Elevator Bottom->Missile (blue Brinstar top)
    =>   Missile (blue Brinstar top)
+Missile (green Brinstar below super missile)
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Lower Mushrooms Left
+   =>   Lower Mushrooms Left -> Lower Mushrooms Left->Green Brinstar Elevator
+   =>   Green Brinstar Elevator -> Green Brinstar Elevator->Missile (green Brinstar below super missile)
+   =>   Missile (green Brinstar below super missile)
+Missile (green Brinstar pipe)
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Lower Mushrooms Left
+   =>   Lower Mushrooms Left -> Lower Mushrooms Left->Green Brinstar Elevator
+   =>   Green Brinstar Elevator -> Green Brinstar Elevator->Big Pink
+   =>   Big Pink -> Big Pink->Green Hill Zone Top Right
+   =>   Green Hill Zone Top Right -> Green Hill Zone Top Right->Missile (green Brinstar pipe)
+   =>   Missile (green Brinstar pipe)
+Missile (green Maridia tatori)
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Keyhunter Room Bottom
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Red Brinstar Elevator
+   =>   Red Brinstar Elevator -> Red Brinstar Elevator->Red Tower Top Left
+   =>   Red Tower Top Left -> Red Tower Top Left->East Tunnel Right
+   =>   East Tunnel Right -> East Tunnel Right->Glass Tunnel Top
+   =>   Glass Tunnel Top -> Glass Tunnel Top->Main Street Bottom
+   =>   Main Street Bottom -> Main Street Bottom->Missile (green Maridia tatori)
+   =>   Missile (green Maridia tatori)
 Missile (outside Wrecked Ship bottom)
         Menu -> StartAP
    =>   Landing Site -> Landing Site->Keyhunter Room Bottom
@@ -358,6 +555,44 @@ Missile (outside Wrecked Ship bottom)
    =>   Moat Right -> Moat Right->West Ocean Left
    =>   West Ocean Left -> West Ocean Left->Missile (outside Wrecked Ship bottom)
    =>   Missile (outside Wrecked Ship bottom)
+Missile (outside Wrecked Ship top)
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Keyhunter Room Bottom
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Moat Left
+   =>   Moat Left -> Moat Left->Moat Right
+   =>   Moat Right -> Moat Right->West Ocean Left
+   =>   West Ocean Left -> West Ocean Left->Wrecked Ship Main
+   =>   Wrecked Ship Main -> Wrecked Ship Main->Missile (outside Wrecked Ship top)
+   =>   Missile (outside Wrecked Ship top)
+Missile (right Maridia sand pit room)
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Keyhunter Room Bottom
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Red Brinstar Elevator
+   =>   Red Brinstar Elevator -> Red Brinstar Elevator->Red Tower Top Left
+   =>   Red Tower Top Left -> Red Tower Top Left->East Tunnel Right
+   =>   East Tunnel Right -> East Tunnel Right->Glass Tunnel Top
+   =>   Glass Tunnel Top -> Glass Tunnel Top->Main Street Bottom
+   =>   Main Street Bottom -> Main Street Bottom->Crab Shaft Left
+   =>   Crab Shaft Left -> Crab Shaft Left->Crab Shaft Right
+   =>   Crab Shaft Right -> Crab Shaft Right->Aqueduct Top Left
+   =>   Aqueduct Top Left -> Aqueduct Top Left->Aqueduct Bottom
+   =>   Aqueduct Bottom -> Aqueduct Bottom->Right Sandpit
+   =>   Right Sandpit -> Right Sandpit->Missile (right Maridia sand pit room)
+   =>   Missile (right Maridia sand pit room)
+Missile (yellow Maridia super missile)
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Keyhunter Room Bottom
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Red Brinstar Elevator
+   =>   Red Brinstar Elevator -> Red Brinstar Elevator->Red Tower Top Left
+   =>   Red Tower Top Left -> Red Tower Top Left->East Tunnel Right
+   =>   East Tunnel Right -> East Tunnel Right->Glass Tunnel Top
+   =>   Glass Tunnel Top -> Glass Tunnel Top->Main Street Bottom
+   =>   Main Street Bottom -> Main Street Bottom->Crab Shaft Left
+   =>   Crab Shaft Left -> Crab Shaft Left->Beach
+   =>   Beach -> Beach->Watering Hole
+   =>   Watering Hole -> Watering Hole->Watering Hole Bottom
+   =>   Watering Hole Bottom -> Watering Hole Bottom->Missile (yellow Maridia super missile)
+   =>   Missile (yellow Maridia super missile)
 Morphing Ball
         Menu -> StartAP
    =>   Landing Site -> Landing Site->Blue Brinstar Elevator Bottom
@@ -381,10 +616,55 @@ Phantoon
    =>   PhantoonRoomOut -> PhantoonRoomOut->PhantoonRoomIn
    =>   PhantoonRoomIn -> PhantoonRoomIn->Phantoon
    =>   Phantoon
+Plasma Beam
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Keyhunter Room Bottom
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Moat Left
+   =>   Moat Left -> Moat Left->Moat Right
+   =>   Moat Right -> Moat Right->West Ocean Left
+   =>   West Ocean Left -> West Ocean Left->Wrecked Ship Main
+   =>   Wrecked Ship Main -> Wrecked Ship Main->Wrecked Ship Back
+   =>   Wrecked Ship Back -> Wrecked Ship Back->Crab Maze Left
+   =>   Crab Maze Left -> Crab Maze Left->Le Coude Right
+   =>   Le Coude Right -> Le Coude Right->Toilet Top
+   =>   Toilet Top -> Toilet Top->Plasma Beam
+   =>   Plasma Beam
 Power Bomb (Crateria surface)
         Menu -> StartAP
    =>   Landing Site -> Landing Site->Power Bomb (Crateria surface)
    =>   Power Bomb (Crateria surface)
+Power Bomb (Crocomire)
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Keyhunter Room Bottom
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Red Brinstar Elevator
+   =>   Red Brinstar Elevator -> Red Brinstar Elevator->Red Tower Top Left
+   =>   Red Tower Top Left -> Red Tower Top Left->East Tunnel Right
+   =>   East Tunnel Right -> East Tunnel Right->Warehouse Entrance Left
+   =>   Warehouse Entrance Left -> Warehouse Entrance Left->Business Center
+   =>   Business Center -> Business Center->Bubble Mountain
+   =>   Bubble Mountain -> Bubble Mountain->Bubble Mountain Bottom
+   =>   Bubble Mountain Bottom -> Bubble Mountain Bottom->Crocomire Speedway Bottom
+   =>   Crocomire Speedway Bottom -> Crocomire Speedway Bottom->Crocomire Room Top
+   =>   Crocomire Room Top -> Crocomire Room Top->Power Bomb (Crocomire)
+   =>   Power Bomb (Crocomire)
+Power Bomb (Power Bombs of shame)
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Keyhunter Room Bottom
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Red Brinstar Elevator
+   =>   Red Brinstar Elevator -> Red Brinstar Elevator->Red Tower Top Left
+   =>   Red Tower Top Left -> Red Tower Top Left->East Tunnel Right
+   =>   East Tunnel Right -> East Tunnel Right->Warehouse Entrance Left
+   =>   Warehouse Entrance Left -> Warehouse Entrance Left->Business Center
+   =>   Business Center -> Business Center->Bubble Mountain
+   =>   Bubble Mountain -> Bubble Mountain->Bubble Mountain Bottom
+   =>   Bubble Mountain Bottom -> Bubble Mountain Bottom->Kronic Boost Room Bottom Left
+   =>   Kronic Boost Room Bottom Left -> Kronic Boost Room Bottom Left->Lava Dive Right
+   =>   Lava Dive Right -> Lava Dive Right->LN Entrance
+   =>   LN Entrance -> LN Entrance->Firefleas
+   =>   Firefleas -> Firefleas->Ridley Zone
+   =>   Ridley Zone -> Ridley Zone->Wasteland
+   =>   Wasteland -> Wasteland->Power Bomb (Power Bombs of shame)
+   =>   Power Bomb (Power Bombs of shame)
 Power Bomb (lower Norfair above fire flea room)
         Menu -> StartAP
    =>   Landing Site -> Landing Site->Keyhunter Room Bottom
@@ -402,12 +682,53 @@ Power Bomb (lower Norfair above fire flea room)
    =>   Firefleas -> Firefleas->Firefleas Top
    =>   Firefleas Top -> Firefleas Top->Power Bomb (lower Norfair above fire flea room)
    =>   Power Bomb (lower Norfair above fire flea room)
+Power Bomb (right Maridia sand pit room)
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Keyhunter Room Bottom
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Red Brinstar Elevator
+   =>   Red Brinstar Elevator -> Red Brinstar Elevator->Red Tower Top Left
+   =>   Red Tower Top Left -> Red Tower Top Left->East Tunnel Right
+   =>   East Tunnel Right -> East Tunnel Right->Glass Tunnel Top
+   =>   Glass Tunnel Top -> Glass Tunnel Top->Main Street Bottom
+   =>   Main Street Bottom -> Main Street Bottom->Crab Shaft Left
+   =>   Crab Shaft Left -> Crab Shaft Left->Crab Shaft Right
+   =>   Crab Shaft Right -> Crab Shaft Right->Aqueduct Top Left
+   =>   Aqueduct Top Left -> Aqueduct Top Left->Aqueduct Bottom
+   =>   Aqueduct Bottom -> Aqueduct Bottom->Right Sandpit
+   =>   Right Sandpit -> Right Sandpit->Power Bomb (right Maridia sand pit room)
+   =>   Power Bomb (right Maridia sand pit room)
 Reserve Tank, Brinstar
         Menu -> StartAP
    =>   Landing Site -> Landing Site->Lower Mushrooms Left
    =>   Lower Mushrooms Left -> Lower Mushrooms Left->Green Brinstar Elevator
    =>   Green Brinstar Elevator -> Green Brinstar Elevator->Reserve Tank, Brinstar
    =>   Reserve Tank, Brinstar
+Reserve Tank, Maridia
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Keyhunter Room Bottom
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Red Brinstar Elevator
+   =>   Red Brinstar Elevator -> Red Brinstar Elevator->Red Tower Top Left
+   =>   Red Tower Top Left -> Red Tower Top Left->East Tunnel Right
+   =>   East Tunnel Right -> East Tunnel Right->Glass Tunnel Top
+   =>   Glass Tunnel Top -> Glass Tunnel Top->Main Street Bottom
+   =>   Main Street Bottom -> Main Street Bottom->Crab Shaft Left
+   =>   Crab Shaft Left -> Crab Shaft Left->Crab Shaft Right
+   =>   Crab Shaft Right -> Crab Shaft Right->Aqueduct Top Left
+   =>   Aqueduct Top Left -> Aqueduct Top Left->Aqueduct Bottom
+   =>   Aqueduct Bottom -> Aqueduct Bottom->Left Sandpit
+   =>   Left Sandpit -> Left Sandpit->Reserve Tank, Maridia
+   =>   Reserve Tank, Maridia
+Reserve Tank, Norfair
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Keyhunter Room Bottom
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Red Brinstar Elevator
+   =>   Red Brinstar Elevator -> Red Brinstar Elevator->Red Tower Top Left
+   =>   Red Tower Top Left -> Red Tower Top Left->East Tunnel Right
+   =>   East Tunnel Right -> East Tunnel Right->Warehouse Entrance Left
+   =>   Warehouse Entrance Left -> Warehouse Entrance Left->Business Center
+   =>   Business Center -> Business Center->Bubble Mountain
+   =>   Bubble Mountain -> Bubble Mountain->Reserve Tank, Norfair
+   =>   Reserve Tank, Norfair
 Ridley
         Menu -> StartAP
    =>   Landing Site -> Landing Site->Keyhunter Room Bottom
@@ -427,7 +748,7 @@ Ridley
    =>   RidleyRoomOut -> RidleyRoomOut->RidleyRoomIn
    =>   RidleyRoomIn -> RidleyRoomIn->Ridley
    =>   Ridley
-Spring Ball
+Space Jump
         Menu -> StartAP
    =>   Landing Site -> Landing Site->Keyhunter Room Bottom
    =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Red Brinstar Elevator
@@ -435,6 +756,36 @@ Spring Ball
    =>   Red Tower Top Left -> Red Tower Top Left->East Tunnel Right
    =>   East Tunnel Right -> East Tunnel Right->Glass Tunnel Top
    =>   Glass Tunnel Top -> Glass Tunnel Top->Main Street Bottom
-   =>   Main Street Bottom -> Main Street Bottom->Oasis Bottom
+   =>   Main Street Bottom -> Main Street Bottom->Crab Shaft Left
+   =>   Crab Shaft Left -> Crab Shaft Left->Crab Shaft Right
+   =>   Crab Shaft Right -> Crab Shaft Right->Aqueduct Top Left
+   =>   Aqueduct Top Left -> Aqueduct Top Left->Aqueduct Bottom
+   =>   Aqueduct Bottom -> Aqueduct Bottom->Post Botwoon
+   =>   Post Botwoon -> Post Botwoon->Colosseum Top Right
+   =>   Colosseum Top Right -> Colosseum Top Right->Precious Room Top
+   =>   Precious Room Top -> Precious Room Top->DraygonRoomOut
+   =>   DraygonRoomOut -> DraygonRoomOut->DraygonRoomIn
+   =>   DraygonRoomIn -> DraygonRoomIn->Draygon Room Bottom
+   =>   Draygon Room Bottom -> Draygon Room Bottom->Space Jump
+   =>   Space Jump
+Spore Spawn
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Lower Mushrooms Left
+   =>   Lower Mushrooms Left -> Lower Mushrooms Left->Green Brinstar Elevator
+   =>   Green Brinstar Elevator -> Green Brinstar Elevator->Big Pink
+   =>   Big Pink -> Big Pink->Spore Spawn
+   =>   Spore Spawn
+Spring Ball
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Keyhunter Room Bottom
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Moat Left
+   =>   Moat Left -> Moat Left->Moat Right
+   =>   Moat Right -> Moat Right->West Ocean Left
+   =>   West Ocean Left -> West Ocean Left->Wrecked Ship Main
+   =>   Wrecked Ship Main -> Wrecked Ship Main->Wrecked Ship Back
+   =>   Wrecked Ship Back -> Wrecked Ship Back->Crab Maze Left
+   =>   Crab Maze Left -> Crab Maze Left->Le Coude Right
+   =>   Le Coude Right -> Le Coude Right->Toilet Top
+   =>   Toilet Top -> Toilet Top->Oasis Bottom
    =>   Oasis Bottom -> Oasis Bottom->Spring Ball
    =>   Spring Ball

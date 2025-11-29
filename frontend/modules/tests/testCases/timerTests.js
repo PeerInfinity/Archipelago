@@ -190,15 +190,37 @@ export async function timerOfflineTest(testController) {
       // staticData.locations is always a Map after initialization
       const locationsArray = Array.from(staticData.locations.values());
 
+      // Count total locations
+      const totalLocations = locationsArray.length;
+
       // Count manually-checkable locations (those with IDs > 0)
-      // Locations with id=0 are events that get checked automatically, not by the timer
+      // Locations with id=null are events that get checked automatically, not by the timer
       const manuallyCheckableLocations = locationsArray.filter(
         loc => loc.id !== null && loc.id !== undefined && loc.id !== 0
       );
       const totalManuallyCheckable = manuallyCheckableLocations.length;
 
-      testController.log(`Final result: ${checkedCount} locations checked (includes auto-checked events)`);
+      // Get event locations from staticData (pre-computed Map for efficiency)
+      const eventLocations = staticData.eventLocations
+        ? Object.values(staticData.eventLocations)
+        : [];
+      const totalEventLocations = eventLocations.length;
+
+      // Count how many of each type were checked
+      const checkedSet = new Set(finalSnapshot.checkedLocations || []);
+      const checkedManualLocations = manuallyCheckableLocations.filter(
+        loc => checkedSet.has(loc.name)
+      ).length;
+      const checkedEventLocations = eventLocations.filter(
+        loc => checkedSet.has(loc.name)
+      ).length;
+
+      testController.log(`Final result: ${checkedCount} locations checked`);
+      testController.log(`Total locations: ${totalLocations}`);
       testController.log(`Manually-checkable locations: ${totalManuallyCheckable}`);
+      testController.log(`Manually-checkable locations checked: ${checkedManualLocations}`);
+      testController.log(`Event locations: ${totalEventLocations}`);
+      testController.log(`Event locations checked: ${checkedEventLocations}`);
 
       // Test ONLY passes if ALL manually-checkable locations were checked
       if (checkedCount >= totalManuallyCheckable) {

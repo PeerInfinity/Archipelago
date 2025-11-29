@@ -91,10 +91,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Time Piece"
-                  },
+                  "item": "Time Piece",
                   "count": {
                     "type": "constant",
                     "value": 13
@@ -121,10 +118,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Time Piece"
-                  },
+                  "item": "Time Piece",
                   "count": {
                     "type": "constant",
                     "value": 5
@@ -157,10 +151,7 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Time Piece"
-                  },
+                  "item": "Time Piece",
                   "count": {
                     "type": "constant",
                     "value": 12
@@ -168,10 +159,7 @@
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Time Piece"
-                  },
+                  "item": "Time Piece",
                   "count": {
                     "type": "constant",
                     "value": 5
@@ -325,7 +313,7 @@
             "name": "Time Rift - Bazaar Portal - Entrance 1",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -340,7 +328,7 @@
             "name": "Time Rift - Sewers Portal - Entrance 1",
             "connected_region": "Time Rift - Gallery",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -428,7 +416,7 @@
             "name": "Time Rift - Bazaar Portal - Entrance 2",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -443,7 +431,7 @@
             "name": "Time Rift - Sewers Portal - Entrance 2",
             "connected_region": "Time Rift - Gallery",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -517,7 +505,7 @@
             "name": "Time Rift - Bazaar Portal - Entrance 3",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -532,7 +520,7 @@
             "name": "Time Rift - Sewers Portal - Entrance 3",
             "connected_region": "Time Rift - Gallery",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -606,7 +594,7 @@
             "name": "Time Rift - Bazaar Portal - Entrance 4",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -621,7 +609,7 @@
             "name": "Time Rift - Sewers Portal - Entrance 4",
             "connected_region": "Time Rift - Gallery",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -749,7 +737,7 @@
             "name": "Time Rift - Bazaar Portal - Entrance 6",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -764,7 +752,7 @@
             "name": "Time Rift - Sewers Portal - Entrance 6",
             "connected_region": "Time Rift - Gallery",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -782,52 +770,17 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "constant",
-                  "value": true
-                },
-                {
                   "type": "and",
                   "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Snatcher's Contract - Mail Delivery Service"
-                      }
-                    },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "helper",
-                          "name": "can_use_hat",
-                          "args": [
-                            {
-                              "type": "constant",
-                              "value": 4
-                            }
-                          ]
-                        },
-                        {
                           "type": "and",
                           "conditions": [
                             {
-                              "type": "item_check",
-                              "item": {
-                                "type": "constant",
-                                "value": "Snatcher's Contract - Queen Vanessa's Manor"
-                              }
-                            },
-                            {
                               "type": "and",
                               "conditions": [
-                                {
-                                  "type": "item_check",
-                                  "item": {
-                                    "type": "constant",
-                                    "value": "Snatcher's Contract - Toilet of Doom"
-                                  }
-                                },
                                 {
                                   "type": "and",
                                   "conditions": [
@@ -837,20 +790,43 @@
                                     },
                                     {
                                       "type": "item_check",
-                                      "item": {
-                                        "type": "constant",
-                                        "value": "Snatcher's Contract - The Subcon Well"
-                                      }
+                                      "item": "Snatcher's Contract - The Subcon Well"
                                     }
                                   ]
+                                },
+                                {
+                                  "type": "item_check",
+                                  "item": "Snatcher's Contract - Toilet of Doom"
                                 }
                               ]
+                            },
+                            {
+                              "type": "item_check",
+                              "item": "Snatcher's Contract - Queen Vanessa's Manor"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "helper",
+                          "name": "can_use_hat",
+                          "args": [
+                            {
+                              "type": "constant",
+                              "value": 4
                             }
                           ]
                         }
                       ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Snatcher's Contract - Mail Delivery Service"
                     }
                   ]
+                },
+                {
+                  "type": "constant",
+                  "value": true
                 }
               ]
             }
@@ -916,7 +892,7 @@
             "name": "Time Rift - Bazaar Portal - Entrance 5",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -931,7 +907,7 @@
             "name": "Time Rift - Sewers Portal - Entrance 5",
             "connected_region": "Time Rift - Gallery",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -949,52 +925,17 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "constant",
-                  "value": true
-                },
-                {
                   "type": "and",
                   "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Snatcher's Contract - Mail Delivery Service"
-                      }
-                    },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "helper",
-                          "name": "can_use_hat",
-                          "args": [
-                            {
-                              "type": "constant",
-                              "value": 4
-                            }
-                          ]
-                        },
-                        {
                           "type": "and",
                           "conditions": [
                             {
-                              "type": "item_check",
-                              "item": {
-                                "type": "constant",
-                                "value": "Snatcher's Contract - Queen Vanessa's Manor"
-                              }
-                            },
-                            {
                               "type": "and",
                               "conditions": [
-                                {
-                                  "type": "item_check",
-                                  "item": {
-                                    "type": "constant",
-                                    "value": "Snatcher's Contract - Toilet of Doom"
-                                  }
-                                },
                                 {
                                   "type": "and",
                                   "conditions": [
@@ -1004,20 +945,43 @@
                                     },
                                     {
                                       "type": "item_check",
-                                      "item": {
-                                        "type": "constant",
-                                        "value": "Snatcher's Contract - The Subcon Well"
-                                      }
+                                      "item": "Snatcher's Contract - The Subcon Well"
                                     }
                                   ]
+                                },
+                                {
+                                  "type": "item_check",
+                                  "item": "Snatcher's Contract - Toilet of Doom"
                                 }
                               ]
+                            },
+                            {
+                              "type": "item_check",
+                              "item": "Snatcher's Contract - Queen Vanessa's Manor"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "helper",
+                          "name": "can_use_hat",
+                          "args": [
+                            {
+                              "type": "constant",
+                              "value": 4
                             }
                           ]
                         }
                       ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Snatcher's Contract - Mail Delivery Service"
                     }
                   ]
+                },
+                {
+                  "type": "constant",
+                  "value": true
                 }
               ]
             }
@@ -1075,7 +1039,7 @@
             "name": "Time Rift - Bazaar Portal - Entrance 7",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -1090,7 +1054,7 @@
             "name": "Time Rift - Sewers Portal - Entrance 7",
             "connected_region": "Time Rift - Gallery",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -1229,11 +1193,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "can_use_hookshot",
-                  "args": []
-                },
-                {
                   "type": "and",
                   "conditions": [
                     {
@@ -1244,13 +1203,6 @@
                       "type": "or",
                       "conditions": [
                         {
-                          "type": "item_check",
-                          "item": {
-                            "type": "constant",
-                            "value": "Umbrella"
-                          }
-                        },
-                        {
                           "type": "helper",
                           "name": "can_use_hat",
                           "args": [
@@ -1259,10 +1211,19 @@
                               "value": 1
                             }
                           ]
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Umbrella"
                         }
                       ]
                     }
                   ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_use_hookshot",
+                  "args": []
                 }
               ]
             }
@@ -1276,13 +1237,6 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Umbrella"
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_use_hat",
                   "args": [
@@ -1291,6 +1245,10 @@
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Umbrella"
                 }
               ]
             },
@@ -1313,24 +1271,24 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "generic_helper",
-                  "name": "can_clear_required_act",
-                  "description": "Checks if a specific act can be completed",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": "Battle of the Birds - Act 3"
-                    }
-                  ]
-                },
-                {
-                  "type": "generic_helper",
+                  "type": "helper",
                   "name": "can_clear_required_act",
                   "description": "Checks if a specific act can be completed",
                   "args": [
                     {
                       "type": "constant",
                       "value": "Battle of the Birds - Act 2"
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_clear_required_act",
+                  "description": "Checks if a specific act can be completed",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Battle of the Birds - Act 3"
                     }
                   ]
                 }
@@ -1344,52 +1302,17 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "constant",
-                  "value": true
-                },
-                {
                   "type": "and",
                   "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Snatcher's Contract - Mail Delivery Service"
-                      }
-                    },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "helper",
-                          "name": "can_use_hat",
-                          "args": [
-                            {
-                              "type": "constant",
-                              "value": 4
-                            }
-                          ]
-                        },
-                        {
                           "type": "and",
                           "conditions": [
                             {
-                              "type": "item_check",
-                              "item": {
-                                "type": "constant",
-                                "value": "Snatcher's Contract - Queen Vanessa's Manor"
-                              }
-                            },
-                            {
                               "type": "and",
                               "conditions": [
-                                {
-                                  "type": "item_check",
-                                  "item": {
-                                    "type": "constant",
-                                    "value": "Snatcher's Contract - Toilet of Doom"
-                                  }
-                                },
                                 {
                                   "type": "and",
                                   "conditions": [
@@ -1399,20 +1322,43 @@
                                     },
                                     {
                                       "type": "item_check",
-                                      "item": {
-                                        "type": "constant",
-                                        "value": "Snatcher's Contract - The Subcon Well"
-                                      }
+                                      "item": "Snatcher's Contract - The Subcon Well"
                                     }
                                   ]
+                                },
+                                {
+                                  "type": "item_check",
+                                  "item": "Snatcher's Contract - Toilet of Doom"
                                 }
                               ]
+                            },
+                            {
+                              "type": "item_check",
+                              "item": "Snatcher's Contract - Queen Vanessa's Manor"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "helper",
+                          "name": "can_use_hat",
+                          "args": [
+                            {
+                              "type": "constant",
+                              "value": 4
                             }
                           ]
                         }
                       ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Snatcher's Contract - Mail Delivery Service"
                     }
                   ]
+                },
+                {
+                  "type": "constant",
+                  "value": true
                 }
               ]
             }
@@ -1543,24 +1489,24 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "generic_helper",
-                  "name": "can_clear_required_act",
-                  "description": "Checks if a specific act can be completed",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": "Battle of the Birds - Act 5"
-                    }
-                  ]
-                },
-                {
-                  "type": "generic_helper",
+                  "type": "helper",
                   "name": "can_clear_required_act",
                   "description": "Checks if a specific act can be completed",
                   "args": [
                     {
                       "type": "constant",
                       "value": "Battle of the Birds - Act 4"
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_clear_required_act",
+                  "description": "Checks if a specific act can be completed",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Battle of the Birds - Act 5"
                     }
                   ]
                 }
@@ -1631,11 +1577,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "can_use_hookshot",
-                  "args": []
-                },
-                {
                   "type": "and",
                   "conditions": [
                     {
@@ -1646,13 +1587,6 @@
                       "type": "or",
                       "conditions": [
                         {
-                          "type": "item_check",
-                          "item": {
-                            "type": "constant",
-                            "value": "Umbrella"
-                          }
-                        },
-                        {
                           "type": "helper",
                           "name": "can_use_hat",
                           "args": [
@@ -1661,10 +1595,19 @@
                               "value": 1
                             }
                           ]
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Umbrella"
                         }
                       ]
                     }
                   ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_use_hookshot",
+                  "args": []
                 }
               ]
             }
@@ -1698,24 +1641,24 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "generic_helper",
-                  "name": "can_clear_required_act",
-                  "description": "Checks if a specific act can be completed",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": "Battle of the Birds - Act 5"
-                    }
-                  ]
-                },
-                {
-                  "type": "generic_helper",
+                  "type": "helper",
                   "name": "can_clear_required_act",
                   "description": "Checks if a specific act can be completed",
                   "args": [
                     {
                       "type": "constant",
                       "value": "Battle of the Birds - Act 4"
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_clear_required_act",
+                  "description": "Checks if a specific act can be completed",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Battle of the Birds - Act 5"
                     }
                   ]
                 }
@@ -1817,10 +1760,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "constant",
-                  "value": true
-                },
-                {
                   "type": "and",
                   "conditions": [
                     {
@@ -1833,6 +1772,10 @@
                       "args": []
                     }
                   ]
+                },
+                {
+                  "type": "constant",
+                  "value": true
                 }
               ]
             }
@@ -2248,13 +2191,6 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Umbrella"
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_use_hat",
                   "args": [
@@ -2263,6 +2199,10 @@
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Umbrella"
                 }
               ]
             },
@@ -2294,13 +2234,6 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Umbrella"
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_use_hat",
                   "args": [
@@ -2309,6 +2242,10 @@
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Umbrella"
                 }
               ]
             },
@@ -2326,13 +2263,6 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Umbrella"
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_use_hat",
                   "args": [
@@ -2341,6 +2271,10 @@
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Umbrella"
                 }
               ]
             },
@@ -2369,10 +2303,7 @@
             "connected_region": "Murder on the Owl Express",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Snatcher's Contract - The Subcon Well"
-              }
+              "item": "Snatcher's Contract - The Subcon Well"
             }
           },
           {
@@ -2388,10 +2319,7 @@
             "connected_region": "Alpine Free Roam",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Snatcher's Contract - Toilet of Doom"
-              }
+              "item": "Snatcher's Contract - Toilet of Doom"
             }
           },
           {
@@ -2399,10 +2327,7 @@
             "connected_region": "Cheating the Race",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Snatcher's Contract - Queen Vanessa's Manor"
-              }
+              "item": "Snatcher's Contract - Queen Vanessa's Manor"
             }
           },
           {
@@ -2410,10 +2335,7 @@
             "connected_region": "Heating Up Mafia Town",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Snatcher's Contract - Mail Delivery Service"
-              }
+              "item": "Snatcher's Contract - Mail Delivery Service"
             }
           }
         ],
@@ -2434,7 +2356,7 @@
             "name": "Time Rift - Pipe Portal - Entrance 1",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -2463,7 +2385,7 @@
             "name": "Time Rift - Village Portal - Entrance 1",
             "connected_region": "Time Rift - The Owl Express",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -2481,10 +2403,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "constant",
-                  "value": true
-                },
-                {
                   "type": "and",
                   "conditions": [
                     {
@@ -2497,6 +2415,10 @@
                       "args": []
                     }
                   ]
+                },
+                {
+                  "type": "constant",
+                  "value": true
                 }
               ]
             }
@@ -2562,7 +2484,7 @@
             "name": "Time Rift - Pipe Portal - Entrance 2",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -2591,7 +2513,7 @@
             "name": "Time Rift - Village Portal - Entrance 2",
             "connected_region": "Time Rift - The Owl Express",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -2609,10 +2531,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "constant",
-                  "value": true
-                },
-                {
                   "type": "and",
                   "conditions": [
                     {
@@ -2625,6 +2543,10 @@
                       "args": []
                     }
                   ]
+                },
+                {
+                  "type": "constant",
+                  "value": true
                 }
               ]
             }
@@ -2720,7 +2642,7 @@
             "name": "Time Rift - Pipe Portal - Entrance 3",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -2749,7 +2671,7 @@
             "name": "Time Rift - Village Portal - Entrance 3",
             "connected_region": "Time Rift - The Owl Express",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -2770,16 +2692,16 @@
               "conditions": [
                 {
                   "type": "helper",
+                  "name": "can_hit",
+                  "args": []
+                },
+                {
+                  "type": "helper",
                   "name": "can_use_hookshot",
                   "args": []
                 },
                 {
                   "type": "helper",
-                  "name": "can_hit",
-                  "args": []
-                },
-                {
-                  "type": "generic_helper",
                   "name": "has_paintings",
                   "description": "Checks if player has enough painting unlocks",
                   "args": [
@@ -2833,7 +2755,7 @@
             "name": "Time Rift - Pipe Portal - Entrance 4",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -2862,7 +2784,7 @@
             "name": "Time Rift - Village Portal - Entrance 4",
             "connected_region": "Time Rift - The Owl Express",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -2880,10 +2802,6 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "constant",
-                  "value": true
-                },
-                {
                   "type": "and",
                   "conditions": [
                     {
@@ -2896,6 +2814,10 @@
                       "args": []
                     }
                   ]
+                },
+                {
+                  "type": "constant",
+                  "value": true
                 }
               ]
             }
@@ -2989,7 +2911,7 @@
             "name": "Time Rift - Pipe Portal - Entrance 5",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -3018,7 +2940,7 @@
             "name": "Time Rift - Village Portal - Entrance 5",
             "connected_region": "Time Rift - The Owl Express",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "can_clear_required_act",
               "description": "Checks if a specific act can be completed",
               "args": [
@@ -3079,52 +3001,17 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "constant",
-                  "value": true
-                },
-                {
                   "type": "and",
                   "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Snatcher's Contract - Mail Delivery Service"
-                      }
-                    },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "helper",
-                          "name": "can_use_hat",
-                          "args": [
-                            {
-                              "type": "constant",
-                              "value": 4
-                            }
-                          ]
-                        },
-                        {
                           "type": "and",
                           "conditions": [
                             {
-                              "type": "item_check",
-                              "item": {
-                                "type": "constant",
-                                "value": "Snatcher's Contract - Queen Vanessa's Manor"
-                              }
-                            },
-                            {
                               "type": "and",
                               "conditions": [
-                                {
-                                  "type": "item_check",
-                                  "item": {
-                                    "type": "constant",
-                                    "value": "Snatcher's Contract - Toilet of Doom"
-                                  }
-                                },
                                 {
                                   "type": "and",
                                   "conditions": [
@@ -3134,20 +3021,43 @@
                                     },
                                     {
                                       "type": "item_check",
-                                      "item": {
-                                        "type": "constant",
-                                        "value": "Snatcher's Contract - The Subcon Well"
-                                      }
+                                      "item": "Snatcher's Contract - The Subcon Well"
                                     }
                                   ]
+                                },
+                                {
+                                  "type": "item_check",
+                                  "item": "Snatcher's Contract - Toilet of Doom"
                                 }
                               ]
+                            },
+                            {
+                              "type": "item_check",
+                              "item": "Snatcher's Contract - Queen Vanessa's Manor"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "helper",
+                          "name": "can_use_hat",
+                          "args": [
+                            {
+                              "type": "constant",
+                              "value": 4
                             }
                           ]
                         }
                       ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Snatcher's Contract - Mail Delivery Service"
                     }
                   ]
+                },
+                {
+                  "type": "constant",
+                  "value": true
                 }
               ]
             }
@@ -3162,9 +3072,25 @@
             "name": "Alpine Skyline - Finale",
             "connected_region": "Toilet of Doom",
             "access_rule": {
-              "type": "helper",
-              "name": "can_clear_alpine",
-              "args": []
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Birdhouse Cleared"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Lava Cake Cleared"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Twilight Bell Cleared"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Windmill Cleared"
+                }
+              ]
             }
           },
           {
@@ -3195,10 +3121,7 @@
             "connected_region": "Time Rift - Pipe",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Windmill Cleared"
-              }
+              "item": "Windmill Cleared"
             }
           },
           {
@@ -3212,12 +3135,12 @@
                   "conditions": [
                     {
                       "type": "helper",
-                      "name": "can_use_hookshot",
+                      "name": "can_hit",
                       "args": []
                     },
                     {
                       "type": "helper",
-                      "name": "can_hit",
+                      "name": "can_use_hookshot",
                       "args": []
                     }
                   ]
@@ -3240,10 +3163,7 @@
             "connected_region": "Time Rift - Bazaar",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Twilight Bell Cleared"
-              }
+              "item": "Twilight Bell Cleared"
             }
           },
           {
@@ -3253,52 +3173,17 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "constant",
-                  "value": true
-                },
-                {
                   "type": "and",
                   "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Snatcher's Contract - Mail Delivery Service"
-                      }
-                    },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "helper",
-                          "name": "can_use_hat",
-                          "args": [
-                            {
-                              "type": "constant",
-                              "value": 4
-                            }
-                          ]
-                        },
-                        {
                           "type": "and",
                           "conditions": [
                             {
-                              "type": "item_check",
-                              "item": {
-                                "type": "constant",
-                                "value": "Snatcher's Contract - Queen Vanessa's Manor"
-                              }
-                            },
-                            {
                               "type": "and",
                               "conditions": [
-                                {
-                                  "type": "item_check",
-                                  "item": {
-                                    "type": "constant",
-                                    "value": "Snatcher's Contract - Toilet of Doom"
-                                  }
-                                },
                                 {
                                   "type": "and",
                                   "conditions": [
@@ -3308,20 +3193,43 @@
                                     },
                                     {
                                       "type": "item_check",
-                                      "item": {
-                                        "type": "constant",
-                                        "value": "Snatcher's Contract - The Subcon Well"
-                                      }
+                                      "item": "Snatcher's Contract - The Subcon Well"
                                     }
                                   ]
+                                },
+                                {
+                                  "type": "item_check",
+                                  "item": "Snatcher's Contract - Toilet of Doom"
                                 }
                               ]
+                            },
+                            {
+                              "type": "item_check",
+                              "item": "Snatcher's Contract - Queen Vanessa's Manor"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "helper",
+                          "name": "can_use_hat",
+                          "args": [
+                            {
+                              "type": "constant",
+                              "value": 4
                             }
                           ]
                         }
                       ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Snatcher's Contract - Mail Delivery Service"
                     }
                   ]
+                },
+                {
+                  "type": "constant",
+                  "value": true
                 }
               ]
             }
@@ -3363,11 +3271,6 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_use_hookshot",
-                  "args": []
-                },
-                {
-                  "type": "helper",
                   "name": "can_use_hat",
                   "args": [
                     {
@@ -3375,6 +3278,11 @@
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_use_hookshot",
+                  "args": []
                 }
               ]
             }
@@ -3405,11 +3313,6 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_use_hookshot",
-                  "args": []
-                },
-                {
-                  "type": "helper",
                   "name": "can_use_hat",
                   "args": [
                     {
@@ -3417,6 +3320,11 @@
                       "value": 3
                     }
                   ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_use_hookshot",
+                  "args": []
                 }
               ]
             }
@@ -3573,18 +3481,6 @@
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "AFR Access"
-                      }
-                    },
-                    {
-                      "type": "helper",
-                      "name": "can_use_hookshot",
-                      "args": []
-                    },
-                    {
                       "type": "helper",
                       "name": "can_hit",
                       "args": [
@@ -3593,6 +3489,15 @@
                           "value": true
                         }
                       ]
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_use_hookshot",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "AFR Access"
                     }
                   ]
                 },
@@ -3633,11 +3538,6 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_use_hookshot",
-                  "args": []
-                },
-                {
-                  "type": "helper",
                   "name": "can_use_hat",
                   "args": [
                     {
@@ -3645,6 +3545,11 @@
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_use_hookshot",
+                  "args": []
                 }
               ]
             },
@@ -4301,20 +4206,6 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Welcome to Mafia Town"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    }
-                  ]
-                },
-                {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "constant",
                       "value": "Barrel Battle"
                     },
                     {
@@ -4343,6 +4234,20 @@
                   "args": [
                     {
                       "type": "constant",
+                      "value": "Down with the Mafia!"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
                       "value": "The Golden Vault"
                     },
                     {
@@ -4357,7 +4262,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Down with the Mafia!"
+                      "value": "Welcome to Mafia Town"
                     },
                     {
                       "type": "constant",
@@ -4386,20 +4291,6 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Welcome to Mafia Town"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    }
-                  ]
-                },
-                {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "constant",
                       "value": "Barrel Battle"
                     },
                     {
@@ -4428,6 +4319,20 @@
                   "args": [
                     {
                       "type": "constant",
+                      "value": "Down with the Mafia!"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
                       "value": "The Golden Vault"
                     },
                     {
@@ -4442,7 +4347,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Down with the Mafia!"
+                      "value": "Welcome to Mafia Town"
                     },
                     {
                       "type": "constant",
@@ -4722,35 +4627,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Welcome to Mafia Town"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    }
-                  ]
-                },
-                {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "constant",
                       "value": "Barrel Battle"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    }
-                  ]
-                },
-                {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": "She Came from Outer Space"
                     },
                     {
                       "type": "constant",
@@ -4792,7 +4669,35 @@
                   "args": [
                     {
                       "type": "constant",
+                      "value": "She Came from Outer Space"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
                       "value": "The Golden Vault"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Welcome to Mafia Town"
                     },
                     {
                       "type": "constant",
@@ -4968,13 +4873,6 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "HUMT Access"
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_use_hat",
                   "args": [
@@ -4983,6 +4881,10 @@
                       "value": 1
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "HUMT Access"
                 }
               ]
             },
@@ -5014,16 +4916,13 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "HUMT Access"
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_use_hookshot",
                   "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "HUMT Access"
                 }
               ]
             },
@@ -5104,20 +5003,6 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Welcome to Mafia Town"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    }
-                  ]
-                },
-                {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "constant",
                       "value": "Barrel Battle"
                     },
                     {
@@ -5132,7 +5017,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Down with the Mafia!"
+                      "value": "Cheating the Race"
                     },
                     {
                       "type": "constant",
@@ -5146,7 +5031,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Cheating the Race"
+                      "value": "Down with the Mafia!"
                     },
                     {
                       "type": "constant",
@@ -5175,6 +5060,20 @@
                     {
                       "type": "constant",
                       "value": "The Golden Vault"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Welcome to Mafia Town"
                     },
                     {
                       "type": "constant",
@@ -5217,7 +5116,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Down with the Mafia!"
+                      "value": "Cheating the Race"
                     },
                     {
                       "type": "constant",
@@ -5231,7 +5130,7 @@
                   "args": [
                     {
                       "type": "constant",
-                      "value": "Cheating the Race"
+                      "value": "Down with the Mafia!"
                     },
                     {
                       "type": "constant",
@@ -5415,7 +5314,7 @@
             "name": "SF Area -> SF Behind Boss Firewall",
             "connected_region": "Subcon Forest Behind Boss Firewall",
             "access_rule": {
-              "type": "generic_helper",
+              "type": "helper",
               "name": "has_paintings",
               "description": "Checks if player has enough painting unlocks",
               "args": [
@@ -6034,16 +5933,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "TOD Access"
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_use_hookshot",
                   "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "TOD Access"
                 }
               ]
             }
@@ -6294,13 +6190,6 @@
                   ]
                 },
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Umbrella"
-                  }
-                },
-                {
                   "type": "helper",
                   "name": "can_use_hat",
                   "args": [
@@ -6309,6 +6198,10 @@
                       "value": 3
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Umbrella"
                 }
               ]
             },
@@ -6479,11 +6372,6 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_use_hookshot",
-                  "args": []
-                },
-                {
-                  "type": "helper",
                   "name": "can_use_hat",
                   "args": [
                     {
@@ -6491,6 +6379,11 @@
                       "value": 3
                     }
                   ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_use_hookshot",
+                  "args": []
                 }
               ]
             },
@@ -6509,11 +6402,6 @@
               "conditions": [
                 {
                   "type": "helper",
-                  "name": "can_use_hookshot",
-                  "args": []
-                },
-                {
-                  "type": "helper",
                   "name": "can_use_hat",
                   "args": [
                     {
@@ -6521,6 +6409,11 @@
                       "value": 3
                     }
                   ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_use_hookshot",
+                  "args": []
                 }
               ]
             },
@@ -7505,6 +7398,7 @@
     "1": {
       "game": "A Hat in Time",
       "assume_bidirectional_exits": false,
+      "use_resolved_items": false,
       "HatItems": false,
       "UmbrellaLogic": false,
       "ShuffleSubconPaintings": false,

@@ -183,17 +183,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Creamed Mixture"
-                  }
+                  "item": "Creamed Mixture"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Flour Mixture"
-                  }
+                  "item": "Flour Mixture"
                 }
               ]
             }
@@ -208,24 +202,15 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Softened Butter"
-                  }
+                  "item": "Electric Mixer"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Electric Mixer"
-                  }
+                  "item": "Mixing Bowls"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Mixing Bowls"
-                  }
+                  "item": "Softened Butter"
                 }
               ]
             },
@@ -241,10 +226,7 @@
             "id": 300000008,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Butter Sugar Base"
-              }
+              "item": "Butter Sugar Base"
             },
             "item": {
               "name": "Mixing Bowls",
@@ -258,10 +240,7 @@
             "id": 300000009,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Egg Mixture"
-              }
+              "item": "Egg Mixture"
             },
             "item": {
               "name": "Basic Dough",
@@ -290,10 +269,7 @@
             "id": 300000010,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Measuring Tools"
-              }
+              "item": "Measuring Tools"
             },
             "item": {
               "name": "Baked Cookies",
@@ -307,10 +283,7 @@
             "id": 300000011,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Measured Flour"
-              }
+              "item": "Measured Flour"
             },
             "item": {
               "name": "Measuring Tools",
@@ -337,10 +310,7 @@
             "connected_region": "Finishing",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Cookie Dough"
-              }
+              "item": "Cookie Dough"
             }
           }
         ],
@@ -364,10 +334,7 @@
             "id": 300000013,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Basic Dough"
-              }
+              "item": "Basic Dough"
             },
             "item": {
               "name": "Cookie Dough",
@@ -394,10 +361,7 @@
             "connected_region": "Baking",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Shaped Cookies"
-              }
+              "item": "Shaped Cookies"
             }
           }
         ],
@@ -410,17 +374,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Prepared Sheets"
-                  }
+                  "item": "Cookie Dough"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Cookie Dough"
-                  }
+                  "item": "Prepared Sheets"
                 }
               ]
             },
@@ -454,17 +412,11 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Preheated Oven"
-                  }
+                  "item": "Preheated Oven"
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Shaped Cookies"
-                  }
+                  "item": "Shaped Cookies"
                 }
               ]
             },
@@ -480,10 +432,7 @@
             "id": null,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Baked Cookies"
-              }
+              "item": "Baked Cookies"
             },
             "item": {
               "name": "Victory",
@@ -750,7 +699,8 @@
   "settings": {
     "1": {
       "game": "ChocolateChipCookies",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
     }
   },
   "game_info": {

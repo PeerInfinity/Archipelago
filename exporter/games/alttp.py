@@ -18,15 +18,28 @@ class ALttPGameExportHandler(BaseGameExportHandler): # Ensure correct inheritanc
     # These items are placed as events during runtime even if they have item codes defined
     # This list comes from the event_pairs in worlds/alttp/ItemPool.py:262-268 where these
     # items are explicitly created as events and placed at event locations
+    # Also includes dungeon prizes (Crystals, Pendants, Triforce) which should be auto-collected
     ALWAYS_EVENT_ITEMS = {
         'Activated Flute',  # Placed as event at 'Flute Activation Spot'
         'Beat Agahnim 1',
-        'Beat Agahnim 2', 
+        'Beat Agahnim 2',
         'Get Frog',
         'Return Smith',
         'Pick Up Purple Chest',
         'Open Floodgate',
-        'Capacity Upgrade Shop'
+        'Capacity Upgrade Shop',
+        # Dungeon prizes - should be auto-collected when accessible
+        'Crystal 1',
+        'Crystal 2',
+        'Crystal 3',
+        'Crystal 4',
+        'Crystal 5',
+        'Crystal 6',
+        'Crystal 7',
+        'Red Pendant',
+        'Blue Pendant',
+        'Green Pendant',
+        'Triforce'
     }
     
     def __init__(self):
@@ -62,8 +75,12 @@ class ALttPGameExportHandler(BaseGameExportHandler): # Ensure correct inheritanc
             'can_reach_region',
             'can_take_damage',
             # This function doesn't appear in the final export, but we get warning messages if we remove it from this list
-            'orig_rule', 
+            'orig_rule',
         }
+
+    def should_preserve_as_helper(self, func_name: str) -> bool:
+        """Check if a function should be preserved as a helper call."""
+        return func_name in self.known_helpers
 
     def expand_rule(self, rule: Dict[str, Any]) -> Dict[str, Any]:
         """Override to validate helper names instead of expanding them."""

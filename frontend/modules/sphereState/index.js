@@ -97,14 +97,29 @@ export async function register(registrationApi) {
     return sphereState.getCurrentPlayerId();
   });
 
-  registrationApi.registerPublicFunction(moduleId, 'loadSphereLog', async (filePath) => {
+  registrationApi.registerPublicFunction(moduleId, 'loadSphereLog', async (filePath, preloadedContent) => {
     const sphereState = getSphereStateSingleton();
-    return await sphereState.loadSphereLog(filePath);
+    return await sphereState.loadSphereLog(filePath, preloadedContent);
   });
 
   registrationApi.registerPublicFunction(moduleId, 'setCurrentPlayerId', (playerId) => {
     const sphereState = getSphereStateSingleton();
     return sphereState.setCurrentPlayerId(playerId);
+  });
+
+  registrationApi.registerPublicFunction(moduleId, 'isFocusedMode', () => {
+    const sphereState = getSphereStateSingleton();
+    return sphereState.isFocusedMode();
+  });
+
+  registrationApi.registerPublicFunction(moduleId, 'getFocusLocations', () => {
+    const sphereState = getSphereStateSingleton();
+    return sphereState.getFocusLocations();
+  });
+
+  registrationApi.registerPublicFunction(moduleId, 'getLogHeader', () => {
+    const sphereState = getSphereStateSingleton();
+    return sphereState.getLogHeader();
   });
 
   // Register event publishers

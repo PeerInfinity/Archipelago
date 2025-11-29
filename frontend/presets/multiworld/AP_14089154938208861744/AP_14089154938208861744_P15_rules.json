@@ -1,0 +1,6709 @@
+{
+  "schema_version": 3,
+  "game_name": "Civilization VI",
+  "game_directory": "civ_6",
+  "archipelago_version": "0.6.4",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1",
+    "2": "Player2",
+    "3": "Player3",
+    "4": "Player4",
+    "5": "Player5",
+    "6": "Player6",
+    "7": "Player7",
+    "8": "Player8",
+    "9": "Player9",
+    "10": "Player10",
+    "11": "Player11",
+    "12": "Player12",
+    "13": "Player13",
+    "14": "Player14",
+    "15": "Player15",
+    "16": "Player16",
+    "17": "Player17",
+    "18": "Player18",
+    "19": "Player19",
+    "20": "Player20",
+    "21": "Player21",
+    "22": "Player22",
+    "23": "Player23",
+    "24": "Player24",
+    "25": "Player25",
+    "26": "Player26",
+    "27": "Player27",
+    "28": "Player28",
+    "29": "Player29",
+    "30": "Player30",
+    "31": "Player31",
+    "32": "Player32",
+    "33": "Player33",
+    "34": "Player34",
+    "35": "Player35",
+    "36": "Player36",
+    "37": "Player37",
+    "38": "Player38",
+    "39": "Player39",
+    "40": "Player40",
+    "41": "Player41",
+    "42": "Player42",
+    "43": "Player43",
+    "44": "Player44",
+    "45": "Player45",
+    "46": "Player46",
+    "47": "Player47",
+    "48": "Player48",
+    "49": "Player49",
+    "50": "Player50",
+    "51": "Player51",
+    "52": "Player52",
+    "53": "Player53",
+    "54": "Player54",
+    "55": "Player55",
+    "56": "Player56",
+    "57": "Player57",
+    "58": "Player58",
+    "59": "Player59",
+    "60": "Player60",
+    "61": "Player61",
+    "62": "Player62",
+    "63": "Player63",
+    "64": "Player64",
+    "65": "Player65",
+    "66": "Player66",
+    "67": "Player67",
+    "68": "Player68",
+    "69": "Player69",
+    "70": "Player70",
+    "71": "Player71",
+    "72": "Player72",
+    "73": "Player73",
+    "74": "Player74",
+    "75": "Player75"
+  },
+  "world_classes": {
+    "1": "HatInTimeWorld",
+    "2": "ALTTPWorld",
+    "3": "ShortHikeWorld",
+    "4": "AdventureWorld",
+    "5": "AquariaWorld",
+    "6": "ArchipIDLEWorld",
+    "7": "BlasphemousWorld",
+    "8": "BombRushCyberfunkWorld",
+    "9": "BumpStikWorld",
+    "10": "CVCotMWorld",
+    "11": "CV64World",
+    "12": "Celeste64World",
+    "13": "ChecksFinderWorld",
+    "14": "ChocolateChipCookiesWorld",
+    "15": "CivVIWorld",
+    "16": "DarkSouls3World",
+    "17": "DLCqworld",
+    "18": "DKC3World",
+    "19": "DOOM1993World",
+    "20": "DOOM2World",
+    "21": "Factorio",
+    "22": "FaxanaduWorld",
+    "23": "FFMQWorld",
+    "24": "HereticWorld",
+    "25": "Hylics2World",
+    "26": "InscryptionWorld",
+    "27": "JakAndDaxterWorld",
+    "28": "KH2World",
+    "29": "KH1World",
+    "30": "KDL3World",
+    "31": "LandstalkerWorld",
+    "32": "LingoWorld",
+    "33": "LinksAwakeningWorld",
+    "34": "L2ACWorld",
+    "35": "MLSSWorld",
+    "36": "MathProof2p2e4World",
+    "37": "MM2World",
+    "38": "MMBN3World",
+    "39": "MeritousWorld",
+    "40": "MetamathWorld",
+    "41": "MuseDashWorld",
+    "42": "NoitaWorld",
+    "43": "OSRSWorld",
+    "44": "Overcooked2World",
+    "45": "PaintWorld",
+    "46": "PokemonEmeraldWorld",
+    "47": "PokemonRedBlueWorld",
+    "48": "RaftWorld",
+    "49": "RiskOfRainWorld",
+    "50": "SavingPrincessWorld",
+    "51": "SoEWorld",
+    "52": "ShapezWorld",
+    "53": "ShiversWorld",
+    "54": "SA2BWorld",
+    "55": "SC2World",
+    "56": "StardewValleyWorld",
+    "57": "SubnauticaWorld",
+    "58": "SM64World",
+    "59": "MarioLand2World",
+    "60": "SMWWorld",
+    "61": "SMWorld",
+    "62": "TerrariaWorld",
+    "63": "TLoZWorld",
+    "64": "MessengerWorld",
+    "65": "TWWWorld",
+    "66": "WitnessWorld",
+    "67": "TimespinnerWorld",
+    "68": "TunicWorld",
+    "69": "UndertaleWorld",
+    "70": "V6World",
+    "71": "WargrooveWorld",
+    "72": "WebDevJourneyWorld",
+    "73": "YachtDiceWorld",
+    "74": "YoshisIslandWorld",
+    "75": "Yugioh06World"
+  },
+  "regions": {
+    "15": {
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "Menu -> ERA_ANCIENT",
+            "connected_region": "ERA_ANCIENT",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "ERA_ANCIENT": {
+        "name": "ERA_ANCIENT",
+        "exits": [
+          {
+            "name": "ERA_ANCIENT -> ERA_CLASSICAL",
+            "connected_region": "ERA_CLASSICAL",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Animal Husbandry",
+                        "Foreign Trade",
+                        "Irrigation",
+                        "Mining",
+                        "Sailing",
+                        "State Workforce"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all_counts",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": {
+                        "Progressive Campus": 1,
+                        "Progressive Encampment": 1,
+                        "Progressive Holy Site": 1
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "TECH_AP_ANCIENT_00",
+            "id": 5041000,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Child of Moonlight",
+              "player": 7,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_ANCIENT_01",
+            "id": 5041001,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Merfolk",
+              "player": 71,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_ANCIENT_02",
+            "id": 5041002,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Book: The Art O' Crabbing",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_ANCIENT_03",
+            "id": 5041003,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Phalanx of Brannon, the Gravedigger",
+              "player": 7,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_ANCIENT_04",
+            "id": 5041004,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Ethereal Crossbow",
+              "player": 24,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_ANCIENT_05",
+            "id": 5041005,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Life Stock",
+              "player": 31,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_ANCIENT_06",
+            "id": 5041006,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Warm Blanket",
+              "player": 6,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_ANCIENT_07",
+            "id": 5041007,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "low-density-structure",
+              "player": 21,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_ANCIENT_08",
+            "id": 5041008,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "P-Switch",
+              "player": 60,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_ANCIENT_09",
+            "id": 5041009,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Starfruit Seeds",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_ANCIENT_10",
+            "id": 5041010,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Gotcha! (MAP20)",
+              "player": 20,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_ANCIENT_00",
+            "id": 5041077,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Hoe",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_ANCIENT_01",
+            "id": 5041078,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Dots",
+              "player": 66,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_ANCIENT_02",
+            "id": 5041079,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Treasure Bumper",
+              "player": 9,
+              "advancement": true,
+              "type": "Target"
+            }
+          },
+          {
+            "name": "CIVIC_AP_ANCIENT_03",
+            "id": 5041080,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "FstGauge *",
+              "player": 38,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_ANCIENT_04",
+            "id": 5041081,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Chaingun",
+              "player": 19,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_ANCIENT_05",
+            "id": 5041082,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Movement Pack",
+              "player": 17,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_ANCIENT_06",
+            "id": 5041083,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Taranto to my Sister",
+              "player": 7,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "GOODY_HUT_1",
+            "id": 5041146,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Maiden Skirt",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "GOODY_HUT_2",
+            "id": 5041147,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Pandemonium (E3M3) - Computer area map",
+              "player": 19,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "GOODY_HUT_3",
+            "id": 5041148,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "BANANA",
+              "player": 25,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "GOODY_HUT_4",
+            "id": 5041149,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Fire Orb",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "GOODY_HUT_5",
+            "id": 5041150,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Elixir",
+              "player": 22,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "GOODY_HUT_6",
+            "id": 5041151,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Hard Ball",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "GOODY_HUT_7",
+            "id": 5041152,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Magic Weapon",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "GOODY_HUT_8",
+            "id": 5041153,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "HP+100 (Yellow)",
+              "player": 38,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "GOODY_HUT_9",
+            "id": 5041154,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "500z",
+              "player": 38,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "GOODY_HUT_10",
+            "id": 5041155,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "progressive-worker-robots-speed",
+              "player": 21,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "ERA_CLASSICAL": {
+        "name": "ERA_CLASSICAL",
+        "exits": [
+          {
+            "name": "ERA_CLASSICAL -> ERA_MEDIEVAL",
+            "connected_region": "ERA_MEDIEVAL",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Political Philosophy",
+                        "Shipbuilding"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all_counts",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": {
+                        "Progressive Campus": 1,
+                        "Progressive Commercial Hub": 1,
+                        "Progressive Diplomatic Quarter": 1,
+                        "Progressive Encampment": 1,
+                        "Progressive Entertainment Complex": 1,
+                        "Progressive Harbor": 1,
+                        "Progressive Holy Site": 2,
+                        "Progressive Theater": 1
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "TECH_AP_CLASSICAL_11",
+            "id": 5041011,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Net launcher",
+              "player": 48,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_CLASSICAL_12",
+            "id": 5041012,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Flute",
+              "player": 2,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_CLASSICAL_13",
+            "id": 5041013,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Infested Banshees",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_CLASSICAL_14",
+            "id": 5041014,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Time Shard (500)",
+              "player": 64,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_CLASSICAL_15",
+            "id": 5041015,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Super Missile",
+              "player": 61,
+              "advancement": false,
+              "type": "Super"
+            }
+          },
+          {
+            "name": "TECH_AP_CLASSICAL_16",
+            "id": 5041016,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Car Morph",
+              "player": 74,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_CLASSICAL_17",
+            "id": 5041017,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Equipment",
+              "player": 49,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_CLASSICAL_18",
+            "id": 5041018,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Lucky Emblem",
+              "player": 28,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_CLASSICAL_07",
+            "id": 5041084,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Space Race",
+              "player": 15,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_CLASSICAL_08",
+            "id": 5041085,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Plasma Beam",
+              "player": 61,
+              "advancement": true,
+              "type": "Plasma"
+            }
+          },
+          {
+            "name": "CIVIC_AP_CLASSICAL_09",
+            "id": 5041086,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 18,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_CLASSICAL_10",
+            "id": 5041087,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Spicy Roll",
+              "player": 5,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_CLASSICAL_11",
+            "id": 5041088,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Winner's Proof",
+              "player": 28,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_CLASSICAL_12",
+            "id": 5041089,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Infest Broodlings (Kerrigan Tier 6)",
+              "player": 55,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_CLASSICAL_13",
+            "id": 5041090,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Zerg Ground Carapace",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "ERA_MEDIEVAL": {
+        "name": "ERA_MEDIEVAL",
+        "exits": [
+          {
+            "name": "ERA_MEDIEVAL -> ERA_RENAISSANCE",
+            "connected_region": "ERA_RENAISSANCE",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Divine Right"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all_counts",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": {
+                        "Progressive Campus": 2,
+                        "Progressive Commercial Hub": 1,
+                        "Progressive Diplomatic Quarter": 1,
+                        "Progressive Encampment": 2,
+                        "Progressive Entertainment Complex": 1,
+                        "Progressive Harbor": 1,
+                        "Progressive Holy Site": 2,
+                        "Progressive Industrial Zone": 1,
+                        "Progressive Theater": 1
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "TECH_AP_MEDIEVAL_19",
+            "id": 5041019,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Winged Cloud Maker",
+              "player": 74,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_MEDIEVAL_20",
+            "id": 5041020,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Megasphere",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_MEDIEVAL_21",
+            "id": 5041021,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Power Star",
+              "player": 58,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_MEDIEVAL_22",
+            "id": 5041022,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "HPMemory",
+              "player": 38,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_MEDIEVAL_23",
+            "id": 5041023,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Piece of Heart",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_MEDIEVAL_24",
+            "id": 5041024,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Mirrah Gloves",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_MEDIEVAL_25",
+            "id": 5041025,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Simple Gem",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_MEDIEVAL_67",
+            "id": 5041067,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Random Cosmetic",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_MEDIEVAL_14",
+            "id": 5041091,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Yarn",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_MEDIEVAL_15",
+            "id": 5041092,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 66,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_MEDIEVAL_16",
+            "id": 5041093,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Animation Pack",
+              "player": 17,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_MEDIEVAL_17",
+            "id": 5041094,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Red jewel(L)",
+              "player": 11,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_MEDIEVAL_18",
+            "id": 5041095,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "50 coins",
+              "player": 60,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_MEDIEVAL_19",
+            "id": 5041096,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Large Soul of a Crestfallen Knight",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_MEDIEVAL_20",
+            "id": 5041097,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Malignant Creep (Kerrigan Tier 5)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "ERA_RENAISSANCE": {
+        "name": "ERA_RENAISSANCE",
+        "exits": [
+          {
+            "name": "ERA_RENAISSANCE -> ERA_INDUSTRIAL",
+            "connected_region": "ERA_INDUSTRIAL",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Cartography",
+                        "Exploration",
+                        "Reformed Church"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all_counts",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": {
+                        "Progressive Campus": 2,
+                        "Progressive Commercial Hub": 2,
+                        "Progressive Diplomatic Quarter": 2,
+                        "Progressive Encampment": 2,
+                        "Progressive Entertainment Complex": 1,
+                        "Progressive Harbor": 2,
+                        "Progressive Holy Site": 2,
+                        "Progressive Industrial Zone": 1,
+                        "Progressive Theater": 2
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "TECH_AP_RENAISSANCE_26",
+            "id": 5041026,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Color Depth (Green)",
+              "player": 45,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_RENAISSANCE_27",
+            "id": 5041027,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Pocket Fire Melon",
+              "player": 74,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_RENAISSANCE_28",
+            "id": 5041028,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Rupees (20)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_RENAISSANCE_29",
+            "id": 5041029,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Lucky Emblem",
+              "player": 28,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_RENAISSANCE_30",
+            "id": 5041030,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Elite Knight Gauntlets",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_RENAISSANCE_31",
+            "id": 5041031,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Raccoon",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_RENAISSANCE_32",
+            "id": 5041032,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Shotel",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_RENAISSANCE_33",
+            "id": 5041033,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Item Scrap, White",
+              "player": 49,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_RENAISSANCE_34",
+            "id": 5041034,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Uranus Card",
+              "player": 10,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_RENAISSANCE_21",
+            "id": 5041098,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Dis (E3M8) - Computer area map",
+              "player": 19,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_RENAISSANCE_22",
+            "id": 5041099,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "PP Up",
+              "player": 46,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_RENAISSANCE_23",
+            "id": 5041100,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Face Key",
+              "player": 33,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_RENAISSANCE_24",
+            "id": 5041101,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Power Band",
+              "player": 28,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_RENAISSANCE_25",
+            "id": 5041102,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cookingpot",
+              "player": 48,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_RENAISSANCE_26",
+            "id": 5041103,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Chuckle Bean",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "ERA_INDUSTRIAL": {
+        "name": "ERA_INDUSTRIAL",
+        "exits": [
+          {
+            "name": "ERA_INDUSTRIAL -> ERA_MODERN",
+            "connected_region": "ERA_MODERN",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Nationalism"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all_counts",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": {
+                        "Progressive Campus": 2,
+                        "Progressive Commercial Hub": 3,
+                        "Progressive Diplomatic Quarter": 2,
+                        "Progressive Encampment": 3,
+                        "Progressive Entertainment Complex": 2,
+                        "Progressive Harbor": 2,
+                        "Progressive Holy Site": 2,
+                        "Progressive Industrial Zone": 2,
+                        "Progressive Theater": 2
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "TECH_AP_INDUSTRIAL_35",
+            "id": 5041035,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Titanite Slab",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_INDUSTRIAL_36",
+            "id": 5041036,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Life Stock",
+              "player": 31,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_INDUSTRIAL_37",
+            "id": 5041037,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Plant Leaf",
+              "player": 5,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_INDUSTRIAL_38",
+            "id": 5041038,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Brave Warrior",
+              "player": 29,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_INDUSTRIAL_39",
+            "id": 5041039,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "TM24 Thunderbolt",
+              "player": 47,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_INDUSTRIAL_40",
+            "id": 5041040,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Ultra Syrup",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_INDUSTRIAL_41",
+            "id": 5041041,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Dancer's Gauntlets",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_INDUSTRIAL_42",
+            "id": 5041042,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Crystals x1000",
+              "player": 39,
+              "advancement": false,
+              "type": "Crystals"
+            }
+          },
+          {
+            "name": "CIVIC_AP_INDUSTRIAL_27",
+            "id": 5041104,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Soul of a Weary Warrior",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_INDUSTRIAL_28",
+            "id": 5041105,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "13 Coins",
+              "player": 3,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_INDUSTRIAL_29",
+            "id": 5041106,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Box of bullets",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_INDUSTRIAL_30",
+            "id": 5041107,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Gloom jewel",
+              "player": 34,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_INDUSTRIAL_31",
+            "id": 5041108,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Chuckle Bean",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_INDUSTRIAL_32",
+            "id": 5041109,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Projectile Refill",
+              "player": 23,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_INDUSTRIAL_33",
+            "id": 5041110,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Energy Tank",
+              "player": 61,
+              "advancement": true,
+              "type": "ETank"
+            }
+          }
+        ]
+      },
+      "ERA_MODERN": {
+        "name": "ERA_MODERN",
+        "exits": [
+          {
+            "name": "ERA_MODERN -> ERA_ATOMIC",
+            "connected_region": "ERA_ATOMIC",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Class Struggle",
+                        "Refining",
+                        "Suffrage",
+                        "Totalitarianism"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all_counts",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": {
+                        "Progressive Aerodrome": 1,
+                        "Progressive Campus": 3,
+                        "Progressive Commercial Hub": 3,
+                        "Progressive Diplomatic Quarter": 2,
+                        "Progressive Encampment": 3,
+                        "Progressive Entertainment Complex": 2,
+                        "Progressive Harbor": 2,
+                        "Progressive Holy Site": 2,
+                        "Progressive Industrial Zone": 3,
+                        "Progressive Theater": 3
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "TECH_AP_MODERN_43",
+            "id": 5041043,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Commander Defense Boost",
+              "player": 71,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_MODERN_44",
+            "id": 5041044,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Puppies 82-84",
+              "player": 29,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_MODERN_45",
+            "id": 5041045,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": ":)",
+              "player": 32,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_MODERN_46",
+            "id": 5041046,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Piece of Heart",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_MODERN_47",
+            "id": 5041047,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 18,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_MODERN_48",
+            "id": 5041048,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Common Item",
+              "player": 49,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_MODERN_49",
+            "id": 5041049,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Dahl",
+              "player": 31,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_MODERN_68",
+            "id": 5041068,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Item Scrap, White",
+              "player": 49,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_MODERN_34",
+            "id": 5041111,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Glowing Egg x 2",
+              "player": 5,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_MODERN_35",
+            "id": 5041112,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "EkeEke",
+              "player": 31,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_MODERN_36",
+            "id": 5041113,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Wave Mail",
+              "player": 46,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_MODERN_37",
+            "id": 5041114,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Tree Zone Progression",
+              "player": 59,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_MODERN_38",
+            "id": 5041115,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cleansing",
+              "player": 10,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_MODERN_39",
+            "id": 5041116,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Fire",
+              "player": 29,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_MODERN_40",
+            "id": 5041117,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Cyclops Bridge Fragment",
+              "player": 57,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_MODERN_41",
+            "id": 5041118,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Footwear",
+              "player": 56,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_MODERN_42",
+            "id": 5041119,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "EkeEke",
+              "player": 31,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "ERA_ATOMIC": {
+        "name": "ERA_ATOMIC",
+        "exits": [
+          {
+            "name": "ERA_ATOMIC -> ERA_INFORMATION",
+            "connected_region": "ERA_INFORMATION",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Combined Arms",
+                        "Plastics"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all_counts",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": {
+                        "Progressive Aerodrome": 2,
+                        "Progressive Campus": 3,
+                        "Progressive Commercial Hub": 3,
+                        "Progressive Diplomatic Quarter": 2,
+                        "Progressive Encampment": 3,
+                        "Progressive Entertainment Complex": 3,
+                        "Progressive Harbor": 2,
+                        "Progressive Holy Site": 2,
+                        "Progressive Industrial Zone": 4,
+                        "Progressive Space Port": 1,
+                        "Progressive Theater": 3
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "TECH_AP_ATOMIC_50",
+            "id": 5041050,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 18,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_ATOMIC_51",
+            "id": 5041051,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Breaking Dawn",
+              "player": 41,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_ATOMIC_52",
+            "id": 5041052,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Stop",
+              "player": 29,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_ATOMIC_53",
+            "id": 5041053,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Predator",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_ATOMIC_54",
+            "id": 5041054,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Red jewel(L)",
+              "player": 11,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_ATOMIC_55",
+            "id": 5041055,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Scout Fly - Lost Precursor City",
+              "player": 27,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_ATOMIC_56",
+            "id": 5041056,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Demon",
+              "player": 67,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_ATOMIC_57",
+            "id": 5041057,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Hoo Bean",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_ATOMIC_43",
+            "id": 5041120,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Fool Trap",
+              "player": 68,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_ATOMIC_44",
+            "id": 5041121,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "HP Max Up",
+              "player": 10,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_ATOMIC_45",
+            "id": 5041122,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Box of shotgun shells",
+              "player": 19,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_ATOMIC_46",
+            "id": 5041123,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Spotlight",
+              "player": 57,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_ATOMIC_47",
+            "id": 5041124,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Mushroom",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "ERA_INFORMATION": {
+        "name": "ERA_INFORMATION",
+        "exits": [
+          {
+            "name": "ERA_INFORMATION -> ERA_FUTURE",
+            "connected_region": "ERA_FUTURE",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Corporate Libertarianism",
+                        "Digital Democracy",
+                        "Synthetic Technocracy"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all_counts",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": {
+                        "Progressive Aerodrome": 2,
+                        "Progressive Campus": 3,
+                        "Progressive Commercial Hub": 3,
+                        "Progressive Diplomatic Quarter": 2,
+                        "Progressive Encampment": 3,
+                        "Progressive Entertainment Complex": 3,
+                        "Progressive Harbor": 2,
+                        "Progressive Holy Site": 2,
+                        "Progressive Industrial Zone": 4,
+                        "Progressive Space Port": 4,
+                        "Progressive Theater": 3
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "TECH_AP_INFORMATION_58",
+            "id": 5041058,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Reward: Lava Charm",
+              "player": 62,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_INFORMATION_59",
+            "id": 5041059,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Medikit",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_INFORMATION_60",
+            "id": 5041060,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Scout Fly - Forbidden Jungle",
+              "player": 27,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_INFORMATION_61",
+            "id": 5041061,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Twinkling Titanite x2",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_INFORMATION_62",
+            "id": 5041062,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Traveling Merchant Stock Size",
+              "player": 56,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_INFORMATION_63",
+            "id": 5041063,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Old King's Great Hammer",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_INFORMATION_64",
+            "id": 5041064,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "The Feeling of Being Lost",
+              "player": 32,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_INFORMATION_65",
+            "id": 5041065,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Drive Gauge Up",
+              "player": 28,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_INFORMATION_66",
+            "id": 5041066,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Boss Item",
+              "player": 49,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_INFORMATION_48",
+            "id": 5041125,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Central Processing (E1M6)",
+              "player": 19,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_INFORMATION_49",
+            "id": 5041126,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Teamwork",
+              "player": 28,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_INFORMATION_51",
+            "id": 5041128,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "High Jump",
+              "player": 28,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_INFORMATION_52",
+            "id": 5041129,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Seashell",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_INFORMATION_53",
+            "id": 5041130,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "500 GOLD",
+              "player": 11,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_INFORMATION_54",
+            "id": 5041131,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Anytime Egg",
+              "player": 74,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_INFORMATION_55",
+            "id": 5041132,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Reward: Blindfold",
+              "player": 62,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "ERA_FUTURE": {
+        "name": "ERA_FUTURE",
+        "exits": [],
+        "locations": [
+          {
+            "name": "TECH_AP_FUTURE_69",
+            "id": 5041069,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Empty Bottle",
+              "player": 29,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_FUTURE_70",
+            "id": 5041070,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Emblem",
+              "player": 54,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_FUTURE_71",
+            "id": 5041071,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Power Star",
+              "player": 58,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_FUTURE_72",
+            "id": 5041072,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Additional Palette Color",
+              "player": 45,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_FUTURE_73",
+            "id": 5041073,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Painting Guardian Gloves",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_FUTURE_74",
+            "id": 5041074,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Nectar",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_FUTURE_75",
+            "id": 5041075,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Combat Level",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TECH_AP_FUTURE_76",
+            "id": 5041076,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Money",
+              "player": 49,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_FUTURE_50",
+            "id": 5041127,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Rare Candy",
+              "player": 46,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_FUTURE_56",
+            "id": 5041133,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "TM22",
+              "player": 46,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_FUTURE_57",
+            "id": 5041134,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Time Shard (10)",
+              "player": 64,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_FUTURE_58",
+            "id": 5041135,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Tears of Atonement (1000)",
+              "player": 7,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_FUTURE_59",
+            "id": 5041136,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Piece of Heart",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CIVIC_AP_FUTURE_60",
+            "id": 5041137,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Anywhere Pow",
+              "player": 74,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Complete a victory type",
+            "id": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach_region",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "ERA_FUTURE"
+                }
+              ]
+            },
+            "item": {
+              "name": "Victory",
+              "player": 15,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "start_regions": {
+    "15": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "15": {
+      "Pottery": {
+        "name": "Pottery",
+        "id": 5041000,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Animal Husbandry": {
+        "name": "Animal Husbandry",
+        "id": 5041001,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mining": {
+        "name": "Mining",
+        "id": 5041002,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sailing": {
+        "name": "Sailing",
+        "id": 5041003,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Astrology": {
+        "name": "Astrology",
+        "id": 5041004,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Irrigation": {
+        "name": "Irrigation",
+        "id": 5041005,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Archery": {
+        "name": "Archery",
+        "id": 5041006,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Writing": {
+        "name": "Writing",
+        "id": 5041007,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Masonry": {
+        "name": "Masonry",
+        "id": 5041008,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bronze Working": {
+        "name": "Bronze Working",
+        "id": 5041009,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "The Wheel": {
+        "name": "The Wheel",
+        "id": 5041010,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Celestial Navigation": {
+        "name": "Celestial Navigation",
+        "id": 5041011,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Currency": {
+        "name": "Currency",
+        "id": 5041012,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Horseback Riding": {
+        "name": "Horseback Riding",
+        "id": 5041013,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Iron Working": {
+        "name": "Iron Working",
+        "id": 5041014,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Shipbuilding": {
+        "name": "Shipbuilding",
+        "id": 5041015,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mathematics": {
+        "name": "Mathematics",
+        "id": 5041016,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Construction": {
+        "name": "Construction",
+        "id": 5041017,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Engineering": {
+        "name": "Engineering",
+        "id": 5041018,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Military Tactics": {
+        "name": "Military Tactics",
+        "id": 5041019,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Apprenticeship": {
+        "name": "Apprenticeship",
+        "id": 5041020,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Machinery": {
+        "name": "Machinery",
+        "id": 5041021,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Education": {
+        "name": "Education",
+        "id": 5041022,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Stirrups": {
+        "name": "Stirrups",
+        "id": 5041023,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Military Engineering": {
+        "name": "Military Engineering",
+        "id": 5041024,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Castles": {
+        "name": "Castles",
+        "id": 5041025,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cartography": {
+        "name": "Cartography",
+        "id": 5041026,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mass Production": {
+        "name": "Mass Production",
+        "id": 5041027,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Banking": {
+        "name": "Banking",
+        "id": 5041028,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Gunpowder": {
+        "name": "Gunpowder",
+        "id": 5041029,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Printing": {
+        "name": "Printing",
+        "id": 5041030,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Square Rigging": {
+        "name": "Square Rigging",
+        "id": 5041031,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Astronomy": {
+        "name": "Astronomy",
+        "id": 5041032,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Metal Casting": {
+        "name": "Metal Casting",
+        "id": 5041033,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Siege Tactics": {
+        "name": "Siege Tactics",
+        "id": 5041034,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Industrialization": {
+        "name": "Industrialization",
+        "id": 5041035,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Scientific Theory": {
+        "name": "Scientific Theory",
+        "id": 5041036,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ballistics": {
+        "name": "Ballistics",
+        "id": 5041037,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Military Science": {
+        "name": "Military Science",
+        "id": 5041038,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Steam Power": {
+        "name": "Steam Power",
+        "id": 5041039,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sanitation": {
+        "name": "Sanitation",
+        "id": 5041040,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Economics": {
+        "name": "Economics",
+        "id": 5041041,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rifling": {
+        "name": "Rifling",
+        "id": 5041042,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Flight": {
+        "name": "Flight",
+        "id": 5041043,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Replaceable Parts": {
+        "name": "Replaceable Parts",
+        "id": 5041044,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Steel": {
+        "name": "Steel",
+        "id": 5041045,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Electricity": {
+        "name": "Electricity",
+        "id": 5041046,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Radio": {
+        "name": "Radio",
+        "id": 5041047,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Chemistry": {
+        "name": "Chemistry",
+        "id": 5041048,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Combustion": {
+        "name": "Combustion",
+        "id": 5041049,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Advanced Flight": {
+        "name": "Advanced Flight",
+        "id": 5041050,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rocketry": {
+        "name": "Rocketry",
+        "id": 5041051,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Advanced Ballistics": {
+        "name": "Advanced Ballistics",
+        "id": 5041052,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Combined Arms": {
+        "name": "Combined Arms",
+        "id": 5041053,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Plastics": {
+        "name": "Plastics",
+        "id": 5041054,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Computers": {
+        "name": "Computers",
+        "id": 5041055,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Nuclear Fission": {
+        "name": "Nuclear Fission",
+        "id": 5041056,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Synthetic Materials": {
+        "name": "Synthetic Materials",
+        "id": 5041057,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Telecommunications": {
+        "name": "Telecommunications",
+        "id": 5041058,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Satellites": {
+        "name": "Satellites",
+        "id": 5041059,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Guidance Systems": {
+        "name": "Guidance Systems",
+        "id": 5041060,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lasers": {
+        "name": "Lasers",
+        "id": 5041061,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Composites": {
+        "name": "Composites",
+        "id": 5041062,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Stealth Technology": {
+        "name": "Stealth Technology",
+        "id": 5041063,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Robotics": {
+        "name": "Robotics",
+        "id": 5041064,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Nanotechnology": {
+        "name": "Nanotechnology",
+        "id": 5041065,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Nuclear Fusion": {
+        "name": "Nuclear Fusion",
+        "id": 5041066,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Buttress": {
+        "name": "Buttress",
+        "id": 5041067,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Refining": {
+        "name": "Refining",
+        "id": 5041068,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Seasteads": {
+        "name": "Seasteads",
+        "id": 5041069,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Advanced AI": {
+        "name": "Advanced AI",
+        "id": 5041070,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Advanced Power Cells": {
+        "name": "Advanced Power Cells",
+        "id": 5041071,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cybernetics": {
+        "name": "Cybernetics",
+        "id": 5041072,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Smart Materials": {
+        "name": "Smart Materials",
+        "id": 5041073,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Predictive Systems": {
+        "name": "Predictive Systems",
+        "id": 5041074,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Offworld Mission": {
+        "name": "Offworld Mission",
+        "id": 5041075,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Future Tech": {
+        "name": "Future Tech",
+        "id": 5041076,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Code of Laws": {
+        "name": "Code of Laws",
+        "id": 5041077,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Craftsmanship": {
+        "name": "Craftsmanship",
+        "id": 5041078,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Foreign Trade": {
+        "name": "Foreign Trade",
+        "id": 5041079,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Military Tradition": {
+        "name": "Military Tradition",
+        "id": 5041080,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "State Workforce": {
+        "name": "State Workforce",
+        "id": 5041081,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Early Empire": {
+        "name": "Early Empire",
+        "id": 5041082,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mysticism": {
+        "name": "Mysticism",
+        "id": 5041083,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Games Recreation": {
+        "name": "Games Recreation",
+        "id": 5041084,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Political Philosophy": {
+        "name": "Political Philosophy",
+        "id": 5041085,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Drama and Poetry": {
+        "name": "Drama and Poetry",
+        "id": 5041086,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Military Training": {
+        "name": "Military Training",
+        "id": 5041087,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Defensive Tactics": {
+        "name": "Defensive Tactics",
+        "id": 5041088,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Recorded History": {
+        "name": "Recorded History",
+        "id": 5041089,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Theology": {
+        "name": "Theology",
+        "id": 5041090,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Naval Tradition": {
+        "name": "Naval Tradition",
+        "id": 5041091,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Feudalism": {
+        "name": "Feudalism",
+        "id": 5041092,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Civil Service": {
+        "name": "Civil Service",
+        "id": 5041093,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mercenaries": {
+        "name": "Mercenaries",
+        "id": 5041094,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Medieval Faires": {
+        "name": "Medieval Faires",
+        "id": 5041095,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Guilds": {
+        "name": "Guilds",
+        "id": 5041096,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Divine Right": {
+        "name": "Divine Right",
+        "id": 5041097,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Exploration": {
+        "name": "Exploration",
+        "id": 5041098,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Humanism": {
+        "name": "Humanism",
+        "id": 5041099,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Diplomatic Service": {
+        "name": "Diplomatic Service",
+        "id": 5041100,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Reformed Church": {
+        "name": "Reformed Church",
+        "id": 5041101,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mercantilism": {
+        "name": "Mercantilism",
+        "id": 5041102,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "The Enlightenment": {
+        "name": "The Enlightenment",
+        "id": 5041103,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Colonialism": {
+        "name": "Colonialism",
+        "id": 5041104,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Civil Engineering": {
+        "name": "Civil Engineering",
+        "id": 5041105,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Nationalism": {
+        "name": "Nationalism",
+        "id": 5041106,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Opera and Ballet": {
+        "name": "Opera and Ballet",
+        "id": 5041107,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Natural History": {
+        "name": "Natural History",
+        "id": 5041108,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Scorched Earth": {
+        "name": "Scorched Earth",
+        "id": 5041109,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Urbanization": {
+        "name": "Urbanization",
+        "id": 5041110,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Conservation": {
+        "name": "Conservation",
+        "id": 5041111,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Capitalism": {
+        "name": "Capitalism",
+        "id": 5041112,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Nuclear Program": {
+        "name": "Nuclear Program",
+        "id": 5041113,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mass Media": {
+        "name": "Mass Media",
+        "id": 5041114,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mobilization": {
+        "name": "Mobilization",
+        "id": 5041115,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ideology": {
+        "name": "Ideology",
+        "id": 5041116,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Suffrage": {
+        "name": "Suffrage",
+        "id": 5041117,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Totalitarianism": {
+        "name": "Totalitarianism",
+        "id": 5041118,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Class Struggle": {
+        "name": "Class Struggle",
+        "id": 5041119,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cold War": {
+        "name": "Cold War",
+        "id": 5041120,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Professional Sports": {
+        "name": "Professional Sports",
+        "id": 5041121,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cultural Heritage": {
+        "name": "Cultural Heritage",
+        "id": 5041122,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rapid Deployment": {
+        "name": "Rapid Deployment",
+        "id": 5041123,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Space Race": {
+        "name": "Space Race",
+        "id": 5041124,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Globalization": {
+        "name": "Globalization",
+        "id": 5041125,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Social Media": {
+        "name": "Social Media",
+        "id": 5041126,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Future Civic": {
+        "name": "Future Civic",
+        "id": 5041127,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Environmentalism": {
+        "name": "Environmentalism",
+        "id": 5041128,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Corporate Libertarianism": {
+        "name": "Corporate Libertarianism",
+        "id": 5041129,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Digital Democracy": {
+        "name": "Digital Democracy",
+        "id": 5041130,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Synthetic Technocracy": {
+        "name": "Synthetic Technocracy",
+        "id": 5041131,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Near Future Governance": {
+        "name": "Near Future Governance",
+        "id": 5041132,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Global Warming Mitigation": {
+        "name": "Global Warming Mitigation",
+        "id": 5041133,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Smart Power Doctrine": {
+        "name": "Smart Power Doctrine",
+        "id": 5041134,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Information Warfare": {
+        "name": "Information Warfare",
+        "id": 5041135,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Exodus Imperative": {
+        "name": "Exodus Imperative",
+        "id": 5041136,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cultural Hegemony": {
+        "name": "Cultural Hegemony",
+        "id": 5041137,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Campus": {
+        "name": "Progressive Campus",
+        "id": 5041138,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "Progressive Theater": {
+        "name": "Progressive Theater",
+        "id": 5041139,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "Progressive Holy Site": {
+        "name": "Progressive Holy Site",
+        "id": 5041140,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Progressive Encampment": {
+        "name": "Progressive Encampment",
+        "id": 5041141,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "Progressive Commercial Hub": {
+        "name": "Progressive Commercial Hub",
+        "id": 5041142,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "Progressive Harbor": {
+        "name": "Progressive Harbor",
+        "id": 5041143,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Progressive Industrial Zone": {
+        "name": "Progressive Industrial Zone",
+        "id": 5041144,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "Progressive Preserve": {
+        "name": "Progressive Preserve",
+        "id": 5041145,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Progressive Entertainment Complex": {
+        "name": "Progressive Entertainment Complex",
+        "id": 5041146,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "Progressive Neighborhood": {
+        "name": "Progressive Neighborhood",
+        "id": 5041147,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "Progressive Aerodrome": {
+        "name": "Progressive Aerodrome",
+        "id": 5041148,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Progressive Diplomatic Quarter": {
+        "name": "Progressive Diplomatic Quarter",
+        "id": 5041149,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Progressive Space Port": {
+        "name": "Progressive Space Port",
+        "id": 5041150,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 5
+      },
+      "Progressive Era": {
+        "name": "Progressive Era",
+        "id": 5041151,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Gold: Small": {
+        "name": "Gold: Small",
+        "id": 5041152,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Gold: Medium": {
+        "name": "Gold: Medium",
+        "id": 5041153,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Gold: Large": {
+        "name": "Gold: Large",
+        "id": 5041154,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Faith: Small": {
+        "name": "Faith: Small",
+        "id": 5041155,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Faith: Medium": {
+        "name": "Faith: Medium",
+        "id": 5041156,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Faith: Large": {
+        "name": "Faith: Large",
+        "id": 5041157,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Diplomatic Favor": {
+        "name": "Diplomatic Favor",
+        "id": 5041158,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Governor Title": {
+        "name": "Governor Title",
+        "id": 5041159,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Envoy": {
+        "name": "Envoy",
+        "id": 5041160,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Relic": {
+        "name": "Relic",
+        "id": 5041161,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Scout": {
+        "name": "Scout",
+        "id": 5041162,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Additional Population": {
+        "name": "Additional Population",
+        "id": 5041163,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Builder": {
+        "name": "Builder",
+        "id": 5041164,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trader": {
+        "name": "Trader",
+        "id": 5041165,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Settler": {
+        "name": "Settler",
+        "id": 5041166,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Victory": {
+        "name": "Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Child of Moonlight": {
+        "name": "Child of Moonlight",
+        "id": 1909178,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Merfolk": {
+        "name": "Merfolk",
+        "id": 52012,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Book: The Art O' Crabbing": {
+        "name": "Book: The Art O' Crabbing",
+        "id": 717510,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Phalanx of Brannon, the Gravedigger": {
+        "name": "Phalanx of Brannon, the Gravedigger",
+        "id": 1909149,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ethereal Crossbow": {
+        "name": "Ethereal Crossbow",
+        "id": 370001,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Life Stock": {
+        "name": "Life Stock",
+        "id": 4062,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Warm Blanket": {
+        "name": "Warm Blanket",
+        "id": 9122,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "low-density-structure": {
+        "name": "low-density-structure",
+        "id": 131168,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "P-Switch": {
+        "name": "P-Switch",
+        "id": 12320777,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Starfruit Seeds": {
+        "name": "Starfruit Seeds",
+        "id": 717153,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Gotcha! (MAP20)": {
+        "name": "Gotcha! (MAP20)",
+        "id": 360457,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Hoe": {
+        "name": "Progressive Hoe",
+        "id": 717065,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Dots": {
+        "name": "Progressive Dots",
+        "id": 158200,
+        "groups": [],
+        "advancement": true,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Bumper": {
+        "name": "Treasure Bumper",
+        "id": 595008,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Target",
+        "max_count": 1
+      },
+      "FstGauge *": {
+        "name": "FstGauge *",
+        "id": 11735092,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Chaingun": {
+        "name": "Chaingun",
+        "id": 350104,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Movement Pack": {
+        "name": "Movement Pack",
+        "id": 120000,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Taranto to my Sister": {
+        "name": "Taranto to my Sister",
+        "id": 1909050,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Maiden Skirt": {
+        "name": "Maiden Skirt",
+        "id": 100515,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Pandemonium (E3M3) - Computer area map": {
+        "name": "Pandemonium (E3M3) - Computer area map",
+        "id": 350076,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "BANANA": {
+        "name": "BANANA",
+        "id": 200636,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fire Orb": {
+        "name": "Fire Orb",
+        "id": 101015,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Elixir": {
+        "name": "Elixir",
+        "id": 400025,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hard Ball": {
+        "name": "Hard Ball",
+        "id": 64017,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Magic Weapon": {
+        "name": "Magic Weapon",
+        "id": 100992,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "HP+100 (Yellow)": {
+        "name": "HP+100 (Yellow)",
+        "id": 11735181,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "500z": {
+        "name": "500z",
+        "id": 11735196,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "progressive-worker-robots-speed": {
+        "name": "progressive-worker-robots-speed",
+        "id": 131295,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Net launcher": {
+        "name": "Net launcher",
+        "id": 47085,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Flute": {
+        "name": "Flute",
+        "id": 20,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Infested Banshees": {
+        "name": "Infested Banshees",
+        "id": 2602,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Time Shard (500)": {
+        "name": "Time Shard (500)",
+        "id": 11391004,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Super Missile": {
+        "name": "Super Missile",
+        "id": 83002,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Super",
+        "max_count": 1
+      },
+      "Car Morph": {
+        "name": "Car Morph",
+        "id": 3154014,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Equipment": {
+        "name": "Equipment",
+        "id": 37007,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lucky Emblem": {
+        "name": "Lucky Emblem",
+        "id": 1245422,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Plasma Beam": {
+        "name": "Plasma Beam",
+        "id": 83015,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Plasma",
+        "max_count": 1
+      },
+      "DK Coin": {
+        "name": "DK Coin",
+        "id": 14430212,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Spicy Roll": {
+        "name": "Spicy Roll",
+        "id": 698085,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Winner's Proof": {
+        "name": "Winner's Proof",
+        "id": 1245310,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Infest Broodlings (Kerrigan Tier 6)": {
+        "name": "Infest Broodlings (Kerrigan Tier 6)",
+        "id": 2415,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Zerg Ground Carapace": {
+        "name": "Progressive Zerg Ground Carapace",
+        "id": 2102,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Winged Cloud Maker": {
+        "name": "Winged Cloud Maker",
+        "id": 3154053,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Megasphere": {
+        "name": "Megasphere",
+        "id": 360014,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Power Star": {
+        "name": "Power Star",
+        "id": 3626000,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "HPMemory": {
+        "name": "HPMemory",
+        "id": 11735058,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Piece of Heart": {
+        "name": "Piece of Heart",
+        "id": 23,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mirrah Gloves": {
+        "name": "Mirrah Gloves",
+        "id": 100542,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Simple Gem": {
+        "name": "Simple Gem",
+        "id": 100909,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Random Cosmetic": {
+        "name": "Random Cosmetic",
+        "id": 2000300044,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Yarn": {
+        "name": "Yarn",
+        "id": 2000300001,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Speed Boost": {
+        "name": "Speed Boost",
+        "id": 158500,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Animation Pack": {
+        "name": "Animation Pack",
+        "id": 120001,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Red jewel(L)": {
+        "name": "Red jewel(L)",
+        "id": 12992515,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "50 coins": {
+        "name": "50 coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 1
+      },
+      "Large Soul of a Crestfallen Knight": {
+        "name": "Large Soul of a Crestfallen Knight",
+        "id": 100829,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Malignant Creep (Kerrigan Tier 5)": {
+        "name": "Malignant Creep (Kerrigan Tier 5)",
+        "id": 2413,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Color Depth (Green)": {
+        "name": "Progressive Color Depth (Green)",
+        "id": 198504,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Pocket Fire Melon": {
+        "name": "Pocket Fire Melon",
+        "id": 3154055,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rupees (20)": {
+        "name": "Rupees (20)",
+        "id": 54,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Elite Knight Gauntlets": {
+        "name": "Elite Knight Gauntlets",
+        "id": 100466,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Raccoon": {
+        "name": "Progressive Raccoon",
+        "id": 717480,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Shotel": {
+        "name": "Shotel",
+        "id": 100061,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Item Scrap, White": {
+        "name": "Item Scrap, White",
+        "id": 37008,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Uranus Card": {
+        "name": "Uranus Card",
+        "id": 3579635218,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dis (E3M8) - Computer area map": {
+        "name": "Dis (E3M8) - Computer area map",
+        "id": 350095,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "PP Up": {
+        "name": "PP Up",
+        "id": 3860069,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Face Key": {
+        "name": "Face Key",
+        "id": 10000019,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Power Band": {
+        "name": "Power Band",
+        "id": 1245235,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cookingpot": {
+        "name": "Cookingpot",
+        "id": 47019,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Chuckle Bean": {
+        "name": "Chuckle Bean",
+        "id": 77771020,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Titanite Slab": {
+        "name": "Titanite Slab",
+        "id": 100898,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Plant Leaf": {
+        "name": "Plant Leaf",
+        "id": 698063,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Brave Warrior": {
+        "name": "Brave Warrior",
+        "id": 2641048,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "TM24 Thunderbolt": {
+        "name": "TM24 Thunderbolt",
+        "id": 172000224,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ultra Syrup": {
+        "name": "Ultra Syrup",
+        "id": 77771011,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dancer's Gauntlets": {
+        "name": "Dancer's Gauntlets",
+        "id": 100442,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Crystals x1000": {
+        "name": "Crystals x1000",
+        "id": 593020,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Crystals",
+        "max_count": 1
+      },
+      "Soul of a Weary Warrior": {
+        "name": "Soul of a Weary Warrior",
+        "id": 100826,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "13 Coins": {
+        "name": "13 Coins",
+        "id": 82037,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Box of bullets": {
+        "name": "Box of bullets",
+        "id": 360016,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Gloom jewel": {
+        "name": "Gloom jewel",
+        "id": 11288954,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Projectile Refill": {
+        "name": "Projectile Refill",
+        "id": 4325598,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Energy Tank": {
+        "name": "Energy Tank",
+        "id": 83000,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "ETank",
+        "max_count": 1
+      },
+      "Commander Defense Boost": {
+        "name": "Commander Defense Boost",
+        "id": 52024,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Puppies 82-84": {
+        "name": "Puppies 82-84",
+        "id": 2642228,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      ":)": {
+        "name": ":)",
+        "id": 444409,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bonus Coin": {
+        "name": "Bonus Coin",
+        "id": 14430211,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Common Item": {
+        "name": "Common Item",
+        "id": 37002,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dahl": {
+        "name": "Dahl",
+        "id": 4045,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Glowing Egg x 2": {
+        "name": "Glowing Egg x 2",
+        "id": 698103,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "EkeEke": {
+        "name": "EkeEke",
+        "id": 4000,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wave Mail": {
+        "name": "Wave Mail",
+        "id": 3860126,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Tree Zone Progression": {
+        "name": "Tree Zone Progression",
+        "id": 3,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cleansing": {
+        "name": "Cleansing",
+        "id": 3579635718,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Fire": {
+        "name": "Progressive Fire",
+        "id": 2646001,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cyclops Bridge Fragment": {
+        "name": "Cyclops Bridge Fragment",
+        "id": 35020,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Footwear": {
+        "name": "Progressive Footwear",
+        "id": 717294,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Breaking Dawn": {
+        "name": "Breaking Dawn",
+        "id": 2900054,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Stop": {
+        "name": "Progressive Stop",
+        "id": 2646006,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Predator": {
+        "name": "Predator",
+        "id": 1614,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Scout Fly - Lost Precursor City": {
+        "name": "Scout Fly - Lost Precursor City",
+        "id": 741001073,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Demon": {
+        "name": "Demon",
+        "id": 1337054,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hoo Bean": {
+        "name": "Hoo Bean",
+        "id": 77771019,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fool Trap": {
+        "name": "Fool Trap",
+        "id": 509342485,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": true,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "HP Max Up": {
+        "name": "HP Max Up",
+        "id": 3579634689,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Box of shotgun shells": {
+        "name": "Box of shotgun shells",
+        "id": 350116,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Spotlight": {
+        "name": "Spotlight",
+        "id": 35055,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mushroom": {
+        "name": "Mushroom",
+        "id": 77771001,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Reward: Lava Charm": {
+        "name": "Reward: Lava Charm",
+        "id": 8257619,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Medikit": {
+        "name": "Medikit",
+        "id": 360015,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Scout Fly - Forbidden Jungle": {
+        "name": "Scout Fly - Forbidden Jungle",
+        "id": 741001031,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Twinkling Titanite x2": {
+        "name": "Twinkling Titanite x2",
+        "id": 100903,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Traveling Merchant Stock Size": {
+        "name": "Traveling Merchant Stock Size",
+        "id": 717120,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Old King's Great Hammer": {
+        "name": "Old King's Great Hammer",
+        "id": 100129,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "The Feeling of Being Lost": {
+        "name": "The Feeling of Being Lost",
+        "id": 444575,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Drive Gauge Up": {
+        "name": "Drive Gauge Up",
+        "id": 1245352,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Boss Item": {
+        "name": "Boss Item",
+        "id": 37005,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Central Processing (E1M6)": {
+        "name": "Central Processing (E1M6)",
+        "id": 350017,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Teamwork": {
+        "name": "Teamwork",
+        "id": 1245449,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "High Jump": {
+        "name": "High Jump",
+        "id": 1245265,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Seashell": {
+        "name": "Seashell",
+        "id": 82002,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "500 GOLD": {
+        "name": "500 GOLD",
+        "id": 12992551,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Anytime Egg": {
+        "name": "Anytime Egg",
+        "id": 3154051,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Reward: Blindfold": {
+        "name": "Reward: Blindfold",
+        "id": 8257653,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Empty Bottle": {
+        "name": "Empty Bottle",
+        "id": 2641186,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Emblem": {
+        "name": "Emblem",
+        "id": 16711680,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Additional Palette Color": {
+        "name": "Additional Palette Color",
+        "id": 198523,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Painting Guardian Gloves": {
+        "name": "Painting Guardian Gloves",
+        "id": 100561,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Nectar": {
+        "name": "Nectar",
+        "id": 64103,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Combat Level": {
+        "name": "Combat Level",
+        "id": 717077,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Money": {
+        "name": "Money",
+        "id": 37301,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rare Candy": {
+        "name": "Rare Candy",
+        "id": 3860068,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "TM22": {
+        "name": "TM22",
+        "id": 3860310,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Time Shard (10)": {
+        "name": "Time Shard (10)",
+        "id": 11391000,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Tears of Atonement (1000)": {
+        "name": "Tears of Atonement (1000)",
+        "id": 1909187,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Anywhere Pow": {
+        "name": "Anywhere Pow",
+        "id": 3154052,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      " coins": {
+        "name": " coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      },
+      " coins freemium": {
+        "name": " coins freemium",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      }
+    }
+  },
+  "item_groups": {
+    "15": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "15": {
+      "Additional Population": 1,
+      "Advanced AI": 1,
+      "Advanced Ballistics": 1,
+      "Advanced Power Cells": 1,
+      "Animal Husbandry": 1,
+      "Archery": 1,
+      "Astronomy": 1,
+      "Ballistics": 1,
+      "Buttress": 1,
+      "Cartography": 1,
+      "Castles": 1,
+      "Civil Engineering": 1,
+      "Civil Service": 1,
+      "Class Struggle": 1,
+      "Code of Laws": 1,
+      "Cold War": 1,
+      "Colonialism": 1,
+      "Combined Arms": 1,
+      "Combustion": 1,
+      "Composites": 1,
+      "Computers": 1,
+      "Construction": 1,
+      "Corporate Libertarianism": 1,
+      "Craftsmanship": 1,
+      "Cultural Hegemony": 1,
+      "Cultural Heritage": 1,
+      "Cybernetics": 1,
+      "Defensive Tactics": 1,
+      "Digital Democracy": 1,
+      "Diplomatic Favor": 2,
+      "Divine Right": 1,
+      "Early Empire": 1,
+      "Engineering": 1,
+      "Environmentalism": 1,
+      "Exodus Imperative": 1,
+      "Exploration": 1,
+      "Faith: Medium": 2,
+      "Feudalism": 1,
+      "Foreign Trade": 1,
+      "Future Civic": 1,
+      "Future Tech": 1,
+      "Global Warming Mitigation": 1,
+      "Globalization": 1,
+      "Gold: Medium": 1,
+      "Gold: Small": 2,
+      "Guidance Systems": 1,
+      "Guilds": 1,
+      "Gunpowder": 1,
+      "Horseback Riding": 1,
+      "Ideology": 1,
+      "Information Warfare": 1,
+      "Iron Working": 1,
+      "Irrigation": 1,
+      "Lasers": 1,
+      "Machinery": 1,
+      "Masonry": 1,
+      "Mass Media": 1,
+      "Medieval Faires": 1,
+      "Mercantilism": 1,
+      "Mercenaries": 1,
+      "Metal Casting": 1,
+      "Military Tactics": 1,
+      "Military Tradition": 1,
+      "Military Training": 1,
+      "Mining": 1,
+      "Mobilization": 1,
+      "Nationalism": 1,
+      "Naval Tradition": 1,
+      "Near Future Governance": 1,
+      "Nuclear Fusion": 1,
+      "Nuclear Program": 1,
+      "Opera and Ballet": 1,
+      "Plastics": 1,
+      "Political Philosophy": 1,
+      "Pottery": 1,
+      "Predictive Systems": 1,
+      "Printing": 1,
+      "Progressive Aerodrome": 2,
+      "Progressive Campus": 3,
+      "Progressive Commercial Hub": 3,
+      "Progressive Diplomatic Quarter": 2,
+      "Progressive Encampment": 3,
+      "Progressive Entertainment Complex": 3,
+      "Progressive Harbor": 2,
+      "Progressive Holy Site": 2,
+      "Progressive Industrial Zone": 4,
+      "Progressive Neighborhood": 3,
+      "Progressive Preserve": 2,
+      "Progressive Space Port": 5,
+      "Progressive Theater": 3,
+      "Rapid Deployment": 1,
+      "Recorded History": 1,
+      "Refining": 1,
+      "Reformed Church": 1,
+      "Relic": 1,
+      "Rifling": 1,
+      "Robotics": 1,
+      "Sailing": 1,
+      "Sanitation": 1,
+      "Scientific Theory": 1,
+      "Scorched Earth": 1,
+      "Scout": 1,
+      "Seasteads": 1,
+      "Shipbuilding": 1,
+      "Siege Tactics": 1,
+      "Smart Power Doctrine": 1,
+      "Social Media": 1,
+      "Space Race": 2,
+      "Square Rigging": 1,
+      "State Workforce": 1,
+      "Stealth Technology": 1,
+      "Steam Power": 1,
+      "Steel": 1,
+      "Stirrups": 1,
+      "Suffrage": 1,
+      "Synthetic Materials": 1,
+      "Synthetic Technocracy": 1,
+      "Telecommunications": 1,
+      "The Enlightenment": 1,
+      "The Wheel": 1,
+      "Totalitarianism": 1,
+      "Victory": 1
+    }
+  },
+  "progression_mapping": {
+    "15": {}
+  },
+  "starting_items": {
+    "15": []
+  },
+  "settings": {
+    "15": {
+      "game": "Civilization VI",
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
+    }
+  },
+  "game_info": {
+    "15": {
+      "name": "Civilization VI",
+      "rule_format": {
+        "version": "1.0"
+      },
+      "era_required_non_progressive_items": {
+        "ERA_ANCIENT": [
+          "Mining",
+          "Irrigation",
+          "Sailing",
+          "Animal Husbandry",
+          "State Workforce",
+          "Foreign Trade"
+        ],
+        "ERA_CLASSICAL": [
+          "Shipbuilding",
+          "Political Philosophy"
+        ],
+        "ERA_MEDIEVAL": [
+          "Divine Right"
+        ],
+        "ERA_RENAISSANCE": [
+          "Exploration",
+          "Reformed Church",
+          "Cartography"
+        ],
+        "ERA_INDUSTRIAL": [
+          "Nationalism"
+        ],
+        "ERA_MODERN": [
+          "Refining",
+          "Suffrage",
+          "Totalitarianism",
+          "Class Struggle"
+        ],
+        "ERA_ATOMIC": [
+          "Combined Arms",
+          "Plastics"
+        ],
+        "ERA_INFORMATION": [
+          "Corporate Libertarianism",
+          "Digital Democracy",
+          "Synthetic Technocracy"
+        ],
+        "ERA_FUTURE": []
+      },
+      "era_required_progressive_items_counts": {
+        "ERA_ANCIENT": {
+          "Progressive Encampment": 1,
+          "Progressive Holy Site": 1,
+          "Progressive Campus": 1
+        },
+        "ERA_CLASSICAL": {
+          "Progressive Encampment": 1,
+          "Progressive Holy Site": 2,
+          "Progressive Campus": 1,
+          "Progressive Harbor": 1,
+          "Progressive Commercial Hub": 1,
+          "Progressive Diplomatic Quarter": 1,
+          "Progressive Entertainment Complex": 1,
+          "Progressive Theater": 1
+        },
+        "ERA_MEDIEVAL": {
+          "Progressive Encampment": 2,
+          "Progressive Holy Site": 2,
+          "Progressive Campus": 2,
+          "Progressive Harbor": 1,
+          "Progressive Commercial Hub": 1,
+          "Progressive Diplomatic Quarter": 1,
+          "Progressive Entertainment Complex": 1,
+          "Progressive Theater": 1,
+          "Progressive Industrial Zone": 1
+        },
+        "ERA_RENAISSANCE": {
+          "Progressive Encampment": 2,
+          "Progressive Holy Site": 2,
+          "Progressive Campus": 2,
+          "Progressive Harbor": 2,
+          "Progressive Commercial Hub": 2,
+          "Progressive Diplomatic Quarter": 2,
+          "Progressive Entertainment Complex": 1,
+          "Progressive Theater": 2,
+          "Progressive Industrial Zone": 1
+        },
+        "ERA_INDUSTRIAL": {
+          "Progressive Encampment": 3,
+          "Progressive Holy Site": 2,
+          "Progressive Campus": 2,
+          "Progressive Harbor": 2,
+          "Progressive Commercial Hub": 3,
+          "Progressive Diplomatic Quarter": 2,
+          "Progressive Entertainment Complex": 2,
+          "Progressive Theater": 2,
+          "Progressive Industrial Zone": 2
+        },
+        "ERA_MODERN": {
+          "Progressive Encampment": 3,
+          "Progressive Holy Site": 2,
+          "Progressive Campus": 3,
+          "Progressive Harbor": 2,
+          "Progressive Commercial Hub": 3,
+          "Progressive Diplomatic Quarter": 2,
+          "Progressive Entertainment Complex": 2,
+          "Progressive Theater": 3,
+          "Progressive Industrial Zone": 3,
+          "Progressive Aerodrome": 1
+        },
+        "ERA_ATOMIC": {
+          "Progressive Encampment": 3,
+          "Progressive Holy Site": 2,
+          "Progressive Campus": 3,
+          "Progressive Harbor": 2,
+          "Progressive Commercial Hub": 3,
+          "Progressive Diplomatic Quarter": 2,
+          "Progressive Entertainment Complex": 3,
+          "Progressive Theater": 3,
+          "Progressive Industrial Zone": 4,
+          "Progressive Aerodrome": 2,
+          "Progressive Space Port": 1
+        },
+        "ERA_INFORMATION": {
+          "Progressive Encampment": 3,
+          "Progressive Holy Site": 2,
+          "Progressive Campus": 3,
+          "Progressive Harbor": 2,
+          "Progressive Commercial Hub": 3,
+          "Progressive Diplomatic Quarter": 2,
+          "Progressive Entertainment Complex": 3,
+          "Progressive Theater": 3,
+          "Progressive Industrial Zone": 4,
+          "Progressive Aerodrome": 2,
+          "Progressive Space Port": 4
+        },
+        "ERA_FUTURE": {
+          "Progressive Encampment": 3,
+          "Progressive Holy Site": 2,
+          "Progressive Campus": 3,
+          "Progressive Harbor": 2,
+          "Progressive Commercial Hub": 3,
+          "Progressive Diplomatic Quarter": 2,
+          "Progressive Entertainment Complex": 3,
+          "Progressive Theater": 3,
+          "Progressive Industrial Zone": 4,
+          "Progressive Aerodrome": 2,
+          "Progressive Space Port": 4
+        }
+      },
+      "era_required_progressive_era_counts": {
+        "ERA_ANCIENT": 1,
+        "ERA_CLASSICAL": 2,
+        "ERA_MEDIEVAL": 3,
+        "ERA_RENAISSANCE": 4,
+        "ERA_INDUSTRIAL": 5,
+        "ERA_MODERN": 6,
+        "ERA_ATOMIC": 7,
+        "ERA_INFORMATION": 0,
+        "ERA_FUTURE": 0
+      }
+    }
+  }
+}

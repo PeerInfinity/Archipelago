@@ -77,9 +77,10 @@ export class TestOrchestrator {
    * @param {number} playerId - Player ID
    * @param {string} logPath - Path to log file (for logging and sphereState)
    * @param {boolean} isAutoLoad - Auto vs manual load
+   * @param {string|null} rawContent - Raw JSONL content (optional, avoids re-serialization)
    * @returns {Promise<boolean>} True if preparation succeeded
    */
-  async prepareSpoilerTest(spoilerLogData, playerId, logPath, isAutoLoad = false) {
+  async prepareSpoilerTest(spoilerLogData, playerId, logPath, isAutoLoad = false, rawContent = null) {
     logger.debug(`[prepareSpoilerTest] playerId at start: ${playerId}`);
 
     // Clear UI
@@ -107,6 +108,25 @@ export class TestOrchestrator {
       return false;
     }
 
+    // Filter out non-state_update events (like log_header) for processing
+    // These metadata events are handled by sphereState, not by the test processor
+    const filteredLogData = spoilerLogData.filter(event => event.type === 'state_update');
+    const skippedEvents = spoilerLogData.length - filteredLogData.length;
+
+    if (filteredLogData.length === 0) {
+      this.uiCallbacks.log(
+        'error',
+        'Cannot prepare spoiler test: No state_update events found in log.'
+      );
+      this.uiCallbacks.renderManualFileSelectionView(
+        'Error: No state_update events found in log file.'
+      );
+      return false;
+    }
+
+    // Use filtered data for processing
+    spoilerLogData = filteredLogData;
+
     // Log with fallback handling
     const displayLogName = logPath || 'Unknown Log';
     this.uiCallbacks.log(
@@ -115,9 +135,9 @@ export class TestOrchestrator {
     );
     this.uiCallbacks.log(
       'info',
-      `Using ${spoilerLogData.length} events from ${
+      `Using ${spoilerLogData.length} state_update events from ${
         isAutoLoad ? 'auto-loaded' : 'selected'
-      } log: ${displayLogName}`
+      } log: ${displayLogName}${skippedEvents > 0 ? ` (${skippedEvents} metadata event${skippedEvents > 1 ? 's' : ''} skipped)` : ''}`
     );
 
     // Assuming StateManager already has the correct rules context.
@@ -141,8 +161,10 @@ export class TestOrchestrator {
           }
 
           // Load the sphere log
-          this.uiCallbacks.log('info', `Loading sphere log into sphereState: ${logPath}`);
-          const success = await loadSphereLog(logPath);
+          // Use rawContent if available (from file upload), otherwise fall back to re-serializing
+          const jsonlContent = rawContent || spoilerLogData.map(event => JSON.stringify(event)).join('\n');
+          this.uiCallbacks.log('info', `Loading sphere log into sphereState: ${logPath}${rawContent ? ' (using raw content)' : ' (re-serialized)'}`);
+          const success = await loadSphereLog(logPath, jsonlContent);
 
           if (success) {
             this.uiCallbacks.log('info', 'Sphere log successfully loaded into sphereState');

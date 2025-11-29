@@ -1,0 +1,1326 @@
+{
+  "schema_version": 3,
+  "game_name": "Adventure",
+  "game_directory": "adventure",
+  "archipelago_version": "0.6.4",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1",
+    "2": "Player2",
+    "3": "Player3",
+    "4": "Player4",
+    "5": "Player5",
+    "6": "Player6",
+    "7": "Player7",
+    "8": "Player8",
+    "9": "Player9",
+    "10": "Player10",
+    "11": "Player11",
+    "12": "Player12",
+    "13": "Player13",
+    "14": "Player14",
+    "15": "Player15",
+    "16": "Player16",
+    "17": "Player17",
+    "18": "Player18",
+    "19": "Player19",
+    "20": "Player20",
+    "21": "Player21",
+    "22": "Player22",
+    "23": "Player23",
+    "24": "Player24",
+    "25": "Player25",
+    "26": "Player26",
+    "27": "Player27",
+    "28": "Player28",
+    "29": "Player29",
+    "30": "Player30",
+    "31": "Player31",
+    "32": "Player32",
+    "33": "Player33",
+    "34": "Player34",
+    "35": "Player35",
+    "36": "Player36",
+    "37": "Player37",
+    "38": "Player38",
+    "39": "Player39",
+    "40": "Player40",
+    "41": "Player41",
+    "42": "Player42",
+    "43": "Player43",
+    "44": "Player44",
+    "45": "Player45",
+    "46": "Player46",
+    "47": "Player47",
+    "48": "Player48",
+    "49": "Player49",
+    "50": "Player50",
+    "51": "Player51",
+    "52": "Player52",
+    "53": "Player53",
+    "54": "Player54",
+    "55": "Player55",
+    "56": "Player56",
+    "57": "Player57",
+    "58": "Player58",
+    "59": "Player59",
+    "60": "Player60",
+    "61": "Player61",
+    "62": "Player62",
+    "63": "Player63",
+    "64": "Player64",
+    "65": "Player65",
+    "66": "Player66",
+    "67": "Player67",
+    "68": "Player68",
+    "69": "Player69",
+    "70": "Player70",
+    "71": "Player71",
+    "72": "Player72",
+    "73": "Player73",
+    "74": "Player74",
+    "75": "Player75"
+  },
+  "world_classes": {
+    "1": "HatInTimeWorld",
+    "2": "ALTTPWorld",
+    "3": "ShortHikeWorld",
+    "4": "AdventureWorld",
+    "5": "AquariaWorld",
+    "6": "ArchipIDLEWorld",
+    "7": "BlasphemousWorld",
+    "8": "BombRushCyberfunkWorld",
+    "9": "BumpStikWorld",
+    "10": "CVCotMWorld",
+    "11": "CV64World",
+    "12": "Celeste64World",
+    "13": "ChecksFinderWorld",
+    "14": "ChocolateChipCookiesWorld",
+    "15": "CivVIWorld",
+    "16": "DarkSouls3World",
+    "17": "DLCqworld",
+    "18": "DKC3World",
+    "19": "DOOM1993World",
+    "20": "DOOM2World",
+    "21": "Factorio",
+    "22": "FaxanaduWorld",
+    "23": "FFMQWorld",
+    "24": "HereticWorld",
+    "25": "Hylics2World",
+    "26": "InscryptionWorld",
+    "27": "JakAndDaxterWorld",
+    "28": "KH2World",
+    "29": "KH1World",
+    "30": "KDL3World",
+    "31": "LandstalkerWorld",
+    "32": "LingoWorld",
+    "33": "LinksAwakeningWorld",
+    "34": "L2ACWorld",
+    "35": "MLSSWorld",
+    "36": "MathProof2p2e4World",
+    "37": "MM2World",
+    "38": "MMBN3World",
+    "39": "MeritousWorld",
+    "40": "MetamathWorld",
+    "41": "MuseDashWorld",
+    "42": "NoitaWorld",
+    "43": "OSRSWorld",
+    "44": "Overcooked2World",
+    "45": "PaintWorld",
+    "46": "PokemonEmeraldWorld",
+    "47": "PokemonRedBlueWorld",
+    "48": "RaftWorld",
+    "49": "RiskOfRainWorld",
+    "50": "SavingPrincessWorld",
+    "51": "SoEWorld",
+    "52": "ShapezWorld",
+    "53": "ShiversWorld",
+    "54": "SA2BWorld",
+    "55": "SC2World",
+    "56": "StardewValleyWorld",
+    "57": "SubnauticaWorld",
+    "58": "SM64World",
+    "59": "MarioLand2World",
+    "60": "SMWWorld",
+    "61": "SMWorld",
+    "62": "TerrariaWorld",
+    "63": "TLoZWorld",
+    "64": "MessengerWorld",
+    "65": "TWWWorld",
+    "66": "WitnessWorld",
+    "67": "TimespinnerWorld",
+    "68": "TunicWorld",
+    "69": "UndertaleWorld",
+    "70": "V6World",
+    "71": "WargrooveWorld",
+    "72": "WebDevJourneyWorld",
+    "73": "YachtDiceWorld",
+    "74": "YoshisIslandWorld",
+    "75": "Yugioh06World"
+  },
+  "regions": {
+    "4": {
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "GameStart",
+            "connected_region": "Overworld",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Overworld": {
+        "name": "Overworld",
+        "exits": [
+          {
+            "name": "YellowCastlePort",
+            "connected_region": "YellowCastle",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Yellow Key"
+            }
+          },
+          {
+            "name": "WhiteCastlePort",
+            "connected_region": "WhiteCastle",
+            "access_rule": {
+              "type": "item_check",
+              "item": "White Key"
+            }
+          },
+          {
+            "name": "BlackCastlePort",
+            "connected_region": "BlackCastle",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Black Key"
+            }
+          },
+          {
+            "name": "CreditsWall",
+            "connected_region": "CreditsRoom",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Black Key"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Bridge"
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Blue Labyrinth 0",
+            "id": 118000004,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Hive Mind Emulator",
+              "player": 55,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Blue Labyrinth 1",
+            "id": 118000006,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Category Three of a Kind",
+              "player": 73,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Catacombs",
+            "id": 118000009,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Scout Fly - Precursor Basin",
+              "player": 27,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Adjacent to Catacombs",
+            "id": 118000012,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Graffiti (M - Zona Leste)",
+              "player": 8,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Southwest of Catacombs",
+            "id": 118000014,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Fast Hatter Badge",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "White Castle Gate",
+            "id": 118000015,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Zerg Missile Attack",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Black Castle Gate",
+            "id": 118000016,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Canvas Height",
+              "player": 45,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Yellow Castle Gate",
+            "id": 118000017,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Occipital of Tequila, the Metalsmith",
+              "player": 7,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Northeast of Catacombs",
+            "id": 118000028,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Piece of Heart",
+              "player": 65,
+              "advancement": false,
+              "type": "Item"
+            }
+          },
+          {
+            "name": "Southeast of Catacombs",
+            "id": 118000029,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "The Confluence (E3M3)",
+              "player": 24,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Slay Rhindle",
+            "id": 118000208,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Right Difficulty Switch"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Sword"
+                }
+              ]
+            },
+            "item": {
+              "name": "Soul of a Crestfallen Knight",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "YellowCastle": {
+        "name": "YellowCastle",
+        "exits": [
+          {
+            "name": "YellowCastleExit",
+            "connected_region": "Overworld",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Inside Yellow Castle",
+            "id": 118000018,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Scout Fly - Precursor Basin",
+              "player": 27,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Chalice Home",
+            "id": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Chalice"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Yellow Key"
+                }
+              ]
+            },
+            "item": {
+              "name": "Victory",
+              "player": 4,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "WhiteCastle": {
+        "name": "WhiteCastle",
+        "exits": [
+          {
+            "name": "WhiteCastleExit",
+            "connected_region": "Overworld",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "WhiteCastleSecretPassage",
+            "connected_region": "WhiteCastleVault",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Bridge"
+            }
+          },
+          {
+            "name": "WhiteCastlePeekPassage",
+            "connected_region": "WhiteCastlePreVaultPeek",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Bridge"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Magnet"
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "RedMaze0",
+            "id": 118000023,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Magic Barrier",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "RedMaze1",
+            "id": 118000026,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Jetpack",
+              "player": 6,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "WhiteCastlePreVaultPeek": {
+        "name": "WhiteCastlePreVaultPeek",
+        "exits": [
+          {
+            "name": "WhiteCastleFromPeek",
+            "connected_region": "WhiteCastle",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Red Maze Vault Entrance",
+            "id": 118000183,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "BubblMan V3 B",
+              "player": 38,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "WhiteCastleVault": {
+        "name": "WhiteCastleVault",
+        "exits": [
+          {
+            "name": "WhiteCastleReturnPassage",
+            "connected_region": "WhiteCastle",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Red Maze Vault",
+            "id": 118000025,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Tome of Power",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Slay Yorgle",
+            "id": 118000209,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Right Difficulty Switch"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Sword"
+                }
+              ]
+            },
+            "item": {
+              "name": "Homing Crystal Soulmass",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "BlackCastle": {
+        "name": "BlackCastle",
+        "exits": [
+          {
+            "name": "BlackCastleExit",
+            "connected_region": "Overworld",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "BlackCastleVaultEntrance",
+            "connected_region": "BlackCastleVault",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Bridge"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Magnet"
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Dungeon0",
+            "id": 118000019,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Hel's Angels",
+              "player": 55,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Dungeon1",
+            "id": 118000021,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "50 Pons",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Black Castle Foyer",
+            "id": 118000027,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 18,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Slay Grundle",
+            "id": 118000210,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Right Difficulty Switch"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Sword"
+                }
+              ]
+            },
+            "item": {
+              "name": "2 Wax",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "BlackCastleVault": {
+        "name": "BlackCastleVault",
+        "exits": [
+          {
+            "name": "BlackCastleReturnPassage",
+            "connected_region": "BlackCastle",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Dungeon Vault",
+            "id": 118000181,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Money",
+              "player": 49,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "CreditsRoom": {
+        "name": "CreditsRoom",
+        "exits": [
+          {
+            "name": "CreditsExit",
+            "connected_region": "Overworld",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "CreditsToFarSide",
+            "connected_region": "CreditsRoomFarSide",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Magnet"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Credits Left Side",
+            "id": 118000030,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Armor",
+              "player": 19,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "CreditsRoomFarSide": {
+        "name": "CreditsRoomFarSide",
+        "exits": [
+          {
+            "name": "CreditsFromFarSide",
+            "connected_region": "CreditsRoom",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Credits Right Side",
+            "id": 118000190,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Campaign Tier 1 Column 5",
+              "player": 75,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "start_regions": {
+    "4": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "4": {
+      "Yellow Key": {
+        "name": "Yellow Key",
+        "id": 118000011,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "White Key": {
+        "name": "White Key",
+        "id": 118000012,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Black Key": {
+        "name": "Black Key",
+        "id": 118000013,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bridge": {
+        "name": "Bridge",
+        "id": 118000010,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Magnet": {
+        "name": "Magnet",
+        "id": 118000017,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sword": {
+        "name": "Sword",
+        "id": 118000009,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Chalice": {
+        "name": "Chalice",
+        "id": 118000016,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Left Difficulty Switch": {
+        "name": "Left Difficulty Switch",
+        "id": 118000256,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Right Difficulty Switch": {
+        "name": "Right Difficulty Switch",
+        "id": 118000257,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Freeincarnate": {
+        "name": "Freeincarnate",
+        "id": 118000258,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 12
+      },
+      "Slow Yorgle": {
+        "name": "Slow Yorgle",
+        "id": 118000259,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Slow Grundle": {
+        "name": "Slow Grundle",
+        "id": 118000260,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Slow Rhindle": {
+        "name": "Slow Rhindle",
+        "id": 118000261,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Revive Dragons": {
+        "name": "Revive Dragons",
+        "id": 118000262,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": true,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "nothing": {
+        "name": "nothing",
+        "id": 118000000,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Victory": {
+        "name": "Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Hive Mind Emulator": {
+        "name": "Hive Mind Emulator",
+        "id": 1618,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Three of a Kind": {
+        "name": "Category Three of a Kind",
+        "id": 16871244112,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Scout Fly - Precursor Basin": {
+        "name": "Scout Fly - Precursor Basin",
+        "id": 741001081,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Graffiti (M - Zona Leste)": {
+        "name": "Graffiti (M - Zona Leste)",
+        "id": 2308050,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fast Hatter Badge": {
+        "name": "Fast Hatter Badge",
+        "id": 2000300025,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Zerg Missile Attack": {
+        "name": "Progressive Zerg Missile Attack",
+        "id": 2101,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Canvas Height": {
+        "name": "Progressive Canvas Height",
+        "id": 198502,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Occipital of Tequila, the Metalsmith": {
+        "name": "Occipital of Tequila, the Metalsmith",
+        "id": 1909162,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hel's Angels": {
+        "name": "Hel's Angels",
+        "id": 1505,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Money": {
+        "name": "Money",
+        "id": 37301,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "50 Pons": {
+        "name": "50 Pons",
+        "id": 2000300035,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Magic Barrier": {
+        "name": "Magic Barrier",
+        "id": 101063,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "BubblMan V3 B": {
+        "name": "BubblMan V3 B",
+        "id": 11735241,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Tome of Power": {
+        "name": "Tome of Power",
+        "id": 370014,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Jetpack": {
+        "name": "Jetpack",
+        "id": 9124,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "DK Coin": {
+        "name": "DK Coin",
+        "id": 14430212,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Piece of Heart": {
+        "name": "Piece of Heart",
+        "id": 2322561,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": "Item",
+        "max_count": 1
+      },
+      "The Confluence (E3M3)": {
+        "name": "The Confluence (E3M3)",
+        "id": 370460,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Armor": {
+        "name": "Armor",
+        "id": 350107,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Campaign Tier 1 Column 5": {
+        "name": "Campaign Tier 1 Column 5",
+        "id": 5730147,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Homing Crystal Soulmass": {
+        "name": "Homing Crystal Soulmass",
+        "id": 100987,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "2 Wax": {
+        "name": "2 Wax",
+        "id": 64109,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Soul of a Crestfallen Knight": {
+        "name": "Soul of a Crestfallen Knight",
+        "id": 100828,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      " coins": {
+        "name": " coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      },
+      " coins freemium": {
+        "name": " coins freemium",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      }
+    }
+  },
+  "item_groups": {
+    "4": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "4": {
+      "Black Key": 1,
+      "Bridge": 1,
+      "Chalice": 1,
+      "Freeincarnate": 12,
+      "Left Difficulty Switch": 1,
+      "Magnet": 1,
+      "Right Difficulty Switch": 1,
+      "Slow Grundle": 1,
+      "Slow Rhindle": 1,
+      "Slow Yorgle": 1,
+      "Sword": 1,
+      "Victory": 1,
+      "White Key": 1,
+      "Yellow Key": 1
+    }
+  },
+  "progression_mapping": {
+    "4": {}
+  },
+  "starting_items": {
+    "4": []
+  },
+  "settings": {
+    "4": {
+      "game": "Adventure",
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
+    }
+  },
+  "game_info": {
+    "4": {
+      "name": "Adventure",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

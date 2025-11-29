@@ -708,25 +708,23 @@ export class LocationUI {
       !this.originalLocationOrder ||
       this.originalLocationOrder.length === 0
     ) {
-      // Only warn if not in "Show All" mode and original order is expected for sorting.
-      if (
+      // Try fallback fetch from stateManager
+      const freshlyFetchedOrder = stateManager.getOriginalLocationOrder();
+      if (freshlyFetchedOrder && freshlyFetchedOrder.length > 0) {
+        this.originalLocationOrder = freshlyFetchedOrder;
+        log(
+          'info',
+          `[LocationUI updateLocationDisplay] Fetched originalLocationOrder: ${this.originalLocationOrder.length} items.`
+        );
+      } else if (
+        // Only warn if fallback also failed and original order is expected for sorting
         (sortMethod === 'original' ||
           sortMethod === 'accessibility_original') &&
         staticData.locations.size > 0 // Only warn if there should be locations
       ) {
         log(
           'warn',
-          '[LocationUI updateLocationDisplay] Original location order is empty (and an original-order sort is selected). Locations might appear unsorted or panel might wait for re-render.'
-        );
-      }
-      // The fallback fetch logic can remain as it might still be useful in some edge cases
-      // or if staticData itself was temporarily unavailable from the proxy.
-      const freshlyFetchedOrder = stateManager.getOriginalLocationOrder();
-      if (freshlyFetchedOrder && freshlyFetchedOrder.length > 0) {
-        this.originalLocationOrder = freshlyFetchedOrder;
-        log(
-          'info',
-          `[LocationUI updateLocationDisplay] Fallback fetch for originalLocationOrder succeeded: ${this.originalLocationOrder.length} items.`
+          '[LocationUI updateLocationDisplay] Original location order not available (and an original-order sort is selected). Locations might appear unsorted.'
         );
       }
     }

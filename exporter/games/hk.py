@@ -40,3 +40,33 @@ class HKExportHandler(GenericGameExportHandler):
         # Use the generic implementation to start with
         # We'll enhance this as we discover specific requirements
         return super().get_item_data(world)
+
+    def get_settings_data(self, world, multiworld, player: int) -> Dict[str, Any]:
+        """
+        Extract Hollow Knight settings for export.
+        Exports all game options to support state_method calls like _hk_option.
+        """
+        settings_dict = {'game': multiworld.game[player]}
+
+        # Set assume_bidirectional_exits to false for Hollow Knight
+        settings_dict['assume_bidirectional_exits'] = False
+
+        # Export all Hollow Knight options
+        if hasattr(world, 'options'):
+            for option_name in dir(world.options):
+                # Skip private attributes and methods
+                if option_name.startswith('_'):
+                    continue
+
+                option = getattr(world.options, option_name, None)
+                if option is None:
+                    continue
+
+                # Extract the value from the option
+                # Options typically have a 'value' attribute
+                if hasattr(option, 'value'):
+                    settings_dict[option_name] = option.value
+                elif isinstance(option, (bool, int, str, float)):
+                    settings_dict[option_name] = option
+
+        return settings_dict

@@ -10,6 +10,23 @@ class AHitGameExportHandler(BaseGameExportHandler):
     GAME_NAME = 'A Hat in Time'
     """A Hat in Time specific rule expander with game-specific helper functions."""
 
+    def __init__(self):
+        # Define AHIT-specific helpers that should NOT be expanded
+        self.known_helpers = {
+            'can_clear_required_act',
+            'can_use_hat',
+            'can_use_hookshot',
+            'can_hit',
+            'has_paintings',
+            'painting_logic',
+            'has_relic_combo',
+            'get_difficulty',
+        }
+
+    def should_preserve_as_helper(self, func_name: str) -> bool:
+        """Check if a function should be preserved as a helper call."""
+        return func_name in self.known_helpers
+
     def get_settings_data(self, world, multiworld, player):
         """Extract A Hat in Time settings including HatItems and UmbrellaLogic options."""
         # Get base settings
@@ -280,7 +297,7 @@ class AHitGameExportHandler(BaseGameExportHandler):
             
             # Badge requirements
             'has_badge': {
-                'type': 'generic_helper',
+                'type': 'helper',
                 'name': 'has_badge',
                 'description': 'Requires specific badge'
             },
@@ -329,17 +346,17 @@ class AHitGameExportHandler(BaseGameExportHandler):
             
             # Act and chapter completion
             'completed_act': {
-                'type': 'generic_helper',
+                'type': 'helper',
                 'name': 'completed_act',
                 'description': 'Requires completing specific act'
             },
             'completed_chapter': {
-                'type': 'generic_helper',
+                'type': 'helper',
                 'name': 'completed_chapter',
                 'description': 'Requires completing specific chapter'
             },
             'has_contract': {
-                'type': 'generic_helper',
+                'type': 'helper',
                 'name': 'has_contract',
                 'description': 'Requires specific contract'
             },
@@ -351,14 +368,14 @@ class AHitGameExportHandler(BaseGameExportHandler):
                 'description': 'Requires yarn for hat crafting'
             },
             'has_time_pieces': {
-                'type': 'generic_helper',
+                'type': 'helper',
                 'name': 'has_time_pieces',
                 'description': 'Requires specific number of time pieces'
             },
-            
+
             # Death Wish specific
             'death_wish_enabled': {
-                'type': 'generic_helper',
+                'type': 'helper',
                 'name': 'death_wish_enabled',
                 'description': 'Requires Death Wish DLC enabled'
             },
@@ -370,22 +387,22 @@ class AHitGameExportHandler(BaseGameExportHandler):
             
             # Painting and act completion logic
             'has_paintings': {
-                'type': 'generic_helper',
+                'type': 'helper',
                 'name': 'has_paintings',
                 'description': 'Checks if player has enough painting unlocks'
             },
             'can_clear_required_act': {
-                'type': 'generic_helper', 
+                'type': 'helper',
                 'name': 'can_clear_required_act',
                 'description': 'Checks if a specific act can be completed'
             },
             'painting_logic': {
-                'type': 'generic_helper',
-                'name': 'painting_logic', 
+                'type': 'helper',
+                'name': 'painting_logic',
                 'description': 'Checks if painting shuffle is enabled'
             },
             'get_difficulty': {
-                'type': 'generic_helper',
+                'type': 'helper',
                 'name': 'get_difficulty',
                 'description': 'Gets the current difficulty setting'
             },
@@ -411,8 +428,8 @@ class AHitGameExportHandler(BaseGameExportHandler):
         # Get the mapping for this helper
         mapping = helper_mappings.get(helper_name)
 
-        # If we have a mapping and it's a generic_helper type, preserve args
-        if mapping and mapping.get('type') == 'generic_helper':
+        # If we have a mapping and it's a helper type, preserve args
+        if mapping and mapping.get('type') == 'helper':
             result = mapping.copy()
             # Include args if provided
             if args:
@@ -499,6 +516,33 @@ class AHitGameExportHandler(BaseGameExportHandler):
         if not rule:
             return rule
 
+        # Note: Constant conditional elimination is now handled in
+        # resolve_attribute_nodes_in_rule in exporter.py after attributes are resolved
+
+        # Eliminate constant conditionals (this may catch some early cases)
+        if rule.get('type') == 'conditional':
+            test = rule.get('test')
+            if test and test.get('type') == 'constant':
+                # Evaluate constant test value
+                test_value = test.get('value')
+                if test_value:  # Truthy
+                    # Return if_true branch (recursively expand it)
+                    if_true = rule.get('if_true')
+                    return self.expand_rule(if_true) if if_true is not None else None
+                else:  # Falsy (0, False, None, etc.)
+                    # Return if_false branch (recursively expand it)
+                    if_false = rule.get('if_false')
+                    return self.expand_rule(if_false) if if_false is not None else None
+            else:
+                # Non-constant conditional - recurse into branches
+                if 'test' in rule:
+                    rule['test'] = self.expand_rule(rule['test'])
+                if 'if_true' in rule:
+                    rule['if_true'] = self.expand_rule(rule['if_true'])
+                if 'if_false' in rule:
+                    rule['if_false'] = self.expand_rule(rule['if_false'])
+                return rule
+
         # Handle helper functions
         if rule.get('type') == 'helper':
             # Filter out 'world' argument - it's automatically provided by executeHelper
@@ -514,5 +558,13 @@ class AHitGameExportHandler(BaseGameExportHandler):
         # Handle logical operators recursively
         if rule['type'] in ['and', 'or']:
             rule['conditions'] = [self.expand_rule(cond) for cond in rule['conditions']]
+            # Filter out None conditions (which came from eliminated conditionals)
+            rule['conditions'] = [c for c in rule['conditions'] if c is not None]
+            # If only one condition remains, return it directly
+            if len(rule['conditions']) == 1:
+                return rule['conditions'][0]
+            # If no conditions remain, return None
+            if len(rule['conditions']) == 0:
+                return None
 
         return rule

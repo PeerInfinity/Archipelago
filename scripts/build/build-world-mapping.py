@@ -56,7 +56,7 @@ def extract_game_name_from_world(world_init_path: str) -> Optional[str]:
 def extract_string_value(node: ast.AST, content: str, init_path: str) -> Optional[str]:
     """
     Extract a string value from an AST node.
-    Handles both literal strings and Name nodes (variable references).
+    Handles both literal strings, Name nodes (variable references), and Attribute nodes (e.g., MODULE.attr).
     """
     if isinstance(node, ast.Constant) and isinstance(node.value, str):
         # Direct string literal: game = "Game Name"
@@ -69,8 +69,78 @@ def extract_string_value(node: ast.AST, content: str, init_path: str) -> Optiona
         # Try to find the variable definition in the same file or imported modules
         var_name = node.id
         return find_variable_definition(var_name, content, init_path)
+    elif isinstance(node, ast.Attribute):
+        # Attribute access: game = OTHER.game_name
+        # Handle MODULE.attribute pattern
+        return resolve_attribute_access(node, content, init_path)
 
     return None
+
+
+def resolve_attribute_access(node: ast.Attribute, content: str, init_path: str) -> Optional[str]:
+    """
+    Resolve attribute access like OTHER.game_name to find the actual string value.
+    Handles patterns like: game = MODULE.attribute
+    """
+    # Get the attribute name (e.g., "game_name")
+    attr_name = node.attr
+
+    # Get the module/object name (e.g., "OTHER")
+    # We only handle simple cases where node.value is a Name node
+    if not isinstance(node.value, ast.Name):
+        return None
+
+    module_name = node.value.id
+
+    try:
+        tree = ast.parse(content, filename=init_path)
+        world_dir = Path(init_path).parent
+
+        # Find where the module is imported from
+        for ast_node in ast.walk(tree):
+            if isinstance(ast_node, ast.ImportFrom):
+                # Check if this import includes our module
+                imports_module = any(
+                    isinstance(alias, ast.alias) and alias.name == module_name
+                    for alias in ast_node.names
+                )
+
+                if imports_module and ast_node.level > 0 and ast_node.module:
+                    # Relative import - resolve the module path
+                    module_path = world_dir / f"{ast_node.module.replace('.', '/')}.py"
+
+                    if module_path.exists():
+                        with open(module_path, 'r', encoding='utf-8') as f:
+                            imported_content = f.read()
+
+                        # Parse the imported file and look for the class/attribute
+                        imported_tree = ast.parse(imported_content, filename=str(module_path))
+
+                        # Look for class definition
+                        for imported_node in ast.walk(imported_tree):
+                            if isinstance(imported_node, ast.ClassDef) and imported_node.name == module_name:
+                                # Found the class, now look for the attribute
+                                for class_item in imported_node.body:
+                                    if isinstance(class_item, ast.AnnAssign):
+                                        # Handle: attribute: str = "value"
+                                        if isinstance(class_item.target, ast.Name) and class_item.target.id == attr_name:
+                                            if class_item.value:
+                                                if isinstance(class_item.value, ast.Constant) and isinstance(class_item.value.value, str):
+                                                    return class_item.value.value
+                                                elif isinstance(class_item.value, ast.Str):
+                                                    return class_item.value.s
+                                    elif isinstance(class_item, ast.Assign):
+                                        # Handle: attribute = "value"
+                                        for target in class_item.targets:
+                                            if isinstance(target, ast.Name) and target.id == attr_name:
+                                                if isinstance(class_item.value, ast.Constant) and isinstance(class_item.value.value, str):
+                                                    return class_item.value.value
+                                                elif isinstance(class_item.value, ast.Str):
+                                                    return class_item.value.s
+
+        return None
+    except (SyntaxError, IOError, UnicodeDecodeError):
+        return None
 
 
 def find_variable_definition(var_name: str, content: str, init_path: str) -> Optional[str]:

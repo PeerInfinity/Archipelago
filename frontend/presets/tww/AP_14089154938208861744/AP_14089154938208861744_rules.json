@@ -19,45 +19,119 @@
             "name": "Dungeon Entrance on Dragon Roost Island -> Dragon Roost Cavern",
             "connected_region": "Dragon Roost Cavern",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "constant",
+              "value": true
             }
           },
           {
             "name": "Dungeon Entrance in Forest Haven Sector -> Forbidden Woods",
             "connected_region": "Forbidden Woods",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_access_forest_haven",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_outdoors",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "helper",
+                          "name": "can_fly_with_deku_leaf_indoors",
+                          "args": []
+                        },
+                        {
+                          "type": "helper",
+                          "name": "can_fly_with_deku_leaf_outdoors",
+                          "args": []
+                        },
+                        {
+                          "type": "state_method",
+                          "method": "_tww_obscure_1",
+                          "args": []
+                        },
+                        {
+                          "type": "state_method",
+                          "method": "_tww_precise_1",
+                          "args": []
+                        }
+                      ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Grappling Hook"
+                    }
+                  ]
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_cut_grass",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_magic_meter_upgrade",
+                      "args": []
+                    }
+                  ]
+                }
+              ]
             }
           },
           {
             "name": "Dungeon Entrance in Tower of the Gods Sector -> Tower of the Gods",
             "connected_region": "Tower of the Gods",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "state_method",
+              "method": "has_group_unique",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Pearls"
+                },
+                {
+                  "type": "constant",
+                  "value": 3
+                }
+              ]
             }
           },
           {
             "name": "Dungeon Entrance on Headstone Island -> Earth Temple",
             "connected_region": "Earth Temple",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "item_check",
+              "item": "Power Bracelets"
             }
           },
           {
             "name": "Dungeon Entrance on Gale Isle -> Wind Temple",
             "connected_region": "Wind Temple",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Iron Boots",
+                    "Skull Hammer"
+                  ]
+                }
+              ]
             }
           },
           {
@@ -65,7 +139,7 @@
             "connected_region": "Master Sword Chamber",
             "access_rule": {
               "type": "helper",
-              "name": "rule",
+              "name": "can_access_hyrule",
               "args": []
             }
           },
@@ -73,18 +147,103 @@
             "name": "Boss Entrance in Forsaken Fortress -> Helmaroc King Boss Arena",
             "connected_region": "Helmaroc King Boss Arena",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_get_inside_forsaken_fortress",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "state_method",
+                          "method": "_tww_obscure_2",
+                          "args": []
+                        },
+                        {
+                          "type": "state_method",
+                          "method": "_tww_precise_2",
+                          "args": []
+                        }
+                      ]
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_fly_with_deku_leaf_indoors",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Hookshot"
+                    }
+                  ]
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_defeat_bokoblins",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_fly_with_deku_leaf_outdoors",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Grappling Hook"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Skull Hammer"
+                }
+              ]
             }
           },
           {
             "name": "Secret Cave Entrance on Outset Island -> Savage Labyrinth",
             "connected_region": "Savage Labyrinth",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "helper",
+                          "name": "can_fly_with_deku_leaf_outdoors",
+                          "args": []
+                        },
+                        {
+                          "type": "helper",
+                          "name": "can_reach_outset_island_upper_level",
+                          "args": []
+                        }
+                      ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Hookshot"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Power Bracelets"
+                }
+              ]
             }
           },
           {
@@ -92,7 +251,7 @@
             "connected_region": "Dragon Roost Island Secret Cave",
             "access_rule": {
               "type": "helper",
-              "name": "rule",
+              "name": "can_move_boulders",
               "args": []
             }
           },
@@ -101,7 +260,7 @@
             "connected_region": "Fire Mountain Secret Cave",
             "access_rule": {
               "type": "helper",
-              "name": "rule",
+              "name": "has_ice_arrows",
               "args": []
             }
           },
@@ -110,7 +269,7 @@
             "connected_region": "Ice Ring Isle Secret Cave",
             "access_rule": {
               "type": "helper",
-              "name": "rule",
+              "name": "has_fire_arrows",
               "args": []
             }
           },
@@ -118,9 +277,18 @@
             "name": "Secret Cave Entrance on Private Oasis -> Cabana Labyrinth",
             "connected_region": "Cabana Labyrinth",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Cabana Deed",
+                    "Delivery Bag",
+                    "Grappling Hook"
+                  ]
+                }
+              ]
             }
           },
           {
@@ -128,7 +296,7 @@
             "connected_region": "Needle Rock Isle Secret Cave",
             "access_rule": {
               "type": "helper",
-              "name": "rule",
+              "name": "has_fire_arrows",
               "args": []
             }
           },
@@ -136,72 +304,84 @@
             "name": "Secret Cave Entrance on Angular Isles -> Angular Isles Secret Cave",
             "connected_region": "Angular Isles Secret Cave",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_outdoors",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "Hookshot"
+                }
+              ]
             }
           },
           {
             "name": "Secret Cave Entrance on Boating Course -> Boating Course Secret Cave",
             "connected_region": "Boating Course Secret Cave",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_outdoors",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "Hookshot"
+                }
+              ]
             }
           },
           {
             "name": "Secret Cave Entrance on Stone Watcher Island -> Stone Watcher Island Secret Cave",
             "connected_region": "Stone Watcher Island Secret Cave",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "item_check",
+              "item": "Power Bracelets"
             }
           },
           {
             "name": "Secret Cave Entrance on Overlook Island -> Overlook Island Secret Cave",
             "connected_region": "Overlook Island Secret Cave",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "item_check",
+              "item": "Hookshot"
             }
           },
           {
             "name": "Secret Cave Entrance on Bird's Peak Rock -> Bird's Peak Rock Secret Cave",
             "connected_region": "Bird's Peak Rock Secret Cave",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "item_check",
+              "item": "Bait Bag"
             }
           },
           {
             "name": "Secret Cave Entrance on Pawprint Isle -> Pawprint Isle Chuchu Cave",
             "connected_region": "Pawprint Isle Chuchu Cave",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "constant",
+              "value": true
             }
           },
           {
             "name": "Secret Cave Entrance on Pawprint Isle Side Isle -> Pawprint Isle Wizzrobe Cave",
             "connected_region": "Pawprint Isle Wizzrobe Cave",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "item_check",
+              "item": "Hookshot"
             }
           },
           {
             "name": "Secret Cave Entrance on Diamond Steppe Island -> Diamond Steppe Island Warp Maze Cave",
             "connected_region": "Diamond Steppe Island Warp Maze Cave",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "item_check",
+              "item": "Hookshot"
             }
           },
           {
@@ -209,7 +389,7 @@
             "connected_region": "Bomb Island Secret Cave",
             "access_rule": {
               "type": "helper",
-              "name": "rule",
+              "name": "can_move_boulders",
               "args": []
             }
           },
@@ -217,27 +397,33 @@
             "name": "Secret Cave Entrance on Rock Spire Isle -> Rock Spire Isle Secret Cave",
             "connected_region": "Rock Spire Isle Secret Cave",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "item_check",
+              "item": "Bombs"
             }
           },
           {
             "name": "Secret Cave Entrance on Shark Island -> Shark Island Secret Cave",
             "connected_region": "Shark Island Secret Cave",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Iron Boots",
+                    "Skull Hammer"
+                  ]
+                }
+              ]
             }
           },
           {
             "name": "Secret Cave Entrance on Cliff Plateau Isles -> Cliff Plateau Isles Secret Cave",
             "connected_region": "Cliff Plateau Isles Secret Cave",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "constant",
+              "value": true
             }
           },
           {
@@ -245,7 +431,7 @@
             "connected_region": "Horseshoe Island Secret Cave",
             "access_rule": {
               "type": "helper",
-              "name": "rule",
+              "name": "can_fan_with_deku_leaf",
               "args": []
             }
           },
@@ -254,7 +440,7 @@
             "connected_region": "Star Island Secret Cave",
             "access_rule": {
               "type": "helper",
-              "name": "rule",
+              "name": "can_move_boulders",
               "args": []
             }
           },
@@ -262,18 +448,27 @@
             "name": "Fairy Fountain Entrance on Outset Island -> Outset Fairy Fountain",
             "connected_region": "Outset Fairy Fountain",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_access_forest_of_fairies",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_move_boulders",
+                  "args": []
+                }
+              ]
             }
           },
           {
             "name": "Fairy Fountain Entrance on Thorned Fairy Island -> Thorned Fairy Fountain",
             "connected_region": "Thorned Fairy Fountain",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "item_check",
+              "item": "Skull Hammer"
             }
           },
           {
@@ -281,7 +476,7 @@
             "connected_region": "Eastern Fairy Fountain",
             "access_rule": {
               "type": "helper",
-              "name": "rule",
+              "name": "can_move_boulders",
               "args": []
             }
           },
@@ -289,27 +484,34 @@
             "name": "Fairy Fountain Entrance on Western Fairy Island -> Western Fairy Fountain",
             "connected_region": "Western Fairy Fountain",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "item_check",
+              "item": "Skull Hammer"
             }
           },
           {
             "name": "Fairy Fountain Entrance on Southern Fairy Island -> Southern Fairy Fountain",
             "connected_region": "Southern Fairy Fountain",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_fire_arrows",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "Bombs"
+                }
+              ]
             }
           },
           {
             "name": "Fairy Fountain Entrance on Northern Fairy Island -> Northern Fairy Fountain",
             "connected_region": "Northern Fairy Fountain",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "constant",
+              "value": true
             }
           }
         ],
@@ -318,10 +520,9 @@
             "name": "Defeat Ganondorf",
             "id": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "reach_and_defeat_ganondorf",
-              "inferred": true,
-              "description": "Requires ability to reach and defeat ganondorf"
+              "type": "helper",
+              "name": "can_reach_and_defeat_ganondorf",
+              "args": []
             },
             "item": {
               "name": "Victory",
@@ -334,10 +535,9 @@
             "name": "Forsaken Fortress - Chest Guarded By Bokoblin",
             "id": 2326645,
             "access_rule": {
-              "type": "capability",
-              "capability": "get_inside_forsaken_fortress",
-              "inferred": true,
-              "description": "Requires ability to get inside forsaken fortress"
+              "type": "helper",
+              "name": "can_get_inside_forsaken_fortress",
+              "args": []
             },
             "item": {
               "name": "FF Dungeon Map",
@@ -350,10 +550,9 @@
             "name": "Forsaken Fortress - Chest Inside Lower Jail Cell",
             "id": 2326644,
             "access_rule": {
-              "type": "capability",
-              "capability": "get_inside_forsaken_fortress",
-              "inferred": true,
-              "description": "Requires ability to get inside forsaken fortress"
+              "type": "helper",
+              "name": "can_get_inside_forsaken_fortress",
+              "args": []
             },
             "item": {
               "name": "Triforce Shard 2",
@@ -369,31 +568,26 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "get_inside_forsaken_fortress",
-                  "inferred": true,
-                  "description": "Requires ability to get inside forsaken fortress"
+                  "type": "helper",
+                  "name": "can_get_inside_forsaken_fortress",
+                  "args": []
                 },
                 {
                   "type": "or",
                   "conditions": [
                     {
-                      "type": "capability",
-                      "capability": "fly_with_deku_leaf_indoors",
-                      "inferred": true,
-                      "description": "Requires ability to fly with deku leaf indoors"
-                    },
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Hookshot"
-                      }
+                      "type": "helper",
+                      "name": "can_fly_with_deku_leaf_indoors",
+                      "args": []
                     },
                     {
                       "type": "state_method",
                       "method": "_tww_obscure_1",
                       "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Hookshot"
                     }
                   ]
                 }
@@ -410,10 +604,9 @@
             "name": "Forsaken Fortress - Chest on Bed",
             "id": 2326646,
             "access_rule": {
-              "type": "capability",
-              "capability": "get_inside_forsaken_fortress",
-              "inferred": true,
-              "description": "Requires ability to get inside forsaken fortress"
+              "type": "helper",
+              "name": "can_get_inside_forsaken_fortress",
+              "args": []
             },
             "item": {
               "name": "Orange Rupee",
@@ -426,10 +619,9 @@
             "name": "Forsaken Fortress - Phantom Ganon",
             "id": 2326642,
             "access_rule": {
-              "type": "capability",
-              "capability": "reach_and_defeat_phantom_ganon",
-              "inferred": true,
-              "description": "Requires ability to reach and defeat phantom ganon"
+              "type": "helper",
+              "name": "can_reach_and_defeat_phantom_ganon",
+              "args": []
             },
             "item": {
               "name": "Orange Rupee",
@@ -445,16 +637,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "reach_ganons_tower_phantom_ganon_room",
-                  "inferred": true,
-                  "description": "Requires ability to reach ganons tower phantom ganon room"
+                  "type": "helper",
+                  "name": "can_defeat_phantom_ganon",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "defeat_phantom_ganon",
-                  "inferred": true,
-                  "description": "Requires ability to defeat phantom ganon"
+                  "type": "helper",
+                  "name": "can_reach_ganons_tower_phantom_ganon_room",
+                  "args": []
                 }
               ]
             },
@@ -489,10 +679,9 @@
             "name": "Rock Spire Isle - Beedle's Special Shop Ship - 500 Rupee Item",
             "id": 2326758,
             "access_rule": {
-              "type": "item_check",
-              "item": "Any_Wallet_Upgrade",
-              "inferred": true,
-              "description": "Requires having Any Wallet Upgrade"
+              "type": "helper",
+              "name": "has_any_wallet_upgrade",
+              "args": []
             },
             "item": {
               "name": "Bomb Bag Capacity Upgrade",
@@ -505,10 +694,9 @@
             "name": "Rock Spire Isle - Beedle's Special Shop Ship - 900 Rupee Item",
             "id": 2326760,
             "access_rule": {
-              "type": "item_check",
-              "item": "Any_Wallet_Upgrade",
-              "inferred": true,
-              "description": "Requires having Any Wallet Upgrade"
+              "type": "helper",
+              "name": "has_any_wallet_upgrade",
+              "args": []
             },
             "item": {
               "name": "Progressive Shield",
@@ -521,10 +709,9 @@
             "name": "Rock Spire Isle - Beedle's Special Shop Ship - 950 Rupee Item",
             "id": 2326759,
             "access_rule": {
-              "type": "item_check",
-              "item": "Any_Wallet_Upgrade",
-              "inferred": true,
-              "description": "Requires having Any Wallet Upgrade"
+              "type": "helper",
+              "name": "has_any_wallet_upgrade",
+              "args": []
             },
             "item": {
               "name": "Orange Rupee",
@@ -594,10 +781,7 @@
             "id": 2326558,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Wind Waker"
-              }
+              "item": "Wind Waker"
             },
             "item": {
               "name": "Magic Armor",
@@ -615,9 +799,18 @@
             "name": "Boss Entrance in Dragon Roost Cavern -> Gohma Boss Arena",
             "connected_region": "Gohma Boss Arena",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_reach_dragon_roost_cavern_boss_stairs",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "DRC Big Key"
+                }
+              ]
             }
           }
         ],
@@ -627,10 +820,7 @@
             "id": 2326585,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "DRC Small Key"
-              },
+              "item": "DRC Small Key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -650,23 +840,18 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "reach_dragon_roost_cavern_gaping_maw",
-                  "inferred": true,
-                  "description": "Requires ability to reach dragon roost cavern gaping maw"
+                  "type": "helper",
+                  "name": "can_reach_dragon_roost_cavern_gaping_maw",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_stun_magtails",
+                  "args": []
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Grappling Hook"
-                  }
-                },
-                {
-                  "type": "capability",
-                  "capability": "stun_magtails",
-                  "inferred": true,
-                  "description": "Requires ability to stun magtails"
+                  "item": "Grappling Hook"
                 }
               ]
             },
@@ -682,10 +867,7 @@
             "id": 2326591,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "DRC Small Key"
-              },
+              "item": "DRC Small Key",
               "count": {
                 "type": "constant",
                 "value": 3
@@ -703,10 +885,7 @@
             "id": 2326587,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "DRC Small Key"
-              },
+              "item": "DRC Small Key",
               "count": {
                 "type": "constant",
                 "value": 1
@@ -723,10 +902,9 @@
             "name": "Dragon Roost Cavern - Boss Stairs Left Chest",
             "id": 2326601,
             "access_rule": {
-              "type": "capability",
-              "capability": "reach_dragon_roost_cavern_boss_stairs",
-              "inferred": true,
-              "description": "Requires ability to reach dragon roost cavern boss stairs"
+              "type": "helper",
+              "name": "can_reach_dragon_roost_cavern_boss_stairs",
+              "args": []
             },
             "item": {
               "name": "DRC Dungeon Map",
@@ -739,10 +917,9 @@
             "name": "Dragon Roost Cavern - Boss Stairs Right Chest",
             "id": 2326600,
             "access_rule": {
-              "type": "capability",
-              "capability": "reach_dragon_roost_cavern_boss_stairs",
-              "inferred": true,
-              "description": "Requires ability to reach dragon roost cavern boss stairs"
+              "type": "helper",
+              "name": "can_reach_dragon_roost_cavern_boss_stairs",
+              "args": []
             },
             "item": {
               "name": "Deku Leaf",
@@ -758,50 +935,40 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "DRC Small Key"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 2
-                  }
-                },
-                {
                   "type": "or",
                   "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Grappling Hook"
-                      }
-                    },
-                    {
-                      "type": "capability",
-                      "capability": "fly_with_deku_leaf_indoors",
-                      "inferred": true,
-                      "description": "Requires ability to fly with deku leaf indoors"
-                    },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "item_check",
-                          "item": {
-                            "type": "constant",
-                            "value": "Hookshot"
-                          }
-                        },
-                        {
                           "type": "state_method",
                           "method": "_tww_obscure_1",
                           "args": []
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Hookshot"
                         }
                       ]
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_fly_with_deku_leaf_indoors",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Grappling Hook"
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "DRC Small Key",
+                  "count": {
+                    "type": "constant",
+                    "value": 2
+                  }
                 }
               ]
             },
@@ -817,10 +984,7 @@
             "id": 2326592,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "DRC Small Key"
-              },
+              "item": "DRC Small Key",
               "count": {
                 "type": "constant",
                 "value": 4
@@ -852,10 +1016,7 @@
             "id": 2326596,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "DRC Small Key"
-              },
+              "item": "DRC Small Key",
               "count": {
                 "type": "constant",
                 "value": 4
@@ -873,10 +1034,7 @@
             "id": 2326595,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "DRC Small Key"
-              },
+              "item": "DRC Small Key",
               "count": {
                 "type": "constant",
                 "value": 4
@@ -894,10 +1052,7 @@
             "id": 2326589,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "DRC Small Key"
-              },
+              "item": "DRC Small Key",
               "count": {
                 "type": "constant",
                 "value": 2
@@ -915,10 +1070,7 @@
             "id": 2326590,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "DRC Small Key"
-              },
+              "item": "DRC Small Key",
               "count": {
                 "type": "constant",
                 "value": 2
@@ -938,33 +1090,26 @@
               "type": "and",
               "conditions": [
                 {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_fly_with_deku_leaf_outdoors",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Grappling Hook"
+                    }
+                  ]
+                },
+                {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "DRC Small Key"
-                  },
+                  "item": "DRC Small Key",
                   "count": {
                     "type": "constant",
                     "value": 4
                   }
-                },
-                {
-                  "type": "or",
-                  "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Grappling Hook"
-                      }
-                    },
-                    {
-                      "type": "capability",
-                      "capability": "fly_with_deku_leaf_outdoors",
-                      "inferred": true,
-                      "description": "Requires ability to fly with deku leaf outdoors"
-                    }
-                  ]
                 }
               ]
             },
@@ -984,18 +1129,74 @@
             "name": "Miniboss Entrance in Forbidden Woods -> Forbidden Woods Miniboss Arena",
             "connected_region": "Forbidden Woods Miniboss Arena",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "FW Small Key",
+                        "Grappling Hook"
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
           },
           {
             "name": "Boss Entrance in Forbidden Woods -> Kalle Demos Boss Arena",
             "connected_region": "Kalle Demos Boss Arena",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_defeat_mothulas",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_defeat_door_flowers",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Grappling Hook"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "FW Big Key"
+                }
+              ]
             }
           }
         ],
@@ -1007,16 +1208,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "fly_with_deku_leaf_indoors",
-                  "inferred": true,
-                  "description": "Requires ability to fly with deku leaf indoors"
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "defeat_boko_babas",
-                  "inferred": true,
-                  "description": "Requires ability to defeat boko babas"
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
                 },
                 {
                   "type": "state_method",
@@ -1047,16 +1246,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "fly_with_deku_leaf_indoors",
-                  "inferred": true,
-                  "description": "Requires ability to fly with deku leaf indoors"
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "defeat_boko_babas",
-                  "inferred": true,
-                  "description": "Requires ability to defeat boko babas"
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
                 },
                 {
                   "type": "state_method",
@@ -1087,16 +1284,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "fly_with_deku_leaf_indoors",
-                  "inferred": true,
-                  "description": "Requires ability to fly with deku leaf indoors"
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "defeat_boko_babas",
-                  "inferred": true,
-                  "description": "Requires ability to defeat boko babas"
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
                 },
                 {
                   "type": "state_method",
@@ -1127,16 +1322,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "fly_with_deku_leaf_indoors",
-                  "inferred": true,
-                  "description": "Requires ability to fly with deku leaf indoors"
+                  "type": "helper",
+                  "name": "can_defeat_door_flowers",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "defeat_door_flowers",
-                  "inferred": true,
-                  "description": "Requires ability to defeat door flowers"
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
                 }
               ]
             },
@@ -1154,40 +1347,33 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "fly_with_deku_leaf_indoors",
-                  "inferred": true,
-                  "description": "Requires ability to fly with deku leaf indoors"
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "defeat_boko_babas",
-                  "inferred": true,
-                  "description": "Requires ability to defeat boko babas"
+                  "type": "helper",
+                  "name": "can_defeat_mothulas",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
                 },
                 {
                   "type": "or",
                   "conditions": [
                     {
-                      "type": "capability",
-                      "capability": "defeat_door_flowers",
-                      "inferred": true,
-                      "description": "Requires ability to defeat door flowers"
+                      "type": "helper",
+                      "name": "can_defeat_door_flowers",
+                      "args": []
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Grappling Hook"
-                      }
+                      "item": "Grappling Hook"
                     }
                   ]
-                },
-                {
-                  "type": "capability",
-                  "capability": "defeat_mothulas",
-                  "inferred": true,
-                  "description": "Requires ability to defeat mothulas"
                 }
               ]
             },
@@ -1219,16 +1405,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "fly_with_deku_leaf_indoors",
-                  "inferred": true,
-                  "description": "Requires ability to fly with deku leaf indoors"
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "defeat_boko_babas",
-                  "inferred": true,
-                  "description": "Requires ability to defeat boko babas"
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
                 }
               ]
             },
@@ -1246,16 +1430,14 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "defeat_door_flowers",
-                  "inferred": true,
-                  "description": "Requires ability to defeat door flowers"
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "defeat_boko_babas",
-                  "inferred": true,
-                  "description": "Requires ability to defeat boko babas"
+                  "type": "helper",
+                  "name": "can_defeat_door_flowers",
+                  "args": []
                 }
               ]
             },
@@ -1273,23 +1455,18 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "fly_with_deku_leaf_indoors",
-                  "inferred": true,
-                  "description": "Requires ability to fly with deku leaf indoors"
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "defeat_boko_babas",
-                  "inferred": true,
-                  "description": "Requires ability to defeat boko babas"
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Grappling Hook"
-                  }
+                  "item": "Grappling Hook"
                 }
               ]
             },
@@ -1307,16 +1484,34 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "fly_with_deku_leaf_indoors",
-                  "inferred": true,
-                  "description": "Requires ability to fly with deku leaf indoors"
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "defeat_boko_babas",
-                  "inferred": true,
-                  "description": "Requires ability to defeat boko babas"
+                  "type": "helper",
+                  "name": "can_defeat_door_flowers",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_destroy_seeds_hanging_by_vines",
+                      "args": []
+                    },
+                    {
+                      "type": "state_method",
+                      "method": "_tww_precise_1",
+                      "args": []
+                    }
+                  ]
                 },
                 {
                   "type": "state_method",
@@ -1328,28 +1523,6 @@
                         "FW Small Key",
                         "Grappling Hook"
                       ]
-                    }
-                  ]
-                },
-                {
-                  "type": "capability",
-                  "capability": "defeat_door_flowers",
-                  "inferred": true,
-                  "description": "Requires ability to defeat door flowers"
-                },
-                {
-                  "type": "or",
-                  "conditions": [
-                    {
-                      "type": "capability",
-                      "capability": "destroy_seeds_hanging_by_vines",
-                      "inferred": true,
-                      "description": "Requires ability to destroy seeds hanging by vines"
-                    },
-                    {
-                      "type": "state_method",
-                      "method": "_tww_precise_1",
-                      "args": []
                     }
                   ]
                 }
@@ -1369,16 +1542,29 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "fly_with_deku_leaf_indoors",
-                  "inferred": true,
-                  "description": "Requires ability to fly with deku leaf indoors"
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "defeat_boko_babas",
-                  "inferred": true,
-                  "description": "Requires ability to defeat boko babas"
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_defeat_peahats",
+                      "args": []
+                    },
+                    {
+                      "type": "state_method",
+                      "method": "_tww_precise_2",
+                      "args": []
+                    }
+                  ]
                 },
                 {
                   "type": "state_method",
@@ -1390,22 +1576,6 @@
                         "FW Small Key",
                         "Grappling Hook"
                       ]
-                    }
-                  ]
-                },
-                {
-                  "type": "or",
-                  "conditions": [
-                    {
-                      "type": "capability",
-                      "capability": "defeat_peahats",
-                      "inferred": true,
-                      "description": "Requires ability to defeat peahats"
-                    },
-                    {
-                      "type": "state_method",
-                      "method": "_tww_precise_2",
-                      "args": []
                     }
                   ]
                 }
@@ -1425,23 +1595,18 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "fly_with_deku_leaf_indoors",
-                  "inferred": true,
-                  "description": "Requires ability to fly with deku leaf indoors"
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "defeat_boko_babas",
-                  "inferred": true,
-                  "description": "Requires ability to defeat boko babas"
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Grappling Hook"
-                  }
+                  "item": "Grappling Hook"
                 }
               ]
             },
@@ -1459,23 +1624,18 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "fly_with_deku_leaf_indoors",
-                  "inferred": true,
-                  "description": "Requires ability to fly with deku leaf indoors"
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "defeat_boko_babas",
-                  "inferred": true,
-                  "description": "Requires ability to defeat boko babas"
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Grappling Hook"
-                  }
+                  "item": "Grappling Hook"
                 }
               ]
             },
@@ -1495,18 +1655,66 @@
             "name": "Miniboss Entrance in Tower of the Gods -> Tower of the Gods Miniboss Arena",
             "connected_region": "Tower of the Gods Miniboss Arena",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_reach_tower_of_the_gods_second_floor",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_fly_with_deku_leaf_indoors",
+                      "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Grappling Hook"
+                    }
+                  ]
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_play_command_melody",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_heros_bow",
+                      "args": []
+                    }
+                  ]
+                }
+              ]
             }
           },
           {
             "name": "Boss Entrance in Tower of the Gods -> Gohdan Boss Arena",
             "connected_region": "Gohdan Boss Arena",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_armos",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_reach_tower_of_the_gods_third_floor",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "TotG Big Key"
+                }
+              ]
             }
           }
         ],
@@ -1515,10 +1723,9 @@
             "name": "Tower of the Gods - Big Key Chest",
             "id": 2326639,
             "access_rule": {
-              "type": "capability",
-              "capability": "reach_tower_of_the_gods_third_floor",
-              "inferred": true,
-              "description": "Requires ability to reach tower of the gods third floor"
+              "type": "helper",
+              "name": "can_reach_tower_of_the_gods_third_floor",
+              "args": []
             },
             "item": {
               "name": "Empty Bottle",
@@ -1532,10 +1739,7 @@
             "id": 2326625,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Bombs"
-              }
+              "item": "Bombs"
             },
             "item": {
               "name": "Heart Container",
@@ -1551,16 +1755,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "reach_tower_of_the_gods_second_floor",
-                  "inferred": true,
-                  "description": "Requires ability to reach tower of the gods second floor"
+                  "type": "helper",
+                  "name": "can_reach_tower_of_the_gods_second_floor",
+                  "args": []
                 },
                 {
-                  "type": "item_check",
-                  "item": "Heros_Bow",
-                  "inferred": true,
-                  "description": "Requires having Heros Bow"
+                  "type": "helper",
+                  "name": "has_heros_bow",
+                  "args": []
                 }
               ]
             },
@@ -1578,28 +1780,20 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "reach_tower_of_the_gods_second_floor",
-                  "inferred": true,
-                  "description": "Requires ability to reach tower of the gods second floor"
+                  "type": "helper",
+                  "name": "can_reach_tower_of_the_gods_second_floor",
+                  "args": []
                 },
                 {
                   "type": "or",
                   "conditions": [
                     {
-                      "type": "item_check",
-                      "item": "Heros_Bow",
-                      "inferred": true,
-                      "description": "Requires having Heros Bow"
-                    },
-                    {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "capability",
-                          "capability": "fly_with_deku_leaf_indoors",
-                          "inferred": true,
-                          "description": "Requires ability to fly with deku leaf indoors"
+                          "type": "helper",
+                          "name": "can_fly_with_deku_leaf_indoors",
+                          "args": []
                         },
                         {
                           "type": "state_method",
@@ -1612,18 +1806,20 @@
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "item_check",
-                          "item": {
-                            "type": "constant",
-                            "value": "Hookshot"
-                          }
-                        },
-                        {
                           "type": "state_method",
                           "method": "_tww_obscure_1",
                           "args": []
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Hookshot"
                         }
                       ]
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_heros_bow",
+                      "args": []
                     }
                   ]
                 }
@@ -1655,10 +1851,7 @@
             "id": 2326628,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Bombs"
-              }
+              "item": "Bombs"
             },
             "item": {
               "name": "TotG Dungeon Map",
@@ -1674,23 +1867,18 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "reach_tower_of_the_gods_second_floor",
-                  "inferred": true,
-                  "description": "Requires ability to reach tower of the gods second floor"
+                  "type": "helper",
+                  "name": "can_play_winds_requiem",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_reach_tower_of_the_gods_second_floor",
+                  "args": []
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Bombs"
-                  }
-                },
-                {
-                  "type": "capability",
-                  "capability": "play_winds_requiem",
-                  "inferred": true,
-                  "description": "Requires ability to play winds requiem"
+                  "item": "Bombs"
                 }
               ]
             },
@@ -1708,17 +1896,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Bombs"
-                  }
+                  "type": "helper",
+                  "name": "has_heros_bow",
+                  "args": []
                 },
                 {
                   "type": "item_check",
-                  "item": "Heros_Bow",
-                  "inferred": true,
-                  "description": "Requires having Heros Bow"
+                  "item": "Bombs"
                 }
               ]
             },
@@ -1734,10 +1918,7 @@
             "id": 2326629,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Bombs"
-              }
+              "item": "Bombs"
             },
             "item": {
               "name": "TotG Small Key",
@@ -1753,17 +1934,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "reach_tower_of_the_gods_second_floor",
-                  "inferred": true,
-                  "description": "Requires ability to reach tower of the gods second floor"
+                  "type": "helper",
+                  "name": "can_reach_tower_of_the_gods_second_floor",
+                  "args": []
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Wind Waker"
-                  }
+                  "item": "Wind Waker"
                 }
               ]
             },
@@ -1781,16 +1958,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "reach_tower_of_the_gods_second_floor",
-                  "inferred": true,
-                  "description": "Requires ability to reach tower of the gods second floor"
+                  "type": "helper",
+                  "name": "can_reach_tower_of_the_gods_second_floor",
+                  "args": []
                 },
                 {
-                  "type": "item_check",
-                  "item": "Heros_Bow",
-                  "inferred": true,
-                  "description": "Requires having Heros Bow"
+                  "type": "helper",
+                  "name": "has_heros_bow",
+                  "args": []
                 }
               ]
             },
@@ -1810,18 +1985,40 @@
             "name": "Miniboss Entrance in Earth Temple -> Earth Temple Miniboss Arena",
             "connected_region": "Earth Temple Miniboss Arena",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_moblins_and_poes_room",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "ET Small Key",
+                  "count": {
+                    "type": "constant",
+                    "value": 3
+                  }
+                }
+              ]
             }
           },
           {
             "name": "Boss Entrance in Earth Temple -> Jalhalla Boss Arena",
             "connected_region": "Jalhalla Boss Arena",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_tall_vine_room",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "ET Big Key"
+                }
+              ]
             }
           }
         ],
@@ -1833,47 +2030,35 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "reach_earth_temple_many_mirrors_room",
-                  "inferred": true,
-                  "description": "Requires ability to reach earth temple many mirrors room"
+                  "type": "helper",
+                  "name": "can_aim_mirror_shield",
+                  "args": []
                 },
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Power Bracelets"
-                  }
+                  "type": "helper",
+                  "name": "can_defeat_darknuts",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "play_command_melody",
-                  "inferred": true,
-                  "description": "Requires ability to play command melody"
+                  "type": "helper",
+                  "name": "can_play_command_melody",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "aim_mirror_shield",
-                  "inferred": true,
-                  "description": "Requires ability to aim mirror shield"
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_many_mirrors_room",
+                  "args": []
                 },
                 {
                   "type": "or",
                   "conditions": [
                     {
-                      "type": "capability",
-                      "capability": "defeat_blue_bubbles",
-                      "inferred": true,
-                      "description": "Requires ability to defeat blue bubbles"
-                    },
-                    {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "item_check",
-                          "item": "Heros_Bow",
-                          "inferred": true,
-                          "description": "Requires having Heros Bow"
+                          "type": "helper",
+                          "name": "has_heros_bow",
+                          "args": []
                         },
                         {
                           "type": "state_method",
@@ -1889,23 +2074,18 @@
                           "type": "or",
                           "conditions": [
                             {
-                              "type": "item_check",
-                              "item": "Heros_Sword",
-                              "inferred": true,
-                              "description": "Requires having Heros Sword"
+                              "type": "helper",
+                              "name": "has_any_master_sword",
+                              "args": []
+                            },
+                            {
+                              "type": "helper",
+                              "name": "has_heros_sword",
+                              "args": []
                             },
                             {
                               "type": "item_check",
-                              "item": "Any_Master_Sword",
-                              "inferred": true,
-                              "description": "Requires having Any Master Sword"
-                            },
-                            {
-                              "type": "item_check",
-                              "item": {
-                                "type": "constant",
-                                "value": "Skull Hammer"
-                              }
+                              "item": "Skull Hammer"
                             }
                           ]
                         },
@@ -1920,14 +2100,17 @@
                           "args": []
                         }
                       ]
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_defeat_blue_bubbles",
+                      "args": []
                     }
                   ]
                 },
                 {
-                  "type": "capability",
-                  "capability": "defeat_darknuts",
-                  "inferred": true,
-                  "description": "Requires ability to defeat darknuts"
+                  "type": "item_check",
+                  "item": "Power Bracelets"
                 }
               ]
             },
@@ -1942,10 +2125,9 @@
             "name": "Earth Temple - Casket in Second Crypt",
             "id": 2326664,
             "access_rule": {
-              "type": "capability",
-              "capability": "reach_earth_temple_moblins_and_poes_room",
-              "inferred": true,
-              "description": "Requires ability to reach earth temple moblins and poes room"
+              "type": "helper",
+              "name": "can_reach_earth_temple_moblins_and_poes_room",
+              "args": []
             },
             "item": {
               "name": "ET Dungeon Map",
@@ -1961,16 +2143,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "reach_earth_temple_right_path",
-                  "inferred": true,
-                  "description": "Requires ability to reach earth temple right path"
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_right_path",
+                  "args": []
                 },
                 {
-                  "type": "item_check",
-                  "item": "Mirror_Shield",
-                  "inferred": true,
-                  "description": "Requires having Mirror Shield"
+                  "type": "helper",
+                  "name": "has_mirror_shield",
+                  "args": []
                 }
               ]
             },
@@ -1988,25 +2168,22 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "reach_earth_temple_moblins_and_poes_room",
-                  "inferred": true,
-                  "description": "Requires ability to reach earth temple moblins and poes room"
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_moblins_and_poes_room",
+                  "args": []
                 },
                 {
                   "type": "or",
                   "conditions": [
                     {
-                      "type": "capability",
-                      "capability": "play_command_melody",
-                      "inferred": true,
-                      "description": "Requires ability to play command melody"
+                      "type": "helper",
+                      "name": "can_aim_mirror_shield",
+                      "args": []
                     },
                     {
-                      "type": "capability",
-                      "capability": "aim_mirror_shield",
-                      "inferred": true,
-                      "description": "Requires ability to aim mirror shield"
+                      "type": "helper",
+                      "name": "can_play_command_melody",
+                      "args": []
                     }
                   ]
                 }
@@ -2026,46 +2203,38 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "reach_earth_temple_left_path",
-                  "inferred": true,
-                  "description": "Requires ability to reach earth temple left path"
+                  "type": "helper",
+                  "name": "can_defeat_floormasters",
+                  "args": []
                 },
                 {
-                  "type": "item_check",
-                  "item": "Fire_Arrows",
-                  "inferred": true,
-                  "description": "Requires having Fire Arrows"
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_left_path",
+                  "args": []
                 },
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Power Bracelets"
-                  }
-                },
-                {
-                  "type": "capability",
-                  "capability": "defeat_floormasters",
-                  "inferred": true,
-                  "description": "Requires ability to defeat floormasters"
+                  "type": "helper",
+                  "name": "has_fire_arrows",
+                  "args": []
                 },
                 {
                   "type": "or",
                   "conditions": [
                     {
-                      "type": "capability",
-                      "capability": "play_command_melody",
-                      "inferred": true,
-                      "description": "Requires ability to play command melody"
+                      "type": "helper",
+                      "name": "can_aim_mirror_shield",
+                      "args": []
                     },
                     {
-                      "type": "capability",
-                      "capability": "aim_mirror_shield",
-                      "inferred": true,
-                      "description": "Requires ability to aim mirror shield"
+                      "type": "helper",
+                      "name": "can_play_command_melody",
+                      "args": []
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Power Bracelets"
                 }
               ]
             },
@@ -2080,10 +2249,9 @@
             "name": "Earth Temple - Chest in Third Crypt",
             "id": 2326670,
             "access_rule": {
-              "type": "capability",
-              "capability": "reach_earth_temple_third_crypt",
-              "inferred": true,
-              "description": "Requires ability to reach earth temple third crypt"
+              "type": "helper",
+              "name": "can_reach_earth_temple_third_crypt",
+              "args": []
             },
             "item": {
               "name": "Wallet Capacity Upgrade",
@@ -2099,25 +2267,22 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "reach_earth_temple_redead_hub_room",
-                  "inferred": true,
-                  "description": "Requires ability to reach earth temple redead hub room"
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_redead_hub_room",
+                  "args": []
                 },
                 {
                   "type": "or",
                   "conditions": [
                     {
-                      "type": "capability",
-                      "capability": "play_command_melody",
-                      "inferred": true,
-                      "description": "Requires ability to play command melody"
+                      "type": "helper",
+                      "name": "can_aim_mirror_shield",
+                      "args": []
                     },
                     {
-                      "type": "capability",
-                      "capability": "aim_mirror_shield",
-                      "inferred": true,
-                      "description": "Requires ability to aim mirror shield"
+                      "type": "helper",
+                      "name": "can_play_command_melody",
+                      "args": []
                     }
                   ]
                 }
@@ -2137,33 +2302,29 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "reach_earth_temple_redead_hub_room",
-                  "inferred": true,
-                  "description": "Requires ability to reach earth temple redead hub room"
+                  "type": "helper",
+                  "name": "can_defeat_floormasters",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_redead_hub_room",
+                  "args": []
                 },
                 {
                   "type": "or",
                   "conditions": [
                     {
-                      "type": "capability",
-                      "capability": "play_command_melody",
-                      "inferred": true,
-                      "description": "Requires ability to play command melody"
+                      "type": "helper",
+                      "name": "can_aim_mirror_shield",
+                      "args": []
                     },
                     {
-                      "type": "capability",
-                      "capability": "aim_mirror_shield",
-                      "inferred": true,
-                      "description": "Requires ability to aim mirror shield"
+                      "type": "helper",
+                      "name": "can_play_command_melody",
+                      "args": []
                     }
                   ]
-                },
-                {
-                  "type": "capability",
-                  "capability": "defeat_floormasters",
-                  "inferred": true,
-                  "description": "Requires ability to defeat floormasters"
                 }
               ]
             },
@@ -2181,29 +2342,23 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "reach_earth_temple_many_mirrors_room",
-                  "inferred": true,
-                  "description": "Requires ability to reach earth temple many mirrors room"
+                  "type": "helper",
+                  "name": "can_aim_mirror_shield",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_play_command_melody",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_many_mirrors_room",
+                  "args": []
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Power Bracelets"
-                  }
-                },
-                {
-                  "type": "capability",
-                  "capability": "play_command_melody",
-                  "inferred": true,
-                  "description": "Requires ability to play command melody"
-                },
-                {
-                  "type": "capability",
-                  "capability": "aim_mirror_shield",
-                  "inferred": true,
-                  "description": "Requires ability to aim mirror shield"
+                  "item": "Power Bracelets"
                 }
               ]
             },
@@ -2221,16 +2376,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "reach_earth_temple_many_mirrors_room",
-                  "inferred": true,
-                  "description": "Requires ability to reach earth temple many mirrors room"
+                  "type": "helper",
+                  "name": "can_play_command_melody",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "play_command_melody",
-                  "inferred": true,
-                  "description": "Requires ability to play command melody"
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_many_mirrors_room",
+                  "args": []
                 }
               ]
             },
@@ -2248,16 +2401,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "reach_earth_temple_many_mirrors_room",
-                  "inferred": true,
-                  "description": "Requires ability to reach earth temple many mirrors room"
+                  "type": "helper",
+                  "name": "can_defeat_stalfos",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "defeat_stalfos",
-                  "inferred": true,
-                  "description": "Requires ability to defeat stalfos"
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_many_mirrors_room",
+                  "args": []
                 }
               ]
             },
@@ -2272,10 +2423,9 @@
             "name": "Earth Temple - Transparent Chest In Warp Pot Room",
             "id": 2326658,
             "access_rule": {
-              "type": "capability",
-              "capability": "play_command_melody",
-              "inferred": true,
-              "description": "Requires ability to play command melody"
+              "type": "helper",
+              "name": "can_play_command_melody",
+              "args": []
             },
             "item": {
               "name": "Hookshot",
@@ -2291,34 +2441,28 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "reach_earth_temple_right_path",
-                  "inferred": true,
-                  "description": "Requires ability to reach earth temple right path"
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Power Bracelets"
-                  }
+                  "type": "helper",
+                  "name": "can_reach_earth_temple_right_path",
+                  "args": []
                 },
                 {
                   "type": "or",
                   "conditions": [
                     {
-                      "type": "capability",
-                      "capability": "play_command_melody",
-                      "inferred": true,
-                      "description": "Requires ability to play command melody"
+                      "type": "helper",
+                      "name": "can_play_command_melody",
+                      "args": []
                     },
                     {
-                      "type": "item_check",
-                      "item": "Mirror_Shield",
-                      "inferred": true,
-                      "description": "Requires having Mirror Shield"
+                      "type": "helper",
+                      "name": "has_mirror_shield",
+                      "args": []
                     }
                   ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Power Bracelets"
                 }
               ]
             },
@@ -2338,18 +2482,60 @@
             "name": "Miniboss Entrance in Wind Temple -> Wind Temple Miniboss Arena",
             "connected_region": "Wind Temple Miniboss Arena",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_open_wind_temple_upper_giant_grate",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "WT Small Key",
+                  "count": {
+                    "type": "constant",
+                    "value": 2
+                  }
+                }
+              ]
             }
           },
           {
             "name": "Boss Entrance in Wind Temple -> Molgera Boss Arena",
             "connected_region": "Molgera Boss Arena",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_play_command_melody",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_play_wind_gods_aria",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_reach_wind_temple_tall_basement_room",
+                  "args": []
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Hookshot",
+                        "Iron Boots",
+                        "WT Big Key"
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
           }
         ],
@@ -2361,35 +2547,28 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "reach_wind_temple_kidnapping_room",
-                  "inferred": true,
-                  "description": "Requires ability to reach wind temple kidnapping room"
+                  "type": "helper",
+                  "name": "can_defeat_darknuts",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fan_with_deku_leaf",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_play_wind_gods_aria",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_reach_wind_temple_kidnapping_room",
+                  "args": []
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Iron Boots"
-                  }
-                },
-                {
-                  "type": "capability",
-                  "capability": "fan_with_deku_leaf",
-                  "inferred": true,
-                  "description": "Requires ability to fan with deku leaf"
-                },
-                {
-                  "type": "capability",
-                  "capability": "play_wind_gods_aria",
-                  "inferred": true,
-                  "description": "Requires ability to play wind gods aria"
-                },
-                {
-                  "type": "capability",
-                  "capability": "defeat_darknuts",
-                  "inferred": true,
-                  "description": "Requires ability to defeat darknuts"
+                  "item": "Iron Boots"
                 }
               ]
             },
@@ -2407,16 +2586,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "activate_wind_temple_giant_fan",
-                  "inferred": true,
-                  "description": "Requires ability to activate wind temple giant fan"
+                  "type": "helper",
+                  "name": "can_activate_wind_temple_giant_fan",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "defeat_armos",
-                  "inferred": true,
-                  "description": "Requires ability to defeat armos"
+                  "type": "helper",
+                  "name": "can_defeat_armos",
+                  "args": []
                 }
               ]
             },
@@ -2434,10 +2611,9 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "reach_wind_temple_kidnapping_room",
-                  "inferred": true,
-                  "description": "Requires ability to reach wind temple kidnapping room"
+                  "type": "helper",
+                  "name": "can_reach_wind_temple_kidnapping_room",
+                  "args": []
                 },
                 {
                   "type": "state_method",
@@ -2465,10 +2641,9 @@
             "name": "Wind Temple - Chest Between Two Dirt Patches",
             "id": 2326676,
             "access_rule": {
-              "type": "capability",
-              "capability": "play_command_melody",
-              "inferred": true,
-              "description": "Requires ability to play command melody"
+              "type": "helper",
+              "name": "can_play_command_melody",
+              "args": []
             },
             "item": {
               "name": "Delivery Bag",
@@ -2484,10 +2659,9 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "reach_wind_temple_kidnapping_room",
-                  "inferred": true,
-                  "description": "Requires ability to reach wind temple kidnapping room"
+                  "type": "helper",
+                  "name": "can_reach_wind_temple_kidnapping_room",
+                  "args": []
                 },
                 {
                   "type": "or",
@@ -2496,40 +2670,52 @@
                       "type": "and",
                       "conditions": [
                         {
+                          "type": "helper",
+                          "name": "can_defeat_blue_bubbles",
+                          "args": []
+                        },
+                        {
+                          "type": "helper",
+                          "name": "can_fly_with_deku_leaf_indoors",
+                          "args": []
+                        },
+                        {
                           "type": "item_check",
-                          "item": {
-                            "type": "constant",
-                            "value": "Iron Boots"
-                          }
+                          "item": "Hookshot"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "helper",
+                          "name": "can_fan_with_deku_leaf",
+                          "args": []
                         },
                         {
-                          "type": "capability",
-                          "capability": "fan_with_deku_leaf",
-                          "inferred": true,
-                          "description": "Requires ability to fan with deku leaf"
-                        },
-                        {
-                          "type": "capability",
-                          "capability": "fly_with_deku_leaf_indoors",
-                          "inferred": true,
-                          "description": "Requires ability to fly with deku leaf indoors"
+                          "type": "helper",
+                          "name": "can_fly_with_deku_leaf_indoors",
+                          "args": []
                         },
                         {
                           "type": "or",
                           "conditions": [
                             {
-                              "type": "capability",
-                              "capability": "cut_grass",
-                              "inferred": true,
-                              "description": "Requires ability to cut grass"
+                              "type": "helper",
+                              "name": "can_cut_grass",
+                              "args": []
                             },
                             {
-                              "type": "item_check",
-                              "item": "Magic_Meter_Upgrade",
-                              "inferred": true,
-                              "description": "Requires having Magic Meter Upgrade"
+                              "type": "helper",
+                              "name": "has_magic_meter_upgrade",
+                              "args": []
                             }
                           ]
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Iron Boots"
                         }
                       ]
                     },
@@ -2537,41 +2723,9 @@
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "item_check",
-                          "item": {
-                            "type": "constant",
-                            "value": "Hookshot"
-                          }
-                        },
-                        {
-                          "type": "capability",
-                          "capability": "defeat_blue_bubbles",
-                          "inferred": true,
-                          "description": "Requires ability to defeat blue bubbles"
-                        },
-                        {
-                          "type": "capability",
-                          "capability": "fly_with_deku_leaf_indoors",
-                          "inferred": true,
-                          "description": "Requires ability to fly with deku leaf indoors"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "and",
-                      "conditions": [
-                        {
-                          "type": "item_check",
-                          "item": {
-                            "type": "constant",
-                            "value": "Hookshot"
-                          }
-                        },
-                        {
-                          "type": "capability",
-                          "capability": "fly_with_deku_leaf_indoors",
-                          "inferred": true,
-                          "description": "Requires ability to fly with deku leaf indoors"
+                          "type": "helper",
+                          "name": "can_fly_with_deku_leaf_indoors",
+                          "args": []
                         },
                         {
                           "type": "state_method",
@@ -2582,6 +2736,10 @@
                           "type": "state_method",
                           "method": "_tww_precise_2",
                           "args": []
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Hookshot"
                         }
                       ]
                     }
@@ -2600,10 +2758,9 @@
             "name": "Wind Temple - Chest In Middle Of Hub Room",
             "id": 2326684,
             "access_rule": {
-              "type": "capability",
-              "capability": "open_wind_temple_upper_giant_grate",
-              "inferred": true,
-              "description": "Requires ability to open wind temple upper giant grate"
+              "type": "helper",
+              "name": "can_open_wind_temple_upper_giant_grate",
+              "args": []
             },
             "item": {
               "name": "Piece of Heart",
@@ -2616,10 +2773,9 @@
             "name": "Wind Temple - Chest at Top of Hub Room",
             "id": 2326688,
             "access_rule": {
-              "type": "capability",
-              "capability": "activate_wind_temple_giant_fan",
-              "inferred": true,
-              "description": "Requires ability to activate wind temple giant fan"
+              "type": "helper",
+              "name": "can_activate_wind_temple_giant_fan",
+              "args": []
             },
             "item": {
               "name": "WT Small Key",
@@ -2635,23 +2791,18 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "reach_wind_temple_kidnapping_room",
-                  "inferred": true,
-                  "description": "Requires ability to reach wind temple kidnapping room"
+                  "type": "helper",
+                  "name": "can_fan_with_deku_leaf",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_reach_wind_temple_kidnapping_room",
+                  "args": []
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Iron Boots"
-                  }
-                },
-                {
-                  "type": "capability",
-                  "capability": "fan_with_deku_leaf",
-                  "inferred": true,
-                  "description": "Requires ability to fan with deku leaf"
+                  "item": "Iron Boots"
                 }
               ]
             },
@@ -2669,28 +2820,24 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "reach_wind_temple_tall_basement_room",
-                  "inferred": true,
-                  "description": "Requires ability to reach wind temple tall basement room"
+                  "type": "helper",
+                  "name": "can_defeat_morths",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "defeat_stalfos",
-                  "inferred": true,
-                  "description": "Requires ability to defeat stalfos"
+                  "type": "helper",
+                  "name": "can_defeat_stalfos",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "defeat_wizzrobes",
-                  "inferred": true,
-                  "description": "Requires ability to defeat wizzrobes"
+                  "type": "helper",
+                  "name": "can_defeat_wizzrobes",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "defeat_morths",
-                  "inferred": true,
-                  "description": "Requires ability to defeat morths"
+                  "type": "helper",
+                  "name": "can_reach_wind_temple_tall_basement_room",
+                  "args": []
                 }
               ]
             },
@@ -2708,17 +2855,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "open_wind_temple_upper_giant_grate",
-                  "inferred": true,
-                  "description": "Requires ability to open wind temple upper giant grate"
+                  "type": "helper",
+                  "name": "can_open_wind_temple_upper_giant_grate",
+                  "args": []
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Iron Boots"
-                  }
+                  "item": "Iron Boots"
                 }
               ]
             },
@@ -2736,17 +2879,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "open_wind_temple_upper_giant_grate",
-                  "inferred": true,
-                  "description": "Requires ability to open wind temple upper giant grate"
+                  "type": "helper",
+                  "name": "can_open_wind_temple_upper_giant_grate",
+                  "args": []
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Iron Boots"
-                  }
+                  "item": "Iron Boots"
                 }
               ]
             },
@@ -2767,10 +2906,9 @@
             "name": "Forbidden Woods - Mothula Miniboss Room",
             "id": 2326616,
             "access_rule": {
-              "type": "capability",
-              "capability": "defeat_winged_mothulas",
-              "inferred": true,
-              "description": "Requires ability to defeat winged mothulas"
+              "type": "helper",
+              "name": "can_defeat_winged_mothulas",
+              "args": []
             },
             "item": {
               "name": "FW Compass",
@@ -2789,10 +2927,9 @@
             "name": "Tower of the Gods - Darknut Miniboss Room",
             "id": 2326634,
             "access_rule": {
-              "type": "capability",
-              "capability": "defeat_darknuts",
-              "inferred": true,
-              "description": "Requires ability to defeat darknuts"
+              "type": "helper",
+              "name": "can_defeat_darknuts",
+              "args": []
             },
             "item": {
               "name": "Telescope",
@@ -2814,17 +2951,13 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "defeat_stalfos",
-                  "inferred": true,
-                  "description": "Requires ability to defeat stalfos"
+                  "type": "helper",
+                  "name": "can_defeat_stalfos",
+                  "args": []
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Hookshot"
-                  }
+                  "item": "Hookshot"
                 }
               ]
             },
@@ -2848,16 +2981,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "defeat_darknuts",
-                  "inferred": true,
-                  "description": "Requires ability to defeat darknuts"
+                  "type": "helper",
+                  "name": "can_defeat_darknuts",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "remove_peahat_armor",
-                  "inferred": true,
-                  "description": "Requires ability to remove peahat armor"
+                  "type": "helper",
+                  "name": "can_remove_peahat_armor",
+                  "args": []
                 }
               ]
             },
@@ -2878,10 +3009,9 @@
             "name": "Hyrule - Master Sword Chamber",
             "id": 2326641,
             "access_rule": {
-              "type": "capability",
-              "capability": "defeat_mighty_darknuts",
-              "inferred": true,
-              "description": "Requires ability to defeat mighty darknuts"
+              "type": "helper",
+              "name": "can_defeat_mighty_darknuts",
+              "args": []
             },
             "item": {
               "name": "Piece of Heart",
@@ -2900,10 +3030,9 @@
             "name": "Dragon Roost Cavern - Gohma Heart Container",
             "id": 2326603,
             "access_rule": {
-              "type": "capability",
-              "capability": "defeat_gohma",
-              "inferred": true,
-              "description": "Requires ability to defeat gohma"
+              "type": "helper",
+              "name": "can_defeat_gohma",
+              "args": []
             },
             "item": {
               "name": "Piece of Heart",
@@ -2922,10 +3051,9 @@
             "name": "Forbidden Woods - Kalle Demos Heart Container",
             "id": 2326623,
             "access_rule": {
-              "type": "capability",
-              "capability": "defeat_kalle_demos",
-              "inferred": true,
-              "description": "Requires ability to defeat kalle demos"
+              "type": "helper",
+              "name": "can_defeat_kalle_demos",
+              "args": []
             },
             "item": {
               "name": "Iron Boots",
@@ -2944,10 +3072,9 @@
             "name": "Tower of the Gods - Gohdan Heart Container",
             "id": 2326640,
             "access_rule": {
-              "type": "capability",
-              "capability": "defeat_gohdan",
-              "inferred": true,
-              "description": "Requires ability to defeat gohdan"
+              "type": "helper",
+              "name": "can_defeat_gohdan",
+              "args": []
             },
             "item": {
               "name": "TotG Compass",
@@ -2966,10 +3093,9 @@
             "name": "Forsaken Fortress - Helmaroc King Heart Container",
             "id": 2326647,
             "access_rule": {
-              "type": "capability",
-              "capability": "defeat_helmaroc_king",
-              "inferred": true,
-              "description": "Requires ability to defeat helmaroc king"
+              "type": "helper",
+              "name": "can_defeat_helmaroc_king",
+              "args": []
             },
             "item": {
               "name": "Triforce Shard 6",
@@ -2988,10 +3114,9 @@
             "name": "Earth Temple - Jalhalla Heart Container",
             "id": 2326675,
             "access_rule": {
-              "type": "capability",
-              "capability": "defeat_jalhalla",
-              "inferred": true,
-              "description": "Requires ability to defeat jalhalla"
+              "type": "helper",
+              "name": "can_defeat_jalhalla",
+              "args": []
             },
             "item": {
               "name": "Ghost Ship Chart",
@@ -3010,10 +3135,9 @@
             "name": "Wind Temple - Molgera Heart Container",
             "id": 2326691,
             "access_rule": {
-              "type": "capability",
-              "capability": "defeat_molgera",
-              "inferred": true,
-              "description": "Requires ability to defeat molgera"
+              "type": "helper",
+              "name": "can_defeat_molgera",
+              "args": []
             },
             "item": {
               "name": "Progressive Magic Meter",
@@ -3046,9 +3170,8 @@
             "name": "Inner Entrance in Ice Ring Isle Secret Cave -> Ice Ring Isle Inner Cave",
             "connected_region": "Ice Ring Isle Inner Cave",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "item_check",
+              "item": "Iron Boots"
             }
           }
         ],
@@ -3078,10 +3201,7 @@
             "id": 2326712,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Skull Hammer"
-              }
+              "item": "Skull Hammer"
             },
             "item": {
               "name": "Orange Rupee",
@@ -3097,17 +3217,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Skull Hammer"
-                  }
+                  "type": "helper",
+                  "name": "can_play_winds_requiem",
+                  "args": []
                 },
                 {
-                  "type": "capability",
-                  "capability": "play_winds_requiem",
-                  "inferred": true,
-                  "description": "Requires ability to play winds requiem"
+                  "type": "item_check",
+                  "item": "Skull Hammer"
                 }
               ]
             },
@@ -3128,10 +3244,9 @@
             "name": "Needle Rock Isle - Cave",
             "id": 2326718,
             "access_rule": {
-              "type": "item_check",
-              "item": "Fire_Arrows",
-              "inferred": true,
-              "description": "Requires having Fire Arrows"
+              "type": "helper",
+              "name": "has_fire_arrows",
+              "args": []
             },
             "item": {
               "name": "Boomerang",
@@ -3153,26 +3268,21 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "aim_mirror_shield",
-                  "inferred": true,
-                  "description": "Requires ability to aim mirror shield"
+                  "type": "helper",
+                  "name": "can_aim_mirror_shield",
+                  "args": []
                 },
                 {
                   "type": "or",
                   "conditions": [
                     {
-                      "type": "capability",
-                      "capability": "fly_with_deku_leaf_indoors",
-                      "inferred": true,
-                      "description": "Requires ability to fly with deku leaf indoors"
+                      "type": "helper",
+                      "name": "can_fly_with_deku_leaf_indoors",
+                      "args": []
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Hookshot"
-                      }
+                      "item": "Hookshot"
                     }
                   ]
                 }
@@ -3210,10 +3320,9 @@
             "name": "Bird's Peak Rock - Cave",
             "id": 2326730,
             "access_rule": {
-              "type": "capability",
-              "capability": "play_winds_requiem",
-              "inferred": true,
-              "description": "Requires ability to play winds requiem"
+              "type": "helper",
+              "name": "can_play_winds_requiem",
+              "args": []
             },
             "item": {
               "name": "Power Bracelets",
@@ -3232,10 +3341,9 @@
             "name": "Pawprint Isle - Chuchu Cave - Behind Left Boulder",
             "id": 2326732,
             "access_rule": {
-              "type": "capability",
-              "capability": "move_boulders",
-              "inferred": true,
-              "description": "Requires ability to move boulders"
+              "type": "helper",
+              "name": "can_move_boulders",
+              "args": []
             },
             "item": {
               "name": "Silver Rupee",
@@ -3248,10 +3356,9 @@
             "name": "Pawprint Isle - Chuchu Cave - Behind Right Boulder",
             "id": 2326733,
             "access_rule": {
-              "type": "capability",
-              "capability": "move_boulders",
-              "inferred": true,
-              "description": "Requires ability to move boulders"
+              "type": "helper",
+              "name": "can_move_boulders",
+              "args": []
             },
             "item": {
               "name": "Silver Rupee",
@@ -3279,10 +3386,7 @@
             "id": 2326734,
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Grappling Hook"
-              }
+              "item": "Grappling Hook"
             },
             "item": {
               "name": "Piece of Heart",
@@ -3340,10 +3444,9 @@
             "name": "Bomb Island - Cave",
             "id": 2326754,
             "access_rule": {
-              "type": "capability",
-              "capability": "stun_magtails",
-              "inferred": true,
-              "description": "Requires ability to stun magtails"
+              "type": "helper",
+              "name": "can_stun_magtails",
+              "args": []
             },
             "item": {
               "name": "Progressive Bow",
@@ -3371,9 +3474,19 @@
             "name": "Inner Entrance in Cliff Plateau Isles Secret Cave -> Cliff Plateau Isles Inner Cave",
             "connected_region": "Cliff Plateau Isles Inner Cave",
             "access_rule": {
-              "type": "helper",
-              "name": "rule",
-              "args": []
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_fly_with_deku_leaf_indoors",
+                  "args": []
+                }
+              ]
             }
           }
         ],
@@ -3385,21 +3498,8 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "defeat_boko_babas",
-                  "inferred": true,
-                  "description": "Requires ability to defeat boko babas"
-                },
-                {
                   "type": "and",
                   "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": {
-                        "type": "constant",
-                        "value": "Grappling Hook"
-                      }
-                    },
                     {
                       "type": "state_method",
                       "method": "_tww_obscure_1",
@@ -3409,8 +3509,17 @@
                       "type": "state_method",
                       "method": "_tww_precise_1",
                       "args": []
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Grappling Hook"
                     }
                   ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_defeat_boko_babas",
+                  "args": []
                 }
               ]
             },
@@ -5781,7 +5890,18 @@
   "settings": {
     "1": {
       "game": "The Wind Waker",
-      "assume_bidirectional_exits": false
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false,
+      "logic_in_swordless_mode": false,
+      "logic_in_required_bosses_mode": false,
+      "logic_obscure_1": false,
+      "logic_obscure_2": false,
+      "logic_obscure_3": false,
+      "logic_precise_1": false,
+      "logic_precise_2": false,
+      "logic_precise_3": false,
+      "logic_rematch_bosses_skipped": true,
+      "logic_tuner_logic_enabled": false
     }
   },
   "game_info": {

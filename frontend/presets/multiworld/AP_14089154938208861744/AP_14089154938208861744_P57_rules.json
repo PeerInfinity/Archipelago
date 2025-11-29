@@ -1,0 +1,6959 @@
+{
+  "schema_version": 3,
+  "game_name": "Subnautica",
+  "game_directory": "subnautica",
+  "archipelago_version": "0.6.4",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1",
+    "2": "Player2",
+    "3": "Player3",
+    "4": "Player4",
+    "5": "Player5",
+    "6": "Player6",
+    "7": "Player7",
+    "8": "Player8",
+    "9": "Player9",
+    "10": "Player10",
+    "11": "Player11",
+    "12": "Player12",
+    "13": "Player13",
+    "14": "Player14",
+    "15": "Player15",
+    "16": "Player16",
+    "17": "Player17",
+    "18": "Player18",
+    "19": "Player19",
+    "20": "Player20",
+    "21": "Player21",
+    "22": "Player22",
+    "23": "Player23",
+    "24": "Player24",
+    "25": "Player25",
+    "26": "Player26",
+    "27": "Player27",
+    "28": "Player28",
+    "29": "Player29",
+    "30": "Player30",
+    "31": "Player31",
+    "32": "Player32",
+    "33": "Player33",
+    "34": "Player34",
+    "35": "Player35",
+    "36": "Player36",
+    "37": "Player37",
+    "38": "Player38",
+    "39": "Player39",
+    "40": "Player40",
+    "41": "Player41",
+    "42": "Player42",
+    "43": "Player43",
+    "44": "Player44",
+    "45": "Player45",
+    "46": "Player46",
+    "47": "Player47",
+    "48": "Player48",
+    "49": "Player49",
+    "50": "Player50",
+    "51": "Player51",
+    "52": "Player52",
+    "53": "Player53",
+    "54": "Player54",
+    "55": "Player55",
+    "56": "Player56",
+    "57": "Player57",
+    "58": "Player58",
+    "59": "Player59",
+    "60": "Player60",
+    "61": "Player61",
+    "62": "Player62",
+    "63": "Player63",
+    "64": "Player64",
+    "65": "Player65",
+    "66": "Player66",
+    "67": "Player67",
+    "68": "Player68",
+    "69": "Player69",
+    "70": "Player70",
+    "71": "Player71",
+    "72": "Player72",
+    "73": "Player73",
+    "74": "Player74",
+    "75": "Player75"
+  },
+  "world_classes": {
+    "1": "HatInTimeWorld",
+    "2": "ALTTPWorld",
+    "3": "ShortHikeWorld",
+    "4": "AdventureWorld",
+    "5": "AquariaWorld",
+    "6": "ArchipIDLEWorld",
+    "7": "BlasphemousWorld",
+    "8": "BombRushCyberfunkWorld",
+    "9": "BumpStikWorld",
+    "10": "CVCotMWorld",
+    "11": "CV64World",
+    "12": "Celeste64World",
+    "13": "ChecksFinderWorld",
+    "14": "ChocolateChipCookiesWorld",
+    "15": "CivVIWorld",
+    "16": "DarkSouls3World",
+    "17": "DLCqworld",
+    "18": "DKC3World",
+    "19": "DOOM1993World",
+    "20": "DOOM2World",
+    "21": "Factorio",
+    "22": "FaxanaduWorld",
+    "23": "FFMQWorld",
+    "24": "HereticWorld",
+    "25": "Hylics2World",
+    "26": "InscryptionWorld",
+    "27": "JakAndDaxterWorld",
+    "28": "KH2World",
+    "29": "KH1World",
+    "30": "KDL3World",
+    "31": "LandstalkerWorld",
+    "32": "LingoWorld",
+    "33": "LinksAwakeningWorld",
+    "34": "L2ACWorld",
+    "35": "MLSSWorld",
+    "36": "MathProof2p2e4World",
+    "37": "MM2World",
+    "38": "MMBN3World",
+    "39": "MeritousWorld",
+    "40": "MetamathWorld",
+    "41": "MuseDashWorld",
+    "42": "NoitaWorld",
+    "43": "OSRSWorld",
+    "44": "Overcooked2World",
+    "45": "PaintWorld",
+    "46": "PokemonEmeraldWorld",
+    "47": "PokemonRedBlueWorld",
+    "48": "RaftWorld",
+    "49": "RiskOfRainWorld",
+    "50": "SavingPrincessWorld",
+    "51": "SoEWorld",
+    "52": "ShapezWorld",
+    "53": "ShiversWorld",
+    "54": "SA2BWorld",
+    "55": "SC2World",
+    "56": "StardewValleyWorld",
+    "57": "SubnauticaWorld",
+    "58": "SM64World",
+    "59": "MarioLand2World",
+    "60": "SMWWorld",
+    "61": "SMWorld",
+    "62": "TerrariaWorld",
+    "63": "TLoZWorld",
+    "64": "MessengerWorld",
+    "65": "TWWWorld",
+    "66": "WitnessWorld",
+    "67": "TimespinnerWorld",
+    "68": "TunicWorld",
+    "69": "UndertaleWorld",
+    "70": "V6World",
+    "71": "WargrooveWorld",
+    "72": "WebDevJourneyWorld",
+    "73": "YachtDiceWorld",
+    "74": "YoshisIslandWorld",
+    "75": "Yugioh06World"
+  },
+  "regions": {
+    "57": {
+      "Planet 4546B": {
+        "name": "Planet 4546B",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Blood Kelp Trench Wreck - Outside Databox",
+            "id": 33000,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Blood Kelp Trench Wreck - Outside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1234.3,
+                      "y": -349.7,
+                      "z": -396.0
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Sun Crest",
+              "player": 64,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Blood Kelp Trench Wreck - Inside Databox",
+            "id": 33001,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Blood Kelp Trench Wreck - Inside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1208.0,
+                      "y": -349.6,
+                      "z": -383.0
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Progressive Sword",
+              "player": 65,
+              "advancement": true,
+              "type": "Item"
+            }
+          },
+          {
+            "name": "Blood Kelp Trench Wreck - PDA",
+            "id": 33002,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Blood Kelp Trench Wreck - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1210.6,
+                      "y": -340.7,
+                      "z": -393.4
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Infestor",
+              "player": 55,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bulb Zone West Wreck - Outside Databox",
+            "id": 33003,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Bulb Zone West Wreck - Outside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 903.8,
+                      "y": -220.3,
+                      "z": 590.9
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Hazard Bumper",
+              "player": 9,
+              "advancement": true,
+              "type": "Target"
+            }
+          },
+          {
+            "name": "Bulb Zone West Wreck - Under Databox",
+            "id": 33004,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Bulb Zone West Wreck - Under Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 910.9,
+                      "y": -201.8,
+                      "z": 623.5
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "PP Up",
+              "player": 46,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bulb Zone West Wreck - Inside Databox",
+            "id": 33005,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Bulb Zone West Wreck - Inside Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": 914.9,
+                      "y": -202.1,
+                      "z": 611.8
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Money",
+              "player": 49,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bulb Zone West Wreck - PDA",
+            "id": 33006,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Bulb Zone West Wreck - PDA",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": 912.6,
+                      "y": -202.0,
+                      "z": 609.5
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Quiver of Ethereal Arrows",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bulb Zone East Wreck - Databox",
+            "id": 33007,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Bulb Zone East Wreck - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 1327.1,
+                      "y": -234.9,
+                      "z": 575.8
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Common Item",
+              "player": 49,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Dunes North Wreck - Outside Databox",
+            "id": 33008,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Dunes North Wreck - Outside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1407.7,
+                      "y": -344.2,
+                      "z": 721.5
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Green Pearl Bean",
+              "player": 35,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Dunes North Wreck - Office Databox",
+            "id": 33009,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Dunes North Wreck - Office Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1393.9,
+                      "y": -329.7,
+                      "z": 733.5
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 39,
+              "advancement": false,
+              "type": "Enhancement"
+            }
+          },
+          {
+            "name": "Dunes North Wreck - PDA",
+            "id": 33010,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Dunes North Wreck - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1396.3,
+                      "y": -330.8,
+                      "z": 730.0
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Beanstone 10",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Dunes North Wreck - Cargo Databox",
+            "id": 33011,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Dunes North Wreck - Cargo Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": -1409.8,
+                      "y": -332.4,
+                      "z": 706.9
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Power Cell",
+              "player": 27,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Dunes West Wreck - Databox",
+            "id": 33012,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Dunes West Wreck - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1626.2,
+                      "y": -357.5,
+                      "z": 99.5
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 66,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Dunes East Wreck - Outside Databox",
+            "id": 33013,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Dunes East Wreck - Outside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1196.3,
+                      "y": -223.0,
+                      "z": 12.5
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Graffiti (L - Moai Marathon)",
+              "player": 8,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Dunes East Wreck - Inside Databox",
+            "id": 33014,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Dunes East Wreck - Inside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1206.4,
+                      "y": -225.6,
+                      "z": 4.0
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Lockdown (Ghost)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Grand Reef North Wreck - Outside Databox",
+            "id": 33015,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grand Reef North Wreck - Outside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -269.7,
+                      "y": -262.8,
+                      "z": -764.3
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Progressive Raccoon",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Grand Reef North Wreck - Elevator Databox",
+            "id": 33016,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grand Reef North Wreck - Elevator Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": -285.8,
+                      "y": -240.2,
+                      "z": -786.5
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Clock",
+              "player": 63,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Grand Reef North Wreck - Bottom Databox",
+            "id": 33017,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grand Reef North Wreck - Bottom Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -285.2,
+                      "y": -262.4,
+                      "z": -788.4
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Mushroom",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Grand Reef North Wreck - Hangar PDA",
+            "id": 33018,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grand Reef North Wreck - Hangar PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -272.5,
+                      "y": -254.7,
+                      "z": -788.5
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Power Star",
+              "player": 58,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Grand Reef South Wreck - Trench Databox",
+            "id": 33019,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grand Reef South Wreck - Trench Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -850.9,
+                      "y": -473.2,
+                      "z": -1414.6
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Statue of Gaia",
+              "player": 31,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Grand Reef South Wreck - Comms Databox",
+            "id": 33020,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grand Reef South Wreck - Comms Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": -889.4,
+                      "y": -433.8,
+                      "z": -1424.8
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Projectile Refill",
+              "player": 23,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Grand Reef South Wreck - Outside Databox",
+            "id": 33021,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grand Reef South Wreck - Outside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -862.4,
+                      "y": -437.5,
+                      "z": -1444.1
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Motivational Video",
+              "player": 6,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Grand Reef South Wreck - PDA",
+            "id": 33022,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grand Reef South Wreck - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -887.9,
+                      "y": -446.0,
+                      "z": -1422.7
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Mari-Lui Badge",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Grassy Plateaus South Wreck - Databox",
+            "id": 33023,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grassy Plateaus South Wreck - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -23.3,
+                      "y": -105.8,
+                      "z": -604.2
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Seaglide Fragment",
+              "player": 57,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Grassy Plateaus South Wreck - PDA",
+            "id": 33024,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grassy Plateaus South Wreck - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -27.3,
+                      "y": -106.8,
+                      "z": -607.2
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Nuclear Plant (E1M2)",
+              "player": 19,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Grassy Plateaus East Wreck - Breach Databox",
+            "id": 33025,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": true,
+                    "name": "Grassy Plateaus East Wreck - Breach Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": 313.9,
+                      "y": -91.8,
+                      "z": 432.6
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Overwatch (Spear of Adun Auto-Cast)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Grassy Plateaus East Wreck - Hangar Databox",
+            "id": 33026,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": true,
+                    "name": "Grassy Plateaus East Wreck - Hangar Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": 319.4,
+                      "y": -104.3,
+                      "z": 441.5
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Drakeblood Helm",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Grassy Plateaus West Wreck - Locker PDA",
+            "id": 33027,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grassy Plateaus West Wreck - Locker PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -632.3,
+                      "y": -75.0,
+                      "z": -8.9
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Special1",
+              "player": 11,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Grassy Plateaus West Wreck - Data Terminal",
+            "id": 33028,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grassy Plateaus West Wreck - Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -664.4,
+                      "y": -97.8,
+                      "z": -8.0
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "progressive-engine",
+              "player": 48,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Grassy Plateaus Southwest Wreck - Databox",
+            "id": 33029,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grassy Plateaus Southwest Wreck - Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": -421.4,
+                      "y": -107.8,
+                      "z": -266.5
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Mushroom",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Safe Shallows Wreck - PDA",
+            "id": 33030,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Safe Shallows Wreck - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -44.0,
+                      "y": -29.1,
+                      "z": -403.6
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Mario Zone Progression",
+              "player": 59,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Kelp Forest Wreck - Databox",
+            "id": 33031,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Kelp Forest Wreck - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -317.6,
+                      "y": -78.8,
+                      "z": 247.4
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Icon of Sin (MAP30)",
+              "player": 20,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Kelp Forest Wreck - PDA",
+            "id": 33032,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Kelp Forest Wreck - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 63.2,
+                      "y": -38.5,
+                      "z": 382.9
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Progressive Mine Elevator",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mountains West Wreck - Outside Databox",
+            "id": 33033,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Mountains West Wreck - Outside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 740.3,
+                      "y": -389.2,
+                      "z": 1179.8
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Arcane Poultice",
+              "player": 5,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mountains West Wreck - Data Terminal",
+            "id": 33034,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Mountains West Wreck - Data Terminal",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": 703.7,
+                      "y": -365.9,
+                      "z": 1199.3
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Statue of Gaia",
+              "player": 31,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mountains West Wreck - Hangar Databox",
+            "id": 33035,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Mountains West Wreck - Hangar Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": 698.2,
+                      "y": -350.8,
+                      "z": 1186.9
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Unicorn Card",
+              "player": 10,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mountains West Wreck - Office Databox",
+            "id": 33036,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Mountains West Wreck - Office Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 676.3,
+                      "y": -343.6,
+                      "z": 1204.6
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Berry Pick-Mi-Up+",
+              "player": 67,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mountains East Wreck - Comms Databox",
+            "id": 33037,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Mountains East Wreck - Comms Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 1068.5,
+                      "y": -283.4,
+                      "z": 1345.3
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Warrior Collection A",
+              "player": 75,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mountains East Wreck - Outside Databox",
+            "id": 33038,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Mountains East Wreck - Outside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 1075.7,
+                      "y": -288.9,
+                      "z": 1321.8
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Military Base (E1M9) - Yellow keycard",
+              "player": 19,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Northwestern Mushroom Forest Wreck - Cargo Databox",
+            "id": 33039,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Northwestern Mushroom Forest Wreck - Cargo Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": -655.1,
+                      "y": -109.6,
+                      "z": 791.0
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Emblem",
+              "player": 54,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Northwestern Mushroom Forest Wreck - Office Databox",
+            "id": 33040,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Northwestern Mushroom Forest Wreck - Office Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -663.4,
+                      "y": -111.9,
+                      "z": 777.9
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Cure Potion",
+              "player": 23,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Northwestern Mushroom Forest Wreck - PDA",
+            "id": 33041,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Northwestern Mushroom Forest Wreck - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -662.2,
+                      "y": -113.4,
+                      "z": 777.7
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Heart Container",
+              "player": 63,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Sea Treader's Path Wreck - Outside Databox",
+            "id": 33042,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Sea Treader's Path Wreck - Outside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1161.1,
+                      "y": -191.7,
+                      "z": -758.3
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Soul of an Unknown Traveler",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Sea Treader's Path Wreck - Hangar Databox",
+            "id": 33043,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Sea Treader's Path Wreck - Hangar Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": -1129.5,
+                      "y": -155.2,
+                      "z": -729.3
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Common Item",
+              "player": 49,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Sea Treader's Path Wreck - Lobby Databox",
+            "id": 33044,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Sea Treader's Path Wreck - Lobby Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1115.9,
+                      "y": -175.3,
+                      "z": -724.5
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Stepladder",
+              "player": 63,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Sea Treader's Path Wreck - PDA",
+            "id": 33045,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Sea Treader's Path Wreck - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1136.8,
+                      "y": -157.0,
+                      "z": -734.6
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Oathkeeper",
+              "player": 29,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Sparse Reef Wreck - Locker Databox",
+            "id": 33046,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Sparse Reef Wreck - Locker Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": -789.8,
+                      "y": -216.1,
+                      "z": -711.0
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Motivational Video",
+              "player": 6,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Sparse Reef Wreck - Outside Databox",
+            "id": 33047,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Sparse Reef Wreck - Outside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -810.7,
+                      "y": -209.3,
+                      "z": -685.5
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "MP Berry x3",
+              "player": 68,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Sparse Reef Wreck - Lab Databox",
+            "id": 33048,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Sparse Reef Wreck - Lab Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": -795.5,
+                      "y": -204.1,
+                      "z": -774.7
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Box of bullets",
+              "player": 19,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underwater Islands Wreck - Outside Databox",
+            "id": 33049,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Underwater Islands Wreck - Outside Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -170.8,
+                      "y": -187.6,
+                      "z": 880.7
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Energy cell pack",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underwater Islands Wreck - Hangar Databox",
+            "id": 33050,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Underwater Islands Wreck - Hangar Databox",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": -138.4,
+                      "y": -193.6,
+                      "z": 888.7
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Blue Ring",
+              "player": 63,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underwater Islands Wreck - Data Terminal",
+            "id": 33051,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Underwater Islands Wreck - Data Terminal",
+                    "need_laser_cutter": true,
+                    "position": {
+                      "x": -130.7,
+                      "y": -193.2,
+                      "z": 883.3
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Bomb",
+              "player": 63,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underwater Islands Wreck - Cable Databox",
+            "id": 33052,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Underwater Islands Wreck - Cable Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -137.8,
+                      "y": -193.4,
+                      "z": 879.4
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Graffiti (L - skate or di3)",
+              "player": 8,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underwater Islands Wreck - Pipes Databox 1",
+            "id": 33053,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Underwater Islands Wreck - Pipes Databox 1",
+                    "need_laser_cutter": false,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": -124.4,
+                      "y": -200.7,
+                      "z": 853.0
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Blaze sword",
+              "player": 34,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underwater Islands Wreck - Pipes Databox 2",
+            "id": 33054,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Underwater Islands Wreck - Pipes Databox 2",
+                    "need_laser_cutter": false,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": -126.8,
+                      "y": -201.1,
+                      "z": 852.1
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Poison Trap",
+              "player": 67,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Degasi Seabase - Deep Grand Reef - Bedroom Databox",
+            "id": 33055,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Deep Grand Reef - Bedroom Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -643.8,
+                      "y": -509.9,
+                      "z": -941.9
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Blueprint Shapes Bundle",
+              "player": 52,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Degasi Seabase - Deep Grand Reef - Observatory Databox",
+            "id": 33056,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Deep Grand Reef - Observatory Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -635.1,
+                      "y": -502.7,
+                      "z": -951.4
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Quiver of Ethereal Arrows",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Degasi Seabase - Deep Grand Reef - Bedroom PDA",
+            "id": 33057,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Deep Grand Reef - Bedroom PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -645.8,
+                      "y": -508.7,
+                      "z": -943.0
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Commander Defense Boost",
+              "player": 71,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Degasi Seabase - Deep Grand Reef - Outside PDA",
+            "id": 33058,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Deep Grand Reef - Outside PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -630.5,
+                      "y": -511.1,
+                      "z": -936.1
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Ember",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Degasi Seabase - Deep Grand Reef - Observatory PDA",
+            "id": 33059,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Deep Grand Reef - Observatory PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -647.7,
+                      "y": -502.6,
+                      "z": -935.8
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "25 Coins",
+              "player": 3,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Degasi Seabase - Deep Grand Reef - Lab PDA",
+            "id": 33060,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Deep Grand Reef - Lab PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -639.6,
+                      "y": -505.9,
+                      "z": -946.6
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Small Processors Upgrade",
+              "player": 52,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Floating Island - Lake PDA",
+            "id": 33061,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Floating Island - Lake PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -707.2,
+                      "y": 0.5,
+                      "z": -1096.7
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "cliff-explosives",
+              "player": 21,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Degasi Seabase - Floating Island - Databox",
+            "id": 33062,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Floating Island - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -765.7,
+                      "y": 17.6,
+                      "z": -1116.4
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Tome of Power",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Degasi Seabase - Floating Island - Room PDA",
+            "id": 33063,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Floating Island - Room PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -754.9,
+                      "y": 14.6,
+                      "z": -1108.9
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Child of Moonlight",
+              "player": 7,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Degasi Seabase - Floating Island - Green Wall PDA",
+            "id": 33064,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Floating Island - Green Wall PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -765.3,
+                      "y": 14.1,
+                      "z": -1115.0
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Titanite Shard",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Degasi Seabase - Floating Island - Corridor PDA",
+            "id": 33065,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Floating Island - Corridor PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -758.6,
+                      "y": 14.1,
+                      "z": -1111.3
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Rave",
+              "player": 8,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Degasi Seabase - Floating Island - North Observatory PDA",
+            "id": 33066,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Floating Island - North Observatory PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -805.4,
+                      "y": 76.9,
+                      "z": -1055.7
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Deformed Mask of Orestes",
+              "player": 7,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Degasi Seabase - Floating Island - South Observatory PDA",
+            "id": 33067,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Floating Island - South Observatory PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -715.9,
+                      "y": 75.4,
+                      "z": -1168.8
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Medikit",
+              "player": 19,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Jellyshroom Cave - PDA",
+            "id": 33068,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Jellyshroom Cave - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -540.5,
+                      "y": -250.8,
+                      "z": -83.4
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Boss Heart Container",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Degasi Seabase - Jellyshroom Cave - Bedroom Databox",
+            "id": 33069,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Jellyshroom Cave - Bedroom Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 110.6,
+                      "y": -264.9,
+                      "z": -369.0
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Reward: Red Counterweight",
+              "player": 62,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Degasi Seabase - Jellyshroom Cave - Detached PDA",
+            "id": 33070,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Jellyshroom Cave - Detached PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 80.6,
+                      "y": -268.6,
+                      "z": -358.3
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Nugget",
+              "player": 46,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Degasi Seabase - Jellyshroom Cave - Office PDA",
+            "id": 33071,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Jellyshroom Cave - Office PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 78.2,
+                      "y": -265.0,
+                      "z": -373.4
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Tentudia's Skeletal Remains",
+              "player": 7,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Degasi Seabase - Jellyshroom Cave - Locker PDA",
+            "id": 33072,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Jellyshroom Cave - Locker PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 85.1,
+                      "y": -264.1,
+                      "z": -372.8
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Uncommon Item",
+              "player": 49,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Degasi Seabase - Jellyshroom Cave - Bedroom PDA",
+            "id": 33073,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Jellyshroom Cave - Bedroom PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 112.3,
+                      "y": -264.9,
+                      "z": -369.3
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Seashell",
+              "player": 33,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Degasi Seabase - Jellyshroom Cave - Observatory PDA",
+            "id": 33074,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Jellyshroom Cave - Observatory PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 95.5,
+                      "y": -258.9,
+                      "z": -366.5
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 18,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lifepod 2 - Databox",
+            "id": 33075,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 2 - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -483.6,
+                      "y": -504.7,
+                      "z": 1326.6
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Berserk",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lifepod 2 - PDA",
+            "id": 33076,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 2 - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -481.4,
+                      "y": -503.6,
+                      "z": 1324.1
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Farron Flashsword",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lifepod 3 - Databox",
+            "id": 33077,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 3 - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -34.2,
+                      "y": -22.4,
+                      "z": 410.5
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Mushroom",
+              "player": 2,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lifepod 3 - PDA",
+            "id": 33078,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 3 - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -33.8,
+                      "y": -22.5,
+                      "z": 408.8
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "HM06 Rock Smash",
+              "player": 46,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lifepod 4 - Databox",
+            "id": 33079,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 4 - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 712.4,
+                      "y": -3.4,
+                      "z": 160.8
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Progressive Shield",
+              "player": 22,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lifepod 4 - PDA",
+            "id": 33080,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 4 - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 712.0,
+                      "y": -3.5,
+                      "z": 161.5
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Rifling",
+              "player": 15,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lifepod 6 - Databox",
+            "id": 33081,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 6 - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 358.7,
+                      "y": -117.1,
+                      "z": 306.8
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Dragonscale Waistcloth",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lifepod 6 - Inside PDA",
+            "id": 33082,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 6 - Inside PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 361.8,
+                      "y": -116.2,
+                      "z": 309.5
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Magnifying Glass",
+              "player": 74,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lifepod 6 - Outside PDA",
+            "id": 33083,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 6 - Outside PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 359.9,
+                      "y": -117.0,
+                      "z": 312.1
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Ice Cream",
+              "player": 28,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lifepod 7 - PDA",
+            "id": 33084,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 7 - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -56.0,
+                      "y": -182.0,
+                      "z": -1039.0
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Mega-Ether",
+              "player": 29,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lifepod 12 - Databox",
+            "id": 33085,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 12 - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 1119.5,
+                      "y": -271.7,
+                      "z": 561.7
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Money x20",
+              "player": 68,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lifepod 12 - PDA",
+            "id": 33086,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 12 - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 1116.1,
+                      "y": -271.3,
+                      "z": 566.9
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Energy cell pack",
+              "player": 19,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lifepod 13 - Databox",
+            "id": 33087,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 13 - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -926.4,
+                      "y": -185.2,
+                      "z": 501.8
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Reward: Sextant",
+              "player": 62,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lifepod 13 - PDA",
+            "id": 33088,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 13 - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -926.8,
+                      "y": -184.4,
+                      "z": 506.6
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Potion",
+              "player": 46,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lifepod 17 - PDA",
+            "id": 33089,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 17 - PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -514.5,
+                      "y": -98.1,
+                      "z": -56.5
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Seaglide Fragment",
+              "player": 57,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lifepod 19 - Databox",
+            "id": 33090,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 19 - Databox",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -809.8,
+                      "y": -302.2,
+                      "z": -876.9
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Predator's Fury (Predator)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lifepod 19 - Outside PDA",
+            "id": 33091,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 19 - Outside PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -806.1,
+                      "y": -294.1,
+                      "z": -866.0
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Scout Fly - Volcanic Crater",
+              "player": 27,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lifepod 19 - Inside PDA",
+            "id": 33092,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lifepod 19 - Inside PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -810.5,
+                      "y": -299.4,
+                      "z": -873.1
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Apple Sapling",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Aurora Seamoth Bay - Upgrade Console",
+            "id": 33093,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora Seamoth Bay - Upgrade Console",
+                    "need_laser_cutter": false,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 903.5,
+                      "y": -0.2,
+                      "z": 16.1
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Supercharge",
+              "player": 19,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Aurora Drive Room - Upgrade Console",
+            "id": 33094,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora Drive Room - Upgrade Console",
+                    "need_laser_cutter": false,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 872.5,
+                      "y": 2.7,
+                      "z": -0.7
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Booster Bumper",
+              "player": 9,
+              "advancement": true,
+              "type": "Target"
+            }
+          },
+          {
+            "name": "Aurora Prawn Suit Bay - Upgrade Console",
+            "id": 33095,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora Prawn Suit Bay - Upgrade Console",
+                    "need_laser_cutter": true,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 991.6,
+                      "y": 3.2,
+                      "z": -31.0
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Empty White Hallways",
+              "player": 32,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Aurora - Office PDA",
+            "id": 33096,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Office PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 952.1,
+                      "y": 41.2,
+                      "z": 113.9
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Tears of Atonement (1500)",
+              "player": 7,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Aurora - Corridor PDA",
+            "id": 33097,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Corridor PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 977.2,
+                      "y": 39.1,
+                      "z": 83.0
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Wizard's Relic",
+              "player": 29,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Aurora - Cargo Bay PDA",
+            "id": 33098,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Cargo Bay PDA",
+                    "need_laser_cutter": false,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 954.9,
+                      "y": 11.2,
+                      "z": 3.4
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Quiver of Ethereal Arrows",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Aurora - Seamoth Bay PDA",
+            "id": 33099,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Seamoth Bay PDA",
+                    "need_laser_cutter": false,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 907.1,
+                      "y": -1.5,
+                      "z": 15.3
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Crystal Geode",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Aurora - Medkit Locker PDA",
+            "id": 33100,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Medkit Locker PDA",
+                    "need_laser_cutter": true,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 951.8,
+                      "y": -2.3,
+                      "z": -34.7
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Great Farron Dart",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Aurora - Locker PDA",
+            "id": 33101,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Locker PDA",
+                    "need_laser_cutter": true,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 952.0,
+                      "y": -3.7,
+                      "z": -23.4
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "50 coins",
+              "player": 60,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Aurora - Canteen PDA",
+            "id": 33102,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Canteen PDA",
+                    "need_laser_cutter": true,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 986.5,
+                      "y": 9.6,
+                      "z": -48.6
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Extra Max HP",
+              "player": 42,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Aurora - Cabin 4 PDA",
+            "id": 33103,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Cabin 4 PDA",
+                    "need_laser_cutter": true,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 951.3,
+                      "y": 11.2,
+                      "z": -51.0
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Lorian's Greatsword",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Aurora - Cabin 7 PDA",
+            "id": 33104,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Cabin 7 PDA",
+                    "need_laser_cutter": true,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 967.1,
+                      "y": 10.4,
+                      "z": -47.4
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Einstein Whistle",
+              "player": 31,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Aurora - Cabin 1 PDA",
+            "id": 33105,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Cabin 1 PDA",
+                    "need_laser_cutter": true,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 964.1,
+                      "y": 11.1,
+                      "z": -61.9
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Titanite Scale",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Aurora - Captain PDA",
+            "id": 33106,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Captain PDA",
+                    "need_laser_cutter": true,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 971.2,
+                      "y": 10.8,
+                      "z": -70.4
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Matrix Overload",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Aurora - Ring PDA",
+            "id": 33107,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Ring PDA",
+                    "need_laser_cutter": false,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 1033.6,
+                      "y": -8.5,
+                      "z": 16.2
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Chuckle Bean",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Aurora - Lab PDA",
+            "id": 33108,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Lab PDA",
+                    "need_laser_cutter": false,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 1032.5,
+                      "y": -7.8,
+                      "z": 32.4
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "10 BugFrags",
+              "player": 38,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Aurora - Office Data Terminal",
+            "id": 33109,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Office Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 945.8,
+                      "y": 40.8,
+                      "z": 115.1
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Hoo Bean",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Aurora - Captain Data Terminal",
+            "id": 33110,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Captain Data Terminal",
+                    "need_laser_cutter": true,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 974.8,
+                      "y": 10.0,
+                      "z": -77.0
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Neptune Launch Platform",
+              "player": 57,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Aurora - Battery Room Data Terminal",
+            "id": 33111,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Battery Room Data Terminal",
+                    "need_laser_cutter": true,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 1040.8,
+                      "y": -11.4,
+                      "z": -3.4
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Rupees (20)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Aurora - Lab Data Terminal",
+            "id": 33112,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Aurora - Lab Data Terminal",
+                    "need_laser_cutter": false,
+                    "need_propulsion_cannon": true,
+                    "position": {
+                      "x": 1029.5,
+                      "y": -8.7,
+                      "z": 35.9
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "200 Rupees",
+              "player": 33,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Quarantine Enforcement Platform's - Upper Alien Data Terminal",
+            "id": 33113,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Quarantine Enforcement Platform's - Upper Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 432.2,
+                      "y": 3.0,
+                      "z": 1193.2
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Power Up",
+              "player": 29,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Quarantine Enforcement Platform's - Mid Alien Data Terminal",
+            "id": 33114,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Quarantine Enforcement Platform's - Mid Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 474.4,
+                      "y": -4.5,
+                      "z": 1224.4
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "progressive-weapon-shooting-speed",
+              "player": 21,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Dunes Sanctuary - Alien Data Terminal",
+            "id": 33115,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Dunes Sanctuary - Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1224.2,
+                      "y": -400.4,
+                      "z": 1057.9
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Time Shard (50)",
+              "player": 64,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Deep Sparse Reef Sanctuary - Alien Data Terminal",
+            "id": 33116,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Deep Sparse Reef Sanctuary - Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -895.5,
+                      "y": -311.6,
+                      "z": -838.1
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Box of rockets",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Northern Blood Kelp Zone Sanctuary - Alien Data Terminal",
+            "id": 33117,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Northern Blood Kelp Zone Sanctuary - Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -642.9,
+                      "y": -563.5,
+                      "z": 1485.5
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Rime-blue Moss Clump x2",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lost River Laboratory Cache - Alien Data Terminal",
+            "id": 33118,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Lost River Laboratory Cache - Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -1112.3,
+                      "y": -687.3,
+                      "z": -695.5
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Additional Palette Color",
+              "player": 45,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Disease Research Facility - Upper Alien Data Terminal",
+            "id": 33119,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Disease Research Facility - Upper Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -280.2,
+                      "y": -804.3,
+                      "z": 305.1
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Bomb Refill",
+              "player": 23,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Disease Research Facility - Mid Alien Data Terminal",
+            "id": 33120,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Disease Research Facility - Mid Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -267.9,
+                      "y": -806.6,
+                      "z": 250.0
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Supercharge",
+              "player": 19,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Disease Research Facility - Lower Alien Data Terminal",
+            "id": 33121,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Disease Research Facility - Lower Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -286.2,
+                      "y": -815.6,
+                      "z": 297.8
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Wanderlust",
+              "player": 32,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Alien Thermal Plant - Entrance Alien Data Terminal",
+            "id": 33122,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Alien Thermal Plant - Entrance Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -71.3,
+                      "y": -1227.2,
+                      "z": 104.8
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Blizzard Armlet",
+              "player": 28,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Alien Thermal Plant - Green Alien Data Terminal",
+            "id": 33123,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Alien Thermal Plant - Green Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -38.7,
+                      "y": -1226.6,
+                      "z": 111.8
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "21 Coins",
+              "player": 3,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Alien Thermal Plant - Yellow Alien Data Terminal",
+            "id": 33124,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Alien Thermal Plant - Yellow Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -30.4,
+                      "y": -1220.3,
+                      "z": 111.8
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Stardrop",
+              "player": 56,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Primary Containment Facility's Antechamber - Alien Data Terminal",
+            "id": 33125,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Primary Containment Facility's Antechamber - Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 245.8,
+                      "y": -1430.6,
+                      "z": -311.5
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Guardian Aspect (Mutalisk/Corruptor)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Primary Containment Facility's Egg Laboratory - Alien Data Terminal",
+            "id": 33126,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Primary Containment Facility's Egg Laboratory - Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 165.5,
+                      "y": -1442.4,
+                      "z": -385.8
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Tome of Power",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Primary Containment Facility's Pipe Room - Alien Data Terminal",
+            "id": 33127,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Primary Containment Facility's Pipe Room - Alien Data Terminal",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 348.7,
+                      "y": -1443.5,
+                      "z": -291.9
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Progressive Zerg Flyer Attack",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Grassy Plateaus West Wreck - Beam PDA",
+            "id": 33128,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Grassy Plateaus West Wreck - Beam PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -641.8,
+                      "y": -111.3,
+                      "z": -19.7
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Progressive Sword",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Floating Island - Cave Entrance PDA",
+            "id": 33129,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Floating Island - Cave Entrance PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": -748.9,
+                      "y": 14.4,
+                      "z": -1179.5
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "progressive-rocketry",
+              "player": 21,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Degasi Seabase - Jellyshroom Cave - Outside PDA",
+            "id": 33130,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_access_location",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": {
+                    "can_slip_through": false,
+                    "name": "Degasi Seabase - Jellyshroom Cave - Outside PDA",
+                    "need_laser_cutter": false,
+                    "position": {
+                      "x": 83.2,
+                      "y": -276.4,
+                      "z": -345.5
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Life Ring",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Neptune Launch",
+            "id": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "compare",
+                  "left": {
+                    "type": "helper",
+                    "name": "get_max_depth",
+                    "args": []
+                  },
+                  "op": ">=",
+                  "right": {
+                    "type": "constant",
+                    "value": 1444
+                  }
+                },
+                {
+                  "type": "helper",
+                  "name": "has_cyclops_shield",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_mobile_vehicle_bay",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "Ion Battery"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Ion Power Cell"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Neptune Boosters"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Neptune Cockpit"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Neptune Fuel Reserve"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Neptune Gantry"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Neptune Launch Platform"
+                }
+              ]
+            },
+            "item": {
+              "name": "Victory",
+              "player": 57,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Disable Quarantine",
+            "id": null,
+            "access_rule": {
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "get_max_depth",
+                "args": []
+              },
+              "op": ">=",
+              "right": {
+                "type": "constant",
+                "value": 1444
+              }
+            },
+            "item": {
+              "name": "Disable Quarantine",
+              "player": 57,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Full Infection",
+            "id": null,
+            "access_rule": {
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "get_max_depth",
+                "args": []
+              },
+              "op": ">=",
+              "right": {
+                "type": "constant",
+                "value": 900
+              }
+            },
+            "item": {
+              "name": "Full Infection",
+              "player": 57,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Repair Aurora Drive",
+            "id": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Aurora Drive Room - Upgrade Console"
+                },
+                {
+                  "type": "constant",
+                  "value": "Location"
+                }
+              ]
+            },
+            "item": {
+              "name": "Repair Aurora Drive",
+              "player": 57,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "start_regions": {
+    "57": {
+      "default": [
+        "Planet 4546B"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "57": {
+      "Compass": {
+        "name": "Compass",
+        "id": 35000,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lightweight High Capacity Tank": {
+        "name": "Lightweight High Capacity Tank",
+        "id": 35001,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Vehicle Upgrade Console": {
+        "name": "Vehicle Upgrade Console",
+        "id": 35002,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ultra Glide Fins": {
+        "name": "Ultra Glide Fins",
+        "id": 35003,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cyclops Sonar Upgrade": {
+        "name": "Cyclops Sonar Upgrade",
+        "id": 35004,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Reinforced Dive Suit": {
+        "name": "Reinforced Dive Suit",
+        "id": 35005,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cyclops Thermal Reactor Module": {
+        "name": "Cyclops Thermal Reactor Module",
+        "id": 35006,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Water Filtration Suit": {
+        "name": "Water Filtration Suit",
+        "id": 35007,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Alien Containment": {
+        "name": "Alien Containment",
+        "id": 35008,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Creature Decoy": {
+        "name": "Creature Decoy",
+        "id": 35009,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cyclops Fire Suppression System": {
+        "name": "Cyclops Fire Suppression System",
+        "id": 35010,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Swim Charge Fins": {
+        "name": "Swim Charge Fins",
+        "id": 35011,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Repulsion Cannon": {
+        "name": "Repulsion Cannon",
+        "id": 35012,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cyclops Decoy Tube Upgrade": {
+        "name": "Cyclops Decoy Tube Upgrade",
+        "id": 35013,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cyclops Shield Generator": {
+        "name": "Cyclops Shield Generator",
+        "id": 35014,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cyclops Depth Module MK1": {
+        "name": "Cyclops Depth Module MK1",
+        "id": 35015,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cyclops Docking Bay Repair Module": {
+        "name": "Cyclops Docking Bay Repair Module",
+        "id": 35016,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Battery Charger fragment": {
+        "name": "Battery Charger fragment",
+        "id": 35017,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Beacon Fragment": {
+        "name": "Beacon Fragment",
+        "id": 35018,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Bioreactor Fragment": {
+        "name": "Bioreactor Fragment",
+        "id": 35019,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Cyclops Bridge Fragment": {
+        "name": "Cyclops Bridge Fragment",
+        "id": 35020,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 5
+      },
+      "Cyclops Engine Fragment": {
+        "name": "Cyclops Engine Fragment",
+        "id": 35021,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 5
+      },
+      "Cyclops Hull Fragment": {
+        "name": "Cyclops Hull Fragment",
+        "id": 35022,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 5
+      },
+      "Grav Trap Fragment": {
+        "name": "Grav Trap Fragment",
+        "id": 35023,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Laser Cutter Fragment": {
+        "name": "Laser Cutter Fragment",
+        "id": 35024,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "Light Stick Fragment": {
+        "name": "Light Stick Fragment",
+        "id": 35025,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mobile Vehicle Bay Fragment": {
+        "name": "Mobile Vehicle Bay Fragment",
+        "id": 35026,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 6
+      },
+      "Modification Station Fragment": {
+        "name": "Modification Station Fragment",
+        "id": 35027,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "Moonpool Fragment": {
+        "name": "Moonpool Fragment",
+        "id": 35028,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "Nuclear Reactor Fragment": {
+        "name": "Nuclear Reactor Fragment",
+        "id": 35029,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "Power Cell Charger Fragment": {
+        "name": "Power Cell Charger Fragment",
+        "id": 35030,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Power Transmitter Fragment": {
+        "name": "Power Transmitter Fragment",
+        "id": 35031,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Prawn Suit Fragment": {
+        "name": "Prawn Suit Fragment",
+        "id": 35032,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 7
+      },
+      "Prawn Suit Drill Arm Fragment": {
+        "name": "Prawn Suit Drill Arm Fragment",
+        "id": 35033,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Prawn Suit Grappling Arm Fragment": {
+        "name": "Prawn Suit Grappling Arm Fragment",
+        "id": 35034,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Prawn Suit Propulsion Cannon Fragment": {
+        "name": "Prawn Suit Propulsion Cannon Fragment",
+        "id": 35035,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Prawn Suit Torpedo Arm Fragment": {
+        "name": "Prawn Suit Torpedo Arm Fragment",
+        "id": 35036,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Scanner Room Fragment": {
+        "name": "Scanner Room Fragment",
+        "id": 35037,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "Seamoth Fragment": {
+        "name": "Seamoth Fragment",
+        "id": 35038,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 6
+      },
+      "Stasis Rifle Fragment": {
+        "name": "Stasis Rifle Fragment",
+        "id": 35039,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Thermal Plant Fragment": {
+        "name": "Thermal Plant Fragment",
+        "id": 35040,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Seaglide Fragment": {
+        "name": "Seaglide Fragment",
+        "id": 35041,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 6
+      },
+      "Radiation Suit": {
+        "name": "Radiation Suit",
+        "id": 35042,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Propulsion Cannon Fragment": {
+        "name": "Propulsion Cannon Fragment",
+        "id": 35043,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Neptune Launch Platform": {
+        "name": "Neptune Launch Platform",
+        "id": 35044,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ion Power Cell": {
+        "name": "Ion Power Cell",
+        "id": 35045,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Exterior Growbed": {
+        "name": "Exterior Growbed",
+        "id": 35046,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Picture Frame": {
+        "name": "Picture Frame",
+        "id": 35047,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bench": {
+        "name": "Bench",
+        "id": 35048,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Basic Plant Pot": {
+        "name": "Basic Plant Pot",
+        "id": 35049,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Interior Growbed": {
+        "name": "Interior Growbed",
+        "id": 35050,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Plant Shelf": {
+        "name": "Plant Shelf",
+        "id": 35051,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Observatory": {
+        "name": "Observatory",
+        "id": 35052,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Multipurpose Room": {
+        "name": "Multipurpose Room",
+        "id": 35053,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bulkhead": {
+        "name": "Bulkhead",
+        "id": 35054,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Spotlight": {
+        "name": "Spotlight",
+        "id": 35055,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Desk": {
+        "name": "Desk",
+        "id": 35056,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Swivel Chair": {
+        "name": "Swivel Chair",
+        "id": 35057,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Office Chair": {
+        "name": "Office Chair",
+        "id": 35058,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Command Chair": {
+        "name": "Command Chair",
+        "id": 35059,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Counter": {
+        "name": "Counter",
+        "id": 35060,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Single Bed": {
+        "name": "Single Bed",
+        "id": 35061,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Basic Double Bed": {
+        "name": "Basic Double Bed",
+        "id": 35062,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Quilted Double Bed": {
+        "name": "Quilted Double Bed",
+        "id": 35063,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Coffee Vending Machine": {
+        "name": "Coffee Vending Machine",
+        "id": 35064,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Trash Can": {
+        "name": "Trash Can",
+        "id": 35065,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Floodlight": {
+        "name": "Floodlight",
+        "id": 35066,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bar Table": {
+        "name": "Bar Table",
+        "id": 35067,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Vending Machine": {
+        "name": "Vending Machine",
+        "id": 35068,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Single Wall Shelf": {
+        "name": "Single Wall Shelf",
+        "id": 35069,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wall Shelves": {
+        "name": "Wall Shelves",
+        "id": 35070,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Round Plant Pot": {
+        "name": "Round Plant Pot",
+        "id": 35071,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Chic Plant Pot": {
+        "name": "Chic Plant Pot",
+        "id": 35072,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Nuclear Waste Disposal": {
+        "name": "Nuclear Waste Disposal",
+        "id": 35073,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wall Planter": {
+        "name": "Wall Planter",
+        "id": 35074,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ion Battery": {
+        "name": "Ion Battery",
+        "id": 35075,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Neptune Gantry": {
+        "name": "Neptune Gantry",
+        "id": 35076,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Neptune Boosters": {
+        "name": "Neptune Boosters",
+        "id": 35077,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Neptune Fuel Reserve": {
+        "name": "Neptune Fuel Reserve",
+        "id": 35078,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Neptune Cockpit": {
+        "name": "Neptune Cockpit",
+        "id": 35079,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Water Filtration Machine": {
+        "name": "Water Filtration Machine",
+        "id": 35080,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ultra High Capacity Tank": {
+        "name": "Ultra High Capacity Tank",
+        "id": 35081,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Large Room": {
+        "name": "Large Room",
+        "id": 35082,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Large Room Glass Dome": {
+        "name": "Large Room Glass Dome",
+        "id": 35083,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Multipurpose Room Glass Dome": {
+        "name": "Multipurpose Room Glass Dome",
+        "id": 35084,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Partition": {
+        "name": "Partition",
+        "id": 35085,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Partition Door": {
+        "name": "Partition Door",
+        "id": 35086,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Furniture": {
+        "name": "Furniture",
+        "id": 35100,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Farming": {
+        "name": "Farming",
+        "id": 35101,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Resources Bundle": {
+        "name": "Resources Bundle",
+        "id": 35102,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Titanium": {
+        "name": "Titanium",
+        "id": 35200,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Copper Ore": {
+        "name": "Copper Ore",
+        "id": 35201,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Silver Ore": {
+        "name": "Silver Ore",
+        "id": 35202,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Gold": {
+        "name": "Gold",
+        "id": 35203,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lead": {
+        "name": "Lead",
+        "id": 35204,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Diamond": {
+        "name": "Diamond",
+        "id": 35205,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lithium": {
+        "name": "Lithium",
+        "id": 35206,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "Ruby": {
+        "name": "Ruby",
+        "id": 35207,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Nickel Ore": {
+        "name": "Nickel Ore",
+        "id": 35208,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Crystalline Sulfur": {
+        "name": "Crystalline Sulfur",
+        "id": 35209,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Salt Deposit": {
+        "name": "Salt Deposit",
+        "id": 35210,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Kyanite": {
+        "name": "Kyanite",
+        "id": 35211,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Magnetite": {
+        "name": "Magnetite",
+        "id": 35212,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Reactor Rod": {
+        "name": "Reactor Rod",
+        "id": 35213,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Victory": {
+        "name": "Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Disable Quarantine": {
+        "name": "Disable Quarantine",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Full Infection": {
+        "name": "Full Infection",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Repair Aurora Drive": {
+        "name": "Repair Aurora Drive",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Sun Crest": {
+        "name": "Sun Crest",
+        "id": 11390992,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Sword": {
+        "name": "Progressive Sword",
+        "id": 2322486,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Item",
+        "max_count": 1
+      },
+      "Infestor": {
+        "name": "Infestor",
+        "id": 2008,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hazard Bumper": {
+        "name": "Hazard Bumper",
+        "id": 595007,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Target",
+        "max_count": 1
+      },
+      "PP Up": {
+        "name": "PP Up",
+        "id": 3860069,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Money": {
+        "name": "Money",
+        "id": 37301,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Quiver of Ethereal Arrows": {
+        "name": "Quiver of Ethereal Arrows",
+        "id": 370023,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Common Item": {
+        "name": "Common Item",
+        "id": 37002,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Green Pearl Bean": {
+        "name": "Green Pearl Bean",
+        "id": 77771043,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Circuit Refill upgrade": {
+        "name": "Circuit Refill upgrade",
+        "id": 593003,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Enhancement",
+        "max_count": 1
+      },
+      "Beanstone 10": {
+        "name": "Beanstone 10",
+        "id": 77771077,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Power Cell": {
+        "name": "Power Cell",
+        "id": 741000000,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Speed Boost": {
+        "name": "Speed Boost",
+        "id": 158500,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Graffiti (L - Moai Marathon)": {
+        "name": "Graffiti (L - Moai Marathon)",
+        "id": 2308063,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lockdown (Ghost)": {
+        "name": "Lockdown (Ghost)",
+        "id": 1359,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Raccoon": {
+        "name": "Progressive Raccoon",
+        "id": 717480,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Clock": {
+        "name": "Clock",
+        "id": 7131,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mushroom": {
+        "name": "Mushroom",
+        "id": 77771001,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Power Star": {
+        "name": "Power Star",
+        "id": 3626000,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statue of Gaia": {
+        "name": "Statue of Gaia",
+        "id": 4019,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Projectile Refill": {
+        "name": "Projectile Refill",
+        "id": 4325598,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Motivational Video": {
+        "name": "Motivational Video",
+        "id": 9002,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mari-Lui Badge": {
+        "name": "Mari-Lui Badge",
+        "id": 77771089,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Nuclear Plant (E1M2)": {
+        "name": "Nuclear Plant (E1M2)",
+        "id": 350002,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Overwatch (Spear of Adun Auto-Cast)": {
+        "name": "Overwatch (Spear of Adun Auto-Cast)",
+        "id": 3807,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Drakeblood Helm": {
+        "name": "Drakeblood Helm",
+        "id": 100548,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Special1": {
+        "name": "Special1",
+        "id": 12992516,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "progressive-engine": {
+        "name": "progressive-engine",
+        "id": 47105,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mario Zone Progression": {
+        "name": "Mario Zone Progression",
+        "id": 14,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Icon of Sin (MAP30)": {
+        "name": "Icon of Sin (MAP30)",
+        "id": 360487,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Mine Elevator": {
+        "name": "Progressive Mine Elevator",
+        "id": 717072,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Arcane Poultice": {
+        "name": "Arcane Poultice",
+        "id": 698038,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Unicorn Card": {
+        "name": "Unicorn Card",
+        "id": 3579635208,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Berry Pick-Mi-Up+": {
+        "name": "Berry Pick-Mi-Up+",
+        "id": 1337062,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Warrior Collection A": {
+        "name": "Warrior Collection A",
+        "id": 5730023,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Military Base (E1M9) - Yellow keycard": {
+        "name": "Military Base (E1M9) - Yellow keycard",
+        "id": 350030,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Emblem": {
+        "name": "Emblem",
+        "id": 16711680,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cure Potion": {
+        "name": "Cure Potion",
+        "id": 4325392,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Heart Container": {
+        "name": "Heart Container",
+        "id": 7115,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Soul of an Unknown Traveler": {
+        "name": "Soul of an Unknown Traveler",
+        "id": 100822,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Stepladder": {
+        "name": "Stepladder",
+        "id": 7104,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Oathkeeper": {
+        "name": "Oathkeeper",
+        "id": 2641096,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "MP Berry x3": {
+        "name": "MP Berry x3",
+        "id": 509342420,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Box of bullets": {
+        "name": "Box of bullets",
+        "id": 350114,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Energy cell pack": {
+        "name": "Energy cell pack",
+        "id": 360019,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Blue Ring": {
+        "name": "Blue Ring",
+        "id": 7123,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bomb": {
+        "name": "Bomb",
+        "id": 7127,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Graffiti (L - skate or di3)": {
+        "name": "Graffiti (L - skate or di3)",
+        "id": 2308067,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Blaze sword": {
+        "name": "Blaze sword",
+        "id": 11288682,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Poison Trap": {
+        "name": "Poison Trap",
+        "id": 1337185,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": true,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Blueprint Shapes Bundle": {
+        "name": "Blueprint Shapes Bundle",
+        "id": 20010760,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Commander Defense Boost": {
+        "name": "Commander Defense Boost",
+        "id": 52024,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ember": {
+        "name": "Ember",
+        "id": 100863,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "25 Coins": {
+        "name": "25 Coins",
+        "id": 82032,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Small Processors Upgrade": {
+        "name": "Small Processors Upgrade",
+        "id": 20010740,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "cliff-explosives": {
+        "name": "cliff-explosives",
+        "id": 131099,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Tome of Power": {
+        "name": "Tome of Power",
+        "id": 370014,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Child of Moonlight": {
+        "name": "Child of Moonlight",
+        "id": 1909178,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Titanite Shard": {
+        "name": "Titanite Shard",
+        "id": 100890,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rave": {
+        "name": "Rave",
+        "id": 2308145,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Deformed Mask of Orestes": {
+        "name": "Deformed Mask of Orestes",
+        "id": 1909105,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Medikit": {
+        "name": "Medikit",
+        "id": 350113,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Boss Heart Container": {
+        "name": "Boss Heart Container",
+        "id": 62,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Reward: Red Counterweight": {
+        "name": "Reward: Red Counterweight",
+        "id": 8257681,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Nugget": {
+        "name": "Nugget",
+        "id": 3860110,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Tentudia's Skeletal Remains": {
+        "name": "Tentudia's Skeletal Remains",
+        "id": 1909087,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Uncommon Item": {
+        "name": "Uncommon Item",
+        "id": 37003,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Seashell": {
+        "name": "Seashell",
+        "id": 10000032,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bonus Coin": {
+        "name": "Bonus Coin",
+        "id": 14430211,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Berserk": {
+        "name": "Berserk",
+        "id": 360010,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Farron Flashsword": {
+        "name": "Farron Flashsword",
+        "id": 101008,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "HM06 Rock Smash": {
+        "name": "HM06 Rock Smash",
+        "id": 3860344,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Shield": {
+        "name": "Progressive Shield",
+        "id": 400002,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rifling": {
+        "name": "Rifling",
+        "id": 5041042,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dragonscale Waistcloth": {
+        "name": "Dragonscale Waistcloth",
+        "id": 100423,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Magnifying Glass": {
+        "name": "Magnifying Glass",
+        "id": 3154057,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ice Cream": {
+        "name": "Ice Cream",
+        "id": 1245211,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mega-Ether": {
+        "name": "Mega-Ether",
+        "id": 2641007,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Money x20": {
+        "name": "Money x20",
+        "id": 509342490,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Reward: Sextant": {
+        "name": "Reward: Sextant",
+        "id": 8257639,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Potion": {
+        "name": "Potion",
+        "id": 3860013,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Predator's Fury (Predator)": {
+        "name": "Predator's Fury (Predator)",
+        "id": 1392,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Scout Fly - Volcanic Crater": {
+        "name": "Scout Fly - Volcanic Crater",
+        "id": 741001101,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Apple Sapling": {
+        "name": "Apple Sapling",
+        "id": 717252,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Supercharge": {
+        "name": "Supercharge",
+        "id": 350112,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Booster Bumper": {
+        "name": "Booster Bumper",
+        "id": 595006,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Target",
+        "max_count": 1
+      },
+      "Empty White Hallways": {
+        "name": "Empty White Hallways",
+        "id": 444577,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Tears of Atonement (1500)": {
+        "name": "Tears of Atonement (1500)",
+        "id": 1909189,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wizard's Relic": {
+        "name": "Wizard's Relic",
+        "id": 2641115,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Crystal Geode": {
+        "name": "Crystal Geode",
+        "id": 370018,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Great Farron Dart": {
+        "name": "Great Farron Dart",
+        "id": 100981,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "50 coins": {
+        "name": "50 coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 1
+      },
+      "Extra Max HP": {
+        "name": "Extra Max HP",
+        "id": 110001,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lorian's Greatsword": {
+        "name": "Lorian's Greatsword",
+        "id": 100093,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Einstein Whistle": {
+        "name": "Einstein Whistle",
+        "id": 4032,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Titanite Scale": {
+        "name": "Titanite Scale",
+        "id": 100899,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Matrix Overload": {
+        "name": "Matrix Overload",
+        "id": 3800,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Chuckle Bean": {
+        "name": "Chuckle Bean",
+        "id": 77771020,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "10 BugFrags": {
+        "name": "10 BugFrags",
+        "id": 11735221,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hoo Bean": {
+        "name": "Hoo Bean",
+        "id": 77771019,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rupees (20)": {
+        "name": "Rupees (20)",
+        "id": 54,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "200 Rupees": {
+        "name": "200 Rupees",
+        "id": 10000030,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Power Up": {
+        "name": "Power Up",
+        "id": 2641152,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "progressive-weapon-shooting-speed": {
+        "name": "progressive-weapon-shooting-speed",
+        "id": 131294,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Time Shard (50)": {
+        "name": "Time Shard (50)",
+        "id": 11391001,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Box of rockets": {
+        "name": "Box of rockets",
+        "id": 360017,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rime-blue Moss Clump x2": {
+        "name": "Rime-blue Moss Clump x2",
+        "id": 100731,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Additional Palette Color": {
+        "name": "Additional Palette Color",
+        "id": 198523,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bomb Refill": {
+        "name": "Bomb Refill",
+        "id": 4325597,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wanderlust": {
+        "name": "Wanderlust",
+        "id": 444576,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Blizzard Armlet": {
+        "name": "Blizzard Armlet",
+        "id": 1245242,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "21 Coins": {
+        "name": "21 Coins",
+        "id": 82031,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Stardrop": {
+        "name": "Stardrop",
+        "id": 717023,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Guardian Aspect (Mutalisk/Corruptor)": {
+        "name": "Guardian Aspect (Mutalisk/Corruptor)",
+        "id": 2800,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Zerg Flyer Attack": {
+        "name": "Progressive Zerg Flyer Attack",
+        "id": 2103,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "progressive-rocketry": {
+        "name": "progressive-rocketry",
+        "id": 131286,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Life Ring": {
+        "name": "Life Ring",
+        "id": 100596,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      " coins": {
+        "name": " coins",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      },
+      " coins freemium": {
+        "name": " coins freemium",
+        "id": null,
+        "groups": [
+          "coins"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "coins",
+        "max_count": 999999
+      }
+    }
+  },
+  "item_groups": {
+    "57": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "57": {
+      "Alien Containment": 1,
+      "Battery Charger fragment": 2,
+      "Beacon Fragment": 2,
+      "Bioreactor Fragment": 2,
+      "Bulkhead": 1,
+      "Compass": 1,
+      "Creature Decoy": 1,
+      "Cyclops Bridge Fragment": 5,
+      "Cyclops Decoy Tube Upgrade": 1,
+      "Cyclops Depth Module MK1": 1,
+      "Cyclops Docking Bay Repair Module": 1,
+      "Cyclops Engine Fragment": 5,
+      "Cyclops Fire Suppression System": 1,
+      "Cyclops Hull Fragment": 5,
+      "Cyclops Shield Generator": 1,
+      "Cyclops Sonar Upgrade": 1,
+      "Cyclops Thermal Reactor Module": 1,
+      "Disable Quarantine": 1,
+      "Exterior Growbed": 2,
+      "Farming": 2,
+      "Floodlight": 1,
+      "Full Infection": 1,
+      "Furniture": 2,
+      "Gold": 1,
+      "Grav Trap Fragment": 2,
+      "Ion Battery": 1,
+      "Ion Power Cell": 1,
+      "Kyanite": 1,
+      "Large Room": 1,
+      "Laser Cutter Fragment": 4,
+      "Lead": 1,
+      "Lightweight High Capacity Tank": 1,
+      "Lithium": 3,
+      "Mobile Vehicle Bay Fragment": 6,
+      "Modification Station Fragment": 4,
+      "Moonpool Fragment": 3,
+      "Multipurpose Room": 1,
+      "Neptune Boosters": 1,
+      "Neptune Cockpit": 1,
+      "Neptune Fuel Reserve": 1,
+      "Neptune Gantry": 1,
+      "Neptune Launch Platform": 1,
+      "Nickel Ore": 1,
+      "Nuclear Reactor Fragment": 3,
+      "Observatory": 1,
+      "Power Cell Charger Fragment": 2,
+      "Power Transmitter Fragment": 1,
+      "Prawn Suit Drill Arm Fragment": 2,
+      "Prawn Suit Fragment": 7,
+      "Prawn Suit Grappling Arm Fragment": 2,
+      "Prawn Suit Propulsion Cannon Fragment": 2,
+      "Prawn Suit Torpedo Arm Fragment": 2,
+      "Propulsion Cannon Fragment": 2,
+      "Radiation Suit": 1,
+      "Reinforced Dive Suit": 1,
+      "Repair Aurora Drive": 1,
+      "Repulsion Cannon": 1,
+      "Resources Bundle": 2,
+      "Salt Deposit": 1,
+      "Scanner Room Fragment": 3,
+      "Seaglide Fragment": 6,
+      "Seamoth Fragment": 6,
+      "Spotlight": 1,
+      "Stasis Rifle Fragment": 2,
+      "Swim Charge Fins": 1,
+      "Thermal Plant Fragment": 2,
+      "Titanium": 2,
+      "Ultra Glide Fins": 1,
+      "Ultra High Capacity Tank": 1,
+      "Vehicle Upgrade Console": 1,
+      "Victory": 1,
+      "Water Filtration Machine": 1,
+      "Water Filtration Suit": 1
+    }
+  },
+  "progression_mapping": {
+    "57": {}
+  },
+  "starting_items": {
+    "57": []
+  },
+  "settings": {
+    "57": {
+      "game": "Subnautica",
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
+    }
+  },
+  "game_info": {
+    "57": {
+      "name": "Subnautica",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

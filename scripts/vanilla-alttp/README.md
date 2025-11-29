@@ -98,9 +98,11 @@ python3 generate_vanilla_plando.py
 ## Implementation Details
 
 The vanilla placement system is implemented in:
-- `worlds/alttp/VanillaPlacement.py` - Core vanilla placement logic
+- `scripts/vanilla-alttp/VanillaPlacement.py` - Core vanilla placement logic (must be moved to `worlds/alttp/` to use)
 - `Main.py` - Triggers vanilla overwrite when `VANILLA_PLACEMENT=1`
 - `exporter/games/alttp.py` - Consolidates bottle counts in exported data
+
+**Note:** `VanillaPlacement.py` is stored here for organizational purposes but must be copied/moved to `worlds/alttp/VanillaPlacement.py` in order to function. See the file header for detailed requirements.
 
 ### Key Features
 - Places 226 items in vanilla locations

@@ -109,7 +109,17 @@ class PokemonRBGameExportHandler(BaseGameExportHandler):
 
         # Add local_poke_data (Pokemon TM/HM learn data)
         if hasattr(world, 'local_poke_data'):
-            game_info['local_poke_data'] = world.local_poke_data
+            # Convert bytearrays to lists for JSON serialization
+            local_poke_data = {}
+            for pokemon_name, pokemon_data in world.local_poke_data.items():
+                pokemon_dict = {}
+                for key, value in pokemon_data.items():
+                    if isinstance(value, bytearray):
+                        pokemon_dict[key] = list(value)
+                    else:
+                        pokemon_dict[key] = value
+                local_poke_data[pokemon_name] = pokemon_dict
+            game_info['local_poke_data'] = local_poke_data
         else:
             game_info['local_poke_data'] = {}
 
@@ -187,6 +197,10 @@ class PokemonRBGameExportHandler(BaseGameExportHandler):
                     else:
                         settings_dict[option_name] = option_value
 
+        # Enable multi-pass timer for tests - Pokemon RB has event locations
+        # that become reachable only after other events propagate
+        settings_dict['use_multipass_timer'] = True
+
         return settings_dict
 
     def get_item_data(self, world) -> Dict[str, Dict[str, Any]]:
@@ -262,21 +276,7 @@ class PokemonRBGameExportHandler(BaseGameExportHandler):
 
         return item_data
 
-    def preprocess_world_data(self, world, export_data: Dict[str, Any], player: int):
-        """
-        Preprocess world data before export.
-        Adds Pokemon RB specific data to the export.
-        """
-        super().preprocess_world_data(world, export_data, player)
-
-        # Ensure extra_badges is exported
-        if hasattr(world, 'extra_badges'):
-            if 'extra_badges' not in export_data:
-                export_data['extra_badges'] = {}
-            export_data['extra_badges'][player] = world.extra_badges
-
-        # Ensure local_poke_data is exported
-        if hasattr(world, 'local_poke_data'):
-            if 'local_poke_data' not in export_data:
-                export_data['local_poke_data'] = {}
-            export_data['local_poke_data'][player] = world.local_poke_data
+    # NOTE: preprocess_world_data() was removed because the Pokemon RB-specific data
+    # (extra_badges, local_poke_data, poke_data) is now stored in game_info via get_game_info().
+    # This follows the pattern used by other games like Super Metroid (which stores 'doors' in game_info).
+    # The frontend's getGameData() helper already checks game_info first before falling back to top-level.

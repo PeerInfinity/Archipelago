@@ -1,0 +1,478 @@
+diff --git a/worlds/alttp/__init__.py b/worlds/alttp/__init__.py
+index 4ee5b9d26..994a24ac8 100644
+--- a/worlds/alttp/__init__.py
++++ b/worlds/alttp/__init__.py
+@@ -310,14 +310,27 @@ class ALTTPWorld(World):
+     @classmethod
+     def stage_assert_generate(cls, multiworld: MultiWorld):
+         rom_file = get_base_rom_path()
++        # Check if ROM exists or skip_required_files is set
++        from settings import skip_required_files
++        
++        rom_available = os.path.exists(rom_file) or skip_required_files
++        # Store this information for later access
++        setattr(multiworld, 'alttp_rom_exists', os.path.exists(rom_file))
++        
+         if not os.path.exists(rom_file):
+-            raise FileNotFoundError(rom_file)
+-        if multiworld.is_race:
++            if skip_required_files:
++                lttp_logger.warning("ALTTP ROM file not found at %s but skip_required_files is set. ROM generation will be skipped, but other generation steps will continue.", rom_file)
++            else:
++                raise FileNotFoundError(rom_file)
++        elif multiworld.is_race:
+             import xxtea  # noqa
+-        for player in multiworld.get_game_players(cls.game):
+-            if multiworld.worlds[player].use_enemizer:
+-                check_enemizer(multiworld.worlds[player].enemizer_path)
+-                break
++        
++        # Only check enemizer if ROM is available
++        if os.path.exists(rom_file):
++            for player in multiworld.get_game_players(cls.game):
++                if multiworld.worlds[player].use_enemizer and not skip_required_files:
++                    check_enemizer(multiworld.worlds[player].enemizer_path)
++                    break
+ 
+     def generate_early(self):
+         multiworld = self.multiworld
+@@ -573,6 +586,22 @@ class ALTTPWorld(World):
+ 
+         self.pushed_shop_inventories.wait()
+ 
++        # Check if ROM exists and skip ROM-dependent steps if not
++        rom_file = get_base_rom_path()
++        if not os.path.exists(rom_file):
++            from settings import skip_required_files
++            if not skip_required_files:
++                # This should not happen if stage_assert_generate worked correctly,
++                # but preserve original behavior just in case
++                raise FileNotFoundError(rom_file)
++            lttp_logger.warning("ALTTP ROM file not found at %s but skip_required_files is set. Skipping ROM generation for player %s.", 
++                                rom_file, player)
++            # Set a placeholder ROM name to indicate ROM wasn't generated
++            self.rom_name = "ALTTP_ROM_NOT_GENERATED"
++            # Make sure the event is set so the process can continue
++            self.rom_name_available_event.set()
++            return
++
+         try:
+             use_enemizer = self.use_enemizer
+ 
+@@ -679,8 +708,8 @@ class ALTTPWorld(World):
+         # wait for self.rom_name to be available.
+         self.rom_name_available_event.wait()
+         rom_name = getattr(self, "rom_name", None)
+-        # we skip in case of error, so that the original error in the output thread is the one that gets raised
+-        if rom_name:
++        # we skip in case of error, or if ROM generation was skipped
++        if rom_name and rom_name != "ALTTP_ROM_NOT_GENERATED":
+             new_name = base64.b64encode(bytes(self.rom_name)).decode()
+             multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
+ 
+diff --git a/worlds/apsudoku/__init__.py b/worlds/apsudoku/__init__.py
+index 04422ddb2..06f8ad266 100644
+--- a/worlds/apsudoku/__init__.py
++++ b/worlds/apsudoku/__init__.py
+@@ -30,5 +30,9 @@ class AP_SudokuWorld(World):
+ 
+     @classmethod
+     def stage_assert_generate(cls, multiworld):
+-        raise Exception("APSudoku cannot be used for generating worlds, the client can instead connect to any slot from any world")
++        from settings import skip_required_files
++        if not skip_required_files:
++            raise Exception("APSudoku cannot be used for generating worlds, the client can instead connect to any slot from any world")
++        import logging
++        logging.getLogger("APSudoku").warning("APSudoku normally cannot be used for generating worlds, but skip_required_files is set. Generation will continue for testing purposes.")
+ 
+diff --git a/worlds/dkc3/__init__.py b/worlds/dkc3/__init__.py
+index 1dabeb053..4e7266207 100644
+--- a/worlds/dkc3/__init__.py
++++ b/worlds/dkc3/__init__.py
+@@ -75,7 +75,11 @@ class DKC3World(World):
+     def stage_assert_generate(cls, multiworld: MultiWorld):
+         rom_file = get_base_rom_path()
+         if not os.path.exists(rom_file):
+-            raise FileNotFoundError(rom_file)
++            from settings import skip_required_files
++            if not skip_required_files:
++                raise FileNotFoundError(rom_file)
++            import logging
++            logging.getLogger("DKC3").warning("DKC3 ROM file not found at %s but skip_required_files is set. ROM generation will be skipped, but other generation steps will continue.", rom_file)
+ 
+     def _get_slot_data(self):
+         return {
+@@ -156,6 +160,24 @@ class DKC3World(World):
+         self.multiworld.itempool += itempool
+ 
+     def generate_output(self, output_directory: str):
++        # Check if ROM exists and skip ROM-dependent steps if not
++        rom_file = get_base_rom_path()
++        if not os.path.exists(rom_file):
++            from settings import skip_required_files
++            if not skip_required_files:
++                # This should not happen if stage_assert_generate worked correctly,
++                # but preserve original behavior just in case
++                raise FileNotFoundError(rom_file)
++            import logging
++            logging.getLogger("DKC3").warning("DKC3 ROM file not found at %s but skip_required_files is set. Skipping ROM generation for player %s.", 
++                                rom_file, self.player)
++            # Set a placeholder ROM name to indicate ROM wasn't generated
++            self.rom_name = "DKC3_ROM_NOT_GENERATED"
++            # Make sure the event is set so the process can continue
++            self.rom_name_available_event.set()
++            return
++        
++        rompath = None
+         try:
+             rom = LocalRom(get_base_rom_path())
+             patch_rom(self, rom, self.active_level_list)
+@@ -173,7 +195,7 @@ class DKC3World(World):
+             raise
+         finally:
+             self.rom_name_available_event.set()  # make sure threading continues and errors are collected
+-            if os.path.exists(rompath):
++            if rompath and os.path.exists(rompath):
+                 os.unlink(rompath)
+ 
+     def modify_multidata(self, multidata: dict):
+@@ -181,8 +203,8 @@ class DKC3World(World):
+         # wait for self.rom_name to be available.
+         self.rom_name_available_event.wait()
+         rom_name = getattr(self, "rom_name", None)
+-        # we skip in case of error, so that the original error in the output thread is the one that gets raised
+-        if rom_name:
++        # we skip in case of error, or if ROM generation was skipped
++        if rom_name and rom_name != "DKC3_ROM_NOT_GENERATED":
+             new_name = base64.b64encode(bytes(self.rom_name)).decode()
+             multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
+ 
+diff --git a/worlds/ff1/__init__.py b/worlds/ff1/__init__.py
+index 39df9020e..ed32afaaa 100644
+--- a/worlds/ff1/__init__.py
++++ b/worlds/ff1/__init__.py
+@@ -60,9 +60,13 @@ class FF1World(World):
+         # Fail generation if there are no items in the pool
+         for player in multiworld.get_game_players(cls.game):
+             items = multiworld.worlds[player].options.items.value
+-            assert items, \
+-                f"FFR settings submitted with no key items ({multiworld.get_player_name(player)}). Please ensure you " \
+-                f"generated the settings using finalfantasyrandomizer.com AND enabled the AP flag"
++            if not items:
++                from settings import skip_required_files
++                if not skip_required_files:
++                    raise AssertionError(f"FFR settings submitted with no key items ({multiworld.get_player_name(player)}). Please ensure you " \
++                        f"generated the settings using finalfantasyrandomizer.com AND enabled the AP flag")
++                import logging
++                logging.getLogger("FF1").warning("FF1 has no key items configured for player %s but skip_required_files is set. Generation will continue with limited functionality.", multiworld.get_player_name(player))
+ 
+     def create_regions(self):
+         locations = self.options.locations.value
+diff --git a/worlds/lufia2ac/__init__.py b/worlds/lufia2ac/__init__.py
+index 96de24a4b..a32eda649 100644
+--- a/worlds/lufia2ac/__init__.py
++++ b/worlds/lufia2ac/__init__.py
+@@ -75,7 +75,11 @@ class L2ACWorld(World):
+     def stage_assert_generate(cls, multiworld: MultiWorld) -> None:
+         rom_file: str = get_base_rom_path()
+         if not os.path.exists(rom_file):
+-            raise FileNotFoundError(f"Could not find base ROM for {cls.game}: {rom_file}")
++            from settings import skip_required_files
++            if not skip_required_files:
++                raise FileNotFoundError(f"Could not find base ROM for {cls.game}: {rom_file}")
++            import logging
++            logging.getLogger("Lufia2AC").warning("Lufia2AC ROM file not found at %s but skip_required_files is set. ROM generation will be skipped, but other generation steps will continue.", rom_file)
+ 
+         # # uncomment this section to recreate the basepatch
+         # # (you will need to provide "asar.py" as well as an Asar library in the basepatch directory)
+@@ -193,6 +197,21 @@ class L2ACWorld(World):
+     def generate_output(self, output_directory: str) -> None:
+         rom_path: str = os.path.join(output_directory, f"{self.multiworld.get_out_file_name_base(self.player)}.sfc")
+ 
++        # Check if ROM exists and skip ROM-dependent steps if not
++        rom_file = get_base_rom_path()
++        if not os.path.exists(rom_file):
++            from settings import skip_required_files
++            if not skip_required_files:
++                # This should not happen if stage_assert_generate worked correctly,
++                # but preserve original behavior just in case
++                raise FileNotFoundError(rom_file)
++            import logging
++            logging.getLogger("Lufia2AC").warning("Lufia2AC ROM file not found at %s but skip_required_files is set. Skipping ROM generation for player %s.", 
++                                rom_file, self.player)
++            # Set a placeholder ROM name to indicate ROM wasn't generated
++            self.rom_name = bytearray(b"LUFIA2AC_ROM_NOT_GENERATED")
++            return
++
+         try:
+             rom_bytearray = bytearray(apply_basepatch(get_base_rom_bytes()))
+             # start and stop indices are offsets in the ROM file, not LoROM mapped SNES addresses
+diff --git a/worlds/mmbn3/__init__.py b/worlds/mmbn3/__init__.py
+index 80716977d..ba210dfe8 100644
+--- a/worlds/mmbn3/__init__.py
++++ b/worlds/mmbn3/__init__.py
+@@ -462,6 +462,21 @@ class MMBN3World(World):
+     def generate_output(self, output_directory: str) -> None:
+         rompath: str = ""
+ 
++        # Check if ROM exists and skip ROM-dependent steps if not
++        rom_file = get_base_rom_path()
++        if not os.path.exists(rom_file):
++            from settings import skip_required_files
++            if not skip_required_files:
++                # This should not happen if stage_assert_generate worked correctly,
++                # but preserve original behavior just in case
++                raise FileNotFoundError(rom_file)
++            import logging
++            logging.getLogger("MMBN3").warning("MMBN3 ROM file not found at %s but skip_required_files is set. Skipping ROM generation for player %s.", 
++                                rom_file, self.player)
++            # Set a placeholder ROM name to indicate ROM wasn't generated
++            self.rom_name = "MMBN3_ROM_NOT_GENERATED"
++            return
++
+         try:
+             world = self.multiworld
+             player = self.player
+@@ -531,7 +546,11 @@ class MMBN3World(World):
+     def stage_assert_generate(cls, multiworld: "MultiWorld") -> None:
+         rom_file = get_base_rom_path()
+         if not os.path.exists(rom_file):
+-            raise FileNotFoundError(rom_file)
++            from settings import skip_required_files
++            if not skip_required_files:
++                raise FileNotFoundError(rom_file)
++            import logging
++            logging.getLogger("MMBN3").warning("MMBN3 ROM file not found at %s but skip_required_files is set. ROM generation will be skipped, but other generation steps will continue.", rom_file)
+ 
+     def create_item(self, name: str) -> "Item":
+         item = item_table[name]
+diff --git a/worlds/oot/__init__.py b/worlds/oot/__init__.py
+index d9465f176..89584b6e8 100644
+--- a/worlds/oot/__init__.py
++++ b/worlds/oot/__init__.py
+@@ -203,7 +203,14 @@ class OOTWorld(World):
+     @classmethod
+     def stage_assert_generate(cls, multiworld: MultiWorld):
+         oot_settings = OOTWorld.settings
+-        rom = Rom(file=oot_settings.rom_file)
++        try:
++            rom = Rom(file=oot_settings.rom_file)
++        except FileNotFoundError:
++            from settings import skip_required_files
++            if not skip_required_files:
++                raise
++            import logging
++            logging.getLogger("OOT").warning("OOT ROM file not found at %s but skip_required_files is set. ROM validation will be skipped, but other generation steps will continue.", oot_settings.rom_file)
+ 
+ 
+     # Option parsing, handling incompatible options, building useful-item table
+@@ -1090,7 +1097,21 @@ class OOTWorld(World):
+ 
+             outfile_name = self.multiworld.get_out_file_name_base(self.player)
+             oot_settings = OOTWorld.settings
+-            rom = Rom(file=oot_settings.rom_file)
++            try:
++                rom = Rom(file=oot_settings.rom_file)
++            except FileNotFoundError:
++                from settings import skip_required_files
++                if not skip_required_files:
++                    raise
++                import logging
++                logging.getLogger("OOT").warning("OOT ROM file not found at %s but skip_required_files is set. Skipping ROM generation for player %s.", 
++                                    oot_settings.rom_file, self.player)
++                # Set default values for attributes that would normally be set during ROM patching
++                self.collectible_override_flags = 0
++                self.collectible_flag_offsets = []
++                # Set the collectible_flags_available event and return to skip ROM generation
++                self.collectible_flags_available.set()
++                return
+             try:
+                 if self.hints != 'none':
+                     buildWorldGossipHints(self)
+diff --git a/worlds/smw/__init__.py b/worlds/smw/__init__.py
+index 56ca82abb..b569fec06 100644
+--- a/worlds/smw/__init__.py
++++ b/worlds/smw/__init__.py
+@@ -79,7 +79,11 @@ class SMWWorld(World):
+     def stage_assert_generate(cls, multiworld: MultiWorld):
+         rom_file = get_base_rom_path()
+         if not os.path.exists(rom_file):
+-            raise FileNotFoundError(rom_file)
++            from settings import skip_required_files
++            if not skip_required_files:
++                raise FileNotFoundError(rom_file)
++            import logging
++            logging.getLogger("SMW").warning("SMW ROM file not found at %s but skip_required_files is set. ROM generation will be skipped, but other generation steps will continue.", rom_file)
+ 
+     def fill_slot_data(self) -> dict:
+         slot_data = self.options.as_dict(
+@@ -215,6 +219,23 @@ class SMWWorld(World):
+ 
+     def generate_output(self, output_directory: str):
+         rompath = ""  # if variable is not declared finally clause may fail
++        
++        # Check if ROM exists and skip ROM-dependent steps if not
++        rom_file = get_base_rom_path()
++        if not os.path.exists(rom_file):
++            from settings import skip_required_files
++            if not skip_required_files:
++                # This should not happen if stage_assert_generate worked correctly,
++                # but preserve original behavior just in case
++                raise FileNotFoundError(rom_file)
++            import logging
++            logging.getLogger("SMW").warning("SMW ROM file not found at %s but skip_required_files is set. Skipping ROM generation for player %s.", 
++                                rom_file, self.player)
++            # Set a placeholder ROM name to indicate ROM wasn't generated
++            self.rom_name = "SMW_ROM_NOT_GENERATED"
++            self.rom_name_available_event.set()
++            return
++            
+         try:
+             multiworld = self.multiworld
+             player = self.player
+@@ -241,8 +262,8 @@ class SMWWorld(World):
+         # wait for self.rom_name to be available.
+         self.rom_name_available_event.wait()
+         rom_name = getattr(self, "rom_name", None)
+-        # we skip in case of error, so that the original error in the output thread is the one that gets raised
+-        if rom_name:
++        # we skip in case of error, or if ROM generation was skipped
++        if rom_name and rom_name != "SMW_ROM_NOT_GENERATED":
+             new_name = base64.b64encode(bytes(self.rom_name)).decode()
+             multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
+ 
+diff --git a/worlds/soe/__init__.py b/worlds/soe/__init__.py
+index 161c749fd..751629b65 100644
+--- a/worlds/soe/__init__.py
++++ b/worlds/soe/__init__.py
+@@ -221,7 +221,11 @@ class SoEWorld(World):
+     def stage_assert_generate(cls, _: "MultiWorld") -> None:
+         rom_file = get_base_rom_path()
+         if not os.path.exists(rom_file):
+-            raise FileNotFoundError(rom_file)
++            from settings import skip_required_files
++            if not skip_required_files:
++                raise FileNotFoundError(rom_file)
++            import logging
++            logging.getLogger("SoE").warning("SoE ROM file not found at %s but skip_required_files is set. ROM generation will be skipped, but other generation steps will continue.", rom_file)
+ 
+     def create_regions(self) -> None:
+         # exclude 'hidden' on easy
+@@ -444,7 +448,16 @@ class SoEWorld(World):
+                     f.write(line.encode('utf-8'))
+ 
+             if not os.path.exists(rom_file):
+-                raise FileNotFoundError(rom_file)
++                from settings import skip_required_files
++                if not skip_required_files:
++                    raise FileNotFoundError(rom_file)
++                import logging
++                logging.getLogger("SoE").warning("SoE ROM file not found at %s but skip_required_files is set. Skipping ROM generation for player %s.", 
++                                    rom_file, self.player)
++                # Set a placeholder ROM name to indicate ROM wasn't generated
++                self.rom_name = "SOE_ROM_NOT_GENERATED"
++                self.connect_name_available_event.set()
++                return
+             if (pyevermizer.main(rom_file, out_file, placement_file, self.multiworld.seed_name, self.connect_name,
+                                  self.evermizer_seed, flags, money, exp, switches)):
+                 raise RuntimeError()
+diff --git a/worlds/tloz/__init__.py b/worlds/tloz/__init__.py
+index c8c76bd85..c4f3b2fad 100644
+--- a/worlds/tloz/__init__.py
++++ b/worlds/tloz/__init__.py
+@@ -121,7 +121,11 @@ class TLoZWorld(World):
+     def stage_assert_generate(cls, multiworld: MultiWorld):
+         rom_file = get_base_rom_path()
+         if not os.path.exists(rom_file):
+-            raise FileNotFoundError(rom_file)
++            from settings import skip_required_files
++            if not skip_required_files:
++                raise FileNotFoundError(rom_file)
++            import logging
++            logging.getLogger("TLoZ").warning("TLoZ ROM file not found at %s but skip_required_files is set. ROM generation will be skipped, but other generation steps will continue.", rom_file)
+ 
+     def create_item(self, name: str):
+         return TLoZItem(name, item_table[name].classification, self.item_name_to_id[name], self.player)
+@@ -286,6 +290,23 @@ class TLoZWorld(World):
+         return rom_data
+ 
+     def generate_output(self, output_directory: str):
++        # Check if ROM exists and skip ROM-dependent steps if not
++        rom_file = get_base_rom_path()
++        if not os.path.exists(rom_file):
++            from settings import skip_required_files
++            if not skip_required_files:
++                # This should not happen if stage_assert_generate worked correctly,
++                # but preserve original behavior just in case
++                raise FileNotFoundError(rom_file)
++            import logging
++            logging.getLogger("TLoZ").warning("TLoZ ROM file not found at %s but skip_required_files is set. Skipping ROM generation for player %s.", 
++                                rom_file, self.player)
++            # Set a placeholder ROM name to indicate ROM wasn't generated
++            self.rom_name = b"TLOZ_ROM_NOT_GENERATED"
++            # Make sure the event is set so the process can continue
++            self.rom_name_available_event.set()
++            return
++            
+         try:
+             patched_rom = self.apply_randomizer()
+             outfilebase = 'AP_' + self.multiworld.seed_name
+@@ -316,7 +337,7 @@ class TLoZWorld(World):
+         import base64
+         self.rom_name_available_event.wait()
+         rom_name = getattr(self, "rom_name", None)
+-        if rom_name:
++        if rom_name and rom_name != b"TLOZ_ROM_NOT_GENERATED":
+             new_name = base64.b64encode(bytes(self.rom_name)).decode()
+             multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
+ 
+diff --git a/worlds/yoshisisland/__init__.py b/worlds/yoshisisland/__init__.py
+index f1aba3018..506bb1d7a 100644
+--- a/worlds/yoshisisland/__init__.py
++++ b/worlds/yoshisisland/__init__.py
+@@ -86,7 +86,11 @@ class YoshisIslandWorld(World):
+     def stage_assert_generate(cls, multiworld: MultiWorld) -> None:
+         rom_file = get_base_rom_path()
+         if not os.path.exists(rom_file):
+-            raise FileNotFoundError(rom_file)
++            from settings import skip_required_files
++            if not skip_required_files:
++                raise FileNotFoundError(rom_file)
++            import logging
++            logging.getLogger("YoshisIsland").warning("Yoshi's Island ROM file not found at %s but skip_required_files is set. ROM generation will be skipped, but other generation steps will continue.", rom_file)
+ 
+     def fill_slot_data(self) -> Dict[str, List[int]]:
+         return {
+@@ -340,6 +344,23 @@ class YoshisIslandWorld(World):
+ 
+     def generate_output(self, output_directory: str) -> None:
+         rompath = ""  # if variable is not declared finally clause may fail
++        
++        # Check if ROM exists and skip ROM-dependent steps if not
++        rom_file = get_base_rom_path()
++        if not os.path.exists(rom_file):
++            from settings import skip_required_files
++            if not skip_required_files:
++                # This should not happen if stage_assert_generate worked correctly,
++                # but preserve original behavior just in case
++                raise FileNotFoundError(rom_file)
++            import logging
++            logging.getLogger("YoshisIsland").warning("Yoshi's Island ROM file not found at %s but skip_required_files is set. Skipping ROM generation for player %s.", 
++                                rom_file, self.player)
++            # Set a placeholder ROM name to indicate ROM wasn't generated
++            self.rom_name = "YOSHI_ROM_NOT_GENERATED"
++            self.rom_name_available_event.set()
++            return
++            
+         try:
+             world = self.multiworld
+             player = self.player
+@@ -362,7 +383,7 @@ class YoshisIslandWorld(World):
+         # wait for self.rom_name to be available.
+         self.rom_name_available_event.wait()
+         rom_name = getattr(self, "rom_name", None)
+-        if rom_name:
++        if rom_name and rom_name != "YOSHI_ROM_NOT_GENERATED":
+             new_name = base64.b64encode(bytes(self.rom_name)).decode()
+             multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
+ 

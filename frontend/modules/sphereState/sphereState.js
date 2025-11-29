@@ -61,6 +61,9 @@ export class SphereState {
     this.sphereLogPath = null;
     this.logFormat = null; // 'verbose' or 'incremental'
     this.rawData = []; // Raw sphere log entries for multiworld support
+    this.focusedMode = false; // True if this is a focused regression test log
+    this.focusLocations = []; // Locations to focus on (only check these in focused mode)
+    this.logHeader = null; // Header metadata from log_header event
   }
 
   /**
@@ -73,6 +76,9 @@ export class SphereState {
     this.currentSphere = null;
     this.sphereLogPath = null;
     this.logFormat = null;
+    this.focusedMode = false;
+    this.focusLocations = [];
+    this.logHeader = null;
     // Don't reset currentPlayerId as it comes from static data
 
     if (this.eventBus) {
@@ -81,19 +87,27 @@ export class SphereState {
   }
 
   /**
-   * Load sphere log from a file path
-   * @param {string} filePath - Path to the sphere log JSONL file
+   * Load sphere log from a file path or pre-loaded content
+   * @param {string} filePath - Path to the sphere log JSONL file (used for display/reference)
+   * @param {string} [preloadedContent] - Optional pre-loaded JSONL text content. If provided, skips fetch.
    */
-  async loadSphereLog(filePath) {
-    log('info', `Loading sphere log from: ${filePath}`);
+  async loadSphereLog(filePath, preloadedContent = null) {
+    log('info', `Loading sphere log from: ${filePath}${preloadedContent ? ' (pre-loaded content)' : ''}`);
 
     try {
-      const response = await fetch(filePath);
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      let text;
+      if (preloadedContent) {
+        // Use pre-loaded content directly
+        text = preloadedContent;
+      } else {
+        // Fetch from file path
+        const response = await fetch(filePath);
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        text = await response.text();
       }
 
-      const text = await response.text();
       this.parseSphereLog(text);
       this.sphereLogPath = filePath;
 
@@ -172,6 +186,9 @@ export class SphereState {
   parseSphereLog(jsonlText) {
     const lines = jsonlText.trim().split('\n');
     this.sphereData = [];
+    this.focusedMode = false;
+    this.focusLocations = [];
+    this.logHeader = null;
 
     // Parse all entries first
     const entries = [];
@@ -181,6 +198,21 @@ export class SphereState {
 
       try {
         const entry = JSON.parse(line);
+
+        // Handle log_header event (for focused regression tests)
+        if (entry.type === 'log_header') {
+          this.logHeader = entry;
+          if (entry.focused_mode) {
+            this.focusedMode = true;
+            this.focusLocations = entry.focus_locations || [];
+            log('info', `Detected focused mode log. Focus locations: ${this.focusLocations.join(', ')}`);
+            if (entry.description) {
+              log('info', `Log description: ${entry.description}`);
+            }
+          }
+          continue; // Don't add header to entries
+        }
+
         if (entry.type !== 'state_update') {
           log('warn', `Unexpected entry type at line ${i + 1}: ${entry.type}`);
           continue;
@@ -625,6 +657,30 @@ export class SphereState {
    */
   getCurrentPlayerId() {
     return this.currentPlayerId;
+  }
+
+  /**
+   * Check if focused mode is active
+   * @returns {boolean} True if this is a focused regression test log
+   */
+  isFocusedMode() {
+    return this.focusedMode;
+  }
+
+  /**
+   * Get the locations to focus on in focused mode
+   * @returns {Array<string>} Array of location names to focus on
+   */
+  getFocusLocations() {
+    return this.focusLocations;
+  }
+
+  /**
+   * Get the log header metadata
+   * @returns {Object|null} Header metadata or null
+   */
+  getLogHeader() {
+    return this.logHeader;
   }
 }
 
