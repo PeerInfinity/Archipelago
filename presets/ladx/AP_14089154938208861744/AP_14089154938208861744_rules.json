@@ -2,7 +2,7 @@
   "schema_version": 3,
   "game_name": "Links Awakening DX",
   "game_directory": "ladx",
-  "archipelago_version": "0.6.4",
+  "archipelago_version": "0.6.5",
   "generation_seed": 1,
   "player_names": {
     "1": "Player1"
@@ -19613,57 +19613,48 @@
             "name": "Shop -> Shop 200 Item (Mabe Village)",
             "connected_region": "Shop 200 Item (Mabe Village)",
             "access_rule": {
-              "type": "or",
+              "type": "and",
               "conditions": [
                 {
-                  "type": "and",
+                  "type": "or",
                   "conditions": [
                     {
-                      "type": "or",
-                      "conditions": [
-                        {
-                          "type": "item_check",
-                          "item": "Bomb"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Boomerang"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Bow"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Hookshot"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Magic Powder"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Magic Rod"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Progressive Sword"
-                        }
-                      ]
+                      "type": "item_check",
+                      "item": "Bomb"
                     },
                     {
                       "type": "item_check",
-                      "item": "RUPEES",
-                      "count": {
-                        "type": "constant",
-                        "value": 500
-                      }
+                      "item": "Boomerang"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Bow"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Hookshot"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Magic Powder"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Magic Rod"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Progressive Sword"
                     }
                   ]
                 },
                 {
                   "type": "item_check",
-                  "item": "Progressive Sword"
+                  "item": "RUPEES",
+                  "count": {
+                    "type": "constant",
+                    "value": 500
+                  }
                 }
               ]
             }
@@ -19672,57 +19663,48 @@
             "name": "Shop -> Shop 980 Item (Mabe Village)",
             "connected_region": "Shop 980 Item (Mabe Village)",
             "access_rule": {
-              "type": "or",
+              "type": "and",
               "conditions": [
                 {
-                  "type": "and",
+                  "type": "or",
                   "conditions": [
                     {
-                      "type": "or",
-                      "conditions": [
-                        {
-                          "type": "item_check",
-                          "item": "Bomb"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Boomerang"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Bow"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Hookshot"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Magic Powder"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Magic Rod"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Progressive Sword"
-                        }
-                      ]
+                      "type": "item_check",
+                      "item": "Bomb"
                     },
                     {
                       "type": "item_check",
-                      "item": "RUPEES",
-                      "count": {
-                        "type": "constant",
-                        "value": 1480
-                      }
+                      "item": "Boomerang"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Bow"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Hookshot"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Magic Powder"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Magic Rod"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Progressive Sword"
                     }
                   ]
                 },
                 {
                   "type": "item_check",
-                  "item": "Progressive Sword"
+                  "item": "RUPEES",
+                  "count": {
+                    "type": "constant",
+                    "value": 1480
+                  }
                 }
               ]
             }
@@ -19745,57 +19727,48 @@
             "name": "Shop 200 Item (Mabe Village) -> Shop",
             "connected_region": "Shop",
             "access_rule": {
-              "type": "or",
+              "type": "and",
               "conditions": [
                 {
-                  "type": "and",
+                  "type": "or",
                   "conditions": [
                     {
-                      "type": "or",
-                      "conditions": [
-                        {
-                          "type": "item_check",
-                          "item": "Bomb"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Boomerang"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Bow"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Hookshot"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Magic Powder"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Magic Rod"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Progressive Sword"
-                        }
-                      ]
+                      "type": "item_check",
+                      "item": "Bomb"
                     },
                     {
                       "type": "item_check",
-                      "item": "RUPEES",
-                      "count": {
-                        "type": "constant",
-                        "value": 500
-                      }
+                      "item": "Boomerang"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Bow"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Hookshot"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Magic Powder"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Magic Rod"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Progressive Sword"
                     }
                   ]
                 },
                 {
                   "type": "item_check",
-                  "item": "Progressive Sword"
+                  "item": "RUPEES",
+                  "count": {
+                    "type": "constant",
+                    "value": 500
+                  }
                 }
               ]
             }
@@ -19825,57 +19798,48 @@
             "name": "Shop 980 Item (Mabe Village) -> Shop",
             "connected_region": "Shop",
             "access_rule": {
-              "type": "or",
+              "type": "and",
               "conditions": [
                 {
-                  "type": "and",
+                  "type": "or",
                   "conditions": [
                     {
-                      "type": "or",
-                      "conditions": [
-                        {
-                          "type": "item_check",
-                          "item": "Bomb"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Boomerang"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Bow"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Hookshot"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Magic Powder"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Magic Rod"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Progressive Sword"
-                        }
-                      ]
+                      "type": "item_check",
+                      "item": "Bomb"
                     },
                     {
                       "type": "item_check",
-                      "item": "RUPEES",
-                      "count": {
-                        "type": "constant",
-                        "value": 1480
-                      }
+                      "item": "Boomerang"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Bow"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Hookshot"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Magic Powder"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Magic Rod"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Progressive Sword"
                     }
                   ]
                 },
                 {
                   "type": "item_check",
-                  "item": "Progressive Sword"
+                  "item": "RUPEES",
+                  "count": {
+                    "type": "constant",
+                    "value": 1480
+                  }
                 }
               ]
             }

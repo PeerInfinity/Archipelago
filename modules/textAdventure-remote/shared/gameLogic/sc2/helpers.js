@@ -59,6 +59,57 @@ function count(snapshot, itemName) {
 }
 
 /**
+ * Get the required weapon/armor upgrade level for very hard missions
+ * Standard tactics requires level 3, advanced tactics requires level 2
+ */
+function getVeryHardRequiredUpgradeLevel(staticData) {
+    return isAdvancedTactics(staticData) ? 2 : 3;
+}
+
+/**
+ * Get minimum weapon/armor upgrade level across all unit types
+ * Returns the minimum upgrade count for infantry, vehicle, and ship weapons/armor
+ */
+function terranArmyWeaponArmorUpgradeMinLevel(snapshot) {
+    const WEAPON_ARMOR_UPGRADE_MAX_LEVEL = 3;
+
+    // Get upgrade counts for each type
+    const infantryWeapon = count(snapshot, 'Progressive Terran Infantry Weapon');
+    const infantryArmor = count(snapshot, 'Progressive Terran Infantry Armor');
+    const vehicleWeapon = count(snapshot, 'Progressive Terran Vehicle Weapon');
+    const vehicleArmor = count(snapshot, 'Progressive Terran Vehicle Armor');
+    const shipWeapon = count(snapshot, 'Progressive Terran Ship Weapon');
+    const shipArmor = count(snapshot, 'Progressive Terran Ship Armor');
+
+    // Return minimum across all types (assuming all unit types are in the game)
+    return Math.min(
+        WEAPON_ARMOR_UPGRADE_MAX_LEVEL,
+        infantryWeapon, infantryArmor,
+        vehicleWeapon, vehicleArmor,
+        shipWeapon, shipArmor
+    );
+}
+
+/**
+ * Check if weapon/armor upgrade level meets very hard mission requirements
+ */
+function terranVeryHardMissionWeaponArmorLevel(snapshot, staticData) {
+    const minLevel = terranArmyWeaponArmorUpgradeMinLevel(snapshot);
+    const requiredLevel = getVeryHardRequiredUpgradeLevel(staticData);
+    return minLevel >= requiredLevel;
+}
+
+/**
+ * Count weapon/armor upgrades for a specific progressive item
+ * Returns the count of a weapon/armor upgrade item.
+ * Used in comparisons like `weapon_armor_upgrade_count(...) >= 2`
+ * Matches Python: self.weapon_armor_upgrade_count(item_name, state)
+ */
+function weapon_armor_upgrade_count(snapshot, staticData, upgradeItem) {
+    return count(snapshot, upgradeItem);
+}
+
+/**
  * Check if player has any of the basic Terran units
  *
  * Standard basic units: Marine, Marauder, Goliath, Hellion, Vulture, Warhound
@@ -67,10 +118,10 @@ function count(snapshot, itemName) {
 export function terran_common_unit(snapshot, staticData) {
     const advancedTactics = isAdvancedTactics(staticData);
 
-    // Basic units (always included)
-    const basicUnits = ['Marine', 'Marauder', 'Goliath', 'Hellion', 'Vulture', 'Warhound'];
+    // Basic units (always included) - matches Python basic_units[SC2Race.TERRAN]
+    const basicUnits = ['Marine', 'Marauder', 'Dominion Trooper', 'Goliath', 'Hellion', 'Vulture', 'Warhound'];
 
-    // Advanced tactics units
+    // Advanced tactics units - additional units for advanced_basic_units
     const advancedUnits = [
         'Reaper', 'Diamondback', 'Viking', 'Siege Tank', 'Banshee',
         'Thor', 'Battlecruiser', 'Cyclone'
@@ -93,7 +144,7 @@ export function terran_common_unit(snapshot, staticData) {
 export function terran_early_tech(snapshot, staticData) {
     const advancedTactics = isAdvancedTactics(staticData);
 
-    return has_any(snapshot, ['Marine', 'Firebat', 'Marauder', 'Reaper', 'Hellion'])
+    return has_any(snapshot, ['Marine', 'Dominion Trooper', 'Firebat', 'Marauder', 'Reaper', 'Hellion'])
         || (advancedTactics && has_any(snapshot, ['Goliath', 'Diamondback', 'Viking', 'Banshee']));
 }
 
@@ -121,13 +172,37 @@ export function terran_air_anti_air(snapshot, staticData) {
 
 /**
  * Ground-to-air capable units
+ * Python: terran_competent_ground_to_air requires:
+ *   - Goliath, OR
+ *   - (Marine OR Dominion Trooper) AND bio_heal AND weapon_upgrade >= 2, OR
+ *   - Advanced tactics AND (Cyclone OR (Thor AND Thor_HIGH_IMPACT_PAYLOAD))
  */
 export function terran_competent_ground_to_air(snapshot, staticData) {
     const advancedTactics = isAdvancedTactics(staticData);
 
-    return has(snapshot, 'Goliath')
-        || (has(snapshot, 'Marine') && terran_bio_heal(snapshot, staticData))
-        || (advancedTactics && has(snapshot, 'Cyclone'));
+    // Has Goliath
+    if (has(snapshot, 'Goliath')) {
+        return true;
+    }
+
+    // (Marine OR Dominion Trooper) AND bio_heal AND infantry weapon >= 2
+    if (has_any(snapshot, ['Marine', 'Dominion Trooper'])
+        && terran_bio_heal(snapshot, staticData)
+        && count(snapshot, 'Progressive Terran Infantry Weapon') >= 2) {
+        return true;
+    }
+
+    // Advanced tactics: Cyclone OR (Thor AND upgrade)
+    if (advancedTactics) {
+        if (has(snapshot, 'Cyclone')) {
+            return true;
+        }
+        if (has_all(snapshot, ['Thor', 'Progressive High Impact Payload (Thor)'])) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 /**
@@ -135,6 +210,22 @@ export function terran_competent_ground_to_air(snapshot, staticData) {
  */
 export function terran_competent_anti_air(snapshot, staticData) {
     return terran_competent_ground_to_air(snapshot, staticData) || terran_air_anti_air(snapshot, staticData);
+}
+
+/**
+ * Moderate anti-air capability (more than basic but not full competence)
+ */
+export function terran_moderate_anti_air(snapshot, staticData) {
+    const advancedTactics = isAdvancedTactics(staticData);
+
+    return terran_competent_anti_air(snapshot, staticData)
+        || has_any(snapshot, [
+            'Marine', 'Dominion Trooper', 'Thor', 'Cyclone',
+            'Battlecruiser', 'Wraith', 'Valkyrie'
+        ])
+        || (has_all(snapshot, ['Medivac', 'Siege Tank'])
+            && count(snapshot, 'Progressive Siege Tank Transport Hook') >= 2)
+        || (advancedTactics && has_any(snapshot, ['Ghost', 'Spectre', 'Liberator']));
 }
 
 /**
@@ -277,6 +368,17 @@ export function nova_ranged_weapon(snapshot, staticData) {
 }
 
 /**
+ * Nova has an anti-air weapon
+ */
+export function nova_anti_air_weapon(snapshot, staticData) {
+    return has_any(snapshot, [
+        'C20A Canister Rifle (Nova Weapon)',
+        'Plasma Rifle (Nova Weapon)',
+        'Blazefire Gunblade (Nova Weapon)'
+    ]);
+}
+
+/**
  * Nova has splash damage capability
  */
 export function nova_splash(snapshot, staticData) {
@@ -323,11 +425,12 @@ export function nova_dash(snapshot, staticData) {
  * Defense rating for terran units
  */
 export function terran_defense_rating(snapshot, staticData, zergEnemy, airEnemy = true) {
-    // Base defense ratings for units
+    // Base defense ratings for units (matches Python tvx_defense_ratings)
     const defenseRatings = {
         'Siege Tank': 5,
         'Planetary Fortress': 3,
         'Perdition Turret': 2,
+        'Devastator Turret': 2,  // Added: was missing, needed for Outbreak mission
         'Vulture': 1,
         'Banshee': 1,
         'Battlecruiser': 1,
@@ -344,8 +447,8 @@ export function terran_defense_rating(snapshot, staticData, zergEnemy, airEnemy 
         }
     }
 
-    // Manned bunker bonus - Marine or Marauder gives +3
-    if (has(snapshot, 'Bunker') && (has(snapshot, 'Marine') || has(snapshot, 'Marauder'))) {
+    // Manned bunker bonus - Marine, Dominion Trooper, or Marauder gives +3
+    if (has(snapshot, 'Bunker') && (has(snapshot, 'Marine') || has(snapshot, 'Dominion Trooper') || has(snapshot, 'Marauder'))) {
         defenseScore += 3;
     }
     // Firebat bunker bonus for zerg enemies (else if - doesn't stack with above)
@@ -414,24 +517,211 @@ export function terran_defense_rating(snapshot, staticData, zergEnemy, airEnemy 
     return defenseScore;
 }
 
-export function terran_competent_comp(snapshot, staticData) {
-    return (
-        (
-            (has_any(snapshot, ['Marine', 'Marauder']) && terran_bio_heal(snapshot, staticData))
-            || has_any(snapshot, ['Thor', 'Banshee', 'Siege Tank'])
+/**
+ * Terran power rating - measures overall army strength.
+ * Includes base rating from tactics + passive economic/global upgrades + Spear of Adun bonuses.
+ */
+export function terran_power_rating(snapshot, staticData) {
+    // Base power rating: 2 if advanced tactics, 0 otherwise
+    const basePowerRating = isAdvancedTactics(staticData) ? 2 : 0;
+    let powerScore = basePowerRating;
+
+    // Passive ratings for economic upgrades and global army upgrades
+    const terranPassiveRatings = {
+        'Automated Refinery (Terran)': 4,
+        'MULE (Command Center)': 4,
+        'Orbital Depots (Terran)': 2,
+        'Command Center Reactor (Command Center)': 2,
+        'Extra Supplies (Command Center)': 2,
+        'Micro-Filtering (Terran)': 2,
+        'Tech Reactor (Terran)': 2
+    };
+
+    // Add passive scores
+    for (const [item, rating] of Object.entries(terranPassiveRatings)) {
+        if (has(snapshot, item)) {
+            powerScore += rating;
+        }
+    }
+
+    // Spear of Adun presence - check settings
+    const playerId = staticData?.player || DEFAULT_PLAYER_ID;
+    const settings = staticData?.settings?.[playerId];
+    const soaPresence = settings?.spear_of_adun_presence;
+    const soaPassivePresence = settings?.spear_of_adun_passive_presence;
+
+    // If Spear of Adun is present everywhere (option value 2), add SoA ratings
+    if (soaPresence === 2) {
+        powerScore += soa_power_rating(snapshot, staticData);
+    }
+
+    // If Spear of Adun passive abilities are present everywhere
+    if (soaPassivePresence === 2) {
+        const soaPassiveRatings = {
+            'Guardian Shell (Spear of Adun Calldown)': 4,
+            'Overwatch (Spear of Adun Passive)': 2
+        };
+        for (const [item, rating] of Object.entries(soaPassiveRatings)) {
+            if (has(snapshot, item)) {
+                powerScore += rating;
+            }
+        }
+    }
+
+    return powerScore;
+}
+
+/**
+ * Spear of Adun power rating - measures SoA ability strength
+ */
+function soa_power_rating(snapshot, staticData) {
+    let powerRating = 0;
+
+    // Spear of Adun Ultimates (Strongest - only count the first one found)
+    const soaUltimateRatings = {
+        'Time Stop (Spear of Adun Calldown)': 4,
+        'Purifier Beam (Spear of Adun Calldown)': 3,
+        'Solar Bombardment (Spear of Adun Calldown)': 3
+    };
+    for (const [item, rating] of Object.entries(soaUltimateRatings)) {
+        if (has(snapshot, item)) {
+            powerRating += rating;
+            break;  // Only count the strongest
+        }
+    }
+
+    // Spear of Adun energy abilities (strongest + second strongest)
+    const soaEnergyRatings = {
+        'Solar Lance (Spear of Adun Calldown)': 8,
+        'Deploy Fenix (Spear of Adun Calldown)': 7,
+        'Temporal Field (Spear of Adun Calldown)': 6,
+        'Progressive Proxy Pylon (Spear of Adun Calldown)': 5,
+        'Shield Overcharge (Spear of Adun Calldown)': 5,
+        'Orbital Strike (Spear of Adun Calldown)': 4
+    };
+
+    let foundMainWeapon = false;
+    for (const [item, rating] of Object.entries(soaEnergyRatings)) {
+        // Progressive Proxy Pylon requires level 2
+        const requiredCount = item === 'Progressive Proxy Pylon (Spear of Adun Calldown)' ? 2 : 1;
+        if (count(snapshot, item) >= requiredCount) {
+            if (!foundMainWeapon) {
+                powerRating += rating;
+                foundMainWeapon = true;
+            } else {
+                // Add second strongest at reduced value
+                powerRating += Math.floor(rating / 2);
+                break;
+            }
+        }
+    }
+
+    // Pylon passive abilities
+    if (count(snapshot, 'Progressive Proxy Pylon (Spear of Adun Calldown)') >= 1) {
+        powerRating += 2;
+    }
+
+    return powerRating;
+}
+
+export function terran_competent_comp(snapshot, staticData, upgradeLevel = 1) {
+    // All competent comps require anti-air
+    if (!terran_competent_anti_air(snapshot, staticData)) {
+        return false;
+    }
+
+    const advancedTactics = isAdvancedTactics(staticData);
+
+    // Infantry with Healing
+    const infantryWeapons = count(snapshot, 'Progressive Terran Infantry Weapon');
+    const infantryArmor = count(snapshot, 'Progressive Terran Infantry Armor');
+    const hasInfantry = has_any(snapshot, ['Marine', 'Dominion Trooper', 'Marauder']);
+    if (infantryWeapons >= upgradeLevel + 1
+        && infantryArmor >= upgradeLevel
+        && hasInfantry
+        && terran_bio_heal(snapshot, staticData)
+    ) {
+        return true;
+    }
+
+    // Mass Air-To-Ground
+    const shipWeapons = count(snapshot, 'Progressive Terran Ship Weapon');
+    const shipArmor = count(snapshot, 'Progressive Terran Ship Armor');
+    if (shipWeapons >= upgradeLevel && shipArmor >= upgradeLevel) {
+        const hasAir = has_any(snapshot, ['Banshee', 'Battlecruiser'])
             || has_all(snapshot, ['Liberator', 'Raid Artillery (Liberator)'])
+            || has_all(snapshot, ['Wraith', 'Advanced Laser Technology (Wraith)'])
+            || (has_all(snapshot, ['Valkyrie', 'Flechette Missiles (Valkyrie)']) && shipWeapons >= 2);
+        const hasMineralDump = has_any(snapshot, ['Marine', 'Vulture', 'Hellion']);
+        if (hasAir && hasMineralDump) {
+            return true;
+        }
+    }
+
+    // Strong Mech
+    const vehicleWeapons = count(snapshot, 'Progressive Terran Vehicle Weapon');
+    const vehicleArmor = count(snapshot, 'Progressive Terran Vehicle Armor');
+    if (vehicleWeapons >= upgradeLevel && vehicleArmor >= upgradeLevel) {
+        const strongVehicle = has_any(snapshot, ['Thor', 'Siege Tank']);
+        const lightFrontline = has_any(snapshot, ['Marine', 'Dominion Trooper', 'Hellion', 'Vulture'])
+            || has_all(snapshot, ['Reaper', 'Resource Efficiency (Reaper)']);
+        if (strongVehicle && lightFrontline) {
+            return true;
+        }
+
+        // Mech with Healing
+        const vehicle = has_any(snapshot, ['Goliath', 'Warhound']);
+        const microGasVehicle = advancedTactics && has_any(snapshot, ['Diamondback', 'Cyclone']);
+        if (terran_sustainable_mech_heal(snapshot, staticData) && (vehicle || (microGasVehicle && lightFrontline))) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
+ * Haven's Fall mission requirement
+ */
+export function terran_havens_fall_requirement(snapshot, staticData) {
+    return terran_common_unit(snapshot, staticData) && (
+        terran_competent_comp(snapshot, staticData)
+        || (
+            terran_competent_anti_air(snapshot, staticData)
+            && (
+                has_any(snapshot, ['Viking', 'Battlecruiser'])
+                || has_all(snapshot, ['Wraith', 'Advanced Laser Technology (Wraith)'])
+                || has_all(snapshot, ['Liberator', 'Raid Artillery (Liberator)'])
+            )
         )
-        && terran_competent_anti_air(snapshot, staticData)
-    ) || (
-        has(snapshot, 'Battlecruiser') && terran_common_unit(snapshot, staticData)
     );
+}
+
+/**
+ * Ability to deal with trains (moving target with a lot of HP) - Great Train Robbery
+ */
+export function terran_great_train_robbery_train_stopper(snapshot, staticData) {
+    const advancedTactics = isAdvancedTactics(staticData);
+
+    return has_any(snapshot, ['Siege Tank', 'Diamondback', 'Marauder', 'Cyclone', 'Banshee'])
+        || (advancedTactics && (
+            has_all(snapshot, ['Reaper', 'G-4 Clusterbomb (Reaper)'])
+            || has_all(snapshot, ['Spectre', 'Psionic Lash (Spectre)'])
+            || has_any(snapshot, ['Vulture', 'Liberator'])
+        ));
 }
 
 /**
  * Terran composition that can beat Protoss deathball
  * Ability to deal with Immortals, Colossi with some air support
+ * Requires weapon/armor upgrade level >= 2
  */
 export function terran_beats_protoss_deathball(snapshot, staticData) {
+    // Requires at least weapon/armor level 2
+    if (terranArmyWeaponArmorUpgradeMinLevel(snapshot) < 2) {
+        return false;
+    }
+
     return (
         (
             has_any(snapshot, ['Banshee', 'Battlecruiser'])
@@ -880,6 +1170,7 @@ export function kerrigan_levels(snapshot, staticData, target) {
 /**
  * Infantry upgrade to infantry-only no-build segments
  * Has any of the specific upgrades OR (2+ Progressive Stimpack AND 1+ mission completed)
+ * OR (advanced tactics AND Laser Targeting System)
  */
 function marine_medic_upgrade(snapshot, staticData) {
     const specificUpgrades = [
@@ -904,20 +1195,62 @@ function marine_medic_upgrade(snapshot, staticData) {
         }
     }
 
+    // Advanced tactics: Laser Targeting System also qualifies
+    if (isAdvancedTactics(staticData) && has(snapshot, 'Laser Targeting System (Marine)')) {
+        return true;
+    }
+
+    return false;
+}
+
+/**
+ * Infantry upgrade with Firebat alternatives
+ * Matches marine_medic_firebat_upgrade in Python rules
+ */
+function marine_medic_firebat_upgrade(snapshot, staticData) {
+    // First check marine_medic_upgrade
+    if (marine_medic_upgrade(snapshot, staticData)) {
+        return true;
+    }
+
+    // Firebat Progressive Stimpack at level 2+
+    if (count(snapshot, 'Progressive Stimpack (Firebat)') >= 2) {
+        return true;
+    }
+
+    // Firebat specific upgrades
+    if (has_any(snapshot, [
+        'Nano Projectors (Firebat)',
+        'Juggernaut Plating (Firebat)'
+    ])) {
+        return true;
+    }
+
     return false;
 }
 
 /**
  * Engine of Destruction mission requirement
+ * Matches Python: terran_engine_of_destruction_requirement
  */
 function engine_of_destruction_requirement(snapshot, staticData) {
-    // Engine of Destruction requires marine_medic_upgrade AND
-    // ((terran_competent_anti_air AND terran_common_unit) OR Wraith)
-    return marine_medic_upgrade(snapshot, staticData)
-        && (
-            (terran_competent_anti_air(snapshot, staticData) && terran_common_unit(snapshot, staticData))
-            || has(snapshot, 'Wraith')
-        );
+    const powerRating = terran_power_rating(snapshot, staticData);
+
+    // Base requirements: power_rating >= 3, marine_medic_upgrade, terran_common_unit
+    if (powerRating < 3 || !marine_medic_upgrade(snapshot, staticData) || !terran_common_unit(snapshot, staticData)) {
+        return false;
+    }
+
+    // High power rating path: power_rating >= 7 with competent comp
+    if (powerRating >= 7 && terran_competent_comp(snapshot, staticData)) {
+        return true;
+    }
+
+    // Alternative: specific air units
+    return (
+        has_any(snapshot, ['Wraith', 'Battlecruiser'])
+        || (terran_air_anti_air(snapshot, staticData) && has_any(snapshot, ['Banshee', 'Liberator']))
+    );
 }
 
 /**
@@ -953,6 +1286,21 @@ function the_escape_requirement(snapshot, staticData) {
         && (the_escape_stuff_granted(snapshot, staticData) || nova_splash(snapshot, staticData));
 }
 
+/**
+ * Terran sustainable mech healing
+ * Ability to keep mechanical units alive indefinitely
+ * Matches Python: terran_sustainable_mech_heal
+ */
+function terran_sustainable_mech_heal(snapshot, staticData) {
+    return has(snapshot, 'Science Vessel')
+        || (has_any(snapshot, ['Medic', 'Field Response Theta']) && has(snapshot, 'Adaptive Medpacks (Medic)'))
+        || count(snapshot, 'Progressive Regenerative Bio-Steel') >= 3
+        || (isAdvancedTactics(staticData) && (
+            has_all(snapshot, ['Raven', 'Bio-Mechanical Repair Drone (Raven)'])
+            || count(snapshot, 'Progressive Regenerative Bio-Steel') >= 2
+        ));
+}
+
 // Export all helpers
 export default {
     terran_common_unit,
@@ -961,29 +1309,48 @@ export default {
     terran_air_anti_air,
     terran_competent_ground_to_air,
     terran_competent_anti_air,
+    terran_moderate_anti_air,
     terran_bio_heal,
     terran_basic_anti_air,
     terran_competent_comp,
+    terran_havens_fall_requirement,
+    terran_great_train_robbery_train_stopper,
 
     // Add stubs for all other helpers that may be needed
     // These will return false for now and can be implemented as needed
     terran_defense_rating,
+    terran_power_rating,
+    // Alias for power_rating - used in rules JSON as just "power_rating"
+    power_rating: terran_power_rating,
+    marine_medic_upgrade,
+    marine_medic_firebat_upgrade,
+    weapon_armor_upgrade_count,
     terran_mobile_detector: (snapshot, staticData) => {
         return has_any(snapshot, ['Raven', 'Science Vessel', 'Progressive Orbital Command']);
     },
     terran_beats_protoss_deathball,
     terran_base_trasher: (snapshot, staticData) => {
-        const advancedTactics = isAdvancedTactics(staticData);
-        const canNuke = advancedTactics && (
-            has_any(snapshot, ['Ghost', 'Spectre'])
-            || has_all(snapshot, ['Thor', 'Button With a Skull on It (Thor)'])
-        );
+        // Must have competent comp first
+        if (!terran_competent_comp(snapshot, staticData)) {
+            return false;
+        }
+        // Must meet weapon/armor upgrade requirements
+        if (!terranVeryHardMissionWeaponArmorLevel(snapshot, staticData)) {
+            return false;
+        }
 
-        return has(snapshot, 'Siege Tank')
+        const advancedTactics = isAdvancedTactics(staticData);
+
+        // One of the following base-trashing options:
+        // - Siege Tank with Jump Jets (for mobility)
+        // - Battlecruiser with ATX Laser Battery (for sustained DPS)
+        // - Liberator with Raid Artillery (for siege damage)
+        // - (Advanced) Raven with Hunter-Seeker AND (Viking with Shredder OR Banshee with Shockwave)
+        return has_all(snapshot, ['Siege Tank', 'Jump Jets (Siege Tank)'])
             || has_all(snapshot, ['Battlecruiser', 'ATX Laser Battery (Battlecruiser)'])
             || has_all(snapshot, ['Liberator', 'Raid Artillery (Liberator)'])
             || (advancedTactics && (
-                (has_all(snapshot, ['Raven', 'Hunter-Seeker Weapon (Raven)']) || canNuke)
+                has_all(snapshot, ['Raven', 'Hunter-Seeker Weapon (Raven)'])
                 && (has_all(snapshot, ['Viking', 'Shredder Rounds (Viking)'])
                     || has_all(snapshot, ['Banshee', 'Shockwave Missile Battery (Banshee)']))
             ));
@@ -999,14 +1366,16 @@ export default {
             || has_all(snapshot, ['Siege Tank', 'Maelstrom Rounds (Siege Tank)', 'Jump Jets (Siege Tank)']);
     },
     terran_respond_to_colony_infestations: (snapshot, staticData) => {
+        // Can deal quickly with Brood Lords and Mutas in Haven's Fall and being able to progress the mission
         return (
-            terran_common_unit(snapshot, staticData)
-            && terran_competent_anti_air(snapshot, staticData)
+            terran_havens_fall_requirement(snapshot, staticData)
             && (
                 terran_air_anti_air(snapshot, staticData)
-                || has_any(snapshot, ['Battlecruiser', 'Valkyrie'])
+                || (
+                    has_any(snapshot, ['Battlecruiser', 'Valkyrie'])
+                    && count(snapshot, 'Progressive Terran Ship Weapon') >= 2
+                )
             )
-            && terran_defense_rating(snapshot, staticData, true) >= 3
         );
     },
     terran_survives_rip_field: (snapshot, staticData) => {
@@ -1023,15 +1392,7 @@ export default {
                 && terran_competent_anti_air(snapshot, staticData)
                 && sustainableHeal);
     },
-    terran_sustainable_mech_heal: (snapshot, staticData) => {
-        return has(snapshot, 'Science Vessel')
-            || has_all(snapshot, ['Medic', 'Adaptive Medpacks (Medic)'])
-            || count(snapshot, 'Progressive Regenerative Bio-Steel') >= 3
-            || (isAdvancedTactics(staticData) && (
-                has_all(snapshot, ['Raven', 'Bio-Mechanical Repair Drone (Raven)'])
-                || count(snapshot, 'Progressive Regenerative Bio-Steel') >= 2
-            ));
-    },
+    terran_sustainable_mech_heal,
 
     protoss_common_unit,
     protoss_basic_anti_air,
@@ -1115,6 +1476,7 @@ export default {
 
     nova_any_weapon,
     nova_ranged_weapon,
+    nova_anti_air_weapon,
     nova_splash,
     nova_full_stealth,
     nova_dash,
@@ -1699,5 +2061,199 @@ export default {
         // OR check if player has any of the items
         return true || has_any(snapshot, items);
     },
-    is_item_placement: () => true
+    is_item_placement: () => true,
+
+    // ============================================================================
+    // Mission-specific helper aliases with faction prefixes
+    // The Python code uses faction prefixes (terran_welcome_to_the_jungle_requirement)
+    // but some helpers above are defined without prefixes. Add aliases for compatibility.
+    // ============================================================================
+
+    // Terran mission requirement aliases
+    terran_welcome_to_the_jungle_requirement: function(snapshot, staticData) {
+        // Power rating check first (must be >= 5)
+        if (terran_power_rating(snapshot, staticData) < 5) {
+            return false;
+        }
+        const advancedTactics = isAdvancedTactics(staticData);
+        return (
+            terran_common_unit(snapshot, staticData)
+            && terran_competent_ground_to_air(snapshot, staticData)
+        ) || (
+            advancedTactics
+            && has_any(snapshot, ['Marine', 'Dominion Trooper', 'Vulture'])
+            && terran_air_anti_air(snapshot, staticData)
+        );
+    },
+    terran_night_terrors_requirement: function(snapshot, staticData) {
+        const advancedTactics = isAdvancedTactics(staticData);
+        return terran_common_unit(snapshot, staticData)
+            && terran_competent_anti_air(snapshot, staticData)
+            && terran_defense_rating(snapshot, staticData, false, false) >= 4
+            && (advancedTactics || terran_bio(snapshot, staticData));
+    },
+    terran_engine_of_destruction_requirement: engine_of_destruction_requirement,
+    terran_trouble_in_paradise_requirement: function(snapshot, staticData) {
+        return terran_common_unit(snapshot, staticData)
+            && terran_defense_rating(snapshot, staticData, false, false) >= 7;
+    },
+    terran_sudden_strike_requirement: function(snapshot, staticData) {
+        const advancedTactics = isAdvancedTactics(staticData);
+        return terran_common_unit(snapshot, staticData)
+            && terran_competent_anti_air(snapshot, staticData)
+            && terran_defense_rating(snapshot, staticData, true, false) >= 6
+            && (
+                advancedTactics
+                || terran_common_unit(snapshot, staticData)
+            )
+            && (
+                // Needs anti-armor OR general damage
+                has_any(snapshot, ['Marauder', 'Siege Tank', 'Thor', 'Banshee', 'Battlecruiser', 'Yamato Cannon (Battlecruiser)'])
+                || advancedTactics
+            );
+    },
+    terran_brothers_in_arms_requirement: function(snapshot, staticData) {
+        const playerId = staticData?.player || DEFAULT_PLAYER_ID;
+        const settings = staticData?.settings?.[playerId];
+        const take_over_ai_allies = settings?.take_over_ai_allies || false;
+
+        return (
+            protoss_common_unit(snapshot, staticData)
+            && protoss_anti_armor_anti_air(snapshot, staticData)
+            && protoss_hybrid_counter(snapshot, staticData)
+        ) || (
+            take_over_ai_allies
+            && (
+                terran_common_unit(snapshot, staticData)
+                || protoss_common_unit(snapshot, staticData)
+            )
+            && (
+                terran_competent_anti_air(snapshot, staticData)
+                || protoss_anti_armor_anti_air(snapshot, staticData)
+            )
+            && (
+                protoss_hybrid_counter(snapshot, staticData)
+                || has_any(snapshot, ['Battlecruiser', 'Liberator', 'Siege Tank'])
+                || has_all(snapshot, ['Spectre', 'Spectre Psionic Lash'])
+                || (has(snapshot, 'Immortal')
+                    && has_any(snapshot, ['Marine', 'Marauder'])
+                    && terran_bio_heal(snapshot, staticData))
+            )
+        );
+    },
+    terran_dark_skies_requirement: function(snapshot, staticData) {
+        return terran_common_unit(snapshot, staticData)
+            && terran_beats_protoss_deathball(snapshot, staticData)
+            && terran_defense_rating(snapshot, staticData, false, true) >= 8;
+    },
+    terran_last_stand_requirement: function(snapshot, staticData) {
+        const advancedTactics = isAdvancedTactics(staticData);
+        return protoss_common_unit(snapshot, staticData)
+            && protoss_competent_anti_air(snapshot, staticData)
+            && protoss_static_defense(snapshot, staticData)
+            && (advancedTactics || protoss_basic_splash(snapshot, staticData));
+    },
+    terran_end_game_requirement: function(snapshot, staticData) {
+        const advancedTactics = isAdvancedTactics(staticData);
+        return terran_competent_comp(snapshot, staticData)
+            && has_any(snapshot, ['Raven', 'Science Vessel', 'Progressive Orbital Command'])
+            && (
+                (terran_beats_protoss_deathball(snapshot, staticData) && terran_defense_rating(snapshot, staticData, true, true) >= 10)
+                || (advancedTactics && terran_can_drop(snapshot, staticData) && terran_defense_rating(snapshot, staticData, true, true) >= 6)
+            );
+    },
+    terran_gates_of_hell_requirement: function(snapshot, staticData) {
+        return terran_competent_comp(snapshot, staticData)
+            && terran_defense_rating(snapshot, staticData, true, false) > 6;
+    },
+    terran_all_in_requirement: function(snapshot, staticData) {
+        const advancedTactics = isAdvancedTactics(staticData);
+        const playerId = staticData?.player || DEFAULT_PLAYER_ID;
+        const settings = staticData?.settings?.[playerId];
+        const allInMap = settings?.all_in_map;
+
+        // First check: weapon/armor upgrades must be high enough for very hard missions
+        // (Uses terran_very_hard_mission_weapon_armor_level logic inline)
+        const requiredLevel = advancedTactics ? 2 : 3;
+        if (terranArmyWeaponArmorUpgradeMinLevel(snapshot) < requiredLevel) {
+            return false;
+        }
+
+        // Beats Kerrigan check - need specific units to deal with Kerrigan
+        const beatsKerrigan = (
+            has_any(snapshot, ['Marine', 'Dominion Trooper', 'Banshee'])
+            || has_all(snapshot, ['Reaper', 'Resource Efficiency (Reaper)'])
+            || (allInMap === 1 && has_all(snapshot, ['Valkyrie', 'Flechette Missiles (Valkyrie)']))
+            || (advancedTactics && has_all(snapshot, ['Ghost', 'EMP Rounds (Ghost)']))
+        );
+        if (!beatsKerrigan) {
+            return false;
+        }
+
+        // Need a competent army composition
+        if (!terran_competent_comp(snapshot, staticData)) {
+            return false;
+        }
+
+        // allInMap: 0 = Ground (default), 1 = Air
+        if (allInMap === 0 || allInMap === undefined) {
+            // Ground path
+            let defenseRating = terran_defense_rating(snapshot, staticData, true, false);
+            if (has_any(snapshot, ['Battlecruiser', 'Banshee'])) {
+                defenseRating += 2;
+            }
+            return defenseRating >= 13;
+        } else {
+            // Air path
+            const defenseRating = terran_defense_rating(snapshot, staticData, true, true);
+            return defenseRating >= 9
+                && has_any(snapshot, ['Viking', 'Battlecruiser', 'Valkyrie'])
+                && has_any(snapshot, ['Hive Mind Emulator', 'Psi Disrupter', 'Missile Turret']);
+        }
+    },
+    terran_flashpoint_far_requirement: function(snapshot, staticData) {
+        return terran_competent_comp(snapshot, staticData)
+            && has_any(snapshot, ['Raven', 'Science Vessel', 'Progressive Orbital Command'])
+            && terran_defense_rating(snapshot, staticData, true, false) >= 6;
+    },
+    terran_maw_requirement: function(snapshot, staticData) {
+        // Ability to deal with large areas with environment damage
+        // Either Battlecruiser with upgrades OR air units that can survive and deal damage
+        const shipWeaponLevel = count(snapshot, 'Progressive Terran Ship Weapon');
+
+        return (
+            has(snapshot, 'Battlecruiser')
+            && (
+                shipWeaponLevel >= 2
+                || has(snapshot, 'ATX Laser Battery (Battlecruiser)')
+            )
+        ) || (
+            terran_air(snapshot, staticData)
+            && (
+                // Avoid dropping Troopers or units that do barely damage
+                has_any(snapshot, ['Goliath', 'Thor', 'Warhound', 'Viking', 'Banshee', 'Wraith', 'Battlecruiser'])
+                || has_all(snapshot, ['Liberator', 'Raid Artillery (Liberator)'])
+                || has_all(snapshot, ['Valkyrie', 'Flechette Missiles (Valkyrie)'])
+                || (has(snapshot, 'Marauder') && terran_bio_heal(snapshot, staticData))
+            )
+            && (
+                // Can deal damage to air units inside rip fields
+                has_any(snapshot, ['Goliath', 'Cyclone', 'Viking'])
+                || (
+                    has_any(snapshot, ['Wraith', 'Valkyrie', 'Battlecruiser'])
+                    && shipWeaponLevel >= 2
+                )
+                || has_all(snapshot, ['Thor', 'Progressive High Impact Payload (Thor)'])
+            )
+            && terran_competent_comp(snapshot, staticData)
+            && terran_competent_anti_air(snapshot, staticData)
+            && terran_sustainable_mech_heal(snapshot, staticData)
+        );
+    },
+    terran_very_hard_mission_weapon_armor_level: function(snapshot, staticData) {
+        // Returns true if weapon/armor upgrade level is high enough for very hard missions
+        // Threshold is 2 for advanced tactics, 3 otherwise
+        const requiredLevel = isAdvancedTactics(staticData) ? 2 : 3;
+        return terranArmyWeaponArmorUpgradeMinLevel(snapshot) >= requiredLevel;
+    }
 };

@@ -26,6 +26,54 @@ const CORE_BOOSTER = [
   "SHADOW OF INFINITY",
 ];
 
+// Fusion data (from worlds/yugioh06/fusions.py)
+// Each fusion has: materials (list of required cards), replaceable (can use fusion subs), additionalSpells (alternative fusion methods)
+const FUSIONS = {
+  "Elemental Hero Flame Wingman": {
+    materials: ["Elemental Hero Avian", "Elemental Hero Burstinatrix"],
+    replaceable: true,
+    additionalSpells: ["Miracle Fusion"]
+  },
+  "Elemental Hero Madballman": {
+    materials: ["Elemental Hero Bubbleman", "Elemental Hero Clayman"],
+    replaceable: true,
+    additionalSpells: ["Miracle Fusion"]
+  },
+  "Elemental Hero Rampart Blaster": {
+    materials: ["Elemental Hero Burstinatrix", "Elemental Hero Clayman"],
+    replaceable: true,
+    additionalSpells: ["Miracle Fusion"]
+  },
+  "Elemental Hero Shining Flare Wingman": {
+    materials: ["Elemental Hero Flame Wingman", "Elemental Hero Sparkman"],
+    replaceable: true,
+    additionalSpells: ["Miracle Fusion"]
+  },
+  "Elemental Hero Steam Healer": {
+    materials: ["Elemental Hero Burstinatrix", "Elemental Hero Bubbleman"],
+    replaceable: true,
+    additionalSpells: ["Miracle Fusion"]
+  },
+  "Elemental Hero Wildedge": {
+    materials: ["Elemental Hero Wildheart", "Elemental Hero Bladedge"],
+    replaceable: true,
+    additionalSpells: ["Miracle Fusion"]
+  }
+};
+
+// Fusion substitute monsters that can replace any fusion material
+const FUSION_SUBS = [
+  "The Dark - Hex-Sealed Fusion",
+  "The Earth - Hex-Sealed Fusion",
+  "The Light - Hex-Sealed Fusion",
+  "Goddess with the Third Eye",
+  "King of the Swamp",
+  "Versago the Destroyer",
+  // Only in All-packs
+  "Beastking of the Swamps",
+  "Mystical Sheep #1"
+];
+
 /**
  * Check if player has an item
  * @param {Object} snapshot - Canonical state snapshot
@@ -412,9 +460,6 @@ export function only_zombie(snapshot, staticData) {
 }
 
 export function only_dragon(snapshot, staticData) {
-  // Note: The Python code has a bug where "Cave Dragon" and "Armed Dragon LV3" are
-  // concatenated due to a missing comma (Python string literal concatenation).
-  // We match this behavior to ensure test parity with the Python generator.
   return has_any(snapshot, staticData, [
     "Luster Dragon",
     "Spear Dragon",
@@ -423,7 +468,8 @@ export function only_dragon(snapshot, staticData) {
   (count_from_list_unique(snapshot, staticData, [
     "Luster Dragon",
     "Spear Dragon",
-    "Cave DragonArmed Dragon LV3",  // Matches Python bug: missing comma causes string concatenation
+    "Cave Dragon",
+    "Armed Dragon LV3",
     "Masked Dragon",
     "Twin-Headed Behemoth",
     "Element Dragon",
@@ -638,6 +684,61 @@ export function back_row_removal(snapshot, staticData) {
   ], 2);
 }
 
+/**
+ * Check if player has all materials needed to create a fusion monster
+ * Mirrors Python logic from worlds/yugioh06/fusions.py has_all_materials()
+ * @param {Object} snapshot - Canonical state snapshot
+ * @param {Object} staticData - Static game data
+ * @param {string} monster - Name of the fusion monster to check
+ * @returns {boolean} True if player has the fusion card and all materials
+ */
+export function has_all_materials(snapshot, staticData, monster) {
+  const data = FUSIONS[monster];
+
+  // Must have the fusion monster card itself
+  if (!has(snapshot, staticData, monster)) {
+    return false;
+  }
+
+  // If not a known fusion, just check if we have the card
+  if (!data) {
+    return true;
+  }
+
+  // Count materials available (fusion subs count as one material if replaceable)
+  let materialsAvailable = 0;
+  if (data.replaceable && has_any(snapshot, staticData, FUSION_SUBS)) {
+    materialsAvailable = 1;
+  }
+
+  // Recursively check each material
+  for (const material of data.materials) {
+    if (has_all_materials(snapshot, staticData, material)) {
+      materialsAvailable++;
+    }
+  }
+
+  return materialsAvailable >= data.materials.length;
+}
+
+/**
+ * Count how many fusion monsters from a list the player can create
+ * Mirrors Python logic from worlds/yugioh06/fusions.py count_has_materials()
+ * @param {Object} snapshot - Canonical state snapshot
+ * @param {Object} staticData - Static game data
+ * @param {Array<string>} monsters - List of fusion monster names to check
+ * @returns {number} Number of monsters that can be created
+ */
+export function count_has_materials(snapshot, staticData, monsters) {
+  let amount = 0;
+  for (const monster of monsters) {
+    if (has_all_materials(snapshot, staticData, monster)) {
+      amount++;
+    }
+  }
+  return amount;
+}
+
 // Helper function registry
 export const helperFunctions = {
   // Core inventory functions
@@ -672,4 +773,6 @@ export const helperFunctions = {
   quick_plays,
   counter_traps,
   back_row_removal,
+  has_all_materials,
+  count_has_materials,
 };

@@ -2,7 +2,7 @@
   "schema_version": 3,
   "game_name": "Celeste 64",
   "game_directory": "celeste64",
-  "archipelago_version": "0.6.4",
+  "archipelago_version": "0.6.5",
   "generation_seed": 1,
   "player_names": {
     "1": "Player1"
@@ -331,7 +331,7 @@
               ]
             },
             "item": {
-              "name": "Strawberry",
+              "name": "Dash Refills",
               "player": 1,
               "advancement": true,
               "type": "None"
@@ -412,26 +412,6 @@
             },
             "item": {
               "name": "Double Dash Refills",
-              "player": 1,
-              "advancement": true,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Girders Strawberry",
-            "id": 13238282,
-            "access_rule": {
-              "type": "helper",
-              "name": "location_rule",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Girders Strawberry"
-                }
-              ]
-            },
-            "item": {
-              "name": "Dash Refills",
               "player": 1,
               "advancement": true,
               "type": "None"
@@ -645,6 +625,26 @@
                 {
                   "type": "constant",
                   "value": "Falling Blocks Strawberry"
+                }
+              ]
+            },
+            "item": {
+              "name": "Strawberry",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Girders Strawberry",
+            "id": 13238282,
+            "access_rule": {
+              "type": "helper",
+              "name": "location_rule",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Girders Strawberry"
                 }
               ]
             },
@@ -2182,8 +2182,7 @@
         ],
         "Double Dash Puzzle Strawberry": [
           [
-            "Double Dash Refills",
-            "Traffic Blocks"
+            "Double Dash Refills"
           ]
         ],
         "Double Dash Spike Climb Strawberry": [
@@ -2198,17 +2197,6 @@
         ],
         "Double Dash Spring Strawberry": [
           [
-            "Air Dash",
-            "Skid Jump"
-          ],
-          [
-            "Double Dash Refills",
-            "Springs",
-            "Air Dash"
-          ],
-          [
-            "Springs",
-            "Ground Dash",
             "Air Dash"
           ]
         ],

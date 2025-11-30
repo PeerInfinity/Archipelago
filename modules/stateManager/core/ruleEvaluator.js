@@ -150,6 +150,12 @@ export function executeStateMethod(manager, method, ...args) {
       return manager.can_reach(targetName, targetType, playerId);
     }
 
+    // 2b. Handle count method - returns count of a specific item
+    if (method === 'count' && args.length >= 1) {
+      const itemName = args[0];
+      return manager.inventory[itemName] || 0;
+    }
+
     // 3. Check for game-specific state methods (e.g., has_from_list_unique for Mario Land 2)
     if (manager.stateMethods && typeof manager.stateMethods[method] === 'function') {
       const snapshot = manager.getSnapshot();

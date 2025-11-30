@@ -2,7 +2,7 @@
   "schema_version": 3,
   "game_name": "Super Mario Land 2",
   "game_directory": "marioland2",
-  "archipelago_version": "0.6.4",
+  "archipelago_version": "0.6.5",
   "generation_seed": 1,
   "player_names": {
     "1": "Player1"
@@ -1622,46 +1622,47 @@
             "name": "Mario Zone 1 - Normal Exit",
             "id": 44,
             "access_rule": {
-              "type": "conditional",
-              "test": {
-                "type": "helper",
-                "name": "has_pipe_right",
-                "args": []
-              },
-              "if_true": {
-                "type": "or",
-                "conditions": [
-                  {
-                    "type": "helper",
-                    "name": "is_auto_scroll",
-                    "args": [
-                      {
-                        "type": "constant",
-                        "value": "Mario Zone 1"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "state_method",
-                    "method": "has_any",
-                    "args": [
-                      {
-                        "type": "constant",
-                        "value": [
-                          "Carrot",
-                          "Fire Flower",
-                          "Mario Zone 1 Midway Bell",
-                          "Mushroom"
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_pipe_right",
+                  "args": []
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "not",
+                      "condition": {
+                        "type": "helper",
+                        "name": "is_auto_scroll",
+                        "args": [
+                          {
+                            "type": "constant",
+                            "value": "Mario Zone 1"
+                          }
                         ]
                       }
-                    ]
-                  }
-                ]
-              },
-              "if_false": {
-                "type": "constant",
-                "value": false
-              }
+                    },
+                    {
+                      "type": "state_method",
+                      "method": "has_any",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": [
+                            "Carrot",
+                            "Fire Flower",
+                            "Mario Zone 1 Midway Bell",
+                            "Mushroom"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
             },
             "item": {
               "name": "Tree Zone Progression",
@@ -37887,32 +37888,6 @@
       "2597 Coins": {
         "name": "2597 Coins",
         "id": 2725,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "2598 Coins": {
-        "name": "2598 Coins",
-        "id": 2726,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "2599 Coins": {
-        "name": "2599 Coins",
-        "id": 2727,
         "groups": [
           "Everything"
         ],

@@ -394,6 +394,26 @@ export function createStateSnapshotInterface(
             return gameLogic.constants[name];
           }
 
+          // Check if there's a helper function that computes this value
+          // Some games use computed values (e.g., SC2's power_rating) from inventory state
+          const computedHelpers = getHelperFunctions(gameName);
+          if (computedHelpers) {
+            // Try exact match first (e.g., 'power_rating' -> power_rating helper)
+            if (typeof computedHelpers[name] === 'function') {
+              const result = computedHelpers[name](snapshot, staticData);
+              return result;
+            }
+            // Try with game-specific prefixes if defined (e.g., 'power_rating' -> 'terran_power_rating' for SC2)
+            const prefixes = gameLogic.helperPrefixes || [];
+            for (const prefix of prefixes) {
+              const prefixedName = prefix + name;
+              if (typeof computedHelpers[prefixedName] === 'function') {
+                const result = computedHelpers[prefixedName](snapshot, staticData);
+                return result;
+              }
+            }
+          }
+
           // Game-specific location variable extraction hook
           // For variables not found in context, try to extract from location name
           if (contextVariables && contextVariables.location) {
@@ -456,8 +476,10 @@ export function createStateSnapshotInterface(
 
       if (Array.isArray(playerItemGroups)) {
         // ALTTP uses array of group names
-        // This logic assumes staticData.itemsByPlayer is available and structured per player
-        const playerItemsData = staticData.itemsByPlayer && staticData.itemsByPlayer[playerId];
+        // This logic assumes staticData.itemsByPlayer or staticData.items is available and structured per player
+        const playerItemsData =
+          (staticData.itemsByPlayer && staticData.itemsByPlayer[playerId]) ||
+          (staticData.items && staticData.items[playerId]);
         if (playerItemsData) {
           for (const itemName in playerItemsData) {
             if (playerItemsData[itemName]?.groups?.includes(groupName)) {
@@ -466,7 +488,7 @@ export function createStateSnapshotInterface(
             }
           }
         } else {
-          log('error', `[countGroup] playerItemsData not found for player ${playerId}. staticData.itemsByPlayer:`, staticData?.itemsByPlayer);
+          log('warn', `[countGroup] playerItemsData not found for player ${playerId}.`);
         }
       } else if (
         typeof playerItemGroups === 'object' &&
@@ -713,6 +735,12 @@ export function createStateSnapshotInterface(
           }
         }
         return true;
+      }
+
+      // Handle count method - returns the count of a specific item
+      if (methodName === 'count' && args.length >= 1) {
+        const itemName = args[0];
+        return finalSnapshotInterface.countItem(itemName);
       }
 
       if (methodName === 'has_from_list' && args.length >= 2) {

@@ -2,8 +2,11 @@
  * Kingdom Hearts 1 game-specific logic
  */
 
-const WORLDS = ["Wonderland", "Olympus Coliseum", "Deep Jungle", "Agrabah", "Monstro", "Atlantica", "Halloween Town", "Neverland", "Hollow Bastion", "End of the World"];
-const KEYBLADES = ["Lady Luck", "Olympia", "Jungle King", "Three Wishes", "Wishing Star", "Crabclaw", "Pumpkinhead", "Fairy Harp", "Divine Rose", "Oblivion"];
+import { DEFAULT_PLAYER_ID } from '../../playerIdUtils.js';
+
+// Must match Python WORLDS and KEYBLADES arrays from worlds/kh1/Rules.py
+const WORLDS = ["Destiny Islands", "Traverse Town", "Wonderland", "Olympus Coliseum", "Deep Jungle", "Agrabah", "Monstro", "Atlantica", "Halloween Town", "Neverland", "Hollow Bastion", "End of the World", "100 Acre Wood"];
+const KEYBLADES = ["Oathkeeper", "Lionheart", "Lady Luck", "Olympia", "Jungle King", "Three Wishes", "Wishing Star", "Crabclaw", "Pumpkinhead", "Fairy Harp", "Divine Rose", "Oblivion", "Spellbinder"];
 const TORN_PAGES = ["Torn Page 1", "Torn Page 2", "Torn Page 3", "Torn Page 4", "Torn Page 5"];
 
 /**
@@ -34,6 +37,7 @@ export const kh1Logic = {
 
     /**
      * Checks if the player has access to a certain number of worlds
+     * Matches Python logic from worlds/kh1/Rules.py has_x_worlds function
      * @param {Object} snapshot - The current game state
      * @param {Object} staticData - Static game data
      * @param {number} num_of_worlds - Required number of worlds
@@ -44,18 +48,40 @@ export const kh1Logic = {
         num_of_worlds = num_of_worlds || 0;
         keyblades_unlock_chests = keyblades_unlock_chests ?? false;
 
+        // Get hundred_acre_wood setting from staticData if available
+        const playerId = snapshot?.player?.id || snapshot?.player?.slot || snapshot?.player || staticData?.playerId || DEFAULT_PLAYER_ID;
+        const settings = staticData?.settings?.[playerId] || {};
+        const hundred_acre_wood = settings.hundred_acre_wood !== 0 && settings.hundred_acre_wood !== false;
+
         let worlds_acquired = 0.0;
         for (let i = 0; i < WORLDS.length; i++) {
-            const hasWorld = snapshot?.inventory?.[WORLDS[i]] > 0;
-            if (hasWorld) {
+            const worldName = WORLDS[i];
+            const hasWorld = (snapshot?.inventory?.[worldName] || 0) > 0;
+            const hasKeyblade = (snapshot?.inventory?.[KEYBLADES[i]] || 0) > 0;
+
+            // Special handling for Traverse Town (always counts 0.5, don't need world item)
+            if (worldName === "Traverse Town") {
                 worlds_acquired += 0.5;
+                if (!keyblades_unlock_chests || hasKeyblade) {
+                    worlds_acquired += 0.5;
+                }
             }
-            // Check if we have the world AND either keyblades don't unlock chests OR we have the keyblade
-            // OR it's Atlantica (special case)
-            const hasKeyblade = snapshot?.inventory?.[KEYBLADES[i]] > 0;
-            if ((hasWorld && (!keyblades_unlock_chests || hasKeyblade)) ||
-                (hasWorld && WORLDS[i] === "Atlantica")) {
+            // Special handling for 100 Acre Wood (only counts if setting enabled and has Fire)
+            else if (worldName === "100 Acre Wood" && hundred_acre_wood) {
+                const hasFire = (snapshot?.inventory?.["Progressive Fire"] || 0) > 0;
+                if (hasFire) {
+                    worlds_acquired += 0.5;
+                    if (!keyblades_unlock_chests || hasKeyblade) {
+                        worlds_acquired += 0.5;
+                    }
+                }
+            }
+            // Standard world handling
+            else if (hasWorld) {
                 worlds_acquired += 0.5;
+                if (!keyblades_unlock_chests || hasKeyblade) {
+                    worlds_acquired += 0.5;
+                }
             }
         }
         return worlds_acquired >= num_of_worlds;

@@ -536,6 +536,45 @@ export function _createSelfSnapshotInterface(sm) {
         return staticData.game_info[currentPlayerId].variables[name];
       }
 
+      // Check if there's a helper function that computes this value
+      // SC2 uses this for power_rating which is computed from inventory state
+      const gameName = sm.rules?.game_name;
+      if (gameName) {
+        const gameLogic = getGameLogic(gameName);
+        const computedHelpers = gameLogic?.helperFunctions;
+        if (computedHelpers) {
+          // Try exact match first (e.g., 'power_rating' -> power_rating helper)
+          if (typeof computedHelpers[name] === 'function') {
+            // Create a lightweight snapshot for the helper
+            const snapshot = {
+              inventory: sm.inventory,
+              flags: sm.gameStateModule?.flags || [],
+              events: sm.gameStateModule?.events || [],
+              player: { id: sm.playerId, slot: sm.playerId },
+              checkedLocations: Array.from(sm.checkedLocations || [])
+            };
+            const staticData = getStaticGameData(sm);
+            return computedHelpers[name](snapshot, staticData);
+          }
+          // Try with game-specific prefixes if defined (e.g., 'power_rating' -> 'terran_power_rating' for SC2)
+          const prefixes = gameLogic.helperPrefixes || [];
+          for (const prefix of prefixes) {
+            const prefixedName = prefix + name;
+            if (typeof computedHelpers[prefixedName] === 'function') {
+              const snapshot = {
+                inventory: sm.inventory,
+                flags: sm.gameStateModule?.flags || [],
+                events: sm.gameStateModule?.events || [],
+                player: { id: sm.playerId, slot: sm.playerId },
+                checkedLocations: Array.from(sm.checkedLocations || [])
+              };
+              const staticData = getStaticGameData(sm);
+              return computedHelpers[prefixedName](snapshot, staticData);
+            }
+          }
+        }
+      }
+
       // Game-specific location variable extraction hook
       // For variables not found elsewhere, try to extract from current location name
       const currentLoc = anInterface.currentLocation || anInterface.location;

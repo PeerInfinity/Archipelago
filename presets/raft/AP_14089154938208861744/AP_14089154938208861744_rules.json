@@ -2,7 +2,7 @@
   "schema_version": 3,
   "game_name": "Raft",
   "game_directory": "raft",
-  "archipelago_version": "0.6.4",
+  "archipelago_version": "0.6.5",
   "generation_seed": 1,
   "player_names": {
     "1": "Player1"
@@ -2727,9 +2727,20 @@
             "name": "Engine controls blueprint",
             "id": 48105,
             "access_rule": {
-              "type": "helper",
-              "name": "raft_can_access_caravan_island",
-              "args": []
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "raft_can_access_caravan_island",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "raft_itemcheck_Zipline_tool",
+                  "args": [],
+                  "description": "Can access Zipline tool"
+                }
+              ]
             },
             "item": {
               "name": "progressive-scarecrow",

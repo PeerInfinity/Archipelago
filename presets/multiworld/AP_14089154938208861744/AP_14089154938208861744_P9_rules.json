@@ -1,8 +1,8 @@
 {
   "schema_version": 3,
-  "game_name": "Bumper Stickers",
-  "game_directory": "bumpstik",
-  "archipelago_version": "0.6.4",
+  "game_name": "Castlevania - Circle of the Moon",
+  "game_directory": "cvcotm",
+  "archipelago_version": "0.6.5",
   "generation_seed": 1,
   "player_names": {
     "1": "Player1",
@@ -77,40 +77,38 @@
     "70": "Player70",
     "71": "Player71",
     "72": "Player72",
-    "73": "Player73",
-    "74": "Player74",
-    "75": "Player75"
+    "73": "Player73"
   },
   "world_classes": {
     "1": "HatInTimeWorld",
     "2": "ALTTPWorld",
     "3": "ShortHikeWorld",
     "4": "AdventureWorld",
-    "5": "AquariaWorld",
-    "6": "ArchipIDLEWorld",
-    "7": "BlasphemousWorld",
-    "8": "BombRushCyberfunkWorld",
-    "9": "BumpStikWorld",
-    "10": "CVCotMWorld",
-    "11": "CV64World",
+    "5": "APQuestWorld",
+    "6": "AquariaWorld",
+    "7": "BombRushCyberfunkWorld",
+    "8": "BumpStikWorld",
+    "9": "CVCotMWorld",
+    "10": "CV64World",
+    "11": "CelesteOpenWorld",
     "12": "Celeste64World",
     "13": "ChecksFinderWorld",
     "14": "ChocolateChipCookiesWorld",
-    "15": "CivVIWorld",
-    "16": "DarkSouls3World",
-    "17": "DLCqworld",
-    "18": "DKC3World",
-    "19": "DOOM1993World",
-    "20": "DOOM2World",
-    "21": "Factorio",
-    "22": "FaxanaduWorld",
-    "23": "FFMQWorld",
-    "24": "HereticWorld",
-    "25": "Hylics2World",
-    "26": "InscryptionWorld",
-    "27": "JakAndDaxterWorld",
-    "28": "KH2World",
-    "29": "KH1World",
+    "15": "CCCharlesWorld",
+    "16": "CivVIWorld",
+    "17": "DarkSouls3World",
+    "18": "DLCqworld",
+    "19": "DKC3World",
+    "20": "DOOM1993World",
+    "21": "DOOM2World",
+    "22": "Factorio",
+    "23": "FaxanaduWorld",
+    "24": "FFMQWorld",
+    "25": "HereticWorld",
+    "26": "Hylics2World",
+    "27": "InscryptionWorld",
+    "28": "JakAndDaxterWorld",
+    "29": "KH2World",
     "30": "KDL3World",
     "31": "LandstalkerWorld",
     "32": "LingoWorld",
@@ -137,53 +135,45 @@
     "53": "ShiversWorld",
     "54": "SA2BWorld",
     "55": "SC2World",
-    "56": "StardewValleyWorld",
-    "57": "SubnauticaWorld",
-    "58": "SM64World",
-    "59": "MarioLand2World",
-    "60": "SMWWorld",
-    "61": "SMWorld",
-    "62": "TerrariaWorld",
-    "63": "TLoZWorld",
-    "64": "MessengerWorld",
-    "65": "TWWWorld",
-    "66": "WitnessWorld",
-    "67": "TimespinnerWorld",
-    "68": "TunicWorld",
-    "69": "UndertaleWorld",
-    "70": "V6World",
-    "71": "WargrooveWorld",
-    "72": "WebDevJourneyWorld",
-    "73": "YachtDiceWorld",
-    "74": "YoshisIslandWorld",
-    "75": "Yugioh06World"
+    "56": "SubnauticaWorld",
+    "57": "SM64World",
+    "58": "MarioLand2World",
+    "59": "SMWWorld",
+    "60": "TerrariaWorld",
+    "61": "TLoZWorld",
+    "62": "MessengerWorld",
+    "63": "TWWWorld",
+    "64": "WitnessWorld",
+    "65": "TimespinnerWorld",
+    "66": "TunicWorld",
+    "67": "UndertaleWorld",
+    "68": "V6World",
+    "69": "WargrooveWorld",
+    "70": "WebDevJourneyWorld",
+    "71": "YachtDiceWorld",
+    "72": "YoshisIslandWorld",
+    "73": "Yugioh06World"
   },
   "regions": {
     "9": {
-      "Menu": {
-        "name": "Menu",
+      "Catacomb": {
+        "name": "Catacomb",
         "exits": [
           {
-            "name": "To Level 1",
-            "connected_region": "Level 1",
+            "name": "Catacomb to Stairway",
+            "connected_region": "Abyss Stairway",
             "access_rule": {
-              "type": "and",
+              "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": "Booster Bumper",
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
+                  "type": "helper",
+                  "name": "has_jump_level_1",
+                  "args": []
                 },
                 {
-                  "type": "item_check",
-                  "item": "Treasure Bumper",
-                  "count": {
-                    "type": "constant",
-                    "value": 8
-                  }
+                  "type": "helper",
+                  "name": "has_kick",
+                  "args": []
                 }
               ]
             }
@@ -191,699 +181,2067 @@
         ],
         "locations": [
           {
-            "name": "Level 1 - 250 Points",
-            "id": 595000,
+            "name": "Sealed Room: Main shaft left fake wall",
+            "id": 3579576373,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "type": "item_check",
+              "item": "Roc Wing"
             },
             "item": {
-              "name": "Rusty Key",
-              "player": 56,
-              "advancement": true,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 1 - 500 Points",
-            "id": 595001,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Golden Coin",
-              "player": 68,
-              "advancement": true,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 1 - 750 Points",
-            "id": 595002,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Rarecrow #4",
-              "player": 56,
-              "advancement": true,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 1 - 1000 Points",
-            "id": 595003,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Triangles",
-              "player": 66,
-              "advancement": true,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 1 - 500 Level Points",
-            "id": 595004,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Yarn",
-              "player": 1,
-              "advancement": true,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 1 - 1000 Level Points",
-            "id": 595005,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Wetland Aspect",
-              "player": 49,
-              "advancement": true,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 1 - 1500 Level Points",
-            "id": 595006,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Category Twos",
+              "name": "LABYRINTH OF NIGHTMARE",
               "player": 73,
               "advancement": true,
               "type": "None"
             }
           },
           {
-            "name": "Level 1 - 2000 Level Points",
-            "id": 595007,
+            "name": "Catacomb: Push crate treasure room",
+            "id": 3579576375,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "type": "item_check",
+              "item": "Heavy Ring"
             },
             "item": {
-              "name": "Progressive Armor",
-              "player": 43,
+              "name": "Scout Fly - Mountain Pass",
+              "player": 28,
               "advancement": true,
               "type": "None"
             }
           },
           {
-            "name": "Level 1 - 25 Level Bumpers",
-            "id": 595008,
+            "name": "Catacomb: Fleamen brain room - Lower",
+            "id": 3579576387,
             "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Containment Area (E2M2) - Yellow keycard",
-              "player": 19,
-              "advancement": true,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 1 - 50 Level Bumpers",
-            "id": 595009,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Weight of True Guilt",
-              "player": 7,
-              "advancement": true,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 1 - 75 Level Bumpers",
-            "id": 595010,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Progressive Space Port",
-              "player": 15,
-              "advancement": true,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 1 - Combo 5",
-            "id": 595011,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "The Great Hall (E2M7) - Yellow key",
-              "player": 24,
-              "advancement": true,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Bonus Booster 1",
-            "id": 595063,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Booster Bumper",
-              "count": {
-                "type": "constant",
-                "value": 1
-              }
-            },
-            "item": {
-              "name": "Anklet",
-              "player": 68,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 1",
-            "id": 595068,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 1
-              }
-            },
-            "item": {
-              "name": "Wagon",
-              "player": 71,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 2",
-            "id": 595069,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 2
-              }
-            },
-            "item": {
-              "name": "Chuckle Bean",
-              "player": 35,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 3",
-            "id": 595070,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 3
-              }
-            },
-            "item": {
-              "name": "Small Key",
-              "player": 63,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 4",
-            "id": 595071,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 4
-              }
-            },
-            "item": {
-              "name": "Bonus Coin",
-              "player": 18,
-              "advancement": true,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 5",
-            "id": 595072,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 5
-              }
-            },
-            "item": {
-              "name": "Chuckle Bean",
-              "player": 35,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 6",
-            "id": 595073,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 6
-              }
-            },
-            "item": {
-              "name": "Spawn Larvae (Swarm Queen)",
-              "player": 55,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 7",
-            "id": 595074,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 7
-              }
-            },
-            "item": {
-              "name": "Progressive Sword",
-              "player": 22,
-              "advancement": true,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 8",
-            "id": 595075,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 8
-              }
-            },
-            "item": {
-              "name": "500 GOLD",
-              "player": 11,
-              "advancement": false,
-              "type": "None"
-            }
-          }
-        ]
-      },
-      "Level 1": {
-        "name": "Level 1",
-        "exits": [
-          {
-            "name": "To Level 2",
-            "connected_region": "Level 2",
-            "access_rule": {
-              "type": "and",
-              "conditions": [
+              "type": "state_method",
+              "method": "has_any",
+              "args": [
                 {
-                  "type": "item_check",
-                  "item": "Booster Bumper",
-                  "count": {
-                    "type": "constant",
-                    "value": 2
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": "Treasure Bumper",
-                  "count": {
-                    "type": "constant",
-                    "value": 16
-                  }
+                  "type": "constant",
+                  "value": [
+                    "Double",
+                    "Roc Wing"
+                  ]
                 }
               ]
-            }
-          }
-        ],
-        "locations": [
-          {
-            "name": "Level 2 - 500 Points",
-            "id": 595012,
-            "access_rule": {
-              "type": "constant",
-              "value": true
             },
             "item": {
-              "name": "Progressive Stimpack (Hellion)",
-              "player": 55,
+              "name": "Witch's Locks",
+              "player": 17,
               "advancement": false,
               "type": "None"
             }
           },
           {
-            "name": "Level 2 - 1000 Points",
-            "id": 595013,
+            "name": "Catacomb: Fleamen brain room - Upper",
+            "id": 3579576374,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "has_ice_or_stone",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_jump_level_1",
+                      "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_4",
+                  "args": []
+                }
+              ]
             },
             "item": {
-              "name": "HP Offering",
-              "player": 68,
+              "name": "Shriving Stone",
+              "player": 17,
               "advancement": false,
               "type": "None"
             }
           },
           {
-            "name": "Level 2 - 1500 Points",
-            "id": 595014,
+            "name": "Catacomb: Earth Demon dash room",
+            "id": 3579576488,
             "access_rule": {
               "type": "constant",
               "value": true
             },
             "item": {
-              "name": "Red Pepper",
-              "player": 35,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 2 - 2000 Points",
-            "id": 595015,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Knuckles - Air Necklace",
-              "player": 54,
+              "name": "SonicWav W",
+              "player": 38,
               "advancement": true,
               "type": "None"
             }
           },
           {
-            "name": "Level 2 - 1000 Level Points",
-            "id": 595016,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Homeward Bone x2",
-              "player": 16,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 2 - 2000 Level Points",
-            "id": 595017,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "MP Max Up",
-              "player": 10,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 2 - 3000 Level Points",
-            "id": 595018,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Box of bullets",
-              "player": 19,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 2 - 4000 Level Points",
-            "id": 595019,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Railgun Turret (Raven)",
-              "player": 55,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 2 - 25 Level Bumpers",
-            "id": 595020,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Necro",
-              "player": 64,
-              "advancement": true,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 2 - 50 Level Bumpers",
-            "id": 595021,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Statue of Gaia",
-              "player": 31,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 2 - 75 Level Bumpers",
-            "id": 595022,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Additional Palette Color",
-              "player": 45,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 2 - 100 Level Bumpers",
-            "id": 595023,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Max Sand",
-              "player": 67,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 2 - Combo 5",
-            "id": 595024,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Graffiti (M - Stacked Symbols)",
-              "player": 8,
-              "advancement": true,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 2 - Chain x2",
-            "id": 595025,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "BOMBO - GENESIS",
-              "player": 25,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Bonus Booster 2",
-            "id": 595064,
+            "name": "Catacomb: Tackle block treasure room",
+            "id": 3579576376,
             "access_rule": {
               "type": "item_check",
-              "item": "Booster Bumper",
-              "count": {
-                "type": "constant",
-                "value": 2
-              }
+              "item": "Tackle"
             },
             "item": {
-              "name": "Micro-Filtering",
-              "player": 55,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 9",
-            "id": 595076,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 9
-              }
-            },
-            "item": {
-              "name": "Red jewel(S)",
-              "player": 11,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 10",
-            "id": 595077,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 10
-              }
-            },
-            "item": {
-              "name": "Armor",
-              "player": 20,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 11",
-            "id": 595078,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 11
-              }
-            },
-            "item": {
-              "name": "Money x25",
-              "player": 68,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 12",
-            "id": 595079,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 12
-              }
-            },
-            "item": {
-              "name": "Card Pack",
-              "player": 26,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 13",
-            "id": 595080,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 13
-              }
-            },
-            "item": {
-              "name": "Category Fours",
-              "player": 73,
-              "advancement": true,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 14",
-            "id": 595081,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 14
-              }
-            },
-            "item": {
-              "name": "Resource Pack: 2 Raw_Potato",
+              "name": "Resource Pack: 3 Plastic",
               "player": 48,
               "advancement": false,
               "type": "None"
             }
           },
           {
-            "name": "Treasure Bumper 15",
-            "id": 595082,
+            "name": "Catacomb: Earth Demon bone pit - Lower",
+            "id": 3579576378,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Double",
+              "player": 9,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Catacomb: Earth Demon bone pit - Upper",
+            "id": 3579576379,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_3",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_kick",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Bear Coin",
+              "player": 19,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Catacomb: Below right column save room",
+            "id": 3579576384,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Dots",
+              "player": 64,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Catacomb: Right column fake wall",
+            "id": 3579576377,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Time Shard (500)",
+              "player": 62,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Catacomb: Right column Spirit room",
+            "id": 3579576385,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Circuit board",
+              "player": 48,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Catacomb: Muddy Mudman platforms room - Lower",
+            "id": 3579576380,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Fire Power",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Catacomb: Muddy Mudman platforms room - Upper",
+            "id": 3579576381,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_1",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_kick",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Scraps",
+              "player": 15,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Catacomb: Slide space zone",
+            "id": 3579576382,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Terran Ship Weapon",
+              "player": 55,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Catacomb: Pre-Cerberus lone Skeleton room",
+            "id": 3579576386,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Neptune Fuel Reserve",
+              "player": 56,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Catacomb: Pre-Cerberus Hopper treasure room",
+            "id": 3579576383,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Scraps",
+              "player": 15,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Catacomb: Behind Cerberus",
+            "id": 3579576489,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "HM05 Flash",
+              "player": 47,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Catacomb: Mummies' fake wall",
+            "id": 3579576388,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_any",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Double",
+                    "Roc Wing"
+                  ]
+                }
+              ]
+            },
+            "item": {
+              "name": "Scraps",
+              "player": 15,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Abyss Stairway": {
+        "name": "Abyss Stairway",
+        "exits": [
+          {
+            "name": "Stairway to Audience",
+            "connected_region": "Audience Room",
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_any",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Double",
+                    "Roc Wing"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Abyss Staircase: Lower fake wall",
+            "id": 3579576391,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Treasure Bumper",
+              "player": 8,
+              "advancement": true,
+              "type": "Target"
+            }
+          },
+          {
+            "name": "Abyss Staircase: Loopback drop",
+            "id": 3579576389,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Scythe Ring",
+              "player": 65,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Audience Room": {
+        "name": "Audience Room",
+        "exits": [
+          {
+            "name": "Audience to Machine Bottom",
+            "connected_region": "Machine Tower Bottom",
             "access_rule": {
               "type": "item_check",
-              "item": "Treasure Bumper",
+              "item": "Tackle"
+            }
+          },
+          {
+            "name": "Audience to Machine Top",
+            "connected_region": "Machine Tower Top",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_2",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_kick",
+                  "args": []
+                }
+              ]
+            }
+          },
+          {
+            "name": "Audience to Chapel",
+            "connected_region": "Chapel Tower Bottom",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "has_ice_or_stone",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_jump_level_2",
+                      "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_3",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_kick",
+                  "args": []
+                }
+              ]
+            }
+          },
+          {
+            "name": "Audience to Gallery",
+            "connected_region": "Underground Gallery Lower",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "broke_iron_maidens",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_push",
+                  "args": []
+                }
+              ]
+            }
+          },
+          {
+            "name": "Audience to Warehouse",
+            "connected_region": "Underground Warehouse Start",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Heavy Ring"
+            }
+          },
+          {
+            "name": "Audience to Waterway",
+            "connected_region": "Underground Waterway Start",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "compare",
+                  "left": {
+                    "type": "constant",
+                    "value": 0
+                  },
+                  "op": "==",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Maiden Detonator"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Audience to Observation",
+            "connected_region": "Observation Tower",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Roc Wing"
+            }
+          },
+          {
+            "name": "Ceremonial Door",
+            "connected_region": "Ceremonial Room",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Last Key",
               "count": {
                 "type": "constant",
-                "value": 15
+                "value": 1
               }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Abyss Staircase: Roc ledge",
+            "id": 3579576390,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Roc Wing"
+            },
+            "item": {
+              "name": ":)",
+              "player": 32,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Abyss Staircase: Upper fake wall",
+            "id": 3579576392,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Crystal Heart 14",
+              "player": 11,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Audience Room: Skeleton foyer fake wall",
+            "id": 3579576403,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Ring",
+              "player": 27,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Audience Room: Main gallery fake wall",
+            "id": 3579576404,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Flechette Missiles (Valkyrie)",
+              "player": 55,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Audience Room: Below coyote jump",
+            "id": 3579576401,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Quiver of Ethereal Arrows",
+              "player": 25,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Audience Room: Push crate gallery",
+            "id": 3579576395,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Heavy Ring"
+            },
+            "item": {
+              "name": "Crystal Heart 10",
+              "player": 11,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Audience Room: Past coyote jump",
+            "id": 3579576394,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Power Cell",
+              "player": 28,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Audience Room: Tackle block gallery",
+            "id": 3579576393,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Tackle"
+            },
+            "item": {
+              "name": "Energy cell pack",
+              "player": 21,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Audience Room: Wicked roc chamber - Lower",
+            "id": 3579576397,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Emblem",
+              "player": 54,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Audience Room: Wicked roc chamber - Upper",
+            "id": 3579576396,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Roc Wing"
+            },
+            "item": {
+              "name": "Baby Nautilus",
+              "player": 6,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Audience Room: Upper Devil Tower hallway",
+            "id": 3579576402,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "25 Pons",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Audience Room: Right exterior - Lower",
+            "id": 3579576400,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Box of bullets",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Audience Room: Right exterior - Upper",
+            "id": 3579576399,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_2",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_kick",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Treasure Bumper",
+              "player": 8,
+              "advancement": true,
+              "type": "Target"
+            }
+          },
+          {
+            "name": "Audience Room: Right exterior fake wall",
+            "id": 3579576398,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Emblem",
+              "player": 54,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Audience Room: 100 meter skelly dash hallway",
+            "id": 3579576426,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_2",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_kick",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Scraps",
+              "player": 15,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Audience Room: Lower Devil Tower hallway fake wall",
+            "id": 3579576405,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "TM48",
+              "player": 46,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Audience Room: Behind Necromancer",
+            "id": 3579576490,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Internal Tech Module (Raven)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Audience Room: Below Machine Tower roc ledge",
+            "id": 3579576409,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_5",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_tackle",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Chuckle Bean",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Audience Room: Below Machine Tower push crate room",
+            "id": 3579576408,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_push",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_tackle",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Black Dress",
+              "player": 17,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Audience Room: Roc horse jaguar armory - Left",
+            "id": 3579576473,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "has_ice_or_stone",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_jump_level_3",
+                      "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_4",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Random Cosmetic",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Audience Room: Roc horse jaguar armory - Right",
+            "id": 3579576474,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "has_ice_or_stone",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_jump_level_3",
+                      "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_4",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Devastator Turret",
+              "player": 55,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Outer Wall: Left roc ledge",
+            "id": 3579576471,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Roc Wing"
+            },
+            "item": {
+              "name": "Revive",
+              "player": 46,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Outer Wall: Right-brained ledge",
+            "id": 3579576472,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_ice_or_stone",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_5",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Ember",
+              "player": 17,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Outer Wall: Fake Nightmare floor",
+            "id": 3579576478,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Scraps",
+              "player": 15,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Triumph Hallway: Skeleton slopes fake wall",
+            "id": 3579576407,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Power Star",
+              "player": 57,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Triumph Hallway: Entrance Flame Armor climb",
+            "id": 3579576406,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "has_ice_or_stone",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_kick",
+                      "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_2",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Worn Dagger",
+              "player": 67,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Machine Tower Bottom": {
+        "name": "Machine Tower Bottom",
+        "exits": [
+          {
+            "name": "Machine Bottom to Top",
+            "connected_region": "Machine Tower Top",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Machine Tower: Foxy platforms ledge",
+            "id": 3579576417,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Red Potion",
+              "player": 23,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Machine Tower: Knight fox meeting room",
+            "id": 3579576418,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "SloGauge *",
+              "player": 38,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Machine Tower: Boneheaded argument wall kicks room",
+            "id": 3579576411,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_2",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_kick",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Motorboat Key",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Machine Tower: Foxy fake wall",
+            "id": 3579576410,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Hoo Bean",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Machine Tower: Skelly-rang wall kicks room",
+            "id": 3579576415,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_2",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_kick",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Sword of the Ancestor",
+              "player": 29,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Machine Tower: Fake Lilim wall",
+            "id": 3579576414,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "MULTI STEM CELL",
+              "player": 26,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Machine Tower: Thunderous zone fake wall",
+            "id": 3579576419,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Spicy Roll",
+              "player": 6,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Machine Tower: Thunderous zone lone Stone Armor room",
+            "id": 3579576413,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Smart Servos (Viking)",
+              "player": 55,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Machine Tower Top": {
+        "name": "Machine Tower Top",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Machine Tower: Top lone Stone Armor room",
+            "id": 3579576412,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Oil",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Machine Tower: Stone fox hallway",
+            "id": 3579576416,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Tackle"
+            },
+            "item": {
+              "name": "Demon's Fist",
+              "player": 17,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Machine Tower: Pre-Iron Golem fake wall",
+            "id": 3579576420,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Smart Power Doctrine",
+              "player": 16,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Machine Tower: Behind Iron Golem",
+            "id": 3579576491,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Fairy",
+              "player": 66,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Eternal Corridor Pit": {
+        "name": "Eternal Corridor Pit",
+        "exits": [
+          {
+            "name": "Corridor to Gallery",
+            "connected_region": "Underground Gallery Upper",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "compare",
+                  "left": {
+                    "type": "constant",
+                    "value": 0
+                  },
+                  "op": "==",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Maiden Detonator"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Escape the Gallery Pit",
+            "connected_region": "Chapel Tower Bottom",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_2",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_kick",
+                  "args": []
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Eternal Corridor: Midway fake wall",
+            "id": 3579576422,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "The Labyrinth (E2M6) - Map Scroll",
+              "player": 25,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Chapel Tower Bottom": {
+        "name": "Chapel Tower Bottom",
+        "exits": [
+          {
+            "name": "Into the Corridor Pit",
+            "connected_region": "Eternal Corridor Pit",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Dip Into Waterway End",
+            "connected_region": "Underground Waterway End",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Roc Wing"
+            }
+          },
+          {
+            "name": "Climb to Chapel Top",
+            "connected_region": "Chapel Tower Top",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_3",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_kick",
+                  "args": []
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Eternal Corridor: Skelly-rang wall kicks room",
+            "id": 3579576421,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "progressive-worker-robots-speed",
+              "player": 22,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Eternal Corridor: Skelly-rang fake wall",
+            "id": 3579576423,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Chamber Key",
+              "player": 10,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Chapel Tower: Flame Armor climb room",
+            "id": 3579576424,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_ice_or_stone",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_2",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Emblem",
+              "player": 54,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Chapel Tower: Lower chapel push crate room",
+            "id": 3579576425,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Heavy Ring"
+            },
+            "item": {
+              "name": "Roast beef",
+              "player": 10,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Chapel Tower: Lower chapel fake wall",
+            "id": 3579576434,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Estus Shard",
+              "player": 17,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Chapel Tower: Beastly wall kicks room - Brain side",
+            "id": 3579576427,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Chuckle Bean",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Chapel Tower: Beastly wall kicks room - Brawn side",
+            "id": 3579576428,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Aerial Recovery",
+              "player": 29,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Chapel Tower: Middle chapel fake wall",
+            "id": 3579576429,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Izalith Pyromancy Tome",
+              "player": 17,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Chapel Tower: Middle chapel push crate room",
+            "id": 3579576430,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Heavy Ring"
+            },
+            "item": {
+              "name": "Scraps",
+              "player": 15,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Chapel Tower: Sharp mind climb room",
+            "id": 3579576431,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_ice_or_stone",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_2",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "16 REP",
+              "player": 7,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Chapel Tower: Upper chapel fake wall",
+            "id": 3579576435,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Toy Shovel",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Chapel Tower Top": {
+        "name": "Chapel Tower Top",
+        "exits": [
+          {
+            "name": "Arena Passage",
+            "connected_region": "Battle Arena",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_2",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_push",
+                  "args": []
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Chapel Tower: Upper chapel Marionette wall kicks",
+            "id": 3579576432,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Brimstone",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Chapel Tower: Upper belfry fake wall",
+            "id": 3579576436,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Atom Smasher",
+              "player": 51,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Chapel Tower: Iron maiden switch",
+            "id": 3579576560,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Maiden Detonator",
+              "player": 9,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Chapel Tower: Behind Adramelech iron maiden",
+            "id": 3579576433,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "compare",
+                  "left": {
+                    "type": "constant",
+                    "value": 0
+                  },
+                  "op": "==",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Maiden Detonator"
+                }
+              ]
+            },
+            "item": {
+              "name": "Triforce Shard 4",
+              "player": 63,
+              "advancement": true,
+              "type": "Item"
+            }
+          }
+        ]
+      },
+      "Battle Arena": {
+        "name": "Battle Arena",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Chapel Tower: Outside Battle Arena - Upper",
+            "id": 3579576476,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "has_ice_or_stone",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_jump_level_3",
+                      "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_4",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Kick Boots",
+              "player": 9,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Chapel Tower: Outside Battle Arena - Lower",
+            "id": 3579576475,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "has_ice_or_stone",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_jump_level_3",
+                      "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_4",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Life Stock",
+              "player": 31,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Underground Gallery Upper": {
+        "name": "Underground Gallery Upper",
+        "exits": [
+          {
+            "name": "Gallery to Corridor",
+            "connected_region": "Eternal Corridor Pit",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Gallery Upper to Lower",
+            "connected_region": "Underground Gallery Lower",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Tackle"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Underground Gallery: Conveyor platform ride",
+            "id": 3579576450,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Small Doll",
+              "player": 17,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Gallery: Conveyor upper push crate room",
+            "id": 3579576451,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Heavy Ring"
+            },
+            "item": {
+              "name": "Titanite Scale",
+              "player": 17,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Gallery: Conveyor lower push crate room",
+            "id": 3579576449,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Heavy Ring"
+            },
+            "item": {
+              "name": "Yellow Neon Egg",
+              "player": 35,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Gallery: Harpy climb room - Lower",
+            "id": 3579576453,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_ice_or_stone",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_2",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Wisdom Form",
+              "player": 29,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Gallery: Harpy climb room - Upper",
+            "id": 3579576452,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_ice_or_stone",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_4",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Exp. All",
+              "player": 47,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Underground Gallery Lower": {
+        "name": "Underground Gallery Lower",
+        "exits": [
+          {
+            "name": "Gallery Lower to Upper",
+            "connected_region": "Underground Gallery Upper",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Tackle"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Underground Gallery: Harpy mantis tackle hallway",
+            "id": 3579576454,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Tackle"
+            },
+            "item": {
+              "name": "TM46 Psywave",
+              "player": 47,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Gallery: Handy bee hallway",
+            "id": 3579576455,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Thundagun Trinket",
+              "player": 29,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Gallery: Myconid fake wall",
+            "id": 3579576456,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Puzzle Skip",
+              "player": 64,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Gallery: Crumble bridge fake wall",
+            "id": 3579576457,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Progressive Fishing Rod",
+              "player": 3,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Gallery: Behind Dragon Zombies",
+            "id": 3579576492,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Five Rupees",
+              "player": 61,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Underground Warehouse Start": {
+        "name": "Underground Warehouse Start",
+        "exits": [
+          {
+            "name": "Into Warehouse Main",
+            "connected_region": "Underground Warehouse Main",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Tackle"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Underground Warehouse: Entrance push crate room",
+            "id": 3579576437,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Single Arrow",
+              "player": 33,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Underground Warehouse Main": {
+        "name": "Underground Warehouse Main",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Underground Warehouse: Forever pushing room",
+            "id": 3579576438,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Resource Pack: 1 Sand",
+              "player": 48,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Warehouse: Crate-nudge fox room",
+            "id": 3579576439,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Titanite Chunk x2",
+              "player": 17,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Warehouse: Crate-nudge fake wall",
+            "id": 3579576446,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Scraps",
+              "player": 15,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Warehouse: Succubus shaft roc ledge",
+            "id": 3579576440,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "has_ice_or_stone",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_jump_level_4",
+                      "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_5",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Gloom jewel",
+              "player": 34,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Warehouse: Fake Lilith wall",
+            "id": 3579576441,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Life Stock",
+              "player": 31,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Warehouse: Optional puzzle ceiling fake wall",
+            "id": 3579576447,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_ice_or_stone",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_2",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Rupees (300)",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Warehouse: Holy fox hideout - Left",
+            "id": 3579576442,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Ultra Nuts",
+              "player": 35,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Warehouse: Holy fox hideout - Right roc ledge",
+            "id": 3579576443,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "has_ice_or_stone",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_jump_level_2",
+                      "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_3",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Progressive Terran Ship Armor",
+              "player": 55,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Warehouse: Forest Armor's domain fake wall",
+            "id": 3579576444,
+            "access_rule": {
+              "type": "constant",
+              "value": true
             },
             "item": {
               "name": "Money",
@@ -893,49 +2251,65 @@
             }
           },
           {
-            "name": "Treasure Bumper 16",
-            "id": 595083,
+            "name": "Underground Warehouse: Behind Death",
+            "id": 3579576494,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 16
-              }
+              "type": "constant",
+              "value": true
             },
             "item": {
-              "name": "Speed Boost",
-              "player": 66,
+              "name": "Titanite Scale",
+              "player": 17,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Warehouse: Behind Death fake wall",
+            "id": 3579576448,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "progressive-science-pack",
+              "player": 22,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Warehouse: Dryad expulsion chamber",
+            "id": 3579576445,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Inferno Orb",
+              "player": 25,
               "advancement": false,
               "type": "None"
             }
           }
         ]
       },
-      "Level 2": {
-        "name": "Level 2",
+      "Underground Waterway Start": {
+        "name": "Underground Waterway Start",
         "exits": [
           {
-            "name": "To Level 3",
-            "connected_region": "Level 3",
+            "name": "Into Waterway Main",
+            "connected_region": "Underground Waterway Main",
             "access_rule": {
-              "type": "and",
+              "type": "or",
               "conditions": [
                 {
-                  "type": "item_check",
-                  "item": "Booster Bumper",
-                  "count": {
-                    "type": "constant",
-                    "value": 3
-                  }
+                  "type": "constant",
+                  "value": 0
                 },
                 {
                   "type": "item_check",
-                  "item": "Treasure Bumper",
-                  "count": {
-                    "type": "constant",
-                    "value": 24
-                  }
+                  "item": "Cleansing"
                 }
               ]
             }
@@ -943,1308 +2317,519 @@
         ],
         "locations": [
           {
-            "name": "Level 3 - 800 Points",
-            "id": 595026,
+            "name": "Underground Waterway: Entrance fake wall",
+            "id": 3579576467,
             "access_rule": {
               "type": "constant",
               "value": true
             },
             "item": {
-              "name": "Task Advance",
-              "player": 9,
-              "advancement": false,
-              "type": "Helper"
-            }
-          },
-          {
-            "name": "Level 3 - 1600 Points",
-            "id": 595027,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "2 Roots",
-              "player": 51,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 3 - 2400 Points",
-            "id": 595028,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Arnassi Statue",
-              "player": 5,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 3 - 3200 Points",
-            "id": 595029,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Auto-Grabber",
-              "player": 56,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 3 - 2000 Level Points",
-            "id": 595030,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Resource Pack: 10 Qi Seasoning",
-              "player": 56,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 3 - 4000 Level Points",
-            "id": 595031,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "2-Up",
-              "player": 74,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 3 - 6000 Level Points",
-            "id": 595032,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Outfit (Rave - Autumn)",
-              "player": 8,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 3 - 8000 Level Points",
-            "id": 595033,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Reinforced Dive Suit",
-              "player": 57,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 3 - 25 Level Bumpers",
-            "id": 595034,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Emblem",
-              "player": 54,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 3 - 50 Level Bumpers",
-            "id": 595035,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Empty White Hallways",
-              "player": 32,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 3 - 75 Level Bumpers",
-            "id": 595036,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "TM35 Metronome",
-              "player": 47,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 3 - 100 Level Bumpers",
-            "id": 595037,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Refresher",
-              "player": 23,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 3 - 125 Level Bumpers",
-            "id": 595038,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Power Cell",
-              "player": 27,
-              "advancement": true,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 3 - Combo 5",
-            "id": 595039,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Trap",
-              "player": 42,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 3 - Combo 7",
-            "id": 595040,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Pale Pine Resin",
-              "player": 16,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 3 - Chain x2",
-            "id": 595041,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Timebomb of the Ancients",
-              "player": 24,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 3 - All Clear, 3 colors",
-            "id": 595042,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "MP Berry x2",
-              "player": 68,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Bonus Booster 3",
-            "id": 595065,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Booster Bumper",
-              "count": {
-                "type": "constant",
-                "value": 3
-              }
-            },
-            "item": {
-              "name": "Full Restore",
-              "player": 47,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 17",
-            "id": 595084,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 17
-              }
-            },
-            "item": {
-              "name": "Extra Max HP",
-              "player": 42,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 18",
-            "id": 595085,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 18
-              }
-            },
-            "item": {
-              "name": "Morne's Armor",
-              "player": 16,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 19",
-            "id": 595086,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 19
-              }
-            },
-            "item": {
-              "name": "Small Key",
-              "player": 63,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 20",
-            "id": 595087,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 20
-              }
-            },
-            "item": {
-              "name": "Concussive Shells (Marauder)",
-              "player": 55,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 21",
-            "id": 595088,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 21
-              }
-            },
-            "item": {
-              "name": "Turtle Soup",
-              "player": 5,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 22",
-            "id": 595089,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 22
-              }
-            },
-            "item": {
-              "name": "Miss To Great (5 Pack)",
-              "player": 41,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 23",
-            "id": 595090,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 23
-              }
-            },
-            "item": {
-              "name": "Scout Fly - Misty Island",
-              "player": 27,
-              "advancement": true,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 24",
-            "id": 595091,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 24
-              }
-            },
-            "item": {
-              "name": "Empty Golden Thimble",
-              "player": 7,
+              "name": "The Abandoned Mines (MAP26) - Yellow keycard",
+              "player": 21,
               "advancement": true,
               "type": "None"
             }
           }
         ]
       },
-      "Level 3": {
-        "name": "Level 3",
+      "Underground Waterway Main": {
+        "name": "Underground Waterway Main",
         "exits": [
           {
-            "name": "To Level 4",
-            "connected_region": "Level 4",
+            "name": "Onward to Waterway End",
+            "connected_region": "Underground Waterway End",
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": "Booster Bumper",
-                  "count": {
-                    "type": "constant",
-                    "value": 5
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": "Treasure Bumper",
-                  "count": {
-                    "type": "constant",
-                    "value": 32
-                  }
-                }
-              ]
+              "type": "constant",
+              "value": true
             }
           }
         ],
         "locations": [
           {
-            "name": "Level 4 - 1500 Points",
-            "id": 595043,
+            "name": "Underground Waterway: Before illusory wall",
+            "id": 3579576459,
             "access_rule": {
               "type": "constant",
               "value": true
             },
             "item": {
-              "name": "Refresher",
-              "player": 23,
+              "name": "TM29 Psychic",
+              "player": 47,
               "advancement": false,
               "type": "None"
             }
           },
           {
-            "name": "Level 4 - 3000 Points",
-            "id": 595044,
+            "name": "Underground Waterway: Beyond illusory wall",
+            "id": 3579576458,
             "access_rule": {
               "type": "constant",
               "value": true
             },
             "item": {
-              "name": "Ice Rod",
-              "player": 2,
-              "advancement": true,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 4 - 4500 Points",
-            "id": 595045,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "2 Call beads",
-              "player": 51,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 4 - 6000 Points",
-            "id": 595046,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Stable",
-              "player": 56,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 4 - 3000 Level Points",
-            "id": 595047,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Camping Set",
-              "player": 29,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 4 - 6000 Level Points",
-            "id": 595048,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "progressive-inserter",
+              "name": "Mega Armor",
               "player": 21,
               "advancement": false,
               "type": "None"
             }
           },
           {
-            "name": "Level 4 - 9000 Level Points",
-            "id": 595049,
+            "name": "Underground Waterway: Ice Armor's domain fake wall",
+            "id": 3579576468,
             "access_rule": {
               "type": "constant",
               "value": true
             },
             "item": {
-              "name": "Quartz Flask",
-              "player": 24,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 4 - 12000 Level Points",
-            "id": 595050,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Item Scrap, White",
-              "player": 49,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 4 - 25 Level Bumpers",
-            "id": 595051,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Smart Servos (Liberator)",
-              "player": 55,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 4 - 50 Level Bumpers",
-            "id": 595052,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Juggernaut Plating (Marauder)",
-              "player": 55,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 4 - 75 Level Bumpers",
-            "id": 595053,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Cure Potion",
-              "player": 23,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 4 - 100 Level Bumpers",
-            "id": 595054,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Scout Fly - Rock Village",
-              "player": 27,
+              "name": "50 Rupees",
+              "player": 33,
               "advancement": true,
               "type": "None"
             }
           },
           {
-            "name": "Level 4 - 125 Level Bumpers",
-            "id": 595055,
+            "name": "Underground Waterway: Brain freeze room",
+            "id": 3579576460,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_ice_or_stone",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_3",
+                  "args": []
+                }
+              ]
             },
             "item": {
-              "name": "Anywhere Pow",
-              "player": 74,
+              "name": "progressive-inserter",
+              "player": 22,
               "advancement": false,
               "type": "None"
             }
           },
           {
-            "name": "Level 4 - 150 Level Bumpers",
-            "id": 595056,
+            "name": "Underground Waterway: Middle lone Ice Armor room",
+            "id": 3579576461,
             "access_rule": {
               "type": "constant",
               "value": true
             },
             "item": {
-              "name": "Small Key",
-              "player": 63,
+              "name": "Bonus Star",
+              "player": 44,
               "advancement": false,
               "type": "None"
             }
           },
           {
-            "name": "Level 4 - Combo 5",
-            "id": 595057,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Chaotic Attunement (Ascendant)",
-              "player": 55,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 4 - Combo 7",
-            "id": 595058,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Tears of Atonement (2600)",
-              "player": 7,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 4 - Chain x2",
-            "id": 595059,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Automated Refinery",
-              "player": 55,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Level 4 - Chain x3",
-            "id": 595060,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Large Soul of a Nameless Soldier",
-              "player": 16,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Bonus Booster 4",
-            "id": 595066,
+            "name": "Underground Waterway: Roc fake ceiling",
+            "id": 3579576469,
             "access_rule": {
               "type": "item_check",
-              "item": "Booster Bumper",
-              "count": {
-                "type": "constant",
-                "value": 4
-              }
+              "item": "Roc Wing"
             },
             "item": {
-              "name": "Cyclops Decoy Tube Upgrade",
-              "player": 57,
+              "name": "MULTI-JUICE",
+              "player": 26,
               "advancement": false,
               "type": "None"
             }
           },
           {
-            "name": "Bonus Booster 5",
-            "id": 595067,
+            "name": "Underground Waterway: Wicked Fishhead moat - Bottom",
+            "id": 3579576462,
             "access_rule": {
-              "type": "item_check",
-              "item": "Booster Bumper",
-              "count": {
-                "type": "constant",
-                "value": 5
-              }
+              "type": "constant",
+              "value": true
             },
             "item": {
-              "name": "Stasis Calibration (Oracle)",
-              "player": 55,
+              "name": "Large Titanite Shard",
+              "player": 17,
               "advancement": false,
               "type": "None"
             }
           },
           {
-            "name": "Treasure Bumper 25",
-            "id": 595092,
+            "name": "Underground Waterway: Wicked Fishhead moat - Top",
+            "id": 3579576463,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 25
-              }
+              "type": "constant",
+              "value": true
             },
             "item": {
-              "name": "Proud Fang",
+              "name": "Box of bullets",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Waterway: Lizard-man turf - Bottom",
+            "id": 3579576464,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Glove",
+              "player": 23,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Underground Waterway End": {
+        "name": "Underground Waterway End",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Underground Waterway: Lizard-man turf - Top",
+            "id": 3579576465,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "constant",
+                  "value": 0
+                },
+                {
+                  "type": "item_check",
+                  "item": "Cleansing"
+                }
+              ]
+            },
+            "item": {
+              "name": "Power Cell",
               "player": 28,
               "advancement": true,
               "type": "None"
             }
           },
           {
-            "name": "Treasure Bumper 26",
-            "id": 595093,
+            "name": "Underground Waterway: Roc exit shaft",
+            "id": 3579576466,
             "access_rule": {
               "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 26
-              }
+              "item": "Roc Wing"
             },
             "item": {
-              "name": "Fixed Score Multiplier",
-              "player": 73,
+              "name": "Heal Potion",
+              "player": 24,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Underground Waterway: Behind Camilla",
+            "id": 3579576495,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "constant",
+                  "value": 0
+                },
+                {
+                  "type": "item_check",
+                  "item": "Cleansing"
+                }
+              ]
+            },
+            "item": {
+              "name": "8 REP",
+              "player": 7,
               "advancement": true,
               "type": "None"
             }
           },
           {
-            "name": "Treasure Bumper 27",
-            "id": 595094,
+            "name": "Underground Waterway: Roc exit shaft fake wall",
+            "id": 3579576470,
             "access_rule": {
               "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 27
-              }
+              "item": "Roc Wing"
             },
             "item": {
-              "name": "Health Pon",
-              "player": 1,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 28",
-            "id": 595095,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 28
-              }
-            },
-            "item": {
-              "name": "Easier Lyre",
-              "player": 53,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 29",
-            "id": 595096,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 29
-              }
-            },
-            "item": {
-              "name": "Speckled Stoneplate Ring",
-              "player": 16,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 30",
-            "id": 595097,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 30
-              }
-            },
-            "item": {
-              "name": "Empty White Hallways",
-              "player": 32,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 31",
-            "id": 595098,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 31
-              }
-            },
-            "item": {
-              "name": "1-Up Mushroom",
-              "player": 60,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Treasure Bumper 32",
-            "id": 595099,
-            "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 32
-              }
-            },
-            "item": {
-              "name": "Soul of a Weary Warrior",
-              "player": 16,
+              "name": "Mushroom",
+              "player": 35,
               "advancement": false,
               "type": "None"
             }
           }
         ]
       },
-      "Level 4": {
-        "name": "Level 4",
+      "Observation Tower": {
+        "name": "Observation Tower",
         "exits": [],
         "locations": [
           {
-            "name": "Level 5 - 50,000+ Total Points",
-            "id": 595061,
+            "name": "Observation Tower: Wind Armor rampart",
+            "id": 3579576477,
             "access_rule": {
               "type": "constant",
               "value": true
             },
             "item": {
-              "name": "Turtle Zone Progression",
-              "player": 59,
+              "name": "HOUSE KEY",
+              "player": 26,
               "advancement": true,
               "type": "None"
             }
           },
           {
-            "name": "Level 5 - Cleared all Hazards",
-            "id": 595062,
+            "name": "Observation Tower: Legion plaza fake wall",
+            "id": 3579576484,
             "access_rule": {
-              "type": "item_check",
-              "item": "Hazard Bumper",
-              "count": {
-                "type": "constant",
-                "value": 25
-              }
+              "type": "constant",
+              "value": true
             },
             "item": {
-              "name": "Emblem",
-              "player": 54,
+              "name": "Progressive Sword",
+              "player": 2,
+              "advancement": true,
+              "type": "Sword"
+            }
+          },
+          {
+            "name": "Observation Tower: Legion plaza Minotaur hallway",
+            "id": 3579576479,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Time Piece",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Observation Tower: Siren balcony fake wall",
+            "id": 3579576485,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Money",
+              "player": 49,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Observation Tower: Evil Pillar pit fake wall",
+            "id": 3579576480,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Invulnerability",
+              "player": 20,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Observation Tower: Alraune garden",
+            "id": 3579576482,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Dath Stone",
+              "player": 66,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Observation Tower: Dark Armor's domain fake wall",
+            "id": 3579576486,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Proof of Connection",
+              "player": 29,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Observation Tower: Catoblepeas hallway",
+            "id": 3579576483,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Dice Fragment",
+              "player": 71,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Observation Tower: Near warp room fake wall",
+            "id": 3579576481,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "progressive-zipline",
+              "player": 48,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Observation Tower: Behind Hugh",
+            "id": 3579576496,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Roots",
+              "player": 51,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Ceremonial Room": {
+        "name": "Ceremonial Room",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Ceremonial Room: Fake floor",
+            "id": 3579576487,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_jump_level_2",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "has_kick",
+                  "args": []
+                }
+              ]
+            },
+            "item": {
+              "name": "Prism Q",
+              "player": 38,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Dracula",
+            "id": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Roc Wing"
+            },
+            "item": {
+              "name": "The Count Downed",
+              "player": 9,
               "advancement": true,
               "type": "None"
             }
           }
         ]
+      },
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "Start Game",
+            "connected_region": "Catacomb",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
       }
     }
   },
   "start_regions": {
     "9": {
       "default": [
-        "Menu"
+        "Catacomb"
       ],
       "available": []
     }
   },
   "items": {
     "9": {
-      "Nothing": {
-        "classification": "filler",
-        "type": "Other",
-        "id": 595000,
+      "Heart Max Up": {
+        "name": "Heart Max Up",
+        "id": 3579634688,
         "groups": [
           "Everything"
-        ]
-      },
-      "Score Bonus": {
-        "classification": "filler",
-        "type": "Other",
-        "id": 595001,
-        "groups": [
-          "Everything"
-        ]
-      },
-      "Task Advance": {
-        "classification": "useful",
-        "type": "Helper",
-        "id": 595002,
-        "groups": [
-          "Everything",
-          "Helpers"
         ],
         "advancement": false,
-        "useful": true,
-        "trap": false
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 29
       },
-      "Starting Turner": {
-        "classification": "useful",
-        "type": "Helper",
-        "id": 595003,
-        "groups": [
-          "Everything",
-          "Helpers"
-        ]
-      },
-      "Reserved": {
-        "classification": "filler",
-        "type": "Other",
-        "id": 595004,
+      "HP Max Up": {
+        "name": "HP Max Up",
+        "id": 3579634689,
         "groups": [
           "Everything"
-        ]
-      },
-      "Starting Paint Can": {
-        "classification": "useful",
-        "type": "Helper",
-        "id": 595005,
-        "groups": [
-          "Everything",
-          "Helpers"
-        ]
-      },
-      "Booster Bumper": {
-        "classification": "progression",
-        "type": "Target",
-        "id": 595006,
-        "groups": [
-          "Everything",
-          "Targets"
-        ]
-      },
-      "Hazard Bumper": {
-        "classification": "progression",
-        "type": "Target",
-        "id": 595007,
-        "groups": [
-          "Everything",
-          "Targets"
-        ]
-      },
-      "Treasure Bumper": {
-        "classification": "progression",
-        "type": "Target",
-        "id": 595008,
-        "groups": [
-          "Everything",
-          "Targets"
-        ]
-      },
-      "Rainbow Trap": {
-        "classification": "trap",
-        "type": "Trap",
-        "id": 595009,
-        "groups": [
-          "Everything",
-          "Traps"
-        ]
-      },
-      "Spinner Trap": {
-        "classification": "trap",
-        "type": "Trap",
-        "id": 595010,
-        "groups": [
-          "Everything",
-          "Traps"
-        ]
-      },
-      "Killer Trap": {
-        "classification": "trap",
-        "type": "Trap",
-        "id": 595011,
-        "groups": [
-          "Everything",
-          "Traps"
-        ]
-      },
-      "Rusty Key": {
-        "name": "Rusty Key",
-        "id": 717015,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Golden Coin": {
-        "name": "Golden Coin",
-        "id": 509342439,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Rarecrow #4": {
-        "name": "Rarecrow #4",
-        "id": 717205,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Triangles": {
-        "name": "Triangles",
-        "id": 158020,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Yarn": {
-        "name": "Yarn",
-        "id": 2000300001,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Wetland Aspect": {
-        "name": "Wetland Aspect",
-        "id": 37712,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Category Twos": {
-        "name": "Category Twos",
-        "id": 16871244104,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Progressive Armor": {
-        "name": "Progressive Armor",
-        "id": 458781,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Containment Area (E2M2) - Yellow keycard": {
-        "name": "Containment Area (E2M2) - Yellow keycard",
-        "id": 350040,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Weight of True Guilt": {
-        "name": "Weight of True Guilt",
-        "id": 1909030,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Progressive Space Port": {
-        "name": "Progressive Space Port",
-        "id": 5041150,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "The Great Hall (E2M7) - Yellow key": {
-        "name": "The Great Hall (E2M7) - Yellow key",
-        "id": 370236,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Anklet": {
-        "name": "Anklet",
-        "id": 509342466,
-        "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Wagon": {
-        "name": "Wagon",
-        "id": 52001,
-        "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Chuckle Bean": {
-        "name": "Chuckle Bean",
-        "id": 77771020,
-        "groups": [],
+        ],
         "advancement": false,
         "useful": false,
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
-      },
-      "Small Key": {
-        "name": "Small Key",
-        "id": 7126,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Bonus Coin": {
-        "name": "Bonus Coin",
-        "id": 14430211,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Spawn Larvae (Swarm Queen)": {
-        "name": "Spawn Larvae (Swarm Queen)",
-        "id": 2268,
-        "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Progressive Sword": {
-        "name": "Progressive Sword",
-        "id": 400000,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "500 GOLD": {
-        "name": "500 GOLD",
-        "id": 12992551,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Progressive Stimpack (Hellion)": {
-        "name": "Progressive Stimpack (Hellion)",
-        "id": 1259,
-        "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "HP Offering": {
-        "name": "HP Offering",
-        "id": 509342448,
-        "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Red Pepper": {
-        "name": "Red Pepper",
-        "id": 77771017,
-        "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Knuckles - Air Necklace": {
-        "name": "Knuckles - Air Necklace",
-        "id": 16711693,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Homeward Bone x2": {
-        "name": "Homeward Bone x2",
-        "id": 100795,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
+        "max_count": 36
       },
       "MP Max Up": {
         "name": "MP Max Up",
         "id": 3579634690,
-        "groups": [],
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 30
+      },
+      "Salamander Card": {
+        "name": "Salamander Card",
+        "id": 3579635200,
+        "groups": [
+          "Attribute",
+          "Attribute Card",
+          "Card",
+          "DSS",
+          "Everything"
+        ],
         "advancement": false,
         "useful": false,
         "trap": false,
@@ -2252,10 +2837,18 @@
         "type": null,
         "max_count": 1
       },
-      "Box of bullets": {
-        "name": "Box of bullets",
-        "id": 350114,
-        "groups": [],
+      "Serpent Card": {
+        "name": "Serpent Card",
+        "id": 3579635201,
+        "groups": [
+          "Attribute",
+          "Attribute Card",
+          "Card",
+          "DSS",
+          "Everything",
+          "Freeze",
+          "Freeze Attribute"
+        ],
         "advancement": false,
         "useful": false,
         "trap": false,
@@ -2263,20 +2856,425 @@
         "type": null,
         "max_count": 1
       },
-      "Railgun Turret (Raven)": {
-        "name": "Railgun Turret (Raven)",
-        "id": 1365,
-        "groups": [],
+      "Mandragora Card": {
+        "name": "Mandragora Card",
+        "id": 3579635202,
+        "groups": [
+          "Attribute",
+          "Attribute Card",
+          "Card",
+          "DSS",
+          "Everything"
+        ],
         "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Golem Card": {
+        "name": "Golem Card",
+        "id": 3579635203,
+        "groups": [
+          "Attribute",
+          "Attribute Card",
+          "Card",
+          "DSS",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cockatrice Card": {
+        "name": "Cockatrice Card",
+        "id": 3579635204,
+        "groups": [
+          "Attribute",
+          "Attribute Card",
+          "Card",
+          "DSS",
+          "Everything",
+          "Freeze",
+          "Freeze Attribute"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Manticore Card": {
+        "name": "Manticore Card",
+        "id": 3579635205,
+        "groups": [
+          "Attribute",
+          "Attribute Card",
+          "Card",
+          "DSS",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Griffin Card": {
+        "name": "Griffin Card",
+        "id": 3579635206,
+        "groups": [
+          "Attribute",
+          "Attribute Card",
+          "Card",
+          "DSS",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Thunderbird Card": {
+        "name": "Thunderbird Card",
+        "id": 3579635207,
+        "groups": [
+          "Attribute",
+          "Attribute Card",
+          "Card",
+          "DSS",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Unicorn Card": {
+        "name": "Unicorn Card",
+        "id": 3579635208,
+        "groups": [
+          "Attribute",
+          "Attribute Card",
+          "Card",
+          "DSS",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Black Dog Card": {
+        "name": "Black Dog Card",
+        "id": 3579635209,
+        "groups": [
+          "Attribute",
+          "Attribute Card",
+          "Card",
+          "DSS",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mercury Card": {
+        "name": "Mercury Card",
+        "id": 3579635210,
+        "groups": [
+          "Action",
+          "Action Card",
+          "Card",
+          "DSS",
+          "Everything",
+          "Freeze",
+          "Freeze Action"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Venus Card": {
+        "name": "Venus Card",
+        "id": 3579635211,
+        "groups": [
+          "Action",
+          "Action Card",
+          "Card",
+          "DSS",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Jupiter Card": {
+        "name": "Jupiter Card",
+        "id": 3579635212,
+        "groups": [
+          "Action",
+          "Action Card",
+          "Card",
+          "DSS",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mars Card": {
+        "name": "Mars Card",
+        "id": 3579635213,
+        "groups": [
+          "Action",
+          "Action Card",
+          "Card",
+          "DSS",
+          "Everything",
+          "Freeze",
+          "Freeze Action"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Diana Card": {
+        "name": "Diana Card",
+        "id": 3579635214,
+        "groups": [
+          "Action",
+          "Action Card",
+          "Card",
+          "DSS",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Apollo Card": {
+        "name": "Apollo Card",
+        "id": 3579635215,
+        "groups": [
+          "Action",
+          "Action Card",
+          "Card",
+          "DSS",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Neptune Card": {
+        "name": "Neptune Card",
+        "id": 3579635216,
+        "groups": [
+          "Action",
+          "Action Card",
+          "Card",
+          "DSS",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Saturn Card": {
+        "name": "Saturn Card",
+        "id": 3579635217,
+        "groups": [
+          "Action",
+          "Action Card",
+          "Card",
+          "DSS",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Uranus Card": {
+        "name": "Uranus Card",
+        "id": 3579635218,
+        "groups": [
+          "Action",
+          "Action Card",
+          "Card",
+          "DSS",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Pluto Card": {
+        "name": "Pluto Card",
+        "id": 3579635219,
+        "groups": [
+          "Action",
+          "Action Card",
+          "Card",
+          "DSS",
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Double": {
+        "name": "Double",
+        "id": 3579635713,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
         "useful": true,
         "trap": false,
         "event": false,
         "type": null,
+        "max_count": 2
+      },
+      "Tackle": {
+        "name": "Tackle",
+        "id": 3579635714,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
         "max_count": 1
       },
-      "Necro": {
-        "name": "Necro",
-        "id": 11390994,
+      "Kick Boots": {
+        "name": "Kick Boots",
+        "id": 3579635715,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Heavy Ring": {
+        "name": "Heavy Ring",
+        "id": 3579635716,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cleansing": {
+        "name": "Cleansing",
+        "id": 3579635718,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Roc Wing": {
+        "name": "Roc Wing",
+        "id": 3579635719,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Last Key": {
+        "name": "Last Key",
+        "id": 3579635720,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Maiden Detonator": {
+        "name": "Maiden Detonator",
+        "id": 3579635721,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "LABYRINTH OF NIGHTMARE": {
+        "name": "LABYRINTH OF NIGHTMARE",
+        "id": 5730006,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -2285,42 +3283,9 @@
         "type": null,
         "max_count": 1
       },
-      "Statue of Gaia": {
-        "name": "Statue of Gaia",
-        "id": 4019,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Additional Palette Color": {
-        "name": "Additional Palette Color",
-        "id": 198523,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Max Sand": {
-        "name": "Max Sand",
-        "id": 1337249,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Graffiti (M - Stacked Symbols)": {
-        "name": "Graffiti (M - Stacked Symbols)",
-        "id": 2308051,
+      "Scout Fly - Mountain Pass": {
+        "name": "Scout Fly - Mountain Pass",
+        "id": 741001112,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -2329,31 +3294,9 @@
         "type": null,
         "max_count": 1
       },
-      "BOMBO - GENESIS": {
-        "name": "BOMBO - GENESIS",
-        "id": 200685,
-        "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Micro-Filtering": {
-        "name": "Micro-Filtering",
-        "id": 1603,
-        "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Red jewel(S)": {
-        "name": "Red jewel(S)",
-        "id": 12992514,
+      "Witch's Locks": {
+        "name": "Witch's Locks",
+        "id": 100172,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -2362,9 +3305,9 @@
         "type": null,
         "max_count": 1
       },
-      "Armor": {
-        "name": "Armor",
-        "id": 360008,
+      "Shriving Stone": {
+        "name": "Shriving Stone",
+        "id": 100920,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -2373,31 +3316,9 @@
         "type": null,
         "max_count": 1
       },
-      "Money x25": {
-        "name": "Money x25",
-        "id": 509342491,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Card Pack": {
-        "name": "Card Pack",
-        "id": 147041,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Category Fours": {
-        "name": "Category Fours",
-        "id": 16871244106,
+      "SonicWav W": {
+        "name": "SonicWav W",
+        "id": 11735212,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -2406,9 +3327,9 @@
         "type": null,
         "max_count": 1
       },
-      "Resource Pack: 2 Raw_Potato": {
-        "name": "Resource Pack: 2 Raw_Potato",
-        "id": 47252,
+      "Resource Pack: 3 Plastic": {
+        "name": "Resource Pack: 3 Plastic",
+        "id": 47133,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -2417,9 +3338,9 @@
         "type": null,
         "max_count": 1
       },
-      "Money": {
-        "name": "Money",
-        "id": 37301,
+      "Bear Coin": {
+        "name": "Bear Coin",
+        "id": 14430210,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -2428,97 +3349,20 @@
         "type": null,
         "max_count": 1
       },
-      "Speed Boost": {
-        "name": "Speed Boost",
-        "id": 158500,
+      "Progressive Dots": {
+        "name": "Progressive Dots",
+        "id": 158200,
         "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "2 Roots": {
-        "name": "2 Roots",
-        "id": 64122,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Arnassi Statue": {
-        "name": "Arnassi Statue",
-        "id": 698001,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Auto-Grabber": {
-        "name": "Auto-Grabber",
-        "id": 722268,
-        "groups": [],
-        "advancement": false,
+        "advancement": true,
         "useful": true,
         "trap": false,
         "event": false,
         "type": null,
         "max_count": 1
       },
-      "Resource Pack: 10 Qi Seasoning": {
-        "name": "Resource Pack: 10 Qi Seasoning",
-        "id": 722234,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "2-Up": {
-        "name": "2-Up",
-        "id": 3154061,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Outfit (Rave - Autumn)": {
-        "name": "Outfit (Rave - Autumn)",
-        "id": 2308131,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Reinforced Dive Suit": {
-        "name": "Reinforced Dive Suit",
-        "id": 35005,
-        "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Emblem": {
-        "name": "Emblem",
-        "id": 16711680,
+      "Time Shard (500)": {
+        "name": "Time Shard (500)",
+        "id": 11391004,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -2527,20 +3371,20 @@
         "type": null,
         "max_count": 1
       },
-      "Empty White Hallways": {
-        "name": "Empty White Hallways",
-        "id": 444577,
+      "Circuit board": {
+        "name": "Circuit board",
+        "id": 47038,
         "groups": [],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
         "type": null,
         "max_count": 1
       },
-      "TM35 Metronome": {
-        "name": "TM35 Metronome",
-        "id": 172000235,
+      "Fire Power": {
+        "name": "Fire Power",
+        "id": 64014,
         "groups": [],
         "advancement": false,
         "useful": true,
@@ -2549,9 +3393,130 @@
         "type": null,
         "max_count": 1
       },
-      "Refresher": {
-        "name": "Refresher",
-        "id": 4325395,
+      "Scraps": {
+        "name": "Scraps",
+        "id": 66600001,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Terran Ship Weapon": {
+        "name": "Progressive Terran Ship Weapon",
+        "id": 1105,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Neptune Fuel Reserve": {
+        "name": "Neptune Fuel Reserve",
+        "id": 35078,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "HM05 Flash": {
+        "name": "HM05 Flash",
+        "id": 172000200,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Treasure Bumper": {
+        "name": "Treasure Bumper",
+        "id": 595008,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Target",
+        "max_count": 1
+      },
+      "Scythe Ring": {
+        "name": "Scythe Ring",
+        "id": 1337164,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      ":)": {
+        "name": ":)",
+        "id": 444409,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Crystal Heart 14": {
+        "name": "Crystal Heart 14",
+        "id": 211890189,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ring": {
+        "name": "Ring",
+        "id": 147009,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Flechette Missiles (Valkyrie)": {
+        "name": "Flechette Missiles (Valkyrie)",
+        "id": 1381,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Quiver of Ethereal Arrows": {
+        "name": "Quiver of Ethereal Arrows",
+        "id": 370023,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Crystal Heart 10": {
+        "name": "Crystal Heart 10",
+        "id": 211890185,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -2571,20 +3536,9 @@
         "type": null,
         "max_count": 1
       },
-      "Trap": {
-        "name": "Trap",
-        "id": 110000,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": true,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Pale Pine Resin": {
-        "name": "Pale Pine Resin",
-        "id": 100785,
+      "Energy cell pack": {
+        "name": "Energy cell pack",
+        "id": 360019,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -2593,97 +3547,9 @@
         "type": null,
         "max_count": 1
       },
-      "Timebomb of the Ancients": {
-        "name": "Timebomb of the Ancients",
-        "id": 370013,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "MP Berry x2": {
-        "name": "MP Berry x2",
-        "id": 509342419,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Full Restore": {
-        "name": "Full Restore",
-        "id": 172000016,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Extra Max HP": {
-        "name": "Extra Max HP",
-        "id": 110001,
-        "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Morne's Armor": {
-        "name": "Morne's Armor",
-        "id": 100321,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Concussive Shells (Marauder)": {
-        "name": "Concussive Shells (Marauder)",
-        "id": 1214,
-        "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Turtle Soup": {
-        "name": "Turtle Soup",
-        "id": 698092,
-        "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Miss To Great (5 Pack)": {
-        "name": "Miss To Great (5 Pack)",
-        "id": 2900031,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Scout Fly - Misty Island": {
-        "name": "Scout Fly - Misty Island",
-        "id": 741001052,
+      "Emblem": {
+        "name": "Emblem",
+        "id": 16711680,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -2692,31 +3558,9 @@
         "type": null,
         "max_count": 1
       },
-      "Empty Golden Thimble": {
-        "name": "Empty Golden Thimble",
-        "id": 1909104,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Ice Rod": {
-        "name": "Ice Rod",
-        "id": 8,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "2 Call beads": {
-        "name": "2 Call beads",
-        "id": 64237,
+      "Baby Nautilus": {
+        "name": "Baby Nautilus",
+        "id": 698021,
         "groups": [],
         "advancement": false,
         "useful": true,
@@ -2725,9 +3569,31 @@
         "type": null,
         "max_count": 1
       },
-      "Stable": {
-        "name": "Stable",
-        "id": 717091,
+      "25 Pons": {
+        "name": "25 Pons",
+        "id": 2000300034,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Box of bullets": {
+        "name": "Box of bullets",
+        "id": 350114,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "TM48": {
+        "name": "TM48",
+        "id": 3860336,
         "groups": [],
         "advancement": false,
         "useful": true,
@@ -2736,11 +3602,638 @@
         "type": null,
         "max_count": 1
       },
-      "Camping Set": {
-        "name": "Camping Set",
-        "id": 2641143,
+      "Internal Tech Module (Raven)": {
+        "name": "Internal Tech Module (Raven)",
+        "id": 1369,
         "groups": [],
         "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Chuckle Bean": {
+        "name": "Chuckle Bean",
+        "id": 77771020,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Black Dress": {
+        "name": "Black Dress",
+        "id": 100345,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Random Cosmetic": {
+        "name": "Random Cosmetic",
+        "id": 2000300044,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Devastator Turret": {
+        "name": "Devastator Turret",
+        "id": 1403,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Revive": {
+        "name": "Revive",
+        "id": 3860024,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ember": {
+        "name": "Ember",
+        "id": 100863,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Power Star": {
+        "name": "Power Star",
+        "id": 3626000,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Worn Dagger": {
+        "name": "Worn Dagger",
+        "id": 77051,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Red Potion": {
+        "name": "Red Potion",
+        "id": 400024,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "SloGauge *": {
+        "name": "SloGauge *",
+        "id": 11735142,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Motorboat Key": {
+        "name": "Motorboat Key",
+        "id": 82014,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hoo Bean": {
+        "name": "Hoo Bean",
+        "id": 77771019,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sword of the Ancestor": {
+        "name": "Sword of the Ancestor",
+        "id": 1245204,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "MULTI STEM CELL": {
+        "name": "MULTI STEM CELL",
+        "id": 200651,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Spicy Roll": {
+        "name": "Spicy Roll",
+        "id": 698085,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Smart Servos (Viking)": {
+        "name": "Smart Servos (Viking)",
+        "id": 1279,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Oil": {
+        "name": "Oil",
+        "id": 64104,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Demon's Fist": {
+        "name": "Demon's Fist",
+        "id": 100169,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Smart Power Doctrine": {
+        "name": "Smart Power Doctrine",
+        "id": 5041134,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fairy": {
+        "name": "Fairy",
+        "id": 509342421,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "The Labyrinth (E2M6) - Map Scroll": {
+        "name": "The Labyrinth (E2M6) - Map Scroll",
+        "id": 370444,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "progressive-worker-robots-speed": {
+        "name": "progressive-worker-robots-speed",
+        "id": 131295,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Chamber Key": {
+        "name": "Chamber Key",
+        "id": 12992543,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Roast beef": {
+        "name": "Roast beef",
+        "id": 12992519,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Estus Shard": {
+        "name": "Estus Shard",
+        "id": 100967,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Aerial Recovery": {
+        "name": "Aerial Recovery",
+        "id": 1245357,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Izalith Pyromancy Tome": {
+        "name": "Izalith Pyromancy Tome",
+        "id": 100956,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "16 REP": {
+        "name": "16 REP",
+        "id": 2308160,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Toy Shovel": {
+        "name": "Toy Shovel",
+        "id": 82009,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Brimstone": {
+        "name": "Brimstone",
+        "id": 64267,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Atom Smasher": {
+        "name": "Atom Smasher",
+        "id": 64383,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Triforce Shard 4": {
+        "name": "Triforce Shard 4",
+        "id": 2322464,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Item",
+        "max_count": 1
+      },
+      "Life Stock": {
+        "name": "Life Stock",
+        "id": 4062,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Small Doll": {
+        "name": "Small Doll",
+        "id": 100922,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Titanite Scale": {
+        "name": "Titanite Scale",
+        "id": 100899,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Yellow Neon Egg": {
+        "name": "Yellow Neon Egg",
+        "id": 77771054,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wisdom Form": {
+        "name": "Wisdom Form",
+        "id": 1245216,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Exp. All": {
+        "name": "Exp. All",
+        "id": 172000075,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "TM46 Psywave": {
+        "name": "TM46 Psywave",
+        "id": 172000246,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Thundagun Trinket": {
+        "name": "Thundagun Trinket",
+        "id": 1245249,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Puzzle Skip": {
+        "name": "Puzzle Skip",
+        "id": 158510,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Fishing Rod": {
+        "name": "Progressive Fishing Rod",
+        "id": 82007,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Five Rupees": {
+        "name": "Five Rupees",
+        "id": 7129,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Single Arrow": {
+        "name": "Single Arrow",
+        "id": 10000131,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Resource Pack: 1 Sand": {
+        "name": "Resource Pack: 1 Sand",
+        "id": 47221,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Titanite Chunk x2": {
+        "name": "Titanite Chunk x2",
+        "id": 100896,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Gloom jewel": {
+        "name": "Gloom jewel",
+        "id": 11288954,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rupees (300)": {
+        "name": "Rupees (300)",
+        "id": 70,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ultra Nuts": {
+        "name": "Ultra Nuts",
+        "id": 77771007,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Terran Ship Armor": {
+        "name": "Progressive Terran Ship Armor",
+        "id": 1106,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Money": {
+        "name": "Money",
+        "id": 37301,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "progressive-science-pack": {
+        "name": "progressive-science-pack",
+        "id": 131287,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Inferno Orb": {
+        "name": "Inferno Orb",
+        "id": 370021,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "The Abandoned Mines (MAP26) - Yellow keycard": {
+        "name": "The Abandoned Mines (MAP26) - Yellow keycard",
+        "id": 360252,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "TM29 Psychic": {
+        "name": "TM29 Psychic",
+        "id": 172000229,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mega Armor": {
+        "name": "Mega Armor",
+        "id": 360009,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "50 Rupees": {
+        "name": "50 Rupees",
+        "id": 10000027,
+        "groups": [],
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2758,42 +4251,9 @@
         "type": null,
         "max_count": 1
       },
-      "Quartz Flask": {
-        "name": "Quartz Flask",
-        "id": 370010,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Item Scrap, White": {
-        "name": "Item Scrap, White",
-        "id": 37008,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Smart Servos (Liberator)": {
-        "name": "Smart Servos (Liberator)",
-        "id": 1384,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Juggernaut Plating (Marauder)": {
-        "name": "Juggernaut Plating (Marauder)",
-        "id": 1238,
+      "Bonus Star": {
+        "name": "Bonus Star",
+        "id": 213736,
         "groups": [],
         "advancement": false,
         "useful": true,
@@ -2802,9 +4262,9 @@
         "type": null,
         "max_count": 1
       },
-      "Cure Potion": {
-        "name": "Cure Potion",
-        "id": 4325392,
+      "MULTI-JUICE": {
+        "name": "MULTI-JUICE",
+        "id": 200650,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -2813,9 +4273,42 @@
         "type": null,
         "max_count": 1
       },
-      "Scout Fly - Rock Village": {
-        "name": "Scout Fly - Rock Village",
-        "id": 741001100,
+      "Large Titanite Shard": {
+        "name": "Large Titanite Shard",
+        "id": 100892,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Glove": {
+        "name": "Glove",
+        "id": 400026,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Heal Potion": {
+        "name": "Heal Potion",
+        "id": 4325393,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "8 REP": {
+        "name": "8 REP",
+        "id": 2308159,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -2824,9 +4317,9 @@
         "type": null,
         "max_count": 1
       },
-      "Anywhere Pow": {
-        "name": "Anywhere Pow",
-        "id": 3154052,
+      "Mushroom": {
+        "name": "Mushroom",
+        "id": 77771001,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -2835,75 +4328,9 @@
         "type": null,
         "max_count": 1
       },
-      "Chaotic Attunement (Ascendant)": {
-        "name": "Chaotic Attunement (Ascendant)",
-        "id": 3366,
-        "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Tears of Atonement (2600)": {
-        "name": "Tears of Atonement (2600)",
-        "id": 1909194,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Automated Refinery": {
-        "name": "Automated Refinery",
-        "id": 1604,
-        "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Large Soul of a Nameless Soldier": {
-        "name": "Large Soul of a Nameless Soldier",
-        "id": 100825,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Cyclops Decoy Tube Upgrade": {
-        "name": "Cyclops Decoy Tube Upgrade",
-        "id": 35013,
-        "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Stasis Calibration (Oracle)": {
-        "name": "Stasis Calibration (Oracle)",
-        "id": 3326,
-        "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Proud Fang": {
-        "name": "Proud Fang",
-        "id": 1245207,
+      "HOUSE KEY": {
+        "name": "HOUSE KEY",
+        "id": 200630,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -2912,9 +4339,20 @@
         "type": null,
         "max_count": 1
       },
-      "Fixed Score Multiplier": {
-        "name": "Fixed Score Multiplier",
-        "id": 16871244005,
+      "Progressive Sword": {
+        "name": "Progressive Sword",
+        "id": 94,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Sword",
+        "max_count": 1
+      },
+      "Time Piece": {
+        "name": "Time Piece",
+        "id": 2000300002,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -2923,9 +4361,9 @@
         "type": null,
         "max_count": 1
       },
-      "Health Pon": {
-        "name": "Health Pon",
-        "id": 2000300037,
+      "Invulnerability": {
+        "name": "Invulnerability",
+        "id": 350110,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -2934,9 +4372,9 @@
         "type": null,
         "max_count": 1
       },
-      "Easier Lyre": {
-        "name": "Easier Lyre",
-        "id": 27091,
+      "Dath Stone": {
+        "name": "Dath Stone",
+        "id": 509342432,
         "groups": [],
         "advancement": false,
         "useful": true,
@@ -2945,47 +4383,69 @@
         "type": null,
         "max_count": 1
       },
-      "Speckled Stoneplate Ring": {
-        "name": "Speckled Stoneplate Ring",
-        "id": 100624,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "1-Up Mushroom": {
-        "name": "1-Up Mushroom",
-        "id": 12320769,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Soul of a Weary Warrior": {
-        "name": "Soul of a Weary Warrior",
-        "id": 100826,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Turtle Zone Progression": {
-        "name": "Turtle Zone Progression",
-        "id": 16,
+      "Proof of Connection": {
+        "name": "Proof of Connection",
+        "id": 1245197,
         "groups": [],
         "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dice Fragment": {
+        "name": "Dice Fragment",
+        "id": 16871244001,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "progressive-zipline": {
+        "name": "progressive-zipline",
+        "id": 47109,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Roots": {
+        "name": "Roots",
+        "id": 64120,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Prism Q": {
+        "name": "Prism Q",
+        "id": 11735124,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "The Count Downed": {
+        "name": "The Count Downed",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
         "type": null,
         "max_count": 1
       },
@@ -3019,23 +4479,52 @@
   },
   "item_groups": {
     "9": [
+      "Action",
+      "Action Card",
+      "Attribute",
+      "Attribute Card",
+      "Card",
+      "DSS",
       "Everything",
-      "Helpers",
-      "Targets",
-      "Traps"
+      "Freeze",
+      "Freeze Action",
+      "Freeze Attribute"
     ]
   },
   "itempool_counts": {
     "9": {
-      "Booster Bumper": 5,
-      "Hazard Bumper": 25,
-      "Rainbow Trap": 3,
-      "Score Bonus": 22,
-      "Spinner Trap": 2,
-      "Starting Paint Can": 3,
-      "Starting Turner": 3,
-      "Task Advance": 5,
-      "Treasure Bumper": 33
+      "Apollo Card": 1,
+      "Black Dog Card": 1,
+      "Cleansing": 1,
+      "Cockatrice Card": 1,
+      "Diana Card": 1,
+      "Double": 2,
+      "Golem Card": 1,
+      "Griffin Card": 1,
+      "HP Max Up": 36,
+      "Heart Max Up": 29,
+      "Heavy Ring": 1,
+      "Jupiter Card": 1,
+      "Kick Boots": 2,
+      "Last Key": 1,
+      "MP Max Up": 30,
+      "Maiden Detonator": 2,
+      "Mandragora Card": 1,
+      "Manticore Card": 1,
+      "Mars Card": 1,
+      "Mercury Card": 1,
+      "Neptune Card": 1,
+      "Pluto Card": 1,
+      "Roc Wing": 1,
+      "Salamander Card": 1,
+      "Saturn Card": 1,
+      "Serpent Card": 1,
+      "Tackle": 1,
+      "The Count Downed": 1,
+      "Thunderbird Card": 1,
+      "Unicorn Card": 1,
+      "Uranus Card": 1,
+      "Venus Card": 1
     }
   },
   "progression_mapping": {
@@ -3046,14 +4535,19 @@
   },
   "settings": {
     "9": {
-      "game": "Bumper Stickers",
+      "game": "Castlevania - Circle of the Moon",
       "assume_bidirectional_exits": false,
-      "use_resolved_items": false
+      "use_resolved_items": false,
+      "nerf_roc_wing": 0,
+      "ignore_cleansing": 0,
+      "iron_maiden_behavior": 0,
+      "required_last_keys": 1,
+      "completion_goal": 0
     }
   },
   "game_info": {
     "9": {
-      "name": "Bumper Stickers",
+      "name": "Castlevania - Circle of the Moon",
       "rule_format": {
         "version": "1.0"
       }

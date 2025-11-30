@@ -2,7 +2,7 @@
   "schema_version": 3,
   "game_name": "Celeste 64",
   "game_directory": "celeste64",
-  "archipelago_version": "0.6.4",
+  "archipelago_version": "0.6.5",
   "generation_seed": 1,
   "player_names": {
     "1": "Player1",
@@ -77,40 +77,38 @@
     "70": "Player70",
     "71": "Player71",
     "72": "Player72",
-    "73": "Player73",
-    "74": "Player74",
-    "75": "Player75"
+    "73": "Player73"
   },
   "world_classes": {
     "1": "HatInTimeWorld",
     "2": "ALTTPWorld",
     "3": "ShortHikeWorld",
     "4": "AdventureWorld",
-    "5": "AquariaWorld",
-    "6": "ArchipIDLEWorld",
-    "7": "BlasphemousWorld",
-    "8": "BombRushCyberfunkWorld",
-    "9": "BumpStikWorld",
-    "10": "CVCotMWorld",
-    "11": "CV64World",
+    "5": "APQuestWorld",
+    "6": "AquariaWorld",
+    "7": "BombRushCyberfunkWorld",
+    "8": "BumpStikWorld",
+    "9": "CVCotMWorld",
+    "10": "CV64World",
+    "11": "CelesteOpenWorld",
     "12": "Celeste64World",
     "13": "ChecksFinderWorld",
     "14": "ChocolateChipCookiesWorld",
-    "15": "CivVIWorld",
-    "16": "DarkSouls3World",
-    "17": "DLCqworld",
-    "18": "DKC3World",
-    "19": "DOOM1993World",
-    "20": "DOOM2World",
-    "21": "Factorio",
-    "22": "FaxanaduWorld",
-    "23": "FFMQWorld",
-    "24": "HereticWorld",
-    "25": "Hylics2World",
-    "26": "InscryptionWorld",
-    "27": "JakAndDaxterWorld",
-    "28": "KH2World",
-    "29": "KH1World",
+    "15": "CCCharlesWorld",
+    "16": "CivVIWorld",
+    "17": "DarkSouls3World",
+    "18": "DLCqworld",
+    "19": "DKC3World",
+    "20": "DOOM1993World",
+    "21": "DOOM2World",
+    "22": "Factorio",
+    "23": "FaxanaduWorld",
+    "24": "FFMQWorld",
+    "25": "HereticWorld",
+    "26": "Hylics2World",
+    "27": "InscryptionWorld",
+    "28": "JakAndDaxterWorld",
+    "29": "KH2World",
     "30": "KDL3World",
     "31": "LandstalkerWorld",
     "32": "LingoWorld",
@@ -137,26 +135,24 @@
     "53": "ShiversWorld",
     "54": "SA2BWorld",
     "55": "SC2World",
-    "56": "StardewValleyWorld",
-    "57": "SubnauticaWorld",
-    "58": "SM64World",
-    "59": "MarioLand2World",
-    "60": "SMWWorld",
-    "61": "SMWorld",
-    "62": "TerrariaWorld",
-    "63": "TLoZWorld",
-    "64": "MessengerWorld",
-    "65": "TWWWorld",
-    "66": "WitnessWorld",
-    "67": "TimespinnerWorld",
-    "68": "TunicWorld",
-    "69": "UndertaleWorld",
-    "70": "V6World",
-    "71": "WargrooveWorld",
-    "72": "WebDevJourneyWorld",
-    "73": "YachtDiceWorld",
-    "74": "YoshisIslandWorld",
-    "75": "Yugioh06World"
+    "56": "SubnauticaWorld",
+    "57": "SM64World",
+    "58": "MarioLand2World",
+    "59": "SMWWorld",
+    "60": "TerrariaWorld",
+    "61": "TLoZWorld",
+    "62": "MessengerWorld",
+    "63": "TWWWorld",
+    "64": "WitnessWorld",
+    "65": "TimespinnerWorld",
+    "66": "TunicWorld",
+    "67": "UndertaleWorld",
+    "68": "V6World",
+    "69": "WargrooveWorld",
+    "70": "WebDevJourneyWorld",
+    "71": "YachtDiceWorld",
+    "72": "YoshisIslandWorld",
+    "73": "Yugioh06World"
   },
   "regions": {
     "12": {
@@ -344,8 +340,8 @@
               ]
             },
             "item": {
-              "name": "Arrow Wheel",
-              "player": 74,
+              "name": "Silph Scope",
+              "player": 47,
               "advancement": true,
               "type": "None"
             }
@@ -459,9 +455,9 @@
               ]
             },
             "item": {
-              "name": "Progressive Raccoon",
-              "player": 56,
-              "advancement": true,
+              "name": "Timebomb of the Ancients",
+              "player": 25,
+              "advancement": false,
               "type": "None"
             }
           },
@@ -479,9 +475,9 @@
               ]
             },
             "item": {
-              "name": "Small Miner Upgrade",
-              "player": 52,
-              "advancement": false,
+              "name": "Progressive Holy Site",
+              "player": 16,
+              "advancement": true,
               "type": "None"
             }
           },
@@ -499,8 +495,8 @@
               ]
             },
             "item": {
-              "name": "Cupid Locket",
-              "player": 23,
+              "name": "Chuckle Bean",
+              "player": 35,
               "advancement": false,
               "type": "None"
             }
@@ -519,8 +515,8 @@
               ]
             },
             "item": {
-              "name": "Kinetic Blast (Kerrigan Tier 1)",
-              "player": 55,
+              "name": "Prawn Suit Fragment",
+              "player": 56,
               "advancement": true,
               "type": "None"
             }
@@ -539,8 +535,8 @@
               ]
             },
             "item": {
-              "name": "Hyper Potion",
-              "player": 46,
+              "name": "Max HP Up",
+              "player": 29,
               "advancement": false,
               "type": "None"
             }
@@ -559,29 +555,9 @@
               ]
             },
             "item": {
-              "name": "Titanite Shard",
-              "player": 16,
+              "name": "Upgrade Shapes Bundle",
+              "player": 52,
               "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Girders Strawberry",
-            "id": 13238282,
-            "access_rule": {
-              "type": "helper",
-              "name": "location_rule",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Girders Strawberry"
-                }
-              ]
-            },
-            "item": {
-              "name": "Adaptive Medpacks (Medic)",
-              "player": 55,
-              "advancement": true,
               "type": "None"
             }
           },
@@ -599,8 +575,8 @@
               ]
             },
             "item": {
-              "name": "Mega Armor",
-              "player": 20,
+              "name": "The Chasm (MAP24) - Computer area map",
+              "player": 21,
               "advancement": false,
               "type": "None"
             }
@@ -619,8 +595,8 @@
               ]
             },
             "item": {
-              "name": "Mind Refresh ULTRA",
-              "player": 67,
+              "name": "Max Elixir",
+              "player": 46,
               "advancement": false,
               "type": "None"
             }
@@ -639,8 +615,8 @@
               ]
             },
             "item": {
-              "name": "Mega Armor",
-              "player": 19,
+              "name": "Spicy Meat x 2",
+              "player": 6,
               "advancement": false,
               "type": "None"
             }
@@ -777,8 +753,8 @@
               ]
             },
             "item": {
-              "name": "Super Star Duration Increase",
-              "player": 59,
+              "name": "MUSCLE APPLIQUE",
+              "player": 26,
               "advancement": false,
               "type": "None"
             }
@@ -797,8 +773,28 @@
               ]
             },
             "item": {
-              "name": "Blue Switch Palace",
-              "player": 60,
+              "name": "Boss Heart Container",
+              "player": 2,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Girders Strawberry",
+            "id": 13238282,
+            "access_rule": {
+              "type": "helper",
+              "name": "location_rule",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Girders Strawberry"
+                }
+              ]
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 19,
               "advancement": true,
               "type": "None"
             }
@@ -817,8 +813,8 @@
               ]
             },
             "item": {
-              "name": "Soothing Sunlight",
-              "player": 16,
+              "name": "Secret Ansem's Report 5",
+              "player": 29,
               "advancement": false,
               "type": "None"
             }
@@ -837,8 +833,8 @@
               ]
             },
             "item": {
-              "name": "progressive-laser-shooting-speed",
-              "player": 21,
+              "name": "Scraps",
+              "player": 15,
               "advancement": false,
               "type": "None"
             }
@@ -857,8 +853,8 @@
               ]
             },
             "item": {
-              "name": "Bomb",
-              "player": 63,
+              "name": "Money x32",
+              "player": 66,
               "advancement": false,
               "type": "None"
             }
@@ -941,8 +937,8 @@
               ]
             },
             "item": {
-              "name": "Resource Efficiency (Swarm Queen)",
-              "player": 55,
+              "name": "Small Painting Upgrade",
+              "player": 52,
               "advancement": false,
               "type": "None"
             }
@@ -1036,9 +1032,9 @@
               ]
             },
             "item": {
-              "name": "The Crater (E2M1) - Green key",
-              "player": 24,
-              "advancement": true,
+              "name": "Small Key",
+              "player": 61,
+              "advancement": false,
               "type": "None"
             }
           },
@@ -1056,8 +1052,8 @@
               ]
             },
             "item": {
-              "name": "RegUP2",
-              "player": 38,
+              "name": "Acid Rain",
+              "player": 51,
               "advancement": false,
               "type": "None"
             }
@@ -1076,9 +1072,9 @@
               ]
             },
             "item": {
-              "name": "Calcaneum of Persian, the Bandit",
-              "player": 7,
-              "advancement": true,
+              "name": "Medicine",
+              "player": 33,
+              "advancement": false,
               "type": "None"
             }
           },
@@ -1096,9 +1092,9 @@
               ]
             },
             "item": {
-              "name": "Cockatrice Card",
-              "player": 10,
-              "advancement": true,
+              "name": "Bombs (3)",
+              "player": 2,
+              "advancement": false,
               "type": "None"
             }
           },
@@ -1116,8 +1112,8 @@
               ]
             },
             "item": {
-              "name": "10 coins",
-              "player": 60,
+              "name": "13 Coins",
+              "player": 3,
               "advancement": false,
               "type": "None"
             }
@@ -1214,10 +1210,10 @@
               ]
             },
             "item": {
-              "name": "Wood Always Available in Blue Maze",
-              "player": 53,
+              "name": "Circuit Refill upgrade",
+              "player": 39,
               "advancement": false,
-              "type": "None"
+              "type": "Enhancement"
             }
           },
           {
@@ -1234,9 +1230,9 @@
               ]
             },
             "item": {
-              "name": "Syrup",
-              "player": 35,
-              "advancement": false,
+              "name": "Power Star",
+              "player": 57,
+              "advancement": true,
               "type": "None"
             }
           },
@@ -1254,9 +1250,9 @@
               ]
             },
             "item": {
-              "name": "Yarn",
-              "player": 1,
-              "advancement": true,
+              "name": "Shadow Mail",
+              "player": 46,
+              "advancement": false,
               "type": "None"
             }
           },
@@ -1274,8 +1270,8 @@
               ]
             },
             "item": {
-              "name": "Area: Wilderness",
-              "player": 43,
+              "name": "Power Star",
+              "player": 57,
               "advancement": true,
               "type": "None"
             }
@@ -1389,8 +1385,8 @@
               ]
             },
             "item": {
-              "name": "Shark Fin Soup",
-              "player": 5,
+              "name": "Power Cell",
+              "player": 28,
               "advancement": false,
               "type": "None"
             }
@@ -1409,10 +1405,10 @@
               ]
             },
             "item": {
-              "name": "Super Star Duration Increase",
-              "player": 59,
-              "advancement": false,
-              "type": "None"
+              "name": "Progressive Sword",
+              "player": 2,
+              "advancement": true,
+              "type": "Sword"
             }
           }
         ]
@@ -1521,8 +1517,8 @@
               ]
             },
             "item": {
-              "name": "Money",
-              "player": 49,
+              "name": "Snowman Piece",
+              "player": 67,
               "advancement": false,
               "type": "None"
             }
@@ -1619,9 +1615,9 @@
               ]
             },
             "item": {
-              "name": "WideSwrd C",
-              "player": 38,
-              "advancement": true,
+              "name": "Large Soul of an Unknown Traveler",
+              "player": 17,
+              "advancement": false,
               "type": "None"
             }
           },
@@ -1971,9 +1967,9 @@
         "type": null,
         "max_count": 1
       },
-      "Arrow Wheel": {
-        "name": "Arrow Wheel",
-        "id": 3154007,
+      "Silph Scope": {
+        "name": "Silph Scope",
+        "id": 172000072,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -1982,20 +1978,9 @@
         "type": null,
         "max_count": 1
       },
-      "Progressive Raccoon": {
-        "name": "Progressive Raccoon",
-        "id": 717480,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Small Miner Upgrade": {
-        "name": "Small Miner Upgrade",
-        "id": 20010739,
+      "Timebomb of the Ancients": {
+        "name": "Timebomb of the Ancients",
+        "id": 370013,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -2004,9 +1989,42 @@
         "type": null,
         "max_count": 1
       },
-      "Cupid Locket": {
-        "name": "Cupid Locket",
-        "id": 4325439,
+      "Progressive Holy Site": {
+        "name": "Progressive Holy Site",
+        "id": 5041140,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Chuckle Bean": {
+        "name": "Chuckle Bean",
+        "id": 77771020,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Prawn Suit Fragment": {
+        "name": "Prawn Suit Fragment",
+        "id": 35032,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Max HP Up": {
+        "name": "Max HP Up",
+        "id": 1245350,
         "groups": [],
         "advancement": false,
         "useful": true,
@@ -2015,20 +2033,9 @@
         "type": null,
         "max_count": 1
       },
-      "Kinetic Blast (Kerrigan Tier 1)": {
-        "name": "Kinetic Blast (Kerrigan Tier 1)",
-        "id": 2400,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Hyper Potion": {
-        "name": "Hyper Potion",
-        "id": 3860021,
+      "Upgrade Shapes Bundle": {
+        "name": "Upgrade Shapes Bundle",
+        "id": 20010762,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -2037,9 +2044,9 @@
         "type": null,
         "max_count": 1
       },
-      "Titanite Shard": {
-        "name": "Titanite Shard",
-        "id": 100890,
+      "The Chasm (MAP24) - Computer area map": {
+        "name": "The Chasm (MAP24) - Computer area map",
+        "id": 360471,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -2048,20 +2055,9 @@
         "type": null,
         "max_count": 1
       },
-      "Adaptive Medpacks (Medic)": {
-        "name": "Adaptive Medpacks (Medic)",
-        "id": 1233,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Mega Armor": {
-        "name": "Mega Armor",
-        "id": 360009,
+      "Max Elixir": {
+        "name": "Max Elixir",
+        "id": 3860037,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -2070,75 +2066,9 @@
         "type": null,
         "max_count": 1
       },
-      "Mind Refresh ULTRA": {
-        "name": "Mind Refresh ULTRA",
-        "id": 1337064,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Super Star Duration Increase": {
-        "name": "Super Star Duration Increase",
-        "id": 37,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Blue Switch Palace": {
-        "name": "Blue Switch Palace",
-        "id": 12320785,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Soothing Sunlight": {
-        "name": "Soothing Sunlight",
-        "id": 101046,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "progressive-laser-shooting-speed": {
-        "name": "progressive-laser-shooting-speed",
-        "id": 131274,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Bomb": {
-        "name": "Bomb",
-        "id": 7127,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Resource Efficiency (Swarm Queen)": {
-        "name": "Resource Efficiency (Swarm Queen)",
-        "id": 2272,
+      "Spicy Meat x 2": {
+        "name": "Spicy Meat x 2",
+        "id": 698084,
         "groups": [],
         "advancement": false,
         "useful": true,
@@ -2147,20 +2077,9 @@
         "type": null,
         "max_count": 1
       },
-      "The Crater (E2M1) - Green key": {
-        "name": "The Crater (E2M1) - Green key",
-        "id": 370220,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "RegUP2": {
-        "name": "RegUP2",
-        "id": 11735060,
+      "MUSCLE APPLIQUE": {
+        "name": "MUSCLE APPLIQUE",
+        "id": 200626,
         "groups": [],
         "advancement": false,
         "useful": true,
@@ -2169,88 +2088,9 @@
         "type": null,
         "max_count": 1
       },
-      "Calcaneum of Persian, the Bandit": {
-        "name": "Calcaneum of Persian, the Bandit",
-        "id": 1909176,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Cockatrice Card": {
-        "name": "Cockatrice Card",
-        "id": 3579635204,
-        "groups": [],
-        "advancement": true,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "10 coins": {
-        "name": "10 coins",
-        "id": null,
-        "groups": [
-          "coins"
-        ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": "coins",
-        "max_count": 1
-      },
-      "Wood Always Available in Blue Maze": {
-        "name": "Wood Always Available in Blue Maze",
-        "id": 27102,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Syrup": {
-        "name": "Syrup",
-        "id": 77771009,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Yarn": {
-        "name": "Yarn",
-        "id": 2000300001,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Area: Wilderness": {
-        "name": "Area: Wilderness",
-        "id": 458780,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Shark Fin Soup": {
-        "name": "Shark Fin Soup",
-        "id": 698077,
+      "Boss Heart Container": {
+        "name": "Boss Heart Container",
+        "id": 62,
         "groups": [],
         "advancement": false,
         "useful": true,
@@ -2259,9 +2099,20 @@
         "type": null,
         "max_count": 1
       },
-      "Money": {
-        "name": "Money",
-        "id": 37301,
+      "Bonus Coin": {
+        "name": "Bonus Coin",
+        "id": 14430211,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Secret Ansem's Report 5": {
+        "name": "Secret Ansem's Report 5",
+        "id": 1245188,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -2270,11 +2121,165 @@
         "type": null,
         "max_count": 1
       },
-      "WideSwrd C": {
-        "name": "WideSwrd C",
-        "id": 11735162,
+      "Scraps": {
+        "name": "Scraps",
+        "id": 66600001,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Money x32": {
+        "name": "Money x32",
+        "id": 509342493,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Small Painting Upgrade": {
+        "name": "Small Painting Upgrade",
+        "id": 20010741,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Small Key": {
+        "name": "Small Key",
+        "id": 7126,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Acid Rain": {
+        "name": "Acid Rain",
+        "id": 64000,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Medicine": {
+        "name": "Medicine",
+        "id": 10000016,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bombs (3)": {
+        "name": "Bombs (3)",
+        "id": 40,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "13 Coins": {
+        "name": "13 Coins",
+        "id": 82037,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Circuit Refill upgrade": {
+        "name": "Circuit Refill upgrade",
+        "id": 593003,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Enhancement",
+        "max_count": 1
+      },
+      "Power Star": {
+        "name": "Power Star",
+        "id": 3626000,
         "groups": [],
         "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Shadow Mail": {
+        "name": "Shadow Mail",
+        "id": 3860128,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Power Cell": {
+        "name": "Power Cell",
+        "id": 741000000,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Sword": {
+        "name": "Progressive Sword",
+        "id": 94,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Sword",
+        "max_count": 1
+      },
+      "Snowman Piece": {
+        "name": "Snowman Piece",
+        "id": 77016,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Large Soul of an Unknown Traveler": {
+        "name": "Large Soul of an Unknown Traveler",
+        "id": 100823,
+        "groups": [],
+        "advancement": false,
         "useful": false,
         "trap": false,
         "event": false,
@@ -2666,8 +2671,7 @@
         ],
         "Double Dash Puzzle Strawberry": [
           [
-            "Double Dash Refills",
-            "Traffic Blocks"
+            "Double Dash Refills"
           ]
         ],
         "Double Dash Spike Climb Strawberry": [
@@ -2682,17 +2686,6 @@
         ],
         "Double Dash Spring Strawberry": [
           [
-            "Air Dash",
-            "Skid Jump"
-          ],
-          [
-            "Double Dash Refills",
-            "Springs",
-            "Air Dash"
-          ],
-          [
-            "Springs",
-            "Ground Dash",
             "Air Dash"
           ]
         ],
