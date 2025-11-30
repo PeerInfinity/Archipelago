@@ -198,8 +198,10 @@ def create_single_setting_templates(base: Dict[str, Any], game: str, output_dir:
     return count
 
 
-def sanitize_filename(name: str) -> str:
+def sanitize_filename(name) -> str:
     """Convert a setting name to a safe filename component."""
+    # Convert to string first (YAML values can be int, bool, etc.)
+    name = str(name)
     # Replace spaces and special chars with underscores
     safe = name.replace(' ', '_').replace('/', '_').replace('\\', '_')
     safe = safe.replace("'", '').replace('"', '')

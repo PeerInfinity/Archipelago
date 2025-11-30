@@ -233,8 +233,15 @@ def build_world_mapping(worlds_dir: str) -> Dict[str, Dict[str, any]]:
         init_file = world_dir / '__init__.py'
         if not init_file.exists():
             continue
-            
+
         game_name = extract_game_name_from_world(str(init_file))
+
+        # If not found in __init__.py, also check world.py (some worlds define class there)
+        if not game_name:
+            world_file = world_dir / 'world.py'
+            if world_file.exists():
+                game_name = extract_game_name_from_world(str(world_file))
+
         if game_name:
             world_name = world_dir.name
             

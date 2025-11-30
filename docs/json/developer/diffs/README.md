@@ -1,6 +1,6 @@
 # Diff Files from Upstream
 
-This directory contains diff files showing changes made to this repository compared to the upstream Archipelago repository at commit `16d5b453a79c7ef869e20c1e27b3cf4192b037b3` (August 19, 2025, version 0.6.4).
+This directory contains diff files showing changes made to this repository compared to the upstream Archipelago repository at commit `886cc68051f23d6049f8d846379b193aa0415e24` (November 29, 2025, version 0.6.5-rc1).
 
 ## Available Diff Files
 
@@ -12,7 +12,7 @@ Changes to the main Archipelago core files:
 
 These are the most significant changes that affect core Archipelago functionality.
 
-### 2. `config-files.diff` (152 lines)
+### 2. `config-files.diff` (123 lines)
 Changes to configuration and repository setup files:
 - **.gitattributes** - Git attribute configurations
 - **.github/workflows/codeql-analysis.yml** - Code analysis workflow modifications
@@ -23,7 +23,7 @@ Changes to configuration and repository setup files:
 
 These files configure the development environment and CI/CD pipeline.
 
-### 3. `world-init-files.diff` (478 lines)
+### 3. `world-init-files.diff` (435 lines)
 Changes to world implementation initialization files:
 - **worlds/alttp/__init__.py** - A Link to the Past
 - **worlds/apsudoku/__init__.py** - AP Sudoku
@@ -69,8 +69,8 @@ grep -A 999999 "diff --git a/BaseClasses.py" docs/json/developer/diffs/core-file
 
 ## Notes
 
-- These diffs were generated on 2025-11-13 against upstream commit `16d5b453a79c7ef869e20c1e27b3cf4192b037b3`
-- Total lines changed across all diffs: 781 lines (151 + 152 + 478)
+- These diffs were generated on 2025-11-29 against upstream commit `886cc68051f23d6049f8d846379b193aa0415e24`
+- Total lines changed across all diffs: 709 lines (151 + 123 + 435)
 - These diffs only include modifications to existing files that also exist in upstream
 - New files and new directories are not included in these diffs
 - For a complete list of all changes, see [repository-changes.md](./repository-changes.md)
@@ -85,7 +85,7 @@ grep -A 999999 "diff --git a/BaseClasses.py" docs/json/developer/diffs/core-file
 
 These diffs were created using:
 ```bash
-git diff 16d5b453a79c7ef869e20c1e27b3cf4192b037b3 HEAD -- [files...] > [output.diff]
+git diff 886cc68051f23d6049f8d846379b193aa0415e24 HEAD -- [files...] > [output.diff]
 ```
 
 ## Related Documentation

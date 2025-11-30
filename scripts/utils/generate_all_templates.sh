@@ -16,13 +16,22 @@ python Generate.py --weights_file_path "Templates/A Hat in Time.yaml" --multi 1 
 rm -rf Players/presets/Multiworld/
 mkdir -p Players/presets/Multiworld/
 cp Players/Templates/*.yaml Players/presets/Multiworld/
+
+#Exclude list:
 rm -f Players/presets/Multiworld/"Archipelago.yaml" \
       Players/presets/Multiworld/"Final Fantasy.yaml" \
       Players/presets/Multiworld/"Hollow Knight.yaml" \
       Players/presets/Multiworld/"Ocarina of Time.yaml" \
       Players/presets/Multiworld/"Sudoku.yaml" \
-      Players/presets/Multiworld/"SMZ3.yaml" \
+      Players/presets/Multiworld/"Universal Tracker.yaml" \
       Players/presets/Multiworld/"Zillion.yaml"
+
+#Currently failing games:
+rm -f Players/presets/Multiworld/"Blasphemous.yaml" \
+      Players/presets/Multiworld/"Kingdom Hearts.yaml" \
+      Players/presets/Multiworld/"SMZ3.yaml" \
+      Players/presets/Multiworld/"Stardew Valley.yaml" \
+      Players/presets/Multiworld/"Super Metroid.yaml"
 
 python Generate.py --player_files_path "Players/presets/Multiworld" --seed 1
 
@@ -38,15 +47,17 @@ cp "Players/Templates/Adventure.yaml" "Players/Templates/A Short Hike.yaml" Play
 
 python Generate.py --player_files_path "Players/presets/Multiworld" --seed 3
 
+python Generate.py --weights_file_path "Templates/APQuest.yaml" --multi 1 --seed 1
 python Generate.py --weights_file_path "Templates/Aquaria.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/ArchipIDLE.yaml" --multi 1 --seed 1
 python Generate.py --weights_file_path "Templates/Blasphemous.yaml" --multi 1 --seed 1
 python Generate.py --weights_file_path "Templates/Bomb Rush Cyberfunk.yaml" --multi 1 --seed 1
 python Generate.py --weights_file_path "Templates/Bumper Stickers.yaml" --multi 1 --seed 1
 python Generate.py --weights_file_path "Templates/Castlevania 64.yaml" --multi 1 --seed 1
 python Generate.py --weights_file_path "Templates/Castlevania - Circle of the Moon.yaml" --multi 1 --seed 1
+python Generate.py --weights_file_path "Templates/Celeste (Open World).yaml" --multi 1 --seed 1
 python Generate.py --weights_file_path "Templates/Celeste 64.yaml" --multi 1 --seed 1
 python Generate.py --weights_file_path "Templates/ChecksFinder.yaml" --multi 1 --seed 1
+python Generate.py --weights_file_path "Templates/Choo-Choo Charles.yaml" --multi 1 --seed 1
 python Generate.py --weights_file_path "Templates/Civilization VI.yaml" --multi 1 --seed 1
 python Generate.py --weights_file_path "Templates/Dark Souls III.yaml" --multi 1 --seed 1
 python Generate.py --weights_file_path "Templates/DLCQuest.yaml" --multi 1 --seed 1

@@ -1,0 +1,368 @@
+{
+  "schema_version": 3,
+  "game_name": "APQuest",
+  "game_directory": "apquest",
+  "archipelago_version": "0.6.5",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1"
+  },
+  "world_classes": {
+    "1": "APQuestWorld"
+  },
+  "regions": {
+    "1": {
+      "Overworld": {
+        "name": "Overworld",
+        "exits": [
+          {
+            "name": "Overworld to Bottom Right Room",
+            "connected_region": "Bottom Right Room",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Sword"
+            }
+          },
+          {
+            "name": "Overworld to Right Room",
+            "connected_region": "Right Room",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "Overworld to Top Left Room",
+            "connected_region": "Top Left Room",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Key"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Bottom Left Chest",
+            "id": 3,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Confetti Cannon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Top Middle Chest",
+            "id": 2,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Sword",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Top Left Room": {
+        "name": "Top Left Room",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Top Left Room Chest",
+            "id": 1,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Shield",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Top Left Room Button",
+            "id": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Top Left Room Button Pressed",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Bottom Right Room": {
+        "name": "Bottom Right Room",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bottom Right Room Left Chest",
+            "id": 5,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Health Upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bottom Right Room Right Chest",
+            "id": 6,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Health Upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Right Room": {
+        "name": "Right Room",
+        "exits": [
+          {
+            "name": "Right Room to Final Boss Room",
+            "connected_region": "Final Boss Room",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Top Left Room Button Pressed"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Right Room Enemy Drop",
+            "id": 10,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Sword"
+            },
+            "item": {
+              "name": "Key",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "Final Boss Room": {
+        "name": "Final Boss Room",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Final Boss Defeated",
+            "id": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": [
+                    "Shield",
+                    "Sword"
+                  ]
+                }
+              ]
+            },
+            "item": {
+              "name": "Victory",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Overworld"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {
+      "Key": {
+        "name": "Key",
+        "id": 1,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Sword": {
+        "name": "Sword",
+        "id": 2,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Shield": {
+        "name": "Shield",
+        "id": 3,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Hammer": {
+        "name": "Hammer",
+        "id": 4,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Health Upgrade": {
+        "name": "Health Upgrade",
+        "id": 5,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "Confetti Cannon": {
+        "name": "Confetti Cannon",
+        "id": 6,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Math Trap": {
+        "name": "Math Trap",
+        "id": 7,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Top Left Room Button Pressed": {
+        "name": "Top Left Room Button Pressed",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Victory": {
+        "name": "Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "Confetti Cannon": 2,
+      "Health Upgrade": 4,
+      "Key": 2,
+      "Shield": 2,
+      "Sword": 2,
+      "Top Left Room Button Pressed": 1,
+      "Victory": 1
+    }
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": []
+  },
+  "settings": {
+    "1": {
+      "game": "APQuest",
+      "assume_bidirectional_exits": false,
+      "use_resolved_items": false
+    }
+  },
+  "game_info": {
+    "1": {
+      "name": "APQuest",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

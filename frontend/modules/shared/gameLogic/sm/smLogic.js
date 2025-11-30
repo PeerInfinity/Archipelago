@@ -14,6 +14,16 @@
 import { DEFAULT_PLAYER_ID } from '../../playerIdUtils.js';
 
 /**
+ * Get the player ID from snapshot and staticData using the standard pattern
+ * @param {Object} snapshot - Canonical state snapshot
+ * @param {Object} staticData - Static game data
+ * @returns {string|number} Player ID
+ */
+function getPlayerId(snapshot, staticData) {
+  return snapshot?.player?.id || snapshot?.player?.slot || snapshot?.player || staticData?.playerId || DEFAULT_PLAYER_ID;
+}
+
+/**
  * Check if player has an item
  * @param {Object} snapshot - Canonical state snapshot
  * @param {Object} staticData - Static game data
@@ -78,12 +88,13 @@ export function count(snapshot, staticData, itemName) {
   // If not found by name, check if any item has this type
   // This is needed for VARIA type names like "ETank" -> "Energy Tank"
   if (itemCount === 0 && staticData && staticData.items) {
-    // Check player 1's items (assuming single player for now)
+    // Get player-specific items
+    const playerId = getPlayerId(snapshot, staticData);
     let playerItems;
     if (staticData.items instanceof Map) {
-      playerItems = staticData.items.get('1') || staticData.items.get(1);
+      playerItems = staticData.items.get(playerId) || staticData.items.get(String(playerId));
     } else {
-      playerItems = staticData.items['1'] || staticData.items[1];
+      playerItems = staticData.items[playerId] || staticData.items[String(playerId)];
     }
 
     // If playerItems is undefined/null, try using staticData.items directly (flat structure)
@@ -234,13 +245,13 @@ export function haveItem(snapshot, staticData, itemName) {
 
   // If not found by name, check if any item has this type
   if (!hasIt && staticData && staticData.items) {
-    // Check player 1's items (assuming single player for now)
-    // staticData.items might be a Map or an object
+    // Get player-specific items
+    const playerId = getPlayerId(snapshot, staticData);
     let playerItems;
     if (staticData.items instanceof Map) {
-      playerItems = staticData.items.get('1') || staticData.items.get(1);
+      playerItems = staticData.items.get(playerId) || staticData.items.get(String(playerId));
     } else {
-      playerItems = staticData.items['1'] || staticData.items[1];
+      playerItems = staticData.items[playerId] || staticData.items[String(playerId)];
     }
 
     // If playerItems is undefined/null, try using staticData.items directly (flat structure)
@@ -332,7 +343,7 @@ export function knowsSimpleShortCharge(snapshot, staticData) {
 export function knowsShortCharge(snapshot, staticData) {
   // ShortCharge ("Tight Short Charge") is DISABLED by default in VARIA
   // Different from SimpleShortCharge which IS enabled by default
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
 
   if ('ShortCharge' in knowsSettings) {
@@ -346,7 +357,7 @@ export function knowsShortCharge(snapshot, staticData) {
 
 export function knowsMockball(snapshot, staticData) {
   // Check exported knows settings for Mockball technique
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
 
   if ('Mockball' in knowsSettings) {
@@ -452,7 +463,7 @@ const HELL_RUN_PRESETS = {
 export function canHellRun(snapshot, staticData, hellRunType, mult = 1.0, minEArg = 2) {
   // Hell runs require heat resistance OR enough energy reserves
   // In VARIA logic: heatProof() OR (Gravity with half protection) OR (energyReserveCount >= minE AND specific energy check)
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const romPatches = staticData?.settings?.[playerId]?.romPatches || {};
 
   // Check for full heat protection (returns immediately)
@@ -678,7 +689,7 @@ export function heatProof(snapshot, staticData) {
   // Varia always provides full heat protection
   // Gravity only provides full heat protection if NOT ProgressiveSuits and NOT NoGravityEnvProtection
   // Default gravityBehaviour is 'Balanced' which has NoGravityEnvProtection ACTIVE
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const romPatches = staticData?.settings?.[playerId]?.romPatches || {};
 
   // ProgressiveSuits must be explicitly enabled (true) to be active
@@ -727,12 +738,13 @@ export function traverse(snapshot, staticData, doorName) {
     return { bool: true, difficulty: 0 };  // Default to passable if no data
   }
 
-  // Get player 1's game info (assuming single player for now)
-  const playerGameInfo = staticData.game_info['1'] || staticData.game_info[1];
+  // Get player-specific game info
+  const playerId = getPlayerId(snapshot, staticData);
+  const playerGameInfo = staticData.game_info[playerId] || staticData.game_info[String(playerId)];
   const playerDoors = playerGameInfo?.doors;
 
   if (!playerDoors) {
-    console.warn(`[traverse] No door data for player 1`);
+    console.warn(`[traverse] No door data for player ${playerId}`);
     return { bool: true, difficulty: 0 };
   }
 
@@ -951,7 +963,7 @@ export function knowsFirefleasWalljump(snapshot, staticData) {
 
 export function knowsBubbleMountainWallJump(snapshot, staticData) {
   // Check exported knows settings for BubbleMountainWallJump technique
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
 
   if ('BubbleMountainWallJump' in knowsSettings) {
@@ -973,7 +985,7 @@ export function knowsIceEscape(snapshot, staticData) {
 export function knowsXrayDboost(snapshot, staticData) {
   // Check exported knows settings for XrayDboost technique
   // Regular preset: XrayDboost: [false, 0] - disabled
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
 
   if ('XrayDboost' in knowsSettings) {
@@ -987,7 +999,7 @@ export function knowsXrayDboost(snapshot, staticData) {
 export function knowsXrayIce(snapshot, staticData) {
   // Check exported knows settings for XrayIce technique
   // Regular preset: XrayIce: [true, 10] - enabled with difficulty 10
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
 
   if ('XrayIce' in knowsSettings) {
@@ -1008,7 +1020,7 @@ export function knowsReverseGateGlitchHiJumpLess(snapshot, staticData) {
 }
 
 export function knowsCrocPBsDBoost(snapshot, staticData) {
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
 
   if ('CrocPBsDBoost' in knowsSettings) {
@@ -1021,7 +1033,7 @@ export function knowsCrocPBsDBoost(snapshot, staticData) {
 }
 
 export function knowsCrocPBsIce(snapshot, staticData) {
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
 
   if ('CrocPBsIce' in knowsSettings) {
@@ -1039,7 +1051,7 @@ export function knowsMaridiaWallJumps(snapshot, staticData) {
 
 export function knowsOldMBWithSpeed(snapshot, staticData) {
   // Check exported knows settings for OldMBWithSpeed technique
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
 
   if ('OldMBWithSpeed' in knowsSettings) {
@@ -1052,7 +1064,7 @@ export function knowsOldMBWithSpeed(snapshot, staticData) {
 
 export function knowsRonPopeilScrew(snapshot, staticData) {
   // Check exported knows settings for RonPopeilScrew technique
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
 
   if ('RonPopeilScrew' in knowsSettings) {
@@ -1077,7 +1089,7 @@ export function knowsKillPlasmaPiratesWithCharge(snapshot, staticData) {
 
 export function knowsGravityJump(snapshot, staticData) {
   // Check exported knows settings
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
 
   if ('GravityJump' in knowsSettings) {
@@ -1090,7 +1102,7 @@ export function knowsGravityJump(snapshot, staticData) {
 
 export function knowsLavaDive(snapshot, staticData) {
   // Check exported knows settings
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
 
   if ('LavaDive' in knowsSettings) {
@@ -1103,7 +1115,7 @@ export function knowsLavaDive(snapshot, staticData) {
 
 export function knowsLavaDiveNoHiJump(snapshot, staticData) {
   // Check exported knows settings
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
 
   if ('LavaDiveNoHiJump' in knowsSettings) {
@@ -1116,7 +1128,7 @@ export function knowsLavaDiveNoHiJump(snapshot, staticData) {
 
 export function knowsMtEverestGravJump(snapshot, staticData) {
   // Check exported knows settings
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
 
   if ('MtEverestGravJump' in knowsSettings) {
@@ -1130,7 +1142,7 @@ export function knowsMtEverestGravJump(snapshot, staticData) {
 export function knowsTediousMountEverest(snapshot, staticData) {
   // Tedious climb of Mt. Everest suitless with ice and supers
   // Check exported knows settings
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
 
   if ('TediousMountEverest' in knowsSettings) {
@@ -1150,7 +1162,7 @@ export function knowsRedTowerClimb(snapshot, staticData) {
 export function knowsNovaBoost(snapshot, staticData) {
   // D-Boost on the Sova to enter Cathedral with shorter hell run
   // Check exported knows settings
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
 
   if ('NovaBoost' in knowsSettings) {
@@ -1541,7 +1553,7 @@ export function canPassLowerNorfairChozo(snapshot, staticData) {
   //
   // The LNChozoSJCheckDisabled ROM patch allows passing without Space Jump.
   // Without the patch, Space Jump is required to reach the area.
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const romPatches = staticData?.settings?.[playerId]?.romPatches || {};
   const hasLNChozoSJCheckDisabled = romPatches.LNChozoSJCheckDisabled === true;
 
@@ -1634,7 +1646,7 @@ export function canExitScrewAttackArea(snapshot, staticData) {
   //                sm.wand(canSimpleShortCharge(), enoughStuffGT())))
 
   // Get knows settings for this player
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
 
   // Check knows techniques
@@ -1698,7 +1710,7 @@ export function knowsDiagonalBombJump(snapshot, staticData) {
 
 export function knowsMockballWs(snapshot, staticData) {
   // Mockball in West Sand technique - DISABLED in Regular preset
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
 
   if ('MockballWs' in knowsSettings) {
@@ -2679,7 +2691,7 @@ export function canPassCacatacAlley(snapshot, staticData) {
 export function canPassForgottenHighway(snapshot, staticData, fromWs = true) {
   // Match Python: When coming from Wrecked Ship without EastOceanPlatforms patch,
   // suitless path requires SpringBallJump or SpaceJump in addition to HiJump
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const romPatches = staticData?.settings?.[playerId]?.romPatches || {};
   const eastOceanPlatforms = romPatches.EastOceanPlatforms === true;
 
@@ -2950,7 +2962,7 @@ export function knowsHiJumpGauntletAccess(snapshot, staticData) {
 export function knowsHiJumpLessGauntletAccess(snapshot, staticData) {
   // HiJumpLessGauntletAccess is DISABLED by default in VARIA
   // Requires tricky wall jumps without HiJump
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
 
   if ('HiJumpLessGauntletAccess' in knowsSettings) {
@@ -2976,7 +2988,7 @@ export function knowsWorstRoomWallJump(snapshot, staticData) {
 
 export function knowsDodgeLowerNorfairEnemies(snapshot, staticData) {
   // Check exported knows settings
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
 
   if ('DodgeLowerNorfairEnemies' in knowsSettings) {
@@ -2995,7 +3007,7 @@ export function knowsNorfairReserveDBoost(snapshot, staticData) {
   // NorfairReserveDBoost is DISABLED by default in VARIA
   // Only enabled in expert, master, veteran, samus presets
   // Check if knows settings override exists in staticData
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
 
   if ('NorfairReserveDBoost' in knowsSettings) {
@@ -3028,7 +3040,7 @@ export function canGoThroughColosseumSuitless(snapshot, staticData) {
 
 export function knowsPuyoClip(snapshot, staticData) {
   // Check exported knows settings
-  const playerId = snapshot?.playerId || '1';
+  const playerId = getPlayerId(snapshot, staticData);
   const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
 
   if ('PuyoClip' in knowsSettings) {

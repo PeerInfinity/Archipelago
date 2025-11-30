@@ -1,8 +1,8 @@
 diff --git a/BaseClasses.py b/BaseClasses.py
-index ca717b60f..5fc5bbf19 100644
+index 4d88fde4f..91b2454ef 100644
 --- a/BaseClasses.py
 +++ b/BaseClasses.py
-@@ -1689,6 +1689,17 @@ class Spoiler:
+@@ -1691,6 +1691,17 @@ class Spoiler:
  
      def create_playthrough(self, create_paths: bool = True) -> None:
          """Destructive to the multiworld while it is run, damage gets repaired afterwards."""
@@ -21,7 +21,7 @@ index ca717b60f..5fc5bbf19 100644
          # get locations containing progress items
          multiworld = self.multiworld
 diff --git a/Main.py b/Main.py
-index bc2787579..d0e52b5cc 100644
+index 47a28813f..e4ec20a39 100644
 --- a/Main.py
 +++ b/Main.py
 @@ -19,6 +19,7 @@ from Utils import __version__, output_path, restricted_dumps, version_tuple
@@ -32,17 +32,17 @@ index bc2787579..d0e52b5cc 100644
  
  __all__ = ["main"]
  
-@@ -34,6 +35,9 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
-     start = time.perf_counter()
+@@ -35,6 +36,9 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
      # initialize the multiworld
      multiworld = MultiWorld(args.multi)
-+    
+ 
 +    # Set output directory for sphere logging
 +    multiworld.temp_dir_for_spheres_log = args.outputpath
- 
++
      logger = logging.getLogger()
      multiworld.set_seed(seed, args.race, str(args.outputname) if args.outputname else None)
-@@ -197,6 +201,18 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
+     multiworld.plando_options = args.plando
+@@ -202,6 +206,18 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
  
      AutoWorld.call_all(multiworld, 'post_fill')
  
@@ -61,7 +61,7 @@ index bc2787579..d0e52b5cc 100644
      if multiworld.players > 1 and not args.skip_prog_balancing:
          balance_multiworld_progression(multiworld)
      else:
-@@ -226,7 +242,12 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
+@@ -231,7 +247,12 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
          output_players = [player for player in multiworld.player_ids if AutoWorld.World.generate_output.__code__
                            is not multiworld.worlds[player].generate_output.__code__]
          with concurrent.futures.ThreadPoolExecutor(len(output_players) + 2) as pool:
@@ -75,7 +75,7 @@ index bc2787579..d0e52b5cc 100644
  
              output_file_futures = [pool.submit(AutoWorld.call_stage, multiworld, "generate_output", temp_dir)]
              for player in output_players:
-@@ -364,6 +385,10 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
+@@ -369,6 +390,10 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
                      logger.info(f'Generating output files ({i}/{len(output_file_futures)}).')
                  future.result()
  
@@ -86,7 +86,7 @@ index bc2787579..d0e52b5cc 100644
          if args.spoiler > 1:
              logger.info('Calculating playthrough.')
              multiworld.spoiler.create_playthrough(create_paths=args.spoiler > 2)
-@@ -371,6 +396,11 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
+@@ -376,6 +401,11 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
          if args.spoiler:
              multiworld.spoiler.to_file(os.path.join(temp_dir, '%s_Spoiler.txt' % outfilebase))
  
@@ -99,7 +99,7 @@ index bc2787579..d0e52b5cc 100644
          logger.info(f"Creating final archive at {zipfilename}")
          with zipfile.ZipFile(zipfilename, mode="w", compression=zipfile.ZIP_DEFLATED,
 diff --git a/settings.py b/settings.py
-index 48bc57f04..25d4145da 100644
+index 3b3d0deec..287b387b7 100644
 --- a/settings.py
 +++ b/settings.py
 @@ -23,6 +23,7 @@ __all__ = [
@@ -139,7 +139,7 @@ index 48bc57f04..25d4145da 100644
  
  
  class ServerOptions(Group):
-@@ -888,4 +904,9 @@ def get_settings() -> Settings:
+@@ -900,4 +916,9 @@ def get_settings() -> Settings:
                  res = Settings(None)
                  res.save(user_path(filenames[1]))
              setattr(get_settings, "_cache", res)

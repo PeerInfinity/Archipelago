@@ -1,6 +1,6 @@
 """Starcraft 2 game-specific export handler."""
 
-from typing import Dict, Any
+from typing import Dict, Any, Optional, Callable
 from .generic import GenericGameExportHandler
 import logging
 
@@ -9,6 +9,245 @@ logger = logging.getLogger(__name__)
 class SC2GameExportHandler(GenericGameExportHandler):
     GAME_NAME = 'Starcraft 2'
     """Export handler for Starcraft 2 game-specific rules and items."""
+
+    def _extract_closure_vars(self, rule_func: Callable) -> Dict[str, Any]:
+        """Extract closure variables from a function."""
+        closure_vars = {}
+        if hasattr(rule_func, '__closure__') and rule_func.__closure__:
+            if hasattr(rule_func, '__code__'):
+                freevars = rule_func.__code__.co_freevars
+                for i, var_name in enumerate(freevars):
+                    if i < len(rule_func.__closure__):
+                        cell = rule_func.__closure__[i]
+                        try:
+                            closure_vars[var_name] = cell.cell_contents
+                        except ValueError:
+                            pass
+        return closure_vars
+
+    # Complex helper methods that should be kept as helper calls rather than expanded
+    COMPLEX_HELPERS = {
+        'terran_competent_comp', 'protoss_competent_comp', 'zerg_competent_comp',
+        'terran_defense_rating', 'protoss_defense_rating', 'zerg_defense_rating',
+        'terran_power_rating', 'protoss_power_rating', 'zerg_power_rating',
+        'terran_havens_fall_requirement', 'terran_great_train_robbery_train_stopper',
+        'terran_welcome_to_the_jungle_requirement', 'zerg_welcome_to_the_jungle_requirement',
+        'protoss_welcome_to_the_jungle_requirement', 'terran_night_terrors_requirement',
+        'terran_engine_of_destruction_requirement', 'engine_of_destruction_requirement',
+        'terran_trouble_in_paradise_requirement', 'terran_media_blitz_requirement',
+        'terran_gates_of_hell_requirement', 'terran_all_in_requirement',
+        'basic_kerrigan', 'kerrigan_levels', 'two_kerrigan_actives',
+        'terran_competent_ground_to_air', 'protoss_competent_ground_to_air',
+        'zerg_competent_ground_to_air', 'terran_beats_protoss_deathball',
+        'terran_base_trasher', 'terran_can_rescue', 'terran_cliffjumper',
+        'terran_able_to_snipe_defiler', 'terran_respond_to_colony_infestations',
+        'terran_survives_rip_field', 'terran_sustainable_mech_heal',
+    }
+
+    def override_rule_analysis(self, rule_func: Callable, rule_target_name: Optional[str] = None) -> Optional[Dict[str, Any]]:
+        """
+        Override rule analysis for SC2 mission entry rules.
+
+        SC2 uses complex entry rule patterns that the generic analyzer can't handle:
+        - CountMissionsEntryRule: count_missions closure with target_amount and beat_items list
+        - SubRuleEntryRule: count_rules closure with sub_lambdas
+        - BeatMissionsEntryRule: has_all closure with missions_to_beat
+        - Complex helper methods: should be kept as helper calls, not expanded
+        """
+        func_name = getattr(rule_func, '__name__', '')
+        logger.debug(f"[SC2] override_rule_analysis called for '{rule_target_name}' with func_name='{func_name}'")
+
+        # Check if this is a complex helper method that should not be expanded
+        if func_name in self.COMPLEX_HELPERS:
+            logger.debug(f"[SC2] Converting complex helper method '{func_name}' to helper call")
+            return {'type': 'helper', 'name': func_name, 'args': []}
+
+        # Handle count_missions pattern (from CountMissionsEntryRule.to_lambda)
+        if func_name == 'count_missions':
+            return self._handle_count_missions_rule(rule_func, rule_target_name)
+
+        # Handle count_rules pattern (from SubRuleEntryRule.to_lambda)
+        if func_name == 'count_rules':
+            return self._handle_count_rules_rule(rule_func, rule_target_name)
+
+        # Handle lambda patterns - could be BeatMissionsEntryRule or combined rules
+        if func_name == '<lambda>':
+            # First try BeatMissionsEntryRule pattern (lambda with self.missions_to_beat)
+            result = self._handle_beat_missions_lambda(rule_func, rule_target_name)
+            if result:
+                logger.debug(f"[SC2] BeatMissionsEntryRule handler returned result for '{rule_target_name}'")
+                return result
+
+            # Then try combined rules that contain count_missions patterns
+            result = self._handle_lambda_with_count_missions(rule_func, rule_target_name)
+            if result:
+                logger.debug(f"[SC2] lambda handler returned result for '{rule_target_name}'")
+                return result
+
+        return None
+
+    def _handle_count_missions_rule(self, rule_func: Callable, rule_target_name: Optional[str] = None) -> Optional[Dict[str, Any]]:
+        """
+        Handle the count_missions closure function from CountMissionsEntryRule.
+
+        The function has closure variables:
+        - beat_items: list of item names to check
+        - self: the CountMissionsEntryRule object which has target_amount
+        """
+        closure_vars = self._extract_closure_vars(rule_func)
+
+        beat_items = closure_vars.get('beat_items', [])
+        entry_rule = closure_vars.get('self')
+
+        if not beat_items:
+            logger.warning(f"[SC2] count_missions rule missing beat_items for '{rule_target_name}'")
+            return None
+
+        target_amount = getattr(entry_rule, 'target_amount', len(beat_items)) if entry_rule else len(beat_items)
+
+        if target_amount == 0:
+            return {'type': 'constant', 'value': True}
+
+        # Use count_true rule type - counts how many conditions are true
+        return {
+            'type': 'count_true',
+            'conditions': [{'type': 'item_check', 'item': item} for item in beat_items],
+            'count': target_amount
+        }
+
+    def _handle_count_rules_rule(self, rule_func: Callable, rule_target_name: Optional[str] = None) -> Optional[Dict[str, Any]]:
+        """
+        Handle the count_rules closure function from SubRuleEntryRule.
+
+        The function has closure variables:
+        - sub_lambdas: list of rule functions to evaluate
+        - self: the SubRuleEntryRule object which has target_amount
+        """
+        closure_vars = self._extract_closure_vars(rule_func)
+
+        sub_lambdas = closure_vars.get('sub_lambdas', [])
+        entry_rule = closure_vars.get('self')
+
+        if not sub_lambdas:
+            logger.warning(f"[SC2] count_rules rule missing sub_lambdas for '{rule_target_name}'")
+            return None
+
+        target_amount = getattr(entry_rule, 'target_amount', len(sub_lambdas)) if entry_rule else len(sub_lambdas)
+
+        if target_amount == 0:
+            return {'type': 'constant', 'value': True}
+
+        # Recursively process each sub_lambda
+        sub_rules = []
+        for i, sub_lambda in enumerate(sub_lambdas):
+            sub_rule = self._process_sub_rule(sub_lambda, f"{rule_target_name}:sub{i}")
+            if sub_rule:
+                sub_rules.append(sub_rule)
+            else:
+                logger.warning(f"[SC2] Failed to process sub_rule {i} for '{rule_target_name}'")
+
+        if not sub_rules:
+            return {'type': 'constant', 'value': True}
+
+        if len(sub_rules) == 1 and target_amount == 1:
+            return sub_rules[0]
+
+        return {
+            'type': 'count_true',
+            'conditions': sub_rules,
+            'count': target_amount
+        }
+
+    def _process_sub_rule(self, rule_func: Callable, context: str) -> Optional[Dict[str, Any]]:
+        """Process a sub-rule function, dispatching to appropriate handler."""
+        func_name = getattr(rule_func, '__name__', '')
+
+        if func_name == 'count_missions':
+            return self._handle_count_missions_rule(rule_func, context)
+        elif func_name == 'count_rules':
+            return self._handle_count_rules_rule(rule_func, context)
+        elif func_name == '<lambda>':
+            # Try BeatMissionsEntryRule pattern first
+            result = self._handle_beat_missions_lambda(rule_func, context)
+            if result:
+                return result
+            # Then try lambda with count patterns
+            return self._handle_lambda_with_count_missions(rule_func, context)
+
+        return None
+
+    def _handle_beat_missions_lambda(self, rule_func: Callable, rule_target_name: Optional[str] = None) -> Optional[Dict[str, Any]]:
+        """
+        Handle lambdas from BeatMissionsEntryRule.to_lambda.
+
+        The lambda is: lambda state: state.has_all([mission.beat_item() for mission in self.missions_to_beat], player)
+        Closure has 'self' which is the BeatMissionsEntryRule with missions_to_beat attribute.
+        """
+        closure_vars = self._extract_closure_vars(rule_func)
+        entry_rule = closure_vars.get('self')
+
+        if not entry_rule:
+            return None
+
+        missions_to_beat = getattr(entry_rule, 'missions_to_beat', None)
+        if not missions_to_beat:
+            return None
+
+        try:
+            beat_items = [mission.beat_item() for mission in missions_to_beat]
+        except Exception as e:
+            logger.warning(f"[SC2] Could not extract beat items from BeatMissionsEntryRule for '{rule_target_name}': {e}")
+            return None
+
+        if len(beat_items) == 0:
+            return {'type': 'constant', 'value': True}
+
+        return {
+            'type': 'state_method',
+            'method': 'has_all',
+            'args': [{'type': 'constant', 'value': beat_items}]
+        }
+
+    def _handle_lambda_with_count_missions(self, rule_func: Callable, rule_target_name: Optional[str] = None) -> Optional[Dict[str, Any]]:
+        """
+        Handle lambdas that combine count_missions with other rules.
+
+        These typically look like:
+        lambda state, campaign_rule=..., layout_rule=..., mission_rule=...:
+            campaign_rule(state) and layout_rule(state) and mission_rule(state)
+        """
+        closure_vars = self._extract_closure_vars(rule_func)
+
+        # Check if any closure vars are count_missions or other handled functions
+        handled_rules = []
+
+        for var_name, var_value in closure_vars.items():
+            if callable(var_value):
+                func_name = getattr(var_value, '__name__', '')
+                if func_name == 'count_missions':
+                    result = self._handle_count_missions_rule(var_value, f"{rule_target_name}:{var_name}")
+                    if result:
+                        handled_rules.append(result)
+                elif func_name == 'count_rules':
+                    result = self._handle_count_rules_rule(var_value, f"{rule_target_name}:{var_name}")
+                    if result:
+                        handled_rules.append(result)
+                elif func_name == '<lambda>':
+                    # Try BeatMissionsEntryRule pattern
+                    result = self._handle_beat_missions_lambda(var_value, f"{rule_target_name}:{var_name}")
+                    if result:
+                        handled_rules.append(result)
+
+        if not handled_rules:
+            return None
+
+        if len(handled_rules) == 1:
+            return handled_rules[0]
+
+        return {
+            'type': 'and',
+            'conditions': handled_rules
+        }
 
     def expand_rule(self, rule: Dict[str, Any]) -> Dict[str, Any]:
         """

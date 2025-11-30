@@ -202,15 +202,15 @@ class OOTWorld(World):
 
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld):
+        from settings import skip_required_files
         oot_settings = OOTWorld.settings
         try:
             rom = Rom(file=oot_settings.rom_file)
-        except FileNotFoundError:
-            from settings import skip_required_files
-            if not skip_required_files:
-                raise
-            import logging
-            logging.getLogger("OOT").warning("OOT ROM file not found at %s but skip_required_files is set. ROM validation will be skipped, but other generation steps will continue.", oot_settings.rom_file)
+        except Exception as e:
+            if skip_required_files:
+                logger.warning("OOT ROM file not found but skip_required_files is set. ROM generation will be skipped, but other generation steps will continue.")
+            else:
+                raise e
 
 
     # Option parsing, handling incompatible options, building useful-item table
@@ -1082,6 +1082,24 @@ class OOTWorld(World):
             for entrance in all_entrances:
                 self.multiworld.spoiler.set_entrance(entrance, entrance.replaces, 'entrance', self.player)
 
+        # Check if ROM exists and skip ROM-dependent steps if not
+        from settings import skip_required_files
+        oot_settings = OOTWorld.settings
+        try:
+            rom = Rom(file=oot_settings.rom_file)
+        except Exception:
+            if not skip_required_files:
+                # This should not happen if stage_assert_generate worked correctly,
+                # but preserve original behavior just in case
+                raise
+            logger.warning("OOT ROM file not found but skip_required_files is set. Skipping ROM generation for player %s.", self.player)
+            # Set a placeholder to indicate ROM wasn't generated
+            self.rom_name = "OOT_ROM_NOT_GENERATED"
+            # Make sure hint data and collectible flags are set so the process can continue
+            self.hint_data_available.set()
+            self.collectible_flags_available.set()
+            return
+
         if self.hints != 'none':
             self.hint_data_available.wait()
 
@@ -1097,21 +1115,7 @@ class OOTWorld(World):
 
             outfile_name = self.multiworld.get_out_file_name_base(self.player)
             oot_settings = OOTWorld.settings
-            try:
-                rom = Rom(file=oot_settings.rom_file)
-            except FileNotFoundError:
-                from settings import skip_required_files
-                if not skip_required_files:
-                    raise
-                import logging
-                logging.getLogger("OOT").warning("OOT ROM file not found at %s but skip_required_files is set. Skipping ROM generation for player %s.", 
-                                    oot_settings.rom_file, self.player)
-                # Set default values for attributes that would normally be set during ROM patching
-                self.collectible_override_flags = 0
-                self.collectible_flag_offsets = []
-                # Set the collectible_flags_available event and return to skip ROM generation
-                self.collectible_flags_available.set()
-                return
+            rom = Rom(file=oot_settings.rom_file)
             try:
                 if self.hints != 'none':
                     buildWorldGossipHints(self)
@@ -1246,8 +1250,10 @@ class OOTWorld(World):
 
     def modify_multidata(self, multidata: dict):
 
-        # Replace connect name
-        multidata['connect_names'][self.connect_name] = multidata['connect_names'][self.multiworld.player_name[self.player]]
+        # Replace connect name, but skip if ROM generation was skipped
+        rom_name = getattr(self, "rom_name", None)
+        if rom_name != "OOT_ROM_NOT_GENERATED":
+            multidata['connect_names'][self.connect_name] = multidata['connect_names'][self.multiworld.player_name[self.player]]
 
         # Remove undesired items from start_inventory
         # This is because we don't want them to show up in the autotracker,

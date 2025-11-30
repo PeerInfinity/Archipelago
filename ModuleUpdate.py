@@ -73,9 +73,7 @@ def update_command():
 
 def install_pkg_resources(yes=False):
     try:
-        with warnings.catch_warnings():
-            warnings.filterwarnings("ignore", category=UserWarning, message=".*pkg_resources is deprecated.*")
-            import pkg_resources  # noqa: F401
+        import pkg_resources  # noqa: F401
     except (AttributeError, ImportError):
         check_pip()
         if not yes:
@@ -89,9 +87,7 @@ def update(yes: bool = False, force: bool = False) -> None:
         update_ran = True
 
         install_pkg_resources(yes=yes)
-        with warnings.catch_warnings():
-            warnings.filterwarnings("ignore", category=UserWarning, message=".*pkg_resources is deprecated.*")
-            import pkg_resources
+        import pkg_resources
 
         if force:
             update_command()

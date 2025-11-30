@@ -837,6 +837,14 @@ def test_template_multiworld(template_file: str, templates_dir: str, project_roo
                     except Exception as e:
                         print(f"  Warning: Could not remove {old_template}: {e}")
 
+                # IMPORTANT: After removing templates, recalculate the player count
+                # This ensures the new template gets the correct player number
+                remaining_templates = [f for f in os.listdir(multiworld_dir) if f.endswith('.yaml')]
+                current_player_count = len(remaining_templates)
+                print(f"  Updated player count to {current_player_count} after removing templates")
+                # Update the result with the corrected player number
+                result['multiworld_test']['player_number'] = current_player_count + 1
+
         if dry_run:
             print(f"[DRY RUN] Would copy {template_filename} to multiworld directory...")
             print(f"[DRY RUN] Skipping actual file operations and tests")

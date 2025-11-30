@@ -2,7 +2,7 @@
   "schema_version": 3,
   "game_name": "Shivers",
   "game_directory": "shivers",
-  "archipelago_version": "0.6.4",
+  "archipelago_version": "0.6.5",
   "generation_seed": 1,
   "player_names": {
     "1": "Player1",
@@ -77,40 +77,38 @@
     "70": "Player70",
     "71": "Player71",
     "72": "Player72",
-    "73": "Player73",
-    "74": "Player74",
-    "75": "Player75"
+    "73": "Player73"
   },
   "world_classes": {
     "1": "HatInTimeWorld",
     "2": "ALTTPWorld",
     "3": "ShortHikeWorld",
     "4": "AdventureWorld",
-    "5": "AquariaWorld",
-    "6": "ArchipIDLEWorld",
-    "7": "BlasphemousWorld",
-    "8": "BombRushCyberfunkWorld",
-    "9": "BumpStikWorld",
-    "10": "CVCotMWorld",
-    "11": "CV64World",
+    "5": "APQuestWorld",
+    "6": "AquariaWorld",
+    "7": "BombRushCyberfunkWorld",
+    "8": "BumpStikWorld",
+    "9": "CVCotMWorld",
+    "10": "CV64World",
+    "11": "CelesteOpenWorld",
     "12": "Celeste64World",
     "13": "ChecksFinderWorld",
     "14": "ChocolateChipCookiesWorld",
-    "15": "CivVIWorld",
-    "16": "DarkSouls3World",
-    "17": "DLCqworld",
-    "18": "DKC3World",
-    "19": "DOOM1993World",
-    "20": "DOOM2World",
-    "21": "Factorio",
-    "22": "FaxanaduWorld",
-    "23": "FFMQWorld",
-    "24": "HereticWorld",
-    "25": "Hylics2World",
-    "26": "InscryptionWorld",
-    "27": "JakAndDaxterWorld",
-    "28": "KH2World",
-    "29": "KH1World",
+    "15": "CCCharlesWorld",
+    "16": "CivVIWorld",
+    "17": "DarkSouls3World",
+    "18": "DLCqworld",
+    "19": "DKC3World",
+    "20": "DOOM1993World",
+    "21": "DOOM2World",
+    "22": "Factorio",
+    "23": "FaxanaduWorld",
+    "24": "FFMQWorld",
+    "25": "HereticWorld",
+    "26": "Hylics2World",
+    "27": "InscryptionWorld",
+    "28": "JakAndDaxterWorld",
+    "29": "KH2World",
     "30": "KDL3World",
     "31": "LandstalkerWorld",
     "32": "LingoWorld",
@@ -137,26 +135,24 @@
     "53": "ShiversWorld",
     "54": "SA2BWorld",
     "55": "SC2World",
-    "56": "StardewValleyWorld",
-    "57": "SubnauticaWorld",
-    "58": "SM64World",
-    "59": "MarioLand2World",
-    "60": "SMWWorld",
-    "61": "SMWorld",
-    "62": "TerrariaWorld",
-    "63": "TLoZWorld",
-    "64": "MessengerWorld",
-    "65": "TWWWorld",
-    "66": "WitnessWorld",
-    "67": "TimespinnerWorld",
-    "68": "TunicWorld",
-    "69": "UndertaleWorld",
-    "70": "V6World",
-    "71": "WargrooveWorld",
-    "72": "WebDevJourneyWorld",
-    "73": "YachtDiceWorld",
-    "74": "YoshisIslandWorld",
-    "75": "Yugioh06World"
+    "56": "SubnauticaWorld",
+    "57": "SM64World",
+    "58": "MarioLand2World",
+    "59": "SMWWorld",
+    "60": "TerrariaWorld",
+    "61": "TLoZWorld",
+    "62": "MessengerWorld",
+    "63": "TWWWorld",
+    "64": "WitnessWorld",
+    "65": "TimespinnerWorld",
+    "66": "TunicWorld",
+    "67": "UndertaleWorld",
+    "68": "V6World",
+    "69": "WargrooveWorld",
+    "70": "WebDevJourneyWorld",
+    "71": "YachtDiceWorld",
+    "72": "YoshisIslandWorld",
+    "73": "Yugioh06World"
   },
   "regions": {
     "53": {
@@ -217,10 +213,10 @@
               "value": true
             },
             "item": {
-              "name": "Moon Pearl",
-              "player": 2,
+              "name": "Treasure Bumper",
+              "player": 8,
               "advancement": true,
-              "type": "None"
+              "type": "Target"
             }
           },
           {
@@ -231,9 +227,9 @@
               "value": true
             },
             "item": {
-              "name": "Rockcube *",
-              "player": 38,
-              "advancement": false,
+              "name": "The Great Hall (E2M7) - Yellow key",
+              "player": 25,
+              "advancement": true,
               "type": "None"
             }
           },
@@ -245,8 +241,8 @@
               "value": true
             },
             "item": {
-              "name": "Combat Level",
-              "player": 56,
+              "name": "The Glacier (E2M9) - Yellow key",
+              "player": 25,
               "advancement": true,
               "type": "None"
             }
@@ -289,9 +285,9 @@
               ]
             },
             "item": {
-              "name": "Very Funny Joke",
-              "player": 6,
-              "advancement": true,
+              "name": "Statue of Gaia",
+              "player": 31,
+              "advancement": false,
               "type": "None"
             }
           },
@@ -333,8 +329,8 @@
               ]
             },
             "item": {
-              "name": "Demon's Greataxe",
-              "player": 16,
+              "name": "Bomb",
+              "player": 61,
               "advancement": false,
               "type": "None"
             }
@@ -347,8 +343,8 @@
               "value": true
             },
             "item": {
-              "name": "House of Pain (E3M4) - Blue skull key",
-              "player": 19,
+              "name": "Time Stopper",
+              "player": 37,
               "advancement": true,
               "type": "None"
             }
@@ -361,8 +357,8 @@
               "value": true
             },
             "item": {
-              "name": "Progressive Commercial Hub",
-              "player": 15,
+              "name": "Fire Immunity Perk",
+              "player": 42,
               "advancement": true,
               "type": "None"
             }
@@ -375,8 +371,8 @@
               "value": true
             },
             "item": {
-              "name": "Say! Fanfare!",
-              "player": 41,
+              "name": "HM01 Cut",
+              "player": 47,
               "advancement": true,
               "type": "None"
             }
@@ -389,8 +385,8 @@
               "value": true
             },
             "item": {
-              "name": "Fishing Level",
-              "player": 56,
+              "name": "Graffiti (XL - VIBRATIONS)",
+              "player": 7,
               "advancement": true,
               "type": "None"
             }
@@ -403,9 +399,9 @@
               "value": true
             },
             "item": {
-              "name": "Wanderlust",
-              "player": 32,
-              "advancement": false,
+              "name": "Antenna",
+              "player": 48,
+              "advancement": true,
               "type": "None"
             }
           },
@@ -417,9 +413,9 @@
               "value": true
             },
             "item": {
-              "name": "Metal Man Access Codes",
-              "player": 37,
-              "advancement": true,
+              "name": "Berry Pick-Mi-Up+",
+              "player": 65,
+              "advancement": false,
               "type": "None"
             }
           },
@@ -431,9 +427,9 @@
               "value": true
             },
             "item": {
-              "name": "progressive-flamethrower",
-              "player": 21,
-              "advancement": true,
+              "name": "TM37",
+              "player": 46,
+              "advancement": false,
               "type": "None"
             }
           }
@@ -498,8 +494,8 @@
               "value": true
             },
             "item": {
-              "name": "Money",
-              "player": 49,
+              "name": "Five Rupees",
+              "player": 61,
               "advancement": false,
               "type": "None"
             }
@@ -527,9 +523,9 @@
               "value": true
             },
             "item": {
-              "name": "Mercury Card",
-              "player": 10,
-              "advancement": true,
+              "name": "Refreshing Gourd",
+              "player": 42,
+              "advancement": false,
               "type": "None"
             }
           },
@@ -655,9 +651,9 @@
               "value": true
             },
             "item": {
-              "name": "D'Sparil's Keep (E3M8) - Map Scroll",
+              "name": "Gemini Crest",
               "player": 24,
-              "advancement": false,
+              "advancement": true,
               "type": "None"
             }
           },
@@ -683,8 +679,8 @@
               "value": true
             },
             "item": {
-              "name": "POROMER BLEB",
-              "player": 25,
+              "name": "Power Transmitter Fragment",
+              "player": 56,
               "advancement": false,
               "type": "None"
             }
@@ -697,10 +693,10 @@
               "value": true
             },
             "item": {
-              "name": "Piece of Heart",
-              "player": 65,
+              "name": "Scraps",
+              "player": 15,
               "advancement": false,
-              "type": "Item"
+              "type": "None"
             }
           },
           {
@@ -720,8 +716,8 @@
               ]
             },
             "item": {
-              "name": "Defense Up",
-              "player": 29,
+              "name": "Additional Palette Color",
+              "player": 45,
               "advancement": false,
               "type": "None"
             }
@@ -757,8 +753,8 @@
               "value": true
             },
             "item": {
-              "name": "Egg Launcher",
-              "player": 74,
+              "name": "DK Coin",
+              "player": 19,
               "advancement": true,
               "type": "None"
             }
@@ -785,9 +781,9 @@
               "value": true
             },
             "item": {
-              "name": "1-UP Mushroom",
-              "player": 35,
-              "advancement": false,
+              "name": "Cyclops Depth Module MK1",
+              "player": 56,
+              "advancement": true,
               "type": "None"
             }
           }
@@ -853,8 +849,8 @@
               "value": true
             },
             "item": {
-              "name": "Emblem",
-              "player": 54,
+              "name": "Executioner's Greatsword",
+              "player": 17,
               "advancement": false,
               "type": "None"
             }
@@ -1688,9 +1684,9 @@
               "item": "Viewed Egyptian Hieroglyphics Explained"
             },
             "item": {
-              "name": "EkeEke",
-              "player": 31,
-              "advancement": false,
+              "name": "CYBERNETIC REVOLUTION",
+              "player": 73,
+              "advancement": true,
               "type": "None"
             }
           },
@@ -1702,8 +1698,8 @@
               "value": true
             },
             "item": {
-              "name": "Max HP Up",
-              "player": 28,
+              "name": "Soul of a Deserted Corpse",
+              "player": 17,
               "advancement": false,
               "type": "None"
             }
@@ -1790,9 +1786,9 @@
               "value": true
             },
             "item": {
-              "name": "Plasma Orb",
-              "player": 67,
-              "advancement": true,
+              "name": "Aural Decoy",
+              "player": 17,
+              "advancement": false,
               "type": "None"
             }
           },
@@ -1804,8 +1800,8 @@
               "value": true
             },
             "item": {
-              "name": "Statue of Gaia",
-              "player": 31,
+              "name": "LONG GLOVES",
+              "player": 26,
               "advancement": false,
               "type": "None"
             }
@@ -1832,8 +1828,8 @@
               "value": true
             },
             "item": {
-              "name": "Metal fishing rod",
-              "player": 48,
+              "name": "200 Golds",
+              "player": 31,
               "advancement": false,
               "type": "None"
             }
@@ -1846,8 +1842,8 @@
               "value": true
             },
             "item": {
-              "name": "Bucket Hat",
-              "player": 56,
+              "name": "Pocket Fire Melon",
+              "player": 72,
               "advancement": false,
               "type": "None"
             }
@@ -1919,9 +1915,9 @@
               "value": true
             },
             "item": {
-              "name": "Money x50",
-              "player": 68,
-              "advancement": false,
+              "name": "Lance (Weapon)",
+              "player": 51,
+              "advancement": true,
               "type": "None"
             }
           }
@@ -2301,8 +2297,8 @@
               "value": true
             },
             "item": {
-              "name": "Auto Launchers (Vulture)",
-              "player": 55,
+              "name": "Biscuit",
+              "player": 51,
               "advancement": false,
               "type": "None"
             }
@@ -2366,8 +2362,8 @@
               "value": true
             },
             "item": {
-              "name": "Healing Poultice",
-              "player": 5,
+              "name": "Random Cosmetic",
+              "player": 1,
               "advancement": false,
               "type": "None"
             }
@@ -2431,8 +2427,8 @@
               ]
             },
             "item": {
-              "name": "Petal",
-              "player": 51,
+              "name": "Armor",
+              "player": 20,
               "advancement": false,
               "type": "None"
             }
@@ -2496,9 +2492,9 @@
               "value": true
             },
             "item": {
-              "name": "Sunset Armor",
-              "player": 16,
-              "advancement": false,
+              "name": "lubricant",
+              "player": 22,
+              "advancement": true,
               "type": "None"
             }
           },
@@ -2539,8 +2535,8 @@
               "value": true
             },
             "item": {
-              "name": "The Portals of Chaos (E2M8) - Map Scroll",
-              "player": 24,
+              "name": "TM18",
+              "player": 46,
               "advancement": false,
               "type": "None"
             }
@@ -2567,10 +2563,10 @@
               "value": true
             },
             "item": {
-              "name": "Heal Potion",
-              "player": 23,
-              "advancement": false,
-              "type": "None"
+              "name": "Nayru's Pearl",
+              "player": 63,
+              "advancement": true,
+              "type": "Item"
             }
           },
           {
@@ -2639,8 +2635,8 @@
               "value": true
             },
             "item": {
-              "name": "Iron",
-              "player": 47,
+              "name": "Water",
+              "player": 51,
               "advancement": false,
               "type": "None"
             }
@@ -2824,9 +2820,9 @@
               ]
             },
             "item": {
-              "name": "Swarm Queen",
-              "player": 55,
-              "advancement": true,
+              "name": "Young Dragon Ring",
+              "player": 17,
+              "advancement": false,
               "type": "None"
             }
           },
@@ -2838,9 +2834,9 @@
               "value": true
             },
             "item": {
-              "name": "Titanite Scale x3",
-              "player": 16,
-              "advancement": false,
+              "name": "Nobody Lance",
+              "player": 29,
+              "advancement": true,
               "type": "None"
             }
           },
@@ -2852,9 +2848,9 @@
               "value": true
             },
             "item": {
-              "name": "Vinyl",
-              "player": 8,
-              "advancement": true,
+              "name": "Hand Roll",
+              "player": 6,
+              "advancement": false,
               "type": "None"
             }
           },
@@ -2880,8 +2876,8 @@
               "value": true
             },
             "item": {
-              "name": "Sensor Tower",
-              "player": 55,
+              "name": "Inverted Ash",
+              "player": 66,
               "advancement": false,
               "type": "None"
             }
@@ -2923,9 +2919,9 @@
               "item": "Viewed Theater Movie"
             },
             "item": {
-              "name": "Fairy",
-              "player": 68,
-              "advancement": true,
+              "name": "The Courtyard (MAP18) - Computer area map",
+              "player": 21,
+              "advancement": false,
               "type": "None"
             }
           }
@@ -3130,8 +3126,8 @@
               "item": "Viewed Egyptian Hieroglyphics Explained"
             },
             "item": {
-              "name": "Call bead",
-              "player": 51,
+              "name": "Super Nuts",
+              "player": 35,
               "advancement": false,
               "type": "None"
             }
@@ -3144,10 +3140,10 @@
               "value": true
             },
             "item": {
-              "name": "Child of Moonlight",
-              "player": 7,
+              "name": "Progressive Sword",
+              "player": 63,
               "advancement": true,
-              "type": "None"
+              "type": "Item"
             }
           },
           {
@@ -3172,8 +3168,8 @@
               "value": true
             },
             "item": {
-              "name": "Health Upgrade",
-              "player": 5,
+              "name": "Shriving Stone",
+              "player": 17,
               "advancement": false,
               "type": "None"
             }
@@ -3239,10 +3235,10 @@
               "value": true
             },
             "item": {
-              "name": "Greater Runes",
-              "player": 24,
-              "advancement": false,
-              "type": "None"
+              "name": "Treasure Bumper",
+              "player": 8,
+              "advancement": true,
+              "type": "Target"
             }
           },
           {
@@ -3253,9 +3249,9 @@
               "value": true
             },
             "item": {
-              "name": "Restoration",
-              "player": 31,
-              "advancement": false,
+              "name": "Blizzard Element",
+              "player": 29,
+              "advancement": true,
               "type": "None"
             }
           },
@@ -3338,9 +3334,9 @@
               ]
             },
             "item": {
-              "name": "Raft",
-              "player": 63,
-              "advancement": true,
+              "name": "Limbo (E3M7) - Computer area map",
+              "player": 20,
+              "advancement": false,
               "type": "None"
             }
           },
@@ -3411,9 +3407,9 @@
               "value": true
             },
             "item": {
-              "name": "Box of rockets",
-              "player": 20,
-              "advancement": false,
+              "name": "Key for Workshop",
+              "player": 53,
+              "advancement": true,
               "type": "None"
             }
           },
@@ -3431,9 +3427,9 @@
               ]
             },
             "item": {
-              "name": "Eggman - Laser Blaster",
-              "player": 54,
-              "advancement": false,
+              "name": "Nature Form",
+              "player": 6,
+              "advancement": true,
               "type": "None"
             }
           },
@@ -3488,8 +3484,8 @@
               "value": true
             },
             "item": {
-              "name": "Lithium",
-              "player": 57,
+              "name": "Spicy Roll",
+              "player": 6,
               "advancement": false,
               "type": "None"
             }
@@ -3553,8 +3549,8 @@
               "item": "Set Song"
             },
             "item": {
-              "name": "Reversal Ring",
-              "player": 16,
+              "name": "Witch's Ring",
+              "player": 17,
               "advancement": false,
               "type": "None"
             }
@@ -3567,9 +3563,9 @@
               "value": true
             },
             "item": {
-              "name": "Empress Robe",
-              "player": 67,
-              "advancement": false,
+              "name": "Seashell",
+              "player": 3,
+              "advancement": true,
               "type": "None"
             }
           },
@@ -3846,8 +3842,8 @@
               ]
             },
             "item": {
-              "name": "Resource Pack: 5 Plastic",
-              "player": 48,
+              "name": "SOUL SPONGE",
+              "player": 26,
               "advancement": false,
               "type": "None"
             }
@@ -3895,8 +3891,8 @@
               "value": true
             },
             "item": {
-              "name": "Loincloth",
-              "player": 16,
+              "name": "Titanite Chunk",
+              "player": 17,
               "advancement": false,
               "type": "None"
             }
@@ -3978,8 +3974,8 @@
               "value": true
             },
             "item": {
-              "name": "Leonhard's Garb",
-              "player": 16,
+              "name": "Red Potion",
+              "player": 23,
               "advancement": false,
               "type": "None"
             }
@@ -4015,8 +4011,8 @@
               "value": true
             },
             "item": {
-              "name": "Fire Rod",
-              "player": 2,
+              "name": "Time Piece",
+              "player": 1,
               "advancement": true,
               "type": "None"
             }
@@ -4044,8 +4040,8 @@
               "value": true
             },
             "item": {
-              "name": "Red Potion",
-              "player": 22,
+              "name": "Rockcube *",
+              "player": 38,
               "advancement": false,
               "type": "None"
             }
@@ -4058,9 +4054,9 @@
               "value": true
             },
             "item": {
-              "name": "The Catacombs (E2M5) - Green key",
-              "player": 24,
-              "advancement": true,
+              "name": "Additional Palette Color",
+              "player": 45,
+              "advancement": false,
               "type": "None"
             }
           },
@@ -4117,8 +4113,8 @@
               "value": true
             },
             "item": {
-              "name": "Common Item",
-              "player": 49,
+              "name": "Mushroom",
+              "player": 35,
               "advancement": false,
               "type": "None"
             }
@@ -4185,8 +4181,8 @@
               "value": true
             },
             "item": {
-              "name": "Resource Efficiency (Swarm Host)",
-              "player": 55,
+              "name": "5 Oil",
+              "player": 51,
               "advancement": false,
               "type": "None"
             }
@@ -4213,8 +4209,8 @@
               "value": true
             },
             "item": {
-              "name": "25 Pons",
-              "player": 1,
+              "name": "Pickaxe",
+              "player": 3,
               "advancement": false,
               "type": "None"
             }
@@ -4242,8 +4238,8 @@
               "value": true
             },
             "item": {
-              "name": "Hoo Bean",
-              "player": 35,
+              "name": "Slowness",
+              "player": 30,
               "advancement": false,
               "type": "None"
             }
@@ -4293,8 +4289,8 @@
               "value": true
             },
             "item": {
-              "name": "Thermite Filaments (Hellion)",
-              "player": 55,
+              "name": "Puzzle Skip",
+              "player": 32,
               "advancement": false,
               "type": "None"
             }
@@ -4307,9 +4303,9 @@
               "value": true
             },
             "item": {
-              "name": "Progressive Armor",
-              "player": 31,
-              "advancement": false,
+              "name": "The Cesspool (E3M2)",
+              "player": 25,
+              "advancement": true,
               "type": "None"
             }
           }
@@ -4344,8 +4340,8 @@
               "value": true
             },
             "item": {
-              "name": "Undead Legion Helm",
-              "player": 16,
+              "name": "Magnifying Glass",
+              "player": 72,
               "advancement": false,
               "type": "None"
             }
@@ -4421,9 +4417,9 @@
               ]
             },
             "item": {
-              "name": "Box of bullets",
-              "player": 20,
-              "advancement": false,
+              "name": "Progressive Color Depth (Green)",
+              "player": 45,
+              "advancement": true,
               "type": "None"
             }
           }
@@ -4492,8 +4488,8 @@
               ]
             },
             "item": {
-              "name": "Carrot",
-              "player": 59,
+              "name": "Knuckles - Sunglasses",
+              "player": 54,
               "advancement": true,
               "type": "None"
             }
@@ -4541,8 +4537,8 @@
               ]
             },
             "item": {
-              "name": "Bubbler C",
-              "player": 38,
+              "name": "Graffiti (M - SPRAYTANICPANIC!)",
+              "player": 7,
               "advancement": true,
               "type": "None"
             }
@@ -4590,8 +4586,8 @@
               ]
             },
             "item": {
-              "name": "Very Funny Joke",
-              "player": 6,
+              "name": "Psychological Warfare Pack",
+              "player": 18,
               "advancement": true,
               "type": "None"
             }
@@ -4639,8 +4635,8 @@
               ]
             },
             "item": {
-              "name": "Giant Eggs",
-              "player": 74,
+              "name": "Bicycle",
+              "player": 47,
               "advancement": true,
               "type": "None"
             }
@@ -4688,8 +4684,8 @@
               ]
             },
             "item": {
-              "name": "Campaign Tier 3 Column 2",
-              "player": 75,
+              "name": "Area: Edgeville",
+              "player": 43,
               "advancement": true,
               "type": "None"
             }
@@ -4737,8 +4733,8 @@
               ]
             },
             "item": {
-              "name": "Paladin's Ashes",
-              "player": 16,
+              "name": "Colored Squares",
+              "player": 64,
               "advancement": true,
               "type": "None"
             }
@@ -4786,8 +4782,8 @@
               ]
             },
             "item": {
-              "name": "Power Cell",
-              "player": 27,
+              "name": "Departure Road",
+              "player": 41,
               "advancement": true,
               "type": "None"
             }
@@ -4835,8 +4831,8 @@
               ]
             },
             "item": {
-              "name": "Eggman - Jet Engine",
-              "player": 54,
+              "name": "Lucky Emblem",
+              "player": 29,
               "advancement": true,
               "type": "None"
             }
@@ -4884,8 +4880,8 @@
               ]
             },
             "item": {
-              "name": "Sky Coin",
-              "player": 23,
+              "name": "DK Coin",
+              "player": 19,
               "advancement": true,
               "type": "None"
             }
@@ -5359,12 +5355,12 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Key for Office": {
         "name": "Key for Office",
@@ -6380,9 +6376,20 @@
         "type": "Event",
         "max_count": 1
       },
-      "Moon Pearl": {
-        "name": "Moon Pearl",
-        "id": 31,
+      "Treasure Bumper": {
+        "name": "Treasure Bumper",
+        "id": 595008,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Target",
+        "max_count": 1
+      },
+      "The Great Hall (E2M7) - Yellow key": {
+        "name": "The Great Hall (E2M7) - Yellow key",
+        "id": 370236,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -6391,251 +6398,9 @@
         "type": null,
         "max_count": 1
       },
-      "Rockcube *": {
-        "name": "Rockcube *",
-        "id": 11735136,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Combat Level": {
-        "name": "Combat Level",
-        "id": 717077,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Very Funny Joke": {
-        "name": "Very Funny Joke",
-        "id": 9001,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Demon's Greataxe": {
-        "name": "Demon's Greataxe",
-        "id": 100116,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "House of Pain (E3M4) - Blue skull key": {
-        "name": "House of Pain (E3M4) - Blue skull key",
-        "id": 350078,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Progressive Commercial Hub": {
-        "name": "Progressive Commercial Hub",
-        "id": 5041142,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Say! Fanfare!": {
-        "name": "Say! Fanfare!",
-        "id": 2900088,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Fishing Level": {
-        "name": "Fishing Level",
-        "id": 717074,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Wanderlust": {
-        "name": "Wanderlust",
-        "id": 444576,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Metal Man Access Codes": {
-        "name": "Metal Man Access Codes",
-        "id": 8913159,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "progressive-flamethrower": {
-        "name": "progressive-flamethrower",
-        "id": 131268,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Money": {
-        "name": "Money",
-        "id": 37301,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Mercury Card": {
-        "name": "Mercury Card",
-        "id": 3579635210,
-        "groups": [],
-        "advancement": true,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "D'Sparil's Keep (E3M8) - Map Scroll": {
-        "name": "D'Sparil's Keep (E3M8) - Map Scroll",
-        "id": 370477,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "POROMER BLEB": {
-        "name": "POROMER BLEB",
-        "id": 200678,
-        "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Piece of Heart": {
-        "name": "Piece of Heart",
-        "id": 2322561,
-        "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": "Item",
-        "max_count": 1
-      },
-      "Defense Up": {
-        "name": "Defense Up",
-        "id": 2641153,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Egg Launcher": {
-        "name": "Egg Launcher",
-        "id": 3154017,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "1-UP Mushroom": {
-        "name": "1-UP Mushroom",
-        "id": 77771013,
-        "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Emblem": {
-        "name": "Emblem",
-        "id": 16711680,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "EkeEke": {
-        "name": "EkeEke",
-        "id": 4000,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Max HP Up": {
-        "name": "Max HP Up",
-        "id": 1245350,
-        "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Plasma Orb": {
-        "name": "Plasma Orb",
-        "id": 1337134,
+      "The Glacier (E2M9) - Yellow key": {
+        "name": "The Glacier (E2M9) - Yellow key",
+        "id": 370238,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -6655,9 +6420,9 @@
         "type": null,
         "max_count": 1
       },
-      "Metal fishing rod": {
-        "name": "Metal fishing rod",
-        "id": 47071,
+      "Bomb": {
+        "name": "Bomb",
+        "id": 7127,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -6666,31 +6431,31 @@
         "type": null,
         "max_count": 1
       },
-      "Bucket Hat": {
-        "name": "Bucket Hat",
-        "id": 717499,
+      "Time Stopper": {
+        "name": "Time Stopper",
+        "id": 8912902,
         "groups": [],
-        "advancement": false,
-        "useful": false,
+        "advancement": true,
+        "useful": true,
         "trap": false,
         "event": false,
         "type": null,
         "max_count": 1
       },
-      "Money x50": {
-        "name": "Money x50",
-        "id": 509342496,
+      "Fire Immunity Perk": {
+        "name": "Fire Immunity Perk",
+        "id": 110013,
         "groups": [],
-        "advancement": false,
-        "useful": false,
+        "advancement": true,
+        "useful": true,
         "trap": false,
         "event": false,
         "type": null,
         "max_count": 1
       },
-      "Fire Rod": {
-        "name": "Fire Rod",
-        "id": 7,
+      "HM01 Cut": {
+        "name": "HM01 Cut",
+        "id": 172000196,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -6699,9 +6464,42 @@
         "type": null,
         "max_count": 1
       },
-      "Auto Launchers (Vulture)": {
-        "name": "Auto Launchers (Vulture)",
-        "id": 1261,
+      "Graffiti (XL - VIBRATIONS)": {
+        "name": "Graffiti (XL - VIBRATIONS)",
+        "id": 2308076,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Antenna": {
+        "name": "Antenna",
+        "id": 47045,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Berry Pick-Mi-Up+": {
+        "name": "Berry Pick-Mi-Up+",
+        "id": 1337062,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "TM37": {
+        "name": "TM37",
+        "id": 3860325,
         "groups": [],
         "advancement": false,
         "useful": true,
@@ -6710,9 +6508,53 @@
         "type": null,
         "max_count": 1
       },
-      "Healing Poultice": {
-        "name": "Healing Poultice",
-        "id": 698049,
+      "Five Rupees": {
+        "name": "Five Rupees",
+        "id": 7129,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Refreshing Gourd": {
+        "name": "Refreshing Gourd",
+        "id": 110029,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Gemini Crest": {
+        "name": "Gemini Crest",
+        "id": 4325386,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Power Transmitter Fragment": {
+        "name": "Power Transmitter Fragment",
+        "id": 35031,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Scraps": {
+        "name": "Scraps",
+        "id": 66600001,
         "groups": [],
         "advancement": false,
         "useful": true,
@@ -6721,9 +6563,9 @@
         "type": null,
         "max_count": 1
       },
-      "Petal": {
-        "name": "Petal",
-        "id": 64101,
+      "Additional Palette Color": {
+        "name": "Additional Palette Color",
+        "id": 198523,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -6732,53 +6574,9 @@
         "type": null,
         "max_count": 1
       },
-      "Sunset Armor": {
-        "name": "Sunset Armor",
-        "id": 100333,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "The Portals of Chaos (E2M8) - Map Scroll": {
-        "name": "The Portals of Chaos (E2M8) - Map Scroll",
-        "id": 370450,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Heal Potion": {
-        "name": "Heal Potion",
-        "id": 4325393,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Iron": {
-        "name": "Iron",
-        "id": 172000037,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Swarm Queen": {
-        "name": "Swarm Queen",
-        "id": 2001,
+      "DK Coin": {
+        "name": "DK Coin",
+        "id": 14430212,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -6787,20 +6585,9 @@
         "type": null,
         "max_count": 1
       },
-      "Titanite Scale x3": {
-        "name": "Titanite Scale x3",
-        "id": 100901,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Vinyl": {
-        "name": "Vinyl",
-        "id": 2308143,
+      "Cyclops Depth Module MK1": {
+        "name": "Cyclops Depth Module MK1",
+        "id": 35015,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -6809,9 +6596,53 @@
         "type": null,
         "max_count": 1
       },
-      "Sensor Tower": {
-        "name": "Sensor Tower",
-        "id": 1402,
+      "Executioner's Greatsword": {
+        "name": "Executioner's Greatsword",
+        "id": 100053,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "CYBERNETIC REVOLUTION": {
+        "name": "CYBERNETIC REVOLUTION",
+        "id": 5730016,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Soul of a Deserted Corpse": {
+        "name": "Soul of a Deserted Corpse",
+        "id": 100820,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Aural Decoy": {
+        "name": "Aural Decoy",
+        "id": 101003,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "LONG GLOVES": {
+        "name": "LONG GLOVES",
+        "id": 200659,
         "groups": [],
         "advancement": false,
         "useful": true,
@@ -6820,20 +6651,9 @@
         "type": null,
         "max_count": 1
       },
-      "Fairy": {
-        "name": "Fairy",
-        "id": 509342421,
-        "groups": [],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Call bead": {
-        "name": "Call bead",
-        "id": 64117,
+      "200 Golds": {
+        "name": "200 Golds",
+        "id": 4068,
         "groups": [],
         "advancement": false,
         "useful": true,
@@ -6842,9 +6662,20 @@
         "type": null,
         "max_count": 1
       },
-      "Child of Moonlight": {
-        "name": "Child of Moonlight",
-        "id": 1909178,
+      "Pocket Fire Melon": {
+        "name": "Pocket Fire Melon",
+        "id": 3154055,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lance (Weapon)": {
+        "name": "Lance (Weapon)",
+        "id": 64058,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -6853,9 +6684,64 @@
         "type": null,
         "max_count": 1
       },
-      "Health Upgrade": {
-        "name": "Health Upgrade",
-        "id": 698098,
+      "Time Piece": {
+        "name": "Time Piece",
+        "id": 2000300002,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Biscuit": {
+        "name": "Biscuit",
+        "id": 64141,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Random Cosmetic": {
+        "name": "Random Cosmetic",
+        "id": 2000300044,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Armor": {
+        "name": "Armor",
+        "id": 350107,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "lubricant": {
+        "name": "lubricant",
+        "id": 131169,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "TM18": {
+        "name": "TM18",
+        "id": 3860306,
         "groups": [],
         "advancement": false,
         "useful": true,
@@ -6864,9 +6750,20 @@
         "type": null,
         "max_count": 1
       },
-      "Greater Runes": {
-        "name": "Greater Runes",
-        "id": 370020,
+      "Nayru's Pearl": {
+        "name": "Nayru's Pearl",
+        "id": 2322483,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Item",
+        "max_count": 1
+      },
+      "Water": {
+        "name": "Water",
+        "id": 64110,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -6875,9 +6772,9 @@
         "type": null,
         "max_count": 1
       },
-      "Restoration": {
-        "name": "Restoration",
-        "id": 4046,
+      "Young Dragon Ring": {
+        "name": "Young Dragon Ring",
+        "id": 100645,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -6886,9 +6783,9 @@
         "type": null,
         "max_count": 1
       },
-      "Raft": {
-        "name": "Raft",
-        "id": 7103,
+      "Nobody Lance": {
+        "name": "Nobody Lance",
+        "id": 1245272,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -6897,9 +6794,31 @@
         "type": null,
         "max_count": 1
       },
-      "Box of rockets": {
-        "name": "Box of rockets",
-        "id": 360017,
+      "Hand Roll": {
+        "name": "Hand Roll",
+        "id": 698048,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Inverted Ash": {
+        "name": "Inverted Ash",
+        "id": 509342463,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "The Courtyard (MAP18) - Computer area map": {
+        "name": "The Courtyard (MAP18) - Computer area map",
+        "id": 360453,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -6908,9 +6827,9 @@
         "type": null,
         "max_count": 1
       },
-      "Eggman - Laser Blaster": {
-        "name": "Eggman - Laser Blaster",
-        "id": 16711700,
+      "Super Nuts": {
+        "name": "Super Nuts",
+        "id": 77771006,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -6919,9 +6838,20 @@
         "type": null,
         "max_count": 1
       },
-      "Lithium": {
-        "name": "Lithium",
-        "id": 35206,
+      "Progressive Sword": {
+        "name": "Progressive Sword",
+        "id": 2322486,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Item",
+        "max_count": 1
+      },
+      "Shriving Stone": {
+        "name": "Shriving Stone",
+        "id": 100920,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -6930,12 +6860,45 @@
         "type": null,
         "max_count": 1
       },
-      "Leonhard's Garb": {
-        "name": "Leonhard's Garb",
-        "id": 100325,
+      "Blizzard Element": {
+        "name": "Blizzard Element",
+        "id": 1245222,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Limbo (E3M7) - Computer area map": {
+        "name": "Limbo (E3M7) - Computer area map",
+        "id": 350093,
         "groups": [],
         "advancement": false,
         "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Nature Form": {
+        "name": "Nature Form",
+        "id": 698119,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Spicy Roll": {
+        "name": "Spicy Roll",
+        "id": 698085,
+        "groups": [],
+        "advancement": false,
+        "useful": true,
         "trap": false,
         "event": false,
         "type": null,
@@ -6952,9 +6915,64 @@
         "type": null,
         "max_count": 1
       },
-      "The Catacombs (E2M5) - Green key": {
-        "name": "The Catacombs (E2M5) - Green key",
-        "id": 370231,
+      "Rockcube *": {
+        "name": "Rockcube *",
+        "id": 11735136,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mushroom": {
+        "name": "Mushroom",
+        "id": 77771001,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "SOUL SPONGE": {
+        "name": "SOUL SPONGE",
+        "id": 200625,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Titanite Chunk": {
+        "name": "Titanite Chunk",
+        "id": 100895,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Witch's Ring": {
+        "name": "Witch's Ring",
+        "id": 100648,
+        "groups": [],
+        "advancement": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Seashell": {
+        "name": "Seashell",
+        "id": 82002,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -6963,9 +6981,9 @@
         "type": null,
         "max_count": 1
       },
-      "Common Item": {
-        "name": "Common Item",
-        "id": 37002,
+      "5 Oil": {
+        "name": "5 Oil",
+        "id": 64349,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -6974,53 +6992,9 @@
         "type": null,
         "max_count": 1
       },
-      "Resource Pack: 5 Plastic": {
-        "name": "Resource Pack: 5 Plastic",
-        "id": 47135,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Loincloth": {
-        "name": "Loincloth",
-        "id": 100495,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Reversal Ring": {
-        "name": "Reversal Ring",
-        "id": 100699,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Empress Robe": {
-        "name": "Empress Robe",
-        "id": 1337029,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Resource Efficiency (Swarm Host)": {
-        "name": "Resource Efficiency (Swarm Host)",
-        "id": 2239,
+      "Pickaxe": {
+        "name": "Pickaxe",
+        "id": 82015,
         "groups": [],
         "advancement": false,
         "useful": true,
@@ -7029,31 +7003,20 @@
         "type": null,
         "max_count": 1
       },
-      "25 Pons": {
-        "name": "25 Pons",
-        "id": 2000300034,
+      "Slowness": {
+        "name": "Slowness",
+        "id": 7798849,
         "groups": [],
         "advancement": false,
         "useful": false,
-        "trap": false,
+        "trap": true,
         "event": false,
         "type": null,
         "max_count": 1
       },
-      "Hoo Bean": {
-        "name": "Hoo Bean",
-        "id": 77771019,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Thermite Filaments (Hellion)": {
-        "name": "Thermite Filaments (Hellion)",
-        "id": 1301,
+      "Puzzle Skip": {
+        "name": "Puzzle Skip",
+        "id": 444413,
         "groups": [],
         "advancement": false,
         "useful": true,
@@ -7062,31 +7025,20 @@
         "type": null,
         "max_count": 1
       },
-      "Progressive Armor": {
-        "name": "Progressive Armor",
-        "id": 4069,
+      "The Cesspool (E3M2)": {
+        "name": "The Cesspool (E3M2)",
+        "id": 370457,
         "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Undead Legion Helm": {
-        "name": "Undead Legion Helm",
-        "id": 100425,
-        "groups": [],
-        "advancement": false,
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
         "type": null,
         "max_count": 1
       },
-      "Box of bullets": {
-        "name": "Box of bullets",
-        "id": 360016,
+      "Magnifying Glass": {
+        "name": "Magnifying Glass",
+        "id": 3154057,
         "groups": [],
         "advancement": false,
         "useful": false,
@@ -7095,9 +7047,9 @@
         "type": null,
         "max_count": 1
       },
-      "Carrot": {
-        "name": "Carrot",
-        "id": 28,
+      "Progressive Color Depth (Green)": {
+        "name": "Progressive Color Depth (Green)",
+        "id": 198504,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -7106,9 +7058,9 @@
         "type": null,
         "max_count": 1
       },
-      "Bubbler C": {
-        "name": "Bubbler C",
-        "id": 11735213,
+      "Knuckles - Sunglasses": {
+        "name": "Knuckles - Sunglasses",
+        "id": 16711695,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -7117,9 +7069,9 @@
         "type": null,
         "max_count": 1
       },
-      "Giant Eggs": {
-        "name": "Giant Eggs",
-        "id": 3154016,
+      "Graffiti (M - SPRAYTANICPANIC!)": {
+        "name": "Graffiti (M - SPRAYTANICPANIC!)",
+        "id": 2308042,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -7128,9 +7080,9 @@
         "type": null,
         "max_count": 1
       },
-      "Campaign Tier 3 Column 2": {
-        "name": "Campaign Tier 3 Column 2",
-        "id": 5730154,
+      "Psychological Warfare Pack": {
+        "name": "Psychological Warfare Pack",
+        "id": 120013,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -7139,9 +7091,9 @@
         "type": null,
         "max_count": 1
       },
-      "Paladin's Ashes": {
-        "name": "Paladin's Ashes",
-        "id": 100938,
+      "Bicycle": {
+        "name": "Bicycle",
+        "id": 172000006,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -7150,9 +7102,9 @@
         "type": null,
         "max_count": 1
       },
-      "Power Cell": {
-        "name": "Power Cell",
-        "id": 741000000,
+      "Area: Edgeville": {
+        "name": "Area: Edgeville",
+        "id": 458761,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -7161,9 +7113,9 @@
         "type": null,
         "max_count": 1
       },
-      "Eggman - Jet Engine": {
-        "name": "Eggman - Jet Engine",
-        "id": 16711702,
+      "Colored Squares": {
+        "name": "Colored Squares",
+        "id": 158072,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -7172,9 +7124,20 @@
         "type": null,
         "max_count": 1
       },
-      "Sky Coin": {
-        "name": "Sky Coin",
-        "id": 4325391,
+      "Departure Road": {
+        "name": "Departure Road",
+        "id": 2900076,
+        "groups": [],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lucky Emblem": {
+        "name": "Lucky Emblem",
+        "id": 1245422,
         "groups": [],
         "advancement": true,
         "useful": false,
@@ -7259,7 +7222,7 @@
       "Key for Torture Room": 1,
       "Key for UFO Room": 1,
       "Key for Underground Lake": 1,
-      "Key for Workshop": 1,
+      "Key for Workshop": 2,
       "Lightning Pot Bottom": 1,
       "Lightning Pot Bottom DUPE": 1,
       "Lightning Pot Top": 1,

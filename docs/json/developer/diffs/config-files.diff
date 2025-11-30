@@ -24,10 +24,10 @@ index 3abbb5f64..dbde0d080 100644
      strategy:
        fail-fast: false
 diff --git a/.gitignore b/.gitignore
-index 3bb4e68c9..c195068c2 100644
+index 3bb4e68c9..36b2d35ad 100644
 --- a/.gitignore
 +++ b/.gitignore
-@@ -195,3 +195,71 @@ _speedups.html
+@@ -195,3 +195,68 @@ _speedups.html
  .LSOverride
  Thumbs.db
  [Dd]esktop.ini
@@ -77,21 +77,18 @@ index 3bb4e68c9..c195068c2 100644
 +!scripts/build/
 +!scripts/lib/
 +
-+# Ignore everything in output directories
-+scripts/output/spoiler-minimal/*
-+scripts/output/spoiler-full/*
-+scripts/output/multiclient/*
-+scripts/output/multiworld/*
-+scripts/output/multitemplate-minimal/*
-+scripts/output/multitemplate-full/*
-+
-+# But keep test-results.json files
-+!scripts/output/spoiler-minimal/test-results.json
-+!scripts/output/spoiler-full/test-results.json
-+!scripts/output/multiclient/test-results.json
-+!scripts/output/multiworld/test-results.json
-+!scripts/output/multitemplate-minimal/test-results.json
-+!scripts/output/multitemplate-full/test-results.json
++scripts/output/spoiler-minimal/test-results-*
++scripts/output/spoiler-minimal/test-results_*
++scripts/output/spoiler-full/test-results-*
++scripts/output/spoiler-full/test-results_*
++scripts/output/multiclient/test-results-*
++scripts/output/multiclient/test-results_*
++scripts/output/multiworld/test-results-*
++scripts/output/multiworld/test-results_*
++scripts/output/multitemplate-minimal/test-results-*
++scripts/output/multitemplate-minimal/test-results_*
++scripts/output/multitemplate-full/test-results-*
++scripts/output/multitemplate-full/test-results_*
 +
 +test1/
 +test2/
@@ -100,32 +97,6 @@ index 3bb4e68c9..c195068c2 100644
 +frontend/modules/mazeGame-iframe/
 +.git.disabled/
 \ No newline at end of file
-diff --git a/ModuleUpdate.py b/ModuleUpdate.py
-index db42f8e5a..d967b76dc 100644
---- a/ModuleUpdate.py
-+++ b/ModuleUpdate.py
-@@ -73,7 +73,9 @@ def update_command():
- 
- def install_pkg_resources(yes=False):
-     try:
--        import pkg_resources  # noqa: F401
-+        with warnings.catch_warnings():
-+            warnings.filterwarnings("ignore", category=UserWarning, message=".*pkg_resources is deprecated.*")
-+            import pkg_resources  # noqa: F401
-     except (AttributeError, ImportError):
-         check_pip()
-         if not yes:
-@@ -87,7 +89,9 @@ def update(yes: bool = False, force: bool = False) -> None:
-         update_ran = True
- 
-         install_pkg_resources(yes=yes)
--        import pkg_resources
-+        with warnings.catch_warnings():
-+            warnings.filterwarnings("ignore", category=UserWarning, message=".*pkg_resources is deprecated.*")
-+            import pkg_resources
- 
-         if force:
-             update_command()
 diff --git a/pytest.ini b/pytest.ini
 index f050d58b7..92f141336 100644
 --- a/pytest.ini
@@ -141,11 +112,11 @@ index f050d58b7..92f141336 100644
 +    ignore:.*pkg_resources is deprecated.*
 \ No newline at end of file
 diff --git a/requirements.txt b/requirements.txt
-index 951db610d..2249c0bcb 100644
+index 928909b87..3a9c21272 100644
 --- a/requirements.txt
 +++ b/requirements.txt
-@@ -15,3 +15,5 @@ typing_extensions>=4.12.2
- pyshortcuts>=1.9.1
+@@ -15,3 +15,5 @@ typing_extensions>=4.15.0
+ pyshortcuts>=1.9.6
  kivymd @ git+https://github.com/kivymd/KivyMD@5ff9d0d
  kivymd>=2.0.1.dev0
 +astunparse>=1.6.3

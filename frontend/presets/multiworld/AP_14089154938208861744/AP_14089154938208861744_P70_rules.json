@@ -1,8 +1,8 @@
 {
   "schema_version": 3,
-  "game_name": "VVVVVV",
-  "game_directory": "v6",
-  "archipelago_version": "0.6.4",
+  "game_name": "WebDevJourney",
+  "game_directory": "codingadventure",
+  "archipelago_version": "0.6.5",
   "generation_seed": 1,
   "player_names": {
     "1": "Player1",
@@ -77,40 +77,38 @@
     "70": "Player70",
     "71": "Player71",
     "72": "Player72",
-    "73": "Player73",
-    "74": "Player74",
-    "75": "Player75"
+    "73": "Player73"
   },
   "world_classes": {
     "1": "HatInTimeWorld",
     "2": "ALTTPWorld",
     "3": "ShortHikeWorld",
     "4": "AdventureWorld",
-    "5": "AquariaWorld",
-    "6": "ArchipIDLEWorld",
-    "7": "BlasphemousWorld",
-    "8": "BombRushCyberfunkWorld",
-    "9": "BumpStikWorld",
-    "10": "CVCotMWorld",
-    "11": "CV64World",
+    "5": "APQuestWorld",
+    "6": "AquariaWorld",
+    "7": "BombRushCyberfunkWorld",
+    "8": "BumpStikWorld",
+    "9": "CVCotMWorld",
+    "10": "CV64World",
+    "11": "CelesteOpenWorld",
     "12": "Celeste64World",
     "13": "ChecksFinderWorld",
     "14": "ChocolateChipCookiesWorld",
-    "15": "CivVIWorld",
-    "16": "DarkSouls3World",
-    "17": "DLCqworld",
-    "18": "DKC3World",
-    "19": "DOOM1993World",
-    "20": "DOOM2World",
-    "21": "Factorio",
-    "22": "FaxanaduWorld",
-    "23": "FFMQWorld",
-    "24": "HereticWorld",
-    "25": "Hylics2World",
-    "26": "InscryptionWorld",
-    "27": "JakAndDaxterWorld",
-    "28": "KH2World",
-    "29": "KH1World",
+    "15": "CCCharlesWorld",
+    "16": "CivVIWorld",
+    "17": "DarkSouls3World",
+    "18": "DLCqworld",
+    "19": "DKC3World",
+    "20": "DOOM1993World",
+    "21": "DOOM2World",
+    "22": "Factorio",
+    "23": "FaxanaduWorld",
+    "24": "FFMQWorld",
+    "25": "HereticWorld",
+    "26": "Hylics2World",
+    "27": "InscryptionWorld",
+    "28": "JakAndDaxterWorld",
+    "29": "KH2World",
     "30": "KDL3World",
     "31": "LandstalkerWorld",
     "32": "LingoWorld",
@@ -137,26 +135,24 @@
     "53": "ShiversWorld",
     "54": "SA2BWorld",
     "55": "SC2World",
-    "56": "StardewValleyWorld",
-    "57": "SubnauticaWorld",
-    "58": "SM64World",
-    "59": "MarioLand2World",
-    "60": "SMWWorld",
-    "61": "SMWorld",
-    "62": "TerrariaWorld",
-    "63": "TLoZWorld",
-    "64": "MessengerWorld",
-    "65": "TWWWorld",
-    "66": "WitnessWorld",
-    "67": "TimespinnerWorld",
-    "68": "TunicWorld",
-    "69": "UndertaleWorld",
-    "70": "V6World",
-    "71": "WargrooveWorld",
-    "72": "WebDevJourneyWorld",
-    "73": "YachtDiceWorld",
-    "74": "YoshisIslandWorld",
-    "75": "Yugioh06World"
+    "56": "SubnauticaWorld",
+    "57": "SM64World",
+    "58": "MarioLand2World",
+    "59": "SMWWorld",
+    "60": "TerrariaWorld",
+    "61": "TLoZWorld",
+    "62": "MessengerWorld",
+    "63": "TWWWorld",
+    "64": "WitnessWorld",
+    "65": "TimespinnerWorld",
+    "66": "TunicWorld",
+    "67": "UndertaleWorld",
+    "68": "V6World",
+    "69": "WargrooveWorld",
+    "70": "WebDevJourneyWorld",
+    "71": "YachtDiceWorld",
+    "72": "YoshisIslandWorld",
+    "73": "Yugioh06World"
   },
   "regions": {
     "70": {
@@ -164,262 +160,318 @@
         "name": "Menu",
         "exits": [
           {
-            "name": "Menu -> Laboratory",
-            "connected_region": "Laboratory",
+            "name": "StartLearning",
+            "connected_region": "LearningHub",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_trinket_range",
-              "args": [
-                {
-                  "type": "binary_op",
-                  "left": {
-                    "type": "constant",
-                    "value": 3
-                  },
-                  "op": "*",
-                  "right": {
-                    "type": "binary_op",
-                    "left": {
-                      "type": "constant",
-                      "value": 1
-                    },
-                    "op": "-",
-                    "right": {
-                      "type": "constant",
-                      "value": 1
-                    }
-                  }
-                },
-                {
-                  "type": "binary_op",
-                  "left": {
-                    "type": "constant",
-                    "value": 3
-                  },
-                  "op": "*",
-                  "right": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                }
-              ]
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "LearningHub": {
+        "name": "LearningHub",
+        "exits": [
+          {
+            "name": "ToVisualPath",
+            "connected_region": "VisualPath",
+            "access_rule": {
+              "type": "constant",
+              "value": true
             }
           },
           {
-            "name": "Menu -> The Tower",
-            "connected_region": "The Tower",
+            "name": "ToLogicPath",
+            "connected_region": "LogicPath",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_trinket_range",
-              "args": [
-                {
-                  "type": "binary_op",
-                  "left": {
-                    "type": "constant",
-                    "value": 3
-                  },
-                  "op": "*",
-                  "right": {
-                    "type": "binary_op",
-                    "left": {
-                      "type": "constant",
-                      "value": 2
-                    },
-                    "op": "-",
-                    "right": {
-                      "type": "constant",
-                      "value": 1
-                    }
-                  }
-                },
-                {
-                  "type": "binary_op",
-                  "left": {
-                    "type": "constant",
-                    "value": 3
-                  },
-                  "op": "*",
-                  "right": {
-                    "type": "constant",
-                    "value": 2
-                  }
-                }
-              ]
+              "type": "constant",
+              "value": true
             }
           },
           {
-            "name": "Menu -> Space Station 2",
-            "connected_region": "Space Station 2",
+            "name": "ToServerPath",
+            "connected_region": "ServerPath",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_trinket_range",
-              "args": [
-                {
-                  "type": "binary_op",
-                  "left": {
-                    "type": "constant",
-                    "value": 3
-                  },
-                  "op": "*",
-                  "right": {
-                    "type": "binary_op",
-                    "left": {
-                      "type": "constant",
-                      "value": 3
-                    },
-                    "op": "-",
-                    "right": {
-                      "type": "constant",
-                      "value": 1
-                    }
-                  }
-                },
-                {
-                  "type": "binary_op",
-                  "left": {
-                    "type": "constant",
-                    "value": 3
-                  },
-                  "op": "*",
-                  "right": {
-                    "type": "constant",
-                    "value": 3
-                  }
-                }
-              ]
+              "type": "constant",
+              "value": true
             }
           },
           {
-            "name": "Menu -> Warp Zone",
-            "connected_region": "Warp Zone",
+            "name": "ToToolsPath",
+            "connected_region": "ToolsPath",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_trinket_range",
-              "args": [
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToStaticWebsite",
+            "connected_region": "StaticWebsiteHub",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
                 {
-                  "type": "binary_op",
-                  "left": {
-                    "type": "constant",
-                    "value": 3
-                  },
-                  "op": "*",
-                  "right": {
-                    "type": "binary_op",
-                    "left": {
-                      "type": "constant",
-                      "value": 4
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Git"
                     },
-                    "op": "-",
-                    "right": {
-                      "type": "constant",
-                      "value": 1
+                    {
+                      "type": "item_check",
+                      "item": "JavaScript Basics"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Server Basics"
                     }
-                  }
+                  ]
                 },
                 {
-                  "type": "binary_op",
-                  "left": {
-                    "type": "constant",
-                    "value": 3
-                  },
-                  "op": "*",
-                  "right": {
-                    "type": "constant",
-                    "value": 4
-                  }
+                  "type": "item_check",
+                  "item": "CSS"
+                },
+                {
+                  "type": "item_check",
+                  "item": "HTML"
                 }
               ]
             }
           }
         ],
+        "locations": []
+      },
+      "VisualPath": {
+        "name": "VisualPath",
+        "exits": [],
         "locations": [
           {
-            "name": "Overworld (Pipe-shaped Segment)",
-            "id": 2515013,
+            "name": "Learn HTML",
+            "id": 400000001,
             "access_rule": {
               "type": "constant",
               "value": true
             },
             "item": {
-              "name": "Refinery (E2M3)",
-              "player": 19,
+              "name": "HTML",
+              "player": 70,
               "advancement": true,
               "type": "None"
             }
           },
           {
-            "name": "Overworld (Left of Ship)",
-            "id": 2515015,
+            "name": "Learn CSS",
+            "id": 400000002,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "type": "item_check",
+              "item": "HTML"
             },
             "item": {
-              "name": "Prisoner Chief's Ashes",
-              "player": 16,
+              "name": "CSS",
+              "player": 70,
               "advancement": true,
               "type": "None"
             }
           },
           {
-            "name": "Overworld (Square Room)",
-            "id": 2515016,
+            "name": "Learn Design Systems",
+            "id": 400000003,
+            "access_rule": {
+              "type": "item_check",
+              "item": "CSS"
+            },
+            "item": {
+              "name": "Design Systems",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "LogicPath": {
+        "name": "LogicPath",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn JavaScript",
+            "id": 400000004,
             "access_rule": {
               "type": "constant",
               "value": true
             },
             "item": {
-              "name": "Pepper Seeds",
-              "player": 56,
+              "name": "JavaScript Basics",
+              "player": 70,
               "advancement": true,
               "type": "None"
             }
           },
           {
-            "name": "Overworld (Sad Elephant)",
-            "id": 2515017,
+            "name": "Learn DOM Manipulation",
+            "id": 400000005,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "type": "item_check",
+              "item": "JavaScript Basics"
             },
             "item": {
-              "name": "Sonic - Flame Ring",
-              "player": 54,
+              "name": "DOM Manipulation",
+              "player": 70,
               "advancement": true,
               "type": "None"
             }
           },
           {
-            "name": "It's a Secret to Nobody",
-            "id": 2515000,
+            "name": "Learn Algorithms",
+            "id": 400000006,
+            "access_rule": {
+              "type": "item_check",
+              "item": "JavaScript Basics"
+            },
+            "item": {
+              "name": "Algorithms",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "ServerPath": {
+        "name": "ServerPath",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Choose Server Language",
+            "id": 400000007,
             "access_rule": {
               "type": "constant",
               "value": true
             },
             "item": {
-              "name": "3 Call beads",
-              "player": 51,
-              "advancement": false,
+              "name": "Server Basics",
+              "player": 70,
+              "advancement": true,
               "type": "None"
             }
           },
           {
-            "name": "Trench Warfare",
-            "id": 2515001,
+            "name": "Learn File I/O",
+            "id": 400000008,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Server Basics"
+            },
+            "item": {
+              "name": "File I/O",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Learn HTTP Basics",
+            "id": 400000009,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Server Basics"
+            },
+            "item": {
+              "name": "HTTP Basics",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "ToolsPath": {
+        "name": "ToolsPath",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn Git",
+            "id": 400000010,
             "access_rule": {
               "type": "constant",
               "value": true
             },
             "item": {
-              "name": "Quiver of Ethereal Arrows",
-              "player": 24,
-              "advancement": false,
+              "name": "Git",
+              "player": 70,
+              "advancement": true,
               "type": "None"
             }
           },
           {
-            "name": "NPC Trinket",
-            "id": 2515018,
+            "name": "Learn Command Line",
+            "id": 400000011,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Command Line",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Learn Package Managers",
+            "id": 400000012,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Command Line"
+            },
+            "item": {
+              "name": "Package Managers",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "StaticWebsiteHub": {
+        "name": "StaticWebsiteHub",
+        "exits": [
+          {
+            "name": "ToFrontendTrack",
+            "connected_region": "FrontendTrack",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToBackendTrack",
+            "connected_region": "BackendTrack",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToDesignTrack",
+            "connected_region": "DesignTrack",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToDataTrack",
+            "connected_region": "DataTrack",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToInteractiveApp",
+            "connected_region": "InteractiveAppHub",
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -427,332 +479,1089 @@
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": "Space Station 2"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        }
-                      ]
+                      "type": "item_check",
+                      "item": "Database Basics"
                     },
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": "The Tower"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": "Warp Zone"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        }
-                      ]
+                      "type": "item_check",
+                      "item": "State Management"
                     }
                   ]
                 },
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
+                  "type": "and",
+                  "conditions": [
                     {
-                      "type": "constant",
-                      "value": "Laboratory"
+                      "type": "item_check",
+                      "item": "Frontend Framework"
                     },
                     {
-                      "type": "constant",
-                      "value": "Region"
+                      "type": "item_check",
+                      "item": "REST APIs"
                     }
                   ]
                 }
               ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Static Website Milestone",
+            "id": 400000013,
+            "access_rule": {
+              "type": "constant",
+              "value": true
             },
             "item": {
-              "name": "Time Piece",
-              "player": 1,
+              "name": "Static Website Complete",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "FrontendTrack": {
+        "name": "FrontendTrack",
+        "exits": [
+          {
+            "name": "ToReactRoute",
+            "connected_region": "ReactRoute",
+            "access_rule": {
+              "type": "item_check",
+              "item": "DOM Manipulation"
+            }
+          },
+          {
+            "name": "ToVueRoute",
+            "connected_region": "VueRoute",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToVanillaRoute",
+            "connected_region": "VanillaRoute",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Algorithms"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "ReactRoute": {
+        "name": "ReactRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn React",
+            "id": 400000014,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "React",
+              "player": 70,
               "advancement": true,
               "type": "None"
             }
           },
           {
-            "name": "V",
-            "id": 2515019,
+            "name": "React Components",
+            "id": 400000015,
+            "access_rule": {
+              "type": "item_check",
+              "item": "React"
+            },
+            "item": {
+              "name": "Frontend Framework",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Redux",
+            "id": 400000016,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Frontend Framework"
+            },
+            "item": {
+              "name": "State Management",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "VueRoute": {
+        "name": "VueRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn Vue",
+            "id": 400000017,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Vue",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Vue Components",
+            "id": 400000018,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Vue"
+            },
+            "item": {
+              "name": "Frontend Framework",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Vuex",
+            "id": 400000019,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Frontend Framework"
+            },
+            "item": {
+              "name": "State Management",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "VanillaRoute": {
+        "name": "VanillaRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Advanced Vanilla JS",
+            "id": 400000020,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Frontend Framework",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Custom State System",
+            "id": 400000021,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Frontend Framework"
+            },
+            "item": {
+              "name": "State Management",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "BackendTrack": {
+        "name": "BackendTrack",
+        "exits": [
+          {
+            "name": "ToExpressRoute",
+            "connected_region": "ExpressRoute",
+            "access_rule": {
+              "type": "item_check",
+              "item": "JavaScript Basics"
+            }
+          },
+          {
+            "name": "ToDjangoRoute",
+            "connected_region": "DjangoRoute",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Server Basics"
+            }
+          },
+          {
+            "name": "ToFlaskRoute",
+            "connected_region": "FlaskRoute",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Server Basics"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "ExpressRoute": {
+        "name": "ExpressRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn Express",
+            "id": 400000022,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Express",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Build REST APIs",
+            "id": 400000023,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Express"
+            },
+            "item": {
+              "name": "REST APIs",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "MongoDB Integration",
+            "id": 400000024,
+            "access_rule": {
+              "type": "item_check",
+              "item": "REST APIs"
+            },
+            "item": {
+              "name": "Database Integration",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "DjangoRoute": {
+        "name": "DjangoRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn Django",
+            "id": 400000025,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Django",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Django REST Framework",
+            "id": 400000026,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Django"
+            },
+            "item": {
+              "name": "REST APIs",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Django ORM",
+            "id": 400000027,
+            "access_rule": {
+              "type": "item_check",
+              "item": "REST APIs"
+            },
+            "item": {
+              "name": "Database Integration",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "FlaskRoute": {
+        "name": "FlaskRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn Flask",
+            "id": 400000028,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Flask",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Flask-RESTful",
+            "id": 400000029,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Flask"
+            },
+            "item": {
+              "name": "REST APIs",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SQLAlchemy",
+            "id": 400000030,
+            "access_rule": {
+              "type": "item_check",
+              "item": "REST APIs"
+            },
+            "item": {
+              "name": "Database Integration",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "DesignTrack": {
+        "name": "DesignTrack",
+        "exits": [],
+        "locations": [
+          {
+            "name": "UI/UX Principles",
+            "id": 400000031,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Design Systems"
+            },
+            "item": {
+              "name": "UI/UX",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Responsive Design",
+            "id": 400000032,
+            "access_rule": {
+              "type": "item_check",
+              "item": "UI/UX"
+            },
+            "item": {
+              "name": "Responsive Design",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Accessibility",
+            "id": 400000033,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Responsive Design"
+            },
+            "item": {
+              "name": "Accessibility",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "DataTrack": {
+        "name": "DataTrack",
+        "exits": [
+          {
+            "name": "ToSQLRoute",
+            "connected_region": "SQLRoute",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToNoSQLRoute",
+            "connected_region": "NoSQLRoute",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "SQLRoute": {
+        "name": "SQLRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn SQL",
+            "id": 400000034,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "SQL",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "PostgreSQL",
+            "id": 400000035,
+            "access_rule": {
+              "type": "item_check",
+              "item": "SQL"
+            },
+            "item": {
+              "name": "Database Basics",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Query Optimization",
+            "id": 400000036,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Database Basics"
+            },
+            "item": {
+              "name": "Query Optimization",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "NoSQLRoute": {
+        "name": "NoSQLRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn NoSQL",
+            "id": 400000037,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "NoSQL",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "MongoDB",
+            "id": 400000038,
+            "access_rule": {
+              "type": "item_check",
+              "item": "NoSQL"
+            },
+            "item": {
+              "name": "Database Basics",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Indexing Strategies",
+            "id": 400000039,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Database Basics"
+            },
+            "item": {
+              "name": "Query Optimization",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "InteractiveAppHub": {
+        "name": "InteractiveAppHub",
+        "exits": [
+          {
+            "name": "ToAuthPath",
+            "connected_region": "AuthPath",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToPerfPath",
+            "connected_region": "PerfPath",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToTestPath",
+            "connected_region": "TestPath",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToDevOpsPath",
+            "connected_region": "DevOpsPath",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToFullStackHub",
+            "connected_region": "FullStackHub",
             "access_rule": {
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
+                  "type": "or",
+                  "conditions": [
                     {
-                      "type": "constant",
-                      "value": "Laboratory"
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "DevOps"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Performance"
+                        }
+                      ]
                     },
                     {
-                      "type": "constant",
-                      "value": "Region"
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "DevOps"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Testing"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "Performance"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Testing"
+                        }
+                      ]
                     }
                   ]
                 },
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": "Space Station 2"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Authentication"
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Interactive App Milestone",
+            "id": 400000040,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Interactive App Complete",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "AuthPath": {
+        "name": "AuthPath",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Sessions",
+            "id": 400000041,
+            "access_rule": {
+              "type": "item_check",
+              "item": "HTTP Basics"
+            },
+            "item": {
+              "name": "Sessions",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "JWT",
+            "id": 400000042,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Sessions"
+            },
+            "item": {
+              "name": "JWT",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "OAuth",
+            "id": 400000043,
+            "access_rule": {
+              "type": "item_check",
+              "item": "JWT"
+            },
+            "item": {
+              "name": "Authentication",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "PerfPath": {
+        "name": "PerfPath",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Caching",
+            "id": 400000044,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Database Basics"
                 },
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": "The Tower"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    }
-                  ]
-                },
-                {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": "Warp Zone"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "REST APIs"
                 }
               ]
             },
             "item": {
-              "name": "Trendy Jacket",
-              "player": 67,
-              "advancement": false,
-              "type": "None"
-            }
-          }
-        ]
-      },
-      "Laboratory": {
-        "name": "Laboratory",
-        "exits": [],
-        "locations": [
-          {
-            "name": "Young Man, It's Worth the Challenge",
-            "id": 2515009,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Iron",
-              "player": 46,
-              "advancement": false,
+              "name": "Caching",
+              "player": 70,
+              "advancement": true,
               "type": "None"
             }
           },
           {
-            "name": "Overworld (Outside Entanglement Generator)",
-            "id": 2515014,
+            "name": "CDN",
+            "id": 400000045,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "type": "item_check",
+              "item": "Caching"
             },
             "item": {
-              "name": "Medikit",
-              "player": 20,
-              "advancement": false,
+              "name": "CDN",
+              "player": 70,
+              "advancement": true,
               "type": "None"
             }
           },
           {
-            "name": "The Tantalizing Trinket",
-            "id": 2515010,
+            "name": "Load Balancing",
+            "id": 400000046,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "type": "item_check",
+              "item": "CDN"
             },
             "item": {
-              "name": "Crystal Geode",
-              "player": 24,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Purest Unobtainium",
-            "id": 2515011,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Greater Runes",
-              "player": 24,
-              "advancement": false,
-              "type": "None"
-            }
-          }
-        ]
-      },
-      "The Tower": {
-        "name": "The Tower",
-        "exits": [],
-        "locations": [
-          {
-            "name": "The Tower 1",
-            "id": 2515007,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "HP+100 (Pink)",
-              "player": 38,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "The Tower 2",
-            "id": 2515008,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "7 Kerrigan Levels",
-              "player": 55,
+              "name": "Performance",
+              "player": 70,
               "advancement": true,
               "type": "None"
             }
           }
         ]
       },
-      "Space Station 2": {
-        "name": "Space Station 2",
+      "TestPath": {
+        "name": "TestPath",
         "exits": [],
         "locations": [
           {
-            "name": "One Way Room",
-            "id": 2515002,
+            "name": "Unit Tests",
+            "id": 400000047,
             "access_rule": {
               "type": "constant",
               "value": true
             },
             "item": {
-              "name": "Invulnerability",
-              "player": 20,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "You Just Keep Coming Back",
-            "id": 2515003,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Silver Shield",
-              "player": 24,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Clarion Call",
-            "id": 2515004,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Swarm Scourge (Scourge)",
-              "player": 55,
-              "advancement": false,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Prize for the Reckless",
-            "id": 2515006,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item": {
-              "name": "Bonus Coin",
-              "player": 18,
+              "name": "Unit Tests",
+              "player": 70,
               "advancement": true,
               "type": "None"
             }
           },
           {
-            "name": "Doing things the hard way",
-            "id": 2515005,
+            "name": "Integration Tests",
+            "id": 400000048,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "type": "item_check",
+              "item": "Unit Tests"
             },
             "item": {
-              "name": "Pages 52-53 (Icebolt)",
-              "player": 68,
+              "name": "Integration Tests",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "E2E Tests",
+            "id": 400000049,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Integration Tests"
+            },
+            "item": {
+              "name": "Testing",
+              "player": 70,
               "advancement": true,
               "type": "None"
             }
           }
         ]
       },
-      "Warp Zone": {
-        "name": "Warp Zone",
+      "DevOpsPath": {
+        "name": "DevOpsPath",
         "exits": [],
         "locations": [
           {
-            "name": "Edge Games",
-            "id": 2515012,
+            "name": "Docker",
+            "id": 400000050,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Command Line"
+            },
+            "item": {
+              "name": "Docker",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CI/CD",
+            "id": 400000051,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Docker"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Git"
+                }
+              ]
+            },
+            "item": {
+              "name": "CI/CD",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Monitoring",
+            "id": 400000052,
+            "access_rule": {
+              "type": "item_check",
+              "item": "CI/CD"
+            },
+            "item": {
+              "name": "DevOps",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "FullStackHub": {
+        "name": "FullStackHub",
+        "exits": [
+          {
+            "name": "ToSecurityBranch",
+            "connected_region": "SecurityBranch",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToScalingBranch",
+            "connected_region": "ScalingBranch",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToDeploymentBranch",
+            "connected_region": "DeploymentBranch",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            }
+          },
+          {
+            "name": "ToProduction",
+            "connected_region": "ProductionHub",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Deployment Complete"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Scaling Complete"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Security Complete"
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Full-Stack Integration Milestone",
+            "id": 400000053,
             "access_rule": {
               "type": "constant",
               "value": true
             },
             "item": {
-              "name": "Petal",
-              "player": 51,
-              "advancement": false,
+              "name": "Full-Stack Complete",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "SecurityBranch": {
+        "name": "SecurityBranch",
+        "exits": [],
+        "locations": [
+          {
+            "name": "HTTPS",
+            "id": 400000054,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "HTTPS",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CORS",
+            "id": 400000055,
+            "access_rule": {
+              "type": "item_check",
+              "item": "HTTPS"
+            },
+            "item": {
+              "name": "CORS",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Input Validation",
+            "id": 400000056,
+            "access_rule": {
+              "type": "item_check",
+              "item": "CORS"
+            },
+            "item": {
+              "name": "Security Complete",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "ScalingBranch": {
+        "name": "ScalingBranch",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Horizontal Scaling",
+            "id": 400000057,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Performance"
+            },
+            "item": {
+              "name": "Horizontal Scaling",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Microservices",
+            "id": 400000058,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Horizontal Scaling"
+            },
+            "item": {
+              "name": "Scaling Complete",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "DeploymentBranch": {
+        "name": "DeploymentBranch",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Cloud Provider",
+            "id": 400000059,
+            "access_rule": {
+              "type": "item_check",
+              "item": "DevOps"
+            },
+            "item": {
+              "name": "Cloud Provider",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Domain Setup",
+            "id": 400000060,
+            "access_rule": {
+              "type": "item_check",
+              "item": "Cloud Provider"
+            },
+            "item": {
+              "name": "Domain",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SSL Certificate",
+            "id": 400000061,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Domain"
+                },
+                {
+                  "type": "item_check",
+                  "item": "HTTPS"
+                }
+              ]
+            },
+            "item": {
+              "name": "Deployment Complete",
+              "player": 70,
+              "advancement": true,
+              "type": "None"
+            }
+          }
+        ]
+      },
+      "ProductionHub": {
+        "name": "ProductionHub",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Production Deployment",
+            "id": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Victory",
+              "player": 70,
+              "advancement": true,
               "type": "None"
             }
           }
@@ -770,270 +1579,12 @@
   },
   "items": {
     "70": {
-      "Trinket 01": {
-        "name": "Trinket 01",
-        "id": 2515000,
+      "HTML": {
+        "name": "HTML",
+        "id": 400100001,
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Trinket 02": {
-        "name": "Trinket 02",
-        "id": 2515001,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Trinket 03": {
-        "name": "Trinket 03",
-        "id": 2515002,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Trinket 04": {
-        "name": "Trinket 04",
-        "id": 2515003,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Trinket 05": {
-        "name": "Trinket 05",
-        "id": 2515004,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Trinket 06": {
-        "name": "Trinket 06",
-        "id": 2515005,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Trinket 07": {
-        "name": "Trinket 07",
-        "id": 2515006,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Trinket 08": {
-        "name": "Trinket 08",
-        "id": 2515007,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Trinket 09": {
-        "name": "Trinket 09",
-        "id": 2515008,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Trinket 10": {
-        "name": "Trinket 10",
-        "id": 2515009,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Trinket 11": {
-        "name": "Trinket 11",
-        "id": 2515010,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Trinket 12": {
-        "name": "Trinket 12",
-        "id": 2515011,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Trinket 13": {
-        "name": "Trinket 13",
-        "id": 2515012,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Trinket 14": {
-        "name": "Trinket 14",
-        "id": 2515013,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Trinket 15": {
-        "name": "Trinket 15",
-        "id": 2515014,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Trinket 16": {
-        "name": "Trinket 16",
-        "id": 2515015,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Trinket 17": {
-        "name": "Trinket 17",
-        "id": 2515016,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Trinket 18": {
-        "name": "Trinket 18",
-        "id": 2515017,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Trinket 19": {
-        "name": "Trinket 19",
-        "id": 2515018,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Trinket 20": {
-        "name": "Trinket 20",
-        "id": 2515019,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Refinery (E2M3)": {
-        "name": "Refinery (E2M3)",
-        "id": 350043,
-        "groups": [],
         "advancement": true,
         "useful": false,
         "trap": false,
@@ -1041,10 +1592,12 @@
         "type": null,
         "max_count": 1
       },
-      "Prisoner Chief's Ashes": {
-        "name": "Prisoner Chief's Ashes",
-        "id": 100973,
-        "groups": [],
+      "CSS": {
+        "name": "CSS",
+        "id": 400100002,
+        "groups": [
+          "Everything"
+        ],
         "advancement": true,
         "useful": false,
         "trap": false,
@@ -1052,10 +1605,12 @@
         "type": null,
         "max_count": 1
       },
-      "Pepper Seeds": {
-        "name": "Pepper Seeds",
-        "id": 717143,
-        "groups": [],
+      "Design Systems": {
+        "name": "Design Systems",
+        "id": 400100003,
+        "groups": [
+          "Everything"
+        ],
         "advancement": true,
         "useful": false,
         "trap": false,
@@ -1063,10 +1618,12 @@
         "type": null,
         "max_count": 1
       },
-      "Sonic - Flame Ring": {
-        "name": "Sonic - Flame Ring",
-        "id": 16711685,
-        "groups": [],
+      "JavaScript Basics": {
+        "name": "JavaScript Basics",
+        "id": 400100004,
+        "groups": [
+          "Everything"
+        ],
         "advancement": true,
         "useful": false,
         "trap": false,
@@ -1074,32 +1631,12 @@
         "type": null,
         "max_count": 1
       },
-      "3 Call beads": {
-        "name": "3 Call beads",
-        "id": 64279,
-        "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Quiver of Ethereal Arrows": {
-        "name": "Quiver of Ethereal Arrows",
-        "id": 370023,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Time Piece": {
-        "name": "Time Piece",
-        "id": 2000300002,
-        "groups": [],
+      "DOM Manipulation": {
+        "name": "DOM Manipulation",
+        "id": 400100005,
+        "groups": [
+          "Everything"
+        ],
         "advancement": true,
         "useful": false,
         "trap": false,
@@ -1107,76 +1644,12 @@
         "type": null,
         "max_count": 1
       },
-      "Trendy Jacket": {
-        "name": "Trendy Jacket",
-        "id": 1337017,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Iron": {
-        "name": "Iron",
-        "id": 3860065,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Medikit": {
-        "name": "Medikit",
-        "id": 360015,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Crystal Geode": {
-        "name": "Crystal Geode",
-        "id": 370018,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Greater Runes": {
-        "name": "Greater Runes",
-        "id": 370020,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "HP+100 (Pink)": {
-        "name": "HP+100 (Pink)",
-        "id": 11735180,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "7 Kerrigan Levels": {
-        "name": "7 Kerrigan Levels",
-        "id": 2503,
-        "groups": [],
+      "Algorithms": {
+        "name": "Algorithms",
+        "id": 400100006,
+        "groups": [
+          "Everything"
+        ],
         "advancement": true,
         "useful": false,
         "trap": false,
@@ -1184,43 +1657,12 @@
         "type": null,
         "max_count": 1
       },
-      "Invulnerability": {
-        "name": "Invulnerability",
-        "id": 360011,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Silver Shield": {
-        "name": "Silver Shield",
-        "id": 370016,
-        "groups": [],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Swarm Scourge (Scourge)": {
-        "name": "Swarm Scourge (Scourge)",
-        "id": 2225,
-        "groups": [],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Bonus Coin": {
-        "name": "Bonus Coin",
-        "id": 14430211,
-        "groups": [],
+      "Server Basics": {
+        "name": "Server Basics",
+        "id": 400100007,
+        "groups": [
+          "Everything"
+        ],
         "advancement": true,
         "useful": false,
         "trap": false,
@@ -1228,10 +1670,12 @@
         "type": null,
         "max_count": 1
       },
-      "Pages 52-53 (Icebolt)": {
-        "name": "Pages 52-53 (Icebolt)",
-        "id": 509342528,
-        "groups": [],
+      "File I/O": {
+        "name": "File I/O",
+        "id": 400100008,
+        "groups": [
+          "Everything"
+        ],
         "advancement": true,
         "useful": false,
         "trap": false,
@@ -1239,15 +1683,576 @@
         "type": null,
         "max_count": 1
       },
-      "Petal": {
-        "name": "Petal",
-        "id": 64101,
-        "groups": [],
-        "advancement": false,
+      "HTTP Basics": {
+        "name": "HTTP Basics",
+        "id": 400100009,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
         "useful": false,
         "trap": false,
         "event": false,
         "type": null,
+        "max_count": 1
+      },
+      "Git": {
+        "name": "Git",
+        "id": 400100010,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Command Line": {
+        "name": "Command Line",
+        "id": 400100011,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Package Managers": {
+        "name": "Package Managers",
+        "id": 400100012,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Static Website Complete": {
+        "name": "Static Website Complete",
+        "id": 400100013,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "React": {
+        "name": "React",
+        "id": 400100014,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Vue": {
+        "name": "Vue",
+        "id": 400100015,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Frontend Framework": {
+        "name": "Frontend Framework",
+        "id": 400100016,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "State Management": {
+        "name": "State Management",
+        "id": 400100017,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "Express": {
+        "name": "Express",
+        "id": 400100018,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Django": {
+        "name": "Django",
+        "id": 400100019,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Flask": {
+        "name": "Flask",
+        "id": 400100020,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "REST APIs": {
+        "name": "REST APIs",
+        "id": 400100021,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "Database Integration": {
+        "name": "Database Integration",
+        "id": 400100022,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "UI/UX": {
+        "name": "UI/UX",
+        "id": 400100023,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Responsive Design": {
+        "name": "Responsive Design",
+        "id": 400100024,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Accessibility": {
+        "name": "Accessibility",
+        "id": 400100025,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "SQL": {
+        "name": "SQL",
+        "id": 400100026,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "NoSQL": {
+        "name": "NoSQL",
+        "id": 400100027,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Database Basics": {
+        "name": "Database Basics",
+        "id": 400100028,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Query Optimization": {
+        "name": "Query Optimization",
+        "id": 400100029,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Interactive App Complete": {
+        "name": "Interactive App Complete",
+        "id": 400100030,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sessions": {
+        "name": "Sessions",
+        "id": 400100031,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "JWT": {
+        "name": "JWT",
+        "id": 400100032,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Authentication": {
+        "name": "Authentication",
+        "id": 400100033,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Caching": {
+        "name": "Caching",
+        "id": 400100034,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "CDN": {
+        "name": "CDN",
+        "id": 400100035,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Performance": {
+        "name": "Performance",
+        "id": 400100036,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Unit Tests": {
+        "name": "Unit Tests",
+        "id": 400100037,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Integration Tests": {
+        "name": "Integration Tests",
+        "id": 400100038,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Testing": {
+        "name": "Testing",
+        "id": 400100039,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Docker": {
+        "name": "Docker",
+        "id": 400100040,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "CI/CD": {
+        "name": "CI/CD",
+        "id": 400100041,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "DevOps": {
+        "name": "DevOps",
+        "id": 400100042,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Full-Stack Complete": {
+        "name": "Full-Stack Complete",
+        "id": 400100043,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "HTTPS": {
+        "name": "HTTPS",
+        "id": 400100044,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "CORS": {
+        "name": "CORS",
+        "id": 400100045,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Security Complete": {
+        "name": "Security Complete",
+        "id": 400100046,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Horizontal Scaling": {
+        "name": "Horizontal Scaling",
+        "id": 400100047,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Scaling Complete": {
+        "name": "Scaling Complete",
+        "id": 400100048,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cloud Provider": {
+        "name": "Cloud Provider",
+        "id": 400100049,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Domain": {
+        "name": "Domain",
+        "id": 400100050,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Deployment Complete": {
+        "name": "Deployment Complete",
+        "id": 400100051,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Victory": {
+        "name": "Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
         "max_count": 1
       },
       " coins": {
@@ -1285,26 +2290,58 @@
   },
   "itempool_counts": {
     "70": {
-      "Trinket 01": 1,
-      "Trinket 02": 1,
-      "Trinket 03": 1,
-      "Trinket 04": 1,
-      "Trinket 05": 1,
-      "Trinket 06": 1,
-      "Trinket 07": 1,
-      "Trinket 08": 1,
-      "Trinket 09": 1,
-      "Trinket 10": 1,
-      "Trinket 11": 1,
-      "Trinket 12": 1,
-      "Trinket 13": 1,
-      "Trinket 14": 1,
-      "Trinket 15": 1,
-      "Trinket 16": 1,
-      "Trinket 17": 1,
-      "Trinket 18": 1,
-      "Trinket 19": 1,
-      "Trinket 20": 1
+      "Accessibility": 1,
+      "Algorithms": 1,
+      "Authentication": 1,
+      "CDN": 1,
+      "CI/CD": 1,
+      "CORS": 1,
+      "CSS": 1,
+      "Caching": 1,
+      "Cloud Provider": 1,
+      "Command Line": 1,
+      "DOM Manipulation": 1,
+      "Database Basics": 2,
+      "Database Integration": 3,
+      "Deployment Complete": 1,
+      "Design Systems": 1,
+      "DevOps": 1,
+      "Django": 1,
+      "Docker": 1,
+      "Domain": 1,
+      "Express": 1,
+      "File I/O": 1,
+      "Flask": 1,
+      "Frontend Framework": 3,
+      "Full-Stack Complete": 1,
+      "Git": 1,
+      "HTML": 1,
+      "HTTP Basics": 1,
+      "HTTPS": 1,
+      "Horizontal Scaling": 1,
+      "Integration Tests": 1,
+      "Interactive App Complete": 1,
+      "JWT": 1,
+      "JavaScript Basics": 1,
+      "NoSQL": 1,
+      "Package Managers": 1,
+      "Performance": 1,
+      "Query Optimization": 2,
+      "REST APIs": 3,
+      "React": 1,
+      "Responsive Design": 1,
+      "SQL": 1,
+      "Scaling Complete": 1,
+      "Security Complete": 1,
+      "Server Basics": 1,
+      "Sessions": 1,
+      "State Management": 3,
+      "Static Website Complete": 1,
+      "Testing": 1,
+      "UI/UX": 1,
+      "Unit Tests": 1,
+      "Victory": 1,
+      "Vue": 1
     }
   },
   "progression_mapping": {
@@ -1315,22 +2352,14 @@
   },
   "settings": {
     "70": {
-      "game": "VVVVVV",
+      "game": "WebDevJourney",
       "assume_bidirectional_exits": false,
-      "use_resolved_items": false,
-      "door_cost": 3,
-      "area_cost_map": {
-        "1": 1,
-        "2": 2,
-        "3": 3,
-        "4": 4,
-        "0": 0
-      }
+      "use_resolved_items": false
     }
   },
   "game_info": {
     "70": {
-      "name": "VVVVVV",
+      "name": "WebDevJourney",
       "rule_format": {
         "version": "1.0"
       }

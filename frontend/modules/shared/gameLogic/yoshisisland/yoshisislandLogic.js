@@ -3,13 +3,27 @@
  * Translates Python YoshiLogic class methods to JavaScript
  */
 
+import { DEFAULT_PLAYER_ID } from '../../playerIdUtils.js';
+
+/**
+ * Get the player ID from snapshot and staticData using the standard pattern
+ * @param {Object} snapshot - Canonical state snapshot
+ * @param {Object} staticData - Static game data
+ * @returns {string|number} Player ID
+ */
+function getPlayerId(snapshot, staticData) {
+  return snapshot?.player?.id || snapshot?.player?.slot || snapshot?.player || staticData?.playerId || DEFAULT_PLAYER_ID;
+}
+
 /**
  * Get the game logic difficulty level from settings
+ * @param {Object} snapshot - Canonical state snapshot
  * @param {Object} staticData - Static game data
  * @returns {string} 'Easy', 'Normal', or 'Hard'
  */
-function getGameLogic(staticData) {
-  const settings = staticData?.settings?.[1];
+function getGameLogic(snapshot, staticData) {
+  const playerId = getPlayerId(snapshot, staticData);
+  const settings = staticData?.settings?.[playerId];
   const stageLogic = settings?.StageLogic ?? 0;
 
   if (stageLogic === 0) { // option_strict
@@ -23,44 +37,52 @@ function getGameLogic(staticData) {
 
 /**
  * Check if middle rings are available from the start
+ * @param {Object} snapshot - Canonical state snapshot
  * @param {Object} staticData - Static game data
  * @returns {boolean}
  */
-function getMidringStart(staticData) {
-  const settings = staticData?.settings?.[1];
+function getMidringStart(snapshot, staticData) {
+  const playerId = getPlayerId(snapshot, staticData);
+  const settings = staticData?.settings?.[playerId];
   const shuffleMidrings = settings?.ShuffleMiddleRings ?? false;
   return !shuffleMidrings; // midring_start = not shuffle_midrings
 }
 
 /**
  * Check if clouds are always visible
+ * @param {Object} snapshot - Canonical state snapshot
  * @param {Object} staticData - Static game data
  * @returns {boolean}
  */
-function getCloudsAlwaysVisible(staticData) {
-  const settings = staticData?.settings?.[1];
+function getCloudsAlwaysVisible(snapshot, staticData) {
+  const playerId = getPlayerId(snapshot, staticData);
+  const settings = staticData?.settings?.[playerId];
   const hiddenObjectVis = settings?.HiddenObjectVisibility ?? 1;
   return hiddenObjectVis >= 2; // option_clouds_only = 2
 }
 
 /**
  * Check if consumable logic is enabled
+ * @param {Object} snapshot - Canonical state snapshot
  * @param {Object} staticData - Static game data
  * @returns {boolean}
  */
-function getConsumableLogic(staticData) {
-  const settings = staticData?.settings?.[1];
+function getConsumableLogic(snapshot, staticData) {
+  const playerId = getPlayerId(snapshot, staticData);
+  const settings = staticData?.settings?.[playerId];
   const itemLogic = settings?.ItemLogic ?? false;
   return !itemLogic; // consumable_logic = not item_logic
 }
 
 /**
  * Get the Bowser door mode
+ * @param {Object} snapshot - Canonical state snapshot
  * @param {Object} staticData - Static game data
  * @returns {number}
  */
-function getBowserDoor(staticData) {
-  const settings = staticData?.settings?.[1];
+function getBowserDoor(snapshot, staticData) {
+  const playerId = getPlayerId(snapshot, staticData);
+  const settings = staticData?.settings?.[playerId];
   let bowserDoor = settings?.BowserDoorMode ?? 0;
   // Python logic: if bowser_door == 4, set it to 3
   if (bowserDoor === 4) {
@@ -71,31 +93,37 @@ function getBowserDoor(staticData) {
 
 /**
  * Get Luigi pieces required
+ * @param {Object} snapshot - Canonical state snapshot
  * @param {Object} staticData - Static game data
  * @returns {number}
  */
-function getLuigiPieces(staticData) {
-  const settings = staticData?.settings?.[1];
+function getLuigiPieces(snapshot, staticData) {
+  const playerId = getPlayerId(snapshot, staticData);
+  const settings = staticData?.settings?.[playerId];
   return settings?.LuigiPiecesRequired ?? 25;
 }
 
 /**
  * Get castle clear condition
+ * @param {Object} snapshot - Canonical state snapshot
  * @param {Object} staticData - Static game data
  * @returns {number}
  */
-function getCastleClearCondition(staticData) {
-  const settings = staticData?.settings?.[1];
+function getCastleClearCondition(snapshot, staticData) {
+  const playerId = getPlayerId(snapshot, staticData);
+  const settings = staticData?.settings?.[playerId];
   return settings?.CastleClearCondition ?? 0;
 }
 
 /**
  * Get castle open condition
+ * @param {Object} snapshot - Canonical state snapshot
  * @param {Object} staticData - Static game data
  * @returns {number}
  */
-function getCastleOpenCondition(staticData) {
-  const settings = staticData?.settings?.[1];
+function getCastleOpenCondition(snapshot, staticData) {
+  const playerId = getPlayerId(snapshot, staticData);
+  const settings = staticData?.settings?.[playerId];
   return settings?.CastleOpenCondition ?? 0;
 }
 
@@ -128,7 +156,7 @@ function countItem(snapshot, itemName) {
  * @returns {boolean}
  */
 export function has_midring(snapshot, staticData) {
-  const midringStart = getMidringStart(staticData);
+  const midringStart = getMidringStart(snapshot, staticData);
   return midringStart || hasItem(snapshot, 'Middle Ring');
 }
 
@@ -139,7 +167,7 @@ export function has_midring(snapshot, staticData) {
  * @returns {boolean}
  */
 export function reconstitute_luigi(snapshot, staticData) {
-  const luigiPieces = getLuigiPieces(staticData);
+  const luigiPieces = getLuigiPieces(snapshot, staticData);
   return countItem(snapshot, 'Piece of Luigi') >= luigiPieces;
 }
 
@@ -170,12 +198,12 @@ export function item_bonus(snapshot, staticData) {
  * @returns {boolean}
  */
 export function combat_item(snapshot, staticData) {
-  const consumableLogic = getConsumableLogic(staticData);
+  const consumableLogic = getConsumableLogic(snapshot, staticData);
   if (!consumableLogic) {
     return false;
   }
 
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   if (gameLogic === 'Easy') {
     return item_bonus(snapshot, staticData);
   } else {
@@ -190,12 +218,12 @@ export function combat_item(snapshot, staticData) {
  * @returns {boolean}
  */
 export function melon_item(snapshot, staticData) {
-  const consumableLogic = getConsumableLogic(staticData);
+  const consumableLogic = getConsumableLogic(snapshot, staticData);
   if (!consumableLogic) {
     return false;
   }
 
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   if (gameLogic === 'Easy') {
     return item_bonus(snapshot, staticData);
   } else {
@@ -210,7 +238,7 @@ export function melon_item(snapshot, staticData) {
  * @returns {boolean}
  */
 export function default_vis(snapshot, staticData) {
-  return getCloudsAlwaysVisible(staticData);
+  return getCloudsAlwaysVisible(snapshot, staticData);
 }
 
 /**
@@ -220,7 +248,7 @@ export function default_vis(snapshot, staticData) {
  * @returns {boolean}
  */
 export function cansee_clouds(snapshot, staticData) {
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   if (gameLogic !== 'Easy') {
     return true;
   } else {
@@ -237,7 +265,7 @@ export function cansee_clouds(snapshot, staticData) {
  * @returns {boolean}
  */
 export function bowserdoor_1(snapshot, staticData) {
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   if (gameLogic === 'Easy') {
     return hasItem(snapshot, 'Egg Plant') &&
            hasItem(snapshot, '! Switch') &&
@@ -257,7 +285,7 @@ export function bowserdoor_1(snapshot, staticData) {
  * @returns {boolean}
  */
 export function bowserdoor_2(snapshot, staticData) {
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   if (gameLogic === 'Easy') {
     return ((countItem(snapshot, 'Egg Capacity Upgrade') >= 3 && hasItem(snapshot, 'Egg Plant')) ||
             combat_item(snapshot, staticData)) &&
@@ -333,7 +361,7 @@ export function _47Game(snapshot, staticData) {
  * @returns {boolean}
  */
 export function _34Clear(snapshot, staticData) {
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   if (gameLogic === 'Easy') {
     return hasItem(snapshot, 'Dashed Platform');
   } else if (gameLogic === 'Normal') {
@@ -350,7 +378,7 @@ export function _34Clear(snapshot, staticData) {
  * @returns {boolean}
  */
 export function _34Boss(snapshot, staticData) {
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   if (gameLogic === 'Easy') {
     return hasItem(snapshot, 'Giant Eggs');
   } else { // Normal or Hard
@@ -376,7 +404,7 @@ export function _34CanFightBoss(snapshot, staticData) {
  * @returns {boolean}
  */
 export function _38Clear(snapshot, staticData) {
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   if (gameLogic === 'Easy') {
     return countItem(snapshot, 'Egg Capacity Upgrade') >= 3 || combat_item(snapshot, staticData);
   } else if (gameLogic === 'Normal') {
@@ -415,7 +443,7 @@ export function _38CanFightBoss(snapshot, staticData) {
  * @returns {boolean}
  */
 export function _54Clear(snapshot, staticData) {
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   if (gameLogic === 'Easy' || gameLogic === 'Normal') {
     return hasItem(snapshot, 'Dashed Stairs') &&
            hasItem(snapshot, 'Platform Ghost') &&
@@ -433,7 +461,7 @@ export function _54Clear(snapshot, staticData) {
  * @returns {boolean}
  */
 export function _54Boss(snapshot, staticData) {
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   if (gameLogic === 'Easy') {
     return countItem(snapshot, 'Egg Capacity Upgrade') >= 2 && hasItem(snapshot, 'Egg Plant');
   } else if (gameLogic === 'Normal') {
@@ -529,7 +557,7 @@ export function _58CanFightBoss(snapshot, staticData) {
  * @returns {boolean}
  */
 export function _24Clear(snapshot, staticData) {
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   if (gameLogic === 'Easy') {
     return hasItem(snapshot, '! Switch') && hasItem(snapshot, 'Key') && hasItem(snapshot, 'Dashed Stairs');
   } else if (gameLogic === 'Normal') {
@@ -590,7 +618,7 @@ export function _27Game(snapshot, staticData) {
  * @returns {boolean}
  */
 export function _28Clear(snapshot, staticData) {
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   if (gameLogic === 'Easy') {
     return hasItem(snapshot, 'Arrow Wheel') && hasItem(snapshot, 'Key') && countItem(snapshot, 'Egg Capacity Upgrade') >= 1;
   } else { // Normal or Hard
@@ -627,7 +655,7 @@ export function _28CanFightBoss(snapshot, staticData) {
  * @returns {boolean}
  */
 export function _48Clear(snapshot, staticData) {
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   if (gameLogic === 'Easy' || gameLogic === 'Normal') {
     return hasItem(snapshot, 'Dashed Stairs') &&
            hasItem(snapshot, 'Vanishing Arrow Wheel') &&
@@ -645,7 +673,7 @@ export function _48Clear(snapshot, staticData) {
  * @returns {boolean}
  */
 export function _48Boss(snapshot, staticData) {
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   if (gameLogic === 'Easy') {
     return countItem(snapshot, 'Egg Capacity Upgrade') >= 3;
   } else if (gameLogic === 'Normal') {
@@ -673,7 +701,7 @@ export function _48CanFightBoss(snapshot, staticData) {
  * @returns {boolean}
  */
 export function _14Boss(snapshot, staticData) {
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   if (gameLogic === 'Easy' || gameLogic === 'Normal') {
     return hasItem(snapshot, 'Egg Plant');
   } else { // Hard
@@ -728,7 +756,7 @@ export function _23Game(snapshot, staticData) {
  * @returns {boolean}
  */
 export function _32Game(snapshot, staticData) {
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   if (gameLogic === 'Easy') {
     return hasItem(snapshot, 'Dashed Stairs') && hasItem(snapshot, 'Spring Ball') && hasItem(snapshot, 'Key');
   } else { // Normal or Hard
@@ -743,7 +771,7 @@ export function _32Game(snapshot, staticData) {
  * @returns {boolean}
  */
 export function _37Game(snapshot, staticData) {
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   if (gameLogic === 'Easy') {
     return hasItem(snapshot, 'Key') && hasItem(snapshot, 'Large Spring Ball');
   } else { // Normal or Hard
@@ -758,7 +786,7 @@ export function _37Game(snapshot, staticData) {
  * @returns {boolean}
  */
 export function _42Game(snapshot, staticData) {
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   if (gameLogic === 'Easy' || gameLogic === 'Normal') {
     return hasItem(snapshot, 'Large Spring Ball') && hasItem(snapshot, 'Key');
   } else { // Hard
@@ -773,7 +801,7 @@ export function _42Game(snapshot, staticData) {
  * @returns {boolean}
  */
 export function _44Clear(snapshot, staticData) {
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   const baseItems = hasItem(snapshot, 'Dashed Stairs') &&
                     hasItem(snapshot, 'Vanishing Arrow Wheel') &&
                     hasItem(snapshot, 'Arrow Wheel') &&
@@ -834,7 +862,7 @@ export function _51Game(snapshot, staticData) {
  * @returns {boolean}
  */
 export function _61Game(snapshot, staticData) {
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   if (gameLogic === 'Easy' || gameLogic === 'Normal') {
     return hasItem(snapshot, 'Dashed Platform') && hasItem(snapshot, 'Key') && hasItem(snapshot, 'Beanstalk');
   } else { // Hard
@@ -849,7 +877,7 @@ export function _61Game(snapshot, staticData) {
  * @returns {boolean}
  */
 export function _64Clear(snapshot, staticData) {
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   if (gameLogic === 'Easy') {
     return hasItem(snapshot, 'Spring Ball') &&
            hasItem(snapshot, 'Large Spring Ball') &&
@@ -875,7 +903,7 @@ export function _64Clear(snapshot, staticData) {
  * @returns {boolean}
  */
 export function _64Boss(snapshot, staticData) {
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   if (gameLogic === 'Easy' || gameLogic === 'Normal') {
     return hasItem(snapshot, 'Egg Plant');
   } else { // Hard
@@ -910,7 +938,7 @@ export function _67Game(snapshot, staticData) {
  * @returns {boolean}
  */
 export function _68Route(snapshot, staticData) {
-  const bowserDoor = getBowserDoor(staticData);
+  const bowserDoor = getBowserDoor(snapshot, staticData);
   if (bowserDoor === 0) {
     return true;
   } else if (bowserDoor === 1) {
@@ -929,7 +957,7 @@ export function _68Route(snapshot, staticData) {
  * @returns {boolean}
  */
 export function _68CollectibleRoute(snapshot, staticData) {
-  const bowserDoor = getBowserDoor(staticData);
+  const bowserDoor = getBowserDoor(snapshot, staticData);
   if (bowserDoor === 0) {
     return true;
   } else if (bowserDoor === 1) {
@@ -952,7 +980,7 @@ export function _68CollectibleRoute(snapshot, staticData) {
  * @returns {boolean}
  */
 export function _68Clear(snapshot, staticData) {
-  const gameLogic = getGameLogic(staticData);
+  const gameLogic = getGameLogic(snapshot, staticData);
   if (gameLogic === 'Easy' || gameLogic === 'Normal') {
     return hasItem(snapshot, 'Helicopter Morph') &&
            hasItem(snapshot, 'Egg Plant') &&
@@ -972,7 +1000,7 @@ export function _68Clear(snapshot, staticData) {
  * @returns {boolean}
  */
 export function castle_clear(snapshot, staticData) {
-  const bossUnlock = getCastleClearCondition(staticData);
+  const bossUnlock = getCastleClearCondition(snapshot, staticData);
   return countItem(snapshot, 'Boss Clear') >= bossUnlock;
 }
 
@@ -983,7 +1011,7 @@ export function castle_clear(snapshot, staticData) {
  * @returns {boolean}
  */
 export function castle_access(snapshot, staticData) {
-  const castleUnlock = getCastleOpenCondition(staticData);
+  const castleUnlock = getCastleOpenCondition(snapshot, staticData);
   return countItem(snapshot, 'Boss Clear') >= castleUnlock;
 }
 

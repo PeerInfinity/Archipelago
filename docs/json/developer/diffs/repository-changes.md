@@ -2,18 +2,18 @@
 
 This document tracks the differences between this repository and the upstream Archipelago repository.
 
-**Upstream commit:** `16d5b453a79c7ef869e20c1e27b3cf4192b037b3` (Core: require setuptools>=75 #5346)
-**Upstream date:** August 19, 2025 17:35:50 UTC
-**Upstream version:** 0.6.4
-**Last updated:** 2025-11-13
+**Upstream commit:** `886cc68051f23d6049f8d846379b193aa0415e24` (Timespinner: Exclude Removed Location from Web Tracker #5701)
+**Upstream date:** November 29, 2025 11:13:43 -0700
+**Upstream version:** 0.6.5-rc1
+**Last updated:** 2025-11-29
 
 ## Summary
 
-- **Modified files:** 21
+- **Modified files:** 20
 - **New top-level directories:** 11
-- **New files in existing directories:** 4
-- **Total new files:** 1,046
-- **Total changes:** 1,068
+- **New files in existing directories:** 8
+- **Total new files:** ~1,050
+- **Total changes:** ~1,078
 
 **For detailed line-by-line changes:** See the **[Diff Files README](./README.md)** for complete diff outputs of all modifications.
 
@@ -43,7 +43,10 @@ These files were added to directories that already existed in the upstream commi
 
 ```
 .github/workflows/deploy-gh-pages.yml
+.github/workflows/generate-presets.yml
+.github/workflows/test-all-sequential.yml
 .github/workflows/test-individual.yml
+.github/workflows/test-spoilers-split.yml
 .github/workflows/test-templates.yml
 ```
 
@@ -53,7 +56,7 @@ Note: `worlds/alttp/VanillaPlacement.py` was originally created as a new file bu
 
 ## Modified Files
 
-The following 21 files have been modified from the upstream version:
+The following 20 files have been modified from the upstream version:
 
 ```
 .gitattributes
@@ -61,7 +64,6 @@ The following 21 files have been modified from the upstream version:
 .gitignore
 BaseClasses.py
 Main.py
-ModuleUpdate.py
 README.md
 pytest.ini
 requirements.txt
@@ -86,9 +88,8 @@ worlds/yoshisisland/__init__.py
 ### Core Files
 - **BaseClasses.py** - Modified for JSON export functionality and sphere logging
 - **Main.py** - Enhanced with additional features and vanilla placement trigger
-- **ModuleUpdate.py** - Removed pkg_resources deprecation warning suppression
-- **settings.py** - Configuration changes
-- **requirements.txt** - Dependency updates
+- **settings.py** - Configuration changes for JSON export and sphere logging
+- **requirements.txt** - Additional dependencies (astunparse, psutil)
 
 ### World Implementations
 Modified world implementations include:
@@ -128,14 +129,14 @@ Modified world implementations include:
   - Additional world implementations (Adventure-themed games)
   - Enhanced documentation system
 
-- The merge from upstream was performed on August 20, 2025, capturing the state of Archipelago version 0.6.4
+- The latest merge from upstream was performed on November 29, 2025, capturing the state of Archipelago version 0.6.5-rc1
 
-- Most changes are additions rather than modifications, with only 21 files modified from upstream
+- Most changes are additions rather than modifications, with only 20 files modified from upstream
 
-- The majority of the 1,046 new files are contained within the new directory structures (CC, frontend, exporter, docs/json, etc.)
+- The majority of the ~1,050 new files are contained within the new directory structures (CC, frontend, exporter, docs/json, etc.)
 
 ---
 
-**Generated:** 2025-11-13
-**Base commit:** 16d5b453a79c7ef869e20c1e27b3cf4192b037b3
-**Merge commit:** a675f1d97b98b6241061477a4bbe7250bea609e6
+**Generated:** 2025-11-29
+**Base commit:** 886cc68051f23d6049f8d846379b193aa0415e24
+**Merge commit:** 52302da40837bd40c5155345de5b26ca1a4cd5a6

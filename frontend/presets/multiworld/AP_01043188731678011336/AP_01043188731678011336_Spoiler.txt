@@ -1,11 +1,13 @@
-﻿Archipelago Version 0.6.4  -  Seed: 2
+﻿Archipelago Version 0.6.5  -  Seed: 2
 
 Filling Algorithm:               balanced
 Players:                         4
+Total Location Count:            641
 Plando Options:                  connections, texts, bosses
 
 Player 1: Player1
 Game:                            A Hat in Time
+Location Count:                  227
 Progression Balancing:           50
 Accessibility:                   Full
 Local Items:                     
@@ -82,6 +84,8 @@ Baby Trap Weight:                40
 Laser Trap Weight:               40
 Parade Trap Weight:              20
 Death Link:                      No
+Death Link Amnesty:              0
+Death Wish Amnesty:              5
 Chapter 1 Cost: 0
 Chapter 2 Cost: 5
 Chapter 3 Cost: 17
@@ -97,6 +101,7 @@ Hat Cost: 0: 6
 
 Player 2: Player2
 Game:                            A Link to the Past
+Location Count:                  259
 Progression Balancing:           50
 Accessibility:                   Items
 Local Items:                     
@@ -158,8 +163,8 @@ Shuffle Capacity Upgrades:       Off
 Bombless Start:                  No
 Shuffle Prizes:                  General
 Tile Shuffle:                    No
-Misery Mire Medallion:           Ether
-Turtle Rock Medallion:           Ether
+Misery Mire Medallion:           Bombos
+Turtle Rock Medallion:           Quake
 Glitched Starting Boots:         Yes
 Beemizer Total Chance:           0
 Beemizer Trap Chance:            60
@@ -185,6 +190,7 @@ Display Method for Triforce Hunt:Normal
 
 Player 3: Player3
 Game:                            A Short Hike
+Location Count:                  131
 Progression Balancing:           50
 Accessibility:                   Full
 Local Items:                     
@@ -214,6 +220,7 @@ Minimum Shop Check Logic Application:100 Coins
 
 Player 4: Player4
 Game:                            Adventure
+Location Count:                  24
 Progression Balancing:           50
 Accessibility:                   Full
 Local Items:                     
@@ -249,8 +256,8 @@ Player2: Links House <= Chris Houlihan Room Exit
 
 Medallions:
 
-Misery Mire (Player2): Ether
-Turtle Rock (Player2): Ether
+Misery Mire (Player2): Bombos
+Turtle Rock (Player2): Quake
 
 Fairy Fountain Bottle Fill:
 
@@ -2191,7 +2198,8 @@ King Zora (Player2)
 Lake Hylia Island (Player2)
         Links House -> Links House Exit
    =>   Light World -> East Hyrule Teleporter
-   =>   East Dark World -> Dark Lake Hylia Drop (East)
+   =>   East Dark World -> Northeast Dark World Broken Bridge Pass
+   =>   Northeast Dark World -> Dark Lake Hylia Teleporter
    =>   Dark Lake Hylia -> Lake Hylia Island Mirror Spot
    =>   Lake Hylia Island
 Lava Cake Cleared (Player1)
@@ -2828,10 +2836,9 @@ Superbunny Cave - Bottom (Player2)
    =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
    =>   Spectacle Rock -> Spectacle Rock Drop
    =>   Death Mountain (Top) -> East Death Mountain (Top)
-   =>   East Death Mountain (Top) -> East Death Mountain Drop
-   =>   East Death Mountain (Bottom) -> East Death Mountain Teleporter
-   =>   Dark Death Mountain (East Bottom) -> Superbunny Cave (Bottom)
-   =>   Superbunny Cave (Bottom) -> Superbunny Cave Climb
+   =>   East Death Mountain (Top) -> Turtle Rock Teleporter
+   =>   Turtle Rock (Top) -> Turtle Rock Drop
+   =>   Dark Death Mountain (Top) -> Superbunny Cave (Top)
    =>   Superbunny Cave (Top)
 Swamp Palace - Big Chest (Player2)
         Links House -> Links House Exit

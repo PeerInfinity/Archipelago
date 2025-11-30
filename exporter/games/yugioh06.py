@@ -15,7 +15,7 @@ class Yugioh06GameExportHandler(GenericGameExportHandler):
 
     GAME_NAME = 'Yu-Gi-Oh! 2006'
 
-    # List of custom helper functions defined in worlds/yugioh06/rules.py
+    # List of custom helper functions defined in worlds/yugioh06/rules.py and fusions.py
     CUSTOM_HELPERS = {
         'only_light',
         'only_dark',
@@ -40,6 +40,7 @@ class Yugioh06GameExportHandler(GenericGameExportHandler):
         'quick_plays',
         'counter_traps',
         'back_row_removal',
+        'count_has_materials',
     }
 
     def should_preserve_as_helper(self, func_name: str) -> bool:

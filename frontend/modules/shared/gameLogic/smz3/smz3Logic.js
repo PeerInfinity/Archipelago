@@ -764,40 +764,9 @@ export function smz3_CanAcquire(snapshot, staticData, rewardType) {
         return false;
       }
 
-      // Check if the boss location is accessible
-      // Find the boss location first (doesn't require evaluateRule)
-      if (!staticData.regions) {
-        return false;
-      }
-
-      // Find the boss location by searching through all regions
-      let bossLocation = null;
-      const regionsToSearch = staticData.regions instanceof Map ?
-        Array.from(staticData.regions.values()) :
-        Object.values(staticData.regions);
-
-      for (const region of regionsToSearch) {
-        if (region.locations) {
-          bossLocation = region.locations.find(loc => loc.name === bossLocationName);
-          if (bossLocation) {
-            break;
-          }
-        }
-      }
-
-      if (!bossLocation) {
-        return false;
-      }
-
-      // Check if the location is accessible
-      if (bossLocation.access_rule) {
-        // Use the simple rule evaluator to handle common rule types
-        const result = evaluateSimpleRule(bossLocation.access_rule, snapshot, staticData);
-        return result;
-      } else {
-        // No access rule means always accessible
-        return true;
-      }
+      // Use checkRegionCompletion which properly handles both region accessibility
+      // and boss location access rules
+      return checkRegionCompletion(snapshot, staticData, regionName);
     }
   }
 
@@ -1257,12 +1226,28 @@ function checkRegionCompletion(snapshot, staticData, regionName) {
     return isAccessible;
   }
 
-  // Fallback: if locationAccessibility isn't available, evaluate the access rule
+  // Fallback: if locationAccessibility isn't available, we need to check both:
+  // 1. The region is accessible (can enter)
+  // 2. The boss location's access rule passes (can access boss within region)
+
+  // First check if the region is accessible via regionReachability
+  // Only reject if regionReachability explicitly has this region set to false/unreachable
+  // If the region isn't in regionReachability at all, we fall through to access rule evaluation
+  // Note: regionReachability values can be true, 'reachable', false, or 'unreachable'
+  if (snapshot.regionReachability && snapshot.regionReachability.hasOwnProperty(regionName)) {
+    const regionStatus = snapshot.regionReachability[regionName];
+    const isRegionAccessible = regionStatus === true || regionStatus === 'reachable';
+    if (!isRegionAccessible) {
+      return false;
+    }
+  }
+
+  // Now check the boss location's access rule
   if (bossLocation.access_rule) {
     const result = evaluateSimpleRule(bossLocation.access_rule, snapshot, staticData);
     return result;
   }
 
-  // No access rule means always accessible
+  // No access rule means always accessible (if region is accessible)
   return true;
 }

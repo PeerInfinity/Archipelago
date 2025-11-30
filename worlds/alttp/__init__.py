@@ -305,6 +305,8 @@ class ALTTPWorld(World):
         self.required_medallions = ["Ether", "Quake"]
         self.escape_assist = []
         self.shops = []
+        self.logical_heart_containers = 10
+        self.logical_heart_pieces = 24
         super(ALTTPWorld, self).__init__(*args, **kwargs)
 
     @classmethod
@@ -312,11 +314,11 @@ class ALTTPWorld(World):
         rom_file = get_base_rom_path()
         # Check if ROM exists or skip_required_files is set
         from settings import skip_required_files
-        
+
         rom_available = os.path.exists(rom_file) or skip_required_files
         # Store this information for later access
         setattr(multiworld, 'alttp_rom_exists', os.path.exists(rom_file))
-        
+
         if not os.path.exists(rom_file):
             if skip_required_files:
                 lttp_logger.warning("ALTTP ROM file not found at %s but skip_required_files is set. ROM generation will be skipped, but other generation steps will continue.", rom_file)
@@ -324,7 +326,7 @@ class ALTTPWorld(World):
                 raise FileNotFoundError(rom_file)
         elif multiworld.is_race:
             import xxtea  # noqa
-        
+
         # Only check enemizer if ROM is available
         if os.path.exists(rom_file):
             for player in multiworld.get_game_players(cls.game):
@@ -397,6 +399,8 @@ class ALTTPWorld(World):
                     self.options.local_items.value |= self.dungeon_local_item_names
 
         self.difficulty_requirements = difficulties[self.options.item_pool.current_key]
+        self.logical_heart_pieces = self.difficulty_requirements.heart_piece_limit
+        self.logical_heart_containers = self.difficulty_requirements.boss_heart_container_limit
 
         # enforce pre-defined local items.
         if self.options.goal in ["local_triforce_hunt", "local_ganon_triforce_hunt"]:
@@ -594,7 +598,7 @@ class ALTTPWorld(World):
                 # This should not happen if stage_assert_generate worked correctly,
                 # but preserve original behavior just in case
                 raise FileNotFoundError(rom_file)
-            lttp_logger.warning("ALTTP ROM file not found at %s but skip_required_files is set. Skipping ROM generation for player %s.", 
+            lttp_logger.warning("ALTTP ROM file not found at %s but skip_required_files is set. Skipping ROM generation for player %s.",
                                 rom_file, player)
             # Set a placeholder ROM name to indicate ROM wasn't generated
             self.rom_name = "ALTTP_ROM_NOT_GENERATED"

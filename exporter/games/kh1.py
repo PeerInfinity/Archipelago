@@ -357,15 +357,168 @@ class KH1GameExportHandler(BaseGameExportHandler):
         if 'regions' in data:
             for player_id, player_regions in data['regions'].items():
                 for region_name, region in player_regions.items():
+                    # Fix location access rules
                     for location in region.get('locations', []):
                         location_name = location.get('name', '')
                         access_rule = location.get('access_rule')
 
                         if access_rule and isinstance(access_rule, dict):
-                            # Fix the access rule
-                            location['access_rule'] = self._fix_has_all_counts_rule(access_rule, location_name)
+                            # Special handling for Level locations in the Levels region
+                            if region_name == 'Levels' and self._is_level_location(location_name):
+                                location['access_rule'] = self._fix_level_location_rule(access_rule, location_name)
+                            # Special handling for locations that require additional checks
+                            elif self._needs_additional_check(location_name):
+                                location['access_rule'] = self._fix_has_all_counts_rule(access_rule, location_name)
+                                location['access_rule'] = self._add_missing_check(location['access_rule'], location_name)
+                            else:
+                                # Fix the access rule normally
+                                location['access_rule'] = self._fix_has_all_counts_rule(access_rule, location_name)
+
+                    # Fix exit access rules
+                    for exit_data in region.get('exits', []):
+                        exit_name = exit_data.get('name', '')
+                        access_rule = exit_data.get('access_rule')
+
+                        if access_rule and isinstance(access_rule, dict):
+                            # Special handling for World Map exits - fix broken has_x_worlds
+                            if region_name == 'World Map' and self._is_world_map_exit(exit_name):
+                                exit_data['access_rule'] = self._fix_world_map_exit_rule(access_rule, exit_name)
+                            else:
+                                # Fix the access rule normally
+                                exit_data['access_rule'] = self._fix_has_all_counts_rule(access_rule, exit_name)
 
         return data
+
+    def _fix_world_map_exit_rule(self, rule: Dict[str, Any], exit_name: str) -> Dict[str, Any]:
+        """
+        Fix World Map exit access rules that contain broken has_x_worlds conditionals.
+
+        The Python rule for most world exits is:
+        state.has("WorldName", player) and has_x_worlds(state, player, N, ...)
+
+        The analyzer produces:
+        {
+            "type": "and",
+            "conditions": [
+                {broken_has_x_worlds_conditional},
+                {"type": "item_check", "item": "WorldName"}
+            ]
+        }
+
+        For End of the World, the rule is more complex with lucky emblems:
+        {
+            "type": "and",
+            "conditions": [
+                {broken_has_x_worlds_conditional},
+                {"type": "or", "conditions": [lucky_emblem_check, item_check]}
+            ]
+        }
+
+        We replace the broken conditional with a proper helper call.
+        """
+        if not rule or not isinstance(rule, dict):
+            return rule
+
+        # Check if this is the expected pattern
+        if rule.get('type') == 'and' and 'conditions' in rule:
+            conditions = rule['conditions']
+            if len(conditions) == 2:
+                first, second = conditions
+                # Check if first condition is the broken conditional
+                if self._is_broken_has_x_worlds_conditional(first):
+                    # Case 1: second is a direct item_check for the world
+                    if second.get('type') == 'item_check' and second.get('item') == exit_name:
+                        num_of_worlds = self._get_world_map_exit_num_worlds(exit_name)
+                        logger.info(f"Fixing World Map exit to {exit_name} -> has_x_worlds({num_of_worlds}) AND item_check")
+                        return {
+                            'type': 'and',
+                            'conditions': [
+                                {
+                                    'type': 'helper',
+                                    'name': 'has_x_worlds',
+                                    'args': [
+                                        {'type': 'constant', 'value': num_of_worlds},
+                                        {'type': 'constant', 'value': self.options_cache.get('keyblades_unlock_chests', False)}
+                                    ]
+                                },
+                                second  # Keep the item_check
+                            ]
+                        }
+
+                    # Case 2: second is an 'or' containing the item_check (e.g., End of the World with lucky emblems)
+                    if second.get('type') == 'or' and 'conditions' in second:
+                        or_conditions = second['conditions']
+                        # Check if any of the or conditions is an item_check for the exit
+                        has_item_check = any(
+                            isinstance(c, dict) and c.get('type') == 'item_check' and c.get('item') == exit_name
+                            for c in or_conditions
+                        )
+                        if has_item_check:
+                            num_of_worlds = self._get_world_map_exit_num_worlds(exit_name)
+                            logger.info(f"Fixing World Map exit to {exit_name} -> has_x_worlds({num_of_worlds}) AND (or conditions)")
+                            return {
+                                'type': 'and',
+                                'conditions': [
+                                    {
+                                        'type': 'helper',
+                                        'name': 'has_x_worlds',
+                                        'args': [
+                                            {'type': 'constant', 'value': num_of_worlds},
+                                            {'type': 'constant', 'value': self.options_cache.get('keyblades_unlock_chests', False)}
+                                        ]
+                                    },
+                                    second  # Keep the 'or' conditions as-is
+                                ]
+                            }
+
+        return rule
+
+    def _is_broken_has_x_worlds_conditional(self, rule: Dict[str, Any]) -> bool:
+        """
+        Detect the broken has_x_worlds conditional pattern.
+
+        The pattern is:
+        {
+            "type": "conditional",
+            "test": {"type": "compare", "left": {"type": "constant", "value": X}, "op": ">=", "right": {"type": "constant", "value": 15}},
+            "if_true": {"type": "constant", "value": true},
+            "if_false": {"type": "constant", "value": 0.0}
+        }
+
+        Where X is the difficulty value (typically 5) and 15 is LOGIC_MINIMAL.
+        """
+        if not isinstance(rule, dict) or rule.get('type') != 'conditional':
+            return False
+
+        test = rule.get('test', {})
+        if_true = rule.get('if_true', {})
+        if_false = rule.get('if_false', {})
+
+        # Check the structure
+        if test.get('type') != 'compare':
+            return False
+        if test.get('op') != '>=':
+            return False
+
+        # Check left side is a constant (difficulty value)
+        left = test.get('left', {})
+        if left.get('type') != 'constant':
+            return False
+
+        # Check right side is constant 15 (LOGIC_MINIMAL)
+        right = test.get('right', {})
+        if right.get('type') != 'constant' or right.get('value') != 15:
+            return False
+
+        # Check if_true is constant True
+        if if_true.get('type') != 'constant' or if_true.get('value') is not True:
+            return False
+
+        # Check if_false is constant 0.0 (the broken part)
+        if if_false.get('type') != 'constant' or if_false.get('value') != 0.0:
+            return False
+
+        return True
 
     def _fix_has_all_counts_rule(self, rule: Dict[str, Any], location_name: str) -> Dict[str, Any]:
         """
@@ -453,5 +606,200 @@ class KH1GameExportHandler(BaseGameExportHandler):
                     'name': 'has_defensive_tools',
                     'args': []
                 }
+
+        # Fix "name" type references to functions like has_basic_tools
+        # In Python, function references used without calling them are truthy,
+        # so "or has_basic_tools" (without parentheses) is effectively "or True"
+        # This is a bug in the upstream Python code but we need to match its behavior
+        if rule.get('type') == 'name':
+            func_name = rule.get('name')
+            # List of known function names that are mistakenly used without calling them
+            truthy_function_names = [
+                'has_basic_tools',  # Used in Oogie's Manor rules without calling it
+            ]
+            if func_name in truthy_function_names:
+                logger.info(f"Converting function reference '{func_name}' to constant True (function refs are truthy in Python)")
+                return {'type': 'constant', 'value': True}
+
+            # Fix "worlds" parameter reference in has_parasite_cage
+            # The analyzer couldn't inline has_x_worlds call, so it outputs the parameter name
+            # has_parasite_cage is always called with has_x_worlds(state, player, 3, ...) for the worlds param
+            if func_name == 'worlds':
+                logger.info(f"Converting 'worlds' parameter reference to has_x_worlds(3) for {location_name}")
+                return {
+                    'type': 'helper',
+                    'name': 'has_x_worlds',
+                    'args': [
+                        {'type': 'constant', 'value': 3},
+                        {'type': 'constant', 'value': self.options_cache.get('keyblades_unlock_chests', False)}
+                    ]
+                }
+
+        # Fix any remaining broken has_x_worlds conditionals (not in special regions)
+        # These occur in various locations with rules like "has_x_worlds(6) or ..."
+        if self._is_broken_has_x_worlds_conditional(rule):
+            # Infer num_of_worlds from the location name context
+            num_of_worlds = self._infer_num_of_worlds_general(location_name)
+            logger.info(f"Fixing broken has_x_worlds conditional in {location_name} -> has_x_worlds({num_of_worlds})")
+            return {
+                'type': 'helper',
+                'name': 'has_x_worlds',
+                'args': [
+                    {'type': 'constant', 'value': num_of_worlds},
+                    {'type': 'constant', 'value': self.options_cache.get('keyblades_unlock_chests', False)}
+                ]
+            }
+
+        return rule
+
+    def _infer_num_of_worlds_general(self, location_name: str) -> int:
+        """
+        Infer the num_of_worlds for a general location.
+
+        This is used for locations that aren't World Map exits or Level locations.
+        Based on the Python code, most locations use 3 or 6 worlds.
+        """
+        # Locations that typically require 6 worlds
+        if any(keyword in location_name for keyword in [
+            'Hollow Bastion', 'End of the World', 'Defeat Heartless 3',
+            'Secret Waterway Navi', 'Kairi Secret Waterway Oathkeeper'
+        ]):
+            return 6
+        # Locations that typically require 8 worlds
+        if 'Final Ansem' in location_name or 'End of the World' in location_name:
+            return 8
+        # Default to 3 for most other locations
+        return 3
+
+    def _is_world_map_exit(self, location_name: str) -> bool:
+        """Check if this is a World Map exit to a world region."""
+        # World Map exit names are just the world names
+        world_names = [
+            'Wonderland', 'Olympus Coliseum', 'Deep Jungle', 'Agrabah',
+            'Monstro', 'Atlantica', 'Halloween Town', 'Neverland',
+            'Hollow Bastion', 'End of the World', 'Destiny Islands'
+        ]
+        return location_name in world_names
+
+    def _get_world_map_exit_num_worlds(self, exit_name: str) -> int:
+        """Get the num_of_worlds requirement for a World Map exit."""
+        # Based on worlds/kh1/Rules.py lines 1766-1786
+        if exit_name == 'Neverland':
+            return 4
+        elif exit_name == 'Hollow Bastion':
+            return 6
+        elif exit_name == 'End of the World':
+            return 8
+        else:
+            return 3  # Default for most worlds
+
+    def _is_level_location(self, location_name: str) -> bool:
+        """Check if this is a Level-up location."""
+        import re
+        return bool(re.match(r'^Level \d{3} \(Slot [12]\)$', location_name))
+
+    def _get_level_num_worlds(self, location_name: str) -> int:
+        """
+        Get the num_of_worlds requirement for a Level location.
+
+        Based on worlds/kh1/Rules.py lines 1694-1703:
+        min(((level_num//10)*2), 8)
+
+        For Level 002-009: level_num is 1-8, (//10)*2 = 0
+        For Level 010-019: level_num is 9-18, (//10)*2 = 0 or 2
+        etc.
+        """
+        import re
+        match = re.match(r'^Level (\d{3})', location_name)
+        if match:
+            level_display = int(match.group(1))  # e.g., "002" -> 2
+            level_num = level_display - 1  # The Python code uses level_num = i, where display is i+1
+            num_worlds = min((level_num // 10) * 2, 8)
+            return num_worlds
+        return 0
+
+    def _fix_level_location_rule(self, rule: Dict[str, Any], location_name: str) -> Dict[str, Any]:
+        """
+        Fix Level location access rules that contain broken has_x_worlds conditionals.
+
+        The Python rule for Level locations is:
+        has_x_worlds(state, player, min(((level_num//10)*2), 8), ...)
+
+        For early levels (2-9), this requires 0 worlds - always True.
+        """
+        if not rule or not isinstance(rule, dict):
+            return rule
+
+        # Check if this is the broken conditional pattern
+        if self._is_broken_has_x_worlds_conditional(rule):
+            num_of_worlds = self._get_level_num_worlds(location_name)
+            logger.info(f"Fixing Level location {location_name} -> has_x_worlds({num_of_worlds})")
+            return {
+                'type': 'helper',
+                'name': 'has_x_worlds',
+                'args': [
+                    {'type': 'constant', 'value': num_of_worlds},
+                    {'type': 'constant', 'value': self.options_cache.get('keyblades_unlock_chests', False)}
+                ]
+            }
+
+        return rule
+
+    def _needs_additional_check(self, location_name: str) -> bool:
+        """
+        Check if a location needs an additional check that the analyzer may have dropped.
+        """
+        # Locations that require has_all_summons
+        if "Geppetto All Summons" in location_name:
+            return True
+        # Locations that require has_all_arts
+        if "Obtained All Arts Items" in location_name:
+            return True
+        return False
+
+    def _add_missing_check(self, rule: Dict[str, Any], location_name: str) -> Dict[str, Any]:
+        """
+        Add missing checks that the analyzer dropped for specific locations.
+        """
+        if not rule or not isinstance(rule, dict):
+            return rule
+
+        # Add has_all_summons for Geppetto All Summons Reward
+        if "Geppetto All Summons" in location_name:
+            logger.info(f"Adding missing has_all_summons check for {location_name}")
+            # has_all_summons requires: Simba, Bambi, Genie, Dumbo, Mushu, Tinker Bell
+            has_all_summons_check = {
+                'type': 'state_method',
+                'method': 'has_all',
+                'args': [
+                    {
+                        'type': 'constant',
+                        'value': ["Simba", "Bambi", "Genie", "Dumbo", "Mushu", "Tinker Bell"]
+                    }
+                ]
+            }
+            return {
+                'type': 'and',
+                'conditions': [rule, has_all_summons_check]
+            }
+
+        # Add has_all_arts for Obtained All Arts Items
+        if "Obtained All Arts Items" in location_name:
+            logger.info(f"Adding missing has_all_arts check for {location_name}")
+            # has_all_arts requires: Fire Arts, Blizzard Arts, Thunder Arts, Cure Arts, Gravity Arts, Stop Arts, Aero Arts
+            has_all_arts_check = {
+                'type': 'state_method',
+                'method': 'has_all',
+                'args': [
+                    {
+                        'type': 'constant',
+                        'value': ["Fire Arts", "Blizzard Arts", "Thunder Arts", "Cure Arts", "Gravity Arts", "Stop Arts", "Aero Arts"]
+                    }
+                ]
+            }
+            return {
+                'type': 'and',
+                'conditions': [rule, has_all_arts_check]
+            }
 
         return rule

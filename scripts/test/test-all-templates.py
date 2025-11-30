@@ -12,6 +12,7 @@ comprehensive JSON output file.
 import argparse
 import json
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -844,7 +845,6 @@ def main():
         backup_file = os.path.join(backup_dir, backup_filename)
 
         try:
-            import shutil
             shutil.copy2(results_file, backup_file)
             print(f"Backup of existing results saved to: {backup_filename}")
         except (IOError, OSError) as e:
@@ -1014,6 +1014,18 @@ def main():
                     # Create the directory if it doesn't exist
                     os.makedirs(multiworld_dir, exist_ok=True)
                     print(f"  Created multiworld directory: {multiworld_dir}")
+
+                # Also clear the output preset directory for this seed to avoid stale files
+                # from previous multiworld runs with different player counts
+                seed_id = compute_seed_id(seed_list[0])
+                preset_output_dir = os.path.join(project_root, 'frontend', 'presets', 'multiworld', seed_id)
+                if os.path.exists(preset_output_dir):
+                    print(f"  Clearing existing preset output directory: {preset_output_dir}")
+                    try:
+                        shutil.rmtree(preset_output_dir)
+                        print(f"  Removed preset directory for seed {seed_list[0]}")
+                    except Exception as e:
+                        print(f"  Error removing preset directory: {e}")
             else:
                 # For subsequent seeds, count existing templates
                 if os.path.exists(multiworld_dir):
@@ -1150,9 +1162,11 @@ def main():
                         dry_run=args.dry_run
                     )
 
-                # If the test passed AND we're not in keep_templates mode, increment player count for next template
-                if not args.multiworld_keep_templates and template_result.get('multiworld_test', {}).get('success', False):
-                    multiworld_player_count += 1
+                # After multiworld test, synchronize player count with actual templates in directory
+                # This accounts for templates being removed when exceeding max_templates
+                if not args.multiworld_keep_templates:
+                    actual_templates = [f for f in os.listdir(multiworld_dir) if f.endswith('.yaml')]
+                    multiworld_player_count = len(actual_templates)
             elif len(seed_list) > 1:
                 # Test with seed range (normal mode)
                 template_result = test_template_seed_range(
